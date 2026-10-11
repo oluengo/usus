@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Usus</title>
 <meta name="theme-color" id="themeColor" content="#16120E">
-<script>try{document.documentElement.dataset.theme=JSON.parse(localStorage.getItem("wk.theme"))||"auto"}catch(e){document.documentElement.dataset.theme="auto"}</script>
+<script>try{var p=JSON.parse(localStorage.getItem("wk.profile"))||"main";document.documentElement.dataset.theme=JSON.parse(localStorage.getItem(p==="main"?"wk.theme":"wk."+p+".theme"))||"auto"}catch(e){document.documentElement.dataset.theme="auto"}</script>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="favicon-48.png">
 <link rel="apple-touch-icon" href="icon-192.png">
@@ -219,6 +219,42 @@ details.sess td:first-child{font-weight:500;padding-right:12px;width:40%}
 .modal{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.55);display:flex;align-items:flex-end;justify-content:center;padding:16px;padding-bottom:calc(16px + env(safe-area-inset-bottom,0px))}
 .mbox{background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:18px;padding:18px;max-width:520px;width:100%;max-height:85vh;overflow:auto}
 @media (min-width:600px){.modal{align-items:center}}
+/* Perfiles */
+.pav{display:block;flex:none;border-radius:50%}
+.pchip{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:3px 12px 3px 3px;font-size:.875rem;font-weight:600;max-width:55%}
+.pchip span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.plist{border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.pitem{display:flex;align-items:center;gap:12px;width:100%;background:none;border:0;border-bottom:1px solid var(--line);padding:10px 12px;text-align:left}
+.pitem:last-child{border-bottom:0}
+.pitem.on{background:var(--accent-soft)}
+.pitem small{display:block;color:var(--muted);font-size:.78rem}
+.ptick svg{width:18px;height:18px;fill:none;stroke:var(--accent);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.psex{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px}
+.psex button{display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 8px;border:1px solid var(--line);background:var(--bg);border-radius:14px;font-weight:600}
+.psex button.on{border:2px solid var(--accent);padding:11px 7px}
+.pcols{display:flex;gap:10px;margin-top:6px;flex-wrap:wrap}
+.pcols button{width:30px;height:30px;border-radius:50%;border:0;outline:2px solid transparent;outline-offset:2px}
+.pcols button[aria-pressed=true]{outline-color:var(--ink)}
+.pcyc{border:1px solid var(--cyc);background:var(--cyc-soft);border-radius:14px;padding:12px;margin-top:12px}
+.pcyh{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.pcyh input{width:22px;height:22px;accent-color:var(--cyc)}
+.pcycl{margin:8px 0 0;padding-left:18px;font-size:.85rem;line-height:1.45}
+.pcycl li{margin:2px 0}
+.popt{display:flex;gap:10px;align-items:flex-start;width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:12px;margin-top:8px;background:var(--bg);text-align:left}
+.popt i{width:18px;height:18px;border-radius:50%;border:2px solid var(--muted);flex:none;margin-top:3px}
+.popt.on{border-color:var(--accent)}
+.popt.on i{border:5px solid var(--accent)}
+.popt small{display:block;color:var(--muted);font-size:.78rem}
+.pchip2{display:inline-flex;align-items:center;gap:6px}
+.pchip2.on{border-color:var(--accent)}
+/* Acerca de */
+.alist{border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-top:10px;background:var(--surface)}
+.aitem{display:flex;align-items:center;gap:12px;width:100%;background:none;border:0;border-bottom:1px solid var(--line);padding:12px 14px;text-align:left}
+.aitem:last-child{border-bottom:0}
+.aitem small{display:block;color:var(--muted);font-size:.78rem}
+.aico{width:34px;height:34px;border-radius:10px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;flex:none}
+.aico svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.ainfo{margin:0;padding-left:18px;font-size:.88rem;line-height:1.5}
 /* Compartir */
 .shbtn{display:inline-flex;align-items:center;justify-content:center;gap:6px}
 .shbtn svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
@@ -448,9 +484,15 @@ const fmtSet = (x, time, sides) => time ? (+x.w ? `${fmtKg(x.w)} kg · ${fmtSec(
   : (+x.w ? `${fmtKg(x.w)}×` : "") + (sides ? `${x.r}/${R2(x)}` : `${x.r}`);
 
 /* ---------- Almacenamiento: db del artefacto o localStorage ---------- */
+/* Perfiles: el primero ("main") usa las claves de siempre (wk.*); los demás, wk.<id>.*. No renombrar nunca las claves. */
+const GLOBAL_KEYS = new Set(["wk.profiles", "wk.profile", "wk.welcomed", "wk.seenVersion"]);
+const rawGet = (k, d) => { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch { return d; } };
+const PROFS = () => { const l = rawGet("wk.profiles", null); return Array.isArray(l) && l.length ? l : [{ id: "main" }]; };
+const PROF = (() => { const id = rawGet("wk.profile", "main"), l = PROFS(); return l.some(p => p.id === id) ? id : l[0].id; })();
+const PK = (k, id = PROF) => id === "main" || GLOBAL_KEYS.has(k) ? k : k.replace(/^wk\./, `wk.${id}.`);
 const LS = {
-  get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch { return d; } },
-  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch { toast(T("No se pudo guardar: almacenamiento lleno")); } }
+  get(k, d) { return rawGet(PK(k), d); },
+  set(k, v) { try { localStorage.setItem(PK(k), JSON.stringify(v)); } catch { toast(T("No se pudo guardar: almacenamiento lleno")); } }
 };
 const store = {
   async init() { try { if (navigator.storage?.persist) await navigator.storage.persist(); } catch {} },
@@ -489,7 +531,7 @@ function lastSetsFor(name) {
   }
   return null;
 }
-const APP_VERSION = "1.1.0";
+const APP_VERSION = "1.2.0";
 const THEMES = [["protector", "Protector", "Oscuro cálido, sin azul"], ["dark", "Oscuro", "Neutro"], ["light", "Claro", "Para el día"], ["auto", "Automático", "Sigue al sistema"]];
 const curTheme = () => document.documentElement.dataset.theme || "auto";
 function applyTheme(t) {
@@ -709,7 +751,7 @@ function render() {
   if (state.tab === "history") state.tab = "diary";
   const v = state.actForm ? viewActForm : { train: viewTrain, routines: viewRoutines, diary: viewDiary, stats: viewStats, data: viewData }[state.tab];
   const mb = document.querySelector(".mbox.dsh"), mbTop = mb ? mb.scrollTop : 0;
-  $("#app").innerHTML = v() + focusView() + welcomeModal() + newsModal() + cycAckModal() + savedModal() + shareSessModal() + shareRoutModal() + incomingModal();
+  $("#app").innerHTML = v() + focusView() + welcomeModal() + newsModal() + cycAckModal() + savedModal() + shareSessModal() + shareRoutModal() + incomingModal() + profPickModal() + profFormModal() + profEditModal() + profCopyModal() + issueModal();
   if (mb) { const nb = document.querySelector(".mbox.dsh"); if (nb) nb.scrollTop = mbTop; }
   if (state.tab === "train" && state.active && !state.actForm) tick();
   if (state.shareSess && SHOPT().img) sessPreview();
@@ -760,7 +802,8 @@ function viewTrain() {
   if (!a) {
     const last = sortedSessions()[0], now = new Date();
     return `
-      <div class="row" style="align-items:baseline"><h1 style="flex:1">${T("Hoy")}</h1><span class="muted" style="font-size:.9rem">${now.toLocaleDateString(LOC(), { weekday: "long", day: "numeric", month: "long" })}</span></div>
+      ${multiProf() ? `<div class="row"><h1 style="flex:1">${T("Hoy")}</h1>${profChip()}</div><p class="muted" style="font-size:.9rem;margin:0 0 4px">${now.toLocaleDateString(LOC(), { weekday: "long", day: "numeric", month: "long" })}</p>`
+        : `<div class="row" style="align-items:baseline"><h1 style="flex:1">${T("Hoy")}</h1><span class="muted" style="font-size:.9rem">${now.toLocaleDateString(LOC(), { weekday: "long", day: "numeric", month: "long" })}</span></div>`}
       <div class="hoybar"><button class="btn" data-tab="routines">${T("Otra rutina…")}</button><button class="btn" data-start="free">${T("Sesión libre")}</button><button class="btn primary" data-act="act-open">+ ${T("Actividad")}</button></div>
       ${backupBanner()}
       ${weightBanner()}
@@ -1154,7 +1197,7 @@ function viewRoutines() {
       </div>`;
   }
   return `
-    <div class="row"><h1>${T("Rutinas")}</h1><span class="spacer"></span>${state.routines.length ? `<button class="btn shbtn" data-act="rs-open">${SHARE_ICO}${T("Compartir")}</button>` : ""}<button class="btn primary" data-act="newroutine">${T("Nueva rutina")}</button></div>
+    <div class="row"><h1>${T("Rutinas")}</h1><span class="spacer"></span>${state.routines.length ? `<button class="btn shbtn icon" data-act="rs-open" aria-label="${T("Compartir rutinas")}" title="${T("Compartir rutinas")}">${SHARE_ICO}</button>` : ""}<button class="btn primary" data-act="newroutine">${T("Nueva rutina")}</button></div>
     <div class="list" style="margin-top:16px">
       ${state.routines.length ? state.routines.map(r => {
         const open = state.routOpen === r.id, nSets = r.exercises.reduce((a, e) => a + (+e.sets || 0), 0);
@@ -1213,7 +1256,7 @@ const CYC = {
   syms: () => { const l = LS.get("wk.cycSyms", null); return Array.isArray(l) ? l : CYC_SYMS.slice(); },
   saveSyms: l => LS.set("wk.cycSyms", l)
 };
-const cycOn = () => CYC.cfg().on;
+const cycOn = () => curProf().sex !== "m" && CYC.cfg().on;
 const kAdd = (k, n) => dayKey(addDays(keyTime(k), n));
 const kDiff = (a, b) => Math.round((keyTime(a) - keyTime(b)) / 864e5);
 const kFmt = (k, o = { day: "numeric", month: "short" }) => new Date(keyTime(k)).toLocaleDateString(LOC(), o);
@@ -1400,6 +1443,7 @@ function cycAckModal() {
   return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="cyT"><div class="mbox">
     <h2 id="cyT" style="margin:0 0 8px">${T("Seguimiento del ciclo")}</h2>
     <p class="muted" style="margin:0">${cycDisclaimer(false)}</p>
+    <div class="pcyc" style="margin-top:10px">${CYC_INFO()}</div>
     <p class="muted" style="margin:10px 0 0">${T("Los datos del ciclo se guardan solo en este dispositivo y van en la copia de seguridad completa.")}</p>
     <div class="row" style="margin-top:14px"><button class="btn" style="flex:1" data-act="cyc-ack-no">${T("Cancelar")}</button><button class="btn primary" style="flex:1" data-act="cyc-ack-ok">${T("Entendido, activar")}</button></div>
   </div></div>`;
@@ -2004,9 +2048,11 @@ const item = (t, d, act, label, primary) => `<div class="data-item"><div style="
 function viewData() {
   const lastBk = LS.get("wk.lastBackup", 0);
   return `
-    <h1>${T("Ajustes")}</h1>
+    <div class="row"><h1 style="flex:1">${T("Ajustes")}</h1>${profChip()}</div>
     <p class="sub">${T("{r} rutinas · {s} sesiones", { r: state.routines.length, s: state.sessions.length })} · ${lastBk ? T("última copia {d}", { d: new Date(lastBk).toLocaleDateString(LOC()) }) : T("sin copias todavía")}</p>
+    ${profSettings()}
     <h2>${T("Exportar")}</h2>
+    ${multiProf() ? `<p class="muted" style="font-size:.85rem;margin:-4px 0 8px">${T("Solo los datos de {x}. Cada perfil tiene su propia copia.", { x: esc(profName(curProf())) })}</p>` : ""}
     <div class="panel">
       ${item(T("Copia completa"), T("Todo en JSON: rutinas, plan, sesiones, pesos, diario, suplementos y ciclo. Sirve para restaurar."), "exp-all", T("Exportar"), true)}
       ${item(T("Solo rutinas"), T("JSON para compartir o pasar a otro móvil."), "exp-routines", T("Exportar"))}
@@ -2036,8 +2082,8 @@ function viewData() {
       <div class="wrow" style="margin-top:12px"><label class="muted" for="wDay" style="font-size:.85rem">${T("Día de pesaje")}</label><select id="wDay">${[1, 2, 3, 4, 5, 6, 0].map(i => `<option value="${i}" ${W.day() === i ? "selected" : ""}>${DIAS[i]}</option>`).join("")}</select><span></span></div>
       ${W.list().length ? `<div style="margin-top:12px">${W.list().slice(-6).reverse().map(x => `<div class="rowx" style="padding:6px 0;border-top:1px solid var(--line);align-items:center"><span>${new Date(x.t).toLocaleDateString(LOC(), { day: "numeric", month: "short", year: "numeric" })} · <b>${fmtW(x.kg)}</b></span><button class="x" data-wdel="${x.id}" aria-label="${T("Borrar registro")}">×</button></div>`).join("")}${W.list().length > 6 ? `<p class="muted" style="font-size:.78rem;margin:6px 0 0">${T("Se muestran los 6 últimos de {n}.", { n: W.list().length })}</p>` : ""}</div>` : ""}
     </div>
-    <h2>${T("Ciclo")}</h2>
-    ${cycSettings()}
+    ${curProf().sex === "m" ? "" : `<h2>${T("Ciclo")}</h2>
+    ${cycSettings()}`}
     <h2>${T("Idioma")}</h2>
     <div class="seg" style="grid-template-columns:repeat(auto-fit,minmax(100px,1fr))" role="group" aria-label="${T("Idioma")}">${Object.entries(LANGS).map(([k, v]) => `<button data-lang-set="${k}" class="${LANG === k ? "on" : ""}" aria-pressed="${LANG === k}" lang="${k}">${v.name}</button>`).join("")}</div>
     <h2>${T("Apariencia")}</h2>
@@ -2054,6 +2100,7 @@ function viewData() {
       <details style="margin-top:10px"><summary class="muted" style="font-size:.85rem;cursor:pointer">${T("Ver licencia completa")}</summary><pre class="lic">${esc(MIT)}</pre>${LANG !== "en" ? `<p class="muted" style="font-size:.75rem;margin:6px 0 0">${T("El texto legal válido es el original en inglés.")}</p>` : ""}</details>
       <button class="btn small" style="margin-top:12px" data-act="welcome-show">${T("Volver a ver el aviso")}</button>
     </div>
+    ${aboutLinks()}
     <h2>${T("Instalar en el móvil")}</h2>
     <div class="panel">${installBlock()}</div>
     <h2>${T("Compartir Usus")}</h2>
@@ -2096,6 +2143,11 @@ function installBlock() {
 }
 /* ---------- Novedades (una vez por versión; historial al tocar la versión) ---------- */
 const CHANGES = [
+  ["1.2.0", {
+    es: ["Perfiles: varias personas en el mismo móvil, cada una con sus datos, ajustes y copia de seguridad. Se cambia desde Hoy o Ajustes. Se pueden copiar rutinas de un perfil a otro.", "En perfiles de mujer, registro de la regla opcional, solo en este móvil.", "Ajustes → Acerca de: código fuente e informar de problemas o proponer mejoras en GitHub."],
+    ca: ["Perfils: diverses persones al mateix mòbil, cadascuna amb les seves dades, ajustos i còpia de seguretat. Es canvia des d'Avui o Ajustos. Es poden copiar rutines d'un perfil a un altre.", "En perfils de dona, registre de la regla opcional, només en aquest mòbil.", "Ajustos → Quant a: codi font i informar de problemes o proposar millores a GitHub."],
+    en: ["Profiles: several people on the same phone, each with their own data, settings and backup. Switch from Today or Settings. Routines can be copied between profiles.", "On women's profiles, optional period log, only on this phone.", "Settings → About: source code, and report problems or suggest improvements on GitHub."]
+  }],
   ["1.1.0", {
     es: ["Compartir: la app desde Ajustes, un entreno como imagen o texto (al terminar o desde el Diario) y tus rutinas o el programa entero con su plan, por enlace o archivo. Quien abre el enlace elige qué añadir. Nada pasa por ningún servidor.", "Tema automático por defecto: sigue el modo claro u oscuro del móvil. Puedes cambiarlo en Ajustes → Apariencia.", "Icono nuevo."],
     ca: ["Compartir: l'app des d'Ajustos, un entrenament com a imatge o text (en acabar o des del Diari) i les teves rutines o el programa sencer amb el seu pla, per enllaç o fitxer. Qui obre l'enllaç tria què afegir. Res passa per cap servidor.", "Tema automàtic per defecte: segueix el mode clar o fosc del mòbil. El pots canviar a Ajustos → Aparença.", "Icona nova."],
@@ -2140,7 +2192,7 @@ function welcomeModal() {
 /* ---------- Compartir ----------
    Sin servidor: el móvil abre su menú de compartir (o se copia/descarga si no lo hay).
    Rutinas: enlace con los datos tras «#r=» (comprimidos, nunca llegan a ningún servidor) o archivo .json. */
-const appURL = () => location.href.split(/[?#]/)[0];
+const appURL = () => location.href.split(/[?#]/)[0].replace(/index\.html$/, "");
 const SHARE_ICO = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>';
 function saveFile(file) {
   const url = URL.createObjectURL(file), a = Object.assign(document.createElement("a"), { href: url, download: file.name });
@@ -2362,6 +2414,213 @@ async function readShareHash() {
   state.incoming = inc; render();
 }
 window.addEventListener("hashchange", () => { readShareHash(); });
+/* ---------- Perfiles ----------
+   Cada perfil es independiente: datos y ajustes en sus propias claves. El primero ("main") usa las de siempre (wk.*);
+   los demás, wk.<id>.* (ver PK). Solo se comparten la lista de perfiles y el aviso de bienvenida. */
+const PCOLORS = ["#D99A52", "#93AF62", "#7FA7C9", "#C98FB8", "#E08A70", "#D4C25E"];
+const saveProfs = l => { try { localStorage.setItem("wk.profiles", JSON.stringify(l)); } catch { toast(T("No se pudo guardar: almacenamiento lleno")); } };
+const curProf = () => PROFS().find(p => p.id === PROF) || { id: PROF };
+const multiProf = () => PROFS().length > 1;
+const profName = p => p?.name || T("Yo");
+const SEXN = { m: "Hombre", f: "Mujer" };
+const PSYM = {
+  m: c => `<circle cx="226" cy="286" r="92" fill="none" stroke="${c}" stroke-width="34"/><path d="M292 220L352 160" fill="none" stroke="${c}" stroke-width="34" stroke-linecap="round"/><path d="M394 118L392 204L308 120Z" fill="${c}" stroke="${c}" stroke-width="14" stroke-linejoin="round"/>`,
+  f: c => `<circle cx="256" cy="204" r="92" fill="none" stroke="${c}" stroke-width="34"/><path d="M256 296V404M204 352H308" fill="none" stroke="${c}" stroke-width="34" stroke-linecap="round"/>`
+};
+function profAv(p, px, sexOver, colOver) {
+  const s = sexOver || p?.sex, c = colOver || p?.color || "#A3917B";
+  const inner = PSYM[s] ? PSYM[s](c) : `<text x="256" y="256" dy=".35em" text-anchor="middle" font-size="230" font-weight="700" fill="${c}" font-family="Instrument Sans,system-ui,sans-serif">${esc((p?.name || "?")[0].toUpperCase())}</text>`;
+  return `<svg class="pav" width="${px}" height="${px}" viewBox="0 0 512 512" aria-hidden="true"><circle cx="256" cy="256" r="256" fill="#2a2119"/><circle cx="256" cy="256" r="228" fill="none" stroke="${c}" stroke-opacity=".22" stroke-width="14"/>${inner}</svg>`;
+}
+const profChip = () => multiProf() ? `<button class="pchip" data-act="prof-pick" aria-label="${T("Cambiar de perfil")}">${profAv(curProf(), 26)}<span>${esc(profName(curProf()))}</span></button>` : "";
+const profSessions = id => (rawGet(PK("wk.sessions", id), []) || []).length;
+function switchProfile(id) {
+  if (id === PROF) { state.ppick = false; render(); return; }
+  if (state.active) { toast(T("Termina o descarta antes la sesión en curso")); return; }
+  try { localStorage.setItem("wk.profile", JSON.stringify(id)); } catch {}
+  location.reload();
+}
+function profPickModal() {
+  if (!state.ppick) return "";
+  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="ppT"><div class="mbox">
+    <div class="sb-head"><h2 id="ppT" style="margin:0;flex:1">${T("Perfiles")}</h2><button class="btn small" data-act="prof-pick-close">${T("Cerrar")}</button></div>
+    <p class="muted" style="font-size:.85rem;margin:4px 0 10px">${T("Cada perfil tiene sus propios datos y ajustes.")}</p>
+    ${state.active ? `<div class="panel" style="border-color:var(--danger);margin-bottom:10px;font-size:.9rem">${T("Hay una sesión en curso. Termínala o descártala para cambiar de perfil.")}</div>` : ""}
+    <div class="plist">${PROFS().map(p => `<button class="pitem${p.id === PROF ? " on" : ""}" data-pswitch="${p.id}">${profAv(p, 40)}<span style="flex:1;min-width:0"><b>${esc(profName(p))}</b><small>${T("{n} sesiones", { n: profSessions(p.id) })}</small></span>${p.id === PROF ? `<span class="ptick">${CHECK}</span>` : ""}</button>`).join("")}</div>
+    <button class="btn" style="width:100%;margin-top:10px" data-act="prof-add">+ ${T("Añadir perfil")}</button>
+  </div></div>`;
+}
+/* Crear perfil (y, la primera vez, completar el actual) */
+function newProfForm(forMain) {
+  const used = new Set(PROFS().map(p => p.color)), me = curProf();
+  return forMain ? { forMain: true, step: "form", name: me.name || "", sex: me.sex || (CYC.cfg().on ? "f" : null), color: me.color || PCOLORS[0], cyc: CYC.cfg().on }
+    : { step: "form", name: "", sex: null, color: PCOLORS.find(c => !used.has(c)) || PCOLORS[2], cyc: false, from: "empty", src: PROF, sel: null };
+}
+function startAddProfile() {
+  state.ppick = false;
+  state.pform = curProf().sex ? newProfForm(false) : newProfForm(true);
+  render();
+}
+const CYC_INFO = () => `<ul class="pcycl">
+  <li>${T("Sirve solo para anotar la regla y los síntomas, y ver una estimación de la próxima.")}</li>
+  <li>${T("Se guarda únicamente en este móvil, dentro de este perfil.")}</li>
+  <li>${T("No se envía a ningún sitio: no hay cuentas, servidores, publicidad ni análisis con IA.")}</li>
+  <li>${T("Nunca sale al compartir rutinas o entrenos.")}</li></ul>
+  <p class="muted" style="font-size:.78rem;margin:6px 0 0">${T("Es una estimación aproximada: no sirve como anticonceptivo ni como diagnóstico.")}</p>`;
+function profFormModal() {
+  const f = state.pform; if (!f) return "";
+  if (f.step === "confirm") return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="pcT"><div class="mbox">
+    <div class="row" style="gap:12px;flex-wrap:nowrap">${profAv({ name: f.name, sex: f.sex, color: f.color }, 52)}<div><h2 id="pcT" style="margin:0">${esc(f.name.trim())}</h2><p class="muted" style="margin:0;font-size:.85rem">${T(SEXN[f.sex])}${f.sex === "f" ? " · " + (f.cyc ? T("registro de la regla activado") : T("registro de la regla desactivado")) : ""}</p></div></div>
+    <div class="panel" style="margin-top:12px;font-size:.9rem">${T("El sexo no se podrá cambiar después. El nombre y el color, sí.")}</div>
+    <div class="row" style="margin-top:14px"><button class="btn" style="flex:1" data-act="pf-back">${T("Revisar")}</button><button class="btn primary" style="flex:1" data-act="pf-ok">${f.forMain ? T("Guardar") : T("Crear perfil")}</button></div>
+  </div></div>`;
+  const src = PROFS().find(p => p.id === f.src) || curProf(), srcR = f.src === PROF ? state.routines : (rawGet(PK("wk.routines", f.src), []) || []);
+  const sel = new Set(f.sel || srcR.map(r => r.id)), box = on => `<i class="cbx${on ? " on" : ""}">${on ? CHECK : ""}</i>`;
+  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="pfT"><div class="mbox dsh">
+    <div class="sb-head"><h2 id="pfT" style="margin:0;flex:1">${f.forMain ? T("Tu perfil") : T("Nuevo perfil")}</h2><button class="btn small" data-act="pf-cancel">${T("Cancelar")}</button></div>
+    ${f.forMain ? `<p class="muted" style="font-size:.85rem;margin:6px 0 0">${T("Antes de añadir otro perfil, completa el tuyo. Tus datos no cambian.")}</p>` : ""}
+    <label class="muted" for="pfName" style="font-size:.85rem;display:block;margin-top:12px">${T("Nombre")}</label>
+    <input type="text" id="pfName" maxlength="20" value="${esc(f.name)}" placeholder="${T("Ej. Marta")}">
+    <span class="muted" style="font-size:.85rem;display:block;margin-top:12px">${T("Sexo")}</span>
+    <div class="psex">${["m", "f"].map(s => `<button data-pfsex="${s}" class="${f.sex === s ? "on" : ""}" aria-pressed="${f.sex === s}">${profAv(null, 48, s, f.sex === s ? f.color : "#6f6253")}<span>${T(SEXN[s])}</span></button>`).join("")}</div>
+    <p class="muted" style="font-size:.78rem;margin:6px 0 0">${T("No se podrá cambiar una vez creado el perfil.")}</p>
+    <span class="muted" style="font-size:.85rem;display:block;margin-top:12px">${T("Color")}</span>
+    <div class="pcols">${PCOLORS.map(c => `<button data-pfcol="${c}" style="background:${c}" aria-pressed="${f.color === c}" aria-label="${T("Color")}"></button>`).join("")}</div>
+    ${f.sex === "f" ? `<div class="pcyc"><label class="pcyh"><b>${T("Registro de la regla")}</b><input type="checkbox" id="pfCyc" ${f.cyc ? "checked" : ""}></label>${CYC_INFO()}</div>` : ""}
+    ${f.forMain ? "" : `<h3 class="wh">${T("Empezar con")}</h3>
+      <button class="popt${f.from === "empty" ? " on" : ""}" data-pffrom="empty"><i></i><span><b>${T("Vacío")}</b><small>${T("Sin rutinas.")}</small></span></button>
+      <button class="popt${f.from === "copy" ? " on" : ""}" data-pffrom="copy"><i></i><span><b>${T("Rutinas de otro perfil")}</b><small>${T("Solo las rutinas. Ningún registro.")}</small></span></button>
+      ${f.from === "copy" ? `<div class="row" style="margin:4px 0 8px">${PROFS().map(p => `<button class="btn small pchip2${f.src === p.id ? " on" : ""}" data-pfsrc="${p.id}">${profAv(p, 20)} ${esc(profName(p))}</button>`).join("")}</div>
+        ${srcR.length ? `<div class="rsl">${srcR.map(r => `<button class="rsr" style="padding-left:12px" data-pfr="${r.id}">${box(sel.has(r.id))}<span>${esc(r.name)}</span></button>`).join("")}</div>` : `<p class="muted" style="font-size:.85rem">${T("Ese perfil no tiene rutinas.")}</p>`}` : ""}`}
+    <button class="btn primary" style="width:100%;margin-top:14px" data-act="pf-next">${f.forMain ? T("Continuar") : T("Crear perfil")}</button>
+  </div></div>`;
+}
+function readProfForm() { const f = state.pform, n = document.getElementById("pfName"), c = document.getElementById("pfCyc"); if (!f) return; if (n) f.name = n.value; if (c) f.cyc = c.checked; }
+function profFormNext() {
+  const f = state.pform; readProfForm();
+  const n = f.name.trim();
+  if (!n) { toast(T("Ponle un nombre")); document.getElementById("pfName")?.focus(); return; }
+  if (PROFS().some(p => p.id !== (f.forMain ? PROF : "") && (p.name || "").toLowerCase() === n.toLowerCase())) { toast(T("Ya hay un perfil con ese nombre")); return; }
+  if (!f.sex) { toast(T("Elige hombre o mujer")); return; }
+  f.step = "confirm"; render();
+}
+function profFormOk() {
+  const f = state.pform, n = f.name.trim().slice(0, 20);
+  if (f.forMain) {
+    const l = PROFS().filter(p => p.id !== PROF); l.unshift({ ...curProf(), id: PROF, name: n, sex: f.sex, color: f.color }); saveProfs(l);
+    if (f.sex === "f" && f.cyc && !CYC.cfg().on) CYC.set({ on: true, ack: true });
+    state.pform = newProfForm(false); toast(T("Perfil guardado")); render(); return;
+  }
+  const id = "p" + uid(), srcR = f.src === PROF ? state.routines : (rawGet(PK("wk.routines", f.src), []) || []);
+  const sel = new Set(f.sel || srcR.map(r => r.id)), routines = f.from === "copy" ? srcR.filter(r => sel.has(r.id)).map(r => ({ ...JSON.parse(JSON.stringify(r)), id: uid() })) : [];
+  const put = (k, v) => { try { localStorage.setItem(PK(k, id), JSON.stringify(v)); } catch {} };
+  put("wk.routines", routines); put("wk.sessions", []); put("wk.lang", LANG);
+  if (f.sex === "f" && f.cyc) put("wk.cyc", { on: true, ack: true });
+  saveProfs([...PROFS(), { id, name: n, sex: f.sex, color: f.color }]);
+  state.pform = null; switchProfile(id);
+}
+/* Editar (nombre y color; el sexo no se cambia) */
+function profEditModal() {
+  if (!state.pedit) return "";
+  const p = curProf(), col = state.pedit.color || p.color;
+  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="peT"><div class="mbox">
+    <h2 id="peT" style="margin:0 0 8px">${T("Editar perfil")}</h2>
+    <label class="muted" for="peName" style="font-size:.85rem">${T("Nombre")}</label><input type="text" id="peName" maxlength="20" value="${esc(p.name || "")}">
+    <span class="muted" style="font-size:.85rem;display:block;margin-top:12px">${T("Sexo")}</span>
+    <div class="panel row" style="padding:8px 12px;gap:10px;flex-wrap:nowrap">${profAv({ ...p, color: col }, 28)}<span style="flex:1">${T(SEXN[p.sex] || "—")}</span><span class="muted" style="font-size:.78rem">${T("No se puede cambiar")}</span></div>
+    <span class="muted" style="font-size:.85rem;display:block;margin-top:12px">${T("Color")}</span>
+    <div class="pcols">${PCOLORS.map(c => `<button data-pecol="${c}" style="background:${c}" aria-pressed="${col === c}" aria-label="${T("Color")}"></button>`).join("")}</div>
+    <div class="row" style="margin-top:14px"><button class="btn" style="flex:1" data-act="pe-cancel">${T("Cancelar")}</button><button class="btn primary" style="flex:1" data-act="pe-ok">${T("Guardar")}</button></div>
+  </div></div>`;
+}
+function profEditOk() {
+  const n = (document.getElementById("peName")?.value || "").trim().slice(0, 20), p = curProf();
+  if (!n) { toast(T("Ponle un nombre")); return; }
+  if (PROFS().some(x => x.id !== PROF && (x.name || "").toLowerCase() === n.toLowerCase())) { toast(T("Ya hay un perfil con ese nombre")); return; }
+  saveProfs(PROFS().map(x => x.id === PROF ? { ...x, name: n, color: state.pedit.color || p.color } : x)); state.pedit = null; toast(T("Perfil guardado")); render();
+}
+/* Copiar rutinas a otro perfil */
+function profCopyModal() {
+  const c = state.pcopy; if (!c) return "";
+  const others = PROFS().filter(p => p.id !== PROF), sel = new Set(c.sel), box = on => `<i class="cbx${on ? " on" : ""}">${on ? CHECK : ""}</i>`;
+  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="pkT"><div class="mbox dsh">
+    <h2 id="pkT" style="margin:0 0 4px">${T("Copiar rutinas a otro perfil")}</h2>
+    <p class="muted" style="font-size:.85rem;margin:0 0 10px">${T("Se añaden a las suyas. No se borra nada ni se copia ningún registro.")}</p>
+    <div class="row" style="margin-bottom:10px">${others.map(p => `<button class="btn small pchip2${c.to === p.id ? " on" : ""}" data-pkto="${p.id}">${profAv(p, 20)} ${esc(profName(p))}</button>`).join("")}</div>
+    <div class="rsl">${state.routines.map(r => `<button class="rsr" style="padding-left:12px" data-pkr="${r.id}">${box(sel.has(r.id))}<span>${esc(r.name)}</span></button>`).join("")}</div>
+    <div class="row" style="margin-top:12px"><button class="btn" style="flex:1" data-act="pk-cancel">${T("Cancelar")}</button><button class="btn primary" style="flex:1" data-act="pk-ok" ${sel.size && c.to ? "" : "disabled"}>${T("Copiar")}</button></div>
+  </div></div>`;
+}
+function profCopyOk() {
+  const c = state.pcopy, k = PK("wk.routines", c.to), dest = rawGet(k, []) || [], names = new Set(dest.map(r => r.name.trim().toLowerCase()));
+  const add = state.routines.filter(r => c.sel.includes(r.id)).map(r => { let n = r.name, i = 2; while (names.has(n.toLowerCase())) n = `${r.name} (${i++})`; names.add(n.toLowerCase()); return { ...JSON.parse(JSON.stringify(r)), id: uid(), name: n }; });
+  try { localStorage.setItem(k, JSON.stringify([...dest, ...add])); } catch { toast(T("No se pudo guardar: almacenamiento lleno")); return; }
+  const to = PROFS().find(p => p.id === c.to); state.pcopy = null;
+  toast(T("{n} rutinas copiadas a {x}", { n: add.length, x: profName(to) })); render();
+}
+/* Borrar un perfil y todos sus datos */
+function profDelete() {
+  const p = curProf();
+  if (!confirm(T("Se borrarán el perfil «{x}» y todos sus datos de este dispositivo. ¿Has exportado su copia?", { x: profName(p) }))) return;
+  if (!confirm(T("Última confirmación: ¿borrar «{x}»?", { x: profName(p) }))) return;
+  const own = k => k.startsWith("wk.") && !GLOBAL_KEYS.has(k) && (PROF === "main" ? !/^wk\.p[0-9a-z]+\./.test(k) : k.startsWith(`wk.${PROF}.`));
+  try { Object.keys(localStorage).filter(own).forEach(k => localStorage.removeItem(k)); } catch {}
+  const rest = PROFS().filter(x => x.id !== PROF); saveProfs(rest);
+  state.active = null; try { localStorage.setItem("wk.profile", JSON.stringify(rest[0].id)); } catch {}
+  location.reload();
+}
+function profSettings() {
+  const p = curProf(), others = PROFS().filter(x => x.id !== PROF);
+  if (!multiProf() && !p.sex) return `<h2>${T("Perfiles")}</h2>
+    <div class="panel"><p class="muted" style="font-size:.85rem;margin:0 0 10px">${T("Varias personas pueden usar Usus en este móvil, cada una con sus propios datos y ajustes.")}</p>
+    <button class="btn" data-act="prof-add">+ ${T("Añadir perfil")}</button></div>`;
+  return `<h2>${T("Perfil")}</h2>
+    <div class="panel">
+      <div class="row" style="gap:12px;flex-wrap:nowrap">${profAv(p, 48)}<div style="flex:1;min-width:0"><div style="font-weight:600">${esc(profName(p))}</div><div class="muted" style="font-size:.85rem">${T(SEXN[p.sex] || "—")} · ${T("{n} sesiones", { n: state.sessions.length })}</div></div><button class="btn small" data-act="prof-edit">${T("Editar")}</button></div>
+      ${multiProf() ? `<p class="muted" style="font-size:.8rem;margin:10px 0 0">${T("Todo lo de esta pantalla es solo de {x}.", { x: profName(p) })}</p>` : ""}
+      ${others.length ? `<div class="plist" style="margin-top:12px">${others.map(o => `<button class="pitem" data-pswitch="${o.id}">${profAv(o, 34)}<span style="flex:1"><b>${esc(profName(o))}</b></span><span class="muted" style="font-size:.85rem">${T("Cambiar")}</span></button>`).join("")}</div>` : ""}
+      <div class="row" style="margin-top:12px"><button class="btn small" data-act="prof-add">+ ${T("Añadir perfil")}</button>${others.length ? `<button class="btn small" data-act="prof-copy">${T("Copiar rutinas a otro perfil")}</button>` : ""}</div>
+      ${others.length ? `<button class="btn small danger" style="margin-top:10px" data-act="prof-del">${T("Borrar perfil «{x}»", { x: profName(p) })}</button>` : ""}
+    </div>`;
+}
+/* ---------- Acerca de: código y avisos en GitHub (enlaces que abre la persona; la app no se conecta sola) ---------- */
+const REPO = "https://github.com/oluengo/usus";
+const AICO = {
+  code: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5"/></svg>',
+  bug: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="8" width="10" height="12" rx="5"/><path d="M9 8a3 3 0 0 1 6 0M3 13h4M17 13h4M4 7l3 2M20 7l-3 2M4 19l3-2M20 19l-3-2"/></svg>',
+  idea: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/></svg>',
+  hist: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5M12 7v5l3 2"/></svg>'
+};
+function techInfo() {
+  const ua = navigator.userAgent;
+  const os = (/Android [\d.]+/.exec(ua) || [])[0] || ((/(?:iPhone|iPad).*? OS ([\d_]+)/.exec(ua) || [])[1] ? "iOS " + /(?:iPhone|iPad).*? OS ([\d_]+)/.exec(ua)[1].replace(/_/g, ".") : "")
+    || ((/Windows NT [\d.]+|Mac OS X [\d_]+|CrOS|Linux/.exec(ua) || [""])[0]).replace(/_/g, ".");
+  const m = /(Edg|SamsungBrowser|Firefox|FxiOS|CriOS|Chrome|Version)\/(\d+)/.exec(ua) || [];
+  const br = m[1] ? ({ Edg: "Edge", CriOS: "Chrome", FxiOS: "Firefox", Version: "Safari" }[m[1]] || m[1]) + " " + m[2] : "?";
+  return `Usus ${APP_VERSION} · ${isStandalone() ? "PWA" : "web"}\n${os || "?"} · ${br}\n${LANG} · ${curTheme()}`;
+}
+function aboutLinks() {
+  const it = (act, ico, t, d, end) => `<button class="aitem" data-act="${act}"><span class="aico">${AICO[ico]}</span><span style="flex:1;min-width:0"><b>${t}</b><small>${d}</small></span><span class="muted">${end}</span></button>`;
+  return `<div class="alist">${it("about-repo", "code", T("Código fuente"), "github.com/oluengo/usus", "↗")}${it("about-bug", "bug", T("Informar de un problema"), T("Algo no funciona como debería"), "↗")}${it("about-idea", "idea", T("Proponer una mejora"), T("Ideas y peticiones"), "↗")}${it("news-open", "hist", T("Historial de cambios"), T("Qué trae cada versión"), "›")}</div>`;
+}
+function issueModal() {
+  const k = state.issue; if (!k) return "";
+  const bug = k === "bug";
+  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="isT"><div class="mbox">
+    <h2 id="isT" style="margin:0 0 4px">${bug ? T("Informar de un problema") : T("Proponer una mejora")}</h2>
+    <p class="muted" style="font-size:.85rem;margin:0 0 10px">${T("Se abrirá GitHub con el formulario preparado.")}</p>
+    <ul class="ainfo"><li>${T("Necesitas una cuenta de GitHub (gratis).")}</li><li>${T("No se envía nada hasta que tú lo revises y lo publiques en GitHub.")}</li><li>${T("Nunca incluye tus rutinas, sesiones ni registros.")}</li></ul>
+    ${bug ? `<label class="shopt"><span>${T("Incluir datos técnicos")}</span><input type="checkbox" id="isTech" ${state.issueTech !== false ? "checked" : ""}></label>${state.issueTech !== false ? `<pre class="shtxt" style="margin-top:8px">${esc(techInfo())}</pre>` : ""}` : ""}
+    <div class="row" style="margin-top:12px"><button class="btn" style="flex:1" data-act="issue-close">${T("Cancelar")}</button><button class="btn primary" style="flex:1" data-act="issue-go">${T("Abrir GitHub")} ↗</button></div>
+  </div></div>`;
+}
+function issueURL(kind) {
+  const bug = kind === "bug";
+  const body = bug ? `**${T("Qué ha pasado")}**\n\n\n**${T("Pasos para reproducirlo")}**\n1. \n\n**${T("Qué esperabas")}**\n\n${state.issueTech !== false ? "\n---\n" + techInfo() : ""}`
+    : `**${T("Qué te gustaría")}**\n\n\n**${T("Para qué lo usarías")}**\n\n\n---\nUsus ${APP_VERSION}`;
+  return `${REPO}/issues/new?labels=${bug ? "bug" : "enhancement"}&body=${encodeURIComponent(body)}`;
+}
+const openExt = url => { const w = window.open(url, "_blank", "noopener"); if (!w) location.href = url; };
 const stamp = () => new Date().toISOString().slice(0, 10);
 async function deliver(filename, text, mime) {
   const file = new File([text], filename, { type: mime });
@@ -2439,6 +2698,15 @@ document.addEventListener("click", async ev => {
     return;
   }
   if (d.copy) { const ok = await copyText(d.copy); toast(ok ? T("Copiado") : T("No se pudo copiar")); return; }
+  if (d.pswitch) { switchProfile(d.pswitch); return; }
+  if (d.pfsex && state.pform) { readProfForm(); state.pform.sex = d.pfsex; if (d.pfsex === "m") state.pform.cyc = false; render(); return; }
+  if (d.pfcol && state.pform) { readProfForm(); state.pform.color = d.pfcol; render(); return; }
+  if (d.pffrom && state.pform) { readProfForm(); state.pform.from = d.pffrom; render(); return; }
+  if (d.pfsrc && state.pform) { readProfForm(); state.pform.src = d.pfsrc; state.pform.sel = null; render(); return; }
+  if (d.pfr && state.pform) { readProfForm(); const f = state.pform, all = (f.src === PROF ? state.routines : rawGet(PK("wk.routines", f.src), []) || []).map(r => r.id), sel = new Set(f.sel || all); sel.has(d.pfr) ? sel.delete(d.pfr) : sel.add(d.pfr); f.sel = [...sel]; render(); return; }
+  if (d.pecol && state.pedit) { state.pedit.color = d.pecol; const n = $("#peName")?.value; render(); if (n !== undefined && $("#peName")) $("#peName").value = n; return; }
+  if (d.pkto && state.pcopy) { state.pcopy.to = d.pkto; render(); return; }
+  if (d.pkr && state.pcopy) { const sel = new Set(state.pcopy.sel); sel.has(d.pkr) ? sel.delete(d.pkr) : sel.add(d.pkr); state.pcopy.sel = [...sel]; render(); return; }
   if (d.shsess) { state.savedSess = null; state.shareSess = d.shsess; render(); return; }
   if (d.shimg !== undefined) { LS.set("wk.shareOpt", { ...SHOPT(), img: d.shimg === "1" }); render(); return; }
   if (d.rshare) { state.rshare = { sel: [d.rshare], plan: false }; render(); return; }
@@ -2563,6 +2831,25 @@ document.addEventListener("click", async ev => {
     case "suppadd": { const l = DY.supps(); l.push({ id: uid(), name: "", dose: "", unit: "", when: "", created: Date.now() }); DY.saveSupps(l); state.suppEdit = true; render();
       document.querySelector(`[data-sn="${l[l.length - 1].id}"]`)?.focus(); break; }
     case "welcome-ok": LS.set("wk.welcomed", true); LS.set("wk.seenVersion", APP_VERSION); render(); break;
+    case "prof-pick": state.ppick = true; render(); break;
+    case "prof-pick-close": state.ppick = false; render(); break;
+    case "prof-add": startAddProfile(); break;
+    case "pf-cancel": state.pform = null; render(); break;
+    case "pf-next": profFormNext(); break;
+    case "pf-back": state.pform.step = "form"; render(); break;
+    case "pf-ok": profFormOk(); break;
+    case "prof-edit": state.pedit = {}; render(); break;
+    case "pe-cancel": state.pedit = null; render(); break;
+    case "pe-ok": profEditOk(); break;
+    case "prof-copy": { const o = PROFS().find(p => p.id !== PROF); state.pcopy = { to: o?.id, sel: state.routines.map(r => r.id) }; render(); break; }
+    case "pk-cancel": state.pcopy = null; render(); break;
+    case "pk-ok": profCopyOk(); break;
+    case "prof-del": profDelete(); break;
+    case "about-repo": openExt(REPO); break;
+    case "about-bug": state.issue = "bug"; render(); break;
+    case "about-idea": state.issue = "idea"; render(); break;
+    case "issue-close": state.issue = null; render(); break;
+    case "issue-go": { const u = issueURL(state.issue); state.issue = null; render(); openExt(u); break; }
     case "share-app": await shareOut({ title: "Usus", text: shareAppText(), url: appURL() }); break;
     case "saved-close": state.savedSess = null; render(); break;
     case "shsess-close": state.shareSess = null; render(); break;
@@ -2608,7 +2895,8 @@ document.addEventListener("click", async ev => {
       state.editing = null; await store.saveRoutines(state.routines); toast(T("Rutina guardada")); render(); break;
     }
     case "exp-all": {
-      const ok = await deliver(`usus-${T("copia")}-${stamp()}.json`, JSON.stringify({ app: "usus", version: 1, exported: new Date().toISOString(), routines: state.routines, sessions: state.sessions, weights: W.list(), weightGoal: W.goal(), diary: DY.all(), cycle: { periods: CYC.list(), symptoms: CYC.syms(), settings: CYC.cfg() }, supplements: DY.supps(), activities: ACT.list(), activityTypes: ACT.types(), goals: LS.get("wk.goals", null), plan: PL.get() }, null, 2), "application/json");
+      const pm = curProf(), pn = multiProf() ? `-${fileSlug(profName(pm))}` : "";
+      const ok = await deliver(`usus-${T("copia")}${pn}-${stamp()}.json`, JSON.stringify({ app: "usus", version: 1, exported: new Date().toISOString(), ...(pm.sex ? { profile: { name: pm.name, sex: pm.sex, color: pm.color } } : {}), routines: state.routines, sessions: state.sessions, weights: W.list(), weightGoal: W.goal(), diary: DY.all(), cycle: { periods: CYC.list(), symptoms: CYC.syms(), settings: CYC.cfg() }, supplements: DY.supps(), activities: ACT.list(), activityTypes: ACT.types(), goals: LS.get("wk.goals", null), plan: PL.get() }, null, 2), "application/json");
       if (ok) { LS.set("wk.lastBackup", Date.now()); render(); } break;
     }
     case "w-ban": case "w-add": {
@@ -2629,7 +2917,7 @@ document.addEventListener("click", async ev => {
       await deliver(`usus-${T("sesiones")}-${stamp()}.csv`, sessionsCSV(), "text/csv"); break;
     case "imp": $("#impFile").click(); break;
     case "wipe":
-      if (!confirm(T("Se borrarán todas las rutinas, sesiones y pesos de este dispositivo. ¿Has hecho una copia?"))) return;
+      if (!confirm(multiProf() ? T("Se borrarán todos los datos de «{x}» en este dispositivo. Los demás perfiles no se tocan. ¿Has hecho una copia?", { x: profName(curProf()) }) : T("Se borrarán todas las rutinas, sesiones y pesos de este dispositivo. ¿Has hecho una copia?"))) return;
       if (!confirm(T("Última confirmación: ¿borrar todo?"))) return;
       state.routines = []; state.sessions = []; state.active = null; saveActive(); store.saveAll(); LS.set("wk.weights", []); LS.set("wk.diary", {}); DY.saveSupps([]); ACT.save([]); LS.set("wk.plan", null); CYC.save([]); LS.set("wk.cycSyms", null); toast(T("Datos borrados")); render(); break;
     case "delroutine":
@@ -2651,6 +2939,8 @@ document.addEventListener("input", ev => { if (state.actForm && /^af[khm]$/.test
 document.addEventListener("change", async ev => {
   if (state.planMode === "edit" && ev.target.closest?.("#app") && (/^p(On|Start|Review|DlW|DlE|Up)$/.test(ev.target.id) || ev.target.dataset.pv !== undefined || ev.target.dataset.pw !== undefined)) { readPlan(); render(); return; }
   const tg = ev.target, dk = state.day || dayKey(Date.now());
+  if (tg.id === "isTech") { state.issueTech = tg.checked; render(); return; }
+  if (tg.id === "pfCyc" && state.pform) { readProfForm(); return; }
   if (/^sho(Ex|Dur|Pr)$/.test(tg.id)) { LS.set("wk.shareOpt", { ...SHOPT(), [{ shoEx: "ex", shoDur: "dur", shoPr: "pr" }[tg.id]]: tg.checked }); render(); return; }
   if (tg.id === "rsPlan" && state.rshare) { state.rshare.plan = tg.checked; render(); return; }
   if (tg.id === "inPlan" && state.incoming) { state.incoming.withPlan = tg.checked; render(); return; }
@@ -3328,6 +3618,76 @@ const I18N = {
     "Gran sesión": "Gran sessió",
     "Bitcoin": "Bitcoin",
     "Lightning / zaps": "Lightning / zaps",
+    "Solo los datos de {x}. Cada perfil tiene su propia copia.": "Només les dades de {x}. Cada perfil té la seva còpia.",
+    "Yo": "Jo",
+    "Hombre": "Home",
+    "Mujer": "Dona",
+    "Cambiar de perfil": "Canviar de perfil",
+    "Termina o descarta antes la sesión en curso": "Acaba o descarta abans la sessió en curs",
+    "Perfiles": "Perfils",
+    "Cada perfil tiene sus propios datos y ajustes.": "Cada perfil té les seves pròpies dades i ajustos.",
+    "Hay una sesión en curso. Termínala o descártala para cambiar de perfil.": "Hi ha una sessió en curs. Acaba-la o descarta-la per canviar de perfil.",
+    "{n} sesiones": "{n} sessions",
+    "Añadir perfil": "Afegir perfil",
+    "Sirve solo para anotar la regla y los síntomas, y ver una estimación de la próxima.": "Només serveix per anotar la regla i els símptomes, i veure una estimació de la propera.",
+    "Se guarda únicamente en este móvil, dentro de este perfil.": "Es desa únicament en aquest mòbil, dins d'aquest perfil.",
+    "No se envía a ningún sitio: no hay cuentas, servidores, publicidad ni análisis con IA.": "No s'envia enlloc: no hi ha comptes, servidors, publicitat ni anàlisi amb IA.",
+    "Nunca sale al compartir rutinas o entrenos.": "Mai no surt en compartir rutines o entrenaments.",
+    "Es una estimación aproximada: no sirve como anticonceptivo ni como diagnóstico.": "És una estimació aproximada: no serveix com a anticonceptiu ni com a diagnòstic.",
+    "registro de la regla activado": "registre de la regla activat",
+    "registro de la regla desactivado": "registre de la regla desactivat",
+    "El sexo no se podrá cambiar después. El nombre y el color, sí.": "El sexe no es podrà canviar després. El nom i el color, sí.",
+    "Revisar": "Revisar",
+    "Crear perfil": "Crear perfil",
+    "Tu perfil": "El teu perfil",
+    "Nuevo perfil": "Perfil nou",
+    "Antes de añadir otro perfil, completa el tuyo. Tus datos no cambian.": "Abans d'afegir un altre perfil, completa el teu. Les teves dades no canvien.",
+    "Ej. Marta": "P. ex. Marta",
+    "Sexo": "Sexe",
+    "No se podrá cambiar una vez creado el perfil.": "No es podrà canviar un cop creat el perfil.",
+    "Color": "Color",
+    "Registro de la regla": "Registre de la regla",
+    "Empezar con": "Començar amb",
+    "Vacío": "Buit",
+    "Sin rutinas.": "Sense rutines.",
+    "Rutinas de otro perfil": "Rutines d'un altre perfil",
+    "Solo las rutinas. Ningún registro.": "Només les rutines. Cap registre.",
+    "Ese perfil no tiene rutinas.": "Aquest perfil no té rutines.",
+    "Continuar": "Continuar",
+    "Ponle un nombre": "Posa-li un nom",
+    "Ya hay un perfil con ese nombre": "Ja hi ha un perfil amb aquest nom",
+    "Elige hombre o mujer": "Tria home o dona",
+    "Perfil guardado": "Perfil desat",
+    "Editar perfil": "Editar perfil",
+    "No se puede cambiar": "No es pot canviar",
+    "Copiar rutinas a otro perfil": "Copiar rutines a un altre perfil",
+    "Se añaden a las suyas. No se borra nada ni se copia ningún registro.": "S'afegeixen a les seves. No s'esborra res ni es copia cap registre.",
+    "{n} rutinas copiadas a {x}": "{n} rutines copiades a {x}",
+    "Se borrarán el perfil «{x}» y todos sus datos de este dispositivo. ¿Has exportado su copia?": "S'esborraran el perfil «{x}» i totes les seves dades d'aquest dispositiu. N'has exportat la còpia?",
+    "Última confirmación: ¿borrar «{x}»?": "Última confirmació: esborrar «{x}»?",
+    "Varias personas pueden usar Usus en este móvil, cada una con sus propios datos y ajustes.": "Diverses persones poden fer servir Usus en aquest mòbil, cadascuna amb les seves dades i ajustos.",
+    "Perfil": "Perfil",
+    "Todo lo de esta pantalla es solo de {x}.": "Tot el d'aquesta pantalla és només de {x}.",
+    "Cambiar": "Canviar",
+    "Borrar perfil «{x}»": "Esborrar el perfil «{x}»",
+    "Código fuente": "Codi font",
+    "Informar de un problema": "Informar d'un problema",
+    "Algo no funciona como debería": "Alguna cosa no funciona com hauria",
+    "Proponer una mejora": "Proposar una millora",
+    "Ideas y peticiones": "Idees i peticions",
+    "Qué trae cada versión": "Què porta cada versió",
+    "Se abrirá GitHub con el formulario preparado.": "S'obrirà GitHub amb el formulari preparat.",
+    "Necesitas una cuenta de GitHub (gratis).": "Necessites un compte de GitHub (gratuït).",
+    "No se envía nada hasta que tú lo revises y lo publiques en GitHub.": "No s'envia res fins que tu ho revisis i ho publiquis a GitHub.",
+    "Nunca incluye tus rutinas, sesiones ni registros.": "Mai no inclou les teves rutines, sessions ni registres.",
+    "Incluir datos técnicos": "Incloure dades tècniques",
+    "Abrir GitHub": "Obrir GitHub",
+    "Qué ha pasado": "Què ha passat",
+    "Pasos para reproducirlo": "Passos per reproduir-ho",
+    "Qué esperabas": "Què esperaves",
+    "Qué te gustaría": "Què t'agradaria",
+    "Para qué lo usarías": "Per a què ho faries servir",
+    "Se borrarán todos los datos de «{x}» en este dispositivo. Los demás perfiles no se tocan. ¿Has hecho una copia?": "S'esborraran totes les dades de «{x}» en aquest dispositiu. Els altres perfils no es toquen. Has fet una còpia?",
     "Compartir": "Compartir",
     "Compartir Usus": "Compartir Usus",
     "Archivo guardado": "Fitxer desat",
@@ -4017,6 +4377,76 @@ const I18N = {
     "Gran sesión": "Great session",
     "Bitcoin": "Bitcoin",
     "Lightning / zaps": "Lightning / zaps",
+    "Solo los datos de {x}. Cada perfil tiene su propia copia.": "Only {x}'s data. Each profile has its own backup.",
+    "Yo": "Me",
+    "Hombre": "Man",
+    "Mujer": "Woman",
+    "Cambiar de perfil": "Switch profile",
+    "Termina o descarta antes la sesión en curso": "Finish or discard the current session first",
+    "Perfiles": "Profiles",
+    "Cada perfil tiene sus propios datos y ajustes.": "Each profile has its own data and settings.",
+    "Hay una sesión en curso. Termínala o descártala para cambiar de perfil.": "There's a session in progress. Finish or discard it to switch profile.",
+    "{n} sesiones": "{n} sessions",
+    "Añadir perfil": "Add profile",
+    "Sirve solo para anotar la regla y los síntomas, y ver una estimación de la próxima.": "It's only for logging your period and symptoms and seeing an estimate of the next one.",
+    "Se guarda únicamente en este móvil, dentro de este perfil.": "It's stored only on this phone, inside this profile.",
+    "No se envía a ningún sitio: no hay cuentas, servidores, publicidad ni análisis con IA.": "It's never sent anywhere: no accounts, servers, ads or AI analysis.",
+    "Nunca sale al compartir rutinas o entrenos.": "It's never included when sharing routines or workouts.",
+    "Es una estimación aproximada: no sirve como anticonceptivo ni como diagnóstico.": "It's an approximate estimate: not a contraceptive method or a diagnosis.",
+    "registro de la regla activado": "period log on",
+    "registro de la regla desactivado": "period log off",
+    "El sexo no se podrá cambiar después. El nombre y el color, sí.": "Sex can't be changed later. Name and colour can.",
+    "Revisar": "Go back",
+    "Crear perfil": "Create profile",
+    "Tu perfil": "Your profile",
+    "Nuevo perfil": "New profile",
+    "Antes de añadir otro perfil, completa el tuyo. Tus datos no cambian.": "Before adding another profile, complete yours. Your data doesn't change.",
+    "Ej. Marta": "E.g. Marta",
+    "Sexo": "Sex",
+    "No se podrá cambiar una vez creado el perfil.": "Can't be changed once the profile is created.",
+    "Color": "Colour",
+    "Registro de la regla": "Period log",
+    "Empezar con": "Start with",
+    "Vacío": "Empty",
+    "Sin rutinas.": "No routines.",
+    "Rutinas de otro perfil": "Routines from another profile",
+    "Solo las rutinas. Ningún registro.": "Routines only. No logs.",
+    "Ese perfil no tiene rutinas.": "That profile has no routines.",
+    "Continuar": "Continue",
+    "Ponle un nombre": "Give it a name",
+    "Ya hay un perfil con ese nombre": "There's already a profile with that name",
+    "Elige hombre o mujer": "Choose man or woman",
+    "Perfil guardado": "Profile saved",
+    "Editar perfil": "Edit profile",
+    "No se puede cambiar": "Can't be changed",
+    "Copiar rutinas a otro perfil": "Copy routines to another profile",
+    "Se añaden a las suyas. No se borra nada ni se copia ningún registro.": "They're added to theirs. Nothing is deleted and no logs are copied.",
+    "{n} rutinas copiadas a {x}": "{n} routines copied to {x}",
+    "Se borrarán el perfil «{x}» y todos sus datos de este dispositivo. ¿Has exportado su copia?": "Profile “{x}” and all its data will be deleted from this device. Have you exported its backup?",
+    "Última confirmación: ¿borrar «{x}»?": "Last confirmation: delete “{x}”?",
+    "Varias personas pueden usar Usus en este móvil, cada una con sus propios datos y ajustes.": "Several people can use Usus on this phone, each with their own data and settings.",
+    "Perfil": "Profile",
+    "Todo lo de esta pantalla es solo de {x}.": "Everything on this screen belongs to {x} only.",
+    "Cambiar": "Switch",
+    "Borrar perfil «{x}»": "Delete profile “{x}”",
+    "Código fuente": "Source code",
+    "Informar de un problema": "Report a problem",
+    "Algo no funciona como debería": "Something isn't working as it should",
+    "Proponer una mejora": "Suggest an improvement",
+    "Ideas y peticiones": "Ideas and requests",
+    "Qué trae cada versión": "What each version brings",
+    "Se abrirá GitHub con el formulario preparado.": "GitHub will open with the form ready.",
+    "Necesitas una cuenta de GitHub (gratis).": "You need a (free) GitHub account.",
+    "No se envía nada hasta que tú lo revises y lo publiques en GitHub.": "Nothing is sent until you review it and post it on GitHub.",
+    "Nunca incluye tus rutinas, sesiones ni registros.": "It never includes your routines, sessions or logs.",
+    "Incluir datos técnicos": "Include technical details",
+    "Abrir GitHub": "Open GitHub",
+    "Qué ha pasado": "What happened",
+    "Pasos para reproducirlo": "Steps to reproduce",
+    "Qué esperabas": "What you expected",
+    "Qué te gustaría": "What you'd like",
+    "Para qué lo usarías": "What you'd use it for",
+    "Se borrarán todos los datos de «{x}» en este dispositivo. Los demás perfiles no se tocan. ¿Has hecho una copia?": "All of “{x}”'s data on this device will be deleted. Other profiles aren't touched. Have you made a backup?",
     "Compartir": "Share",
     "Compartir Usus": "Share Usus",
     "Archivo guardado": "File saved",

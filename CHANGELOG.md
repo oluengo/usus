@@ -4,6 +4,22 @@ Todas las versiones de Usus. Formato basado en [Keep a Changelog](https://keepac
 
 **Castellano** · [Català](#català) · [English](#english)
 
+## [1.2.0] — 2026-10-12
+
+### Perfiles
+- Varias personas en el mismo móvil. Cada perfil es independiente: rutinas, sesiones, diario, plan, peso, ciclo, idioma, tema, tiempos y copia de seguridad.
+- Cambio de perfil desde Hoy o Ajustes (no con una sesión en curso).
+- Al crear un perfil: nombre, sexo (no se puede cambiar después) y color; empezar vacío o copiando rutinas de otro perfil (sin registros).
+- En perfiles de mujer, registro de la regla opcional y desactivado por defecto, con explicación de que todo queda en el móvil.
+- Copiar rutinas a otro perfil y borrar un perfil (doble confirmación).
+- Los datos existentes pasan a ser el primer perfil sin moverse (mismas claves).
+
+### Acerca de
+- Enlace al código fuente y accesos para informar de un problema o proponer una mejora en GitHub, con plantilla y datos técnicos opcionales.
+
+### Correcciones
+- Rutinas: el botón «Compartir» pasa a icono para que «Nueva rutina» no salte de línea en móviles estrechos.
+
 ## [1.1.0] — 2026-10-11
 
 ### Compartir
@@ -55,6 +71,10 @@ Primera versión pública.
 
 ## Català
 
+### [1.2.0] — 2026-10-12
+
+Perfils independents al mateix mòbil (dades, ajustos i còpia propis), registre de la regla opcional en perfils de dona, copiar rutines entre perfils, i enllaços al codi i per informar de problemes a GitHub.
+
 ### [1.1.0] — 2026-10-11
 
 Compartir: l'app des d'Ajustos, un entrenament com a imatge o text i les rutines o el programa sencer amb el pla opcional, per enllaç o fitxer, sense servidors. Tema automàtic per defecte i icona nova.
@@ -66,6 +86,10 @@ Primera versió pública: rutines amb sèries per repeticions o per temps, compt
 ---
 
 ## English
+
+### [1.2.0] — 2026-10-12
+
+Independent profiles on the same phone (own data, settings and backup), optional period log on women's profiles, copying routines between profiles, and links to the source code and to report problems on GitHub.
 
 ### [1.1.0] — 2026-10-11
 

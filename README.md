@@ -1,43 +1,79 @@
 # Usus
 
-Versión 1.0.0 · [Cambios](CHANGELOG.md) · Licencia MIT
+**Castellano** · [English](#english)
 
-**Castellano** · [Català](#català) · [English](#english)
+<p align="center"><img src="capturas/portada.jpg" alt="Usus: Hoy, cuenta atrás, Diario y Estadísticas" width="100%"></p>
 
-App web instalable (PWA) para registrar entrenamientos: rutinas, series por repeticiones o por tiempo (con cuenta atrás y "por lado"), descansos por ejercicio, bloques (pecho, espalda, pierna…), diario con sueño, suplementos y notas, peso semanal, plan de progresión (rotación de variantes con descarga), seguimiento opcional del ciclo menstrual (estimación aproximada, desactivado por defecto) y estadísticas configurables. Funciona sin conexión y **guarda los datos solo en el dispositivo** (haz copias desde *Ajustes*).
+**Usus** (latín: *práctica, hábito*) es una app para registrar tus entrenamientos y tus hábitos desde el móvil. Pensada para calistenia y entrenamiento en casa, sirve para cualquier rutina de series y repeticiones.
 
-**Instalar:** sube esta carpeta a cualquier alojamiento estático con HTTPS (Netlify, Cloudflare Pages, GitHub Pages…), ábrela en Chrome para Android y elige *Instalar app*.
+**[Abrir Usus →](https://oluengo.github.io/usus/)**
 
-**Aviso:** herramienta de registro, no consejo médico ni plan de entrenamiento. Se ofrece tal cual, sin garantías. Licencia MIT (ver `LICENSE`). Sin conexiones externas: la tipografía Instrument Sans va incluida (SIL OFL 1.1, `fonts/OFL.txt`).
+Gratis, sin cuentas y sin anuncios. Todo se guarda **solo en tu móvil**: nada se envía a ningún servidor.
 
-**Añadir un idioma:** en `index.html`, (1) añade el código y el nombre en `LANGS`; (2) copia el bloque `ca` de `I18N` (al final del script), cambia el código y traduce el texto de la derecha (la clave de la izquierda es el texto en castellano; no la cambies). Lo que falte se muestra en castellano. Sube también la versión de `CACHE` en `sw.js`.
+## Cómo funciona
 
-**Versiones:** se numeran MAYOR.MENOR.PARCHE (1.0.0). PARCHE = correcciones; MENOR = funciones nuevas compatibles; MAYOR = cambios que obligan a migrar datos. Cada versión se anota en `CHANGELOG.md` y en `CHANGES` dentro de `index.html` (aviso de novedades de la app).
+- **Rutinas.** Creas tus rutinas con sus ejercicios, series y repeticiones o tiempo. Puedes marcar ejercicios «por lado», poner lastre y un descanso propio a cada uno.
+- **Hoy.** Te dice qué toca cada día. Con un plan de progresión, Usus rota las variantes de tus rutinas por semanas (A, B, C…), añade semanas de descarga y te avisa de lo pendiente.
+- **Entrenar.** Un ejercicio por pantalla. Las series por tiempo y los descansos tienen cuenta atrás a pantalla completa, con pitidos y vibración, y se pueden encadenar solas.
+- **Diario.** Sueño, suplementos, pasos, actividad (caminar, correr, bici…), notas y peso semanal.
+- **Estadísticas.** Constancia, récords, progreso por ejercicio, equilibrio entre lados y hábitos, en bloques que puedes ordenar u ocultar.
+- **Perfiles.** Varias personas en el mismo móvil, cada una con sus datos, ajustes y copia de seguridad.
+- **Ciclo** *(opcional, en perfiles de mujer).* Registro de la regla con una estimación aproximada de la próxima. No es un anticonceptivo ni un diagnóstico.
+- **Compartir.** Un entreno como imagen o texto, o tus rutinas y tu plan mediante un enlace que lleva los datos dentro, sin pasar por ningún servidor.
 
----
+<table>
+<tr>
+<td align="center" width="25%"><img src="capturas/02-rutinas.jpg" alt="Rutinas"><br><sub>Rutinas</sub></td>
+<td align="center" width="25%"><img src="capturas/03-sesion.jpg" alt="Sesión"><br><sub>Sesión</sub></td>
+<td align="center" width="25%"><img src="capturas/07-stats-entreno.jpg" alt="Constancia y progreso"><br><sub>Constancia y progreso</sub></td>
+<td align="center" width="25%"><img src="capturas/08-stats-habitos.jpg" alt="Hábitos"><br><sub>Hábitos</sub></td>
+</tr>
+<tr>
+<td align="center"><img src="capturas/09-compartir.jpg" alt="Compartir un entreno"><br><sub>Compartir un entreno</sub></td>
+<td align="center"><img src="capturas/10-perfiles.jpg" alt="Perfiles"><br><sub>Perfiles</sub></td>
+<td align="center"><img src="capturas/11-ciclo-hoy.jpg" alt="Ciclo"><br><sub>Ciclo (opcional)</sub></td>
+<td align="center"><img src="capturas/05-diario.jpg" alt="Diario"><br><sub>Diario</sub></td>
+</tr>
+</table>
 
-## Català
+### Temas
 
-App web instal·lable (PWA) per registrar entrenaments: rutines, sèries per repeticions o per temps (amb compte enrere i "per costat"), descansos per exercici, blocs (pit, esquena, cama…), diari amb son, suplements i notes, pes setmanal, pla de progressió (rotació de variants amb descàrrega), seguiment opcional del cicle menstrual (estimació aproximada, desactivat per defecte) i estadístiques configurables. Funciona sense connexió i **desa les dades només al dispositiu** (fes còpies des d'*Ajustos*).
+<p align="center"><img src="capturas/temas.jpg" alt="Temas claro, oscuro y protector" width="80%"></p>
 
-**Instal·lar:** puja aquesta carpeta a qualsevol allotjament estàtic amb HTTPS (Netlify, Cloudflare Pages, GitHub Pages…), obre-la amb Chrome per a Android i tria *Instal·la l'aplicació*.
+**Claro**, **Oscuro** y **Protector** (oscuro cálido, sin luz azul, para entrenar a primera hora). Por defecto, **Automático**: sigue el modo claro u oscuro del móvil.
 
-**Avís:** eina de registre, no consell mèdic ni pla d'entrenament. S'ofereix tal com és, sense garanties. Llicència MIT (vegeu `LICENSE`). Sense connexions externes: la tipografia Instrument Sans hi va inclosa (SIL OFL 1.1, `fonts/OFL.txt`).
+### Más
 
-**Afegir un idioma:** a `index.html`, (1) afegeix el codi i el nom a `LANGS`; (2) copia el bloc `ca` d'`I18N`, canvia'n el codi i tradueix el text de la dreta. El que falti es mostra en castellà. Puja també la versió de `CACHE` a `sw.js`.
+- Se instala en el móvil como una app (PWA) y funciona sin conexión.
+- Castellano, català e English.
+- Copias de seguridad en un archivo, para pasar tus datos a otro móvil o guardarlos.
+- [Informar de un problema o proponer una mejora](https://github.com/oluengo/usus/issues).
 
-**Versions:** es numeren MAJOR.MENOR.PEDAÇ (1.0.0). Pedaç = correccions; menor = funcions noves compatibles; major = canvis que obliguen a migrar dades. Cada versió s'anota a `CHANGELOG.md` i a `CHANGES` dins d'`index.html`.
+<sub>Capturas con datos de ejemplo. Usus es una herramienta de registro, no un consejo médico ni un plan de entrenamiento. Software libre, [licencia MIT](LICENSE).</sub>
 
 ---
 
 ## English
 
-Installable web app (PWA) to log workouts: routines, rep- or time-based sets (with countdown and "per side"), per-exercise rest, blocks (chest, back, legs…), a diary with sleep, supplements and notes, weekly weight, a progression plan (variant rotation with deloads), optional menstrual cycle tracking (approximate estimate, off by default) and configurable statistics. Works offline and **stores data only on the device** (make backups from *Settings*).
+**Usus** (Latin: *practice, habit*) is a phone app to log your workouts and habits. Built with calisthenics and home training in mind, it works for any routine of sets and reps.
 
-**Install:** upload this folder to any static HTTPS host (Netlify, Cloudflare Pages, GitHub Pages…), open it in Chrome for Android and choose *Install app*.
+**[Open Usus →](https://oluengo.github.io/usus/)**
 
-**Notice:** a logging tool, not medical advice or a training plan. Provided as is, without warranty. MIT license (see `LICENSE`). No external connections: the Instrument Sans font is bundled (SIL OFL 1.1, `fonts/OFL.txt`).
+Free, no accounts, no ads. Everything is stored **only on your phone**: nothing is ever sent to a server.
 
-**Add a language:** in `index.html`, (1) add the code and name to `LANGS`; (2) copy the `ca` block in `I18N` (end of the script), change the code and translate the right-hand text (the left-hand key is the Spanish text; don't change it). Missing strings fall back to Spanish. Also bump `CACHE` in `sw.js`.
+### How it works
 
-**Versioning:** MAJOR.MINOR.PATCH (1.0.0). Patch = fixes; minor = new backwards-compatible features; major = changes that require migrating data. Every release is listed in `CHANGELOG.md` and in `CHANGES` inside `index.html` (the in-app what's new notice).
+- **Routines.** Build routines with exercises, sets and reps or time. Mark exercises as “per side”, add weight and set a rest time for each one.
+- **Today.** Shows what's on each day. With a progression plan, Usus rotates your routine variants week by week (A, B, C…), adds deload weeks and keeps track of what's pending.
+- **Train.** One exercise per screen. Timed sets and rests get a full-screen countdown with beeps and vibration, and can chain automatically.
+- **Diary.** Sleep, supplements, steps, activity (walking, running, cycling…), notes and weekly weight.
+- **Stats.** Consistency, PRs, progress per exercise, left/right balance and habits, in blocks you can reorder or hide.
+- **Profiles.** Several people on the same phone, each with their own data, settings and backup.
+- **Cycle** *(optional, on women's profiles).* Period log with an approximate estimate of the next one. Not a contraceptive method or a diagnosis.
+- **Share.** A workout as an image or text, or your routines and plan through a link that carries the data itself, with no server involved.
+
+The app is available in Spanish, Catalan and English, installs on your phone as an app (PWA), works offline and offers file backups. Themes: Light, Dark and Protector (warm dark, no blue light), with Automatic by default.
+
+[Report a problem or suggest an improvement](https://github.com/oluengo/usus/issues).
+
+<sub>Screenshots use sample data. Usus is a logging tool, not medical advice or a training plan. Free software, [MIT license](LICENSE).</sub>
