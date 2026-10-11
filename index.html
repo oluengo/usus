@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Usus</title>
 <meta name="theme-color" id="themeColor" content="#16120E">
-<script>try{document.documentElement.dataset.theme=JSON.parse(localStorage.getItem("wk.theme"))||"protector"}catch(e){document.documentElement.dataset.theme="protector"}</script>
+<script>try{document.documentElement.dataset.theme=JSON.parse(localStorage.getItem("wk.theme"))||"auto"}catch(e){document.documentElement.dataset.theme="auto"}</script>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="favicon-48.png">
 <link rel="apple-touch-icon" href="icon-192.png">
@@ -157,7 +157,7 @@ nav.tabs button[aria-current="page"]{color:var(--accent)}
 .rbody{padding:0 16px 14px}
 .rex{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-top:1px solid var(--line);font-size:.9rem}
 .rex>span:last-child{flex:none;text-align:right}
-.ract{display:grid;grid-template-columns:2fr 1fr 1fr;gap:8px;margin-top:12px}
+.ract{display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:8px;margin-top:12px}
 .ract .btn{padding-left:6px;padding-right:6px}
 .ex-edit{display:grid;grid-template-columns:1fr 1fr 1fr 32px;gap:6px 8px;align-items:end;padding:12px 0;border-top:1px solid var(--line)}
 .ex-edit:first-of-type{border-top:0}
@@ -219,6 +219,29 @@ details.sess td:first-child{font-weight:500;padding-right:12px;width:40%}
 .modal{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.55);display:flex;align-items:flex-end;justify-content:center;padding:16px;padding-bottom:calc(16px + env(safe-area-inset-bottom,0px))}
 .mbox{background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:18px;padding:18px;max-width:520px;width:100%;max-height:85vh;overflow:auto}
 @media (min-width:600px){.modal{align-items:center}}
+/* Compartir */
+.shbtn{display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.shbtn svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.shbtn.icon{padding-left:12px;padding-right:12px}
+.shprev{display:block;width:100%;min-height:120px;border-radius:12px;border:1px solid var(--line);background:var(--bg);margin-bottom:6px}
+.shtxt{white-space:pre-wrap;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px;margin:0 0 6px;font:.85rem/1.5 ui-monospace,SFMono-Regular,Menlo,monospace}
+.shopt{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid var(--line);font-size:.9rem}
+.shopt input{width:20px;height:20px;accent-color:var(--accent);flex:none}
+.rsl{border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.rsl button{display:flex;align-items:center;gap:10px;width:100%;background:none;border:0;border-bottom:1px solid var(--line);padding:10px 12px;text-align:left;font-size:.9rem}
+.rsl button:last-child{border-bottom:0}
+.rsl .rsg{background:var(--bg)}
+.rsl .rsg small{margin-left:auto;color:var(--muted);font-size:.78rem}
+.rsl .rsr{padding-left:34px}
+.cbx{width:20px;height:20px;border-radius:6px;border:2px solid var(--muted);flex:none;display:grid;place-items:center}
+.cbx.on{background:var(--accent);border-color:var(--accent)}
+.cbx svg{width:14px;height:14px;fill:none;stroke:var(--bg);stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round}
+.svok{width:56px;height:56px;border-radius:50%;background:var(--ok-soft);color:var(--ok);display:grid;place-items:center;margin:4px auto 10px}
+.svok svg{width:28px;height:28px;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.svst{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0}
+.svst div{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:8px}
+.svst b{display:block;font-size:1.1rem}
+.svst small{color:var(--muted);font-size:.75rem}
 .lic{white-space:pre-wrap;font-size:.72rem;line-height:1.4;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px;margin:8px 0 0;max-height:240px;overflow:auto}
 .tagb{font-size:.7rem;font-weight:500;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:1px 7px;vertical-align:2px;white-space:nowrap}
 .dnav{display:flex;align-items:center;gap:10px}
@@ -466,9 +489,9 @@ function lastSetsFor(name) {
   }
   return null;
 }
-const APP_VERSION = "1.0.0";
+const APP_VERSION = "1.1.0";
 const THEMES = [["protector", "Protector", "Oscuro cálido, sin azul"], ["dark", "Oscuro", "Neutro"], ["light", "Claro", "Para el día"], ["auto", "Automático", "Sigue al sistema"]];
-const curTheme = () => document.documentElement.dataset.theme || "protector";
+const curTheme = () => document.documentElement.dataset.theme || "auto";
 function applyTheme(t) {
   document.documentElement.dataset.theme = t;
   const bg = getComputedStyle(document.documentElement).getPropertyValue("--bg").trim();
@@ -686,9 +709,10 @@ function render() {
   if (state.tab === "history") state.tab = "diary";
   const v = state.actForm ? viewActForm : { train: viewTrain, routines: viewRoutines, diary: viewDiary, stats: viewStats, data: viewData }[state.tab];
   const mb = document.querySelector(".mbox.dsh"), mbTop = mb ? mb.scrollTop : 0;
-  $("#app").innerHTML = v() + focusView() + welcomeModal() + newsModal() + cycAckModal();
+  $("#app").innerHTML = v() + focusView() + welcomeModal() + newsModal() + cycAckModal() + savedModal() + shareSessModal() + shareRoutModal() + incomingModal();
   if (mb) { const nb = document.querySelector(".mbox.dsh"); if (nb) nb.scrollTop = mbTop; }
   if (state.tab === "train" && state.active && !state.actForm) tick();
+  if (state.shareSess && SHOPT().img) sessPreview();
 }
 
 /* ---------- Vista: Entrenar ---------- */
@@ -1085,7 +1109,7 @@ async function finishSession() {
   state.sessions.push(s);
   state.active = null; saveActive();
   await store.saveSession(s);
-  toast(T("Sesión guardada"));
+  state.savedSess = s.id;
   state.day = dayKey(Date.now()); state.tab = "diary"; render();
 }
 
@@ -1130,7 +1154,7 @@ function viewRoutines() {
       </div>`;
   }
   return `
-    <div class="row"><h1>${T("Rutinas")}</h1><span class="spacer"></span><button class="btn primary" data-act="newroutine">${T("Nueva rutina")}</button></div>
+    <div class="row"><h1>${T("Rutinas")}</h1><span class="spacer"></span>${state.routines.length ? `<button class="btn shbtn" data-act="rs-open">${SHARE_ICO}${T("Compartir")}</button>` : ""}<button class="btn primary" data-act="newroutine">${T("Nueva rutina")}</button></div>
     <div class="list" style="margin-top:16px">
       ${state.routines.length ? state.routines.map(r => {
         const open = state.routOpen === r.id, nSets = r.exercises.reduce((a, e) => a + (+e.sets || 0), 0);
@@ -1147,6 +1171,7 @@ function viewRoutines() {
               <button class="btn primary" data-start="${r.id}">${T("Empezar")}</button>
               <button class="btn" data-edit="${r.id}">${T("Editar")}</button>
               <button class="btn" data-dup="${r.id}" aria-label="${T("Duplicar")} ${esc(r.name)}">${T("Duplicar")}</button>
+              <button class="btn shbtn icon" data-rshare="${r.id}" aria-label="${T("Compartir")} ${esc(r.name)}" title="${T("Compartir")}">${SHARE_ICO}</button>
             </div></div>` : ""}
         </div>`; }).join("") : `<div class="empty">${T("Crea una rutina con sus ejercicios, series y repeticiones objetivo.")}</div>`}
     </div>`;
@@ -1501,7 +1526,7 @@ function sessionCard(s) {
       <div class="muted" style="font-size:.875rem">${d.toLocaleTimeString(LOC(), { hour: "numeric", minute: "2-digit" })} · ${mins} min · ${doneSets(s)} ${T("series")} · ${fmtWork(sessionWork(s))}</div></div></summary>
     <div class="body">
       <table>${s.exercises.map(e => `<tr><td>${esc(e.name)}</td><td class="muted">${e.sets.map(x => fmtSet(x, isTime(e), sideReps(e))).join(", ")}${sideReps(e) ? ` <span style="font-size:.75rem">(${T("izq/der")})</span>` : ""}</td></tr>`).join("")}</table>
-      <div class="row" style="margin-top:10px"><span class="spacer"></span><button class="btn small danger" data-delsess="${s.id}">${T("Eliminar sesión")}</button></div>
+      <div class="row" style="margin-top:10px"><button class="btn small shbtn" data-shsess="${s.id}">${SHARE_ICO}${T("Compartir")}</button><span class="spacer"></span><button class="btn small danger" data-delsess="${s.id}">${T("Eliminar sesión")}</button></div>
     </div></details>`;
 }
 function viewDiary() {
@@ -2031,6 +2056,8 @@ function viewData() {
     </div>
     <h2>${T("Instalar en el móvil")}</h2>
     <div class="panel">${installBlock()}</div>
+    <h2>${T("Compartir Usus")}</h2>
+    <div class="panel">${shareAppBlock()}</div>
     <h2>${T("Apoyar el proyecto")}</h2>
     <div class="panel">${donateBlock()}</div>`;
 }
@@ -2069,6 +2096,11 @@ function installBlock() {
 }
 /* ---------- Novedades (una vez por versión; historial al tocar la versión) ---------- */
 const CHANGES = [
+  ["1.1.0", {
+    es: ["Compartir: la app desde Ajustes, un entreno como imagen o texto (al terminar o desde el Diario) y tus rutinas o el programa entero con su plan, por enlace o archivo. Quien abre el enlace elige qué añadir. Nada pasa por ningún servidor.", "Tema automático por defecto: sigue el modo claro u oscuro del móvil. Puedes cambiarlo en Ajustes → Apariencia.", "Icono nuevo."],
+    ca: ["Compartir: l'app des d'Ajustos, un entrenament com a imatge o text (en acabar o des del Diari) i les teves rutines o el programa sencer amb el seu pla, per enllaç o fitxer. Qui obre l'enllaç tria què afegir. Res passa per cap servidor.", "Tema automàtic per defecte: segueix el mode clar o fosc del mòbil. El pots canviar a Ajustos → Aparença.", "Icona nova."],
+    en: ["Sharing: the app from Settings, a workout as an image or text (when you finish or from the Diary) and your routines or whole programme with its plan, by link or file. Whoever opens the link chooses what to add. Nothing goes through any server.", "Automatic theme by default: follows your phone's light or dark mode. Change it in Settings → Appearance.", "New icon."]
+  }],
   ["1.0.0", {
     es: ["Primera versión de Usus: rutinas, temporizadores, plan de progresión, diario, estadísticas y seguimiento opcional del ciclo (se activa en Ajustes). Todo se guarda solo en tu móvil."],
     ca: ["Primera versió d'Usus: rutines, temporitzadors, pla de progressió, diari, estadístiques i seguiment opcional del cicle (s'activa a Ajustos). Tot es desa només al teu mòbil."],
@@ -2077,7 +2109,7 @@ const CHANGES = [
 ];
 const chItems = c => c[LANG] || c.es;
 function newsModal() {
-  if (!state.newsOpen || !LS.get("wk.welcomed", false) || run) return "";
+  if (!state.newsOpen || !LS.get("wk.welcomed", false) || run || state.incoming) return "";
   const all = state.newsOpen === "all", list = all ? CHANGES : CHANGES.slice(0, 1);
   return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="nwT"><div class="mbox">
     <p class="muted" style="margin:0;font-size:.85rem">${all ? T("Historial de cambios") : T("Novedades · versión {v}", { v: APP_VERSION })}</p>
@@ -2105,6 +2137,231 @@ function welcomeModal() {
     <button class="btn primary" style="width:100%;margin-top:16px;padding:12px" data-act="welcome-ok">${T("Entendido")}</button>
   </div></div>`;
 }
+/* ---------- Compartir ----------
+   Sin servidor: el móvil abre su menú de compartir (o se copia/descarga si no lo hay).
+   Rutinas: enlace con los datos tras «#r=» (comprimidos, nunca llegan a ningún servidor) o archivo .json. */
+const appURL = () => location.href.split(/[?#]/)[0];
+const SHARE_ICO = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>';
+function saveFile(file) {
+  const url = URL.createObjectURL(file), a = Object.assign(document.createElement("a"), { href: url, download: file.name });
+  document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 4000);
+}
+async function shareOut({ title, text, url, file }) {
+  const data = { title };
+  if (text) data.text = text;
+  if (url) data.url = url;
+  if (file) { if (navigator.canShare && navigator.canShare({ files: [file] })) data.files = [file]; else { saveFile(file); toast(T("Archivo guardado")); return true; } }
+  if (navigator.share) { try { await navigator.share(data); return true; } catch (e) { if (e.name === "AbortError") return false; } }
+  if (file) { saveFile(file); toast(T("Archivo guardado")); return true; }
+  const ok = await copyText([text, url].filter(Boolean).join("\n"));
+  toast(ok ? T("Copiado. Pégalo donde quieras.") : T("No se pudo copiar")); return ok;
+}
+/* La app */
+const shareAppText = () => T("Usus: registro de entrenos y hábitos. Gratis, sin cuentas y tus datos se quedan en tu móvil.");
+function shareAppBlock() {
+  return `<p class="muted" style="font-size:.85rem;margin:0 0 10px">${T("¿Le puede servir a alguien? Envíale el enlace.")}</p>
+    <div class="row"><button class="btn primary shbtn" style="flex:1" data-act="share-app">${SHARE_ICO}${T("Compartir")}</button><button class="btn" style="flex:1" data-copy="${esc(appURL())}">${T("Copiar enlace")}</button></div>`;
+}
+/* Un entreno: texto o imagen */
+const SHOPT = () => ({ img: true, ex: true, dur: true, pr: true, ...LS.get("wk.shareOpt", {}) });
+const exMode = e => isTime(e) ? "time" : e.sets.some(z => +z.w > 0) ? "load" : "reps";
+function sessPRs(s) {
+  const prev = state.sessions.filter(x => x.start < s.start), out = new Set();
+  s.exercises.forEach(e => {
+    if (!e.sets.length) return;
+    const k = e.name.trim().toLowerCase(), m = exMode(e);
+    const old = prev.flatMap(x => x.exercises.filter(y => y.name.trim().toLowerCase() === k && y.sets.length && exMode(y) === m)).map(y => bestOf(y, m));
+    if (old.length && bestOf(e, m) > Math.max(...old)) out.add(e.name);
+  });
+  return out;
+}
+function setsShort(e) {
+  const tm = isTime(e), sd = sideReps(e), v = e.sets.map(x => tm ? fmtSec(x.r) : sd ? `${x.r}/${R2(x)}` : String(x.r));
+  const ws = [...new Set(e.sets.map(x => +x.w || 0))];
+  const w = ws.length === 1 && ws[0] ? ` · +${fmtKg(ws[0])} kg` : ws.some(Boolean) ? " · " + T("con lastre") : "";
+  return (v.every(z => z === v[0]) ? `${v.length} × ${v[0]}` : v.join(", ")) + w;
+}
+function sessShare(s) {
+  const o = SHOPT(), pr = o.pr ? sessPRs(s) : new Set();
+  const rows = s.exercises.filter(e => e.sets.length && (o.ex || pr.has(e.name))).map(e => ({ name: e.name, val: setsShort(e), pr: pr.has(e.name) }));
+  const date = new Date(s.start).toLocaleDateString(LOC(), { weekday: "short", day: "numeric", month: "short" });
+  const tot = T("{d} · {e} ejercicios · {s} series", { d: fmtDur(s.end - s.start), e: s.exercises.length, s: doneSets(s) });
+  return { o, title: s.routine || T("Sesión libre"), date, tot, rows };
+}
+function sessText(s) {
+  const x = sessShare(s), l = [x.title + " · " + x.date];
+  if (x.o.dur) l.push(x.tot);
+  if (x.rows.length) l.push("", ...x.rows.map(r => `• ${r.name}: ${r.val}${r.pr ? " · " + T("récord") + " 🏅" : ""}`));
+  l.push("", T("Registrado con Usus") + " · " + appURL().replace(/^https?:\/\//, "").replace(/\/$/, ""));
+  return l.join("\n");
+}
+const loadImg = src => new Promise(ok => { const i = new Image(); i.onload = () => ok(i); i.onerror = () => ok(null); i.src = src; });
+async function sessCanvas(s) {
+  const x = sessShare(s), cs = getComputedStyle(document.documentElement), c = k => cs.getPropertyValue(k).trim() || "#888";
+  const F = (w, px) => `${w} ${px}px "Instrument Sans", system-ui, sans-serif`;
+  try { await Promise.all([document.fonts.load(F(400, 36)), document.fonts.load(F(700, 36))]); } catch {}
+  const W = 1080, P = 72, RH = 76, H = P + 88 + 40 + 84 + (x.o.dur ? 56 : 0) + 28 + x.rows.length * RH + 40 + 50 + P;
+  const cv = document.createElement("canvas"); cv.width = W; cv.height = H;
+  const g = cv.getContext("2d");
+  const fit = (t, max) => { if (g.measureText(t).width <= max) return t; while (t.length > 1 && g.measureText(t + "…").width > max) t = t.slice(0, -1); return t + "…"; };
+  g.fillStyle = c("--bg"); g.fillRect(0, 0, W, H);
+  g.fillStyle = c("--surface"); g.strokeStyle = c("--line"); g.lineWidth = 3;
+  const rr = (x0, y0, w, h, r) => { g.beginPath(); g.moveTo(x0 + r, y0); g.arcTo(x0 + w, y0, x0 + w, y0 + h, r); g.arcTo(x0 + w, y0 + h, x0, y0 + h, r); g.arcTo(x0, y0 + h, x0, y0, r); g.arcTo(x0, y0, x0 + w, y0, r); g.closePath(); };
+  rr(28, 28, W - 56, H - 56, 40); g.fill(); g.stroke();
+  let y = P;
+  const ic = await loadImg("icon-192.png");
+  if (ic) { g.save(); rr(P, y, 80, 80, 20); g.clip(); g.drawImage(ic, P, y, 80, 80); g.restore(); }
+  g.textBaseline = "middle"; g.fillStyle = c("--ink"); g.font = F(700, 44); g.fillText("Usus", P + (ic ? 104 : 0), y + 40);
+  g.font = F(400, 34); g.fillStyle = c("--muted"); g.textAlign = "right"; g.fillText(x.date, W - P, y + 40); g.textAlign = "left";
+  y += 88 + 40;
+  g.fillStyle = c("--ink"); g.font = F(700, 62); g.fillText(fit(x.title, W - 2 * P), P, y + 36); y += 84;
+  if (x.o.dur) { g.fillStyle = c("--muted"); g.font = F(400, 34); g.fillText(fit(x.tot, W - 2 * P), P, y + 20); y += 56; }
+  y += 28;
+  x.rows.forEach((r, i) => {
+    if (i) { g.strokeStyle = c("--line"); g.lineWidth = 2; g.beginPath(); g.moveTo(P, y); g.lineTo(W - P, y); g.stroke(); }
+    g.font = F(r.pr ? 700 : 400, 34); g.fillStyle = r.pr ? c("--accent") : c("--muted"); g.textAlign = "right";
+    const val = r.val + (r.pr ? " · " + T("récord") : ""); g.fillText(val, W - P, y + RH / 2); const vw = g.measureText(val).width; g.textAlign = "left";
+    g.font = F(400, 36); g.fillStyle = c("--ink"); g.fillText(fit(r.name, W - 2 * P - vw - 32), P, y + RH / 2);
+    y += RH;
+  });
+  g.font = F(400, 28); g.fillStyle = c("--muted"); g.textAlign = "right"; g.fillText(appURL().replace(/^https?:\/\//, "").replace(/\/$/, ""), W - P, H - P - 10);
+  return cv;
+}
+const fileSlug = t => (t || "usus").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 40) || "usus";
+async function sessPreview() {
+  const s = state.sessions.find(x => x.id === state.shareSess), im = document.getElementById("shPrev");
+  if (!s || !im) return;
+  const cv = await sessCanvas(s); if (state.shareSess === s.id && document.getElementById("shPrev") === im) im.src = cv.toDataURL("image/png");
+}
+async function sessShareGo(how) {
+  const s = state.sessions.find(x => x.id === state.shareSess); if (!s) return;
+  const o = SHOPT();
+  if (how === "copy") { const ok = await copyText(sessText(s)); toast(ok ? T("Copiado") : T("No se pudo copiar")); return; }
+  if (!o.img) { await shareOut({ title: s.routine || "Usus", text: sessText(s) }); return; }
+  const cv = await sessCanvas(s), blob = await new Promise(ok => cv.toBlob(ok, "image/png"));
+  const file = new File([blob], `usus-${fileSlug(s.routine)}-${dayKey(s.start)}.png`, { type: "image/png" });
+  if (how === "save") { saveFile(file); toast(T("Imagen guardada")); return; }
+  await shareOut({ title: s.routine || "Usus", file });
+}
+function savedModal() {
+  const s = state.savedSess && state.sessions.find(x => x.id === state.savedSess); if (!s || state.shareSess) return "";
+  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="svT"><div class="mbox" style="text-align:center">
+    <div class="svok">${CHECK}</div>
+    <h2 id="svT" style="margin:0">${T("Sesión guardada")}</h2>
+    <p class="muted" style="margin:2px 0 0">${esc(s.routine || T("Sesión libre"))}</p>
+    <div class="svst"><div><b>${fmtDur(s.end - s.start)}</b><small>${T("duración")}</small></div><div><b>${s.exercises.length}</b><small>${T("ejercicios")}</small></div><div><b>${doneSets(s)}</b><small>${T("series")}</small></div></div>
+    <div class="row"><button class="btn" style="flex:1" data-act="saved-close">${T("Hecho")}</button><button class="btn primary shbtn" style="flex:1" data-shsess="${s.id}">${SHARE_ICO}${T("Compartir")}</button></div>
+  </div></div>`;
+}
+function shareSessModal() {
+  const s = state.shareSess && state.sessions.find(x => x.id === state.shareSess); if (!s) return "";
+  const o = SHOPT(), ck = (id, k, l) => `<label class="shopt"><span>${l}</span><input type="checkbox" id="${id}" ${o[k] ? "checked" : ""}></label>`;
+  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="shT"><div class="mbox dsh">
+    <div class="sb-head"><h2 id="shT" style="margin:0;flex:1">${T("Compartir entreno")}</h2><button class="btn small" data-act="shsess-close">${T("Cerrar")}</button></div>
+    <div class="seg" style="margin:10px 0 12px" role="group" aria-label="${T("Formato")}"><button data-shimg="1" class="${o.img ? "on" : ""}" aria-pressed="${o.img}" style="text-align:center">${T("Imagen")}</button><button data-shimg="0" class="${o.img ? "" : "on"}" aria-pressed="${!o.img}" style="text-align:center">${T("Texto")}</button></div>
+    ${o.img ? `<img id="shPrev" class="shprev" alt="${T("Vista previa")}">` : `<pre class="shtxt">${esc(sessText(s))}</pre>`}
+    ${ck("shoEx", "ex", T("Ejercicios y series"))}${ck("shoDur", "dur", T("Duración y totales"))}${ck("shoPr", "pr", T("Récords"))}
+    <p class="muted" style="font-size:.78rem;margin:8px 0 0">${T("Solo sale lo que ves aquí. Nunca tu peso, el diario ni el ciclo.")}</p>
+    <div class="row" style="margin-top:12px"><button class="btn" style="flex:1" data-act="${o.img ? "shsess-save" : "shsess-copy"}">${o.img ? T("Guardar") : T("Copiar")}</button><button class="btn primary shbtn" style="flex:1" data-act="shsess-go">${SHARE_ICO}${T("Compartir")}</button></div>
+  </div></div>`;
+}
+/* Rutinas y programa: enlace o archivo */
+const b64u = u8 => { let s = ""; for (let i = 0; i < u8.length; i += 0x8000) s += String.fromCharCode(...u8.subarray(i, i + 0x8000)); return btoa(s).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, ""); };
+const unb64u = s => Uint8Array.from(atob(s.replace(/-/g, "+").replace(/_/g, "/")), c => c.charCodeAt(0));
+async function packShare(obj) {
+  const raw = new TextEncoder().encode(JSON.stringify(obj));
+  try { if (typeof CompressionStream === "function") return "z" + b64u(new Uint8Array(await new Response(new Blob([raw]).stream().pipeThrough(new CompressionStream("deflate-raw"))).arrayBuffer())); } catch {}
+  return "j" + b64u(raw);
+}
+async function unpackShare(s) {
+  const bytes = unb64u(s.slice(1));
+  const raw = s[0] === "z" ? new Uint8Array(await new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream("deflate-raw"))).arrayBuffer()) : bytes;
+  return JSON.parse(new TextDecoder().decode(raw));
+}
+const rGroups = () => {
+  const m = new Map(); state.routines.forEach(r => { const v = normVar(r.variant); if (!m.has(v)) m.set(v, []); m.get(v).push(r); });
+  return [...m.entries()].sort((a, b) => (a[0] === "" ? -1 : b[0] === "" ? 1 : a[0].localeCompare(b[0])));
+};
+const gName = v => v ? T("Variante {v}", { v }) : T("Sin variante");
+function sharePayload(ids, withPlan) {
+  const p = PL.get(), routines = state.routines.filter(r => ids.includes(r.id)).map(({ id, ...r }) => r);
+  const plan = withPlan && p?.phases?.length ? { phases: p.phases.map(x => ({ variant: normVar(x.variant), weeks: +x.weeks || 1 })), deload: p.deload || null, up: !!p.up } : null;
+  return { app: "usus", shared: 1, routines, ...(plan ? { plan } : {}) };
+}
+function shareRoutModal() {
+  const sh = state.rshare; if (!sh) return "";
+  const sel = new Set(sh.sel), p = PL.get(), box = on => `<i class="cbx${on ? " on" : ""}">${on ? CHECK : ""}</i>`;
+  const miss = sh.plan && p ? planVariants(p).filter(v => !state.routines.some(r => sel.has(r.id) && normVar(r.variant) === v)) : [];
+  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="rsT"><div class="mbox dsh">
+    <div class="sb-head"><h2 id="rsT" style="margin:0;flex:1">${T("Compartir rutinas")}</h2><button class="btn small" data-act="rs-close">${T("Cerrar")}</button></div>
+    <p class="muted" style="font-size:.85rem;margin:6px 0 10px">${T("{n} de {m} seleccionadas · sin tus sesiones ni registros.", { n: sel.size, m: state.routines.length })}</p>
+    <div class="rsl">${rGroups().map(([v, rs]) => { const k = rs.filter(r => sel.has(r.id)).length;
+      return `<button class="rsg" data-rsg="${esc(v)}" aria-pressed="${k === rs.length}">${box(k === rs.length)}<b>${esc(gName(v))}</b><small>${k}/${rs.length}</small></button>`
+        + rs.map(r => `<button class="rsr" data-rsr="${r.id}" aria-pressed="${sel.has(r.id)}">${box(sel.has(r.id))}<span>${esc(r.name)}</span></button>`).join(""); }).join("")}</div>
+    ${p ? `<label class="shopt" style="margin-top:10px"><span>${T("Incluir plan de progresión")}<small class="muted" style="display:block;font-size:.78rem">${T("Fases, semanas y descargas. No tu fecha de inicio ni la de revisión.")}</small></span><input type="checkbox" id="rsPlan" ${sh.plan ? "checked" : ""}></label>` : ""}
+    ${miss.length ? `<p style="font-size:.8rem;color:var(--accent);margin:6px 0 0">${T("El plan usa la variante {v}, que no va incluida: esas semanas quedarán sin rutina.", { v: miss.join(", ") })}</p>` : ""}
+    <div class="row" style="margin-top:12px"><button class="btn" style="flex:1" data-act="rs-file" ${sel.size ? "" : "disabled"}>${T("Archivo")}</button><button class="btn primary shbtn" style="flex:1" data-act="rs-link" ${sel.size ? "" : "disabled"}>${SHARE_ICO}${T("Enlace")}</button></div>
+  </div></div>`;
+}
+async function shareRoutGo(how) {
+  const sh = state.rshare; if (!sh?.sel.length) return;
+  const pay = sharePayload(sh.sel, sh.plan), n = pay.routines.length;
+  const text = n === 1 ? T("Te paso la rutina «{x}» para Usus. Abre el enlace para añadirla.", { x: pay.routines[0].name }) : T("Te paso {n} rutinas para Usus. Abre el enlace para añadirlas.", { n });
+  if (how === "file") {
+    const name = `usus-${n === 1 ? fileSlug(pay.routines[0].name) : T("rutinas")}.json`;
+    await shareOut({ title: name, file: new File([JSON.stringify(pay, null, 2)], name, { type: "application/json" }) }); return;
+  }
+  await shareOut({ title: "Usus", text, url: appURL() + "#r=" + await packShare(pay) });
+}
+/* Al recibir (enlace o archivo compartido) */
+function sanitizeShared(j) {
+  const rs = (Array.isArray(j?.routines) ? j.routines : []).filter(validRoutine).slice(0, 100).map(r => ({
+    name: String(r.name).trim().slice(0, 80) || T("Rutina"), block: CAT_NAME[r.block] ? r.block : guessBlock(r.name), variant: normVar(r.variant),
+    days: Array.isArray(r.days) ? [...new Set(r.days.filter(d => Number.isInteger(d) && d >= 0 && d <= 6))] : [],
+    exercises: r.exercises.filter(e => e && typeof e.name === "string" && e.name.trim()).slice(0, 60).map(e => ({
+      name: e.name.trim().slice(0, 80), sets: Math.max(1, Math.min(30, Math.round(+e.sets || 3))), reps: Math.max(1, Math.min(3600, Math.round(+e.reps || 10))),
+      type: e.type === "time" ? "time" : "reps", sides: !!e.sides, ...(+e.rest > 0 ? { rest: Math.min(3600, Math.round(+e.rest)) } : {}),
+      ...(e.restAfter !== null && e.restAfter !== undefined && e.restAfter !== "" && isFinite(+e.restAfter) ? { restAfter: Math.max(0, Math.min(3600, Math.round(+e.restAfter))) } : {}) }))
+  }));
+  const p = j?.plan, ph = p && Array.isArray(p.phases) ? p.phases.filter(x => x && normVar(x.variant)).slice(0, 12).map(x => ({ variant: normVar(x.variant), weeks: Math.max(1, Math.min(12, Math.round(+x.weeks || 1))) })) : [];
+  const plan = ph.length ? { phases: ph, deload: p.deload && +p.deload.weeks > 0 && +p.deload.every > 0 ? { weeks: Math.min(4, Math.round(+p.deload.weeks)), every: Math.min(26, Math.round(+p.deload.every)) } : { weeks: 0, every: 0 }, up: !!p.up } : null;
+  if (!rs.length && !plan) return null;
+  return { routines: rs, plan, sel: rs.map((_, i) => i), withPlan: !!plan };
+}
+const nextMonday = () => { const d = new Date(); d.setHours(0, 0, 0, 0); d.setDate(d.getDate() + (8 - d.getDay()) % 7); return dayKey(d.getTime()); };
+function incomingModal() {
+  const inc = state.incoming; if (!inc || !LS.get("wk.welcomed", false) || run) return "";
+  const sel = new Set(inc.sel), box = on => `<i class="cbx${on ? " on" : ""}">${on ? CHECK : ""}</i>`, p = inc.plan;
+  const phs = p ? p.phases.map(x => `${x.variant} ${T("{n} sem.", { n: x.weeks })}`).join(" → ") + (p.deload.weeks ? " · " + T("descarga {w} sem. cada {e}", { w: p.deload.weeks, e: p.deload.every }) : "") : "";
+  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="inT"><div class="mbox dsh">
+    <h2 id="inT" style="margin:0 0 4px">${inc.routines.length === 1 ? T("Te han compartido una rutina") : inc.routines.length ? T("Te han compartido {n} rutinas", { n: inc.routines.length }) : T("Te han compartido un plan")}</h2>
+    <p class="muted" style="font-size:.85rem;margin:0 0 10px">${T("Revisa y elige qué añadir. No se borra nada de lo que ya tienes.")}</p>
+    ${inc.routines.length ? `<div class="rsl">${inc.routines.map((r, i) => `<button class="rsr" style="padding-left:12px" data-inr="${i}" aria-pressed="${sel.has(i)}">${box(sel.has(i))}<span style="flex:1;min-width:0">${esc(r.name)}<small class="muted" style="display:block;font-size:.78rem">${T("{e} ejercicios · {s} series", { e: r.exercises.length, s: r.exercises.reduce((a, e) => a + e.sets, 0) })}</small></span></button>`).join("")}</div>` : ""}
+    ${p ? `<label class="shopt" style="margin-top:10px"><span>${T("Añadir el plan de progresión")}<small class="muted" style="display:block;font-size:.78rem">${esc(phs)}. ${T("Empieza el {d}.", { d: kFmt(nextMonday(), { weekday: "long", day: "numeric", month: "short" }) })}${PL.get() ? " " + T("Sustituirá tu plan actual.") : ""}</small></span><input type="checkbox" id="inPlan" ${inc.withPlan ? "checked" : ""}></label>` : ""}
+    <p class="muted" style="font-size:.78rem;margin:8px 0 0">${T("Si ya tienes una rutina con el mismo nombre, se añade como «(2)».")}</p>
+    <div class="row" style="margin-top:12px"><button class="btn" style="flex:1" data-act="in-no">${T("Ahora no")}</button><button class="btn primary" style="flex:1" data-act="in-yes" ${sel.size || (p && inc.withPlan) ? "" : "disabled"}>${T("Añadir")}</button></div>
+  </div></div>`;
+}
+async function incomingAdd() {
+  const inc = state.incoming; if (!inc) return;
+  const names = new Set(state.routines.map(r => r.name.trim().toLowerCase())), add = inc.routines.filter((_, i) => inc.sel.includes(i)).map(r => {
+    let n = r.name, k = 2; while (names.has(n.toLowerCase())) n = `${r.name} (${k++})`; names.add(n.toLowerCase()); return { ...r, name: n, id: uid() };
+  });
+  state.routines.push(...add); await store.saveRoutines(state.routines);
+  const plan = inc.plan && inc.withPlan;
+  if (plan) PL.save({ enabled: true, start: nextMonday(), review: "", phases: inc.plan.phases.map(x => ({ id: uid(), ...x })), deload: inc.plan.deload, up: inc.plan.up });
+  state.incoming = null; state.tab = add.length ? "routines" : "train"; state.editing = null;
+  toast(plan ? T("Añadidas {n} rutinas y el plan", { n: add.length }) : add.length === 1 ? T("Rutina añadida") : T("Añadidas {n} rutinas", { n: add.length })); render(); window.scrollTo(0, 0);
+}
+async function readShareHash() {
+  if (!location.hash.startsWith("#r=")) return;
+  const h = location.hash.slice(3);
+  try { history.replaceState(null, "", location.pathname + location.search); } catch {}
+  let inc = null; try { inc = sanitizeShared(await unpackShare(h)); } catch {}
+  if (!inc) { toast(T("El enlace no es válido o está incompleto")); return; }
+  state.incoming = inc; render();
+}
+window.addEventListener("hashchange", () => { readShareHash(); });
 const stamp = () => new Date().toISOString().slice(0, 10);
 async function deliver(filename, text, mime) {
   const file = new File([text], filename, { type: mime });
@@ -2137,6 +2394,7 @@ function validRoutine(r) { return r && typeof r.name === "string" && Array.isArr
 function validSession(s) { return s && typeof s.start === "number" && Array.isArray(s.exercises); }
 async function importJSON(text) {
   let j; try { j = JSON.parse(text); } catch { toast(T("El archivo no es un JSON válido")); return; }
+  if (j && j.shared) { const inc = sanitizeShared(j); if (!inc) { toast(T("No se encontraron rutinas, sesiones ni pesos")); return; } state.incoming = inc; render(); return; }
   const rs = (Array.isArray(j) ? j : j.routines || []).filter(validRoutine);
   const ss = (j.sessions || []).filter(validSession);
   const ws = (j.weights || []).filter(x => x && typeof x.t === "number" && +x.kg > 0);
@@ -2181,6 +2439,12 @@ document.addEventListener("click", async ev => {
     return;
   }
   if (d.copy) { const ok = await copyText(d.copy); toast(ok ? T("Copiado") : T("No se pudo copiar")); return; }
+  if (d.shsess) { state.savedSess = null; state.shareSess = d.shsess; render(); return; }
+  if (d.shimg !== undefined) { LS.set("wk.shareOpt", { ...SHOPT(), img: d.shimg === "1" }); render(); return; }
+  if (d.rshare) { state.rshare = { sel: [d.rshare], plan: false }; render(); return; }
+  if (d.rsg !== undefined && state.rshare) { const ids = state.routines.filter(r => normVar(r.variant) === d.rsg).map(r => r.id), sel = new Set(state.rshare.sel), on = ids.every(i => sel.has(i)); ids.forEach(i => on ? sel.delete(i) : sel.add(i)); state.rshare.sel = [...sel]; render(); return; }
+  if (d.rsr && state.rshare) { const sel = new Set(state.rshare.sel); sel.has(d.rsr) ? sel.delete(d.rsr) : sel.add(d.rsr); state.rshare.sel = [...sel]; render(); return; }
+  if (d.inr !== undefined && state.incoming) { const sel = new Set(state.incoming.sel), i = +d.inr; sel.has(i) ? sel.delete(i) : sel.add(i); state.incoming.sel = [...sel].sort((x, y) => x - y); render(); return; }
   if (d.rday && state.editing) {
     readEditor(); const ed = state.editing, set = new Set(ed.days || []);
     if (d.rday === "all") WEEK_ORDER.forEach(x => set.add(x)); else if (d.rday === "none") set.clear(); else { const x = +d.rday; set.has(x) ? set.delete(x) : set.add(x); }
@@ -2299,6 +2563,18 @@ document.addEventListener("click", async ev => {
     case "suppadd": { const l = DY.supps(); l.push({ id: uid(), name: "", dose: "", unit: "", when: "", created: Date.now() }); DY.saveSupps(l); state.suppEdit = true; render();
       document.querySelector(`[data-sn="${l[l.length - 1].id}"]`)?.focus(); break; }
     case "welcome-ok": LS.set("wk.welcomed", true); LS.set("wk.seenVersion", APP_VERSION); render(); break;
+    case "share-app": await shareOut({ title: "Usus", text: shareAppText(), url: appURL() }); break;
+    case "saved-close": state.savedSess = null; render(); break;
+    case "shsess-close": state.shareSess = null; render(); break;
+    case "shsess-copy": await sessShareGo("copy"); break;
+    case "shsess-save": await sessShareGo("save"); break;
+    case "shsess-go": await sessShareGo("share"); break;
+    case "rs-open": state.rshare = { sel: state.routines.map(r => r.id), plan: !!PL.get() }; render(); break;
+    case "rs-close": state.rshare = null; render(); break;
+    case "rs-file": await shareRoutGo("file"); break;
+    case "rs-link": await shareRoutGo("link"); break;
+    case "in-no": state.incoming = null; render(); break;
+    case "in-yes": await incomingAdd(); break;
     case "welcome-show": LS.set("wk.welcomed", false); render(); break;
     case "statsedit": state.statsEdit = !state.statsEdit; render(); break;
     case "testfx": { unlockAudio(); beepEnd(); flash(); const v = buzz([400, 150, 400, 150, 400]); toast(v ? T("¿Has oído 3 pitidos y notado la vibración?") : T("Este navegador no permite vibrar")); } break;
@@ -2375,6 +2651,9 @@ document.addEventListener("input", ev => { if (state.actForm && /^af[khm]$/.test
 document.addEventListener("change", async ev => {
   if (state.planMode === "edit" && ev.target.closest?.("#app") && (/^p(On|Start|Review|DlW|DlE|Up)$/.test(ev.target.id) || ev.target.dataset.pv !== undefined || ev.target.dataset.pw !== undefined)) { readPlan(); render(); return; }
   const tg = ev.target, dk = state.day || dayKey(Date.now());
+  if (/^sho(Ex|Dur|Pr)$/.test(tg.id)) { LS.set("wk.shareOpt", { ...SHOPT(), [{ shoEx: "ex", shoDur: "dur", shoPr: "pr" }[tg.id]]: tg.checked }); render(); return; }
+  if (tg.id === "rsPlan" && state.rshare) { state.rshare.plan = tg.checked; render(); return; }
+  if (tg.id === "inPlan" && state.incoming) { state.incoming.withPlan = tg.checked; render(); return; }
   if (tg.id === "dSteps") { const v = Math.max(0, Math.min(200000, Math.round(+tg.value || 0))); DY.set(dk, { steps: v || null }); toast(v ? T("Pasos: {n}", { n: v.toLocaleString(LOC()) }) : T("Pasos borrados")); }
   if (tg.id === "gDist") { const v = parseFloat(String(tg.value).replace(",", ".")); LS.set("wk.actGoalKm", v > 0 ? Math.round(fromU(v) * 100) / 100 : 0); render(); }
   if (tg.id === "gSteps") { const v = Math.max(0, Math.min(200000, Math.round(+tg.value || 0))); LS.set("wk.actGoalSteps", v); render(); }
@@ -3048,7 +3327,56 @@ const I18N = {
     "Cansado": "Cansat",
     "Gran sesión": "Gran sessió",
     "Bitcoin": "Bitcoin",
-    "Lightning / zaps": "Lightning / zaps"
+    "Lightning / zaps": "Lightning / zaps",
+    "Compartir": "Compartir",
+    "Compartir Usus": "Compartir Usus",
+    "Archivo guardado": "Fitxer desat",
+    "Copiado. Pégalo donde quieras.": "Copiat. Enganxa-ho on vulguis.",
+    "Usus: registro de entrenos y hábitos. Gratis, sin cuentas y tus datos se quedan en tu móvil.": "Usus: registre d'entrenaments i hàbits. Gratis, sense comptes i les teves dades es queden al teu mòbil.",
+    "¿Le puede servir a alguien? Envíale el enlace.": "Li pot servir a algú? Envia-li l'enllaç.",
+    "Copiar enlace": "Copiar l'enllaç",
+    "con lastre": "amb llast",
+    "{d} · {e} ejercicios · {s} series": "{d} · {e} exercicis · {s} sèries",
+    "récord": "rècord",
+    "Registrado con Usus": "Registrat amb Usus",
+    "Imagen guardada": "Imatge desada",
+    "duración": "durada",
+    "ejercicios": "exercicis",
+    "Compartir entreno": "Compartir entrenament",
+    "Formato": "Format",
+    "Imagen": "Imatge",
+    "Texto": "Text",
+    "Vista previa": "Previsualització",
+    "Ejercicios y series": "Exercicis i sèries",
+    "Duración y totales": "Durada i totals",
+    "Récords": "Rècords",
+    "Solo sale lo que ves aquí. Nunca tu peso, el diario ni el ciclo.": "Només surt el que veus aquí. Mai el teu pes, el diari ni el cicle.",
+    "Copiar": "Copiar",
+    "Compartir rutinas": "Compartir rutines",
+    "{n} de {m} seleccionadas · sin tus sesiones ni registros.": "{n} de {m} seleccionades · sense les teves sessions ni registres.",
+    "Incluir plan de progresión": "Incloure el pla de progressió",
+    "Fases, semanas y descargas. No tu fecha de inicio ni la de revisión.": "Fases, setmanes i descàrregues. No la teva data d'inici ni la de revisió.",
+    "El plan usa la variante {v}, que no va incluida: esas semanas quedarán sin rutina.": "El pla fa servir la variant {v}, que no hi va inclosa: aquelles setmanes quedaran sense rutina.",
+    "Archivo": "Fitxer",
+    "Enlace": "Enllaç",
+    "Te paso la rutina «{x}» para Usus. Abre el enlace para añadirla.": "Et passo la rutina «{x}» per a Usus. Obre l'enllaç per afegir-la.",
+    "Te paso {n} rutinas para Usus. Abre el enlace para añadirlas.": "Et passo {n} rutines per a Usus. Obre l'enllaç per afegir-les.",
+    "Rutina": "Rutina",
+    "{n} sem.": "{n} setm.",
+    "descarga {w} sem. cada {e}": "descàrrega {w} setm. cada {e}",
+    "Te han compartido una rutina": "T'han compartit una rutina",
+    "Te han compartido {n} rutinas": "T'han compartit {n} rutines",
+    "Te han compartido un plan": "T'han compartit un pla",
+    "Revisa y elige qué añadir. No se borra nada de lo que ya tienes.": "Revisa i tria què vols afegir. No s'esborra res del que ja tens.",
+    "Añadir el plan de progresión": "Afegir el pla de progressió",
+    "Empieza el {d}.": "Comença el {d}.",
+    "Sustituirá tu plan actual.": "Substituirà el teu pla actual.",
+    "Si ya tienes una rutina con el mismo nombre, se añade como «(2)».": "Si ja tens una rutina amb el mateix nom, s'afegeix com a «(2)».",
+    "Ahora no": "Ara no",
+    "Añadidas {n} rutinas y el plan": "Afegides {n} rutines i el pla",
+    "Rutina añadida": "Rutina afegida",
+    "Añadidas {n} rutinas": "Afegides {n} rutines",
+    "El enlace no es válido o está incompleto": "L'enllaç no és vàlid o està incomplet"
   },
   en: {
     "Ajustes": "Settings",
@@ -3688,7 +4016,56 @@ const I18N = {
     "Cansado": "Tired",
     "Gran sesión": "Great session",
     "Bitcoin": "Bitcoin",
-    "Lightning / zaps": "Lightning / zaps"
+    "Lightning / zaps": "Lightning / zaps",
+    "Compartir": "Share",
+    "Compartir Usus": "Share Usus",
+    "Archivo guardado": "File saved",
+    "Copiado. Pégalo donde quieras.": "Copied. Paste it wherever you like.",
+    "Usus: registro de entrenos y hábitos. Gratis, sin cuentas y tus datos se quedan en tu móvil.": "Usus: workout and habit log. Free, no accounts, and your data stays on your phone.",
+    "¿Le puede servir a alguien? Envíale el enlace.": "Could it help someone? Send them the link.",
+    "Copiar enlace": "Copy link",
+    "con lastre": "weighted",
+    "{d} · {e} ejercicios · {s} series": "{d} · {e} exercises · {s} sets",
+    "récord": "PR",
+    "Registrado con Usus": "Logged with Usus",
+    "Imagen guardada": "Image saved",
+    "duración": "duration",
+    "ejercicios": "exercises",
+    "Compartir entreno": "Share workout",
+    "Formato": "Format",
+    "Imagen": "Image",
+    "Texto": "Text",
+    "Vista previa": "Preview",
+    "Ejercicios y series": "Exercises and sets",
+    "Duración y totales": "Duration and totals",
+    "Récords": "PRs",
+    "Solo sale lo que ves aquí. Nunca tu peso, el diario ni el ciclo.": "Only what you see here is shared. Never your weight, diary or cycle.",
+    "Copiar": "Copy",
+    "Compartir rutinas": "Share routines",
+    "{n} de {m} seleccionadas · sin tus sesiones ni registros.": "{n} of {m} selected · without your sessions or logs.",
+    "Incluir plan de progresión": "Include progression plan",
+    "Fases, semanas y descargas. No tu fecha de inicio ni la de revisión.": "Phases, weeks and deloads. Not your start or review date.",
+    "El plan usa la variante {v}, que no va incluida: esas semanas quedarán sin rutina.": "The plan uses variant {v}, which isn't included: those weeks will have no routine.",
+    "Archivo": "File",
+    "Enlace": "Link",
+    "Te paso la rutina «{x}» para Usus. Abre el enlace para añadirla.": "Here's the routine “{x}” for Usus. Open the link to add it.",
+    "Te paso {n} rutinas para Usus. Abre el enlace para añadirlas.": "Here are {n} routines for Usus. Open the link to add them.",
+    "Rutina": "Routine",
+    "{n} sem.": "{n} wk",
+    "descarga {w} sem. cada {e}": "deload {w} wk every {e}",
+    "Te han compartido una rutina": "Someone shared a routine with you",
+    "Te han compartido {n} rutinas": "Someone shared {n} routines with you",
+    "Te han compartido un plan": "Someone shared a plan with you",
+    "Revisa y elige qué añadir. No se borra nada de lo que ya tienes.": "Review and choose what to add. Nothing you already have is deleted.",
+    "Añadir el plan de progresión": "Add the progression plan",
+    "Empieza el {d}.": "Starts {d}.",
+    "Sustituirá tu plan actual.": "It will replace your current plan.",
+    "Si ya tienes una rutina con el mismo nombre, se añade como «(2)».": "If you already have a routine with the same name, it's added as “(2)”.",
+    "Ahora no": "Not now",
+    "Añadidas {n} rutinas y el plan": "Added {n} routines and the plan",
+    "Rutina añadida": "Routine added",
+    "Añadidas {n} rutinas": "Added {n} routines",
+    "El enlace no es válido o está incompleto": "The link is invalid or incomplete"
   }
 };
 
@@ -3703,6 +4080,7 @@ const I18N = {
   applyTheme(curTheme());
   if (LS.get("wk.welcomed", false) && LS.get("wk.seenVersion", null) !== APP_VERSION && CHANGES[0][0] === APP_VERSION) state.newsOpen = "new";
   render();
+  await readShareHash();
   if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
 })();
 })();

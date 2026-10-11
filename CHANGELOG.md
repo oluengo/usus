@@ -4,6 +4,20 @@ Todas las versiones de Usus. Formato basado en [Keep a Changelog](https://keepac
 
 **Castellano** · [Català](#català) · [English](#english)
 
+## [1.1.0] — 2026-10-11
+
+### Compartir
+- Compartir la app desde Ajustes («Compartir» o «Copiar enlace»).
+- Compartir un entreno como imagen o texto, al terminar la sesión o desde el Diario. Eliges si salen los ejercicios, la duración y los récords; nunca el peso, el diario ni el ciclo.
+- Compartir rutinas: una sola (botón en cada rutina) o varias / el programa entero (botón «Compartir» en Rutinas), con el plan de progresión opcional (sin tus fechas). Por enlace o archivo .json.
+- Al abrir un enlace o importar un archivo compartido, Usus muestra lo recibido y deja elegir qué añadir. Las rutinas con el mismo nombre se añaden como «(2)»; el plan empieza el lunes siguiente.
+- Sin servidores: el enlace lleva los datos comprimidos tras «#», que no se envía a ningún sitio.
+
+### Cambios
+- Tema automático por defecto (sigue el modo claro u oscuro del dispositivo). Quien ya eligió un tema lo conserva.
+- Icono nuevo.
+- Al guardar una sesión aparece un resumen con «Compartir».
+
 ## [1.0.0] — 2026-10-11
 
 Primera versión pública.
@@ -41,6 +55,10 @@ Primera versión pública.
 
 ## Català
 
+### [1.1.0] — 2026-10-11
+
+Compartir: l'app des d'Ajustos, un entrenament com a imatge o text i les rutines o el programa sencer amb el pla opcional, per enllaç o fitxer, sense servidors. Tema automàtic per defecte i icona nova.
+
 ### [1.0.0] — 2026-10-11
 
 Primera versió pública: rutines amb sèries per repeticions o per temps, compte enrere encadenat amb inici automàtic, pausa de sessió, pla de progressió amb pantalla Avui, diari (son, suplements, passos, activitat, notes), pes setmanal, seguiment opcional del cicle (estimació aproximada, desactivat per defecte), estadístiques configurables, còpies JSON/CSV, tres idiomes i funcionament sense connexió. Dades només al dispositiu.
@@ -48,6 +66,10 @@ Primera versió pública: rutines amb sèries per repeticions o per temps, compt
 ---
 
 ## English
+
+### [1.1.0] — 2026-10-11
+
+Sharing: the app from Settings, a workout as an image or text, and routines or the whole programme with an optional plan, by link or file, with no servers. Automatic theme by default and a new icon.
 
 ### [1.0.0] — 2026-10-11
 
