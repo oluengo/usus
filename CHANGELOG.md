@@ -4,6 +4,20 @@ Todas las versiones de Usus. Formato basado en [Keep a Changelog](https://keepac
 
 **Castellano** · [Català](#català) · [English](#english)
 
+## [2.1.0] — sin publicar
+
+### Análisis con IA externa
+- Stats → Resumen: **Analizar con IA externa**, marcado como externo. Usus genera un único texto (instrucciones + tus datos) para copiar o compartir con la IA que uses. Usus no envía nada.
+- Período (4, 8, 12, 26 semanas o todo; 8 por defecto) y qué incluir: entrenos, peso, sueño, suplementos, actividad, notas y, en perfiles con ciclo, reglas y síntomas.
+- **Sobre ti**, opcional y guiado: fecha de nacimiento (en el texto solo sale la edad), altura, experiencia, lesiones, molestias actuales, condiciones de salud, medicación y objetivos. Se guardan solo si se marca la casilla; se editan o borran en Ajustes → Cuerpo y van en la copia de seguridad.
+- Instrucciones para la IA en el idioma de la app: sin diagnósticos, interpretar según los antecedentes, gráficos antes que texto, informe breve y PDF A4 listo para imprimir.
+- Si la IA propone rutinas ajustadas, se pega su respuesta y se abre la pantalla de rutinas recibidas para actualizar o añadir.
+- Aviso claro antes de exportar: datos de salud hacia un servicio externo.
+
+### Datos en CSV
+- Ajustes → Datos → **Datos en CSV** sustituye a «Sesiones en CSV»: un .zip con sesiones (una fila por serie), rutinas, diario, suplementos, peso, actividades y ciclo, más un archivo que explica cada columna.
+- Separador y decimales según el idioma (`;` y coma en castellano y català, `,` y punto en inglés). UTF-8.
+
 ## [2.0.0] — 2026-10-12
 
 ### Catálogo de ejercicios (opcional, por perfil)
@@ -120,6 +134,10 @@ Primera versión pública.
 
 ## Català
 
+### [2.1.0] — sense publicar
+- Analitzar amb IA externa: un text amb instruccions i les teves dades per a la IA que facis servir (informe amb gràfics i PDF A4). Dades opcionals per a l'anàlisi.
+- Dades en CSV: un .zip amb una taula per tipus de dada.
+
 ### [2.0.0] — 2026-10-12
 - Catàleg d'exercicis opcional per perfil (fitxes, material, nivell i progressió), vinculació dels teus exercicis i el meu material.
 - Assistent de progressió: propostes de pujar o tornar al pas anterior en acabar la sessió, i pujada automàtica a la setmana ↑ del pla.
@@ -157,6 +175,10 @@ Primera versió pública: rutines amb sèries per repeticions o per temps, compt
 ---
 
 ## English
+
+### [2.1.0] — unreleased
+- Analyse with external AI: a text with instructions and your data for the AI you use (report with charts and an A4 PDF). Optional data for the analysis.
+- Data as CSV: a .zip with one table per data type.
 
 ### [2.0.0] — 2026-10-12
 - Optional exercise catalogue per profile (cards, equipment, level and progression), linking your exercises, and my equipment.

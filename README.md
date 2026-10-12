@@ -19,6 +19,7 @@ Gratis, sin cuentas y sin anuncios. Todo se guarda **solo en tu móvil**: nada s
 - **Entrenar.** Un ejercicio por pantalla. Las series por tiempo y los descansos tienen cuenta atrás a pantalla completa, con pitidos, vibración, ambos o ninguno, y se pueden encadenar solas.
 - **Diario.** Sueño, suplementos, pasos, actividad (caminar, correr, bici…), notas y peso semanal.
 - **Estadísticas.** Constancia, récords, progreso por ejercicio, equilibrio entre lados y hábitos, en bloques que puedes ordenar u ocultar.
+- **Análisis con IA** *(opcional, externa).* Usus prepara un texto con tus datos y las instrucciones para que la IA que prefieras haga un informe con gráficos, listo para imprimir. Usus no envía nada: lo copias o compartes tú.
 - **Perfiles.** Varias personas en el mismo móvil, cada una con sus datos, ajustes y copia de seguridad.
 - **Ciclo** *(opcional, en perfiles de mujer).* Registro de la regla con una estimación aproximada de la próxima. No es un anticonceptivo ni un diagnóstico.
 - **Compartir.** Un entreno como imagen o texto, o tus rutinas y tu plan mediante un enlace que lleva los datos dentro, sin pasar por ningún servidor.
@@ -58,7 +59,7 @@ El catálogo de ejercicios es **opcional y se decide en cada perfil**. Si empiez
 
 - Se instala en el móvil como una app (PWA) y funciona sin conexión.
 - Castellano, català e English.
-- Copias de seguridad en un archivo, para pasar tus datos a otro móvil o guardarlos.
+- Copias de seguridad en un archivo, para pasar tus datos a otro móvil o guardarlos, y exportación en CSV para analizarlos a tu manera.
 - [Informar de un problema o proponer una mejora](https://github.com/oluengo/usus/issues).
 
 <sub>Capturas con datos de ejemplo. Usus es una herramienta de registro, no un consejo médico ni un plan de entrenamiento. Software libre, [licencia MIT](LICENSE).</sub>
@@ -82,6 +83,7 @@ Free, no accounts, no ads. Everything is stored **only on your phone**: nothing 
 - **Train.** One exercise per screen. Timed sets and rests get a full-screen countdown with beeps, vibration, both or neither, and can chain automatically.
 - **Diary.** Sleep, supplements, steps, activity (walking, running, cycling…), notes and weekly weight.
 - **Stats.** Consistency, PRs, progress per exercise, left/right balance and habits, in blocks you can reorder or hide.
+- **AI analysis** *(optional, external).* Usus prepares a text with your data and instructions for the AI of your choice to write a report with charts, ready to print. Usus sends nothing: you copy or share it yourself.
 - **Profiles.** Several people on the same phone, each with their own data, settings and backup.
 - **Cycle** *(optional, on women's profiles).* Period log with an approximate estimate of the next one. Not a contraceptive method or a diagnosis.
 - **Share.** A workout as an image or text, or your routines and plan through a link that carries the data itself, with no server involved.
@@ -123,7 +125,7 @@ The exercise catalogue is **optional and chosen per profile**. If you're startin
 
 - Installs on your phone as an app (PWA) and works offline.
 - Español, català and English.
-- File backups, to move your data to another phone or keep it safe.
+- File backups, to move your data to another phone or keep it safe, and CSV export to analyse it your way.
 - [Report a problem or suggest an improvement](https://github.com/oluengo/usus/issues).
 
 <sub>Screenshots use sample data. Usus is a logging tool, not medical advice or a training plan. Free software, [MIT license](LICENSE).</sub>

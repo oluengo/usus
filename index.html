@@ -318,6 +318,25 @@ details.sess td:first-child{font-weight:500;padding-right:12px;width:40%}
 .pst button{border:0;background:none;padding:0;font-weight:600;text-align:left}
 .pst.cur button{color:var(--accent)}
 .pst small{flex-basis:100%;color:var(--muted);font-size:.75rem;margin-top:-2px}
+/* Análisis con IA externa y CSV */
+:root{--ext:#6B3FA0;--ext-soft:#F1EAFA}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--ext:#B994E0;--ext-soft:#2A2236}}
+:root[data-theme="dark"]{--ext:#B994E0;--ext-soft:#2A2236}
+:root[data-theme="protector"]{--ext:#C9A2E6;--ext-soft:#2E2236}
+.aicard{border-color:var(--ext);background:var(--ext-soft)}
+.aih{display:flex;align-items:center;gap:8px;font-weight:700;flex-wrap:wrap}
+.aibadge{font-size:.66rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;border-radius:999px;padding:1px 8px;background:var(--ext);color:var(--surface)}
+.aistep{font-size:.8rem;color:var(--muted);margin:2px 0 0}
+.aistep b{color:var(--accent)}
+.aichk{grid-column:auto;display:flex;align-items:flex-start;gap:8px;margin:6px 0}
+.aiform label.muted{display:block;font-size:.82rem;margin:10px 0 4px}
+.aiform textarea,.aiform input,.aiform select{width:100%}
+.aiform textarea{resize:vertical;min-height:52px;font:inherit}
+.aitwo{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.aiwarn{border:1px solid var(--warn);background:var(--warn-soft);border-radius:12px;padding:10px 12px;font-size:.85rem;margin:14px 0}
+.aiwarn b{display:block;margin-bottom:2px}
+.aipre{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:8px 10px;font:.72rem/1.45 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre-wrap;max-height:200px;overflow:auto;margin:0}
+#aiPaste{width:100%;font:inherit;resize:vertical}
 .wrow{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) auto;gap:8px;align-items:center}
 .modal{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.55);display:flex;align-items:flex-end;justify-content:center;padding:16px;padding-bottom:calc(16px + env(safe-area-inset-bottom,0px))}
 .mbox{background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:18px;padding:18px;max-width:520px;width:100%;max-height:85vh;overflow:auto}
@@ -642,7 +661,7 @@ function lastSetsFor(ref) {
   }
   return null;
 }
-const APP_VERSION = "2.0.0";
+const APP_VERSION = "2.1.0";
 const THEMES = [["protector", "Protector", "Oscuro cálido, sin azul"], ["dark", "Oscuro", "Neutro"], ["light", "Claro", "Para el día"], ["auto", "Automático", "Sigue al sistema"]];
 const curTheme = () => document.documentElement.dataset.theme || "auto";
 function applyTheme(t) {
@@ -1187,6 +1206,433 @@ function chainBlock(xid) {
     const cls = j < ci ? "done" : j === ci ? "cur" : "", note = j < ci ? (up ? T("superado el {d}", { d: new Date(up.t).toLocaleDateString(LOC(), { day: "numeric", month: "short" }) }) : used.has(id) ? T("hecho") : "") : j === ci ? T("actual") : j === ci + 1 ? T("siguiente") : j === st.chain.length - 1 ? T("meta") : "";
     return `<div class="pst ${cls}"><button data-xinfo="${id}">${esc(xName(x))}</button>${LV(x.level)}${note ? `<small>${note}</small>` : ""}</div>`; }).join("")}</div>`;
 }
+/* Textos de las exportaciones (análisis con IA y CSV), por idioma. Van aparte de I18N porque son el contenido de un archivo, no la interfaz. */
+const XT = {
+es: {
+  title: "Análisis de entrenamiento y hábitos · Usus",
+  intro: fem => `Eres un entrenador de fuerza y calistenia con buena base en fisiología del ejercicio, recuperación y hábitos${fem ? " y conocimiento del ciclo menstrual y su relación con el rendimiento" : ""}. Abajo tienes los registros de una persona exportados desde Usus, una app de entrenamiento que guarda los datos solo en su móvil. Analízalos y prepárale un informe útil.`,
+  rulesH: "Reglas",
+  rules: fem => [
+    `No eres médico y esto no es un diagnóstico. No diagnostiques ni nombres enfermedades a partir de los datos. Si ves algo que merezca consulta (dolor que se repite, pérdida de peso rápida o no buscada, sueño muy alterado${fem ? ", ciclos muy irregulares, reglas muy abundantes o ausencia de regla" : ""}…), dilo con claridad y recomienda acudir a un profesional sanitario.`,
+    "Interpreta todo a la luz del perfil y los antecedentes: los mismos números significan cosas distintas en alguien con años de entrenamiento que en alguien que empieza o que tiene una lesión. Ajusta exigencia y recomendaciones a eso.",
+    "Separa lo que dicen los datos de lo que supones. Si algo es una hipótesis, dilo.",
+    "No registrar no siempre significa no hacer: si hay huecos, tenlo en cuenta y no saques conclusiones fuertes de ellos.",
+    "Sé concreto: cita fechas, ejercicios y cifras. Nada de consejos genéricos que valdrían para cualquiera.",
+    "Escribe en castellano, en un tono claro y cercano."],
+  formH: "Forma: gráficos primero, texto breve",
+  form: fem => [
+    "Muestra la evolución con **gráficos** siempre que puedas generarlos (con código, una herramienta de gráficos o un documento interactivo). Como mínimo:",
+    "  - progresión de 3–5 ejercicios principales (mejor serie por sesión, frente al objetivo de la rutina);",
+    "  - volumen semanal (series o repeticiones por semana) y días entrenados frente a los planificados;",
+    "  - peso en el tiempo, si hay datos;",
+    "  - sueño: horas por noche y su media semanal;",
+    ...(fem ? ["  - ciclo: días de regla y síntomas sobre el calendario, junto a los entrenos;"] : []),
+    "Si no puedes hacer gráficos, usa tablas compactas o barras de texto (▁▂▃▄▅▆▇█) en su lugar.",
+    "No repitas en texto lo que ya muestra un gráfico o una tabla: comenta solo lo que significa.",
+    "Sé breve: frases cortas, sin introducciones ni resúmenes repetidos. Cada apartado, lo justo; si no hay nada relevante, dilo en una línea."],
+  repH: "Informe",
+  rep: fem => [
+    "**Resumen**: 3–5 puntos con lo más importante.",
+    "**Constancia y progresión**: frecuencia real frente a la planificada, ejercicios que progresan, se estancan o retroceden, y si el volumen es razonable para su nivel.",
+    "**Recuperación**: sueño (horas, regularidad, calidad) y su relación con los entrenos y las molestias anotadas.",
+    "**Peso**: tendencia y si encaja con sus objetivos.",
+    "**Suplementos**: constancia de las tomas. Solo comenta su utilidad si hay buena evidencia; no recomiendes suplementos nuevos.",
+    "**Actividad diaria**: pasos y otras actividades.",
+    ...(fem ? ["**Ciclo**: duración y regularidad, síntomas registrados y si el rendimiento, el sueño o las molestias cambian según la fase. Sin conclusiones fuertes con pocos ciclos."] : []),
+    "**Señales a vigilar**: lo que conviene observar o consultar con un profesional, y por qué.",
+    "**Ajustes para las próximas semanas**: 3–6 cambios concretos y realistas (ejercicios, series, repeticiones, descansos, días, hábitos), coherentes con sus antecedentes.",
+    "**Preguntas**: lo que te falta saber para afinar el análisis."],
+  pdfH: "Entrega: PDF para imprimir en A4",
+  pdf: ["Entrega el informe como **PDF A4 vertical**, listo para imprimir. Si no puedes crear archivos, prepara un documento (HTML o similar) con estas mismas reglas para que la persona lo imprima o guarde como PDF.",
+    "Márgenes de unos 2 cm, letra de 10–11 pt, interlineado cómodo. Números de página en el pie.",
+    "Primera página: título «Informe de entrenamiento y hábitos», período analizado, fecha y el **Resumen**.",
+    "Cada apartado empieza con su título; un título nunca queda solo al final de una página.",
+    "Gráficos y tablas no se parten entre páginas; si no caben, pasan enteros a la siguiente. Ajusta su tamaño al ancho de la página, con ejes, unidades y etiquetas legibles al imprimir.",
+    "Colores que se distingan también en blanco y negro (o con tramas o etiquetas). Fondo blanco.",
+    "Pie de la última página: «Análisis hecho por IA con datos de Usus. No sustituye el consejo de un profesional sanitario o deportivo.»",
+    "El bloque de rutinas ajustadas (abajo) no va en el PDF: va aparte, en tu respuesta, para copiarlo."],
+  rtH: "Rutinas ajustadas (opcional)",
+  rtIntro: "Si propones cambios en las rutinas, añade en tu respuesta (no en el PDF) un bloque de código `json` que Usus pueda importar, con este formato exacto:",
+  rt: ["Incluye solo las rutinas que cambias, completas (todos sus ejercicios, no solo los que cambian).",
+    "Copia sin cambios el `oid` de la rutina original: así la persona puede actualizarla en vez de duplicarla. Para una rutina nueva, quita `oid`.",
+    "`type`: \"reps\" o \"time\" (`reps` son segundos si es \"time\"). `sides`: true si se cuenta por lado. `rest`: segundos de descanso entre series (opcional). `days`: 0 domingo … 6 sábado.",
+    "`xid`: copia el del ejercicio original si existe; en ejercicios nuevos, quítalo.",
+    "Explica antes del bloque qué cambias y por qué. Si no propones cambios en las rutinas, no añadas el bloque."],
+  data: "Datos", exported: "Exportado", period: "Período", weeks: n => `${n} semanas`,
+  profile: "Perfil", woman: "Mujer", man: "Hombre", years: n => `${n} años`, noBasic: "Sin datos básicos",
+  exp: "Experiencia", sports: "Otros deportes o actividad", inj: "Lesiones o cirugías previas", pain: "Dolores o molestias actuales",
+  cond: "Condiciones de salud relevantes", meds: "Medicación relevante", goals: "Objetivos", other: "Otros", noneF: "ninguna indicada", noneM: "ninguno indicado",
+  levels: { new: "principiante (menos de 6 meses)", basic: "básico (6 meses–2 años)", mid: "intermedio (2–5 años)", adv: "avanzado (más de 5 años o competición)" },
+  routines: "Rutinas actuales", variant: "variante", days: "días", all: "todos", perSide: "por lado", rest: "desc", dayL: ["D", "L", "M", "X", "J", "V", "S"],
+  plan: "Plan", start: "Inicio", review: "revisión", phases: "fases", wk: "sem", repeat: "(se repiten)", deload: "descarga", no: "no", every: "cada",
+  goalW: (a, b) => `Objetivo semanal: ${a} días de fuerza, ${b} días de rutina diaria`,
+  sessions: n => `Sesiones (${n})`, sessFmt: "Formato: fecha hora · rutina · minutos | ejercicio: series (reps, o s si es por tiempo; izq/der si es por lado; @kg = lastre)", free: "libre",
+  weight: "Peso (kg)", goal: "objetivo", noRec: "Sin registros en el período", supps: "Suplementos", diary: "Diario", fmt: "Formato: fecha",
+  colSleep: "sueño (acostarse–levantarse, calidad 1–5)", colSteps: "pasos", colSupp: "suplementos tomados", colNotes: "etiquetas y nota", colCyc: "ciclo (sangrado, síntomas)", none: "ninguno",
+  tags: { skip: "no entrené", pain: "molestia", tired: "cansado", great: "gran sesión" }, flow: { l: "leve", m: "moderada", h: "abundante" },
+  acts: "Actividades", periods: n => `Reglas (últimas ${n}, también anteriores al período para ver la regularidad)`, paused: "Seguimiento en pausa desde",
+  csv: { date: "fecha", time: "hora", routine: "rutina", block: "bloque", dur: "duracion_min", ex: "ejercicio", xid: "id_catalogo", type: "tipo", side: "por_lado", set: "serie", val: "reps_o_seg", r2: "reps_der", kg: "lastre_kg",
+    id: "id", variant: "variante", days: "dias", order: "orden", sets: "series", target: "objetivo", rest: "descanso_s",
+    bed: "acostarse", wake: "levantarse", sleepH: "horas_sueno", q: "calidad_sueno", steps: "pasos", tags: "etiquetas", note: "nota",
+    supp: "suplemento", taken: "tomado", amount: "cantidad", unit: "unidad", when: "momento", wkg: "kg", atype: "tipo", km: "km", min: "minutos",
+    s: "inicio", e: "fin", plen: "dias_regla", clen: "dias_hasta_la_siguiente", flow: "sangrado", sym: "sintomas", yes: "sí", no: "no", tTime: "tiempo", tReps: "reps",
+    files: { sesiones: "sesiones", rutinas: "rutinas", diario: "diario", suplementos: "suplementos", peso: "peso", actividades: "actividades", ciclo_reglas: "ciclo_reglas", ciclo_dias: "ciclo_dias" },
+    readme: "LEEME", head: "Usus · datos exportados en CSV", all: "todo el historial", last: n => `últimas ${n} semanas`,
+    fmtEs: "separador ; y coma decimal (Excel en castellano o català)", fmtIntl: "separador , y punto decimal", enc: "UTF-8 · fechas AAAA-MM-DD", priv: "Tus datos, solo tuyos: este archivo no se ha enviado a ningún sitio.",
+    desc: { sesiones: "Una fila por serie hecha. reps_o_seg son segundos si tipo = tiempo. reps_der solo en ejercicios por lado (reps_o_seg = izquierdo). id_catalogo: identificador fijo del catálogo de Usus, si el ejercicio está vinculado (sirve para agrupar aunque cambie el nombre).",
+      rutinas: "Rutinas actuales, una fila por ejercicio. objetivo: repeticiones o segundos. dias: L M X J V S D.", diario: "Una fila por día con algún dato. horas_sueno, de acostarse a levantarse. calidad_sueno de 1 a 5.",
+      suplementos: "Una fila por suplemento y día registrado.", peso: "Registros de peso.", actividades: "Caminar, correr, bici… con distancia y tiempo.",
+      ciclo_reglas: "Cada regla: inicio, fin, duración y días hasta la siguiente (= duración del ciclo).", ciclo_dias: "Días con sangrado o síntomas registrados." } }
+},
+ca: {
+  title: "Anàlisi d'entrenament i hàbits · Usus",
+  intro: fem => `Ets un entrenador de força i calistènia amb bona base en fisiologia de l'exercici, recuperació i hàbits${fem ? " i coneixement del cicle menstrual i la seva relació amb el rendiment" : ""}. A sota tens els registres d'una persona exportats des d'Usus, una app d'entrenament que desa les dades només al seu mòbil. Analitza'ls i prepara-li un informe útil.`,
+  rulesH: "Regles",
+  rules: fem => [
+    `No ets metge i això no és un diagnòstic. No diagnostiquis ni anomenis malalties a partir de les dades. Si veus alguna cosa que mereixi consulta (dolor que es repeteix, pèrdua de pes ràpida o no buscada, son molt alterat${fem ? ", cicles molt irregulars, regles molt abundants o absència de regla" : ""}…), digues-ho amb claredat i recomana anar a un professional sanitari.`,
+    "Interpreta-ho tot a la llum del perfil i els antecedents: els mateixos números signifiquen coses diferents en algú amb anys d'entrenament que en algú que comença o que té una lesió. Ajusta l'exigència i les recomanacions a això.",
+    "Separa el que diuen les dades del que suposes. Si alguna cosa és una hipòtesi, digues-ho.",
+    "No registrar no sempre vol dir no fer: si hi ha buits, tingues-ho en compte i no en treguis conclusions fortes.",
+    "Sigues concret: cita dates, exercicis i xifres. Res de consells genèrics que servirien per a qualsevol.",
+    "Escriu en català, amb un to clar i proper."],
+  formH: "Forma: gràfics primer, text breu",
+  form: fem => [
+    "Mostra l'evolució amb **gràfics** sempre que els puguis generar (amb codi, una eina de gràfics o un document interactiu). Com a mínim:",
+    "  - progressió de 3–5 exercicis principals (millor sèrie per sessió, davant l'objectiu de la rutina);",
+    "  - volum setmanal (sèries o repeticions per setmana) i dies entrenats davant els planificats;",
+    "  - pes en el temps, si hi ha dades;",
+    "  - son: hores per nit i la mitjana setmanal;",
+    ...(fem ? ["  - cicle: dies de regla i símptomes sobre el calendari, al costat dels entrenaments;"] : []),
+    "Si no pots fer gràfics, fes servir taules compactes o barres de text (▁▂▃▄▅▆▇█).",
+    "No repeteixis en text el que ja mostra un gràfic o una taula: comenta només què vol dir.",
+    "Sigues breu: frases curtes, sense introduccions ni resums repetits. Cada apartat, el just; si no hi ha res rellevant, digues-ho en una línia."],
+  repH: "Informe",
+  rep: fem => [
+    "**Resum**: 3–5 punts amb el més important.",
+    "**Constància i progressió**: freqüència real davant la planificada, exercicis que progressen, s'estanquen o retrocedeixen, i si el volum és raonable per al seu nivell.",
+    "**Recuperació**: son (hores, regularitat, qualitat) i la relació amb els entrenaments i les molèsties anotades.",
+    "**Pes**: tendència i si encaixa amb els seus objectius.",
+    "**Suplements**: constància de les preses. Comenta'n la utilitat només si hi ha bona evidència; no recomanis suplements nous.",
+    "**Activitat diària**: passos i altres activitats.",
+    ...(fem ? ["**Cicle**: durada i regularitat, símptomes registrats i si el rendiment, el son o les molèsties canvien segons la fase. Sense conclusions fortes amb pocs cicles."] : []),
+    "**Senyals a vigilar**: el que convé observar o consultar amb un professional, i per què.",
+    "**Ajustos per a les properes setmanes**: 3–6 canvis concrets i realistes (exercicis, sèries, repeticions, descansos, dies, hàbits), coherents amb els antecedents.",
+    "**Preguntes**: el que et falta saber per afinar l'anàlisi."],
+  pdfH: "Lliurament: PDF per imprimir en A4",
+  pdf: ["Lliura l'informe com a **PDF A4 vertical**, a punt per imprimir. Si no pots crear arxius, prepara un document (HTML o similar) amb aquestes mateixes regles perquè la persona l'imprimeixi o el desi com a PDF.",
+    "Marges d'uns 2 cm, lletra de 10–11 pt, interlineat còmode. Números de pàgina al peu.",
+    "Primera pàgina: títol «Informe d'entrenament i hàbits», període analitzat, data i el **Resum**.",
+    "Cada apartat comença amb el seu títol; un títol mai queda sol al final d'una pàgina.",
+    "Gràfics i taules no es parteixen entre pàgines; si no hi caben, passen sencers a la següent. Ajusta'n la mida a l'amplada de la pàgina, amb eixos, unitats i etiquetes llegibles en imprimir.",
+    "Colors que es distingeixin també en blanc i negre (o amb trames o etiquetes). Fons blanc.",
+    "Peu de l'última pàgina: «Anàlisi feta per IA amb dades d'Usus. No substitueix el consell d'un professional sanitari o esportiu.»",
+    "El bloc de rutines ajustades (a sota) no va al PDF: va a part, a la teva resposta, per copiar-lo."],
+  rtH: "Rutines ajustades (opcional)",
+  rtIntro: "Si proposes canvis a les rutines, afegeix a la teva resposta (no al PDF) un bloc de codi `json` que Usus pugui importar, amb aquest format exacte:",
+  rt: ["Inclou només les rutines que canvies, completes (tots els exercicis, no només els que canvien).",
+    "Copia sense canvis l'`oid` de la rutina original: així la persona la pot actualitzar en lloc de duplicar-la. Per a una rutina nova, treu `oid`.",
+    "`type`: \"reps\" o \"time\" (`reps` són segons si és \"time\"). `sides`: true si es compta per costat. `rest`: segons de descans entre sèries (opcional). `days`: 0 diumenge … 6 dissabte.",
+    "`xid`: copia el de l'exercici original si existeix; als exercicis nous, treu-lo.",
+    "Explica abans del bloc què canvies i per què. Si no proposes canvis a les rutines, no afegeixis el bloc."],
+  data: "Dades", exported: "Exportat", period: "Període", weeks: n => `${n} setmanes`,
+  profile: "Perfil", woman: "Dona", man: "Home", years: n => `${n} anys`, noBasic: "Sense dades bàsiques",
+  exp: "Experiència", sports: "Altres esports o activitat", inj: "Lesions o cirurgies prèvies", pain: "Dolors o molèsties actuals",
+  cond: "Condicions de salut rellevants", meds: "Medicació rellevant", goals: "Objectius", other: "Altres", noneF: "cap d'indicada", noneM: "cap d'indicat",
+  levels: { new: "principiant (menys de 6 mesos)", basic: "bàsic (6 mesos–2 anys)", mid: "intermedi (2–5 anys)", adv: "avançat (més de 5 anys o competició)" },
+  routines: "Rutines actuals", variant: "variant", days: "dies", all: "tots", perSide: "per costat", rest: "desc", dayL: ["Dg", "Dl", "Dt", "Dc", "Dj", "Dv", "Ds"],
+  plan: "Pla", start: "Inici", review: "revisió", phases: "fases", wk: "setm", repeat: "(es repeteixen)", deload: "descàrrega", no: "no", every: "cada",
+  goalW: (a, b) => `Objectiu setmanal: ${a} dies de força, ${b} dies de rutina diària`,
+  sessions: n => `Sessions (${n})`, sessFmt: "Format: data hora · rutina · minuts | exercici: sèries (reps, o s si és per temps; esq/dre si és per costat; @kg = llast)", free: "lliure",
+  weight: "Pes (kg)", goal: "objectiu", noRec: "Sense registres en el període", supps: "Suplements", diary: "Diari", fmt: "Format: data",
+  colSleep: "son (anar a dormir–llevar-se, qualitat 1–5)", colSteps: "passos", colSupp: "suplements presos", colNotes: "etiquetes i nota", colCyc: "cicle (sagnat, símptomes)", none: "cap",
+  tags: { skip: "no vaig entrenar", pain: "molèstia", tired: "cansat", great: "gran sessió" }, flow: { l: "lleu", m: "moderat", h: "abundant" },
+  acts: "Activitats", periods: n => `Regles (últimes ${n}, també anteriors al període per veure'n la regularitat)`, paused: "Seguiment en pausa des de",
+  csv: { date: "data", time: "hora", routine: "rutina", block: "bloc", dur: "durada_min", ex: "exercici", xid: "id_cataleg", type: "tipus", side: "per_costat", set: "serie", val: "reps_o_seg", r2: "reps_dre", kg: "llast_kg",
+    id: "id", variant: "variant", days: "dies", order: "ordre", sets: "series", target: "objectiu", rest: "descans_s",
+    bed: "anar_a_dormir", wake: "llevar_se", sleepH: "hores_son", q: "qualitat_son", steps: "passos", tags: "etiquetes", note: "nota",
+    supp: "suplement", taken: "pres", amount: "quantitat", unit: "unitat", when: "moment", wkg: "kg", atype: "tipus", km: "km", min: "minuts",
+    s: "inici", e: "fi", plen: "dies_regla", clen: "dies_fins_a_la_seguent", flow: "sagnat", sym: "simptomes", yes: "sí", no: "no", tTime: "temps", tReps: "reps",
+    files: { sesiones: "sessions", rutinas: "rutines", diario: "diari", suplementos: "suplements", peso: "pes", actividades: "activitats", ciclo_reglas: "cicle_regles", ciclo_dias: "cicle_dies" },
+    readme: "LLEGEIX-ME", head: "Usus · dades exportades en CSV", all: "tot l'historial", last: n => `últimes ${n} setmanes`,
+    fmtEs: "separador ; i coma decimal (Excel en català o castellà)", fmtIntl: "separador , i punt decimal", enc: "UTF-8 · dates AAAA-MM-DD", priv: "Les teves dades, només teves: aquest arxiu no s'ha enviat enlloc.",
+    desc: { sesiones: "Una fila per sèrie feta. reps_o_seg són segons si tipus = temps. reps_dre només en exercicis per costat (reps_o_seg = esquerre). id_cataleg: identificador fix del catàleg d'Usus, si l'exercici està vinculat (serveix per agrupar encara que canviï el nom).",
+      rutinas: "Rutines actuals, una fila per exercici. objectiu: repeticions o segons. dies: Dl Dt Dc Dj Dv Ds Dg.", diario: "Una fila per dia amb alguna dada. hores_son, d'anar a dormir a llevar-se. qualitat_son de 1 a 5.",
+      suplementos: "Una fila per suplement i dia registrat.", peso: "Registres de pes.", actividades: "Caminar, córrer, bici… amb distància i temps.",
+      ciclo_reglas: "Cada regla: inici, fi, durada i dies fins a la següent (= durada del cicle).", ciclo_dias: "Dies amb sagnat o símptomes registrats." } }
+},
+en: {
+  title: "Training and habits analysis · Usus",
+  intro: fem => `You are a strength and calisthenics coach with a solid grounding in exercise physiology, recovery and habits${fem ? ", and knowledge of the menstrual cycle and how it relates to performance" : ""}. Below are one person's records exported from Usus, a training app that keeps data only on their phone. Analyse them and write a useful report.`,
+  rulesH: "Rules",
+  rules: fem => [
+    `You are not a doctor and this is not a diagnosis. Don't diagnose or name conditions from the data. If something deserves a check-up (recurring pain, fast or unintended weight loss, badly disrupted sleep${fem ? ", very irregular cycles, very heavy periods or missed periods" : ""}…), say so clearly and recommend seeing a health professional.`,
+    "Read everything in light of the profile and history: the same numbers mean different things for someone with years of training than for a beginner or someone with an injury. Adjust demands and recommendations accordingly.",
+    "Separate what the data shows from what you assume. If something is a hypothesis, say so.",
+    "Not logging doesn't always mean not doing: if there are gaps, keep that in mind and don't draw strong conclusions from them.",
+    "Be specific: quote dates, exercises and numbers. No generic advice that would fit anyone.",
+    "Write in English, in a clear and friendly tone."],
+  formH: "Format: charts first, short text",
+  form: fem => [
+    "Show trends with **charts** whenever you can generate them (with code, a charting tool or an interactive document). At least:",
+    "  - progression of 3–5 main exercises (best set per session, against the routine's target);",
+    "  - weekly volume (sets or reps per week) and days trained against days planned;",
+    "  - weight over time, if there is data;",
+    "  - sleep: hours per night and the weekly average;",
+    ...(fem ? ["  - cycle: period days and symptoms on the calendar, alongside the workouts;"] : []),
+    "If you can't make charts, use compact tables or text bars (▁▂▃▄▅▆▇█) instead.",
+    "Don't repeat in text what a chart or table already shows: only comment on what it means.",
+    "Be brief: short sentences, no introductions or repeated summaries. Each section, only what's needed; if there's nothing relevant, say so in one line."],
+  repH: "Report",
+  rep: fem => [
+    "**Summary**: 3–5 key points.",
+    "**Consistency and progression**: actual frequency against planned, exercises that progress, stall or regress, and whether the volume suits their level.",
+    "**Recovery**: sleep (hours, regularity, quality) and how it relates to workouts and logged discomfort.",
+    "**Weight**: trend and whether it fits their goals.",
+    "**Supplements**: how consistently they're taken. Only comment on usefulness where the evidence is good; don't recommend new supplements.",
+    "**Daily activity**: steps and other activities.",
+    ...(fem ? ["**Cycle**: length and regularity, logged symptoms, and whether performance, sleep or discomfort change with the phase. No strong conclusions from few cycles."] : []),
+    "**Things to watch**: what's worth keeping an eye on or checking with a professional, and why.",
+    "**Adjustments for the coming weeks**: 3–6 specific, realistic changes (exercises, sets, reps, rests, days, habits), consistent with their history.",
+    "**Questions**: what you still need to know to refine the analysis."],
+  pdfH: "Delivery: printable A4 PDF",
+  pdf: ["Deliver the report as an **A4 portrait PDF**, ready to print. If you can't create files, prepare a document (HTML or similar) following the same rules so the person can print it or save it as PDF.",
+    "Margins of about 2 cm, 10–11 pt text, comfortable line spacing. Page numbers in the footer.",
+    "First page: the title “Training and habits report”, the period analysed, the date and the **Summary**.",
+    "Each section starts with its heading; a heading is never left alone at the bottom of a page.",
+    "Charts and tables are never split across pages; if they don't fit, they move whole to the next page. Size them to the page width, with axes, units and labels readable in print.",
+    "Colours that also work in black and white (or use patterns or labels). White background.",
+    "Footer on the last page: “Analysis by AI using Usus data. It doesn't replace advice from a health or sports professional.”",
+    "The adjusted routines block (below) doesn't go in the PDF: put it separately in your reply so it can be copied."],
+  rtH: "Adjusted routines (optional)",
+  rtIntro: "If you suggest routine changes, add to your reply (not to the PDF) a `json` code block that Usus can import, in exactly this format:",
+  rt: ["Include only the routines you change, complete (all their exercises, not just the changed ones).",
+    "Copy the original routine's `oid` unchanged: that way the person can update it instead of duplicating it. For a new routine, leave out `oid`.",
+    "`type`: \"reps\" or \"time\" (`reps` are seconds when \"time\"). `sides`: true if counted per side. `rest`: rest between sets in seconds (optional). `days`: 0 Sunday … 6 Saturday.",
+    "`xid`: copy the original exercise's if there is one; leave it out for new exercises.",
+    "Explain before the block what you change and why. If you don't suggest routine changes, don't add the block."],
+  data: "Data", exported: "Exported", period: "Period", weeks: n => `${n} weeks`,
+  profile: "Profile", woman: "Woman", man: "Man", years: n => `${n} years old`, noBasic: "No basic data",
+  exp: "Experience", sports: "Other sports or activity", inj: "Past injuries or surgery", pain: "Current pain or discomfort",
+  cond: "Relevant health conditions", meds: "Relevant medication", goals: "Goals", other: "Other", noneF: "none given", noneM: "none given",
+  levels: { new: "beginner (under 6 months)", basic: "basic (6 months–2 years)", mid: "intermediate (2–5 years)", adv: "advanced (over 5 years or competing)" },
+  routines: "Current routines", variant: "variant", days: "days", all: "every day", perSide: "per side", rest: "rest", dayL: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
+  plan: "Plan", start: "Start", review: "review", phases: "phases", wk: "wk", repeat: "(repeating)", deload: "deload", no: "no", every: "every",
+  goalW: (a, b) => `Weekly goal: ${a} strength days, ${b} daily-routine days`,
+  sessions: n => `Sessions (${n})`, sessFmt: "Format: date time · routine · minutes | exercise: sets (reps, or s if timed; left/right if per side; @kg = added weight)", free: "free",
+  weight: "Weight (kg)", goal: "goal", noRec: "No entries in the period", supps: "Supplements", diary: "Diary", fmt: "Format: date",
+  colSleep: "sleep (bed–wake, quality 1–5)", colSteps: "steps", colSupp: "supplements taken", colNotes: "tags and note", colCyc: "cycle (bleeding, symptoms)", none: "none",
+  tags: { skip: "didn't train", pain: "discomfort", tired: "tired", great: "great session" }, flow: { l: "light", m: "medium", h: "heavy" },
+  acts: "Activities", periods: n => `Periods (last ${n}, including before the period to show regularity)`, paused: "Tracking paused since",
+  csv: { date: "date", time: "time", routine: "routine", block: "block", dur: "duration_min", ex: "exercise", xid: "catalogue_id", type: "type", side: "per_side", set: "set", val: "reps_or_sec", r2: "reps_right", kg: "weight_kg",
+    id: "id", variant: "variant", days: "days", order: "order", sets: "sets", target: "target", rest: "rest_s",
+    bed: "bedtime", wake: "wake_time", sleepH: "sleep_hours", q: "sleep_quality", steps: "steps", tags: "tags", note: "note",
+    supp: "supplement", taken: "taken", amount: "amount", unit: "unit", when: "when", wkg: "kg", atype: "type", km: "km", min: "minutes",
+    s: "start", e: "end", plen: "period_days", clen: "days_to_next", flow: "bleeding", sym: "symptoms", yes: "yes", no: "no", tTime: "time", tReps: "reps",
+    files: { sesiones: "sessions", rutinas: "routines", diario: "diary", suplementos: "supplements", peso: "weight", actividades: "activities", ciclo_reglas: "cycle_periods", ciclo_dias: "cycle_days" },
+    readme: "README", head: "Usus · data exported as CSV", all: "full history", last: n => `last ${n} weeks`,
+    fmtEs: "; separator and decimal comma", fmtIntl: ", separator and decimal point", enc: "UTF-8 · dates YYYY-MM-DD", priv: "Your data, only yours: this file hasn't been sent anywhere.",
+    desc: { sesiones: "One row per completed set. reps_or_sec are seconds when type = time. reps_right only for per-side exercises (reps_or_sec = left). catalogue_id: fixed Usus catalogue id, if the exercise is linked (groups it even if the name changes).",
+      rutinas: "Current routines, one row per exercise. target: reps or seconds. days: Mo Tu We Th Fr Sa Su.", diario: "One row per day with any data. sleep_hours, from bedtime to wake time. sleep_quality from 1 to 5.",
+      suplementos: "One row per supplement and logged day.", peso: "Weight entries.", actividades: "Walking, running, cycling… with distance and time.",
+      ciclo_reglas: "Each period: start, end, length and days to the next one (= cycle length).", ciclo_dias: "Days with logged bleeding or symptoms." } }
+}
+};
+const XL = () => XT[LANG] || XT.es;
+/* ---------- Análisis con IA externa y datos en CSV (2.1) ----------
+   Usus no envía nada: genera un texto (prompt + datos) que la persona copia o comparte, o un .zip con tablas CSV.
+   Datos para el análisis (opcionales, por perfil): wk.aiProf = {birth, height, level, years, injuries, pains, conditions, meds, goals, other}.
+   Solo se guardan si se marca «Guardar para próximas exportaciones»; en el texto sale la edad, nunca la fecha de nacimiento. */
+const AI_LEVELS = [["new", "Empiezo (menos de 6 meses)"], ["basic", "Básico (6 meses–2 años)"], ["mid", "Intermedio (2–5 años)"], ["adv", "Avanzado (más de 5 años o competición)"]];
+const AI_INC = [["train", "Entrenos, rutinas y plan"], ["weight", "Peso"], ["sleep", "Sueño"], ["supp", "Suplementos"], ["act", "Pasos y actividades"], ["notes", "Notas y etiquetas del diario"], ["cycle", "Ciclo (reglas y síntomas)"]];
+const AI_F = [["years", "Detalle de la experiencia y otros deportes", "Ej. 2 años de calistenia, antes fútbol", 0], ["injuries", "Lesiones o cirugías previas", "Ej. rotura de menisco izquierdo (2019)", 1],
+  ["pains", "Dolores o molestias actuales", "Ej. lumbar al levantarme por la mañana", 1], ["conditions", "Condiciones de salud relevantes", "Ej. asma, hipertensión, embarazo…", 1],
+  ["meds", "Medicación relevante", "Solo si influye en el entreno o la recuperación", 0], ["goals", "Objetivos", "Ej. 10 dominadas, perder 3 kg, dormir mejor", 1], ["other", "Otros", "Lo que quieras que la IA tenga en cuenta", 1]];
+const aiProf = () => LS.get("wk.aiProf", null);
+const ageOf = b => { if (!/^\d{4}-\d{2}-\d{2}$/.test(b || "")) return null; const d = new Date(b), n = new Date(); let a = n.getFullYear() - d.getFullYear(); if (n.getMonth() < d.getMonth() || (n.getMonth() === d.getMonth() && n.getDate() < d.getDate())) a--; return a > 0 && a < 120 ? a : null; };
+const hmOf = t => { const d = new Date(t); return `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`; };
+const cycAvail = () => curProf().sex !== "m" && CYC.list().length > 0;
+function aiFields(f, pre) {
+  const v = k => esc(f[k] || "");
+  return `<div class="aitwo"><div><label class="muted" for="${pre}birth">${T("Fecha de nacimiento")}</label><input type="date" id="${pre}birth" value="${v("birth")}"></div>
+      <div><label class="muted" for="${pre}height">${T("Altura (cm)")}</label><input type="number" id="${pre}height" min="80" max="250" inputmode="numeric" value="${v("height")}"></div></div>
+    <label class="muted" for="${pre}level">${T("Experiencia entrenando")}</label><select id="${pre}level"><option value="">—</option>${AI_LEVELS.map(([k, n]) => `<option value="${k}" ${f.level === k ? "selected" : ""}>${T(n)}</option>`).join("")}</select>
+    ${AI_F.map(([k, n, ph, big]) => `<label class="muted" for="${pre}${k}">${T(n)}</label>${big ? `<textarea id="${pre}${k}" rows="2" maxlength="400" placeholder="${T(ph)}">${v(k)}</textarea>` : `<input type="text" id="${pre}${k}" maxlength="200" placeholder="${T(ph)}" value="${v(k)}">`}`).join("")}`;
+}
+function readAiFields(pre) {
+  const g = id => document.getElementById(pre + id); if (!g("birth")) return null;
+  const f = { birth: g("birth").value, height: Math.round(+g("height").value) || "", level: g("level").value };
+  AI_F.forEach(([k]) => { f[k] = (g(k)?.value || "").trim(); });
+  return f;
+}
+const aiHasData = f => !!f && Object.values(f).some(x => x !== "" && x !== null && x !== undefined);
+function readAiForm() { const a = state.ai; if (!a || a.step !== 1) return; const f = readAiFields("ai_"); if (f) a.f = f; const s = $("#aiSave"); if (s) a.save = s.checked; AI_INC.forEach(([k]) => { const c = $(`#aiInc_${k}`); if (c) a.inc[k] = c.checked; }); }
+function aiModal() {
+  const a = state.ai; if (!a) return "";
+  const fem = curProf().sex !== "m";
+  if (a.step === 2) {
+    const kb = (new Blob([a.txt]).size / 1024).toLocaleString(LOC(), { maximumFractionDigits: 1 });
+    return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="aiT"><div class="mbox dsh">
+      <div class="sb-head"><h2 id="aiT" style="margin:0;flex:1">${T("Analizar con IA externa")}</h2><button class="btn small" data-act="ai-close">${T("Cerrar")}</button></div>
+      <p class="aistep">${T("1 Datos")} → <b>${T("2 Exportar")}</b></p>
+      <p class="muted" style="font-size:.85rem;margin:8px 0 6px">${T("{n} líneas · {k} KB · {w}", { n: a.txt.split("\n").length, k: kb, w: a.weeks ? T("{n} semanas", { n: a.weeks }) : T("Todo") })}</p>
+      <pre class="aipre">${esc(a.txt.slice(0, 1800))}…</pre>
+      <div class="row" style="margin-top:10px"><button class="btn primary" style="flex:1" data-act="ai-copy">${T("Copiar")}</button><button class="btn" style="flex:1" data-act="ai-file">${T("Guardar o compartir .txt")}</button></div>
+      <p class="muted" style="font-size:.85rem;margin:10px 0 0">${T("Pégalo en una conversación nueva de la IA que uses, o sube el archivo .txt. Si es muy largo para tu IA, prueba con menos semanas.")}</p>
+      <h3 class="wh">${T("Cuando la IA responda")}</h3>
+      <p class="muted" style="font-size:.85rem;margin:0 0 6px">${T("Si te propone rutinas ajustadas, copia su respuesta completa y pégala aquí. Usus solo lee el bloque de rutinas y te deja elegir cuáles actualizar.")}</p>
+      <textarea id="aiPaste" rows="3" placeholder="${T("Pega aquí la respuesta de la IA")}"></textarea>
+      <button class="btn" style="width:100%;margin-top:8px" data-act="ai-paste">${T("Revisar rutinas propuestas")}</button>
+      <button class="btn ghost" style="width:100%;margin-top:4px" data-act="ai-back">‹ ${T("Volver a los datos")}</button>
+    </div></div>`;
+  }
+  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="aiT"><div class="mbox dsh">
+    <div class="sb-head"><h2 id="aiT" style="margin:0;flex:1">${T("Analizar con IA externa")}</h2><button class="btn small" data-act="ai-close">${T("Cerrar")}</button></div>
+    <p class="aistep"><b>${T("1 Datos")}</b> → ${T("2 Exportar")}</p>
+    <h3 class="wh">${T("Período")}</h3>
+    <div class="chips">${[4, 8, 12, 26, 0].map(w => `<button data-aiw="${w}" class="${a.weeks === w ? "on" : ""}" aria-pressed="${a.weeks === w}">${w ? T("{n} semanas", { n: w }) : T("Todo")}</button>`).join("")}</div>
+    <h3 class="wh">${T("Incluir")}</h3>
+    ${AI_INC.filter(([k]) => k !== "cycle" || cycAvail()).map(([k, n]) => `<label class="chk aichk"><input type="checkbox" id="aiInc_${k}" ${a.inc[k] ? "checked" : ""}> ${T(n)}</label>`).join("")}
+    <h3 class="wh">${T("Sobre ti (para interpretar los datos)")}</h3>
+    <p class="muted" style="font-size:.85rem;margin:0">${T("Todo opcional, pero ayuda: no es lo mismo 5 flexiones de alguien que empieza que de alguien con dolor lumbar.")} ${T("Sexo: {x} (del perfil).", { x: fem ? T("mujer") : T("hombre") })}</p>
+    <div class="aiform">${aiFields(a.f, "ai_")}</div>
+    <label class="chk aichk" style="margin-top:10px"><input type="checkbox" id="aiSave" ${a.save ? "checked" : ""}> <span>${T("Guardar para próximas exportaciones")}<small class="muted" style="display:block;font-size:.78rem">${T("En este móvil, en tu perfil. Si no, se usan solo ahora.")}</small></span></label>
+    <div class="aiwarn"><b>${T("Vas a compartir datos de salud con un servicio externo")}</b>${T("Lo que pase después depende de la IA que elijas: revisa su política de privacidad. El análisis lo hace una IA, no un profesional sanitario.")}</div>
+    <button class="btn primary" style="width:100%;padding:12px" data-act="ai-gen">${T("Generar texto")}</button>
+  </div></div>`;
+}
+function aiCard() {
+  return `<section class="sblock"><div class="panel aicard"><div class="aih">✦ ${T("Analizar con IA externa")} <span class="aibadge">${T("Externa")}</span></div>
+    <p class="muted" style="font-size:.88rem;margin:6px 0 0">${T("Usus prepara un texto con tus datos y las instrucciones para que una IA (ChatGPT, Claude, Gemini…) los analice. Usus no envía nada: lo copias o compartes tú.")}</p>
+    <button class="btn primary" style="width:100%;margin-top:10px" data-act="ai-open">${T("Preparar análisis")}</button></div></section>`;
+}
+function aiProfPanel() {
+  const f = aiProf(); if (!aiHasData(f)) return "";
+  return `<h2>${T("Datos para el análisis con IA")}</h2><div class="panel aiform">${aiFields(f, "ap_")}
+    <p class="muted" style="font-size:.8rem;margin:8px 0 0">${T("Solo se usan al preparar un análisis con IA externa (Stats → Resumen). Van en la copia de seguridad del perfil.")}</p>
+    <div class="row" style="margin-top:10px"><button class="btn small primary" data-act="ap-save">${T("Guardar")}</button><button class="btn small danger" data-act="ap-del">${T("Borrar estos datos")}</button></div></div>`;
+}
+/* El texto */
+function aiBuild(o) {
+  const X = XL(), now = Date.now(), from = o.weeks ? now - o.weeks * 7 * 864e5 : 0, inP = t => t >= from && t <= now, inK = k => k >= dayKey(from) && k <= dayKey(now);
+  const P = o.f || {}, sex = curProf().sex, inc = o.inc, cyc = !!inc.cycle && cycAvail(), fem = cyc, L = [];
+  const list = a => a.map(x => `- ${x}`).join("\n");
+  L.push(`# ${X.title}`, "", X.intro(fem), "", `## ${X.rulesH}`, list(X.rules(fem)), "", `## ${X.formH}`, X.form(fem).map(x => x.startsWith("  ") ? x : `- ${x}`).join("\n"), "",
+    `## ${X.repH}`, X.rep(fem).map((x, i) => `${i + 1}. ${x}`).join("\n"), "", `## ${X.pdfH}`, list(X.pdf), "", `## ${X.rtH}`, X.rtIntro, "```json",
+    '{"app":"usus","shared":1,"routines":[{"oid":"…","name":"…","block":"…","variant":"…","days":[1,3],"exercises":[{"name":"…","xid":"…","sets":3,"reps":10,"type":"reps","sides":false,"rest":90}]}]}', "```", list(X.rt), "", "---", "");
+  L.push(`# ${X.data}`, `${X.exported}: ${dayKey(now)} · ${X.period}: ${o.weeks ? `${dayKey(from)} → ${dayKey(now)} (${X.weeks(o.weeks)})` : `→ ${dayKey(now)}`}`, "", `## ${X.profile}`);
+  const age = ageOf(P.birth);
+  L.push([sex === "f" ? X.woman : sex === "m" ? X.man : null, age ? X.years(age) : null, P.height ? `${P.height} cm` : null].filter(Boolean).join(" · ") || X.noBasic);
+  if (P.level || P.years) L.push(`${X.exp}: ${[X.levels[P.level], P.years].filter(Boolean).join(" · ")}`);
+  L.push(`${X.inj}: ${P.injuries || X.noneF}`, `${X.pain}: ${P.pains || X.noneM}`, `${X.cond}: ${P.conditions || X.noneF}`, `${X.meds}: ${P.meds || X.noneF}`);
+  if (P.goals) L.push(`${X.goals}: ${P.goals}`); if (P.other) L.push(`${X.other}: ${P.other}`);
+  L.push("");
+  if (inc.train) {
+    L.push(`## ${X.routines}`);
+    state.routines.forEach(r => {
+      L.push(`- ${r.name}${normVar(r.variant) ? ` [${X.variant} ${normVar(r.variant)}]` : ""}${(r.days || []).length ? ` · ${X.days} ${r.days.length === 7 ? X.all : WEEK_ORDER.filter(d => r.days.includes(d)).map(d => X.dayL[d]).join(" ")}` : ""} · oid ${r.oid || r.id}`);
+      L.push(`  ${r.exercises.map(e => `${exName(e)}${e.xid ? ` (${e.xid})` : ""} ${e.sets}×${e.reps}${isTime(e) ? " s" : ""}${e.sides ? ` ${X.perSide}` : ""}${+e.rest > 0 ? ` ${X.rest} ${e.rest}s` : ""}`).join(" | ")}`);
+    });
+    const p = PL.get();
+    if (p?.phases?.length && p.enabled !== false) L.push("", `## ${X.plan}`, `${X.start} ${p.start}${p.review ? ` · ${X.review} ${p.review}` : ""} · ${X.phases} ${p.phases.map(x => `${x.variant}×${x.weeks}${X.wk}`).join(" → ")} ${X.repeat} · ${X.deload} ${p.deload?.weeks && p.deload?.every ? `${p.deload.weeks} ${X.wk} ${X.every} ${p.deload.every}` : X.no}`);
+    const g = LS.get("wk.goals", null); if (g && (g.daily || g.strength)) L.push(X.goalW(g.strength || 0, g.daily || 0));
+    const S = state.sessions.filter(s => inP(s.start)).sort((a, b) => a.start - b.start);
+    L.push("", `## ${X.sessions(S.length)}`, X.sessFmt);
+    S.forEach(s => L.push(`${dayKey(s.start)} ${hmOf(s.start)} · ${s.routine || X.free} · ${Math.round((s.end - s.start) / 60000)} | ${s.exercises.map(e => `${exName(e)}: ${e.sets.map(x => (sideReps(e) ? `${x.r}/${R2(x)}` : `${x.r}`) + (+x.w ? `@${x.w}` : "")).join(",")}${isTime(e) ? " s" : ""}`).join(" | ")}`));
+    L.push("");
+  }
+  if (inc.weight) { const Wl = W.list().filter(x => inP(x.t)); L.push(`## ${X.weight}${W.goal() ? ` · ${X.goal} ${W.goal()}` : ""}`, Wl.length ? Wl.map(x => `${dayKey(x.t)} ${x.kg}`).join(" · ") : X.noRec, ""); }
+  const D = DY.all(), sup = DY.supps(), days = Object.keys(D).filter(inK).sort();
+  const cols = [inc.sleep && X.colSleep, inc.act && X.colSteps, inc.supp && sup.length && X.colSupp, inc.notes && X.colNotes, cyc && X.colCyc].filter(Boolean);
+  if (cols.length) {
+    if (inc.supp && sup.length) L.push(`## ${X.supps}`, sup.filter(s => !s.archived).map(s => `${s.name} ${s.dose || ""}${s.unit || ""}${s.when ? ` (${s.when})` : ""}`.trim()).join(" · "), "");
+    L.push(`## ${X.diary}`, `${X.fmt} | ${cols.join(" | ")}`);
+    days.forEach(k => {
+      const e = D[k], f = [];
+      if (inc.sleep) f.push(e.sleep?.bed && e.sleep?.wake ? `${e.sleep.bed}–${e.sleep.wake}${e.sleep.q ? ` (${e.sleep.q})` : ""}` : "-");
+      if (inc.act) f.push(e.steps ? String(e.steps) : "-");
+      if (inc.supp && sup.length) { const tk = sup.filter(s => e.supp?.[s.id]?.taken).map(s => s.name); f.push(tk.length ? tk.join(", ") : X.none); }
+      if (inc.notes) f.push([...(e.tags || []).map(t => X.tags[t] || t), e.note ? `"${String(e.note).replace(/\s+/g, " ").trim()}"` : ""].filter(Boolean).join("; ") || "-");
+      if (cyc) f.push(e.cyc ? [X.flow[e.cyc.flow], ...(e.cyc.sym || []).map(T)].filter(Boolean).join(", ") || "-" : "-");
+      if (f.some(x => x !== "-" && x !== X.none)) L.push(`${k} | ${f.join(" | ")}`);
+    });
+    L.push("");
+  }
+  if (inc.act) { const A = ACT.list().filter(a => inK(a.k)).sort((a, b) => a.k < b.k ? -1 : 1); if (A.length) L.push(`## ${X.acts}`, A.map(a => `${a.k} ${a.type}${a.km ? ` ${a.km} km` : ""}${a.min ? ` ${a.min} min` : ""}`).join(" · "), ""); }
+  if (cyc) {
+    const C = CYC.list().slice(-8); L.push(`## ${X.periods(C.length)}`, C.map(c => `${c.s} → ${c.e || "?"}`).join(" · "));
+    const pz = CYC.cfg().pause; if (pz) L.push(`${X.paused} ${pz.since}${pz.reason ? ` (${pz.reason})` : ""}`);
+    L.push("");
+  }
+  return L.join("\n");
+}
+/* Respuesta de la IA → rutinas compartidas (misma pantalla que un enlace recibido) */
+function aiParse(text) {
+  const cands = [...String(text).matchAll(/```(?:json)?\s*([\s\S]*?)```/g)].map(m => m[1]);
+  const i = text.indexOf('{"app"'); if (i >= 0) cands.push(text.slice(i, text.lastIndexOf("}") + 1));
+  for (const c of cands) { try { const j = JSON.parse(c.trim()); if (j && j.app === "usus" && Array.isArray(j.routines)) { const inc = sanitizeShared({ ...j, shared: 1 }); if (inc?.routines.length) return inc; } } catch {} }
+  return null;
+}
+
+/* Datos en CSV: un .zip con una tabla por tipo de dato */
+function csvTable(head, rows, es) {
+  const sep = es ? ";" : ",";
+  const cell = v => { if (v === null || v === undefined) return ""; if (typeof v === "number") { const s = String(Math.round(v * 100) / 100); return es ? s.replace(".", ",") : s; }
+    const s = String(v); return /["\n\r;,]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s; };
+  return "﻿" + [head, ...rows].map(r => r.map(cell).join(sep)).join("\r\n") + "\r\n";
+}
+const sleepHours = (b, w) => { if (!b || !w) return null; const [bh, bm] = b.split(":").map(Number), [wh, wm] = w.split(":").map(Number); let m = wh * 60 + wm - (bh * 60 + bm); if (m <= 0) m += 1440; return m / 60; };
+function csvBuild(weeks) {
+  const X = XL(), C = X.csv, es = LANG !== "en", now = Date.now(), from = weeks ? now - weeks * 7 * 864e5 : 0, inP = t => t >= from && t <= now, inK = k => k >= dayKey(from) && k <= dayKey(now);
+  const yn = b => b ? C.yes : C.no, F = {}, put = (k, head, rows) => { if (rows.length) F[`${C.files[k]}.csv`] = [k, csvTable(head, rows, es)]; };
+  const S = state.sessions.filter(s => inP(s.start)).sort((a, b) => a.start - b.start), rows = [];
+  S.forEach(s => s.exercises.forEach(e => e.sets.forEach((x, i) => rows.push([dayKey(s.start), hmOf(s.start), s.routine || "", s.block || "", Math.round((s.end - s.start) / 60000), exName(e), e.xid || "", isTime(e) ? C.tTime : C.tReps, yn(e.sides), i + 1, +x.r || 0, sideReps(e) ? +R2(x) || 0 : null, +x.w || 0]))));
+  put("sesiones", [C.date, C.time, C.routine, C.block, C.dur, C.ex, C.xid, C.type, C.side, C.set, C.val, C.r2, C.kg], rows);
+  put("rutinas", [C.routine, C.id, C.block, C.variant, C.days, C.order, C.ex, C.xid, C.sets, C.target, C.type, C.side, C.rest],
+    state.routines.flatMap(r => r.exercises.map((e, i) => [r.name, r.oid || r.id, r.block || "", normVar(r.variant), WEEK_ORDER.filter(d => (r.days || []).includes(d)).map(d => X.dayL[d]).join(" "), i + 1, exName(e), e.xid || "", +e.sets, +e.reps, isTime(e) ? C.tTime : C.tReps, yn(e.sides), +e.rest || null])));
+  const D = DY.all(), days = Object.keys(D).filter(inK).sort();
+  put("diario", [C.date, C.bed, C.wake, C.sleepH, C.q, C.steps, C.tags, C.note], days.map(k => { const e = D[k], sl = e.sleep || {}; return [k, sl.bed || "", sl.wake || "", sleepHours(sl.bed, sl.wake), sl.q || null, e.steps || null, (e.tags || []).map(t => X.tags[t] || t).join(", "), e.note || ""]; }).filter(r => r.slice(1).some(v => v !== "" && v !== null)));
+  const sup = DY.supps();
+  put("suplementos", [C.date, C.supp, C.taken, C.amount, C.unit, C.when, C.note], days.flatMap(k => sup.filter(s => D[k].supp?.[s.id]).map(s => { const x = D[k].supp[s.id]; return [k, s.name, yn(x.taken), x.amount ?? s.dose ?? "", s.unit || "", s.when || "", x.note || ""]; })));
+  put("peso", [C.date, C.wkg], W.list().filter(x => inP(x.t)).map(x => [dayKey(x.t), +x.kg]));
+  put("actividades", [C.date, C.atype, C.km, C.min, C.note], ACT.list().filter(a => inK(a.k)).sort((a, b) => a.k < b.k ? -1 : 1).map(a => [a.k, a.type, +a.km || null, +a.min || null, a.note || ""]));
+  if (cycAvail()) {
+    const P = CYC.list(), dd = (a, b) => Math.round((keyTime(b) - keyTime(a)) / 864e5);
+    put("ciclo_reglas", [C.s, C.e, C.plen, C.clen], P.map((c, i) => [c.s, c.e || "", c.e ? dd(c.s, c.e) + 1 : null, P[i + 1] ? dd(c.s, P[i + 1].s) : null]));
+    put("ciclo_dias", [C.date, C.flow, C.sym], days.filter(k => D[k].cyc && (D[k].cyc.flow || (D[k].cyc.sym || []).length)).map(k => [k, X.flow[D[k].cyc.flow] || "", (D[k].cyc.sym || []).map(T).join(", ")]));
+  }
+  const out = {}; Object.entries(F).forEach(([n, [, t]]) => { out[n] = t; });
+  out[`${C.readme}.txt`] = [C.head, `${X.exported}: ${dayKey(now)} · ${weeks ? C.last(weeks) : C.all}`, `${es ? C.fmtEs : C.fmtIntl} · ${C.enc}`, "",
+    ...Object.entries(F).map(([n, [k]]) => `${n.padEnd(20)}${C.desc[k]}`), "", C.priv, ""].join("\n");
+  return out;
+}
+/* ZIP sin compresión («store»): suficiente para texto, sin librerías */
+const CRCT = (() => { const t = new Uint32Array(256); for (let n = 0; n < 256; n++) { let c = n; for (let k = 0; k < 8; k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1; t[n] = c >>> 0; } return t; })();
+const crc32 = b => { let c = 0xFFFFFFFF; for (let i = 0; i < b.length; i++) c = CRCT[(c ^ b[i]) & 0xFF] ^ (c >>> 8); return (c ^ 0xFFFFFFFF) >>> 0; };
+function makeZip(files) {
+  const enc = new TextEncoder(), now = new Date(), parts = [], cen = []; let off = 0;
+  const tm = ((now.getHours() << 11) | (now.getMinutes() << 5) | (now.getSeconds() >> 1)) & 0xFFFF, dt = (((now.getFullYear() - 1980) << 9) | ((now.getMonth() + 1) << 5) | now.getDate()) & 0xFFFF;
+  const dv = (n, f) => { const v = new DataView(new ArrayBuffer(n)); f.forEach(([p, x, s]) => s === 4 ? v.setUint32(p, x, true) : v.setUint16(p, x, true)); return new Uint8Array(v.buffer); };
+  for (const [name, text] of Object.entries(files)) {
+    const nb = enc.encode(name), data = enc.encode(text), crc = crc32(data);
+    parts.push(dv(30, [[0, 0x04034b50, 4], [4, 20, 2], [6, 0x0800, 2], [8, 0, 2], [10, tm, 2], [12, dt, 2], [14, crc, 4], [18, data.length, 4], [22, data.length, 4], [26, nb.length, 2], [28, 0, 2]]), nb, data);
+    cen.push(dv(46, [[0, 0x02014b50, 4], [4, 20, 2], [6, 20, 2], [8, 0x0800, 2], [10, 0, 2], [12, tm, 2], [14, dt, 2], [16, crc, 4], [20, data.length, 4], [24, data.length, 4], [28, nb.length, 2], [30, 0, 2], [32, 0, 2], [34, 0, 2], [36, 0, 2], [38, 0, 4], [42, off, 4]]), nb);
+    off += 30 + nb.length + data.length;
+  }
+  const n = Object.keys(files).length, cs = cen.reduce((a, b) => a + b.length, 0);
+  const all = [...parts, ...cen, dv(22, [[0, 0x06054b50, 4], [4, 0, 2], [6, 0, 2], [8, n, 2], [10, n, 2], [12, cs, 4], [16, off, 4], [20, 0, 2]])];
+  const out = new Uint8Array(all.reduce((a, b) => a + b.length, 0)); let p = 0; all.forEach(b => { out.set(b, p); p += b.length; }); return out;
+}
+function csvModal() {
+  const c = state.csvx; if (!c) return "";
+  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="cxT"><div class="mbox">
+    <h2 id="cxT" style="margin:0 0 4px">${T("Datos en CSV")}</h2>
+    <p class="muted" style="margin:0;font-size:.88rem">${T("Un archivo .zip con una tabla por tipo de dato (sesiones, rutinas, diario, suplementos, peso, actividades y ciclo) y un archivo que explica cada columna. Para analizarlos a tu manera en una hoja de cálculo.")}</p>
+    <h3 class="wh">${T("Período")}</h3>
+    <div class="chips">${[0, 4, 8, 12, 26].map(w => `<button data-cxw="${w}" class="${c.weeks === w ? "on" : ""}" aria-pressed="${c.weeks === w}">${w ? T("{n} semanas", { n: w }) : T("Todo")}</button>`).join("")}</div>
+    <p class="muted" style="font-size:.8rem;margin:10px 0 0">${LANG === "en" ? T("Formato: separador «,» y punto decimal.") : T("Formato: separador «;» y coma decimal, para abrirlo directamente en Excel en castellano o català.")}</p>
+    <div class="row" style="margin-top:14px"><span class="spacer"></span><button class="btn ghost" data-act="cx-close">${T("Cancelar")}</button><button class="btn primary" data-act="cx-go">${T("Exportar .zip")}</button></div>
+  </div></div>`;
+}
 
 /* ---------- Iconos ---------- */
 const ICON = {
@@ -1211,7 +1657,7 @@ function render() {
   if (state.tab === "history") state.tab = "diary";
   const v = state.actForm ? viewActForm : state.tab === "data" && state.link ? viewLink : { train: viewTrain, routines: viewRoutines, diary: viewDiary, stats: viewStats, data: viewData }[state.tab];
   const mb = document.querySelector(".mbox.dsh"), mbTop = mb ? mb.scrollTop : 0;
-  $("#app").innerHTML = v() + focusView() + welcomeModal() + newsModal() + cycAckModal() + savedModal() + shareSessModal() + shareRoutModal() + incomingModal() + profPickModal() + profFormModal() + profEditModal() + profCopyModal() + issueModal() + exInfoModal() + xpickModal() + ownMatModal() + catAskModal() + progChangeModal();
+  $("#app").innerHTML = v() + focusView() + welcomeModal() + newsModal() + cycAckModal() + savedModal() + shareSessModal() + shareRoutModal() + incomingModal() + profPickModal() + profFormModal() + profEditModal() + profCopyModal() + issueModal() + exInfoModal() + xpickModal() + ownMatModal() + catAskModal() + progChangeModal() + aiModal() + csvModal();
   if (mb) { const nb = document.querySelector(".mbox.dsh"); if (nb) nb.scrollTop = mbTop; }
   if (state.tab === "train" && state.active && !state.actForm) tick();
   if (state.shareSess && SHOPT().img) sessPreview();
@@ -2430,7 +2876,8 @@ function viewStats() {
       <button class="btn small" data-shide="${k}" aria-pressed="${!hid.includes(k)}">${hid.includes(k) ? T("Oculto") : T("Visible")}</button>
       <button class="mv" data-mv="${k}:-1" aria-label="${T("Subir")} ${T(SBLOCKS[k][0])}" ${i === 0 ? "disabled" : ""}>↑</button>
       <button class="mv" data-mv="${k}:1" aria-label="${T("Bajar")} ${T(SBLOCKS[k][0])}" ${i === ord.length - 1 ? "disabled" : ""}>↓</button>` : ""}</div>
-      ${ed ? "" : SBLOCKS[k][1](S, IX, now)}</section>`).join("")}`;
+      ${ed ? "" : SBLOCKS[k][1](S, IX, now)}</section>`).join("")}
+    ${cat === "res" && !ed ? aiCard() : ""}`;
 }
 
 function exerciseProgress(key, name) {
@@ -2547,6 +2994,7 @@ function viewData() {
     </div>
     ${curProf().sex === "m" ? "" : `<h2>${T("Ciclo")}</h2>
     ${cycSettings()}`}
+    ${aiProfPanel()}
 `,
     app: `
     <h2>${T("Idioma")}</h2>
@@ -2584,7 +3032,7 @@ function viewData() {
     <div class="panel">
       ${item(T("Copia completa"), T("Todo en JSON: rutinas, plan, sesiones, pesos, diario, suplementos y ciclo. Sirve para restaurar."), "exp-all", T("Exportar"), true)}
       ${item(T("Solo rutinas"), T("JSON para compartir o pasar a otro móvil."), "exp-routines", T("Exportar"))}
-      ${item(T("Sesiones en CSV"), T("Una fila por serie. Para hojas de cálculo."), "exp-csv", T("Exportar"))}
+      ${item(T("Datos en CSV"), T("Todo en tablas (.zip) para analizarlo en una hoja de cálculo."), "cx-open", T("Exportar"))}
     </div>
     <h2>${T("Importar")}</h2>
     <div class="panel">${item(T("Importar JSON"), T("Copia completa o solo rutinas. Se combina con lo existente; los duplicados se actualizan."), "imp", T("Elegir archivo"))}</div>
@@ -2637,6 +3085,11 @@ function installBlock() {
 }
 /* ---------- Novedades (una vez por versión; historial al tocar la versión) ---------- */
 const CHANGES = [
+  ["2.1.0", {
+    es: ["Analizar con IA externa (Stats → Resumen): Usus prepara un texto con tus datos y las instrucciones para que la IA que uses (ChatGPT, Claude, Gemini…) haga un informe con gráficos, listo para imprimir en A4. Usus no envía nada.", "Datos para el análisis: edad, altura, experiencia, lesiones, molestias y objetivos, opcionales. Solo se guardan si quieres (Ajustes → Cuerpo).", "Si la IA propone rutinas ajustadas, pega su respuesta y elige cuáles actualizar.", "Datos en CSV (Ajustes → Datos): un .zip con una tabla por tipo de dato para analizarlos en una hoja de cálculo."],
+    ca: ["Analitzar amb IA externa (Stats → Resum): Usus prepara un text amb les teves dades i les instruccions perquè la IA que facis servir (ChatGPT, Claude, Gemini…) faci un informe amb gràfics, a punt per imprimir en A4. Usus no envia res.", "Dades per a l'anàlisi: edat, alçada, experiència, lesions, molèsties i objectius, opcionals. Només es desen si vols (Ajustos → Cos).", "Si la IA proposa rutines ajustades, enganxa'n la resposta i tria quines actualitzar.", "Dades en CSV (Ajustos → Dades): un .zip amb una taula per tipus de dada per analitzar-les en un full de càlcul."],
+    en: ["Analyse with external AI (Stats → Summary): Usus prepares a text with your data and instructions for the AI you use (ChatGPT, Claude, Gemini…) to write a report with charts, ready to print on A4. Usus sends nothing.", "Data for the analysis: age, height, experience, injuries, discomfort and goals, all optional. Only saved if you want (Settings → Body).", "If the AI suggests adjusted routines, paste its reply and choose which to update.", "Data as CSV (Settings → Data): a .zip with one table per data type to analyse in a spreadsheet."]
+  }],
   ["2.0.0", {
     es: ["Catálogo de ejercicios opcional: cada perfil decide si lo usa. Fichas con para qué sirve, cómo se hace, errores, material y progresión. Rutinas → Ejercicios, y al añadir ejercicios a una rutina o a la sesión.", "Vincular: une los ejercicios que ya usas con el catálogo para ver su ficha y juntar su historial. Tu nombre se conserva y se puede deshacer.", "Progresión: al terminar una sesión, propuesta de subir al siguiente ejercicio o de volver al anterior. Se ajusta en Ajustes → Entreno.", "Plan: la semana ↑ puede aplicar sola la subida (+reps, +1 serie o siguiente paso), con aviso en Hoy y opción de deshacer.", "Mi material (Ajustes → Entreno) y material en tus ejercicios propios."],
     ca: ["Catàleg d'exercicis opcional: cada perfil decideix si el fa servir. Fitxes amb per a què serveix, com es fa, errors, material i progressió. Rutines → Exercicis, i en afegir exercicis a una rutina o a la sessió.", "Vincular: uneix els exercicis que ja fas servir amb el catàleg per veure'n la fitxa i ajuntar-ne l'historial. El teu nom es conserva i es pot desfer.", "Progressió: en acabar una sessió, proposta de pujar a l'exercici següent o de tornar a l'anterior. S'ajusta a Ajustos → Entrenament.", "Pla: la setmana ↑ pot aplicar sola la pujada (+reps, +1 sèrie o pas següent), amb avís a Avui i opció de desfer.", "El meu material (Ajustos → Entrenament) i material als teus exercicis propis."],
@@ -2893,7 +3346,7 @@ async function shareRoutGo(how) {
 /* Al recibir (enlace o archivo compartido) */
 function sanitizeShared(j) {
   const rs = (Array.isArray(j?.routines) ? j.routines : []).filter(validRoutine).slice(0, 100).map(r => ({
-    oid: typeof r.oid === "string" && /^[a-z0-9]{4,40}$/i.test(r.oid) ? r.oid : null,
+    oid: typeof r.oid === "string" && /^[a-z0-9]{2,40}$/i.test(r.oid) ? r.oid : null,
     name: String(r.name).trim().slice(0, 80) || T("Rutina"), block: CAT_NAME[r.block] ? r.block : guessBlock(r.name), variant: normVar(r.variant),
     days: Array.isArray(r.days) ? [...new Set(r.days.filter(d => Number.isInteger(d) && d >= 0 && d <= 6))] : [],
     exercises: r.exercises.filter(e => e && typeof e.name === "string" && e.name.trim()).slice(0, 60).map(e => ({
@@ -3222,6 +3675,7 @@ async function importJSON(text) {
     if (Array.isArray(j.cycle.symptoms)) CYC.saveSyms([...new Set([...CYC.syms(), ...j.cycle.symptoms.filter(x => typeof x === "string" && x.trim()).map(x => x.trim().slice(0, 28))])]);
     if (j.cycle.settings && typeof j.cycle.settings === "object" && !LS.get("wk.cyc", null)) LS.set("wk.cyc", j.cycle.settings);
   }
+  if (j.aiProfile && typeof j.aiProfile === "object" && !aiHasData(aiProf())) LS.set("wk.aiProf", Object.fromEntries(["birth", "height", "level", "years", "injuries", "pains", "conditions", "meds", "goals", "other"].map(k => [k, typeof j.aiProfile[k] === "string" || typeof j.aiProfile[k] === "number" ? String(j.aiProfile[k]).slice(0, 400) : ""])));
   if (j.goals && typeof j.goals === "object") LS.set("wk.goals", { daily: +j.goals.daily || 0, strength: +j.goals.strength || 0 });
   const merge = (cur, inc) => { const m = new Map(cur.map(x => [x.id, x])); inc.forEach(x => m.set(x.id || uid(), { ...x, id: x.id || uid() })); return [...m.values()]; };
   state.routines = merge(state.routines, rs);
@@ -3233,7 +3687,7 @@ async function importJSON(text) {
 document.addEventListener("click", async ev => {
   const t = ev.target.closest("button"); if (!t) return;
   const d = t.dataset;
-  readPlan(); readActForm();
+  readPlan(); readActForm(); readAiForm();
   if (d.tab) { readEditor(); state.dsheet = null; state.actForm = null; state.planMode = null; state.planDraft = null; state.tab = d.tab; render(); window.scrollTo(0, 0); return; }
   if (d.start) { if (state.active && !confirm(T("Ya tienes una sesión en curso. ¿Descartarla y empezar otra?"))) return; cancelRun(); state.tab = "train"; startSession(d.start); return; }
   const a = state.active;
@@ -3257,6 +3711,8 @@ document.addEventListener("click", async ev => {
   }
   if (d.ownmat !== undefined && state.editing) { readEditor(); const e = state.editing.exercises[+d.ownmat]; state.ownMat = { i: +d.ownmat, equip: [...(e.equip || [])], other: e.other || "" }; render(); return; }
   if (d.fx) { LS.set("wk.fx", d.fx); render(); return; }
+  if (d.aiw !== undefined && state.ai) { state.ai.weeks = +d.aiw; render(); return; }
+  if (d.cxw !== undefined && state.csvx) { state.csvx.weeks = +d.cxw; render(); return; }
   if (d.pgch !== undefined) { const p = state.progProps?.[+d.pgch]; if (p) { state.progChange = { k: +d.pgch, tgt: p.tgt }; render(); } return; }
   if (d.pglater !== undefined && state.progProps) { state.progProps.splice(+d.pglater, 1); render(); return; }
   if (d.pgmute !== undefined && state.progProps) { const p = state.progProps[+d.pgmute]; LS.set("wk.progMute", [...new Set([...(LS.get("wk.progMute", []) || []), p.rid + ":" + p.xid])]); state.progProps.splice(+d.pgmute, 1); toast(T("No se volverá a proponer para este ejercicio en esta rutina")); render(); return; }
@@ -3359,6 +3815,20 @@ document.addEventListener("click", async ev => {
   }
   switch (d.act) {
     case "prog-unmute": LS.set("wk.progMute", []); toast(T("Hecho")); render(); break;
+    case "ai-open": { const f = aiProf(); state.ai = { step: 1, weeks: 8, inc: Object.fromEntries(AI_INC.map(([k]) => [k, true])), f: { ...(f || {}) }, save: true, txt: "" }; render(); break; }
+    case "ai-close": state.ai = null; render(); break;
+    case "ai-back": state.ai.step = 1; render(); break;
+    case "ai-gen": { const a = state.ai; if (a.save && aiHasData(a.f)) LS.set("wk.aiProf", a.f); a.txt = aiBuild(a); a.step = 2; render(); document.querySelector(".mbox.dsh")?.scrollTo(0, 0); break; }
+    case "ai-copy": { const ok = await copyText(state.ai.txt); toast(ok ? T("Copiado") : T("No se pudo copiar")); break; }
+    case "ai-file": { const pm = curProf(), pn = multiProf() ? `-${fileSlug(profName(pm))}` : ""; await deliver(`usus-${fileSlug(T("analisis"))}${pn}-${stamp()}.txt`, state.ai.txt, "text/plain"); break; }
+    case "ai-paste": { const inc = aiParse($("#aiPaste")?.value || ""); if (!inc) { toast(T("No se han encontrado rutinas de Usus en la respuesta")); return; } state.ai = null; state.incoming = inc; render(); break; }
+    case "ap-save": { const f = readAiFields("ap_"); LS.set("wk.aiProf", aiHasData(f) ? f : null); toast(T("Guardado")); render(); break; }
+    case "ap-del": if (!confirm(T("¿Borrar los datos para el análisis? El resto de datos no se toca."))) return; LS.set("wk.aiProf", null); toast(T("Datos borrados")); render(); break;
+    case "cx-open": state.csvx = { weeks: 0 }; render(); break;
+    case "cx-close": state.csvx = null; render(); break;
+    case "cx-go": { const pm = curProf(), pn = multiProf() ? `-${fileSlug(profName(pm))}` : ""; const files = csvBuild(state.csvx.weeks);
+      if (Object.keys(files).length < 2) { toast(T("No hay datos para exportar")); return; }
+      const ok = await deliver(`usus-${fileSlug(T("datos"))}${pn}-${stamp()}.zip`, makeZip(files), "application/zip"); if (ok) { state.csvx = null; render(); } break; }
     case "pg-cancel": state.progChange = null; render(); break;
     case "pg-ok": { const c = state.progChange, p = state.progProps?.[c.k]; if (p && progApply(p, c.tgt)) { state.progProps.splice(c.k, 1); toast(T("Rutina actualizada")); } state.progChange = null; render(); break; }
     case "pu-ok": { const L = LS.get("wk.planUpLog", null); if (L) { L.seen = true; LS.set("wk.planUpLog", L); } render(); break; }
@@ -3500,7 +3970,7 @@ document.addEventListener("click", async ev => {
     }
     case "exp-all": {
       const pm = curProf(), pn = multiProf() ? `-${fileSlug(profName(pm))}` : "";
-      const ok = await deliver(`usus-${T("copia")}${pn}-${stamp()}.json`, JSON.stringify({ app: "usus", version: 1, exported: new Date().toISOString(), ...(pm.sex ? { profile: { name: pm.name, sex: pm.sex, color: pm.color } } : {}), routines: state.routines, sessions: state.sessions, weights: W.list(), weightGoal: W.goal(), diary: DY.all(), cycle: { periods: CYC.list(), symptoms: CYC.syms(), settings: CYC.cfg() }, supplements: DY.supps(), activities: ACT.list(), activityTypes: ACT.types(), goals: LS.get("wk.goals", null), plan: PL.get() }, null, 2), "application/json");
+      const ok = await deliver(`usus-${T("copia")}${pn}-${stamp()}.json`, JSON.stringify({ app: "usus", version: 1, exported: new Date().toISOString(), ...(pm.sex ? { profile: { name: pm.name, sex: pm.sex, color: pm.color } } : {}), routines: state.routines, sessions: state.sessions, weights: W.list(), weightGoal: W.goal(), diary: DY.all(), cycle: { periods: CYC.list(), symptoms: CYC.syms(), settings: CYC.cfg() }, supplements: DY.supps(), activities: ACT.list(), activityTypes: ACT.types(), goals: LS.get("wk.goals", null), plan: PL.get(), ...(aiHasData(aiProf()) ? { aiProfile: aiProf() } : {}) }, null, 2), "application/json");
       if (ok) { LS.set("wk.lastBackup", Date.now()); render(); } break;
     }
     case "w-ban": case "w-add": {
@@ -3523,7 +3993,7 @@ document.addEventListener("click", async ev => {
     case "wipe":
       if (!confirm(multiProf() ? T("Se borrarán todos los datos de «{x}» en este dispositivo. Los demás perfiles no se tocan. ¿Has hecho una copia?", { x: profName(curProf()) }) : T("Se borrarán todas las rutinas, sesiones y pesos de este dispositivo. ¿Has hecho una copia?"))) return;
       if (!confirm(T("Última confirmación: ¿borrar todo?"))) return;
-      state.routines = []; state.sessions = []; state.active = null; saveActive(); store.saveAll(); LS.set("wk.weights", []); LS.set("wk.diary", {}); DY.saveSupps([]); ACT.save([]); LS.set("wk.plan", null); CYC.save([]); LS.set("wk.cycSyms", null); toast(T("Datos borrados")); render(); break;
+      state.routines = []; state.sessions = []; state.active = null; saveActive(); store.saveAll(); LS.set("wk.weights", []); LS.set("wk.diary", {}); DY.saveSupps([]); ACT.save([]); LS.set("wk.plan", null); CYC.save([]); LS.set("wk.cycSyms", null); LS.set("wk.aiProf", null); toast(T("Datos borrados")); render(); break;
     case "delroutine":
       if (!confirm(T("¿Eliminar esta rutina? Las sesiones registradas se conservan."))) return;
       state.routines = state.routines.filter(r => r.id !== state.editing.id); state.editing = null;
@@ -4231,6 +4701,74 @@ const I18N = {
     "Gran sesión": "Gran sessió",
     "Bitcoin": "Bitcoin",
     "Lightning / zaps": "Lightning / zaps",
+    "Fecha de nacimiento": "Data de naixement",
+    "Altura (cm)": "Alçada (cm)",
+    "Experiencia entrenando": "Experiència entrenant",
+    "Analizar con IA externa": "Analitzar amb IA externa",
+    "1 Datos": "1 Dades",
+    "2 Exportar": "2 Exportar",
+    "{n} líneas · {k} KB · {w}": "{n} línies · {k} KB · {w}",
+    "{n} semanas": "{n} setmanes",
+    "Todo": "Tot",
+    "Guardar o compartir .txt": "Desar o compartir .txt",
+    "Pégalo en una conversación nueva de la IA que uses, o sube el archivo .txt. Si es muy largo para tu IA, prueba con menos semanas.": "Enganxa'l en una conversa nova de la IA que facis servir, o puja l'arxiu .txt. Si és massa llarg per a la teva IA, prova amb menys setmanes.",
+    "Cuando la IA responda": "Quan la IA respongui",
+    "Si te propone rutinas ajustadas, copia su respuesta completa y pégala aquí. Usus solo lee el bloque de rutinas y te deja elegir cuáles actualizar.": "Si et proposa rutines ajustades, copia la resposta completa i enganxa-la aquí. Usus només llegeix el bloc de rutines i et deixa triar quines actualitzar.",
+    "Pega aquí la respuesta de la IA": "Enganxa aquí la resposta de la IA",
+    "Revisar rutinas propuestas": "Revisar les rutines proposades",
+    "Volver a los datos": "Tornar a les dades",
+    "Período": "Període",
+    "Incluir": "Incloure",
+    "Sobre ti (para interpretar los datos)": "Sobre tu (per interpretar les dades)",
+    "Todo opcional, pero ayuda: no es lo mismo 5 flexiones de alguien que empieza que de alguien con dolor lumbar.": "Tot opcional, però ajuda: no és el mateix 5 flexions d'algú que comença que d'algú amb dolor lumbar.",
+    "Sexo: {x} (del perfil).": "Sexe: {x} (del perfil).",
+    "mujer": "dona",
+    "hombre": "home",
+    "Guardar para próximas exportaciones": "Desar per a properes exportacions",
+    "En este móvil, en tu perfil. Si no, se usan solo ahora.": "En aquest mòbil, al teu perfil. Si no, només es fan servir ara.",
+    "Vas a compartir datos de salud con un servicio externo": "Compartiràs dades de salut amb un servei extern",
+    "Lo que pase después depende de la IA que elijas: revisa su política de privacidad. El análisis lo hace una IA, no un profesional sanitario.": "El que passi després depèn de la IA que triïs: revisa'n la política de privacitat. L'anàlisi la fa una IA, no un professional sanitari.",
+    "Generar texto": "Generar el text",
+    "Externa": "Externa",
+    "Usus prepara un texto con tus datos y las instrucciones para que una IA (ChatGPT, Claude, Gemini…) los analice. Usus no envía nada: lo copias o compartes tú.": "Usus prepara un text amb les teves dades i les instruccions perquè una IA (ChatGPT, Claude, Gemini…) les analitzi. Usus no envia res: el copies o el comparteixes tu.",
+    "Preparar análisis": "Preparar l'anàlisi",
+    "Datos para el análisis con IA": "Dades per a l'anàlisi amb IA",
+    "Solo se usan al preparar un análisis con IA externa (Stats → Resumen). Van en la copia de seguridad del perfil.": "Només es fan servir en preparar una anàlisi amb IA externa (Stats → Resum). Van a la còpia de seguretat del perfil.",
+    "Borrar estos datos": "Esborrar aquestes dades",
+    "Datos en CSV": "Dades en CSV",
+    "Un archivo .zip con una tabla por tipo de dato (sesiones, rutinas, diario, suplementos, peso, actividades y ciclo) y un archivo que explica cada columna. Para analizarlos a tu manera en una hoja de cálculo.": "Un arxiu .zip amb una taula per tipus de dada (sessions, rutines, diari, suplements, pes, activitats i cicle) i un arxiu que explica cada columna. Per analitzar-les a la teva manera en un full de càlcul.",
+    "Formato: separador «,» y punto decimal.": "Format: separador «,» i punt decimal.",
+    "Formato: separador «;» y coma decimal, para abrirlo directamente en Excel en castellano o català.": "Format: separador «;» i coma decimal, per obrir-lo directament a l'Excel en català o castellà.",
+    "Exportar .zip": "Exportar .zip",
+    "Todo en tablas (.zip) para analizarlo en una hoja de cálculo.": "Tot en taules (.zip) per analitzar-ho en un full de càlcul.",
+    "analisis": "analisi",
+    "No se han encontrado rutinas de Usus en la respuesta": "No s'han trobat rutines d'Usus a la resposta",
+    "Guardado": "Desat",
+    "¿Borrar los datos para el análisis? El resto de datos no se toca.": "Esborrar les dades per a l'anàlisi? La resta de dades no es toca.",
+    "No hay datos para exportar": "No hi ha dades per exportar",
+    "datos": "dades",
+    "Empiezo (menos de 6 meses)": "Començo (menys de 6 mesos)",
+    "Básico (6 meses–2 años)": "Bàsic (6 mesos–2 anys)",
+    "Intermedio (2–5 años)": "Intermedi (2–5 anys)",
+    "Avanzado (más de 5 años o competición)": "Avançat (més de 5 anys o competició)",
+    "Entrenos, rutinas y plan": "Entrenaments, rutines i pla",
+    "Pasos y actividades": "Passos i activitats",
+    "Notas y etiquetas del diario": "Notes i etiquetes del diari",
+    "Ciclo (reglas y síntomas)": "Cicle (regles i símptomes)",
+    "Detalle de la experiencia y otros deportes": "Detall de l'experiència i altres esports",
+    "Ej. 2 años de calistenia, antes fútbol": "P. ex. 2 anys de calistènia, abans futbol",
+    "Lesiones o cirugías previas": "Lesions o cirurgies prèvies",
+    "Ej. rotura de menisco izquierdo (2019)": "P. ex. trencament de menisc esquerre (2019)",
+    "Dolores o molestias actuales": "Dolors o molèsties actuals",
+    "Ej. lumbar al levantarme por la mañana": "P. ex. lumbar en llevar-me al matí",
+    "Condiciones de salud relevantes": "Condicions de salut rellevants",
+    "Ej. asma, hipertensión, embarazo…": "P. ex. asma, hipertensió, embaràs…",
+    "Medicación relevante": "Medicació rellevant",
+    "Solo si influye en el entreno o la recuperación": "Només si influeix en l'entrenament o la recuperació",
+    "Objetivos": "Objectius",
+    "Ej. 10 dominadas, perder 3 kg, dormir mejor": "P. ex. 10 dominades, perdre 3 kg, dormir millor",
+    "Otros": "Altres",
+    "Lo que quieras que la IA tenga en cuenta": "El que vulguis que la IA tingui en compte",
     "Por debajo del 60 % · 2 sesiones": "Per sota del 60 % · 2 sessions",
     "Por debajo del 50 % · 3 sesiones": "Per sota del 50 % · 3 sessions",
     "Nunca": "Mai",
@@ -5151,6 +5689,74 @@ const I18N = {
     "Gran sesión": "Great session",
     "Bitcoin": "Bitcoin",
     "Lightning / zaps": "Lightning / zaps",
+    "Fecha de nacimiento": "Date of birth",
+    "Altura (cm)": "Height (cm)",
+    "Experiencia entrenando": "Training experience",
+    "Analizar con IA externa": "Analyse with external AI",
+    "1 Datos": "1 Data",
+    "2 Exportar": "2 Export",
+    "{n} líneas · {k} KB · {w}": "{n} lines · {k} KB · {w}",
+    "{n} semanas": "{n} weeks",
+    "Todo": "All",
+    "Guardar o compartir .txt": "Save or share .txt",
+    "Pégalo en una conversación nueva de la IA que uses, o sube el archivo .txt. Si es muy largo para tu IA, prueba con menos semanas.": "Paste it into a new chat with the AI you use, or upload the .txt file. If it's too long for your AI, try fewer weeks.",
+    "Cuando la IA responda": "When the AI replies",
+    "Si te propone rutinas ajustadas, copia su respuesta completa y pégala aquí. Usus solo lee el bloque de rutinas y te deja elegir cuáles actualizar.": "If it suggests adjusted routines, copy its full reply and paste it here. Usus only reads the routines block and lets you choose which to update.",
+    "Pega aquí la respuesta de la IA": "Paste the AI's reply here",
+    "Revisar rutinas propuestas": "Review suggested routines",
+    "Volver a los datos": "Back to the data",
+    "Período": "Period",
+    "Incluir": "Include",
+    "Sobre ti (para interpretar los datos)": "About you (to interpret the data)",
+    "Todo opcional, pero ayuda: no es lo mismo 5 flexiones de alguien que empieza que de alguien con dolor lumbar.": "All optional, but it helps: 5 push-ups mean something different for a beginner than for someone with low back pain.",
+    "Sexo: {x} (del perfil).": "Sex: {x} (from the profile).",
+    "mujer": "woman",
+    "hombre": "man",
+    "Guardar para próximas exportaciones": "Save for future exports",
+    "En este móvil, en tu perfil. Si no, se usan solo ahora.": "On this phone, in your profile. Otherwise they're only used now.",
+    "Vas a compartir datos de salud con un servicio externo": "You're about to share health data with an external service",
+    "Lo que pase después depende de la IA que elijas: revisa su política de privacidad. El análisis lo hace una IA, no un profesional sanitario.": "What happens next depends on the AI you choose: check its privacy policy. The analysis is done by an AI, not a health professional.",
+    "Generar texto": "Generate text",
+    "Externa": "External",
+    "Usus prepara un texto con tus datos y las instrucciones para que una IA (ChatGPT, Claude, Gemini…) los analice. Usus no envía nada: lo copias o compartes tú.": "Usus prepares a text with your data and instructions for an AI (ChatGPT, Claude, Gemini…) to analyse it. Usus sends nothing: you copy or share it yourself.",
+    "Preparar análisis": "Prepare analysis",
+    "Datos para el análisis con IA": "Data for AI analysis",
+    "Solo se usan al preparar un análisis con IA externa (Stats → Resumen). Van en la copia de seguridad del perfil.": "Only used when preparing an external AI analysis (Stats → Summary). Included in the profile backup.",
+    "Borrar estos datos": "Delete this data",
+    "Datos en CSV": "Data as CSV",
+    "Un archivo .zip con una tabla por tipo de dato (sesiones, rutinas, diario, suplementos, peso, actividades y ciclo) y un archivo que explica cada columna. Para analizarlos a tu manera en una hoja de cálculo.": "A .zip file with one table per data type (sessions, routines, diary, supplements, weight, activities and cycle) and a file explaining each column. To analyse it your way in a spreadsheet.",
+    "Formato: separador «,» y punto decimal.": "Format: “,” separator and decimal point.",
+    "Formato: separador «;» y coma decimal, para abrirlo directamente en Excel en castellano o català.": "Format: “;” separator and decimal comma, to open directly in Excel in Spanish or Catalan.",
+    "Exportar .zip": "Export .zip",
+    "Todo en tablas (.zip) para analizarlo en una hoja de cálculo.": "Everything in tables (.zip) to analyse in a spreadsheet.",
+    "analisis": "analysis",
+    "No se han encontrado rutinas de Usus en la respuesta": "No Usus routines found in the reply",
+    "Guardado": "Saved",
+    "¿Borrar los datos para el análisis? El resto de datos no se toca.": "Delete the analysis data? Nothing else is touched.",
+    "No hay datos para exportar": "No data to export",
+    "datos": "data",
+    "Empiezo (menos de 6 meses)": "Starting out (under 6 months)",
+    "Básico (6 meses–2 años)": "Basic (6 months–2 years)",
+    "Intermedio (2–5 años)": "Intermediate (2–5 years)",
+    "Avanzado (más de 5 años o competición)": "Advanced (over 5 years or competing)",
+    "Entrenos, rutinas y plan": "Workouts, routines and plan",
+    "Pasos y actividades": "Steps and activities",
+    "Notas y etiquetas del diario": "Diary notes and tags",
+    "Ciclo (reglas y síntomas)": "Cycle (periods and symptoms)",
+    "Detalle de la experiencia y otros deportes": "Experience details and other sports",
+    "Ej. 2 años de calistenia, antes fútbol": "E.g. 2 years of calisthenics, football before",
+    "Lesiones o cirugías previas": "Past injuries or surgery",
+    "Ej. rotura de menisco izquierdo (2019)": "E.g. torn left meniscus (2019)",
+    "Dolores o molestias actuales": "Current pain or discomfort",
+    "Ej. lumbar al levantarme por la mañana": "E.g. lower back when getting up in the morning",
+    "Condiciones de salud relevantes": "Relevant health conditions",
+    "Ej. asma, hipertensión, embarazo…": "E.g. asthma, high blood pressure, pregnancy…",
+    "Medicación relevante": "Relevant medication",
+    "Solo si influye en el entreno o la recuperación": "Only if it affects training or recovery",
+    "Objetivos": "Goals",
+    "Ej. 10 dominadas, perder 3 kg, dormir mejor": "E.g. 10 pull-ups, lose 3 kg, sleep better",
+    "Otros": "Other",
+    "Lo que quieras que la IA tenga en cuenta": "Anything you want the AI to take into account",
     "Por debajo del 60 % · 2 sesiones": "Below 60% · 2 sessions",
     "Por debajo del 50 % · 3 sesiones": "Below 50% · 3 sessions",
     "Nunca": "Never",
