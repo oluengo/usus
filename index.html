@@ -539,7 +539,7 @@ function lastSetsFor(name) {
   }
   return null;
 }
-const APP_VERSION = "1.3.1";
+const APP_VERSION = "1.4.0";
 const THEMES = [["protector", "Protector", "Oscuro cálido, sin azul"], ["dark", "Oscuro", "Neutro"], ["light", "Claro", "Para el día"], ["auto", "Automático", "Sigue al sistema"]];
 const curTheme = () => document.documentElement.dataset.theme || "auto";
 function applyTheme(t) {
@@ -735,6 +735,10 @@ function readPlan() {
   d.phases.forEach((x, i) => { const a = document.querySelector(`[data-pv="${i}"]`), b = document.querySelector(`[data-pw="${i}"]`); if (a) x.variant = normVar(a.value); if (b) x.weeks = Math.max(1, Math.min(12, Math.round(+b.value || 1))); });
 }
 function weekStart(ts) { const d = new Date(ts); d.setHours(0,0,0,0); const k = (d.getDay() + 6) % 7; d.setDate(d.getDate() - k); return d.getTime(); }
+
+/* Avisos durante el entreno: sonido y vibración, solo uno, o nada (wk.fx) */
+const FX = [["both", "Sonido y vibración"], ["sound", "Solo sonido"], ["vib", "Solo vibración"], ["off", "Desactivados"]];
+const fxMode = () => { const v = LS.get("wk.fx", "both"); return FX.some(f => f[0] === v) ? v : "both"; };
 
 /* ---------- Iconos ---------- */
 const ICON = {
@@ -960,6 +964,7 @@ function unlockAudio() {
   } catch {}
 }
 function beep(freq = 880, ms = 250, delay = 0, vol = 0.8) {
+  if (fxMode() === "vib" || fxMode() === "off") return;
   try {
     audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
     if (audioCtx.state !== "running") audioCtx.resume().catch(() => {});
@@ -971,7 +976,7 @@ function beep(freq = 880, ms = 250, delay = 0, vol = 0.8) {
   } catch {}
 }
 const beepEnd = () => { beep(880, 300, 0); beep(880, 300, 0.4); beep(1320, 500, 0.8); };
-const buzz = p => { try { return navigator.vibrate ? navigator.vibrate(p) : false; } catch { return false; } };
+const buzz = p => { if (fxMode() === "sound" || fxMode() === "off") return false; try { return navigator.vibrate ? navigator.vibrate(p) : false; } catch { return false; } };
 function flash() { const f = document.createElement("div"); f.className = "flash"; document.body.appendChild(f); setTimeout(() => f.remove(), 800); }
 async function keepAwake(on) {
   try {
@@ -2071,8 +2076,6 @@ function viewData() {
     <div class="panel"><div class="wrow"><label class="muted" for="gDaily" style="font-size:.85rem">${T("Días con Diaria")}</label><input id="gDaily" type="number" min="0" max="7" inputmode="numeric" value="${LS.get("wk.goals", {}).daily || 0}"><span></span></div>
       <div class="wrow" style="margin-top:10px"><label class="muted" for="gStr" style="font-size:.85rem">${T("Días con fuerza")}</label><input id="gStr" type="number" min="0" max="7" inputmode="numeric" value="${LS.get("wk.goals", {}).strength || 0}"><span></span></div>
       <p class="muted" style="font-size:.8rem;margin:8px 0 0">${T("Se muestran en Stats → Resumen. 0 = no mostrar. Fuerza = cualquier bloque salvo Diaria, Cardio y Otro.")}</p></div>
-    <h2>${T("Avisos")}</h2>
-    <div class="panel">${item(T("Probar sonido y vibración"), T("El pitido usa el volumen multimedia. Si no vibra, revisa No molestar y la vibración del sistema."), "testfx", T("Probar"))}</div>
 `,
     cuerpo: `
     <h2>${T("Peso")}</h2>
@@ -2090,6 +2093,10 @@ function viewData() {
     <div class="seg" style="grid-template-columns:repeat(auto-fit,minmax(100px,1fr))" role="group" aria-label="${T("Idioma")}">${Object.entries(LANGS).map(([k, v]) => `<button data-lang-set="${k}" class="${LANG === k ? "on" : ""}" aria-pressed="${LANG === k}" lang="${k}">${v.name}</button>`).join("")}</div>
     <h2>${T("Apariencia")}</h2>
     <div class="seg" role="group" aria-label="${T("Tema")}">${THEMES.map(([k, n, d]) => `<button data-theme-set="${k}" class="${curTheme() === k ? "on" : ""}" aria-pressed="${curTheme() === k}">${T(n)}<small>${T(d)}</small></button>`).join("")}</div>
+    <h2>${T("Avisos durante el entreno")}</h2>
+    <div class="panel"><div class="seg" role="group" aria-label="${T("Avisos durante el entreno")}">${FX.map(([k, n]) => `<button data-fx="${k}" class="${fxMode() === k ? "on" : ""}" aria-pressed="${fxMode() === k}">${T(n)}</button>`).join("")}</div>
+      <p class="muted" style="font-size:.85rem;margin:10px 0 0">${fxMode() === "off" ? T("Sin pitidos ni vibración: solo la cuenta atrás y el destello en pantalla.") : fxMode() === "vib" ? T("Útil con auriculares o si entrenas con gente al lado. Si no vibra, revisa No molestar y la vibración del sistema.") : T("El pitido usa el volumen multimedia. Si no vibra, revisa No molestar y la vibración del sistema.")}</p>
+      ${fxMode() === "off" ? "" : `<button class="btn small" style="margin-top:10px" data-act="testfx">${T("Probar")}</button>`}</div>
     <h2>${T("Acerca de")}</h2>
     <div class="panel">
       <div class="t" style="font-weight:600">Usus · <button class="verb" data-act="news-open">${T("versión")} ${APP_VERSION}</button></div>
@@ -2164,6 +2171,11 @@ function installBlock() {
 }
 /* ---------- Novedades (una vez por versión; historial al tocar la versión) ---------- */
 const CHANGES = [
+  ["1.4.0", {
+    es: ["Avisos durante el entreno en Ajustes → App: sonido y vibración, solo sonido, solo vibración o desactivados, con botón para probar."],
+    ca: ["Avisos durant l'entrenament a Ajustos → App: so i vibració, només so, només vibració o desactivats, amb botó per provar-los."],
+    en: ["Training alerts in Settings → App: sound and vibration, sound only, vibration only or off, with a test button."]
+  }],
   ["1.3.1", {
     es: ["Vuelve a funcionar sin conexión: desde la 1.2.1 la app no se guardaba en el móvil para usarla offline."],
     ca: ["Torna a funcionar sense connexió: des de la 1.2.1 l'app no es desava al mòbil per fer-la servir offline."],
@@ -2758,6 +2770,7 @@ document.addEventListener("click", async ev => {
     return;
   }
   if (d.copy) { const ok = await copyText(d.copy); toast(ok ? T("Copiado") : T("No se pudo copiar")); return; }
+  if (d.fx) { LS.set("wk.fx", d.fx); render(); return; }
   if (d.stab) { state.setTab = d.stab; LS.set("wk.setTab", d.stab); render(); window.scrollTo(0, 0); return; }
   if (d.pswitch) { switchProfile(d.pswitch); return; }
   if (d.pfsex && state.pform) { readProfForm(); state.pform.sex = d.pfsex; if (d.pfsex === "m") state.pform.cyc = false; render(); return; }
@@ -2926,7 +2939,8 @@ document.addEventListener("click", async ev => {
     case "in-yes": await incomingAdd(); break;
     case "welcome-show": LS.set("wk.welcomed", false); render(); break;
     case "statsedit": state.statsEdit = !state.statsEdit; render(); break;
-    case "testfx": { unlockAudio(); beepEnd(); flash(); const v = buzz([400, 150, 400, 150, 400]); toast(v ? T("¿Has oído 3 pitidos y notado la vibración?") : T("Este navegador no permite vibrar")); } break;
+    case "testfx": { const m = fxMode(); if (m === "off") { toast(T("Avisos desactivados")); break; } unlockAudio(); beepEnd(); flash(); const v = buzz([400, 150, 400, 150, 400]);
+      toast(m === "sound" ? T("¿Has oído 3 pitidos?") : !v ? T("Este navegador no permite vibrar") : m === "vib" ? T("¿Has notado la vibración?") : T("¿Has oído 3 pitidos y notado la vibración?")); } break;
     case "addex": {
       const inp = $("#newEx"); const n = inp.value.trim(); if (!n) { inp.focus(); return; }
       a.exercises.push(buildExercise(n)); state.exView = a.pre ? null : a.exercises.length - 1; state.sheet = false; saveActive(); render(); break;
@@ -3680,6 +3694,16 @@ const I18N = {
     "Gran sesión": "Gran sessió",
     "Bitcoin": "Bitcoin",
     "Lightning / zaps": "Lightning / zaps",
+    "Sonido y vibración": "So i vibració",
+    "Solo sonido": "Només so",
+    "Solo vibración": "Només vibració",
+    "Desactivados": "Desactivats",
+    "Avisos durante el entreno": "Avisos durant l'entrenament",
+    "Sin pitidos ni vibración: solo la cuenta atrás y el destello en pantalla.": "Sense xiulets ni vibració: només el compte enrere i el flaix a la pantalla.",
+    "Útil con auriculares o si entrenas con gente al lado. Si no vibra, revisa No molestar y la vibración del sistema.": "Útil amb auriculars o si entrenes amb gent al costat. Si no vibra, revisa No molestis i la vibració del sistema.",
+    "Avisos desactivados": "Avisos desactivats",
+    "¿Has oído 3 pitidos?": "Has sentit 3 xiulets?",
+    "¿Has notado la vibración?": "Has notat la vibració?",
     "Ya la tienes: «{x}»": "Ja la tens: «{x}»",
     "Actualizar": "Actualitzar",
     "Añadir como nueva": "Afegir com a nova",
@@ -4448,6 +4472,16 @@ const I18N = {
     "Gran sesión": "Great session",
     "Bitcoin": "Bitcoin",
     "Lightning / zaps": "Lightning / zaps",
+    "Sonido y vibración": "Sound and vibration",
+    "Solo sonido": "Sound only",
+    "Solo vibración": "Vibration only",
+    "Desactivados": "Off",
+    "Avisos durante el entreno": "Alerts during training",
+    "Sin pitidos ni vibración: solo la cuenta atrás y el destello en pantalla.": "No beeps or vibration: only the countdown and the screen flash.",
+    "Útil con auriculares o si entrenas con gente al lado. Si no vibra, revisa No molestar y la vibración del sistema.": "Useful with headphones or when training next to others. If it doesn't vibrate, check Do Not Disturb and the system vibration.",
+    "Avisos desactivados": "Alerts are off",
+    "¿Has oído 3 pitidos?": "Did you hear 3 beeps?",
+    "¿Has notado la vibración?": "Did you feel the vibration?",
     "Ya la tienes: «{x}»": "You already have it: “{x}”",
     "Actualizar": "Update",
     "Añadir como nueva": "Add as new",
