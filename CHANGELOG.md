@@ -4,6 +4,11 @@ Todas las versiones de Usus. Formato basado en [Keep a Changelog](https://keepac
 
 **Castellano** · [Català](#català) · [English](#english)
 
+## [1.2.2] — 2026-10-12
+
+### Correcciones
+- Al cambiar de perfil (o borrar uno) la app se queda en la misma pantalla y pestaña de Ajustes, en vez de volver a Hoy.
+
 ## [1.2.1] — 2026-10-12
 
 ### Cambios
@@ -77,6 +82,10 @@ Primera versión pública.
 
 ## Català
 
+### [1.2.2] — 2026-10-12
+
+En canviar de perfil, et quedes a la mateixa pantalla.
+
 ### [1.2.1] — 2026-10-12
 
 Ajustos reorganitzat en pestanyes (Entrenament, Cos, App, Dades).
@@ -96,6 +105,10 @@ Primera versió pública: rutines amb sèries per repeticions o per temps, compt
 ---
 
 ## English
+
+### [1.2.2] — 2026-10-12
+
+Switching profile keeps you on the same screen.
 
 ### [1.2.1] — 2026-10-12
 

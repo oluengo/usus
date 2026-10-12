@@ -532,7 +532,7 @@ function lastSetsFor(name) {
   }
   return null;
 }
-const APP_VERSION = "1.2.1";
+const APP_VERSION = "1.2.2";
 const THEMES = [["protector", "Protector", "Oscuro cálido, sin azul"], ["dark", "Oscuro", "Neutro"], ["light", "Claro", "Para el día"], ["auto", "Automático", "Sigue al sistema"]];
 const curTheme = () => document.documentElement.dataset.theme || "auto";
 function applyTheme(t) {
@@ -2157,6 +2157,11 @@ function installBlock() {
 }
 /* ---------- Novedades (una vez por versión; historial al tocar la versión) ---------- */
 const CHANGES = [
+  ["1.2.2", {
+    es: ["Al cambiar de perfil te quedas en la misma pantalla (por ejemplo, Ajustes) en vez de volver a Hoy."],
+    ca: ["En canviar de perfil et quedes a la mateixa pantalla (per exemple, Ajustos) en lloc de tornar a Avui."],
+    en: ["Switching profile keeps you on the same screen (for example, Settings) instead of going back to Today."]
+  }],
   ["1.2.1", {
     es: ["Ajustes reorganizado en pestañas: Entreno, Cuerpo, App y Datos. El perfil queda arriba; para cambiar o añadir perfiles, botón «Perfiles»."],
     ca: ["Ajustos reorganitzat en pestanyes: Entrenament, Cos, App i Dades. El perfil queda a dalt; per canviar o afegir perfils, botó «Perfils»."],
@@ -2452,12 +2457,19 @@ function profAv(p, px, sexOver, colOver) {
   return `<svg class="pav" width="${px}" height="${px}" viewBox="0 0 512 512" aria-hidden="true"><circle cx="256" cy="256" r="256" fill="#2a2119"/><circle cx="256" cy="256" r="228" fill="none" stroke="${c}" stroke-opacity=".22" stroke-width="14"/>${inner}</svg>`;
 }
 const profChip = () => multiProf() ? `<button class="pchip" data-act="prof-pick" aria-label="${T("Cambiar de perfil")}">${profAv(curProf(), 26)}<span>${esc(profName(curProf()))}</span></button>` : "";
+/* Al cambiar de perfil se recarga la app: se recuerda dónde estabas (pantalla y pestaña de Ajustes) */
+const keepPlace = () => { try { sessionStorage.setItem("usus.place", JSON.stringify({ tab: state.tab, setTab: state.setTab })); } catch {} };
+function restorePlace() {
+  try { const p = JSON.parse(sessionStorage.getItem("usus.place") || "null"); sessionStorage.removeItem("usus.place");
+    if (p && ["train", "routines", "diary", "stats", "data"].includes(p.tab)) state.tab = p.tab;
+    if (p && SET_TABS.some(t => t[0] === p.setTab)) state.setTab = p.setTab; } catch {}
+}
 const profSessions = id => (rawGet(PK("wk.sessions", id), []) || []).length;
 function switchProfile(id) {
   if (id === PROF) { state.ppick = false; render(); return; }
   if (state.active) { toast(T("Termina o descarta antes la sesión en curso")); return; }
   try { localStorage.setItem("wk.profile", JSON.stringify(id)); } catch {}
-  location.reload();
+  keepPlace(); location.reload();
 }
 function profPickModal() {
   if (!state.ppick) return "";
@@ -2586,7 +2598,7 @@ function profDelete() {
   try { Object.keys(localStorage).filter(own).forEach(k => localStorage.removeItem(k)); } catch {}
   const rest = PROFS().filter(x => x.id !== PROF); saveProfs(rest);
   state.active = null; try { localStorage.setItem("wk.profile", JSON.stringify(rest[0].id)); } catch {}
-  location.reload();
+  keepPlace(); location.reload();
 }
 function profSettings() {
   const p = curProf();
@@ -4531,6 +4543,7 @@ const I18N = {
   state.routines = data.routines; state.sessions = data.sessions;
   migrateTypes();
   applyTheme(curTheme());
+  restorePlace();
   if (LS.get("wk.welcomed", false) && LS.get("wk.seenVersion", null) !== APP_VERSION && CHANGES[0][0] === APP_VERSION) state.newsOpen = "new";
   render();
   await readShareHash();
