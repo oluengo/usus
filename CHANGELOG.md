@@ -4,6 +4,13 @@ Todas las versiones de Usus. Formato basado en [Keep a Changelog](https://keepac
 
 **Castellano** · [Català](#català) · [English](#english)
 
+## [1.3.0] — 2026-10-12
+
+### Compartir
+- Las rutinas compartidas llevan su identificador de origen. Al recibir una que ya tienes (o una tuya que vuelve modificada), se ofrece **Actualizar** (por defecto) o **Añadir como nueva**.
+- Al actualizar cambian los ejercicios y el bloque; el nombre, los días, la variante y las sesiones registradas se mantienen.
+- Copiar rutinas a otro perfil también conserva el origen, para poder actualizarlas después.
+
 ## [1.2.2] — 2026-10-12
 
 ### Correcciones
@@ -82,6 +89,10 @@ Primera versión pública.
 
 ## Català
 
+### [1.3.0] — 2026-10-12
+
+En rebre una rutina que ja tens, la pots actualitzar en lloc de duplicar-la.
+
 ### [1.2.2] — 2026-10-12
 
 En canviar de perfil, et quedes a la mateixa pantalla.
@@ -105,6 +116,10 @@ Primera versió pública: rutines amb sèries per repeticions o per temps, compt
 ---
 
 ## English
+
+### [1.3.0] — 2026-10-12
+
+When you receive a routine you already have, you can update it instead of duplicating it.
 
 ### [1.2.2] — 2026-10-12
 

@@ -269,6 +269,13 @@ details.sess td:first-child{font-weight:500;padding-right:12px;width:40%}
 .rsl .rsg{background:var(--bg)}
 .rsl .rsg small{margin-left:auto;color:var(--muted);font-size:.78rem}
 .rsl .rsr{padding-left:34px}
+.rsrow{border-bottom:1px solid var(--line)}
+.rsrow:last-child{border-bottom:0}
+.rsrow .rsr{border-bottom:0}
+.rsmode{padding:0 12px 10px 42px}
+.rsseg{display:flex;gap:6px;margin-top:4px}
+.rsseg button{flex:1;border:1px solid var(--line);background:var(--bg);border-radius:8px;padding:6px;font-size:.82rem;color:var(--muted)}
+.rsseg button.on{border-color:var(--accent);color:var(--accent);font-weight:600;background:var(--accent-soft)}
 .cbx{width:20px;height:20px;border-radius:6px;border:2px solid var(--muted);flex:none;display:grid;place-items:center}
 .cbx.on{background:var(--accent);border-color:var(--accent)}
 .cbx svg{width:14px;height:14px;fill:none;stroke:var(--bg);stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round}
@@ -532,7 +539,7 @@ function lastSetsFor(name) {
   }
   return null;
 }
-const APP_VERSION = "1.2.2";
+const APP_VERSION = "1.3.0";
 const THEMES = [["protector", "Protector", "Oscuro cálido, sin azul"], ["dark", "Oscuro", "Neutro"], ["light", "Claro", "Para el día"], ["auto", "Automático", "Sigue al sistema"]];
 const curTheme = () => document.documentElement.dataset.theme || "auto";
 function applyTheme(t) {
@@ -2157,6 +2164,11 @@ function installBlock() {
 }
 /* ---------- Novedades (una vez por versión; historial al tocar la versión) ---------- */
 const CHANGES = [
+  ["1.3.0", {
+    es: ["Rutinas compartidas: si recibes otra vez una rutina que ya tienes (por ejemplo, una versión mejorada), puedes actualizarla en vez de duplicarla. Se cambian los ejercicios; tu nombre, días, variante y sesiones se mantienen."],
+    ca: ["Rutines compartides: si tornes a rebre una rutina que ja tens (per exemple, una versió millorada), la pots actualitzar en lloc de duplicar-la. Canvien els exercicis; el teu nom, dies, variant i sessions es mantenen."],
+    en: ["Shared routines: if you receive a routine you already have again (for example, an improved version), you can update it instead of duplicating it. The exercises change; your name, days, variant and sessions stay."]
+  }],
   ["1.2.2", {
     es: ["Al cambiar de perfil te quedas en la misma pantalla (por ejemplo, Ajustes) en vez de volver a Hoy."],
     ca: ["En canviar de perfil et quedes a la mateixa pantalla (per exemple, Ajustos) en lloc de tornar a Avui."],
@@ -2360,7 +2372,7 @@ const rGroups = () => {
 };
 const gName = v => v ? T("Variante {v}", { v }) : T("Sin variante");
 function sharePayload(ids, withPlan) {
-  const p = PL.get(), routines = state.routines.filter(r => ids.includes(r.id)).map(({ id, ...r }) => r);
+  const p = PL.get(), routines = state.routines.filter(r => ids.includes(r.id)).map(({ id, ...r }) => ({ ...r, oid: r.oid || id }));
   const plan = withPlan && p?.phases?.length ? { phases: p.phases.map(x => ({ variant: normVar(x.variant), weeks: +x.weeks || 1 })), deload: p.deload || null, up: !!p.up } : null;
   return { app: "usus", shared: 1, routines, ...(plan ? { plan } : {}) };
 }
@@ -2392,6 +2404,7 @@ async function shareRoutGo(how) {
 /* Al recibir (enlace o archivo compartido) */
 function sanitizeShared(j) {
   const rs = (Array.isArray(j?.routines) ? j.routines : []).filter(validRoutine).slice(0, 100).map(r => ({
+    oid: typeof r.oid === "string" && /^[a-z0-9]{4,40}$/i.test(r.oid) ? r.oid : null,
     name: String(r.name).trim().slice(0, 80) || T("Rutina"), block: CAT_NAME[r.block] ? r.block : guessBlock(r.name), variant: normVar(r.variant),
     days: Array.isArray(r.days) ? [...new Set(r.days.filter(d => Number.isInteger(d) && d >= 0 && d <= 6))] : [],
     exercises: r.exercises.filter(e => e && typeof e.name === "string" && e.name.trim()).slice(0, 60).map(e => ({
@@ -2402,7 +2415,7 @@ function sanitizeShared(j) {
   const p = j?.plan, ph = p && Array.isArray(p.phases) ? p.phases.filter(x => x && normVar(x.variant)).slice(0, 12).map(x => ({ variant: normVar(x.variant), weeks: Math.max(1, Math.min(12, Math.round(+x.weeks || 1))) })) : [];
   const plan = ph.length ? { phases: ph, deload: p.deload && +p.deload.weeks > 0 && +p.deload.every > 0 ? { weeks: Math.min(4, Math.round(+p.deload.weeks)), every: Math.min(26, Math.round(+p.deload.every)) } : { weeks: 0, every: 0 }, up: !!p.up } : null;
   if (!rs.length && !plan) return null;
-  return { routines: rs, plan, sel: rs.map((_, i) => i), withPlan: !!plan };
+  return { routines: rs, plan, sel: rs.map((_, i) => i), withPlan: !!plan, mode: {} };
 }
 const nextMonday = () => { const d = new Date(); d.setHours(0, 0, 0, 0); d.setDate(d.getDate() + (8 - d.getDay()) % 7); return dayKey(d.getTime()); };
 function incomingModal() {
@@ -2412,22 +2425,32 @@ function incomingModal() {
   return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="inT"><div class="mbox dsh">
     <h2 id="inT" style="margin:0 0 4px">${inc.routines.length === 1 ? T("Te han compartido una rutina") : inc.routines.length ? T("Te han compartido {n} rutinas", { n: inc.routines.length }) : T("Te han compartido un plan")}</h2>
     <p class="muted" style="font-size:.85rem;margin:0 0 10px">${T("Revisa y elige qué añadir. No se borra nada de lo que ya tienes.")}</p>
-    ${inc.routines.length ? `<div class="rsl">${inc.routines.map((r, i) => `<button class="rsr" style="padding-left:12px" data-inr="${i}" aria-pressed="${sel.has(i)}">${box(sel.has(i))}<span style="flex:1;min-width:0">${esc(r.name)}<small class="muted" style="display:block;font-size:.78rem">${T("{e} ejercicios · {s} series", { e: r.exercises.length, s: r.exercises.reduce((a, e) => a + e.sets, 0) })}</small></span></button>`).join("")}</div>` : ""}
+    ${inc.routines.length ? `<div class="rsl">${inc.routines.map((r, i) => { const m = sharedMatch(r), upd = m && inc.mode[i] !== "new";
+      return `<div class="rsrow"><button class="rsr" style="padding-left:12px" data-inr="${i}" aria-pressed="${sel.has(i)}">${box(sel.has(i))}<span style="flex:1;min-width:0">${esc(r.name)}<small class="muted" style="display:block;font-size:.78rem">${T("{e} ejercicios · {s} series", { e: r.exercises.length, s: r.exercises.reduce((a, e) => a + e.sets, 0) })}</small></span></button>
+        ${m && sel.has(i) ? `<div class="rsmode"><small class="muted">${T("Ya la tienes: «{x}»", { x: esc(m.name) })}</small><div class="rsseg"><button data-inm="${i}:upd" class="${upd ? "on" : ""}" aria-pressed="${upd}">${T("Actualizar")}</button><button data-inm="${i}:new" class="${upd ? "" : "on"}" aria-pressed="${!upd}">${T("Añadir como nueva")}</button></div></div>` : ""}</div>`; }).join("")}</div>` : ""}
     ${p ? `<label class="shopt" style="margin-top:10px"><span>${T("Añadir el plan de progresión")}<small class="muted" style="display:block;font-size:.78rem">${esc(phs)}. ${T("Empieza el {d}.", { d: kFmt(nextMonday(), { weekday: "long", day: "numeric", month: "short" }) })}${PL.get() ? " " + T("Sustituirá tu plan actual.") : ""}</small></span><input type="checkbox" id="inPlan" ${inc.withPlan ? "checked" : ""}></label>` : ""}
-    <p class="muted" style="font-size:.78rem;margin:8px 0 0">${T("Si ya tienes una rutina con el mismo nombre, se añade como «(2)».")}</p>
+    <p class="muted" style="font-size:.78rem;margin:8px 0 0">${T("Si ya tienes una rutina con el mismo nombre, se añade como «(2)».")} ${T("Al actualizar se cambian los ejercicios; el nombre, los días, la variante y tus sesiones no se tocan.")}</p>
     <div class="row" style="margin-top:12px"><button class="btn" style="flex:1" data-act="in-no">${T("Ahora no")}</button><button class="btn primary" style="flex:1" data-act="in-yes" ${sel.size || (p && inc.withPlan) ? "" : "disabled"}>${T("Añadir")}</button></div>
   </div></div>`;
 }
+/* Rutina recibida que ya tienes: misma rutina de origen (oid) o es tuya (su id) */
+const sharedMatch = r => r.oid ? state.routines.find(x => x.oid === r.oid || x.id === r.oid) : null;
 async function incomingAdd() {
   const inc = state.incoming; if (!inc) return;
-  const names = new Set(state.routines.map(r => r.name.trim().toLowerCase())), add = inc.routines.filter((_, i) => inc.sel.includes(i)).map(r => {
-    let n = r.name, k = 2; while (names.has(n.toLowerCase())) n = `${r.name} (${k++})`; names.add(n.toLowerCase()); return { ...r, name: n, id: uid() };
+  const names = new Set(state.routines.map(r => r.name.trim().toLowerCase())), add = []; let upd = 0;
+  inc.routines.forEach((r, i) => {
+    if (!inc.sel.includes(i)) return;
+    const m = sharedMatch(r);
+    if (m && inc.mode[i] !== "new") { m.exercises = JSON.parse(JSON.stringify(r.exercises)); m.block = r.block; m.oid = m.oid || r.oid; upd++; return; }
+    let n = r.name, k = 2; while (names.has(n.toLowerCase())) n = `${r.name} (${k++})`; names.add(n.toLowerCase());
+    const { oid, ...rest } = r; add.push({ ...rest, name: n, id: uid(), ...(oid ? { oid } : {}) });
   });
   state.routines.push(...add); await store.saveRoutines(state.routines);
   const plan = inc.plan && inc.withPlan;
   if (plan) PL.save({ enabled: true, start: nextMonday(), review: "", phases: inc.plan.phases.map(x => ({ id: uid(), ...x })), deload: inc.plan.deload, up: inc.plan.up });
-  state.incoming = null; state.tab = add.length ? "routines" : "train"; state.editing = null;
-  toast(plan ? T("Añadidas {n} rutinas y el plan", { n: add.length }) : add.length === 1 ? T("Rutina añadida") : T("Añadidas {n} rutinas", { n: add.length })); render(); window.scrollTo(0, 0);
+  state.incoming = null; state.tab = add.length || upd ? "routines" : "train"; state.editing = null;
+  const msg = [add.length ? (add.length === 1 ? T("Rutina añadida") : T("Añadidas {n} rutinas", { n: add.length })) : "", upd ? (upd === 1 ? T("1 rutina actualizada") : T("{n} rutinas actualizadas", { n: upd })) : "", plan ? T("plan añadido") : ""].filter(Boolean).join(" · ");
+  toast(msg || T("Nada que añadir")); render(); window.scrollTo(0, 0);
 }
 async function readShareHash() {
   if (!location.hash.startsWith("#r=")) return;
@@ -2543,7 +2566,7 @@ function profFormOk() {
     state.pform = newProfForm(false); toast(T("Perfil guardado")); render(); return;
   }
   const id = "p" + uid(), srcR = f.src === PROF ? state.routines : (rawGet(PK("wk.routines", f.src), []) || []);
-  const sel = new Set(f.sel || srcR.map(r => r.id)), routines = f.from === "copy" ? srcR.filter(r => sel.has(r.id)).map(r => ({ ...JSON.parse(JSON.stringify(r)), id: uid() })) : [];
+  const sel = new Set(f.sel || srcR.map(r => r.id)), routines = f.from === "copy" ? srcR.filter(r => sel.has(r.id)).map(r => ({ ...JSON.parse(JSON.stringify(r)), id: uid(), oid: r.oid || r.id })) : [];
   const put = (k, v) => { try { localStorage.setItem(PK(k, id), JSON.stringify(v)); } catch {} };
   put("wk.routines", routines); put("wk.sessions", []); put("wk.lang", LANG);
   if (f.sex === "f" && f.cyc) put("wk.cyc", { on: true, ack: true });
@@ -2584,7 +2607,7 @@ function profCopyModal() {
 }
 function profCopyOk() {
   const c = state.pcopy, k = PK("wk.routines", c.to), dest = rawGet(k, []) || [], names = new Set(dest.map(r => r.name.trim().toLowerCase()));
-  const add = state.routines.filter(r => c.sel.includes(r.id)).map(r => { let n = r.name, i = 2; while (names.has(n.toLowerCase())) n = `${r.name} (${i++})`; names.add(n.toLowerCase()); return { ...JSON.parse(JSON.stringify(r)), id: uid(), name: n }; });
+  const add = state.routines.filter(r => c.sel.includes(r.id)).map(r => { let n = r.name, i = 2; while (names.has(n.toLowerCase())) n = `${r.name} (${i++})`; names.add(n.toLowerCase()); return { ...JSON.parse(JSON.stringify(r)), id: uid(), name: n, oid: r.oid || r.id }; });
   try { localStorage.setItem(k, JSON.stringify([...dest, ...add])); } catch { toast(T("No se pudo guardar: almacenamiento lleno")); return; }
   const to = PROFS().find(p => p.id === c.to); state.pcopy = null;
   toast(T("{n} rutinas copiadas a {x}", { n: add.length, x: profName(to) })); render();
@@ -2745,6 +2768,7 @@ document.addEventListener("click", async ev => {
   if (d.rshare) { state.rshare = { sel: [d.rshare], plan: false }; render(); return; }
   if (d.rsg !== undefined && state.rshare) { const ids = state.routines.filter(r => normVar(r.variant) === d.rsg).map(r => r.id), sel = new Set(state.rshare.sel), on = ids.every(i => sel.has(i)); ids.forEach(i => on ? sel.delete(i) : sel.add(i)); state.rshare.sel = [...sel]; render(); return; }
   if (d.rsr && state.rshare) { const sel = new Set(state.rshare.sel); sel.has(d.rsr) ? sel.delete(d.rsr) : sel.add(d.rsr); state.rshare.sel = [...sel]; render(); return; }
+  if (d.inm && state.incoming) { const [i, m] = d.inm.split(":"); state.incoming.mode[+i] = m; render(); return; }
   if (d.inr !== undefined && state.incoming) { const sel = new Set(state.incoming.sel), i = +d.inr; sel.has(i) ? sel.delete(i) : sel.add(i); state.incoming.sel = [...sel].sort((x, y) => x - y); render(); return; }
   if (d.rday && state.editing) {
     readEditor(); const ed = state.editing, set = new Set(ed.days || []);
@@ -3651,6 +3675,14 @@ const I18N = {
     "Gran sesión": "Gran sessió",
     "Bitcoin": "Bitcoin",
     "Lightning / zaps": "Lightning / zaps",
+    "Ya la tienes: «{x}»": "Ja la tens: «{x}»",
+    "Actualizar": "Actualitzar",
+    "Añadir como nueva": "Afegir com a nova",
+    "Al actualizar se cambian los ejercicios; el nombre, los días, la variante y tus sesiones no se tocan.": "En actualitzar canvien els exercicis; el nom, els dies, la variant i les teves sessions no es toquen.",
+    "1 rutina actualizada": "1 rutina actualitzada",
+    "{n} rutinas actualizadas": "{n} rutines actualitzades",
+    "plan añadido": "pla afegit",
+    "Nada que añadir": "Res a afegir",
     "App": "App",
     "Solo los datos de {x}. Cada perfil tiene su propia copia.": "Només les dades de {x}. Cada perfil té la seva còpia.",
     "Yo": "Jo",
@@ -4411,6 +4443,14 @@ const I18N = {
     "Gran sesión": "Great session",
     "Bitcoin": "Bitcoin",
     "Lightning / zaps": "Lightning / zaps",
+    "Ya la tienes: «{x}»": "You already have it: “{x}”",
+    "Actualizar": "Update",
+    "Añadir como nueva": "Add as new",
+    "Al actualizar se cambian los ejercicios; el nombre, los días, la variante y tus sesiones no se tocan.": "Updating changes the exercises; the name, days, variant and your sessions aren't touched.",
+    "1 rutina actualizada": "1 routine updated",
+    "{n} rutinas actualizadas": "{n} routines updated",
+    "plan añadido": "plan added",
+    "Nada que añadir": "Nothing to add",
     "App": "App",
     "Solo los datos de {x}. Cada perfil tiene su propia copia.": "Only {x}'s data. Each profile has its own backup.",
     "Yo": "Me",
