@@ -4,7 +4,7 @@ Todas las versiones de Usus. Formato basado en [Keep a Changelog](https://keepac
 
 **Castellano** · [Català](#català) · [English](#english)
 
-## [2.0.0] — sin publicar
+## [2.0.0] — 2026-10-12
 
 ### Catálogo de ejercicios (opcional, por perfil)
 - Archivo aparte `ejercicios.json` con 162 ejercicios de calistenia: identificador fijo, nombre en castellano e inglés, patrón de movimiento, nivel (1–5, barras crecientes), tipo (repeticiones o tiempo), por lado, impacto y material (iconos).
@@ -15,6 +15,7 @@ Todas las versiones de Usus. Formato basado en [Keep a Changelog](https://keepac
 - Ejercicios propios con material: de la lista (con icono) u otro escrito (sin icono).
 - **Vincular ejercicios**: propone para cada nombre que ya usas un ejercicio del catálogo; aceptar todo, elegir otro, dejar como propio o deshacer. Se conserva tu nombre. Historial, récords y estadísticas se agrupan por ejercicio vinculado.
 - Ajustes → Entreno: **Mi material**. Funciona sin conexión (el catálogo se guarda con la app).
+- Las fichas están, por ahora, solo en castellano (los nombres, también en inglés).
 
 ### Asistente de progresión
 - Al terminar una sesión, por cada ejercicio del catálogo de la rutina: ▲ propuesta de subir al siguiente paso si llegas al objetivo en todas las series 2 (o 3) sesiones seguidas; ▼ propuesta de volver al anterior si te quedas por debajo del 60 % del objetivo 2 sesiones seguidas (o 50 % en 3, o nunca).
@@ -119,7 +120,7 @@ Primera versión pública.
 
 ## Català
 
-### [2.0.0] — sense publicar
+### [2.0.0] — 2026-10-12
 - Catàleg d'exercicis opcional per perfil (fitxes, material, nivell i progressió), vinculació dels teus exercicis i el meu material.
 - Assistent de progressió: propostes de pujar o tornar al pas anterior en acabar la sessió, i pujada automàtica a la setmana ↑ del pla.
 
@@ -157,7 +158,7 @@ Primera versió pública: rutines amb sèries per repeticions o per temps, compt
 
 ## English
 
-### [2.0.0] — unreleased
+### [2.0.0] — 2026-10-12
 - Optional exercise catalogue per profile (cards, equipment, level and progression), linking your exercises, and my equipment.
 - Progression assistant: suggestions to step up or go back after a session, and automatic increases in the plan's ↑ week.
 

@@ -36,11 +36,17 @@ Gratis, sin cuentas y sin anuncios. Todo se guarda **solo en tu móvil**: nada s
 <td align="center"><img src="capturas/11-ciclo-hoy.jpg" alt="Ciclo"><br><sub>Ciclo (opcional)</sub></td>
 <td align="center"><img src="capturas/05-diario.jpg" alt="Diario"><br><sub>Diario</sub></td>
 </tr>
+<tr>
+<td align="center"><img src="capturas/12-ejercicios.jpg" alt="Catálogo de ejercicios"><br><sub>Ejercicios (opcional)</sub></td>
+<td align="center"><img src="capturas/13-ficha.jpg" alt="Ficha y progresión"><br><sub>Ficha y progresión</sub></td>
+<td align="center"><img src="capturas/14-progresion.jpg" alt="Propuesta al terminar"><br><sub>Propuesta al terminar</sub></td>
+<td align="center"><img src="capturas/15-vincular.jpg" alt="Vincular tus ejercicios"><br><sub>Vincular tus ejercicios</sub></td>
+</tr>
 </table>
 
 ### Tanta información como quieras
 
-El catálogo de ejercicios es **opcional y se decide en cada perfil**. Si empiezas, actívalo: tendrás la explicación de cada ejercicio, el material que necesita y por dónde seguir. Si ya sabes lo que haces, prescinde de él: Usus funciona igual con tus propios ejercicios, sin información de más. Se puede cambiar en cualquier momento, y tus ejercicios se pueden vincular al catálogo para unir su historial.
+El catálogo de ejercicios es **opcional y se decide en cada perfil**. Si empiezas, actívalo: tendrás la explicación de cada ejercicio, el material que necesita y por dónde seguir. Si ya sabes lo que haces, prescinde de él: Usus funciona igual con tus propios ejercicios, sin información de más. Por ahora, las fichas están en castellano. Se puede cambiar en cualquier momento, y tus ejercicios se pueden vincular al catálogo para unir su historial.
 
 ### Temas
 
@@ -80,11 +86,36 @@ Free, no accounts, no ads. Everything is stored **only on your phone**: nothing 
 - **Cycle** *(optional, on women's profiles).* Period log with an approximate estimate of the next one. Not a contraceptive method or a diagnosis.
 - **Share.** A workout as an image or text, or your routines and plan through a link that carries the data itself, with no server involved.
 
+<table>
+<tr>
+<td align="center" width="25%"><img src="capturas/02-rutinas.jpg" alt="Routines"><br><sub>Routines</sub></td>
+<td align="center" width="25%"><img src="capturas/03-sesion.jpg" alt="Session"><br><sub>Session</sub></td>
+<td align="center" width="25%"><img src="capturas/07-stats-entreno.jpg" alt="Consistency and progress"><br><sub>Consistency and progress</sub></td>
+<td align="center" width="25%"><img src="capturas/08-stats-habitos.jpg" alt="Habits"><br><sub>Habits</sub></td>
+</tr>
+<tr>
+<td align="center"><img src="capturas/09-compartir.jpg" alt="Share a workout"><br><sub>Share a workout</sub></td>
+<td align="center"><img src="capturas/10-perfiles.jpg" alt="Profiles"><br><sub>Profiles</sub></td>
+<td align="center"><img src="capturas/11-ciclo-hoy.jpg" alt="Cycle"><br><sub>Cycle (optional)</sub></td>
+<td align="center"><img src="capturas/05-diario.jpg" alt="Diary"><br><sub>Diary</sub></td>
+</tr>
+<tr>
+<td align="center"><img src="capturas/12-ejercicios.jpg" alt="Exercise catalogue"><br><sub>Exercises (optional)</sub></td>
+<td align="center"><img src="capturas/13-ficha.jpg" alt="Card and progression"><br><sub>Card and progression</sub></td>
+<td align="center"><img src="capturas/14-progresion.jpg" alt="Suggestion after a session"><br><sub>Suggestion after a session</sub></td>
+<td align="center"><img src="capturas/15-vincular.jpg" alt="Link your exercises"><br><sub>Link your exercises</sub></td>
+</tr>
+</table>
+
+<sub>Screenshots in Spanish.</sub>
+
 ### As much information as you want
 
-The exercise catalogue is **optional and chosen per profile**. If you're starting out, turn it on: you'll get an explanation of each exercise, the equipment it needs and where to go next. If you already know what you're doing, skip it: Usus works just the same with your own exercises, without the extra information. You can change it at any time, and link your exercises to the catalogue to merge their history.
+The exercise catalogue is **optional and chosen per profile**. If you're starting out, turn it on: you'll get an explanation of each exercise, the equipment it needs and where to go next. If you already know what you're doing, skip it: Usus works just the same with your own exercises, without the extra information. For now, the cards are in Spanish only. You can change it at any time, and link your exercises to the catalogue to merge their history.
 
 ### Themes
+
+<p align="center"><img src="capturas/temas.jpg" alt="Light, dark and protector themes" width="80%"></p>
 
 **Light**, **Dark** and **Protector** (warm dark, no blue light, for early-morning training). **Automatic** by default: follows your phone's light or dark mode.
 
