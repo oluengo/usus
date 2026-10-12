@@ -4,6 +4,12 @@ Todas las versiones de Usus. Formato basado en [Keep a Changelog](https://keepac
 
 **Castellano** · [Català](#català) · [English](#english)
 
+## [1.4.0] — 2026-10-12
+
+### Avisos
+- Nuevo apartado **Avisos durante el entreno** en Ajustes → App (antes «Avisos» en Entreno): sonido y vibración, solo sonido, solo vibración o desactivados.
+- El botón **Probar** comprueba el modo elegido. El destello en pantalla se mantiene siempre.
+
 ## [1.3.1] — 2026-10-12
 
 ### Correcciones
@@ -94,6 +100,9 @@ Primera versión pública.
 
 ## Català
 
+### [1.4.0] — 2026-10-12
+- Avisos durant l'entrenament a Ajustos → App: so i vibració, només so, només vibració o desactivats.
+
 ### [1.3.1] — 2026-10-12
 - Torna a funcionar sense connexió (el service worker estava buit des de la 1.2.1).
 
@@ -124,6 +133,9 @@ Primera versió pública: rutines amb sèries per repeticions o per temps, compt
 ---
 
 ## English
+
+### [1.4.0] — 2026-10-12
+- Training alerts in Settings → App: sound and vibration, sound only, vibration only or off.
 
 ### [1.3.1] — 2026-10-12
 - Works offline again (the service worker had been empty since 1.2.1).
