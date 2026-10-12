@@ -1,6 +1,6 @@
 // Cambia la versión al actualizar index.html para forzar la recarga de la caché
-const CACHE = "usus-1.3.1";
-const CORE = ["./", "index.html", "manifest.webmanifest", "icon-192.png", "icon-512.png", "icon-maskable-512.png", "favicon-48.png",
+const CACHE = "usus-2.0.0";
+const CORE = ["./", "index.html", "ejercicios.json", "manifest.webmanifest", "icon-192.png", "icon-512.png", "icon-maskable-512.png", "favicon-48.png",
   "fonts/instrument-sans-400.woff2", "fonts/instrument-sans-500.woff2", "fonts/instrument-sans-600.woff2", "fonts/instrument-sans-700.woff2"];
 
 self.addEventListener("install", e => {

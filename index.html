@@ -215,6 +215,75 @@ details.sess td:first-child{font-weight:500;padding-right:12px;width:40%}
 :root[data-theme="protector"] .btn.primary,:root[data-theme="protector"] .rest.work,:root[data-theme="protector"] .check.run{color:#1A1208}
 :root[data-theme="protector"] .check.on svg{stroke:#1A1208}
 :root[data-theme="dark"]{color-scheme:dark}
+/* Catálogo de ejercicios: nivel (barras), material (iconos), fichas, selector y vincular */
+:root{--off:#D5DAE2;--l1:#3E9C6B;--l2:#7BA23A;--l3:#C9A227;--l4:#D9792B;--l5:#C8423A;--warn:#B26B00;--warn-soft:#FFF3DC}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--off:#353A44;--l1:#5DBB8A;--l2:#9BC25A;--l3:#E0BE4A;--l4:#EE9450;--l5:#EE6A60;--warn:#E0A84E;--warn-soft:#3A2D16}}
+:root[data-theme="dark"]{--off:#353A44;--l1:#5DBB8A;--l2:#9BC25A;--l3:#E0BE4A;--l4:#EE9450;--l5:#EE6A60;--warn:#E0A84E;--warn-soft:#3A2D16}
+:root[data-theme="protector"]{--off:#3D3227;--l1:#93AF62;--l2:#B5B45A;--l3:#D9B252;--l4:#E08A50;--l5:#E06A5A;--warn:#E0A84E;--warn-soft:#3A2D16}
+.bars{display:inline-flex;align-items:flex-end;gap:2px;height:11px;flex:none}
+.bars i{width:3px;border-radius:1px;background:var(--off)}
+.bars i:nth-child(1){height:3px}.bars i:nth-child(2){height:5px}.bars i:nth-child(3){height:7px}.bars i:nth-child(4){height:9px}.bars i:nth-child(5){height:11px}
+.bars.l1 i.on{background:var(--l1)}.bars.l2 i.on{background:var(--l2)}.bars.l3 i.on{background:var(--l3)}.bars.l4 i.on{background:var(--l4)}.bars.l5 i.on{background:var(--l5)}
+.mat{width:24px;height:24px;border-radius:7px;background:var(--accent-soft);color:var(--accent);display:inline-grid;place-items:center;flex:none}
+.mat svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.mat.no{background:var(--warn-soft);color:var(--warn)}
+.mats{display:inline-flex;gap:3px;flex:none;align-items:center;flex-wrap:wrap}
+.otag{font-size:.72rem;font-weight:500;border:1px solid var(--line);border-radius:999px;padding:0 7px;color:var(--muted);white-space:nowrap}
+.rseg{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface);margin-top:14px}
+.rseg button{border:0;background:none;padding:9px;font-size:.9rem;color:var(--muted)}
+.rseg button[aria-pressed=true]{background:var(--accent-soft);color:var(--accent);font-weight:600}
+.xsearch{width:100%;margin-top:12px}
+.chips.xchips{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.chips.xchips button{flex:none;white-space:nowrap}
+.chips.xchips button.on{color:var(--accent);font-weight:600}
+.xtog{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:.85rem;color:var(--muted);padding:10px 2px 0}
+.xtog input{width:20px;height:20px;accent-color:var(--accent)}
+.xgrp{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin:18px 4px 6px}
+.xlist{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.mbox .xlist{background:var(--bg)}
+.xrow{display:flex;align-items:center;gap:10px;width:100%;padding:10px 12px;border:0;border-bottom:1px solid var(--line);background:none;text-align:left}
+.xrow:last-child{border-bottom:0}
+.xrow .t{flex:1;min-width:0}
+.xrow b{display:block;font-weight:600;font-size:.95rem}
+.xmeta{display:flex;align-items:center;gap:6px;margin-top:2px;font-size:.75rem;color:var(--muted);flex-wrap:wrap}
+.xcard{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-top:10px}
+.xcard h4{margin:0 0 6px;font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.xcard p{margin:0}
+.xcard ol,.xcard ul{margin:0;padding-left:20px}
+.xcard li{margin:3px 0}
+.matrow{display:flex;flex-wrap:wrap;gap:8px 14px}
+.matrow>span{display:inline-flex;align-items:center;gap:6px;font-size:.9rem}
+.xchain{display:flex;flex-direction:column}
+.xchain button{display:flex;align-items:center;gap:10px;border:0;background:none;padding:6px 0;text-align:left;font-size:.92rem}
+.xchain button span{flex:1;min-width:0}
+.xchain button i{width:10px;height:10px;border-radius:50%;border:2px solid var(--off);flex:none}
+.xchain button.cur{font-weight:700;color:var(--accent)}
+.xchain button.cur i{background:var(--accent);border-color:var(--accent)}
+.xlinks{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.xlinks button{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:3px 10px;font-size:.82rem}
+.xinfo{width:30px;height:30px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--accent);font:600 14px/1 Georgia,serif;flex:none;padding:0}
+.matsel{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px;margin-top:8px}
+.matsel label{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:10px;padding:7px 9px;font-size:.88rem;background:var(--bg)}
+.matsel input{accent-color:var(--accent);width:18px;height:18px;flex:none}
+.xname{grid-column:1/-1;display:flex;align-items:center;gap:8px;min-height:46px}
+.xname>span{flex:1;min-width:0}
+.xname b{display:block;font-weight:600}
+.exmat{grid-column:1/-1;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.lk{border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-top:8px;background:var(--surface)}
+.lk.ok{border-color:var(--ok);background:var(--ok-soft)}
+.lk.own{opacity:.8}
+.lk .to{display:flex;align-items:center;gap:8px;margin:6px 0 8px;font-weight:600;flex-wrap:wrap}
+.lk .to small{font-weight:400;color:var(--muted)}
+.pill{font-size:.72rem;border-radius:999px;padding:1px 8px;background:var(--accent-soft);color:var(--accent);font-weight:600}
+.pill.ok{background:var(--ok-soft);color:var(--ok)}
+.lprog{height:6px;border-radius:3px;background:var(--line);overflow:hidden;margin:12px 0 8px}
+.lprog i{display:block;height:100%;background:var(--ok)}
+.copt{display:grid;gap:8px;margin-top:12px}
+.copt button{display:block;text-align:left;border:1px solid var(--line);background:var(--bg);border-radius:12px;padding:12px 14px}
+.copt button b{display:block}
+.copt button small{display:block;color:var(--muted);font-size:.82rem;margin-top:2px}
+.copt button.on{border:2px solid var(--accent);padding:11px 13px}
+.ex-head .xinfo{width:26px;height:26px;font-size:13px}
 .wrow{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) auto;gap:8px;align-items:center}
 .modal{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.55);display:flex;align-items:flex-end;justify-content:center;padding:16px;padding-bottom:calc(16px + env(safe-area-inset-bottom,0px))}
 .mbox{background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:18px;padding:18px;max-width:520px;width:100%;max-height:85vh;overflow:auto}
@@ -531,15 +600,15 @@ const fmtDur = ms => { const m = Math.round(ms / 60000); return m >= 60 ? `${Mat
 const fmtWork = w => [`${w.reps} reps`, w.secs ? fmtSec(w.secs) + " " + T("isométricos") : "", w.kg ? fmtVol(w.kg) : ""].filter(Boolean).join(" · ");
 const doneSets = s => s.exercises.reduce((a, e) => a + e.sets.filter(x => x.done).length, 0);
 const sortedSessions = () => [...state.sessions].sort((a, b) => b.start - a.start);
-function lastSetsFor(name) {
-  const key = name.trim().toLowerCase();
+function lastSetsFor(ref) {
+  const key = typeof ref === "string" ? ref.trim().toLowerCase() : exKey(ref);
   for (const s of sortedSessions()) {
-    const e = s.exercises.find(x => x.name.trim().toLowerCase() === key);
+    const e = s.exercises.find(x => exKey(x) === key);
     if (e) { const d = e.sets.filter(x => x.done); if (d.length) return d; }
   }
   return null;
 }
-const APP_VERSION = "1.3.1";
+const APP_VERSION = "2.0.0";
 const THEMES = [["protector", "Protector", "Oscuro cálido, sin azul"], ["dark", "Oscuro", "Neutro"], ["light", "Claro", "Para el día"], ["auto", "Automático", "Sigue al sistema"]];
 const curTheme = () => document.documentElement.dataset.theme || "auto";
 function applyTheme(t) {
@@ -736,6 +805,217 @@ function readPlan() {
 }
 function weekStart(ts) { const d = new Date(ts); d.setHours(0,0,0,0); const k = (d.getDay() + 6) % 7; d.setDate(d.getDate() - k); return d.getTime(); }
 
+/* ---------- Catálogo de ejercicios (2.0) ----------
+   Opcional por perfil: wk.catalog = true / false (null = aún no ha elegido). Archivo aparte: ejercicios.json.
+   Cada ejercicio de rutinas y sesiones guarda su nombre y, si está vinculado al catálogo, xid (id fijo, nunca cambia).
+   Historial, récords y estadísticas se agrupan por xid cuando existe; si no, por nombre.
+   Ejercicios propios: material opcional (equip: claves de MAT; other: texto libre, sin icono). */
+const MAT = {
+  barra: ["Barra", '<path d="M3 5h18M7 5v4M17 5v4M9 13a3 3 0 1 0 6 0"/><path d="M12 10v-1"/>'],
+  paralelas: ["Paralelas", '<path d="M5 6v14M19 6v14M3 6h4M17 6h4"/>'],
+  anillas: ["Anillas", '<path d="M8 3v7M16 3v7"/><circle cx="8" cy="15" r="4"/><circle cx="16" cy="15" r="4"/>'],
+  caja: ["Caja / banco", '<rect x="4" y="9" width="16" height="11" rx="2"/><path d="M4 13h16"/>'],
+  pared: ["Pared", '<path d="M4 4h16v16H4zM4 9h16M4 14h16M10 4v5M14 9v5M10 14v6"/>'],
+  banda: ["Banda elástica", '<path d="M6 4c-3 6-3 10 0 16M18 4c3 6 3 10 0 16M6 4c4 3 8 3 12 0M6 20c4-3 8-3 12 0"/>'],
+  lastre: ["Lastre", '<path d="M8 8h8l2 12H6z"/><path d="M10 8a2 2 0 1 1 4 0"/>'],
+  rueda: ["Rueda abdominal", '<circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/><path d="M2 12h4M18 12h4"/>']
+};
+const MAT_ORDER = l => Object.keys(MAT).filter(k => l.includes(k));
+const PATS = [["empuje-h", "Empuje horizontal"], ["empuje-v", "Empuje vertical"], ["traccion-v", "Tracción vertical"], ["traccion-h", "Tracción horizontal"],
+  ["rodilla", "Pierna · rodilla"], ["cadera", "Pierna · cadera"], ["core", "Core"], ["habilidad", "Isométricos y habilidades"], ["movilidad", "Movilidad y calentamiento"]];
+let CAT = null, CATBY = {}, CHAIN = {}, VARS = {}, catLoad = null;
+const catOn = () => LS.get("wk.catalog", null) === true;
+const catReady = () => catOn() && !!CAT;
+function loadCatalog() {
+  if (CAT) return Promise.resolve(CAT);
+  return catLoad = catLoad || fetch("ejercicios.json").then(r => r.ok ? r.json() : null).then(d => {
+    if (!d || !Array.isArray(d.exercises)) return null;
+    CAT = d; CATBY = {}; d.exercises.forEach(x => { CATBY[x.id] = x; });
+    CHAIN = {}; (d.chains || []).forEach(c => c.forEach((id, i) => (CHAIN[id] = CHAIN[id] || []).push({ c, i })));
+    VARS = {}; Object.entries(d.variants || {}).forEach(([v, b]) => (VARS[b] = VARS[b] || []).push(v));
+    return CAT;
+  }).catch(() => null).finally(() => { catLoad = null; });
+}
+const xName = x => x ? (LANG === "en" && x.name.en) || x.name.es : "";
+const exName = e => (e?.xid && CATBY[e.xid] ? xName(CATBY[e.xid]) : e?.name) || "";
+const exKey = e => e?.xid ? "x:" + e.xid : String(e?.name || "").trim().toLowerCase();
+const myEquip = () => { const l = LS.get("wk.equip", null); return Array.isArray(l) ? l : null; };
+const haveMat = k => { const l = myEquip(); return !l || l.includes(k); };
+const LV = n => `<span class="bars l${n}" role="img" aria-label="${T("Nivel {n} de 5", { n })}">${[1, 2, 3, 4, 5].map(i => `<i class="${i <= n ? "on" : ""}"></i>`).join("")}</span>`;
+const matIco = k => MAT[k] ? `<span class="mat${haveMat(k) ? "" : " no"}" title="${T(MAT[k][0])}"><svg viewBox="0 0 24 24" aria-hidden="true">${MAT[k][1]}</svg></span>` : "";
+const matsOf = (eq, other) => (eq?.length || other) ? `<span class="mats">${(eq || []).map(matIco).join("")}${other ? `<span class="otag">${esc(other)}</span>` : ""}</span>` : "";
+const xMeta = x => `<span class="xmeta">${LV(x.level)}<span>${x.type === "time" ? T("tiempo") : T("reps")}</span>${x.sides ? `<span class="otag">${T("por lado")}</span>` : ""}${x.impact ? `<span class="otag">${T("impacto")}</span>` : ""}</span>`;
+const canDo = x => (x.equip || []).every(haveMat);
+const norm = s => String(s || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+const xMatches = (x, q) => !q || [x.name.es, x.name.en, ...(x.alias || [])].some(n => norm(n).includes(q));
+const xRow = (x, attr) => `<button class="xrow" ${attr}><span class="t"><b>${esc(xName(x))}</b>${xMeta(x)}</span>${matsOf(x.equip)}</button>`;
+/* Propuesta del catálogo para un nombre propio. strict: solo si coincide un nombre o alias (sin tildes ni mayúsculas) */
+const STOP = new Set(["en", "de", "con", "a", "la", "el", "al", "del", "las", "los", "the", "on", "with", "of"]);
+function catMatch(name, strict) {
+  if (!CAT) return null;
+  const clean = s => norm(String(s).replace(/\(.*?\)/g, " ").replace(SIDE_RX, " "));
+  const n = clean(name), toks = s => clean(s).split(" ").filter(w => w && !STOP.has(w)).map(w => w.length > 4 ? w.replace(/(es|s)$/, "") : w);
+  const k = toks(name).join(" ");
+  if (!n) return null;
+  let best = null, bs = 0;
+  for (const x of CAT.exercises) for (const c of [x.name.es, x.name.en, ...(x.alias || [])]) {
+    if (clean(c) === n) return x;
+    if (strict) continue;
+    const kc = toks(c); if (kc.join(" ") === k) { if (bs < 1) { best = x; bs = 1; } continue; }
+    const a = new Set(k.split(" ")), b = new Set(kc), inter = [...a].filter(w => b.has(w)).length, sc = inter / new Set([...a, ...b]).size;
+    if (sc > bs && sc >= 0.6) { best = x; bs = sc; }
+  }
+  return best;
+}
+const newFromCat = x => ({ name: xName(x), xid: x.id, sets: 3, reps: x.type === "time" ? 30 : 10, type: x.type === "time" ? "time" : "reps", sides: !!x.sides });
+
+/* Rutinas → Ejercicios: listado del catálogo */
+function catListHTML() {
+  const q = norm(state.catQ || ""), only = !!state.catOnly && myEquip(), pat = state.catPat || null;
+  const l = CAT.exercises.filter(x => (!pat || x.pattern === pat) && (!only || canDo(x)) && xMatches(x, q));
+  return PATS.map(([p, n]) => {
+    const g = l.filter(x => x.pattern === p).sort((a, b) => a.family.localeCompare(b.family) || a.level - b.level);
+    return g.length ? `<div class="xgrp">${T(n)} · ${g.length}</div><div class="xlist">${g.map(x => xRow(x, `data-xinfo="${x.id}"`)).join("")}</div>` : "";
+  }).join("") || `<div class="empty" style="margin-top:14px">${T("Sin resultados.")}</div>`;
+}
+function viewCatalog() {
+  return `<input type="search" id="catQ" class="xsearch" placeholder="${T("Buscar (también en inglés o por alias)")}" value="${esc(state.catQ || "")}" aria-label="${T("Buscar ejercicio")}">
+    <div class="chips xchips" role="group" aria-label="${T("Tipo de movimiento")}"><button data-catpat="" class="${state.catPat ? "" : "on"}">${T("Todos")}</button>${PATS.map(([p, n]) => `<button data-catpat="${p}" class="${state.catPat === p ? "on" : ""}">${T(n)}</button>`).join("")}</div>
+    ${myEquip() ? `<label class="xtog"><span>${T("Solo con mi material")}</span><input type="checkbox" id="catOnly" ${state.catOnly ? "checked" : ""}></label>` : ""}
+    <div id="catList">${catListHTML()}</div>
+    <p class="muted" style="font-size:.78rem;margin:14px 2px 0">${T("Barras = nivel dentro de su progresión (1 fácil, 5 difícil). Iconos = material; en naranja, lo que no tienes marcado en Ajustes → Entreno.")}</p>`;
+}
+
+/* Ficha de un ejercicio (hoja). state.exInfo = id; state.exInfoAdd = mostrar rutinas para añadirlo */
+function exInfoModal() {
+  const x = state.exInfo && CATBY[state.exInfo]; if (!x) return "";
+  const inf = x.info?.[LANG] || x.info?.es || {}, onlyEs = !x.info?.[LANG] && LANG !== "es";
+  const pat = PATS.find(p => p[0] === x.pattern), eq = x.equip || [];
+  const base = CAT.variants?.[x.id], main = CHAIN[x.id]?.[0] || (base && CHAIN[base]?.[0]), cur = CHAIN[x.id] ? x.id : base;
+  const sib = base ? [base, ...(VARS[base] || []).filter(v => v !== x.id)] : (VARS[x.id] || []);
+  const more = (CHAIN[x.id] || []).slice(1).map(o => o.c[o.i + 1]).filter(Boolean);
+  const link = id => `<button data-xinfo="${id}">${esc(xName(CATBY[id]))}</button>`;
+  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="xiT"><div class="mbox dsh">
+    <div class="sb-head"><h2 id="xiT" style="margin:0;flex:1">${esc(xName(x))}</h2><button class="btn small" data-act="xi-close">${T("Cerrar")}</button></div>
+    <p class="muted" style="margin:2px 0 0;font-size:.85rem">${esc(LANG === "en" ? x.name.es : x.name.en)}</p>
+    <div class="xmeta" style="margin-top:8px;font-size:.8rem"><span class="otag">${T(pat?.[1] || "")}</span>${LV(x.level)}<span>${x.type === "time" ? T("por tiempo") : T("repeticiones")}</span>${x.sides ? `<span class="otag">${T("por lado")}</span>` : ""}${x.impact ? `<span class="otag">${T("impacto")}</span>` : ""}</div>
+    <div class="xcard"><h4>${T("Material")}</h4>${eq.length ? `<div class="matrow">${eq.map(k => `<span>${matIco(k)}${T(MAT[k][0])}${haveMat(k) ? "" : ` <small style="color:var(--warn)">(${T("no lo tienes")})</small>`}</span>`).join("")}</div>` : `<p>${T("Ninguno: solo suelo")}</p>`}
+      ${inf.muscles?.length ? `<p class="muted" style="font-size:.85rem;margin-top:8px">${T("Músculos")}: ${esc(inf.muscles.join(", "))}</p>` : ""}</div>
+    ${onlyEs ? `<p class="muted" style="font-size:.8rem;margin:10px 2px 0">${T("Por ahora, la explicación solo está en castellano.")}</p>` : ""}
+    ${inf.why ? `<div class="xcard"><h4>${T("Para qué sirve")}</h4><p>${esc(inf.why)}</p></div>` : ""}
+    ${inf.how?.length ? `<div class="xcard"><h4>${T("Cómo se hace")}</h4><ol>${inf.how.map(h => `<li>${esc(h)}</li>`).join("")}</ol></div>` : ""}
+    ${inf.errors?.length ? `<div class="xcard"><h4>${T("Errores típicos")}</h4><ul>${inf.errors.map(h => `<li>${esc(h)}</li>`).join("")}</ul></div>` : ""}
+    ${inf.alt?.length ? `<div class="xcard"><h4>${T("Alternativas")}</h4><ul>${inf.alt.map(h => `<li>${esc(h)}</li>`).join("")}</ul></div>` : ""}
+    ${main || sib.length ? `<div class="xcard"><h4>${T("Progresión")}</h4>
+      ${main ? `<div class="xchain">${main.c.map(id => `<button class="${id === cur ? "cur" : ""}" data-xinfo="${id}"><i></i><span>${esc(xName(CATBY[id]))}</span>${LV(CATBY[id].level)}</button>`).join("")}</div>` : ""}
+      ${base ? `<p class="muted" style="font-size:.85rem;margin-top:6px">${T("Variante de {x}: se puede alternar con él.", { x: esc(xName(CATBY[base])) })}</p>` : ""}
+      ${sib.length ? `<p class="muted" style="font-size:.85rem;margin-top:8px">${base ? T("Otras opciones del mismo nivel") : T("Variantes del mismo nivel")}</p><div class="xlinks">${sib.map(link).join("")}</div>` : ""}
+      ${more.length ? `<p class="muted" style="font-size:.85rem;margin-top:8px">${T("También lleva a")}</p><div class="xlinks">${more.map(link).join("")}</div>` : ""}</div>` : ""}
+    ${state.exInfoFrom === "ed" ? "" : state.exInfoAdd
+      ? `<div class="xcard"><h4>${T("Añadir a una rutina")}</h4>${state.routines.length ? `<div class="xlinks">${state.routines.map(r => `<button data-xaddr="${r.id}">${esc(r.name)}</button>`).join("")}</div>` : `<p class="muted">${T("Aún no tienes rutinas.")}</p>`}</div>`
+      : `<button class="btn primary" style="width:100%;margin-top:12px" data-act="xi-add">${T("Añadir a una rutina")}</button>`}
+  </div></div>`;
+}
+
+/* Selector: añadir del catálogo (editor de rutina, sesión) o elegir otro al vincular. state.xpick = {mode: "ed"|"sess"|"link", q, k} */
+function xpListHTML() {
+  const p = state.xpick, q = norm(p.q || "");
+  if (q) { const l = CAT.exercises.filter(x => xMatches(x, q)).sort((a, b) => a.level - b.level); return l.length ? `<div class="xlist" style="margin-top:10px">${l.slice(0, 40).map(x => xRow(x, `data-xpadd="${x.id}"`)).join("")}</div>` : `<p class="muted" style="margin:12px 2px">${T("Sin resultados.")}</p>`; }
+  return PATS.map(([pt, n]) => { const g = CAT.exercises.filter(x => x.pattern === pt).sort((a, b) => a.family.localeCompare(b.family) || a.level - b.level);
+    return `<div class="xgrp">${T(n)}</div><div class="xlist">${g.map(x => xRow(x, `data-xpadd="${x.id}"`)).join("")}</div>`; }).join("");
+}
+function xpickModal() {
+  const p = state.xpick; if (!p || !CAT) return "";
+  const own = p.mode !== "link";
+  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="xpT"><div class="mbox dsh">
+    <div class="sb-head"><h2 id="xpT" style="margin:0;flex:1">${p.mode === "link" ? T("Elegir del catálogo") : T("Añadir ejercicio")}</h2><button class="btn small" data-act="xp-close">${T("Cerrar")}</button></div>
+    ${p.mode === "link" ? `<p class="muted" style="margin:4px 0 0;font-size:.85rem">${T("Para «{x}»", { x: esc(p.name || "") })}</p>` : ""}
+    <input type="search" id="xpQ" class="xsearch" placeholder="${T("Buscar en el catálogo")}" value="${esc(p.q || "")}" aria-label="${T("Buscar ejercicio")}">
+    ${own ? `<button class="btn" style="width:100%;margin-top:10px" data-act="xp-own" id="xpOwn">${xpOwnLabel()}</button>` : ""}
+    <div id="xpList">${xpListHTML()}</div>
+  </div></div>`;
+}
+const xpOwnLabel = () => { const q = (state.xpick?.q || "").trim(); return "+ " + (q ? T("Crear «{x}» como ejercicio propio", { x: esc(q) }) : T("Crear ejercicio propio")); };
+
+/* Material de un ejercicio propio (editor). state.ownMat = {i, equip, other} */
+function ownMatModal() {
+  const o = state.ownMat; if (!o) return "";
+  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="omT"><div class="mbox">
+    <h2 id="omT" style="margin:0 0 4px">${T("Material")}</h2>
+    <p class="muted" style="margin:0;font-size:.85rem">${esc(state.editing?.exercises[o.i]?.name || "")}</p>
+    <div class="matsel">${Object.entries(MAT).map(([k, [n]]) => `<label><input type="checkbox" data-omat="${k}" ${o.equip.includes(k) ? "checked" : ""}>${matIco(k)}${T(n)}</label>`).join("")}</div>
+    <label class="muted" for="omOther" style="font-size:.85rem;display:block;margin-top:12px">${T("Otro material (sin icono)")}</label>
+    <input type="text" id="omOther" maxlength="40" value="${esc(o.other || "")}" placeholder="${T("Ej. mochila, toalla, escalón")}">
+    <p class="muted" style="font-size:.8rem;margin:6px 0 0">${T("Nada marcado = solo suelo.")}</p>
+    <div class="row" style="margin-top:14px"><span class="spacer"></span><button class="btn ghost" data-act="om-cancel">${T("Cancelar")}</button><button class="btn primary" data-act="om-ok">${T("Guardar")}</button></div>
+  </div></div>`;
+}
+
+/* Primera vez (por perfil): ¿cargar el catálogo? */
+function catAskModal() {
+  if (!state.catAsk || !LS.get("wk.welcomed", false) || state.newsOpen || state.incoming || run || state.pform) return "";
+  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="caT"><div class="mbox">
+    <h2 id="caT" style="margin:0 0 6px">${T("Catálogo de ejercicios")}</h2>
+    <p class="muted" style="margin:0">${T("Usus incluye un catálogo opcional de {n} ejercicios de calistenia, cada uno con su ficha: para qué sirve, cómo se hace, errores típicos, material y progresión.", { n: CAT?.exercises.length || 162 })}</p>
+    <div class="copt">
+      <button data-act="cat-yes"><b>${T("Sí, dame toda la info")}</b><small>${T("Para elegir ejercicios al crear rutinas y saber cómo avanzar.")}</small></button>
+      <button data-act="cat-no"><b>${T("No, solo mis ejercicios")}</b><small>${T("Si ya sabes lo que haces. Todo funciona igual, con menos información.")}</small></button>
+    </div>
+    <p class="muted" style="font-size:.8rem;margin:10px 0 0">${T("Cada perfil decide. Se puede cambiar en Ajustes → App.")}</p>
+  </div></div>`;
+}
+
+/* Vincular: los nombres que ya usas → ejercicio del catálogo. wk.linkOwn = claves que se quedan como propias.
+   Vincular solo añade xid (el nombre guardado no cambia), así se puede deshacer. */
+const allExs = () => [...state.routines.flatMap(r => r.exercises), ...state.sessions.flatMap(s => s.exercises), ...(state.active?.exercises || [])];
+function linkCandidates() {
+  const m = new Map();
+  allExs().forEach(e => { if (e.xid) return; const k = exKey(e); if (!k) return; const it = m.get(k) || { k, name: e.name.trim(), n: 0 }; it.n++; m.set(k, it); });
+  return [...m.values()].sort((a, b) => b.n - a.n);
+}
+function linkOpen() {
+  const items = linkCandidates().map(it => ({ ...it, to: catMatch(it.name)?.id || null }));
+  state.link = { items, done: {} }; state.tab = "data"; state.xpick = null; state.exInfo = null;
+}
+function linkApply(k, xid) {
+  allExs().forEach(e => { if (!e.xid && exKey(e) === k) e.xid = xid; });
+  state.link.done[k] = xid; linkSave();
+}
+function linkUndo(k) {
+  const xid = state.link.done[k];
+  if (xid) { allExs().forEach(e => { if (e.xid === xid && String(e.name || "").trim().toLowerCase() === k) delete e.xid; }); delete state.link.done[k]; linkSave(); }
+  LS.set("wk.linkOwn", (LS.get("wk.linkOwn", []) || []).filter(x => x !== k));
+}
+function linkSave() { store.saveAll(); if (state.active) saveActive(); }
+function viewLink() {
+  const L = state.link, own = new Set(LS.get("wk.linkOwn", []) || []), n = L.items.length;
+  const rev = L.items.filter(it => L.done[it.k] || own.has(it.k)).length;
+  const sug = L.items.filter(it => it.to && !L.done[it.k] && !own.has(it.k)).length;
+  return `<h1>${T("Vincular ejercicios")}</h1>
+    <p class="muted" style="margin:4px 0 0">${T("Vincula los ejercicios que ya usas con el catálogo para ver su ficha y unir su historial. Tu nombre se conserva y nada cambia sin tu confirmación.")}</p>
+    ${n ? `<div class="lprog"><i style="width:${Math.round(rev / n * 100)}%"></i></div>
+    <div class="row" style="justify-content:space-between"><span class="muted" style="font-size:.85rem">${T("{a} de {b} revisados", { a: rev, b: n })}</span>${sug ? `<button class="btn small" data-act="ln-all">${T("Aceptar las {n} propuestas", { n: sug })}</button>` : ""}</div>
+    ${L.items.map((it, i) => { const done = L.done[it.k], isOwn = own.has(it.k), x = CATBY[done || it.to];
+      return `<div class="lk${done ? " ok" : ""}${isOwn ? " own" : ""}"><div class="muted" style="font-size:.85rem">${T("Tu nombre")}: <b style="color:var(--ink)">${esc(it.name)}</b> · ${it.n === 1 ? T("1 uso") : T("{n} usos", { n: it.n })}</div>
+        ${isOwn ? `<div class="to">${T("Se queda como ejercicio propio")} <span class="pill">${T("propio")}</span></div><button class="btn small" data-lnundo="${i}">${T("Deshacer")}</button>`
+        : done ? `<div class="to">→ ${esc(xName(x))} ${matsOf(x.equip)} <span class="pill ok">${T("vinculado")}</span></div><button class="btn small" data-lnundo="${i}">${T("Deshacer")}</button>`
+        : `<div class="to">${x ? `→ ${esc(xName(x))} ${LV(x.level)} ${matsOf(x.equip)} <small>${T("propuesta")}</small>` : `<small>${T("Sin propuesta en el catálogo")}</small>`}</div>
+          <div class="row">${x ? `<button class="btn small primary" data-lnok="${i}">${T("Vincular")}</button>` : ""}<button class="btn small" data-lnpick="${i}">${T("Elegir otro")}</button><button class="btn small" data-lnown="${i}">${T("Dejar como propio")}</button></div>`}</div>`; }).join("")}`
+    : `<div class="empty" style="margin-top:14px">${T("No hay ejercicios por vincular.")}</div>`}
+    <button class="btn primary" style="width:100%;margin-top:16px;padding:12px" data-act="ln-close">${!n || rev === n ? T("Terminar") : T("Seguir más tarde")}</button>`;
+}
+
+/* Avisos durante el entreno: sonido y vibración, solo uno, o nada (wk.fx) */
+const FX = [["both", "Sonido y vibración"], ["sound", "Solo sonido"], ["vib", "Solo vibración"], ["off", "Desactivados"]];
+const fxMode = () => { const v = LS.get("wk.fx", "both"); return FX.some(f => f[0] === v) ? v : "both"; };
+/* Editor de rutina: nombre del ejercicio (del catálogo: fijo, con ficha; propio: editable, con material) */
+function edNameCell(e, i) {
+  const x = e.xid && CATBY[e.xid];
+  if (x) return `<div class="xname"><span><b>${esc(xName(x))}</b><span class="xmeta">${LV(x.level)}${matsOf(x.equip)}</span></span><button class="xinfo" data-xinfo="${x.id}" aria-label="${T("Ver ficha")}">i</button></div>`;
+  return `<input type="text" value="${esc(e.name)}" data-en="${i}" list="exNames2" placeholder="${T("Ejercicio")}" aria-label="${T("Ejercicio {n}", { n: i + 1 })}">`
+    + (catOn() && !e.xid ? `<div class="exmat">${matsOf(e.equip, e.other)}<button class="btn small" data-ownmat="${i}">${e.equip?.length || e.other ? T("Material") : "+ " + T("Material")}</button><span class="otag">${T("propio")}</span></div>` : "");
+}
+
 /* ---------- Iconos ---------- */
 const ICON = {
   train: '<svg viewBox="0 0 24 24"><path d="M6 7v10M18 7v10M3 10v4M21 10v4M6 12h12"/></svg>',
@@ -757,9 +1037,9 @@ function renderTabs() {
 function render() {
   renderTabs();
   if (state.tab === "history") state.tab = "diary";
-  const v = state.actForm ? viewActForm : { train: viewTrain, routines: viewRoutines, diary: viewDiary, stats: viewStats, data: viewData }[state.tab];
+  const v = state.actForm ? viewActForm : state.tab === "data" && state.link ? viewLink : { train: viewTrain, routines: viewRoutines, diary: viewDiary, stats: viewStats, data: viewData }[state.tab];
   const mb = document.querySelector(".mbox.dsh"), mbTop = mb ? mb.scrollTop : 0;
-  $("#app").innerHTML = v() + focusView() + welcomeModal() + newsModal() + cycAckModal() + savedModal() + shareSessModal() + shareRoutModal() + incomingModal() + profPickModal() + profFormModal() + profEditModal() + profCopyModal() + issueModal();
+  $("#app").innerHTML = v() + focusView() + welcomeModal() + newsModal() + cycAckModal() + savedModal() + shareSessModal() + shareRoutModal() + incomingModal() + profPickModal() + profFormModal() + profEditModal() + profCopyModal() + issueModal() + exInfoModal() + xpickModal() + ownMatModal() + catAskModal();
   if (mb) { const nb = document.querySelector(".mbox.dsh"); if (nb) nb.scrollTop = mbTop; }
   if (state.tab === "train" && state.active && !state.actForm) tick();
   if (state.shareSess && SHOPT().img) sessPreview();
@@ -863,9 +1143,9 @@ function curEx(a) {
   return p >= 0 ? p : Math.max(0, n - 1);
 }
 function exCard(e, ei) {
-  const prev = lastSetsFor(e.name), tm = isTime(e);
+  const prev = lastSetsFor(e), tm = isTime(e);
   return `<div class="ex">
-    <div class="ex-head"><strong>${esc(e.name)}</strong>
+    <div class="ex-head"><strong>${esc(exName(e))}</strong>${e.xid && CATBY[e.xid] ? `<button class="xinfo" data-xinfo="${e.xid}" aria-label="${T("Ver ficha")}">i</button>` : ""}
       <span class="hint">${prev ? T("Anterior") + ": " + prev.map(p => fmtSet(p, tm, sideReps(e))).join(", ") : ""}</span>
       <span class="spacer"></span><button class="type-t" data-type="${ei}" aria-label="${T("Cambiar entre repeticiones y segundos")}">${tm ? (e.sides ? T("seg · 2 lados") : T("seg")) : (e.sides ? T("reps · izq/der") : T("reps"))}</button>
       <button class="x" aria-label="${T("Quitar ejercicio")}" data-rmex="${ei}">×</button></div>
@@ -889,11 +1169,11 @@ function sessionPanel(a, sheet) {
   const cur = curEx(a);
   return `${sheet ? `<div class="row"><h2 style="margin:0;flex:1">${T("Sesión")}</h2><button class="btn small" data-act="sheet-close">${T("Cerrar")}</button></div>` : ""}
     <div class="list" style="margin-top:12px">${a.exercises.map((e, ei) => { const d = e.sets.filter(x => x.done).length;
-      return `<button class="btn exrow${ei === cur ? " now" : ""}" data-goex="${ei}"><span style="flex:1;text-align:left;min-width:0">${esc(e.name)}</span><span class="muted">${d}/${e.sets.length}${d && d === e.sets.length ? " ✓" : ""}</span></button>`; }).join("")}</div>
+      return `<button class="btn exrow${ei === cur ? " now" : ""}" data-goex="${ei}"><span style="flex:1;text-align:left;min-width:0">${esc(exName(e))}</span><span class="muted">${d}/${e.sets.length}${d && d === e.sets.length ? " ✓" : ""}</span></button>`; }).join("")}</div>
     <div class="row" style="margin-top:14px">
       <input type="text" id="newEx" placeholder="${T("Nombre del ejercicio")}" list="exNames" style="flex:1">
       <button class="btn" data-act="addex">${T("Añadir ejercicio")}</button>
-    </div>
+    </div>${catReady() ? `<button class="btn" style="width:100%;margin-top:8px" data-act="xpick-sess">${T("Añadir del catálogo")}</button>` : ""}
     <datalist id="exNames">${allExerciseNames().map(n => `<option value="${esc(n)}">`).join("")}</datalist>
     <button class="btn primary" style="width:100%;margin-top:20px;padding:14px" data-act="finish">${T("Terminar y guardar")}</button>`;
 }
@@ -904,11 +1184,11 @@ function viewPre(a) {
     <h1 style="margin-top:8px">${esc(a.routine || T("Sesión libre"))}</h1>
     <p class="muted" style="margin:0 0 14px">${T("Revisa la sesión. El reloj y las series se activan al iniciar.")}</p>
     <div class="list">${a.exercises.map(e => { const tm = isTime(e), r0 = e.sets[0]?.r;
-      return `<div class="ex"><strong>${esc(e.name)}</strong><div class="muted" style="margin-top:2px">${e.sets.length} × ${r0 ? (tm ? r0 + " s" : r0 + " reps") : "—"} · ${T("descanso {n} s", { n: restFor(e) })}</div></div>`; }).join("")}</div>
+      return `<div class="ex"><strong>${esc(exName(e))}</strong><div class="muted" style="margin-top:2px">${e.sets.length} × ${r0 ? (tm ? r0 + " s" : r0 + " reps") : "—"} · ${T("descanso {n} s", { n: restFor(e) })}</div></div>`; }).join("")}</div>
     <div class="row" style="margin-top:14px">
       <input type="text" id="newEx" placeholder="${T("Nombre del ejercicio")}" list="exNames" style="flex:1">
       <button class="btn" data-act="addex">${T("Añadir ejercicio")}</button>
-    </div>
+    </div>${catReady() ? `<button class="btn" style="width:100%;margin-top:8px" data-act="xpick-sess">${T("Añadir del catálogo")}</button>` : ""}
     <datalist id="exNames">${allExerciseNames().map(n => `<option value="${esc(n)}">`).join("")}</datalist>
     <button class="btn primary" style="width:100%;margin-top:22px;padding:18px;font-size:1.1rem" data-act="sess-begin">${T("Iniciar")}</button>`;
 }
@@ -918,13 +1198,13 @@ function allExerciseNames() {
   state.sessions.forEach(s => s.exercises.forEach(e => set.add(e.name)));
   return [...set].sort((a, b) => a.localeCompare(b, LOC()));
 }
-function buildExercise(name, nSets = 3, reps = "", type, sides, rest) {
-  const prev = lastSetsFor(name);
-  return { name, type: type || typeFor(name), sides: sides ?? SIDE_RX.test(name), rest: +rest > 0 ? +rest : null, sets: Array.from({length: nSets}, (_, i) => ({ w: prev?.[i]?.w ?? prev?.[prev.length-1]?.w ?? "", r: reps || (prev?.[i]?.r ?? ""), r2: reps || (prev?.[i] ? R2(prev[i]) : ""), done: false })) };
+function buildExercise(name, nSets = 3, reps = "", type, sides, rest, xid) {
+  const prev = lastSetsFor(xid ? { xid } : name);
+  return { name, ...(xid ? { xid } : {}), type: type || typeFor(name), sides: sides ?? SIDE_RX.test(name), rest: +rest > 0 ? +rest : null, sets: Array.from({length: nSets}, (_, i) => ({ w: prev?.[i]?.w ?? prev?.[prev.length-1]?.w ?? "", r: reps || (prev?.[i]?.r ?? ""), r2: reps || (prev?.[i] ? R2(prev[i]) : ""), done: false })) };
 }
 function startSession(rid) {
   const r = state.routines.find(x => x.id === rid);
-  state.active = { id: uid(), start: Date.now(), pre: true, routine: r ? r.name : "", block: r ? (r.block || guessBlock(r.name)) : "otro", exercises: r ? r.exercises.map(e => Object.assign(buildExercise(e.name, +e.sets || 3, e.reps, e.type || "reps", !!e.sides, e.rest), { restAfter: e.restAfter ?? null })) : [] };
+  state.active = { id: uid(), start: Date.now(), pre: true, routine: r ? r.name : "", block: r ? (r.block || guessBlock(r.name)) : "otro", exercises: r ? r.exercises.map(e => Object.assign(buildExercise(exName(e), +e.sets || 3, e.reps, e.type || "reps", !!e.sides, e.rest, e.xid), { restAfter: e.restAfter ?? null })) : [] };
   state.exView = null; state.sheet = false;
   saveActive(); render(); window.scrollTo(0, 0);
 }
@@ -960,6 +1240,7 @@ function unlockAudio() {
   } catch {}
 }
 function beep(freq = 880, ms = 250, delay = 0, vol = 0.8) {
+  if (fxMode() === "vib" || fxMode() === "off") return;
   try {
     audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
     if (audioCtx.state !== "running") audioCtx.resume().catch(() => {});
@@ -971,7 +1252,7 @@ function beep(freq = 880, ms = 250, delay = 0, vol = 0.8) {
   } catch {}
 }
 const beepEnd = () => { beep(880, 300, 0); beep(880, 300, 0.4); beep(1320, 500, 0.8); };
-const buzz = p => { try { return navigator.vibrate ? navigator.vibrate(p) : false; } catch { return false; } };
+const buzz = p => { if (fxMode() === "sound" || fxMode() === "off") return false; try { return navigator.vibrate ? navigator.vibrate(p) : false; } catch { return false; } };
 function flash() { const f = document.createElement("div"); f.className = "flash"; document.body.appendChild(f); setTimeout(() => f.remove(), 800); }
 async function keepAwake(on) {
   try {
@@ -1185,7 +1466,7 @@ function viewRoutines() {
         <h2 style="margin:20px 0 4px;font-size:1rem">${T("Ejercicios")}</h2>
         ${ed.exercises.map((e, i) => `
           <div class="ex-edit">
-            <input type="text" value="${esc(e.name)}" data-en="${i}" list="exNames2" placeholder="${T("Ejercicio")}" aria-label="${T("Ejercicio {n}", { n: i + 1 })}">
+            ${edNameCell(e, i)}
             <label class="fld"><span>${T("Series")}</span><input type="number" min="1" value="${esc(e.sets)}" data-es="${i}" inputmode="numeric"></label>
             <label class="fld"><span>${T("Objetivo")}</span><input type="number" min="1" value="${esc(e.reps)}" data-er="${i}" inputmode="numeric"></label>
             <label class="fld"><span>${T("Tipo")}</span><select data-et="${i}"><option value="reps" ${isTime(e) ? "" : "selected"}>${T("reps")}</option><option value="time" ${isTime(e) ? "selected" : ""}>${T("seg")}</option></select></label>
@@ -1195,7 +1476,7 @@ function viewRoutines() {
             <label class="chk"><input type="checkbox" data-eside="${i}" ${e.sides ? "checked" : ""}> <span style="white-space:nowrap">${T("Por lado")}</span></label>
           </div>`).join("")}
         <datalist id="exNames2">${allExerciseNames().map(n => `<option value="${esc(n)}">`).join("")}</datalist>
-        <button class="btn small" style="margin-top:12px" data-act="addre">${T("Añadir ejercicio")}</button>
+        <button class="btn small" style="margin-top:12px" data-act="${catReady() ? "xpick-ed" : "addre"}">${T("Añadir ejercicio")}</button>
       </div>
       <div class="row" style="margin-top:16px">
         ${!ed.isNew ? `<button class="btn danger" data-act="delroutine">${T("Eliminar")}</button>` : ""}
@@ -1206,7 +1487,8 @@ function viewRoutines() {
   }
   return `
     <div class="row"><h1>${T("Rutinas")}</h1><span class="spacer"></span>${state.routines.length ? `<button class="btn shbtn icon" data-act="rs-open" aria-label="${T("Compartir rutinas")}" title="${T("Compartir rutinas")}">${SHARE_ICO}</button>` : ""}<button class="btn primary" data-act="newroutine">${T("Nueva rutina")}</button></div>
-    <div class="list" style="margin-top:16px">
+    ${catReady() ? `<div class="rseg" role="group" aria-label="${T("Rutinas")}"><button data-rview="mine" aria-pressed="${state.routView !== "cat"}">${T("Mis rutinas")}</button><button data-rview="cat" aria-pressed="${state.routView === "cat"}">${T("Ejercicios")}</button></div>` : ""}
+    ${catReady() && state.routView === "cat" ? viewCatalog() : `<div class="list" style="margin-top:16px">
       ${state.routines.length ? state.routines.map(r => {
         const open = state.routOpen === r.id, nSets = r.exercises.reduce((a, e) => a + (+e.sets || 0), 0);
         return `
@@ -1217,7 +1499,7 @@ function viewRoutines() {
             <svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
           </button>
           ${open ? `<div class="rbody">
-            ${r.exercises.length ? r.exercises.map(e => `<div class="rex"><span>${esc(e.name)}${e.sides && !SIDE_RX.test(e.name) ? ` <span class="muted" style="font-size:.78rem">· ${T("por lado")}</span>` : ""}</span><span class="muted">${e.sets}×${e.reps}${isTime(e) ? " s" : ""}${+e.rest > 0 ? ` · ${T("desc.")} ${e.rest} s` : ""}${e.restAfter !== null && e.restAfter !== undefined ? ` · ${T("tras")} ${e.restAfter} s` : ""}</span></div>`).join("") : `<p class="muted" style="margin:0">${T("Sin ejercicios")}</p>`}
+            ${r.exercises.length ? r.exercises.map(e => `<div class="rex"><span>${esc(exName(e))}${e.sides && !SIDE_RX.test(e.name) ? ` <span class="muted" style="font-size:.78rem">· ${T("por lado")}</span>` : ""}</span><span class="muted">${e.sets}×${e.reps}${isTime(e) ? " s" : ""}${+e.rest > 0 ? ` · ${T("desc.")} ${e.rest} s` : ""}${e.restAfter !== null && e.restAfter !== undefined ? ` · ${T("tras")} ${e.restAfter} s` : ""}</span></div>`).join("") : `<p class="muted" style="margin:0">${T("Sin ejercicios")}</p>`}
             <div class="ract">
               <button class="btn primary" data-start="${r.id}">${T("Empezar")}</button>
               <button class="btn" data-edit="${r.id}">${T("Editar")}</button>
@@ -1225,7 +1507,7 @@ function viewRoutines() {
               <button class="btn shbtn icon" data-rshare="${r.id}" aria-label="${T("Compartir")} ${esc(r.name)}" title="${T("Compartir")}">${SHARE_ICO}</button>
             </div></div>` : ""}
         </div>`; }).join("") : `<div class="empty">${T("Crea una rutina con sus ejercicios, series y repeticiones objetivo.")}</div>`}
-    </div>`;
+    </div>`}`;
 }
 function readEditor() {
   const ed = state.editing; if (!ed) return;
@@ -1696,14 +1978,14 @@ const fmtVal = (mode, v) => mode === "time" ? fmtSec(v) : mode === "load" ? `${f
 function exIndex() {
   const m = new Map();
   [...state.sessions].sort((a, b) => a.start - b.start).forEach(s => s.exercises.forEach(e => {
-    const k = e.name.trim().toLowerCase();
-    if (!m.has(k)) m.set(k, { key: k, name: e.name, items: [] });
+    const k = exKey(e);
+    if (!m.has(k)) m.set(k, { key: k, name: exName(e), items: [] });
     m.get(k).items.push({ t: s.start, e });
   }));
   m.forEach(x => {
     x.mode = x.items.some(i => isTime(i.e)) ? "time" : x.items.some(i => i.e.sets.some(z => +z.w > 0)) ? "load" : "reps";
     x.pts = x.items.map(i => ({ t: i.t, v: bestOf(i.e, x.mode) }));
-    for (const r of state.routines) { const re = r.exercises.find(z => z.name.trim().toLowerCase() === x.key); if (re) { x.target = +re.reps || 0; break; } }
+    for (const r of state.routines) { const re = r.exercises.find(z => exKey(z) === x.key); if (re) { x.target = +re.reps || 0; break; } }
   });
   return m;
 }
@@ -1767,7 +2049,7 @@ function sbEjercicios(IX, now) {
     const arrow = prev === null ? "" : last > prev ? "↑" : last < prev ? "↓" : "=";
     const open = state.statEx === x.key;
     const sub = `${fmtVal(x.mode, last)}${x.target && x.mode !== "load" ? ` · ${T("obj.")} ${fmtVal(x.mode, x.target)}` : ""}${sideReps(x.items[x.items.length - 1].e) ? " · " + T("peor lado") : ""}`;
-    return `<button class="exr" data-statex="${esc(x.key)}" aria-expanded="${open}"><span><div class="nm">${esc(x.name)}</div><div class="sb">${sub}</div></span>${spark(x.pts, col)}<span class="pc" style="color:${col}">${arrow} ${pct !== null ? pct + "%" : ""}</span></button>${open ? `<div class="exd">${exerciseProgress(x.name)}</div>` : ""}`;
+    return `<button class="exr" data-statex="${esc(x.key)}" aria-expanded="${open}"><span><div class="nm">${esc(x.name)}</div><div class="sb">${sub}</div></span>${spark(x.pts, col)}<span class="pc" style="color:${col}">${arrow} ${pct !== null ? pct + "%" : ""}</span></button>${open ? `<div class="exd">${exerciseProgress(x.key, x.name)}</div>` : ""}`;
   }).join("")}<p class="muted" style="font-size:.78rem;margin:6px 0 4px">${T("% = última sesión sobre el objetivo de la rutina. Flecha = respecto a la sesión anterior. Toca para ver el gráfico.")}</p></div>`;
 }
 function sbEquilibrio(S, now) {
@@ -1979,10 +2261,10 @@ function viewStats() {
       ${ed ? "" : SBLOCKS[k][1](S, IX, now)}</section>`).join("")}`;
 }
 
-function exerciseProgress(name) {
-  const key = name.trim().toLowerCase();
+function exerciseProgress(key, name) {
+  name = name || key;
   const found = [...state.sessions].sort((a, b) => a.start - b.start)
-    .map(s => ({ t: s.start, e: s.exercises.find(x => x.name.trim().toLowerCase() === key) })).filter(p => p.e);
+    .map(s => ({ t: s.start, e: s.exercises.find(x => exKey(x) === key) })).filter(p => p.e);
   // Modo: tiempo (segundos), peso corporal (reps) o con carga (1RM estimado)
   let mode = found.some(p => isTime(p.e)) ? "time" : found.some(p => p.e.sets.some(x => +x.w > 0)) ? "load" : "reps";
   if (mode === "reps" && found.some(p => p.e.sides)) mode = "sides";
@@ -2071,8 +2353,9 @@ function viewData() {
     <div class="panel"><div class="wrow"><label class="muted" for="gDaily" style="font-size:.85rem">${T("Días con Diaria")}</label><input id="gDaily" type="number" min="0" max="7" inputmode="numeric" value="${LS.get("wk.goals", {}).daily || 0}"><span></span></div>
       <div class="wrow" style="margin-top:10px"><label class="muted" for="gStr" style="font-size:.85rem">${T("Días con fuerza")}</label><input id="gStr" type="number" min="0" max="7" inputmode="numeric" value="${LS.get("wk.goals", {}).strength || 0}"><span></span></div>
       <p class="muted" style="font-size:.8rem;margin:8px 0 0">${T("Se muestran en Stats → Resumen. 0 = no mostrar. Fuerza = cualquier bloque salvo Diaria, Cardio y Otro.")}</p></div>
-    <h2>${T("Avisos")}</h2>
-    <div class="panel">${item(T("Probar sonido y vibración"), T("El pitido usa el volumen multimedia. Si no vibra, revisa No molestar y la vibración del sistema."), "testfx", T("Probar"))}</div>
+    ${catOn() ? `<h2>${T("Mi material")}</h2>
+    <div class="panel"><p class="muted" style="font-size:.85rem;margin:0">${T("Marca lo que tienes. En el catálogo, lo demás se ve en naranja y se puede ocultar. Sin nada marcado, no se filtra.")}</p>
+      <div class="matsel">${Object.entries(MAT).map(([k, [n]]) => `<label><input type="checkbox" data-myeq="${k}" ${myEquip()?.includes(k) ? "checked" : ""}>${matIco(k)}${T(n)}</label>`).join("")}</div></div>` : ""}
 `,
     cuerpo: `
     <h2>${T("Peso")}</h2>
@@ -2090,6 +2373,16 @@ function viewData() {
     <div class="seg" style="grid-template-columns:repeat(auto-fit,minmax(100px,1fr))" role="group" aria-label="${T("Idioma")}">${Object.entries(LANGS).map(([k, v]) => `<button data-lang-set="${k}" class="${LANG === k ? "on" : ""}" aria-pressed="${LANG === k}" lang="${k}">${v.name}</button>`).join("")}</div>
     <h2>${T("Apariencia")}</h2>
     <div class="seg" role="group" aria-label="${T("Tema")}">${THEMES.map(([k, n, d]) => `<button data-theme-set="${k}" class="${curTheme() === k ? "on" : ""}" aria-pressed="${curTheme() === k}">${T(n)}<small>${T(d)}</small></button>`).join("")}</div>
+    <h2>${T("Avisos durante el entreno")}</h2>
+    <div class="panel"><div class="seg" role="group" aria-label="${T("Avisos durante el entreno")}">${FX.map(([k, n]) => `<button data-fx="${k}" class="${fxMode() === k ? "on" : ""}" aria-pressed="${fxMode() === k}">${T(n)}</button>`).join("")}</div>
+      <p class="muted" style="font-size:.85rem;margin:10px 0 0">${fxMode() === "off" ? T("Sin pitidos ni vibración: solo la cuenta atrás y el destello en pantalla.") : fxMode() === "vib" ? T("Útil con auriculares o si entrenas con gente al lado. Si no vibra, revisa No molestar y la vibración del sistema.") : T("El pitido usa el volumen multimedia. Si no vibra, revisa No molestar y la vibración del sistema.")}</p>
+      ${fxMode() === "off" ? "" : `<button class="btn small" style="margin-top:10px" data-act="testfx">${T("Probar")}</button>`}</div>
+    <h2>${T("Catálogo de ejercicios")}</h2>
+    <div class="panel">
+      <label class="xtog" style="padding:0;color:var(--ink);font-size:1rem"><span>${T("Usar el catálogo")}<small class="muted" style="display:block;font-size:.8rem">${catOn() ? (CAT ? T("{n} ejercicios con ficha y progresión", { n: CAT.exercises.length }) : T("Cargando…")) : T("Desactivado: solo tus ejercicios")}</small></span><input type="checkbox" id="catChk" ${catOn() ? "checked" : ""}></label>
+      <p class="muted" style="font-size:.85rem;margin:10px 0 0">${T("Para quien empieza: fichas con explicación, material y progresiones al crear rutinas. Si ya lo tienes claro, puedes prescindir; tus rutinas funcionan igual. Funciona sin conexión.")}</p>
+      ${catReady() ? `<button class="btn small" style="margin-top:10px" data-act="link-open">${T("Vincular ejercicios")}${(() => { const own = new Set(LS.get("wk.linkOwn", []) || []), c = linkCandidates().filter(x => !own.has(x.k)).length; return c ? ` · ${c}` : ""; })()}</button>` : ""}
+    </div>
     <h2>${T("Acerca de")}</h2>
     <div class="panel">
       <div class="t" style="font-weight:600">Usus · <button class="verb" data-act="news-open">${T("versión")} ${APP_VERSION}</button></div>
@@ -2262,8 +2555,8 @@ function sessPRs(s) {
   const prev = state.sessions.filter(x => x.start < s.start), out = new Set();
   s.exercises.forEach(e => {
     if (!e.sets.length) return;
-    const k = e.name.trim().toLowerCase(), m = exMode(e);
-    const old = prev.flatMap(x => x.exercises.filter(y => y.name.trim().toLowerCase() === k && y.sets.length && exMode(y) === m)).map(y => bestOf(y, m));
+    const k = exKey(e), m = exMode(e);
+    const old = prev.flatMap(x => x.exercises.filter(y => exKey(y) === k && y.sets.length && exMode(y) === m)).map(y => bestOf(y, m));
     if (old.length && bestOf(e, m) > Math.max(...old)) out.add(e.name);
   });
   return out;
@@ -2415,6 +2708,7 @@ function sanitizeShared(j) {
     exercises: r.exercises.filter(e => e && typeof e.name === "string" && e.name.trim()).slice(0, 60).map(e => ({
       name: e.name.trim().slice(0, 80), sets: Math.max(1, Math.min(30, Math.round(+e.sets || 3))), reps: Math.max(1, Math.min(3600, Math.round(+e.reps || 10))),
       type: e.type === "time" ? "time" : "reps", sides: !!e.sides, ...(+e.rest > 0 ? { rest: Math.min(3600, Math.round(+e.rest)) } : {}),
+      ...(typeof e.xid === "string" && /^[a-z0-9-]{2,60}$/.test(e.xid) ? { xid: e.xid } : {}), ...(Array.isArray(e.equip) && e.equip.some(k => MAT[k]) ? { equip: e.equip.filter(k => MAT[k]) } : {}), ...(typeof e.other === "string" && e.other.trim() ? { other: e.other.trim().slice(0, 40) } : {}),
       ...(e.restAfter !== null && e.restAfter !== undefined && e.restAfter !== "" && isFinite(+e.restAfter) ? { restAfter: Math.max(0, Math.min(3600, Math.round(+e.restAfter))) } : {}) }))
   }));
   const p = j?.plan, ph = p && Array.isArray(p.phases) ? p.phases.filter(x => x && normVar(x.variant)).slice(0, 12).map(x => ({ variant: normVar(x.variant), weeks: Math.max(1, Math.min(12, Math.round(+x.weeks || 1))) })) : [];
@@ -2758,6 +3052,28 @@ document.addEventListener("click", async ev => {
     return;
   }
   if (d.copy) { const ok = await copyText(d.copy); toast(ok ? T("Copiado") : T("No se pudo copiar")); return; }
+  /* Catálogo */
+  if (d.xinfo) { if (state.editing) readEditor(); state.exInfo = d.xinfo; state.exInfoAdd = false; state.exInfoFrom = state.editing ? "ed" : ""; render(); document.querySelector(".mbox.dsh")?.scrollTo(0, 0); return; }
+  if (d.xaddr) { const r = state.routines.find(x => x.id === d.xaddr), x = CATBY[state.exInfo]; if (!r || !x) return; r.exercises.push(newFromCat(x)); await store.saveRoutines(state.routines); state.exInfoAdd = false; toast(T("Añadido a «{x}»", { x: r.name })); render(); return; }
+  if (d.catpat !== undefined) { state.catPat = d.catpat || null; render(); return; }
+  if (d.rview) { state.routView = d.rview; render(); window.scrollTo(0, 0); return; }
+  if (d.xpadd && state.xpick) {
+    const x = CATBY[d.xpadd], p = state.xpick; if (!x) return; state.xpick = null;
+    if (p.mode === "ed") { state.editing.exercises.push(newFromCat(x)); toast(T("Añadido")); }
+    else if (p.mode === "sess" && a) { a.exercises.push(buildExercise(xName(x), 3, "", x.type, !!x.sides, null, x.id)); state.exView = a.pre ? null : a.exercises.length - 1; state.sheet = false; saveActive(); }
+    else if (p.mode === "link" && state.link) linkApply(p.k, x.id);
+    render(); return;
+  }
+  if (d.ownmat !== undefined && state.editing) { readEditor(); const e = state.editing.exercises[+d.ownmat]; state.ownMat = { i: +d.ownmat, equip: [...(e.equip || [])], other: e.other || "" }; render(); return; }
+  if (d.fx) { LS.set("wk.fx", d.fx); render(); return; }
+  if (state.link && (d.lnok || d.lnundo || d.lnpick || d.lnown)) {
+    const it = state.link.items[+(d.lnok || d.lnundo || d.lnpick || d.lnown)]; if (!it) return;
+    if (d.lnok && it.to) linkApply(it.k, it.to);
+    else if (d.lnundo) linkUndo(it.k);
+    else if (d.lnown) LS.set("wk.linkOwn", [...new Set([...(LS.get("wk.linkOwn", []) || []), it.k])]);
+    else if (d.lnpick) { state.xpick = { mode: "link", k: it.k, name: it.name, q: "" }; render(); setTimeout(() => $("#xpQ")?.focus(), 0); return; }
+    render(); return;
+  }
   if (d.stab) { state.setTab = d.stab; LS.set("wk.setTab", d.stab); render(); window.scrollTo(0, 0); return; }
   if (d.pswitch) { switchProfile(d.pswitch); return; }
   if (d.pfsex && state.pform) { readProfForm(); state.pform.sex = d.pfsex; if (d.pfsex === "m") state.pform.cyc = false; render(); return; }
@@ -2847,6 +3163,30 @@ document.addEventListener("click", async ev => {
     state.sessions = state.sessions.filter(s => s.id !== d.delsess); await store.deleteSession(d.delsess); toast(T("Sesión eliminada")); render(); return;
   }
   switch (d.act) {
+    case "xi-close": state.exInfo = null; state.exInfoAdd = false; render(); break;
+    case "xi-add": state.exInfoAdd = true; render(); break;
+    case "xpick-ed": readEditor(); state.xpick = { mode: "ed", q: "" }; render(); break;
+    case "xpick-sess": state.xpick = { mode: "sess", q: ($("#newEx")?.value || "").trim() }; render(); break;
+    case "xp-close": state.xpick = null; render(); break;
+    case "xp-own": {
+      const p = state.xpick, q = (p?.q || "").trim(); state.xpick = null;
+      if (p?.mode === "ed") { state.editing.exercises.push({ name: q, sets: 3, reps: 10, type: "reps" }); render(); const inp = document.querySelector(`[data-en="${state.editing.exercises.length - 1}"]`); if (inp && !q) inp.focus(); }
+      else if (p?.mode === "sess" && a) { if (q) { a.exercises.push(buildExercise(q)); state.exView = a.pre ? null : a.exercises.length - 1; state.sheet = false; saveActive(); } render(); if (!q) $("#newEx")?.focus(); }
+      break;
+    }
+    case "om-cancel": state.ownMat = null; render(); break;
+    case "om-ok": { const o = state.ownMat, e = state.editing?.exercises[o.i]; if (e) { e.equip = o.equip.filter(k => MAT[k]); e.other = ($("#omOther")?.value || "").trim().slice(0, 40); } state.ownMat = null; render(); break; }
+    case "cat-yes": {
+      LS.set("wk.catalog", true); state.catAsk = false; render();
+      const c = await loadCatalog();
+      if (!c) { toast(T("No se pudo cargar el catálogo. Se volverá a intentar al abrir la app.")); render(); break; }
+      if (linkCandidates().some(it => catMatch(it.name))) { linkOpen(); toast(T("Catálogo activado")); } else toast(T("Catálogo activado"));
+      render(); window.scrollTo(0, 0); break;
+    }
+    case "cat-no": LS.set("wk.catalog", false); state.catAsk = false; render(); break;
+    case "link-open": linkOpen(); render(); window.scrollTo(0, 0); break;
+    case "ln-all": state.link.items.forEach(it => { if (it.to && !state.link.done[it.k] && !(LS.get("wk.linkOwn", []) || []).includes(it.k)) linkApply(it.k, it.to); }); toast(T("Propuestas aceptadas")); render(); break;
+    case "ln-close": state.link = null; state.setTab = "app"; render(); window.scrollTo(0, 0); break;
     case "act-open": actFormInit(state.tab === "diary" ? state.day : null); render(); window.scrollTo(0, 0); break;
     case "act-set": state.actSet = !state.actSet; render(); break;
     case "act-cancel": state.actForm = null; render(); break;
@@ -2926,10 +3266,12 @@ document.addEventListener("click", async ev => {
     case "in-yes": await incomingAdd(); break;
     case "welcome-show": LS.set("wk.welcomed", false); render(); break;
     case "statsedit": state.statsEdit = !state.statsEdit; render(); break;
-    case "testfx": { unlockAudio(); beepEnd(); flash(); const v = buzz([400, 150, 400, 150, 400]); toast(v ? T("¿Has oído 3 pitidos y notado la vibración?") : T("Este navegador no permite vibrar")); } break;
+    case "testfx": { const m = fxMode(); if (m === "off") { toast(T("Avisos desactivados")); break; } unlockAudio(); beepEnd(); flash(); const v = buzz([400, 150, 400, 150, 400]);
+      toast(m === "sound" ? T("¿Has oído 3 pitidos?") : !v ? T("Este navegador no permite vibrar") : m === "vib" ? T("¿Has notado la vibración?") : T("¿Has oído 3 pitidos y notado la vibración?")); } break;
     case "addex": {
       const inp = $("#newEx"); const n = inp.value.trim(); if (!n) { inp.focus(); return; }
-      a.exercises.push(buildExercise(n)); state.exView = a.pre ? null : a.exercises.length - 1; state.sheet = false; saveActive(); render(); break;
+      const cx = catReady() ? catMatch(n, true) : null;
+      a.exercises.push(cx ? buildExercise(xName(cx), 3, "", cx.type, !!cx.sides, null, cx.id) : buildExercise(n)); state.exView = a.pre ? null : a.exercises.length - 1; state.sheet = false; saveActive(); render(); break;
     }
     case "newroutine": state.editing = { id: uid(), isNew: true, name: "", variant: "", days: [], exercises: [{ name: "", sets: 3, reps: 10, type: "reps" }] }; render(); break;
     case "addre": readEditor(); state.editing.exercises.push({ name: "", sets: 3, reps: 10, type: "reps" }); render();
@@ -2951,7 +3293,7 @@ document.addEventListener("click", async ev => {
     case "saveroutine": {
       readEditor(); const ed = state.editing;
       if (!ed.name.trim()) { toast(T("Ponle un nombre a la rutina")); $("#rName").focus(); return; }
-      const clean = { id: ed.id, name: ed.name.trim(), block: ed.block || guessBlock(ed.name), variant: normVar(ed.variant ?? guessVariant(ed.name)), days: Array.isArray(ed.days) ? [...new Set(ed.days)].sort() : guessDays(ed.name), exercises: ed.exercises.filter(e => e.name.trim()).map(e => ({ name: e.name.trim(), sets: Math.max(1, +e.sets || 3), reps: Math.max(1, +e.reps || 10), type: e.type === "time" ? "time" : "reps", sides: !!e.sides, ...(+e.rest > 0 ? { rest: Math.round(+e.rest) } : {}), ...(e.restAfter !== null && e.restAfter !== undefined && e.restAfter !== "" ? { restAfter: Math.max(0, Math.round(+e.restAfter)) } : {}) })) };
+      const clean = { id: ed.id, name: ed.name.trim(), block: ed.block || guessBlock(ed.name), variant: normVar(ed.variant ?? guessVariant(ed.name)), days: Array.isArray(ed.days) ? [...new Set(ed.days)].sort() : guessDays(ed.name), exercises: ed.exercises.filter(e => e.name.trim()).map(e => ({ name: e.name.trim(), ...(e.xid ? { xid: e.xid } : {}), ...(e.equip?.length ? { equip: e.equip.filter(k => MAT[k]) } : {}), ...(e.other ? { other: String(e.other).trim().slice(0, 40) } : {}), sets: Math.max(1, +e.sets || 3), reps: Math.max(1, +e.reps || 10), type: e.type === "time" ? "time" : "reps", sides: !!e.sides, ...(+e.rest > 0 ? { rest: Math.round(+e.rest) } : {}), ...(e.restAfter !== null && e.restAfter !== undefined && e.restAfter !== "" ? { restAfter: Math.max(0, Math.round(+e.restAfter)) } : {}) })) };
       const i = state.routines.findIndex(r => r.id === ed.id);
       if (i >= 0) state.routines[i] = clean; else state.routines.push(clean);
       state.editing = null; await store.saveRoutines(state.routines); toast(T("Rutina guardada")); render(); break;
@@ -2997,10 +3339,18 @@ document.addEventListener("input", ev => {
     saveActive(); updateLive();
   }
 });
+document.addEventListener("input", ev => {
+  if (ev.target.id === "catQ") { state.catQ = ev.target.value; const l = $("#catList"); if (l) l.innerHTML = catListHTML(); }
+  if (ev.target.id === "xpQ" && state.xpick) { state.xpick.q = ev.target.value; const l = $("#xpList"); if (l) l.innerHTML = xpListHTML(); const b = $("#xpOwn"); if (b) b.innerHTML = xpOwnLabel(); }
+});
 document.addEventListener("input", ev => { if (state.actForm && /^af[khm]$/.test(ev.target.id)) { readActForm(); const p = document.getElementById("apv"); if (p) p.innerHTML = actPreview(state.actForm); } });
 document.addEventListener("change", async ev => {
   if (state.planMode === "edit" && ev.target.closest?.("#app") && (/^p(On|Start|Review|DlW|DlE|Up)$/.test(ev.target.id) || ev.target.dataset.pv !== undefined || ev.target.dataset.pw !== undefined)) { readPlan(); render(); return; }
   const tg = ev.target, dk = state.day || dayKey(Date.now());
+  if (tg.id === "catOnly") { state.catOnly = tg.checked; const l = $("#catList"); if (l) l.innerHTML = catListHTML(); return; }
+  if (tg.dataset.omat && state.ownMat) { const k = tg.dataset.omat, l = state.ownMat.equip.filter(z => z !== k); if (tg.checked) l.push(k); state.ownMat.equip = l; return; }
+  if (tg.dataset.myeq) { const k = tg.dataset.myeq, l = (myEquip() || []).filter(z => z !== k); if (tg.checked) l.push(k); LS.set("wk.equip", l.length ? MAT_ORDER(l) : null); render(); return; }
+  if (tg.id === "catChk") { LS.set("wk.catalog", tg.checked); state.routView = null; if (tg.checked) { toast(T("Catálogo activado")); render(); const c = await loadCatalog(); if (!c) toast(T("No se pudo cargar el catálogo. Se volverá a intentar al abrir la app.")); } else toast(T("Catálogo desactivado")); render(); return; }
   if (tg.id === "isTech") { state.issueTech = tg.checked; render(); return; }
   if (tg.id === "pfCyc" && state.pform) { readProfForm(); return; }
   if (/^sho(Ex|Dur|Pr)$/.test(tg.id)) { LS.set("wk.shareOpt", { ...SHOPT(), [{ shoEx: "ex", shoDur: "dur", shoPr: "pr" }[tg.id]]: tg.checked }); render(); return; }
@@ -3680,6 +4030,107 @@ const I18N = {
     "Gran sesión": "Gran sessió",
     "Bitcoin": "Bitcoin",
     "Lightning / zaps": "Lightning / zaps",
+    "Barra": "Barra",
+    "Paralelas": "Paral·leles",
+    "Anillas": "Anelles",
+    "Caja / banco": "Caixa / banc",
+    "Pared": "Paret",
+    "Banda elástica": "Banda elàstica",
+    "Lastre": "Llast",
+    "Rueda abdominal": "Roda abdominal",
+    "Empuje horizontal": "Empenta horitzontal",
+    "Empuje vertical": "Empenta vertical",
+    "Tracción vertical": "Tracció vertical",
+    "Tracción horizontal": "Tracció horitzontal",
+    "Pierna · rodilla": "Cama · genoll",
+    "Pierna · cadera": "Cama · maluc",
+    "Isométricos y habilidades": "Isomètrics i habilitats",
+    "Movilidad y calentamiento": "Mobilitat i escalfament",
+    "Sonido y vibración": "So i vibració",
+    "Solo sonido": "Només so",
+    "Solo vibración": "Només vibració",
+    "Desactivados": "Desactivats",
+    "1 uso": "1 ús",
+    "{n} usos": "{n} usos",
+    "Nivel {n} de 5": "Nivell {n} de 5",
+    "impacto": "impacte",
+    "Sin resultados.": "Sense resultats.",
+    "Buscar (también en inglés o por alias)": "Cerca (també en anglès o per àlies)",
+    "Buscar ejercicio": "Cerca exercici",
+    "Tipo de movimiento": "Tipus de moviment",
+    "Solo con mi material": "Només amb el meu material",
+    "Barras = nivel dentro de su progresión (1 fácil, 5 difícil). Iconos = material; en naranja, lo que no tienes marcado en Ajustes → Entreno.": "Barres = nivell dins la seva progressió (1 fàcil, 5 difícil). Icones = material; en taronja, el que no tens marcat a Ajustos → Entrenament.",
+    "por tiempo": "per temps",
+    "repeticiones": "repeticions",
+    "Material": "Material",
+    "no lo tienes": "no el tens",
+    "Ninguno: solo suelo": "Cap: només terra",
+    "Músculos": "Músculs",
+    "Por ahora, la explicación solo está en castellano.": "De moment, l'explicació només és en castellà.",
+    "Para qué sirve": "Per a què serveix",
+    "Cómo se hace": "Com es fa",
+    "Errores típicos": "Errors típics",
+    "Alternativas": "Alternatives",
+    "Progresión": "Progressió",
+    "Variante de {x}: se puede alternar con él.": "Variant de {x}: s'hi pot alternar.",
+    "Otras opciones del mismo nivel": "Altres opcions del mateix nivell",
+    "Variantes del mismo nivel": "Variants del mateix nivell",
+    "También lleva a": "També porta a",
+    "Añadir a una rutina": "Afegeix a una rutina",
+    "Aún no tienes rutinas.": "Encara no tens rutines.",
+    "Elegir del catálogo": "Tria del catàleg",
+    "Para «{x}»": "Per a «{x}»",
+    "Buscar en el catálogo": "Cerca al catàleg",
+    "Crear «{x}» como ejercicio propio": "Crea «{x}» com a exercici propi",
+    "Crear ejercicio propio": "Crea un exercici propi",
+    "Otro material (sin icono)": "Altre material (sense icona)",
+    "Ej. mochila, toalla, escalón": "P. ex. motxilla, tovallola, graó",
+    "Nada marcado = solo suelo.": "Res marcat = només terra.",
+    "Catálogo de ejercicios": "Catàleg d'exercicis",
+    "Usus incluye un catálogo opcional de {n} ejercicios de calistenia, cada uno con su ficha: para qué sirve, cómo se hace, errores típicos, material y progresión.": "Usus inclou un catàleg opcional de {n} exercicis de calistènia, cadascun amb la seva fitxa: per a què serveix, com es fa, errors típics, material i progressió.",
+    "Sí, dame toda la info": "Sí, dona'm tota la info",
+    "Para elegir ejercicios al crear rutinas y saber cómo avanzar.": "Per triar exercicis en crear rutines i saber com avançar.",
+    "No, solo mis ejercicios": "No, només els meus exercicis",
+    "Si ya sabes lo que haces. Todo funciona igual, con menos información.": "Si ja saps el que fas. Tot funciona igual, amb menys informació.",
+    "Cada perfil decide. Se puede cambiar en Ajustes → App.": "Cada perfil decideix. Es pot canviar a Ajustos → App.",
+    "Vincular ejercicios": "Vincula exercicis",
+    "Vincula los ejercicios que ya usas con el catálogo para ver su ficha y unir su historial. Tu nombre se conserva y nada cambia sin tu confirmación.": "Vincula els exercicis que ja fas servir amb el catàleg per veure'n la fitxa i unir-ne l'historial. El teu nom es conserva i res no canvia sense la teva confirmació.",
+    "{a} de {b} revisados": "{a} de {b} revisats",
+    "Aceptar las {n} propuestas": "Accepta les {n} propostes",
+    "Tu nombre": "El teu nom",
+    "Se queda como ejercicio propio": "Es queda com a exercici propi",
+    "propio": "propi",
+    "Deshacer": "Desfés",
+    "vinculado": "vinculat",
+    "propuesta": "proposta",
+    "Sin propuesta en el catálogo": "Sense proposta al catàleg",
+    "Vincular": "Vincula",
+    "Elegir otro": "Tria'n un altre",
+    "Dejar como propio": "Deixa'l com a propi",
+    "No hay ejercicios por vincular.": "No hi ha exercicis per vincular.",
+    "Seguir más tarde": "Continua més tard",
+    "Ver ficha": "Mostra la fitxa",
+    "Añadir del catálogo": "Afegeix del catàleg",
+    "Mis rutinas": "Les meves rutines",
+    "Mi material": "El meu material",
+    "Marca lo que tienes. En el catálogo, lo demás se ve en naranja y se puede ocultar. Sin nada marcado, no se filtra.": "Marca el que tens. Al catàleg, la resta es veu en taronja i es pot amagar. Sense res marcat, no es filtra.",
+    "Avisos durante el entreno": "Avisos durant l'entrenament",
+    "Sin pitidos ni vibración: solo la cuenta atrás y el destello en pantalla.": "Sense xiulets ni vibració: només el compte enrere i el flaix a la pantalla.",
+    "Útil con auriculares o si entrenas con gente al lado. Si no vibra, revisa No molestar y la vibración del sistema.": "Útil amb auriculars o si entrenes amb gent al costat. Si no vibra, revisa No molestis i la vibració del sistema.",
+    "Usar el catálogo": "Fes servir el catàleg",
+    "{n} ejercicios con ficha y progresión": "{n} exercicis amb fitxa i progressió",
+    "Cargando…": "Carregant…",
+    "Desactivado: solo tus ejercicios": "Desactivat: només els teus exercicis",
+    "Para quien empieza: fichas con explicación, material y progresiones al crear rutinas. Si ya lo tienes claro, puedes prescindir; tus rutinas funcionan igual. Funciona sin conexión.": "Per a qui comença: fitxes amb explicació, material i progressions en crear rutines. Si ja ho tens clar, pots prescindir-ne; les teves rutines funcionen igual. Funciona sense connexió.",
+    "Añadido a «{x}»": "Afegit a «{x}»",
+    "Añadido": "Afegit",
+    "No se pudo cargar el catálogo. Se volverá a intentar al abrir la app.": "No s'ha pogut carregar el catàleg. Es tornarà a provar en obrir l'app.",
+    "Catálogo activado": "Catàleg activat",
+    "Catálogo desactivado": "Catàleg desactivat",
+    "Propuestas aceptadas": "Propostes acceptades",
+    "Avisos desactivados": "Avisos desactivats",
+    "¿Has oído 3 pitidos?": "Has sentit 3 xiulets?",
+    "¿Has notado la vibración?": "Has notat la vibració?",
     "Ya la tienes: «{x}»": "Ja la tens: «{x}»",
     "Actualizar": "Actualitzar",
     "Añadir como nueva": "Afegir com a nova",
@@ -4448,6 +4899,107 @@ const I18N = {
     "Gran sesión": "Great session",
     "Bitcoin": "Bitcoin",
     "Lightning / zaps": "Lightning / zaps",
+    "Barra": "Bar",
+    "Paralelas": "Parallel bars",
+    "Anillas": "Rings",
+    "Caja / banco": "Box / bench",
+    "Pared": "Wall",
+    "Banda elástica": "Resistance band",
+    "Lastre": "Weight",
+    "Rueda abdominal": "Ab wheel",
+    "Empuje horizontal": "Horizontal push",
+    "Empuje vertical": "Vertical push",
+    "Tracción vertical": "Vertical pull",
+    "Tracción horizontal": "Horizontal pull",
+    "Pierna · rodilla": "Legs · knee",
+    "Pierna · cadera": "Legs · hip",
+    "Isométricos y habilidades": "Holds and skills",
+    "Movilidad y calentamiento": "Mobility and warm-up",
+    "Sonido y vibración": "Sound and vibration",
+    "Solo sonido": "Sound only",
+    "Solo vibración": "Vibration only",
+    "Desactivados": "Off",
+    "1 uso": "1 use",
+    "{n} usos": "{n} uses",
+    "Nivel {n} de 5": "Level {n} of 5",
+    "impacto": "impact",
+    "Sin resultados.": "No results.",
+    "Buscar (también en inglés o por alias)": "Search (also in Spanish or by alias)",
+    "Buscar ejercicio": "Search exercise",
+    "Tipo de movimiento": "Movement type",
+    "Solo con mi material": "Only with my equipment",
+    "Barras = nivel dentro de su progresión (1 fácil, 5 difícil). Iconos = material; en naranja, lo que no tienes marcado en Ajustes → Entreno.": "Bars = level within its progression (1 easy, 5 hard). Icons = equipment; in orange, what you haven't ticked in Settings → Workout.",
+    "por tiempo": "timed",
+    "repeticiones": "reps",
+    "Material": "Equipment",
+    "no lo tienes": "you don't have it",
+    "Ninguno: solo suelo": "None: floor only",
+    "Músculos": "Muscles",
+    "Por ahora, la explicación solo está en castellano.": "For now, the explanation is only in Spanish.",
+    "Para qué sirve": "What it's for",
+    "Cómo se hace": "How to do it",
+    "Errores típicos": "Common mistakes",
+    "Alternativas": "Alternatives",
+    "Progresión": "Progression",
+    "Variante de {x}: se puede alternar con él.": "Variation of {x}: you can alternate them.",
+    "Otras opciones del mismo nivel": "Other options at the same level",
+    "Variantes del mismo nivel": "Variations at the same level",
+    "También lleva a": "Also leads to",
+    "Añadir a una rutina": "Add to a routine",
+    "Aún no tienes rutinas.": "You have no routines yet.",
+    "Elegir del catálogo": "Choose from the catalogue",
+    "Para «{x}»": "For “{x}”",
+    "Buscar en el catálogo": "Search the catalogue",
+    "Crear «{x}» como ejercicio propio": "Create “{x}” as your own exercise",
+    "Crear ejercicio propio": "Create your own exercise",
+    "Otro material (sin icono)": "Other equipment (no icon)",
+    "Ej. mochila, toalla, escalón": "E.g. backpack, towel, step",
+    "Nada marcado = solo suelo.": "Nothing ticked = floor only.",
+    "Catálogo de ejercicios": "Exercise catalogue",
+    "Usus incluye un catálogo opcional de {n} ejercicios de calistenia, cada uno con su ficha: para qué sirve, cómo se hace, errores típicos, material y progresión.": "Usus includes an optional catalogue of {n} calisthenics exercises, each with its own card: what it's for, how to do it, common mistakes, equipment and progression.",
+    "Sí, dame toda la info": "Yes, give me all the info",
+    "Para elegir ejercicios al crear rutinas y saber cómo avanzar.": "To pick exercises when building routines and know how to progress.",
+    "No, solo mis ejercicios": "No, just my exercises",
+    "Si ya sabes lo que haces. Todo funciona igual, con menos información.": "If you already know what you're doing. Everything works the same, with less information.",
+    "Cada perfil decide. Se puede cambiar en Ajustes → App.": "Each profile decides. You can change it in Settings → App.",
+    "Vincular ejercicios": "Link exercises",
+    "Vincula los ejercicios que ya usas con el catálogo para ver su ficha y unir su historial. Tu nombre se conserva y nada cambia sin tu confirmación.": "Link the exercises you already use to the catalogue to see their card and merge their history. Your name is kept and nothing changes without your confirmation.",
+    "{a} de {b} revisados": "{a} of {b} reviewed",
+    "Aceptar las {n} propuestas": "Accept the {n} suggestions",
+    "Tu nombre": "Your name",
+    "Se queda como ejercicio propio": "Stays as your own exercise",
+    "propio": "own",
+    "Deshacer": "Undo",
+    "vinculado": "linked",
+    "propuesta": "suggested",
+    "Sin propuesta en el catálogo": "No suggestion in the catalogue",
+    "Vincular": "Link",
+    "Elegir otro": "Choose another",
+    "Dejar como propio": "Keep as my own",
+    "No hay ejercicios por vincular.": "No exercises to link.",
+    "Seguir más tarde": "Continue later",
+    "Ver ficha": "View card",
+    "Añadir del catálogo": "Add from catalogue",
+    "Mis rutinas": "My routines",
+    "Mi material": "My equipment",
+    "Marca lo que tienes. En el catálogo, lo demás se ve en naranja y se puede ocultar. Sin nada marcado, no se filtra.": "Tick what you have. In the catalogue, the rest shows in orange and can be hidden. With nothing ticked, nothing is filtered.",
+    "Avisos durante el entreno": "Alerts during training",
+    "Sin pitidos ni vibración: solo la cuenta atrás y el destello en pantalla.": "No beeps or vibration: only the countdown and the screen flash.",
+    "Útil con auriculares o si entrenas con gente al lado. Si no vibra, revisa No molestar y la vibración del sistema.": "Useful with headphones or when training next to others. If it doesn't vibrate, check Do Not Disturb and the system vibration.",
+    "Usar el catálogo": "Use the catalogue",
+    "{n} ejercicios con ficha y progresión": "{n} exercises with card and progression",
+    "Cargando…": "Loading…",
+    "Desactivado: solo tus ejercicios": "Off: only your exercises",
+    "Para quien empieza: fichas con explicación, material y progresiones al crear rutinas. Si ya lo tienes claro, puedes prescindir; tus rutinas funcionan igual. Funciona sin conexión.": "For beginners: cards with explanations, equipment and progressions when building routines. If you already know your way around, you can skip it; your routines work the same. Works offline.",
+    "Añadido a «{x}»": "Added to “{x}”",
+    "Añadido": "Added",
+    "No se pudo cargar el catálogo. Se volverá a intentar al abrir la app.": "Couldn't load the catalogue. It will try again when you open the app.",
+    "Catálogo activado": "Catalogue on",
+    "Catálogo desactivado": "Catalogue off",
+    "Propuestas aceptadas": "Suggestions accepted",
+    "Avisos desactivados": "Alerts are off",
+    "¿Has oído 3 pitidos?": "Did you hear 3 beeps?",
+    "¿Has notado la vibración?": "Did you feel the vibration?",
     "Ya la tienes: «{x}»": "You already have it: “{x}”",
     "Actualizar": "Update",
     "Añadir como nueva": "Add as new",
@@ -4590,6 +5142,8 @@ const I18N = {
   applyTheme(curTheme());
   restorePlace();
   if (LS.get("wk.welcomed", false) && LS.get("wk.seenVersion", null) !== APP_VERSION && CHANGES[0][0] === APP_VERSION) state.newsOpen = "new";
+  if (LS.get("wk.catalog", null) === null) state.catAsk = true;
+  if (catOn()) loadCatalog().then(c => { if (c) render(); });
   render();
   await readShareHash();
   if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
