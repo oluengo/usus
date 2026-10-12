@@ -4,6 +4,25 @@ Todas las versiones de Usus. Formato basado en [Keep a Changelog](https://keepac
 
 **Castellano** · [Català](#català) · [English](#english)
 
+## [2.0.0] — sin publicar
+
+### Catálogo de ejercicios (opcional, por perfil)
+- Archivo aparte `ejercicios.json` con 162 ejercicios de calistenia: identificador fijo, nombre en castellano e inglés, patrón de movimiento, nivel (1–5, barras crecientes), tipo (repeticiones o tiempo), por lado, impacto y material (iconos).
+- Ficha de cada ejercicio: músculos, para qué sirve, cómo se hace, errores típicos, alternativas caseras y progresión (cadena de pasos y variantes del mismo nivel).
+- La primera vez, cada perfil elige si lo usa («Sí, dame toda la info» / «No, solo mis ejercicios»). Se cambia en Ajustes → App. Sin catálogo, todo funciona como antes.
+- Rutinas → Ejercicios: búsqueda (también en inglés o por alias), filtro por movimiento y «Solo con mi material».
+- Selector del catálogo en el editor de rutina y en la sesión; ficha con el botón **i**, también entrenando.
+- Ejercicios propios con material: de la lista (con icono) u otro escrito (sin icono).
+- **Vincular ejercicios**: propone para cada nombre que ya usas un ejercicio del catálogo; aceptar todo, elegir otro, dejar como propio o deshacer. Se conserva tu nombre. Historial, récords y estadísticas se agrupan por ejercicio vinculado.
+- Ajustes → Entreno: **Mi material**. Funciona sin conexión (el catálogo se guarda con la app).
+
+### Asistente de progresión
+- Al terminar una sesión, por cada ejercicio del catálogo de la rutina: ▲ propuesta de subir al siguiente paso si llegas al objetivo en todas las series 2 (o 3) sesiones seguidas; ▼ propuesta de volver al anterior si te quedas por debajo del 60 % del objetivo 2 sesiones seguidas (o 50 % en 3, o nunca).
+- Cada propuesta muestra tus series y deja **Cambiar en la rutina** (con objetivo de inicio ajustable), **Más tarde** o **No proponer**.
+- Plan: nueva regla para la semana ↑ (solo recordatorio, +1 o +2 repeticiones por serie, +1 serie, o siguiente paso si llegaste al objetivo). Se aplica sola al empezar la semana a las rutinas de esa variante, con aviso en Hoy y **Deshacer**. Esas rutinas solo reciben propuestas de retroceder.
+- Stats → Ejercicios: tu posición en la cadena (superado, actual, siguiente, meta).
+- Las sesiones guardan la rutina de origen y el ejercicio del catálogo.
+
 ## [1.4.0] — 2026-10-12
 
 ### Avisos
@@ -100,6 +119,10 @@ Primera versión pública.
 
 ## Català
 
+### [2.0.0] — sense publicar
+- Catàleg d'exercicis opcional per perfil (fitxes, material, nivell i progressió), vinculació dels teus exercicis i el meu material.
+- Assistent de progressió: propostes de pujar o tornar al pas anterior en acabar la sessió, i pujada automàtica a la setmana ↑ del pla.
+
 ### [1.4.0] — 2026-10-12
 - Avisos durant l'entrenament a Ajustos → App: so i vibració, només so, només vibració o desactivats.
 
@@ -133,6 +156,10 @@ Primera versió pública: rutines amb sèries per repeticions o per temps, compt
 ---
 
 ## English
+
+### [2.0.0] — unreleased
+- Optional exercise catalogue per profile (cards, equipment, level and progression), linking your exercises, and my equipment.
+- Progression assistant: suggestions to step up or go back after a session, and automatic increases in the plan's ↑ week.
 
 ### [1.4.0] — 2026-10-12
 - Training alerts in Settings → App: sound and vibration, sound only, vibration only or off.

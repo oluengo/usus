@@ -13,8 +13,10 @@ Gratis, sin cuentas y sin anuncios. Todo se guarda **solo en tu móvil**: nada s
 ## Cómo funciona
 
 - **Rutinas.** Creas tus rutinas con sus ejercicios, series y repeticiones o tiempo. Puedes marcar ejercicios «por lado», poner lastre y un descanso propio a cada uno.
-- **Hoy.** Te dice qué toca cada día. Con un plan de progresión, Usus rota las variantes de tus rutinas por semanas (A, B, C…), añade semanas de descarga y te avisa de lo pendiente.
-- **Entrenar.** Un ejercicio por pantalla. Las series por tiempo y los descansos tienen cuenta atrás a pantalla completa, con pitidos y vibración, y se pueden encadenar solas.
+- **Ejercicios** *(opcional).* Un catálogo de ejercicios de calistenia, cada uno con su ficha: para qué sirve, cómo se hace, errores típicos, material necesario y progresión, del más fácil al más difícil. Se elige ejercicio al crear la rutina y se ve la ficha en cualquier momento, también entrenando.
+- **Progresión.** Al terminar una sesión, Usus te propone pasar al siguiente ejercicio cuando dominas el actual, o volver al anterior si te está costando demasiado. Siempre es una propuesta: decides tú.
+- **Hoy.** Te dice qué toca cada día. Con un plan de progresión, Usus rota las variantes de tus rutinas por semanas (A, B, C…), añade semanas de descarga y te avisa de lo pendiente. Si quieres, la subida de cada vuelta de variante se aplica sola, con aviso y opción de deshacer.
+- **Entrenar.** Un ejercicio por pantalla. Las series por tiempo y los descansos tienen cuenta atrás a pantalla completa, con pitidos, vibración, ambos o ninguno, y se pueden encadenar solas.
 - **Diario.** Sueño, suplementos, pasos, actividad (caminar, correr, bici…), notas y peso semanal.
 - **Estadísticas.** Constancia, récords, progreso por ejercicio, equilibrio entre lados y hábitos, en bloques que puedes ordenar u ocultar.
 - **Perfiles.** Varias personas en el mismo móvil, cada una con sus datos, ajustes y copia de seguridad.
@@ -35,6 +37,10 @@ Gratis, sin cuentas y sin anuncios. Todo se guarda **solo en tu móvil**: nada s
 <td align="center"><img src="capturas/05-diario.jpg" alt="Diario"><br><sub>Diario</sub></td>
 </tr>
 </table>
+
+### Tanta información como quieras
+
+El catálogo de ejercicios es **opcional y se decide en cada perfil**. Si empiezas, actívalo: tendrás la explicación de cada ejercicio, el material que necesita y por dónde seguir. Si ya sabes lo que haces, prescinde de él: Usus funciona igual con tus propios ejercicios, sin información de más. Se puede cambiar en cualquier momento, y tus ejercicios se pueden vincular al catálogo para unir su historial.
 
 ### Temas
 
@@ -64,16 +70,29 @@ Free, no accounts, no ads. Everything is stored **only on your phone**: nothing 
 ### How it works
 
 - **Routines.** Build routines with exercises, sets and reps or time. Mark exercises as “per side”, add weight and set a rest time for each one.
-- **Today.** Shows what's on each day. With a progression plan, Usus rotates your routine variants week by week (A, B, C…), adds deload weeks and keeps track of what's pending.
-- **Train.** One exercise per screen. Timed sets and rests get a full-screen countdown with beeps and vibration, and can chain automatically.
+- **Exercises** *(optional).* A catalogue of calisthenics exercises, each with its own card: what it's for, how to do it, common mistakes, equipment needed and progression, from easiest to hardest. Pick exercises when building a routine and check the card at any time, even mid-workout.
+- **Progression.** After a session, Usus suggests moving on to the next exercise once you've mastered the current one, or going back to the previous one if it's too hard for now. It's always a suggestion: you decide.
+- **Today.** Shows what's on each day. With a progression plan, Usus rotates your routine variants week by week (A, B, C…), adds deload weeks and keeps track of what's pending. If you like, the increase each time a variant comes back is applied automatically, with a notice and an undo option.
+- **Train.** One exercise per screen. Timed sets and rests get a full-screen countdown with beeps, vibration, both or neither, and can chain automatically.
 - **Diary.** Sleep, supplements, steps, activity (walking, running, cycling…), notes and weekly weight.
 - **Stats.** Consistency, PRs, progress per exercise, left/right balance and habits, in blocks you can reorder or hide.
 - **Profiles.** Several people on the same phone, each with their own data, settings and backup.
 - **Cycle** *(optional, on women's profiles).* Period log with an approximate estimate of the next one. Not a contraceptive method or a diagnosis.
 - **Share.** A workout as an image or text, or your routines and plan through a link that carries the data itself, with no server involved.
 
-The app is available in Spanish, Catalan and English, installs on your phone as an app (PWA), works offline and offers file backups. Themes: Light, Dark and Protector (warm dark, no blue light), with Automatic by default.
+### As much information as you want
 
-[Report a problem or suggest an improvement](https://github.com/oluengo/usus/issues).
+The exercise catalogue is **optional and chosen per profile**. If you're starting out, turn it on: you'll get an explanation of each exercise, the equipment it needs and where to go next. If you already know what you're doing, skip it: Usus works just the same with your own exercises, without the extra information. You can change it at any time, and link your exercises to the catalogue to merge their history.
+
+### Themes
+
+**Light**, **Dark** and **Protector** (warm dark, no blue light, for early-morning training). **Automatic** by default: follows your phone's light or dark mode.
+
+### More
+
+- Installs on your phone as an app (PWA) and works offline.
+- Español, català and English.
+- File backups, to move your data to another phone or keep it safe.
+- [Report a problem or suggest an improvement](https://github.com/oluengo/usus/issues).
 
 <sub>Screenshots use sample data. Usus is a logging tool, not medical advice or a training plan. Free software, [MIT license](LICENSE).</sub>
