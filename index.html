@@ -284,6 +284,40 @@ details.sess td:first-child{font-weight:500;padding-right:12px;width:40%}
 .copt button small{display:block;color:var(--muted);font-size:.82rem;margin-top:2px}
 .copt button.on{border:2px solid var(--accent);padding:11px 13px}
 .ex-head .xinfo{width:26px;height:26px;font-size:13px}
+/* Asistente de progresión */
+.pgsec{text-align:left;margin:14px 0 4px}
+.pgh{font-size:.72rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin:0 2px 6px}
+.pgc{border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:8px;background:var(--bg)}
+.pgc.up{border-color:var(--ok);background:var(--ok-soft)}
+.pgc.down{border-color:var(--warn);background:var(--warn-soft)}
+.pgc p{margin:4px 0;font-size:.9rem}
+.pgt{display:flex;align-items:center;gap:8px}
+.pgt i{font-style:normal;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:.7rem;color:#fff;background:var(--ok)}
+.pgc.down .pgt i{background:var(--warn)}
+.pgh2{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;margin:6px 0;font-size:.75rem;color:var(--muted)}
+.pchips{display:inline-flex;gap:3px}
+.pchips i{font-style:normal;min-width:24px;height:22px;padding:0 4px;border-radius:6px;border:1px solid var(--warn);display:grid;place-items:center;font-size:.75rem;font-weight:600;color:var(--warn)}
+.pchips i.ok{border-color:var(--ok);color:var(--ok)}
+.pgft{display:flex;align-items:center;flex-wrap:wrap;gap:6px;font-size:.88rem;margin:6px 0 8px}
+.pcg{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:center;margin-top:12px}
+.pcc{border:1px solid var(--line);border-radius:12px;padding:10px;display:flex;flex-direction:column;gap:4px;min-height:120px;background:var(--bg)}
+.pcc.new{border:2px solid var(--accent);padding:9px}
+.pcc small{font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.pca{color:var(--muted)}
+.pcn{display:flex;align-items:center;gap:6px;white-space:nowrap;margin-top:auto}
+.pcn button{width:30px;height:30px;border-radius:8px;border:1px solid var(--line);background:var(--surface);padding:0}
+.pgnote{border-color:var(--ok);margin-top:12px}
+.pgl{margin:0;padding-left:18px;font-size:.88rem}
+.pchain{margin:4px 0 12px}
+.pst{display:flex;align-items:center;gap:8px;padding:5px 0 5px 22px;position:relative;font-size:.9rem;flex-wrap:wrap}
+.pst:before{content:"";position:absolute;left:3px;top:10px;width:10px;height:10px;border-radius:50%;border:2px solid var(--off);background:var(--surface)}
+.pst:after{content:"";position:absolute;left:8px;top:24px;bottom:-6px;width:2px;background:var(--off)}
+.pst:last-child:after{display:none}
+.pst.done:before{background:var(--ok);border-color:var(--ok)}
+.pst.cur:before{background:var(--accent);border-color:var(--accent)}
+.pst button{border:0;background:none;padding:0;font-weight:600;text-align:left}
+.pst.cur button{color:var(--accent)}
+.pst small{flex-basis:100%;color:var(--muted);font-size:.75rem;margin-top:-2px}
 .wrow{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) auto;gap:8px;align-items:center}
 .modal{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.55);display:flex;align-items:flex-end;justify-content:center;padding:16px;padding-bottom:calc(16px + env(safe-area-inset-bottom,0px))}
 .mbox{background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:18px;padding:18px;max-width:520px;width:100%;max-height:85vh;overflow:auto}
@@ -723,7 +757,7 @@ function todayCard() {
     const w = pn.w, next = pn.ws.slice(pn.i + 1).find(x => weekLabel(x) !== weekLabel(w));
     return `<div class="panel plan-b" style="border-color:${w.deload ? "var(--line)" : varColor(w.variant)}">
       <div class="row" style="gap:8px">${w.deload ? `<span class="vchip vd">${T("Desc.")}</span>` : vChip(w.variant)}<b style="flex:1">${T("Semana {n} de {m}", { n: w.n, m: pn.ws.length })} · ${weekLabel(w)}</b></div>
-      ${w.up ? `<p class="muted" style="margin:6px 0 0">↑ ${T("Variante repetida: sube 1-2 reps o 1 serie si hay margen.")}</p>` : ""}
+      ${w.up ? `<p class="muted" style="margin:6px 0 0">↑ ${upRuleOf(PL.get()) === "mark" ? T("Variante repetida: sube 1-2 reps o 1 serie si hay margen.") : T("Variante repetida: subida automática según tu plan.")}</p>` : ""}
       ${w.deload ? `<p class="muted" style="margin:6px 0 0">${T("Semana de descarga: solo rutinas sin variante (p. ej. Diaria).")}</p>` : ""}
       <div class="muted" style="font-size:.85rem;margin-top:10px">${T("Toca hoy:")}</div>${list(suggestedFor(w, today))}${pendingBlock(w)}
       ${next ? `<p class="muted" style="font-size:.8rem;margin:10px 0 0">${T("Siguiente: {x} desde el {d}", { x: weekLabel(next), d: new Date(next.t).toLocaleDateString(LOC(), { day: "numeric", month: "short" }) })}</p>` : ""}
@@ -784,6 +818,9 @@ function viewPlanEdit() {
         <label class="muted" for="pDlE">${T("Cada (semanas de entreno)")}</label><input type="number" id="pDlE" min="0" max="26" value="${+d.deload?.every || 0}" inputmode="numeric"></div>
       <p class="muted" style="font-size:.78rem;margin:6px 0 0">${T("0 = sin descarga. En descarga solo se sugieren rutinas sin variante.")}</p>
       <label class="chk" style="grid-column:auto;margin-top:14px"><input type="checkbox" id="pUp" ${d.up ? "checked" : ""}> ${T("Marcar ↑ cuando se repite una variante (recordatorio para progresar)")}</label>
+      ${d.up ? `<label class="muted" for="pUpRule" style="font-size:.85rem;display:block;margin-top:10px">${T("En la semana ↑")}</label>
+      <select id="pUpRule">${UP_RULES.map(([k, n]) => `<option value="${k}" ${upRuleOf(d) === k ? "selected" : ""}>${T(n)}</option>`).join("")}</select>
+      <p class="muted" style="font-size:.78rem;margin:6px 0 0">${upRuleOf(d) === "mark" ? T("Solo se marca la semana; tú decides qué subir.") : upRuleOf(d) === "step" ? T("Se aplica sola al empezar la semana a las rutinas de esa variante, con aviso en Hoy y opción de deshacer. Pasa al siguiente paso del catálogo solo si la última vez llegaste al objetivo.") : T("Se aplica sola al empezar la semana a las rutinas de esa variante, con aviso en Hoy y opción de deshacer.")}</p>` : ""}
       <p class="muted" style="font-size:.85rem;margin:14px 0 0">${ws.length ? T("Vista previa: {n} semanas, {d} de descarga.", { n: ws.length, d: ws.filter(w => w.deload).length }) : T("Añade al menos una fase con variante y semanas.")}</p>
       ${ws.length ? `<div class="pprev">${ws.map(w => `<i style="background:${w.deload ? "var(--line)" : varColor(w.variant, d)}" title="S${w.n} · ${weekLabel(w)}">${w.deload ? "·" : esc(w.variant)}</i>`).join("")}</div>` : ""}
     </div>
@@ -799,7 +836,7 @@ function readPlan() {
   const v = id => document.getElementById(id);
   if (v("pOn")) d.enabled = v("pOn").checked;
   if (v("pStart")) d.start = v("pStart").value; if (v("pReview")) d.review = v("pReview").value;
-  if (v("pUp")) d.up = v("pUp").checked;
+  if (v("pUp")) d.up = v("pUp").checked; if (v("pUpRule")) d.upRule = v("pUpRule").value;
   d.deload = { weeks: Math.max(0, Math.round(+v("pDlW")?.value || 0)), every: Math.max(0, Math.round(+v("pDlE")?.value || 0)) };
   d.phases.forEach((x, i) => { const a = document.querySelector(`[data-pv="${i}"]`), b = document.querySelector(`[data-pw="${i}"]`); if (a) x.variant = normVar(a.value); if (b) x.weeks = Math.max(1, Math.min(12, Math.round(+b.value || 1))); });
 }
@@ -1015,6 +1052,141 @@ function edNameCell(e, i) {
   return `<input type="text" value="${esc(e.name)}" data-en="${i}" list="exNames2" placeholder="${T("Ejercicio")}" aria-label="${T("Ejercicio {n}", { n: i + 1 })}">`
     + (catOn() && !e.xid ? `<div class="exmat">${matsOf(e.equip, e.other)}<button class="btn small" data-ownmat="${i}">${e.equip?.length || e.other ? T("Material") : "+ " + T("Material")}</button><span class="otag">${T("propio")}</span></div>` : "");
 }
+/* ---------- Asistente de progresión (2.0) ----------
+   A) Propuestas por rendimiento (con el catálogo: usa sus cadenas de pasos). Al terminar una sesión, para cada ejercicio vinculado de la rutina:
+      ▲ subir de paso si todas las series llegan al objetivo en N sesiones seguidas; ▼ volver al paso anterior si la media queda
+      por debajo del X % del objetivo en M sesiones seguidas. Siempre es una propuesta: Cambiar en la rutina / Más tarde / No proponer.
+   B) Plan por fases: en la semana ↑ (vuelve una variante) se aplica sola la regla del plan (p.upRule) a las rutinas de esa variante,
+      con un aviso en Hoy que permite deshacer. Esas rutinas no reciben propuestas de subir; las de retroceder, sí.
+   Se guarda: wk.prog (ajustes), wk.progMute (rutina:ejercicio sin propuestas), wk.progLog (cambios de paso), wk.planUpDone, wk.planUpLog. */
+const PROG = () => ({ on: true, up: 2, down: "60-2", ...(LS.get("wk.prog", {}) || {}) });
+const DOWN_OPTS = [["60-2", "Por debajo del 60 % · 2 sesiones"], ["50-3", "Por debajo del 50 % · 3 sesiones"], ["never", "Nunca"]];
+const UP_RULES = [["mark", "Solo recordatorio (↑)"], ["reps1", "+1 repetición por serie (+5 s)"], ["reps2", "+2 repeticiones por serie (+10 s)"], ["set", "+1 serie"], ["step", "Siguiente paso si llegaste al objetivo"]];
+const upRuleOf = p => UP_RULES.some(u => u[0] === p?.upRule) ? p.upRule : "mark";
+/* Rutina con subida automática del plan (variante del plan activo y regla distinta de «solo recordatorio») */
+const planAutoUp = r => { const p = PL.get(); return !!(p && p.enabled !== false && p.up && upRuleOf(p) !== "mark" && normVar(r.variant) && planVariants(p).includes(normVar(r.variant))); };
+/* Paso anterior y siguiente de un ejercicio en su cadena principal (una variante usa la de su ejercicio base) */
+function chainStep(xid) {
+  const base = CAT?.variants?.[xid], o = CHAIN[xid]?.[0] || (base && CHAIN[base]?.[0]);
+  return o ? { prev: o.c[o.i - 1] || null, next: o.c[o.i + 1] || null, chain: o.c, cur: o.c[o.i] } : { prev: null, next: null, chain: null, cur: null };
+}
+/* Una sesión de un ejercicio frente al objetivo de la rutina: ok = todas las series (las de la rutina, como mínimo) llegan; ratio = media/objetivo. Por lado: el peor lado. */
+function vsTarget(se, re) {
+  const tgt = +re.reps || 0; if (!tgt) return null;
+  const vals = se.sets.filter(x => x.done !== false).map(x => sideReps(se) ? Math.min(+x.r || 0, +R2(x) || 0) : +x.r || 0);
+  if (!vals.length) return null;
+  return { ok: vals.length >= (+re.sets || 1) && vals.every(v => v >= tgt), ratio: vals.reduce((a, b) => a + b, 0) / vals.length / tgt, vals };
+}
+const routineSessions = r => sortedSessions().filter(s => s.rid ? s.rid === r.id : s.routine === r.name);
+function exHistory(r, re) { const k = exKey(re); return routineSessions(r).map(s => ({ s, e: s.exercises.find(e => exKey(e) === k) })).filter(x => x.e); }
+const startTarget = (x, from, dir) => {
+  const tm = x.type === "time", same = (from.type === "time") === tm, t = +from.reps || 0;
+  let v = !same ? (tm ? 20 : 8) : dir === "up" ? Math.round(t * 0.55) : Math.round(t * 1.4);
+  if (tm) v = Math.max(10, Math.round(v / 5) * 5); else v = Math.max(3, v);
+  return Math.min(tm ? 600 : 50, v);
+};
+function progProposals(s) {
+  const P = PROG(); if (!P.on || !catReady() || !s?.rid) return [];
+  const r = state.routines.find(x => x.id === s.rid); if (!r) return [];
+  const mute = new Set(LS.get("wk.progMute", []) || []), auto = planAutoUp(r), out = [];
+  const [pct, nDown] = P.down === "never" ? [0, 0] : P.down.split("-").map(Number);
+  r.exercises.forEach((re, i) => {
+    if (!re.xid || !CATBY[re.xid] || mute.has(r.id + ":" + re.xid) || !s.exercises.some(e => exKey(e) === exKey(re))) return;
+    const h = exHistory(r, re), sc = h.map(x => vsTarget(x.e, re)), st = chainStep(re.xid);
+    const last = n => sc.length >= n && sc.slice(0, n).every(Boolean);
+    if (!auto && st.next && last(P.up) && sc.slice(0, P.up).every(x => x.ok))
+      out.push({ dir: "up", rid: r.id, i, xid: re.xid, to: st.next, hist: sc.slice(0, P.up).map(x => x.vals), tgt: startTarget(CATBY[st.next], re, "up") });
+    else if (nDown && st.prev && last(nDown) && sc.slice(0, nDown).every(x => x.ratio < pct / 100))
+      out.push({ dir: "down", rid: r.id, i, xid: re.xid, to: st.prev, hist: sc.slice(0, nDown).map(x => x.vals), tgt: startTarget(CATBY[st.prev], re, "down") });
+  });
+  return out;
+}
+const setChips = (vals, re) => `<span class="pchips">${vals.map(v => `<i class="${v >= +re.reps ? "ok" : ""}">${v}</i>`).join("")}</span>`;
+function progCards() {
+  const L = state.progProps || []; if (!L.length) return "";
+  return `<div class="pgsec"><p class="pgh">${T("Progresión")}</p>${L.map((p, k) => {
+    const r = state.routines.find(x => x.id === p.rid), re = r?.exercises[p.i]; if (!re || re.xid !== p.xid) return "";
+    const fx = CATBY[p.xid], tx = CATBY[p.to], up = p.dir === "up", u = isTime(re) ? " s" : "";
+    return `<div class="pgc ${up ? "up" : "down"}">
+      <b class="pgt"><i>${up ? "▲" : "▼"}</i>${up ? T("Listo para subir") : T("¿Consolidar antes?")}</b>
+      <p>${up ? T("{x}: objetivo cumplido {n} sesiones seguidas.", { x: `<b>${esc(xName(fx))}</b>`, n: p.hist.length }) : T("{x}: por debajo del {p} % del objetivo {n} sesiones seguidas.", { x: `<b>${esc(xName(fx))}</b>`, p: PROG().down.split("-")[0], n: p.hist.length })}</p>
+      <div class="pgh2">${p.hist.map((v, j) => `${setChips(v, re)}<small>${j === 0 ? T("hoy") : T("antes")}</small>`).join("")}<small>${T("objetivo {n}", { n: re.reps + u })}</small></div>
+      ${up ? "" : `<p class="muted" style="font-size:.82rem">${T("Es normal al empezar un paso nuevo. Volver unas semanas al anterior suele hacer avanzar antes.")}</p>`}
+      <div class="pgft">${esc(xName(fx))} ${LV(fx.level)} → <b>${esc(xName(tx))}</b> ${LV(tx.level)}</div>
+      <div class="row"><button class="btn small primary" data-pgch="${k}">${T("Cambiar en la rutina")}</button><button class="btn small" data-pglater="${k}">${up ? T("Más tarde") : T("Seguir intentándolo")}</button><button class="btn small ghost" data-pgmute="${k}">${T("No proponer")}</button></div>
+    </div>`; }).join("")}</div>`;
+}
+function progChangeModal() {
+  const c = state.progChange, p = c && state.progProps?.[c.k]; if (!p) return "";
+  const r = state.routines.find(x => x.id === p.rid), re = r?.exercises[p.i]; if (!re) return "";
+  const fx = CATBY[p.xid], tx = CATBY[p.to], up = p.dir === "up", tu = tx.type === "time" ? " s" : "";
+  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="pcT"><div class="mbox">
+    <h2 id="pcT" style="margin:0 0 4px">${up ? T("Subir de paso") : T("Volver al paso anterior")}</h2>
+    <p class="muted" style="margin:0;font-size:.85rem">${T("En «{x}». Las demás rutinas no cambian.", { x: esc(r.name) })}</p>
+    <div class="pcg"><div class="pcc"><small>${T("Ahora")}</small><b>${esc(xName(fx))}</b>${LV(fx.level)}<span class="muted">${re.sets} × ${re.reps}${isTime(re) ? " s" : ""}${re.sides ? " " + T("por lado") : ""}</span></div>
+      <span class="pca">→</span>
+      <div class="pcc new"><small>${T("Nuevo")}</small><b>${esc(xName(tx))}</b>${LV(tx.level)}<span class="pcn">${re.sets}&nbsp;× <button data-pgn="${tx.type === "time" ? -5 : -1}" aria-label="${T("Menos")}">−</button><b>${c.tgt}${tu}</b><button data-pgn="${tx.type === "time" ? 5 : 1}" aria-label="${T("Más")}">+</button></span></div></div>
+    <p class="muted" style="font-size:.82rem;margin:10px 0 0">${up ? T("Objetivo de inicio más bajo: el paso nuevo es más difícil. Tu historial de {x} se conserva.", { x: esc(xName(fx)) }) : T("Objetivo de inicio asequible para consolidar. Tu historial de {x} se conserva.", { x: esc(xName(fx)) })}</p>
+    <div class="row" style="margin-top:14px"><span class="spacer"></span><button class="btn ghost" data-act="pg-cancel">${T("Cancelar")}</button><button class="btn primary" data-act="pg-ok">${T("Cambiar")}</button></div>
+  </div></div>`;
+}
+function progApply(p, tgt) {
+  const r = state.routines.find(x => x.id === p.rid), re = r?.exercises[p.i], tx = CATBY[p.to]; if (!re || !tx) return false;
+  r.exercises[p.i] = { ...re, xid: tx.id, name: xName(tx), type: tx.type === "time" ? "time" : "reps", sides: !!tx.sides, reps: tgt };
+  const log = LS.get("wk.progLog", []) || []; log.push({ t: Date.now(), rid: r.id, from: p.xid, to: tx.id, dir: p.dir }); LS.set("wk.progLog", log.slice(-300));
+  store.saveRoutines(state.routines); return true;
+}
+
+/* Plan: regla de la semana ↑ */
+function applyUpRule(rule, r, e) {
+  const tm = isTime(e), a = { ...e };
+  if (rule === "reps1" || rule === "reps2") { const n = (rule === "reps1" ? 1 : 2) * (tm ? 5 : 1); a.reps = Math.min(tm ? 3600 : 100, (+e.reps || 0) + n); }
+  else if (rule === "set") { if ((+e.sets || 0) >= 10) return null; a.sets = (+e.sets || 0) + 1; }
+  else if (rule === "step") {
+    if (!e.xid || !CATBY[e.xid]) return null; const st = chainStep(e.xid), h = exHistory(r, e)[0], v = h && vsTarget(h.e, e);
+    if (!st.next || !v?.ok) return null; const tx = CATBY[st.next];
+    Object.assign(a, { xid: tx.id, name: xName(tx), type: tx.type === "time" ? "time" : "reps", sides: !!tx.sides, reps: startTarget(tx, e, "up") });
+  } else return null;
+  return a;
+}
+const exShort = e => `${exName(e)} ${e.sets}×${e.reps}${isTime(e) ? " s" : ""}`;
+function planUpCheck() {
+  const p = PL.get(), pn = planNow(p); if (!pn || pn.status !== "on" || !pn.w.up) return;
+  const rule = upRuleOf(p); if (rule === "mark" || (rule === "step" && !CAT)) return;
+  const done = LS.get("wk.planUpDone", []) || [], key = dayKey(pn.w.t); if (done.includes(key)) return;
+  const changes = [];
+  state.routines.filter(r => normVar(r.variant) === pn.w.variant).forEach(r => r.exercises.forEach((e, i) => {
+    const after = applyUpRule(rule, r, e); if (!after) return;
+    changes.push({ rid: r.id, i, before: { ...e }, after, txt: `${exShort(e)} → ${exShort(after)}` }); r.exercises[i] = after;
+  }));
+  LS.set("wk.planUpDone", [...done, key].slice(-100));
+  LS.set("wk.planUpLog", { week: key, variant: pn.w.variant, rule, changes, seen: !changes.length, undone: false });
+  if (changes.length) store.saveRoutines(state.routines);
+}
+function planUpNotice() {
+  const L = LS.get("wk.planUpLog", null), pn = planNow(); if (!L || L.seen || !pn || pn.status !== "on" || dayKey(pn.w.t) !== L.week) return "";
+  return `<div class="panel pgnote"><b>↑ ${T("Semana de subida · variante {v}", { v: esc(L.variant) })}</b>
+    <p class="muted" style="margin:4px 0 8px;font-size:.88rem">${L.undone ? T("Cambios deshechos. Tus rutinas están como antes.") : T("Se ha aplicado la regla de tu plan: {x}.", { x: T(UP_RULES.find(u => u[0] === L.rule)?.[1] || "") })}</p>
+    ${L.undone ? "" : `<ul class="pgl">${L.changes.map(c => `<li>${esc(c.txt)}</li>`).join("")}</ul>`}
+    <div class="row" style="margin-top:8px"><button class="btn small primary" data-act="pu-ok">${T("Entendido")}</button>${L.undone ? "" : `<button class="btn small" data-act="pu-undo">${T("Deshacer")}</button>`}</div></div>`;
+}
+function planUpUndo() {
+  const L = LS.get("wk.planUpLog", null); if (!L || L.undone) return;
+  L.changes.forEach(c => { const r = state.routines.find(x => x.id === c.rid), e = r?.exercises[c.i]; if (e && e.name === c.after.name && String(e.reps) === String(c.after.reps) && String(e.sets) === String(c.after.sets)) r.exercises[c.i] = c.before; });
+  L.undone = true; LS.set("wk.planUpLog", L); store.saveRoutines(state.routines);
+}
+
+/* Stats → Ejercicios: dónde estás en la cadena */
+function chainBlock(xid) {
+  const st = chainStep(xid); if (!st.chain) return "";
+  const inR = st.chain.find(id => state.routines.some(r => r.exercises.some(e => e.xid === id || CAT?.variants?.[e.xid] === id)));
+  const log = LS.get("wk.progLog", []) || [], ci = st.chain.indexOf(inR || st.cur);
+  const used = new Set(state.sessions.flatMap(s => s.exercises.map(e => e.xid)).filter(Boolean));
+  return `<div class="pchain"><p class="pgh">${T("Tu progresión")}</p>${st.chain.map((id, j) => {
+    const x = CATBY[id], up = log.filter(l => l.from === id && l.dir === "up").pop();
+    const cls = j < ci ? "done" : j === ci ? "cur" : "", note = j < ci ? (up ? T("superado el {d}", { d: new Date(up.t).toLocaleDateString(LOC(), { day: "numeric", month: "short" }) }) : used.has(id) ? T("hecho") : "") : j === ci ? T("actual") : j === ci + 1 ? T("siguiente") : j === st.chain.length - 1 ? T("meta") : "";
+    return `<div class="pst ${cls}"><button data-xinfo="${id}">${esc(xName(x))}</button>${LV(x.level)}${note ? `<small>${note}</small>` : ""}</div>`; }).join("")}</div>`;
+}
 
 /* ---------- Iconos ---------- */
 const ICON = {
@@ -1039,7 +1211,7 @@ function render() {
   if (state.tab === "history") state.tab = "diary";
   const v = state.actForm ? viewActForm : state.tab === "data" && state.link ? viewLink : { train: viewTrain, routines: viewRoutines, diary: viewDiary, stats: viewStats, data: viewData }[state.tab];
   const mb = document.querySelector(".mbox.dsh"), mbTop = mb ? mb.scrollTop : 0;
-  $("#app").innerHTML = v() + focusView() + welcomeModal() + newsModal() + cycAckModal() + savedModal() + shareSessModal() + shareRoutModal() + incomingModal() + profPickModal() + profFormModal() + profEditModal() + profCopyModal() + issueModal() + exInfoModal() + xpickModal() + ownMatModal() + catAskModal();
+  $("#app").innerHTML = v() + focusView() + welcomeModal() + newsModal() + cycAckModal() + savedModal() + shareSessModal() + shareRoutModal() + incomingModal() + profPickModal() + profFormModal() + profEditModal() + profCopyModal() + issueModal() + exInfoModal() + xpickModal() + ownMatModal() + catAskModal() + progChangeModal();
   if (mb) { const nb = document.querySelector(".mbox.dsh"); if (nb) nb.scrollTop = mbTop; }
   if (state.tab === "train" && state.active && !state.actForm) tick();
   if (state.shareSess && SHOPT().img) sessPreview();
@@ -1096,7 +1268,7 @@ function viewTrain() {
       ${backupBanner()}
       ${weightBanner()}
       ${cycBanner()}
-      ${todayCard()}
+      ${planUpNotice()}${todayCard()}
       ${cycCard()}
       ${planSection()}
       <p class="sync" style="margin-top:22px">${last ? T("Última sesión: {d}", { d: new Date(last.start).toLocaleDateString(LOC(), { weekday: "long", day: "numeric", month: "long" }) }) + " · " : ""}${T("Datos guardados solo en este dispositivo. Haz copias desde Ajustes.")}</p>`;
@@ -1204,7 +1376,7 @@ function buildExercise(name, nSets = 3, reps = "", type, sides, rest, xid) {
 }
 function startSession(rid) {
   const r = state.routines.find(x => x.id === rid);
-  state.active = { id: uid(), start: Date.now(), pre: true, routine: r ? r.name : "", block: r ? (r.block || guessBlock(r.name)) : "otro", exercises: r ? r.exercises.map(e => Object.assign(buildExercise(exName(e), +e.sets || 3, e.reps, e.type || "reps", !!e.sides, e.rest, e.xid), { restAfter: e.restAfter ?? null })) : [] };
+  state.active = { id: uid(), start: Date.now(), pre: true, rid: r ? r.id : null, routine: r ? r.name : "", block: r ? (r.block || guessBlock(r.name)) : "otro", exercises: r ? r.exercises.map(e => Object.assign(buildExercise(exName(e), +e.sets || 3, e.reps, e.type || "reps", !!e.sides, e.rest, e.xid), { restAfter: e.restAfter ?? null })) : [] };
   state.exView = null; state.sheet = false;
   saveActive(); render(); window.scrollTo(0, 0);
 }
@@ -1435,13 +1607,13 @@ function updateLive() {
 async function finishSession() {
   const a = state.active;
   cancelRun();
-  const exercises = a.exercises.map(e => ({ name: e.name, type: isTime(e) ? "time" : "reps", sides: !!e.sides, sets: e.sets.filter(s => s.done).map(s => ({ w: +s.w || 0, r: +s.r || 0, ...(sideReps(e) ? { r2: +R2(s) || 0 } : {}), done: true })) })).filter(e => e.sets.length);
+  const exercises = a.exercises.map(e => ({ name: e.name, ...(e.xid ? { xid: e.xid } : {}), type: isTime(e) ? "time" : "reps", sides: !!e.sides, sets: e.sets.filter(s => s.done).map(s => ({ w: +s.w || 0, r: +s.r || 0, ...(sideReps(e) ? { r2: +R2(s) || 0 } : {}), done: true })) })).filter(e => e.sets.length);
   if (!exercises.length) { toast(T("Marca al menos una serie como completada")); return; }
-  const s = { id: a.id, start: a.start, end: a.start + activeMs(a), routine: a.routine, block: a.block || guessBlock(a.routine), exercises };
+  const s = { id: a.id, start: a.start, end: a.start + activeMs(a), ...(a.rid ? { rid: a.rid } : {}), routine: a.routine, block: a.block || guessBlock(a.routine), exercises };
   state.sessions.push(s);
   state.active = null; saveActive();
   await store.saveSession(s);
-  state.savedSess = s.id;
+  state.savedSess = s.id; state.progProps = progProposals(s);
   state.day = dayKey(Date.now()); state.tab = "diary"; render();
 }
 
@@ -2049,7 +2221,7 @@ function sbEjercicios(IX, now) {
     const arrow = prev === null ? "" : last > prev ? "↑" : last < prev ? "↓" : "=";
     const open = state.statEx === x.key;
     const sub = `${fmtVal(x.mode, last)}${x.target && x.mode !== "load" ? ` · ${T("obj.")} ${fmtVal(x.mode, x.target)}` : ""}${sideReps(x.items[x.items.length - 1].e) ? " · " + T("peor lado") : ""}`;
-    return `<button class="exr" data-statex="${esc(x.key)}" aria-expanded="${open}"><span><div class="nm">${esc(x.name)}</div><div class="sb">${sub}</div></span>${spark(x.pts, col)}<span class="pc" style="color:${col}">${arrow} ${pct !== null ? pct + "%" : ""}</span></button>${open ? `<div class="exd">${exerciseProgress(x.key, x.name)}</div>` : ""}`;
+    return `<button class="exr" data-statex="${esc(x.key)}" aria-expanded="${open}"><span><div class="nm">${esc(x.name)}</div><div class="sb">${sub}</div></span>${spark(x.pts, col)}<span class="pc" style="color:${col}">${arrow} ${pct !== null ? pct + "%" : ""}</span></button>${open ? `<div class="exd">${x.key.startsWith("x:") && catReady() ? chainBlock(x.key.slice(2)) : ""}${exerciseProgress(x.key, x.name)}</div>` : ""}`;
   }).join("")}<p class="muted" style="font-size:.78rem;margin:6px 0 4px">${T("% = última sesión sobre el objetivo de la rutina. Flecha = respecto a la sesión anterior. Toca para ver el gráfico.")}</p></div>`;
 }
 function sbEquilibrio(S, now) {
@@ -2353,6 +2525,14 @@ function viewData() {
     <div class="panel"><div class="wrow"><label class="muted" for="gDaily" style="font-size:.85rem">${T("Días con Diaria")}</label><input id="gDaily" type="number" min="0" max="7" inputmode="numeric" value="${LS.get("wk.goals", {}).daily || 0}"><span></span></div>
       <div class="wrow" style="margin-top:10px"><label class="muted" for="gStr" style="font-size:.85rem">${T("Días con fuerza")}</label><input id="gStr" type="number" min="0" max="7" inputmode="numeric" value="${LS.get("wk.goals", {}).strength || 0}"><span></span></div>
       <p class="muted" style="font-size:.8rem;margin:8px 0 0">${T("Se muestran en Stats → Resumen. 0 = no mostrar. Fuerza = cualquier bloque salvo Diaria, Cardio y Otro.")}</p></div>
+    ${catOn() ? `<h2>${T("Propuestas de progresión")}</h2>
+    <div class="panel">
+      <label class="xtog" style="padding:0;color:var(--ink);font-size:1rem"><span>${T("Proponer cambios de paso")}<small class="muted" style="display:block;font-size:.8rem">${T("Al terminar cada sesión")}</small></span><input type="checkbox" id="progOn" ${PROG().on ? "checked" : ""}></label>
+      ${PROG().on ? `<div class="wrow" style="margin-top:12px"><label class="muted" for="progUp" style="font-size:.85rem">${T("Subir tras (al objetivo)")}</label><select id="progUp">${[2, 3].map(n => `<option value="${n}" ${PROG().up === n ? "selected" : ""}>${T("{n} sesiones", { n })}</option>`).join("")}</select><span></span></div>
+      <div class="wrow" style="margin-top:10px"><label class="muted" for="progDown" style="font-size:.85rem">${T("Proponer retroceder")}</label><select id="progDown">${DOWN_OPTS.map(([k, n]) => `<option value="${k}" ${PROG().down === k ? "selected" : ""}>${T(n)}</option>`).join("")}</select><span></span></div>` : ""}
+      <p class="muted" style="font-size:.8rem;margin:10px 0 0">${T("Solo para ejercicios del catálogo. El objetivo es el de cada ejercicio en tu rutina; en «por lado» cuenta el peor lado. Las rutinas con subida automática en el plan solo reciben propuestas de retroceder.")}</p>
+      ${(LS.get("wk.progMute", []) || []).length ? `<button class="btn small" style="margin-top:10px" data-act="prog-unmute">${T("Volver a proponer en todos ({n} silenciados)", { n: (LS.get("wk.progMute", []) || []).length })}</button>` : ""}
+    </div>` : ""}
     ${catOn() ? `<h2>${T("Mi material")}</h2>
     <div class="panel"><p class="muted" style="font-size:.85rem;margin:0">${T("Marca lo que tienes. En el catálogo, lo demás se ve en naranja y se puede ocultar. Sin nada marcado, no se filtra.")}</p>
       <div class="matsel">${Object.entries(MAT).map(([k, [n]]) => `<label><input type="checkbox" data-myeq="${k}" ${myEquip()?.includes(k) ? "checked" : ""}>${matIco(k)}${T(n)}</label>`).join("")}</div></div>` : ""}
@@ -2641,6 +2821,7 @@ function savedModal() {
     <h2 id="svT" style="margin:0">${T("Sesión guardada")}</h2>
     <p class="muted" style="margin:2px 0 0">${esc(s.routine || T("Sesión libre"))}</p>
     <div class="svst"><div><b>${fmtDur(s.end - s.start)}</b><small>${T("duración")}</small></div><div><b>${s.exercises.length}</b><small>${T("ejercicios")}</small></div><div><b>${doneSets(s)}</b><small>${T("series")}</small></div></div>
+    ${progCards()}
     <div class="row"><button class="btn" style="flex:1" data-act="saved-close">${T("Hecho")}</button><button class="btn primary shbtn" style="flex:1" data-shsess="${s.id}">${SHARE_ICO}${T("Compartir")}</button></div>
   </div></div>`;
 }
@@ -2676,7 +2857,7 @@ const rGroups = () => {
 const gName = v => v ? T("Variante {v}", { v }) : T("Sin variante");
 function sharePayload(ids, withPlan) {
   const p = PL.get(), routines = state.routines.filter(r => ids.includes(r.id)).map(({ id, ...r }) => ({ ...r, oid: r.oid || id }));
-  const plan = withPlan && p?.phases?.length ? { phases: p.phases.map(x => ({ variant: normVar(x.variant), weeks: +x.weeks || 1 })), deload: p.deload || null, up: !!p.up } : null;
+  const plan = withPlan && p?.phases?.length ? { phases: p.phases.map(x => ({ variant: normVar(x.variant), weeks: +x.weeks || 1 })), deload: p.deload || null, up: !!p.up, upRule: upRuleOf(p) } : null;
   return { app: "usus", shared: 1, routines, ...(plan ? { plan } : {}) };
 }
 function shareRoutModal() {
@@ -2717,7 +2898,7 @@ function sanitizeShared(j) {
       ...(e.restAfter !== null && e.restAfter !== undefined && e.restAfter !== "" && isFinite(+e.restAfter) ? { restAfter: Math.max(0, Math.min(3600, Math.round(+e.restAfter))) } : {}) }))
   }));
   const p = j?.plan, ph = p && Array.isArray(p.phases) ? p.phases.filter(x => x && normVar(x.variant)).slice(0, 12).map(x => ({ variant: normVar(x.variant), weeks: Math.max(1, Math.min(12, Math.round(+x.weeks || 1))) })) : [];
-  const plan = ph.length ? { phases: ph, deload: p.deload && +p.deload.weeks > 0 && +p.deload.every > 0 ? { weeks: Math.min(4, Math.round(+p.deload.weeks)), every: Math.min(26, Math.round(+p.deload.every)) } : { weeks: 0, every: 0 }, up: !!p.up } : null;
+  const plan = ph.length ? { phases: ph, deload: p.deload && +p.deload.weeks > 0 && +p.deload.every > 0 ? { weeks: Math.min(4, Math.round(+p.deload.weeks)), every: Math.min(26, Math.round(+p.deload.every)) } : { weeks: 0, every: 0 }, up: !!p.up, upRule: upRuleOf(p) } : null;
   if (!rs.length && !plan) return null;
   return { routines: rs, plan, sel: rs.map((_, i) => i), withPlan: !!plan, mode: {} };
 }
@@ -3071,6 +3252,10 @@ document.addEventListener("click", async ev => {
   }
   if (d.ownmat !== undefined && state.editing) { readEditor(); const e = state.editing.exercises[+d.ownmat]; state.ownMat = { i: +d.ownmat, equip: [...(e.equip || [])], other: e.other || "" }; render(); return; }
   if (d.fx) { LS.set("wk.fx", d.fx); render(); return; }
+  if (d.pgch !== undefined) { const p = state.progProps?.[+d.pgch]; if (p) { state.progChange = { k: +d.pgch, tgt: p.tgt }; render(); } return; }
+  if (d.pglater !== undefined && state.progProps) { state.progProps.splice(+d.pglater, 1); render(); return; }
+  if (d.pgmute !== undefined && state.progProps) { const p = state.progProps[+d.pgmute]; LS.set("wk.progMute", [...new Set([...(LS.get("wk.progMute", []) || []), p.rid + ":" + p.xid])]); state.progProps.splice(+d.pgmute, 1); toast(T("No se volverá a proponer para este ejercicio en esta rutina")); render(); return; }
+  if (d.pgn && state.progChange) { state.progChange.tgt = Math.max(1, Math.min(600, state.progChange.tgt + +d.pgn)); render(); return; }
   if (state.link && (d.lnok || d.lnundo || d.lnpick || d.lnown)) {
     const it = state.link.items[+(d.lnok || d.lnundo || d.lnpick || d.lnown)]; if (!it) return;
     if (d.lnok && it.to) linkApply(it.k, it.to);
@@ -3168,6 +3353,11 @@ document.addEventListener("click", async ev => {
     state.sessions = state.sessions.filter(s => s.id !== d.delsess); await store.deleteSession(d.delsess); toast(T("Sesión eliminada")); render(); return;
   }
   switch (d.act) {
+    case "prog-unmute": LS.set("wk.progMute", []); toast(T("Hecho")); render(); break;
+    case "pg-cancel": state.progChange = null; render(); break;
+    case "pg-ok": { const c = state.progChange, p = state.progProps?.[c.k]; if (p && progApply(p, c.tgt)) { state.progProps.splice(c.k, 1); toast(T("Rutina actualizada")); } state.progChange = null; render(); break; }
+    case "pu-ok": { const L = LS.get("wk.planUpLog", null); if (L) { L.seen = true; LS.set("wk.planUpLog", L); } render(); break; }
+    case "pu-undo": planUpUndo(); toast(T("Cambios deshechos")); render(); break;
     case "xi-close": state.exInfo = null; state.exInfoAdd = false; render(); break;
     case "xi-add": state.exInfoAdd = true; render(); break;
     case "xpick-ed": readEditor(); state.xpick = { mode: "ed", q: "" }; render(); break;
@@ -3258,7 +3448,7 @@ document.addEventListener("click", async ev => {
     case "issue-close": state.issue = null; render(); break;
     case "issue-go": { const u = issueURL(state.issue); state.issue = null; render(); openExt(u); break; }
     case "share-app": await shareOut({ title: "Usus", text: shareAppText(), url: appURL() }); break;
-    case "saved-close": state.savedSess = null; render(); break;
+    case "saved-close": state.savedSess = null; state.progProps = null; render(); break;
     case "shsess-close": state.shareSess = null; render(); break;
     case "shsess-copy": await sessShareGo("copy"); break;
     case "shsess-save": await sessShareGo("save"); break;
@@ -3350,8 +3540,9 @@ document.addEventListener("input", ev => {
 });
 document.addEventListener("input", ev => { if (state.actForm && /^af[khm]$/.test(ev.target.id)) { readActForm(); const p = document.getElementById("apv"); if (p) p.innerHTML = actPreview(state.actForm); } });
 document.addEventListener("change", async ev => {
-  if (state.planMode === "edit" && ev.target.closest?.("#app") && (/^p(On|Start|Review|DlW|DlE|Up)$/.test(ev.target.id) || ev.target.dataset.pv !== undefined || ev.target.dataset.pw !== undefined)) { readPlan(); render(); return; }
+  if (state.planMode === "edit" && ev.target.closest?.("#app") && (/^p(On|Start|Review|DlW|DlE|Up|UpRule)$/.test(ev.target.id) || ev.target.dataset.pv !== undefined || ev.target.dataset.pw !== undefined)) { readPlan(); render(); return; }
   const tg = ev.target, dk = state.day || dayKey(Date.now());
+  if (tg.id === "progOn" || tg.id === "progUp" || tg.id === "progDown") { const P = PROG(); if (tg.id === "progOn") P.on = tg.checked; if (tg.id === "progUp") P.up = +tg.value; if (tg.id === "progDown") P.down = tg.value; LS.set("wk.prog", P); render(); return; }
   if (tg.id === "catOnly") { state.catOnly = tg.checked; const l = $("#catList"); if (l) l.innerHTML = catListHTML(); return; }
   if (tg.dataset.omat && state.ownMat) { const k = tg.dataset.omat, l = state.ownMat.equip.filter(z => z !== k); if (tg.checked) l.push(k); state.ownMat.equip = l; return; }
   if (tg.dataset.myeq) { const k = tg.dataset.myeq, l = (myEquip() || []).filter(z => z !== k); if (tg.checked) l.push(k); LS.set("wk.equip", l.length ? MAT_ORDER(l) : null); render(); return; }
@@ -4035,6 +4226,57 @@ const I18N = {
     "Gran sesión": "Gran sessió",
     "Bitcoin": "Bitcoin",
     "Lightning / zaps": "Lightning / zaps",
+    "Por debajo del 60 % · 2 sesiones": "Per sota del 60 % · 2 sessions",
+    "Por debajo del 50 % · 3 sesiones": "Per sota del 50 % · 3 sessions",
+    "Nunca": "Mai",
+    "Solo recordatorio (↑)": "Només recordatori (↑)",
+    "+1 repetición por serie (+5 s)": "+1 repetició per sèrie (+5 s)",
+    "+2 repeticiones por serie (+10 s)": "+2 repeticions per sèrie (+10 s)",
+    "+1 serie": "+1 sèrie",
+    "Siguiente paso si llegaste al objetivo": "Pas següent si vas arribar a l'objectiu",
+    "Variante repetida: subida automática según tu plan.": "Variant repetida: pujada automàtica segons el teu pla.",
+    "En la semana ↑": "A la setmana ↑",
+    "Solo se marca la semana; tú decides qué subir.": "Només es marca la setmana; tu decideixes què pujar.",
+    "Se aplica sola al empezar la semana a las rutinas de esa variante, con aviso en Hoy y opción de deshacer. Pasa al siguiente paso del catálogo solo si la última vez llegaste al objetivo.": "S'aplica sola en començar la setmana a les rutines d'aquesta variant, amb avís a Avui i opció de desfer. Passa al pas següent del catàleg només si l'última vegada vas arribar a l'objectiu.",
+    "Se aplica sola al empezar la semana a las rutinas de esa variante, con aviso en Hoy y opción de deshacer.": "S'aplica sola en començar la setmana a les rutines d'aquesta variant, amb avís a Avui i opció de desfer.",
+    "Listo para subir": "A punt per pujar",
+    "¿Consolidar antes?": "Consolidar abans?",
+    "{x}: objetivo cumplido {n} sesiones seguidas.": "{x}: objectiu complert {n} sessions seguides.",
+    "{x}: por debajo del {p} % del objetivo {n} sesiones seguidas.": "{x}: per sota del {p} % de l'objectiu {n} sessions seguides.",
+    "hoy": "avui",
+    "objetivo {n}": "objectiu {n}",
+    "Es normal al empezar un paso nuevo. Volver unas semanas al anterior suele hacer avanzar antes.": "És normal en començar un pas nou. Tornar unes setmanes a l'anterior sol fer avançar abans.",
+    "Cambiar en la rutina": "Canvia a la rutina",
+    "Seguir intentándolo": "Continua intentant-ho",
+    "No proponer": "No proposis",
+    "Subir de paso": "Pujar de pas",
+    "Volver al paso anterior": "Tornar al pas anterior",
+    "En «{x}». Las demás rutinas no cambian.": "A «{x}». Les altres rutines no canvien.",
+    "Ahora": "Ara",
+    "Nuevo": "Nou",
+    "Menos": "Menys",
+    "Más": "Més",
+    "Objetivo de inicio más bajo: el paso nuevo es más difícil. Tu historial de {x} se conserva.": "Objectiu d'inici més baix: el pas nou és més difícil. L'historial de {x} es conserva.",
+    "Objetivo de inicio asequible para consolidar. Tu historial de {x} se conserva.": "Objectiu d'inici assequible per consolidar. L'historial de {x} es conserva.",
+    "Semana de subida · variante {v}": "Setmana de pujada · variant {v}",
+    "Cambios deshechos. Tus rutinas están como antes.": "Canvis desfets. Les teves rutines estan com abans.",
+    "Se ha aplicado la regla de tu plan: {x}.": "S'ha aplicat la regla del teu pla: {x}.",
+    "Tu progresión": "La teva progressió",
+    "superado el {d}": "superat el {d}",
+    "hecho": "fet",
+    "actual": "actual",
+    "siguiente": "següent",
+    "meta": "meta",
+    "Propuestas de progresión": "Propostes de progressió",
+    "Proponer cambios de paso": "Proposa canvis de pas",
+    "Al terminar cada sesión": "En acabar cada sessió",
+    "Subir tras (al objetivo)": "Pujar després de (a l'objectiu)",
+    "Proponer retroceder": "Proposa retrocedir",
+    "Solo para ejercicios del catálogo. El objetivo es el de cada ejercicio en tu rutina; en «por lado» cuenta el peor lado. Las rutinas con subida automática en el plan solo reciben propuestas de retroceder.": "Només per a exercicis del catàleg. L'objectiu és el de cada exercici a la teva rutina; en «per costat» compta el pitjor costat. Les rutines amb pujada automàtica al pla només reben propostes de retrocedir.",
+    "Volver a proponer en todos ({n} silenciados)": "Torna a proposar a tots ({n} silenciats)",
+    "No se volverá a proponer para este ejercicio en esta rutina": "No es tornarà a proposar per a aquest exercici en aquesta rutina",
+    "Rutina actualizada": "Rutina actualitzada",
+    "Cambios deshechos": "Canvis desfets",
     "Barra": "Barra",
     "Paralelas": "Paral·leles",
     "Anillas": "Anelles",
@@ -4904,6 +5146,57 @@ const I18N = {
     "Gran sesión": "Great session",
     "Bitcoin": "Bitcoin",
     "Lightning / zaps": "Lightning / zaps",
+    "Por debajo del 60 % · 2 sesiones": "Below 60% · 2 sessions",
+    "Por debajo del 50 % · 3 sesiones": "Below 50% · 3 sessions",
+    "Nunca": "Never",
+    "Solo recordatorio (↑)": "Reminder only (↑)",
+    "+1 repetición por serie (+5 s)": "+1 rep per set (+5 s)",
+    "+2 repeticiones por serie (+10 s)": "+2 reps per set (+10 s)",
+    "+1 serie": "+1 set",
+    "Siguiente paso si llegaste al objetivo": "Next step if you hit the target",
+    "Variante repetida: subida automática según tu plan.": "Repeated variant: automatic increase from your plan.",
+    "En la semana ↑": "In the ↑ week",
+    "Solo se marca la semana; tú decides qué subir.": "The week is only marked; you decide what to increase.",
+    "Se aplica sola al empezar la semana a las rutinas de esa variante, con aviso en Hoy y opción de deshacer. Pasa al siguiente paso del catálogo solo si la última vez llegaste al objetivo.": "Applied automatically when the week starts to that variant's routines, with a notice in Today and an undo option. Moves to the next catalogue step only if you hit the target last time.",
+    "Se aplica sola al empezar la semana a las rutinas de esa variante, con aviso en Hoy y opción de deshacer.": "Applied automatically when the week starts to that variant's routines, with a notice in Today and an undo option.",
+    "Listo para subir": "Ready to step up",
+    "¿Consolidar antes?": "Consolidate first?",
+    "{x}: objetivo cumplido {n} sesiones seguidas.": "{x}: target hit {n} sessions in a row.",
+    "{x}: por debajo del {p} % del objetivo {n} sesiones seguidas.": "{x}: below {p}% of the target {n} sessions in a row.",
+    "hoy": "today",
+    "objetivo {n}": "target {n}",
+    "Es normal al empezar un paso nuevo. Volver unas semanas al anterior suele hacer avanzar antes.": "It's normal when starting a new step. Going back to the previous one for a few weeks usually gets you there sooner.",
+    "Cambiar en la rutina": "Change in routine",
+    "Seguir intentándolo": "Keep trying",
+    "No proponer": "Don't suggest",
+    "Subir de paso": "Step up",
+    "Volver al paso anterior": "Go back a step",
+    "En «{x}». Las demás rutinas no cambian.": "In “{x}”. Other routines don't change.",
+    "Ahora": "Now",
+    "Nuevo": "New",
+    "Menos": "Less",
+    "Más": "More",
+    "Objetivo de inicio más bajo: el paso nuevo es más difícil. Tu historial de {x} se conserva.": "Lower starting target: the new step is harder. Your {x} history is kept.",
+    "Objetivo de inicio asequible para consolidar. Tu historial de {x} se conserva.": "Reachable starting target to consolidate. Your {x} history is kept.",
+    "Semana de subida · variante {v}": "Step-up week · variant {v}",
+    "Cambios deshechos. Tus rutinas están como antes.": "Changes undone. Your routines are as before.",
+    "Se ha aplicado la regla de tu plan: {x}.": "Your plan's rule was applied: {x}.",
+    "Tu progresión": "Your progression",
+    "superado el {d}": "passed on {d}",
+    "hecho": "done",
+    "actual": "current",
+    "siguiente": "next",
+    "meta": "goal",
+    "Propuestas de progresión": "Progression suggestions",
+    "Proponer cambios de paso": "Suggest step changes",
+    "Al terminar cada sesión": "After each session",
+    "Subir tras (al objetivo)": "Step up after (at target)",
+    "Proponer retroceder": "Suggest going back",
+    "Solo para ejercicios del catálogo. El objetivo es el de cada ejercicio en tu rutina; en «por lado» cuenta el peor lado. Las rutinas con subida automática en el plan solo reciben propuestas de retroceder.": "Catalogue exercises only. The target is each exercise's target in your routine; for “per side” the weaker side counts. Routines with automatic increases in the plan only get go-back suggestions.",
+    "Volver a proponer en todos ({n} silenciados)": "Suggest for all again ({n} muted)",
+    "No se volverá a proponer para este ejercicio en esta rutina": "Won't suggest again for this exercise in this routine",
+    "Rutina actualizada": "Routine updated",
+    "Cambios deshechos": "Changes undone",
     "Barra": "Bar",
     "Paralelas": "Parallel bars",
     "Anillas": "Rings",
@@ -5148,7 +5441,7 @@ const I18N = {
   restorePlace();
   if (LS.get("wk.welcomed", false) && LS.get("wk.seenVersion", null) !== APP_VERSION && CHANGES[0][0] === APP_VERSION) state.newsOpen = "new";
   if (LS.get("wk.catalog", null) === null) state.catAsk = true;
-  if (catOn()) loadCatalog().then(c => { if (c) render(); });
+  if (catOn()) loadCatalog().then(c => { planUpCheck(); render(); }); else planUpCheck();
   render();
   await readShareHash();
   if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
