@@ -323,6 +323,7 @@ textarea{width:100%;font:inherit;padding:10px 12px;border:1px solid var(--line);
 .stabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface);margin-top:12px}
 .stabs button{border:0;background:none;padding:10px 2px;font-size:.88rem;color:var(--muted)}
 .stabs button[aria-pressed=true]{background:var(--accent-soft);color:var(--accent);font-weight:600}
+.settabs{position:sticky;top:0;z-index:5;margin-bottom:4px}
 .perrow{display:flex;align-items:center;gap:6px;margin-top:12px}.perrow>span{color:var(--muted);font-size:.85rem;margin-right:4px}
 .perrow button{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:5px 12px;font-size:.85rem}
 .perrow button[aria-pressed=true]{border-color:var(--accent);background:var(--accent-soft)}
@@ -505,7 +506,7 @@ const store = {
 
 /* ---------- Estado ---------- */
 const state = {
-  tab: "train", routines: [], sessions: [],
+  tab: "train", routines: [], sessions: [], setTab: LS.get("wk.setTab", "datos"),
   active: LS.get("wk.active", null),   // sesión en curso (se guarda localmente como borrador)
   editing: null,                        // rutina en edición
   statEx: null
@@ -531,7 +532,7 @@ function lastSetsFor(name) {
   }
   return null;
 }
-const APP_VERSION = "1.2.0";
+const APP_VERSION = "1.2.1";
 const THEMES = [["protector", "Protector", "Oscuro cálido, sin azul"], ["dark", "Oscuro", "Neutro"], ["light", "Claro", "Para el día"], ["auto", "Automático", "Sigue al sistema"]];
 const curTheme = () => document.documentElement.dataset.theme || "auto";
 function applyTheme(t) {
@@ -2046,25 +2047,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.`;
 const item = (t, d, act, label, primary) => `<div class="data-item"><div style="flex:1"><div class="t">${t}</div><div class="d">${d}</div></div><button class="btn small${primary ? " primary" : ""}" data-act="${act}">${label}</button></div>`;
 function viewData() {
-  const lastBk = LS.get("wk.lastBackup", 0);
-  return `
-    <div class="row"><h1 style="flex:1">${T("Ajustes")}</h1>${profChip()}</div>
-    <p class="sub">${T("{r} rutinas · {s} sesiones", { r: state.routines.length, s: state.sessions.length })} · ${lastBk ? T("última copia {d}", { d: new Date(lastBk).toLocaleDateString(LOC()) }) : T("sin copias todavía")}</p>
-    ${profSettings()}
-    <h2>${T("Exportar")}</h2>
-    ${multiProf() ? `<p class="muted" style="font-size:.85rem;margin:-4px 0 8px">${T("Solo los datos de {x}. Cada perfil tiene su propia copia.", { x: esc(profName(curProf())) })}</p>` : ""}
-    <div class="panel">
-      ${item(T("Copia completa"), T("Todo en JSON: rutinas, plan, sesiones, pesos, diario, suplementos y ciclo. Sirve para restaurar."), "exp-all", T("Exportar"), true)}
-      ${item(T("Solo rutinas"), T("JSON para compartir o pasar a otro móvil."), "exp-routines", T("Exportar"))}
-      ${item(T("Sesiones en CSV"), T("Una fila por serie. Para hojas de cálculo."), "exp-csv", T("Exportar"))}
-    </div>
-    <h2>${T("Importar")}</h2>
-    <div class="panel">${item(T("Importar JSON"), T("Copia completa o solo rutinas. Se combina con lo existente; los duplicados se actualizan."), "imp", T("Elegir archivo"))}</div>
-    <input type="file" id="impFile" accept="application/json,.json" hidden>
-    <h2>${T("Objetivos semanales")}</h2>
-    <div class="panel"><div class="wrow"><label class="muted" for="gDaily" style="font-size:.85rem">${T("Días con Diaria")}</label><input id="gDaily" type="number" min="0" max="7" inputmode="numeric" value="${LS.get("wk.goals", {}).daily || 0}"><span></span></div>
-      <div class="wrow" style="margin-top:10px"><label class="muted" for="gStr" style="font-size:.85rem">${T("Días con fuerza")}</label><input id="gStr" type="number" min="0" max="7" inputmode="numeric" value="${LS.get("wk.goals", {}).strength || 0}"><span></span></div>
-      <p class="muted" style="font-size:.8rem;margin:8px 0 0">${T("Se muestran en Stats → Resumen. 0 = no mostrar. Fuerza = cualquier bloque salvo Diaria, Cardio y Otro.")}</p></div>
+  const lastBk = LS.get("wk.lastBackup", 0), tab = SET_TABS.some(t => t[0] === state.setTab) ? state.setTab : "datos";
+  const P = {
+    entreno: `
     <h2>${T("Tiempos")}</h2>
     <div class="panel">
       <div class="wrow"><label class="muted" for="restDef" style="font-size:.85rem">${T("Descanso entre series (s)")}</label><input id="restDef" type="number" min="0" step="5" inputmode="numeric" value="${defRest()}"><span></span></div>
@@ -2075,6 +2060,14 @@ function viewData() {
       <label class="chk" style="grid-column:auto;margin-top:14px"><input type="checkbox" id="autoStartChk" ${autoStart() ? "checked" : ""}> ${T("Inicio automático de series por tiempo")}</label>
       <p class="muted" style="font-size:.8rem;margin:8px 0 0">${T("Cuenta atrás de inicio: pitidos en los últimos segundos de cualquier cuenta atrás que no sea una serie (descansos, cambio de lado, preparación). Aviso final: pitidos en los últimos segundos de cada serie por tiempo. Inicio automático: tras el descanso, la siguiente serie por tiempo arranca sola (en repeticiones nunca); si no, pulsas ▶.")}</p>
     </div>
+    <h2>${T("Objetivos semanales")}</h2>
+    <div class="panel"><div class="wrow"><label class="muted" for="gDaily" style="font-size:.85rem">${T("Días con Diaria")}</label><input id="gDaily" type="number" min="0" max="7" inputmode="numeric" value="${LS.get("wk.goals", {}).daily || 0}"><span></span></div>
+      <div class="wrow" style="margin-top:10px"><label class="muted" for="gStr" style="font-size:.85rem">${T("Días con fuerza")}</label><input id="gStr" type="number" min="0" max="7" inputmode="numeric" value="${LS.get("wk.goals", {}).strength || 0}"><span></span></div>
+      <p class="muted" style="font-size:.8rem;margin:8px 0 0">${T("Se muestran en Stats → Resumen. 0 = no mostrar. Fuerza = cualquier bloque salvo Diaria, Cardio y Otro.")}</p></div>
+    <h2>${T("Avisos")}</h2>
+    <div class="panel">${item(T("Probar sonido y vibración"), T("El pitido usa el volumen multimedia. Si no vibra, revisa No molestar y la vibración del sistema."), "testfx", T("Probar"))}</div>
+`,
+    cuerpo: `
     <h2>${T("Peso")}</h2>
     <div class="panel">
       <div class="wrow"><input id="wDate" type="date" value="${new Date(Date.now() - new Date().getTimezoneOffset() * 6e4).toISOString().slice(0, 10)}" aria-label="${T("Fecha")}"><input id="wKg" type="text" inputmode="decimal" placeholder="kg" aria-label="${T("Peso en kg")}"><button class="btn primary small" data-act="w-add">${T("Añadir")}</button></div>
@@ -2084,14 +2077,12 @@ function viewData() {
     </div>
     ${curProf().sex === "m" ? "" : `<h2>${T("Ciclo")}</h2>
     ${cycSettings()}`}
+`,
+    app: `
     <h2>${T("Idioma")}</h2>
     <div class="seg" style="grid-template-columns:repeat(auto-fit,minmax(100px,1fr))" role="group" aria-label="${T("Idioma")}">${Object.entries(LANGS).map(([k, v]) => `<button data-lang-set="${k}" class="${LANG === k ? "on" : ""}" aria-pressed="${LANG === k}" lang="${k}">${v.name}</button>`).join("")}</div>
     <h2>${T("Apariencia")}</h2>
     <div class="seg" role="group" aria-label="${T("Tema")}">${THEMES.map(([k, n, d]) => `<button data-theme-set="${k}" class="${curTheme() === k ? "on" : ""}" aria-pressed="${curTheme() === k}">${T(n)}<small>${T(d)}</small></button>`).join("")}</div>
-    <h2>${T("Avisos")}</h2>
-    <div class="panel">${item(T("Probar sonido y vibración"), T("El pitido usa el volumen multimedia. Si no vibra, revisa No molestar y la vibración del sistema."), "testfx", T("Probar"))}</div>
-    <h2>${T("Zona peligrosa")}</h2>
-    <button class="btn danger" data-act="wipe">${T("Borrar todos los datos")}</button>
     <h2>${T("Acerca de")}</h2>
     <div class="panel">
       <div class="t" style="font-weight:600">Usus · <button class="verb" data-act="news-open">${T("versión")} ${APP_VERSION}</button></div>
@@ -2106,8 +2097,31 @@ function viewData() {
     <h2>${T("Compartir Usus")}</h2>
     <div class="panel">${shareAppBlock()}</div>
     <h2>${T("Apoyar el proyecto")}</h2>
-    <div class="panel">${donateBlock()}</div>`;
+    <div class="panel">${donateBlock()}</div>`,
+    datos: `
+    <h2>${T("Exportar")}</h2>
+    ${multiProf() ? `<p class="muted" style="font-size:.85rem;margin:-4px 0 8px">${T("Solo los datos de {x}. Cada perfil tiene su propia copia.", { x: esc(profName(curProf())) })}</p>` : ""}
+    <div class="panel">
+      ${item(T("Copia completa"), T("Todo en JSON: rutinas, plan, sesiones, pesos, diario, suplementos y ciclo. Sirve para restaurar."), "exp-all", T("Exportar"), true)}
+      ${item(T("Solo rutinas"), T("JSON para compartir o pasar a otro móvil."), "exp-routines", T("Exportar"))}
+      ${item(T("Sesiones en CSV"), T("Una fila por serie. Para hojas de cálculo."), "exp-csv", T("Exportar"))}
+    </div>
+    <h2>${T("Importar")}</h2>
+    <div class="panel">${item(T("Importar JSON"), T("Copia completa o solo rutinas. Se combina con lo existente; los duplicados se actualizan."), "imp", T("Elegir archivo"))}</div>
+    <input type="file" id="impFile" accept="application/json,.json" hidden>
+    ${profDataTools()}
+    <h2>${T("Zona peligrosa")}</h2>
+    <button class="btn danger" data-act="wipe">${T("Borrar todos los datos")}</button>
+`
+  };
+  return `
+    <div class="row"><h1 style="flex:1">${T("Ajustes")}</h1></div>
+    <p class="sub">${T("{r} rutinas · {s} sesiones", { r: state.routines.length, s: state.sessions.length })} · ${lastBk ? T("última copia {d}", { d: new Date(lastBk).toLocaleDateString(LOC()) }) : T("sin copias todavía")}</p>
+    ${profSettings()}
+    <div class="stabs settabs" role="group" aria-label="${T("Ajustes")}">${SET_TABS.map(([k, l]) => `<button data-stab="${k}" aria-pressed="${tab === k}">${T(l)}</button>`).join("")}</div>
+    ${P[tab]}`;
 }
+const SET_TABS = [["entreno", "Entreno"], ["cuerpo", "Cuerpo"], ["app", "App"], ["datos", "Datos"]];
 /* Donaciones: se copian al tocar */
 const DONATE = [
   ["btc", "Bitcoin", "bc1pnvdct6hfnh67p7dcg2e5mdveyz8jlxuzv4yflkxqccc72qkuc8ls8raspa"],
@@ -2143,6 +2157,11 @@ function installBlock() {
 }
 /* ---------- Novedades (una vez por versión; historial al tocar la versión) ---------- */
 const CHANGES = [
+  ["1.2.1", {
+    es: ["Ajustes reorganizado en pestañas: Entreno, Cuerpo, App y Datos. El perfil queda arriba; para cambiar o añadir perfiles, botón «Perfiles»."],
+    ca: ["Ajustos reorganitzat en pestanyes: Entrenament, Cos, App i Dades. El perfil queda a dalt; per canviar o afegir perfils, botó «Perfils»."],
+    en: ["Settings reorganised into tabs: Workout, Body, App and Data. Your profile stays on top; to switch or add profiles, use the “Profiles” button."]
+  }],
   ["1.2.0", {
     es: ["Perfiles: varias personas en el mismo móvil, cada una con sus datos, ajustes y copia de seguridad. Se cambia desde Hoy o Ajustes. Se pueden copiar rutinas de un perfil a otro.", "En perfiles de mujer, registro de la regla opcional, solo en este móvil.", "Ajustes → Acerca de: código fuente e informar de problemas o proponer mejoras en GitHub."],
     ca: ["Perfils: diverses persones al mateix mòbil, cadascuna amb les seves dades, ajustos i còpia de seguretat. Es canvia des d'Avui o Ajustos. Es poden copiar rutines d'un perfil a un altre.", "En perfils de dona, registre de la regla opcional, només en aquest mòbil.", "Ajustos → Quant a: codi font i informar de problemes o proposar millores a GitHub."],
@@ -2570,18 +2589,19 @@ function profDelete() {
   location.reload();
 }
 function profSettings() {
-  const p = curProf(), others = PROFS().filter(x => x.id !== PROF);
-  if (!multiProf() && !p.sex) return `<h2>${T("Perfiles")}</h2>
-    <div class="panel"><p class="muted" style="font-size:.85rem;margin:0 0 10px">${T("Varias personas pueden usar Usus en este móvil, cada una con sus propios datos y ajustes.")}</p>
-    <button class="btn" data-act="prof-add">+ ${T("Añadir perfil")}</button></div>`;
+  const p = curProf();
+  if (!multiProf() && !p.sex) return `<div class="panel" style="margin-top:12px"><p class="muted" style="font-size:.85rem;margin:0 0 10px">${T("Varias personas pueden usar Usus en este móvil, cada una con sus propios datos y ajustes.")}</p>
+    <button class="btn small" data-act="prof-add">+ ${T("Añadir perfil")}</button></div>`;
+  return `<div class="panel" style="margin-top:12px"><div class="row" style="gap:12px;flex-wrap:nowrap">${profAv(p, 44)}<div style="flex:1;min-width:0"><div style="font-weight:600">${esc(profName(p))}</div><div class="muted" style="font-size:.85rem">${T(SEXN[p.sex] || "—")} · ${T("{n} sesiones", { n: state.sessions.length })}</div></div>
+    <button class="btn small" data-act="prof-edit">${T("Editar")}</button><button class="btn small" data-act="prof-pick">${T("Perfiles")}</button></div></div>`;
+}
+function profDataTools() {
+  if (!multiProf()) return "";
+  const p = curProf();
   return `<h2>${T("Perfil")}</h2>
-    <div class="panel">
-      <div class="row" style="gap:12px;flex-wrap:nowrap">${profAv(p, 48)}<div style="flex:1;min-width:0"><div style="font-weight:600">${esc(profName(p))}</div><div class="muted" style="font-size:.85rem">${T(SEXN[p.sex] || "—")} · ${T("{n} sesiones", { n: state.sessions.length })}</div></div><button class="btn small" data-act="prof-edit">${T("Editar")}</button></div>
-      ${multiProf() ? `<p class="muted" style="font-size:.8rem;margin:10px 0 0">${T("Todo lo de esta pantalla es solo de {x}.", { x: profName(p) })}</p>` : ""}
-      ${others.length ? `<div class="plist" style="margin-top:12px">${others.map(o => `<button class="pitem" data-pswitch="${o.id}">${profAv(o, 34)}<span style="flex:1"><b>${esc(profName(o))}</b></span><span class="muted" style="font-size:.85rem">${T("Cambiar")}</span></button>`).join("")}</div>` : ""}
-      <div class="row" style="margin-top:12px"><button class="btn small" data-act="prof-add">+ ${T("Añadir perfil")}</button>${others.length ? `<button class="btn small" data-act="prof-copy">${T("Copiar rutinas a otro perfil")}</button>` : ""}</div>
-      ${others.length ? `<button class="btn small danger" style="margin-top:10px" data-act="prof-del">${T("Borrar perfil «{x}»", { x: profName(p) })}</button>` : ""}
-    </div>`;
+    <div class="panel"><p class="muted" style="font-size:.85rem;margin:0 0 10px">${T("Todo lo de esta pantalla es solo de {x}.", { x: esc(profName(p)) })}</p>
+      <button class="btn small" data-act="prof-copy">${T("Copiar rutinas a otro perfil")}</button>
+      <button class="btn small danger" style="margin-top:8px;display:block" data-act="prof-del">${T("Borrar perfil «{x}»", { x: esc(profName(p)) })}</button></div>`;
 }
 /* ---------- Acerca de: código y avisos en GitHub (enlaces que abre la persona; la app no se conecta sola) ---------- */
 const REPO = "https://github.com/oluengo/usus";
@@ -2698,6 +2718,7 @@ document.addEventListener("click", async ev => {
     return;
   }
   if (d.copy) { const ok = await copyText(d.copy); toast(ok ? T("Copiado") : T("No se pudo copiar")); return; }
+  if (d.stab) { state.setTab = d.stab; LS.set("wk.setTab", d.stab); render(); window.scrollTo(0, 0); return; }
   if (d.pswitch) { switchProfile(d.pswitch); return; }
   if (d.pfsex && state.pform) { readProfForm(); state.pform.sex = d.pfsex; if (d.pfsex === "m") state.pform.cyc = false; render(); return; }
   if (d.pfcol && state.pform) { readProfForm(); state.pform.color = d.pfcol; render(); return; }
@@ -3618,6 +3639,7 @@ const I18N = {
     "Gran sesión": "Gran sessió",
     "Bitcoin": "Bitcoin",
     "Lightning / zaps": "Lightning / zaps",
+    "App": "App",
     "Solo los datos de {x}. Cada perfil tiene su propia copia.": "Només les dades de {x}. Cada perfil té la seva còpia.",
     "Yo": "Jo",
     "Hombre": "Home",
@@ -4377,6 +4399,7 @@ const I18N = {
     "Gran sesión": "Great session",
     "Bitcoin": "Bitcoin",
     "Lightning / zaps": "Lightning / zaps",
+    "App": "App",
     "Solo los datos de {x}. Cada perfil tiene su propia copia.": "Only {x}'s data. Each profile has its own backup.",
     "Yo": "Me",
     "Hombre": "Man",

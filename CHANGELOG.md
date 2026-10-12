@@ -4,6 +4,12 @@ Todas las versiones de Usus. Formato basado en [Keep a Changelog](https://keepac
 
 **Castellano** · [Català](#català) · [English](#english)
 
+## [1.2.1] — 2026-10-12
+
+### Cambios
+- Ajustes reorganizado en pestañas: Entreno (tiempos, objetivos, avisos), Cuerpo (peso, ciclo), App (idioma, apariencia, acerca de, instalar, compartir, apoyar) y Datos (copias, perfil, zona peligrosa). Recuerda la última pestaña.
+- El perfil queda arriba con «Editar» y «Perfiles» (cambiar o añadir).
+
 ## [1.2.0] — 2026-10-12
 
 ### Perfiles
@@ -71,6 +77,10 @@ Primera versión pública.
 
 ## Català
 
+### [1.2.1] — 2026-10-12
+
+Ajustos reorganitzat en pestanyes (Entrenament, Cos, App, Dades).
+
 ### [1.2.0] — 2026-10-12
 
 Perfils independents al mateix mòbil (dades, ajustos i còpia propis), registre de la regla opcional en perfils de dona, copiar rutines entre perfils, i enllaços al codi i per informar de problemes a GitHub.
@@ -86,6 +96,10 @@ Primera versió pública: rutines amb sèries per repeticions o per temps, compt
 ---
 
 ## English
+
+### [1.2.1] — 2026-10-12
+
+Settings reorganised into tabs (Workout, Body, App, Data).
 
 ### [1.2.0] — 2026-10-12
 
