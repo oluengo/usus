@@ -4,6 +4,11 @@ Todas las versiones de Usus. Formato basado en [Keep a Changelog](https://keepac
 
 **Castellano** · [Català](#català) · [English](#english)
 
+## [1.3.1] — 2026-10-12
+
+### Correcciones
+- El service worker (`sw.js`) se había quedado vacío desde la 1.2.1: la app no se guardaba para usarla sin conexión. Restaurado.
+
 ## [1.3.0] — 2026-10-12
 
 ### Compartir
@@ -89,6 +94,9 @@ Primera versión pública.
 
 ## Català
 
+### [1.3.1] — 2026-10-12
+- Torna a funcionar sense connexió (el service worker estava buit des de la 1.2.1).
+
 ### [1.3.0] — 2026-10-12
 
 En rebre una rutina que ja tens, la pots actualitzar en lloc de duplicar-la.
@@ -116,6 +124,9 @@ Primera versió pública: rutines amb sèries per repeticions o per temps, compt
 ---
 
 ## English
+
+### [1.3.1] — 2026-10-12
+- Works offline again (the service worker had been empty since 1.2.1).
 
 ### [1.3.0] — 2026-10-12
 
