@@ -16,7 +16,7 @@ No hace falta ordenador: lo hace GitHub Actions (`.github/workflows/android.yml`
 
 | Qué haces | Qué obtienes |
 |---|---|
-| Crear la etiqueta `vX.Y.Z` (igual que `APP_VERSION`) | Una **Release** con el APK y el AAB |
+| Crear la etiqueta `vX.Y.Z` (igual que `APP_VERSION`), o publicar una Release con esa etiqueta desde la web | Una **Release** con el APK y el AAB |
 | «Run workflow» en Actions → Android | APK y AAB en *Artifacts* de esa ejecución (pruebas) |
 
 La versión del APK sale de `APP_VERSION`: `2.2.1` → `versionName 2.2.1`, `versionCode 20201`.
