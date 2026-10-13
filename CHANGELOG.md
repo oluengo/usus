@@ -4,6 +4,15 @@ Todas las versiones de Usus. Formato basado en [Keep a Changelog](https://keepac
 
 **Castellano** · [Català](#català) · [English](#english)
 
+## [2.2.1] — 2026-10-13
+
+### Técnica de un ejercicio
+- Nuevo campo **Técnica** (opcional) en los ejercicios del catálogo dentro de una rutina: tempo, pausa, rango, agarre… («bajada 3 s», «pausa 2 s», «agarre ancho»).
+- Misma ficha y misma cadena de progresión que el ejercicio, pero historial, «Anterior», récords y propuestas del asistente aparte para cada técnica.
+- Stats → Ejercicios: las variantes salen juntas bajo su ejercicio.
+- Al vincular un nombre propio como «Fondos en paralelas (bajada 3 s)», lo que va entre paréntesis (salvo «por lado») pasa a ser la técnica.
+- Va también en el análisis con IA y en el CSV (columna `tecnica`).
+
 ## [2.2.0] — 2026-10-13
 
 ### Esfuerzo
@@ -149,6 +158,9 @@ Primera versión pública.
 
 ## Català
 
+### [2.2.1] — 2026-10-13
+- Tècnica d'un exercici (tempo, pausa, rang, presa): mateixa fitxa, historial i progressió a part.
+
 ### [2.2.0] — 2026-10-13
 - Esforç de la sessió (PEM 1–10) i càrrega setmanal; RIR per sèrie opcional.
 - Canviar un exercici només a la sessió i notes per exercici.
@@ -194,6 +206,9 @@ Primera versió pública: rutines amb sèries per repeticions o per temps, compt
 ---
 
 ## English
+
+### [2.2.1] — 2026-10-13
+- Exercise technique (tempo, pause, range, grip): same card, separate history and progression.
 
 ### [2.2.0] — 2026-10-13
 - Session effort (RPE 1–10) and weekly load; optional RIR per set.
