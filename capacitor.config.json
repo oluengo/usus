@@ -1,0 +1,6 @@
+{
+  "appId": "io.github.oluengo.usus",
+  "appName": "Usus",
+  "webDir": "www",
+  "android": { "allowMixedContent": false, "captureInput": false, "webContentsDebuggingEnabled": false }
+}
