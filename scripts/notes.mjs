@@ -7,13 +7,14 @@ const esc = v.replace(/\./g, "\\.");
 const part = (re) => { const m = re.exec(log); return m ? m[1].trim() : ""; };
 const es = part(new RegExp(`\\n## \\[${esc}\\][^\\n]*\\n([\\s\\S]*?)(?=\\n## )`));
 const block = (h) => part(new RegExp(`\\n## ${h}\\n[\\s\\S]*?\\n### \\[${esc}\\][^\\n]*\\n([\\s\\S]*?)(?=\\n### |\\n## |$)`));
-const ca = block("Català"), en = block("English");
+const abs = (t) => t.replace(/\]\((?!https?:|#)([^)]+)\)/g, "](https://github.com/oluengo/usus/blob/main/$1)");
+const ca = abs(block("Català")), en = abs(block("English"));
 if (!es) { console.error(`CHANGELOG.md sin la versión ${v}`); process.exit(1); }
 const hex = sig && existsSync(sig) ? (readFileSync(sig, "utf8").replace(/:/g, "").match(/\b[0-9A-Fa-f]{64}\b/) || [""])[0] : "";
 const fp = hex.toUpperCase().replace(/(..)(?!$)/g, "$1:");
 const out = [
   "**Castellano** · [Català](#català) · [English](#english)", "",
-  es.replace(/^### /gm, "#### "), "",
+  abs(es).replace(/^### /gm, "#### "), "",
   "**Instalar:** descarga `usus-" + v + ".apk` (abajo, en *Assets*) y ábrelo en el móvil, o añade `https://github.com/oluengo/usus` en [Obtainium](https://github.com/ImranR98/Obtainium) para recibir avisos de cada versión. Los datos del APK y de la PWA van por separado: pásalos con una copia de seguridad. [Más detalles](https://github.com/oluengo/usus#instalar).",
   "", "### Català", "", ca || "Vegeu el text en castellà.", "",
   "**Instal·lar:** baixa `usus-" + v + ".apk` (a sota, a *Assets*) i obre'l al mòbil, o afegeix `https://github.com/oluengo/usus` a Obtainium per rebre avisos de cada versió. Les dades de l'APK i de la PWA van per separat: passa-les amb una còpia de seguretat.",

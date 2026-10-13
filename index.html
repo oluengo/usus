@@ -307,6 +307,7 @@ details.sess td:first-child{font-weight:500;padding-right:12px;width:40%}
 .pcn{display:flex;align-items:center;gap:6px;white-space:nowrap;margin-top:auto}
 .pcn button{width:30px;height:30px;border-radius:8px;border:1px solid var(--line);background:var(--surface);padding:0}
 .pgnote{border-color:var(--ok);margin-top:12px}
+a.btn{text-decoration:none;display:inline-flex;align-items:center}
 .pgl{margin:0;padding-left:18px;font-size:.88rem}
 .pchain{margin:4px 0 12px}
 .pst{display:flex;align-items:center;gap:8px;padding:5px 0 5px 22px;position:relative;font-size:.9rem;flex-wrap:wrap}
@@ -648,7 +649,7 @@ const fmtSet = (x, time, sides) => time ? (+x.w ? `${fmtKg(x.w)} kg · ${fmtSec(
 
 /* ---------- Almacenamiento: db del artefacto o localStorage ---------- */
 /* Perfiles: el primero ("main") usa las claves de siempre (wk.*); los demás, wk.<id>.*. No renombrar nunca las claves. */
-const GLOBAL_KEYS = new Set(["wk.profiles", "wk.profile", "wk.welcomed", "wk.seenVersion"]);
+const GLOBAL_KEYS = new Set(["wk.profiles", "wk.profile", "wk.welcomed", "wk.seenVersion", "wk.apkTip"]);
 const rawGet = (k, d) => { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch { return d; } };
 const PROFS = () => { const l = rawGet("wk.profiles", null); return Array.isArray(l) && l.length ? l : [{ id: "main" }]; };
 const PROF = (() => { const id = rawGet("wk.profile", "main"), l = PROFS(); return l.some(p => p.id === id) ? id : l[0].id; })();
@@ -694,7 +695,7 @@ function lastSetsFor(ref) {
   }
   return null;
 }
-const APP_VERSION = "2.2.1";
+const APP_VERSION = "2.2.2";
 const THEMES = [["protector", "Protector", "Oscuro cálido, sin azul"], ["dark", "Oscuro", "Neutro"], ["light", "Claro", "Para el día"], ["auto", "Automático", "Sigue al sistema"]];
 const curTheme = () => document.documentElement.dataset.theme || "auto";
 function applyTheme(t) {
@@ -925,7 +926,7 @@ function loadCatalog() {
     return CAT;
   }).catch(() => null).finally(() => { catLoad = null; });
 }
-const xName = x => x ? (LANG === "en" && x.name.en) || x.name.es : "";
+const xName = x => x ? (LANG !== "es" && x.name[LANG]) || x.name.es : "";
 const exName = e => (e?.xid && CATBY[e.xid] ? xName(CATBY[e.xid]) : e?.name) || "";
 /* Técnica (2.2.1): variante del mismo ejercicio (tempo, pausa, rango, agarre…). Misma ficha y cadena; historial y progresión aparte. */
 const techOf = e => String(e?.tech || "").trim();
@@ -941,7 +942,7 @@ const matsOf = (eq, other) => (eq?.length || other) ? `<span class="mats">${(eq 
 const xMeta = x => `<span class="xmeta">${LV(x.level)}<span>${x.type === "time" ? T("tiempo") : T("reps")}</span>${x.sides ? `<span class="otag">${T("por lado")}</span>` : ""}${x.impact ? `<span class="otag">${T("impacto")}</span>` : ""}</span>`;
 const canDo = x => (x.equip || []).every(haveMat);
 const norm = s => String(s || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
-const xMatches = (x, q) => !q || [x.name.es, x.name.en, ...(x.alias || [])].some(n => norm(n).includes(q));
+const xMatches = (x, q) => !q || [x.name.es, x.name.en, x.name.ca, ...(x.alias || [])].some(n => n && norm(n).includes(q));
 const xRow = (x, attr) => `<button class="xrow" ${attr}><span class="t"><b>${esc(xName(x))}</b>${xMeta(x)}</span>${matsOf(x.equip)}</button>`;
 /* Propuesta del catálogo para un nombre propio. strict: solo si coincide un nombre o alias (sin tildes ni mayúsculas) */
 const STOP = new Set(["en", "de", "con", "a", "la", "el", "al", "del", "las", "los", "the", "on", "with", "of"]);
@@ -952,7 +953,7 @@ function catMatch(name, strict) {
   const k = toks(name).join(" ");
   if (!n) return null;
   let best = null, bs = 0;
-  for (const x of CAT.exercises) for (const c of [x.name.es, x.name.en, ...(x.alias || [])]) {
+  for (const x of CAT.exercises) for (const c of [x.name.es, x.name.en, x.name.ca, ...(x.alias || [])].filter(Boolean)) {
     if (clean(c) === n) return x;
     if (strict) continue;
     const kc = toks(c); if (kc.join(" ") === k) { if (bs < 1) { best = x; bs = 1; } continue; }
@@ -1222,6 +1223,12 @@ function planUpCheck() {
   LS.set("wk.planUpDone", [...done, key].slice(-100));
   LS.set("wk.planUpLog", { week: key, variant: pn.w.variant, rule, changes, seen: !changes.length, undone: false });
   if (changes.length) store.saveRoutines(state.routines);
+}
+function apkTip() {
+  if (isNative() || !/android/i.test(navigator.userAgent) || LS.get("wk.apkTip", false)) return "";
+  return `<div class="panel" style="margin-top:12px"><b>${T("Hay app para Android")}</b>
+    <p class="muted" style="margin:4px 0 8px;font-size:.88rem">${T("La misma Usus, instalada como app (APK). Sus datos van aparte: exporta una copia aquí (Ajustes → Datos) e impórtala allí.")}</p>
+    <div class="row"><a class="btn small primary" href="https://github.com/oluengo/usus/releases/latest" target="_blank" rel="noopener">${T("Descargar")}</a><button class="btn small" data-act="apk-tip-no">${T("No, gracias")}</button></div></div>`;
 }
 function planUpNotice() {
   const L = LS.get("wk.planUpLog", null), pn = planNow(); if (!L || L.seen || !pn || pn.status !== "on" || dayKey(pn.w.t) !== L.week) return "";
@@ -1855,7 +1862,7 @@ function viewTrain() {
       ${backupBanner()}
       ${weightBanner()}
       ${cycBanner()}
-      ${planUpNotice()}${todayCard()}
+      ${apkTip()}${planUpNotice()}${todayCard()}
       ${cycCard()}
       ${planSection()}
       <p class="sync" style="margin-top:22px">${last ? T("Última sesión: {d}", { d: new Date(last.start).toLocaleDateString(LOC(), { weekday: "long", day: "numeric", month: "long" }) }) + " · " : ""}${T("Datos guardados solo en este dispositivo. Haz copias desde Ajustes.")}</p>`;
@@ -2000,19 +2007,20 @@ function unlockAudio() {
     const b = audioCtx.createBuffer(1, 1, 22050), src = audioCtx.createBufferSource(); src.buffer = b; src.connect(audioCtx.destination); src.start(0);
   } catch {}
 }
-function beep(freq = 880, ms = 250, delay = 0, vol = 0.8) {
+// Tono puro (seno) con ataque corto y caída natural: suave, sin aspereza.
+function beep(freq = 660, ms = 400, delay = 0, vol = 0.35) {
   if (fxMode() === "vib" || fxMode() === "off") return;
   try {
     audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
     if (audioCtx.state !== "running") audioCtx.resume().catch(() => {});
     const t0 = audioCtx.currentTime + delay, o = audioCtx.createOscillator(), g = audioCtx.createGain();
-    o.type = "square"; o.frequency.value = freq; o.connect(g); g.connect(audioCtx.destination);
-    g.gain.setValueAtTime(0.0001, t0); g.gain.exponentialRampToValueAtTime(vol * 0.5, t0 + 0.01);
-    g.gain.setValueAtTime(vol * 0.5, t0 + ms / 1000 - 0.03); g.gain.exponentialRampToValueAtTime(0.0001, t0 + ms / 1000);
-    o.start(t0); o.stop(t0 + ms / 1000 + 0.02);
+    o.type = "sine"; o.frequency.value = freq; o.connect(g); g.connect(audioCtx.destination);
+    g.gain.setValueAtTime(0.0001, t0); g.gain.exponentialRampToValueAtTime(vol, t0 + 0.015);
+    g.gain.exponentialRampToValueAtTime(0.0001, t0 + ms / 1000);
+    o.start(t0); o.stop(t0 + ms / 1000 + 0.05);
   } catch {}
 }
-const beepEnd = () => { beep(880, 300, 0); beep(880, 300, 0.4); beep(1320, 500, 0.8); };
+const beepEnd = () => { beep(660, 400, 0); beep(660, 400, 0.35); beep(990, 900, 0.7); };
 const buzz = p => { if (fxMode() === "sound" || fxMode() === "off") return false; try { return navigator.vibrate ? navigator.vibrate(p) : false; } catch { return false; } };
 function flash() { const f = document.createElement("div"); f.className = "flash"; document.body.appendChild(f); setTimeout(() => f.remove(), 800); }
 async function keepAwake(on) {
@@ -2078,8 +2086,8 @@ function startRun(q) {
 }
 function enterPhase(i) {
   run.i = i; const f = run.q[i]; run.end = Date.now() + f.d * 1000; run.tick = null;
-  if (f.k === "work") { state.exView = f.ei; beep(1320, 450); buzz(300); flash(); }
-  else if (f.k === "switch") { beep(880, 300); beep(880, 300, 0.4); buzz([300, 150, 300]); flash(); }
+  if (f.k === "work") { state.exView = f.ei; beep(880, 600); buzz(300); flash(); }
+  else if (f.k === "switch") { beep(660, 400); beep(660, 400, 0.35); buzz([300, 150, 300]); flash(); }
   render();
 }
 function markSet(f, secsDone) {
@@ -2100,9 +2108,9 @@ function runTick() {
   if (!run) return clearInterval(runT);
   if (run.lead) {
     const l = Math.ceil((run.lead - Date.now()) / 1000);
-    if (l <= 0) { run.end = Date.now() + run.rem; run.paused = false; run.lead = null; run.tick = null; beep(1320, 450); buzz(300); render(); return; }
+    if (l <= 0) { run.end = Date.now() + run.rem; run.paused = false; run.lead = null; run.tick = null; beep(880, 600); buzz(300); render(); return; }
     const n = $("#fNum"); if (n) n.textContent = fmtLeft(l);
-    if (run.leadTick !== l) { run.leadTick = l; beep(660, 120); }
+    if (run.leadTick !== l) { run.leadTick = l; beep(660, 160, 0, 0.25); }
     return;
   }
   if (run.paused) return;
@@ -2112,7 +2120,7 @@ function runTick() {
 
   const warn = f.k === "work" ? warnSecs() : f.k === "prep" ? f.d : prepSecs();
   const n = $("#fNum"); if (n) n.textContent = fmtLeft(left);
-  if (left <= warn && run.tick !== left) { run.tick = left; beep(660, 120); }
+  if (left <= warn && run.tick !== left) { run.tick = left; beep(660, 160, 0, 0.25); }
   const r = $("#fRing"); if (r) r.style.strokeDashoffset = String(RING * Math.max(0, (run.end - Date.now()) / (f.d * 1000)));
 }
 const RING = 2 * Math.PI * 88;
@@ -2144,7 +2152,7 @@ function stopRun() {
   const f = run.q[run.i], now = run.paused ? run.end - run.rem : Date.now();
   if (f.k === "work") { const el = Math.round(f.d - Math.max(0, run.end - now) / 1000); if (el >= 1) markSet(f, el); }
   if (f.k === "switch") markSet(f);
-  beep(660, 300); endRun();
+  beep(660, 400); endRun();
 }
 function endRun() { clearInterval(runT); run = null; keepAwake(false); render(); updateLive(); }
 function cancelRun() { if (run) { clearInterval(runT); run = null; keepAwake(false); } }
@@ -3241,6 +3249,11 @@ function installBlock() {
 }
 /* ---------- Novedades (una vez por versión; historial al tocar la versión) ---------- */
 const CHANGES = [
+  ["2.2.2", {
+    es: ["Primera versión de la app para Android (APK), en GitHub → Releases. Es la misma app; sus datos van aparte de los de la PWA (se pasan con una copia).", "Fichas del catálogo en català e English, y nombres de los ejercicios en català.", "Avisos de sonido más suaves.", "En Android, la versión web avisa una vez de que existe la app.", "Ajustes → App → Acerca de: «Hecha con IA · probada por humanos»."],
+    ca: ["Primera versió de l'app per a Android (APK), a GitHub → Releases. És la mateixa app; les seves dades van a part de les de la PWA (es passen amb una còpia).", "Fitxes del catàleg en català i English, i noms dels exercicis en català.", "Avisos de so més suaus.", "A Android, la versió web avisa un cop que existeix l'app.", "Ajustos → App → Quant a: «Feta amb IA · provada per humans»."],
+    en: ["First Android app release (APK), on GitHub → Releases. It's the same app; its data is kept apart from the PWA's (move it with a backup).", "Catalogue cards in Català and English, and exercise names in Català.", "Softer sound alerts.", "On Android, the web version mentions the app once.", "Settings → App → About: “Built with AI · tested by humans”."]
+  }],
   ["2.2.1", {
     es: ["Técnica de un ejercicio (tempo, pausa, rango, agarre…): misma ficha del catálogo, pero su historial y su progresión van aparte. Se pone en el editor de rutina; en Stats, las variantes salen juntas bajo su ejercicio.", "Al vincular un nombre como «Fondos (bajada 3 s)», lo que va entre paréntesis pasa a ser la técnica."],
     ca: ["Tècnica d'un exercici (tempo, pausa, rang, presa…): mateixa fitxa del catàleg, però l'historial i la progressió van a part. Es posa a l'editor de rutina; a Stats, les variants surten juntes sota el seu exercici.", "En vincular un nom com «Fons (baixada 3 s)», el que va entre parèntesis passa a ser la tècnica."],
@@ -4006,6 +4019,7 @@ document.addEventListener("click", async ev => {
     case "sw-routine": { const s = state.sessions.find(x => x.id === state.savedSess); if (s) { swapToRoutine(s); state.swapDone = s.id; toast(T("Rutina actualizada")); } render(); break; }
     case "pg-cancel": state.progChange = null; render(); break;
     case "pg-ok": { const c = state.progChange, p = state.progProps?.[c.k]; if (p && progApply(p, c.tgt)) { state.progProps.splice(c.k, 1); toast(T("Rutina actualizada")); } state.progChange = null; render(); break; }
+    case "apk-tip-no": LS.set("wk.apkTip", true); render(); break;
     case "pu-ok": { const L = LS.get("wk.planUpLog", null); if (L) { L.seen = true; LS.set("wk.planUpLog", L); } render(); break; }
     case "pu-undo": planUpUndo(); toast(T("Cambios deshechos")); render(); break;
     case "xi-close": state.exInfo = null; state.exInfoAdd = false; render(); break;
@@ -4879,6 +4893,10 @@ const I18N = {
     "Gran sesión": "Gran sessió",
     "Bitcoin": "Bitcoin",
     "Lightning / zaps": "Lightning / zaps",
+    "Hay app para Android": "Hi ha app per a Android",
+    "La misma Usus, instalada como app (APK). Sus datos van aparte: exporta una copia aquí (Ajustes → Datos) e impórtala allí.": "La mateixa Usus, instal·lada com a app (APK). Les seves dades van a part: exporta una còpia aquí (Ajustos → Dades) i importa-la allà.",
+    "Descargar": "Baixa",
+    "No, gracias": "No, gràcies",
     "Hecha con IA · probada por humanos.": "Feta amb IA · provada per humans.",
     "Android, como app (APK):": "Android, com a app (APK):",
     "Sus datos van aparte de los de la PWA.": "Les seves dades van a part de les de la PWA.",
@@ -5929,6 +5947,10 @@ const I18N = {
     "Gran sesión": "Great session",
     "Bitcoin": "Bitcoin",
     "Lightning / zaps": "Lightning / zaps",
+    "Hay app para Android": "There's an Android app",
+    "La misma Usus, instalada como app (APK). Sus datos van aparte: exporta una copia aquí (Ajustes → Datos) e impórtala allí.": "The same Usus, installed as an app (APK). Its data is separate: export a backup here (Settings → Data) and import it there.",
+    "Descargar": "Download",
+    "No, gracias": "No, thanks",
     "Hecha con IA · probada por humanos.": "Built with AI · tested by humans.",
     "Android, como app (APK):": "Android, as an app (APK):",
     "Sus datos van aparte de los de la PWA.": "Its data is kept apart from the PWA's.",

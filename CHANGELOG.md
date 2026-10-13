@@ -4,6 +4,24 @@ Todas las versiones de Usus. Formato basado en [Keep a Changelog](https://keepac
 
 **Castellano** · [Català](#català) · [English](#english)
 
+## [2.2.2] — 2026-10-13
+
+### App para Android
+- Primera versión de la **app para Android (APK)**, en [Releases](https://github.com/oluengo/usus/releases). Es la misma app que la PWA; cada una guarda sus datos aparte (se pasan con una copia de seguridad).
+- Un solo permiso, vibración. Sin Internet ni almacenamiento: importar y exportar usan el selector de archivos y el menú de compartir de Android. Pantalla encendida durante el entreno y botón Atrás que cierra el diálogo abierto o vuelve a Hoy.
+- Se puede instalar y actualizar con [Obtainium](https://github.com/ImranR98/Obtainium). Instrucciones en el [README](README.md#instalar) y en [ANDROID.md](ANDROID.md).
+- En Android, la versión web avisa una vez de que existe la app (con «No, gracias» para no volver a verlo). En el README, el APK es la opción recomendada en Android y la PWA, para iPhone y ordenador.
+
+### Catálogo traducido
+- Las fichas de los 162 ejercicios (músculos, para qué sirve, cómo se hace, errores y alternativas), en **català** y **English**. Nombres de los ejercicios en català; la búsqueda también los encuentra.
+
+### Sonido
+- Avisos de sonido más suaves: tono puro, más grave y que se apaga solo, en lugar del pitido de onda cuadrada.
+
+### Transparencia
+- Ajustes → App → Acerca de y README: *Hecha con IA · probada por humanos*.
+- Nueva página de [privacidad](PRIVACY.md).
+
 ## [2.2.1] — 2026-10-13
 
 ### Técnica de un ejercicio
@@ -158,6 +176,12 @@ Primera versión pública.
 
 ## Català
 
+### [2.2.2] — 2026-10-13
+- Primera versió de l'app per a Android (APK), a Releases: la mateixa app, amb les dades a part de les de la PWA. Un sol permís (vibració), sense Internet. Es pot actualitzar amb Obtainium.
+- Fitxes del catàleg en català i English; noms dels exercicis en català.
+- Avisos de so més suaus.
+- «Feta amb IA · provada per humans» i pàgina de privacitat.
+
 ### [2.2.1] — 2026-10-13
 - Tècnica d'un exercici (tempo, pausa, rang, presa): mateixa fitxa, historial i progressió a part.
 
@@ -206,6 +230,12 @@ Primera versió pública: rutines amb sèries per repeticions o per temps, compt
 ---
 
 ## English
+
+### [2.2.2] — 2026-10-13
+- First Android app release (APK), in Releases: the same app, with its data kept apart from the PWA's. One permission only (vibration), no Internet. Can be updated with Obtainium.
+- Catalogue cards in Català and English; exercise names in Català.
+- Softer sound alerts.
+- “Built with AI · tested by humans” and a privacy page.
 
 ### [2.2.1] — 2026-10-13
 - Exercise technique (tempo, pause, range, grip): same card, separate history and progression.

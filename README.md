@@ -20,6 +20,8 @@ Gratis, sin cuentas y sin anuncios. Todo se guarda **solo en tu móvil**: nada s
 | **App Android (APK)** | Descarga `usus-X.Y.Z.apk` de la [última versión](https://github.com/oluengo/usus/releases/latest) y ábrelo. Android pedirá permiso para «instalar apps de este origen». | Instalando la nueva encima |
 | **APK con Obtainium** | En [Obtainium](https://github.com/ImranR98/Obtainium), «Añadir app» → `https://github.com/oluengo/usus`. | Obtainium avisa e instala |
 
+**¿Cuál?** En Android, mejor el **APK**: no depende del navegador, la pantalla se mantiene encendida al entrenar y el botón Atrás funciona como en cualquier app. La **PWA** es para iPhone, ordenador o para probarla sin instalar nada.
+
 - PWA y APK son la misma app, pero **cada una guarda sus datos aparte**. Para pasar de una a otra: Ajustes → Datos → exportar copia en una, importarla en la otra.
 - El APK solo pide un permiso, **vibración** (avisos del descanso). Sin Internet: no se conecta a nada. Importar y exportar usan el selector de archivos y el menú de compartir de Android.
 - El APK va firmado; huella SHA-256 del certificado: `28:B6:FF:4A:8F:61:F6:88:D4:B4:9D:C7:E8:B7:2D:95:D5:D9:44:45:D2:A2:30:07:1A:FA:72:B1:B2:D0:3E:C8`. Más detalles en [ANDROID.md](ANDROID.md).
@@ -97,6 +99,8 @@ Free, no accounts, no ads. Everything is stored **only on your phone**: nothing 
 | **Web (PWA)** · Android, iPhone, desktop | Open [oluengo.github.io/usus](https://oluengo.github.io/usus/). Android (Chrome): ⋮ menu → “Install app”. iPhone (Safari): Share → “Add to Home Screen”. | Automatic, when you open it |
 | **Android app (APK)** | Download `usus-X.Y.Z.apk` from the [latest release](https://github.com/oluengo/usus/releases/latest) and open it. Android will ask to allow installing apps from that source. | Install the new one on top |
 | **APK with Obtainium** | In [Obtainium](https://github.com/ImranR98/Obtainium), “Add app” → `https://github.com/oluengo/usus`. | Obtainium notifies and installs |
+
+**Which one?** On Android, the **APK** is better: it doesn't depend on the browser, keeps the screen on while you train and the Back button works like in any app. The **PWA** is for iPhone, desktop, or trying it without installing anything.
 
 - PWA and APK are the same app, but **each keeps its own data**. To move between them: Settings → Data → export a backup in one, import it in the other.
 - The APK asks for one permission only, **vibration** (rest alerts). No Internet: it connects to nothing. Import and export use Android's file picker and share menu.
