@@ -1,13 +1,12 @@
 # Compila la app Android (APK + AAB) a partir de la PWA.
-# - Push a la rama android, o lanzado a mano: deja los archivos en "Artifacts" de la ejecución.
-# - Etiqueta v* (p. ej. v2.2.1): además crea la Release de GitHub con el APK y el AAB.
+# - Etiqueta v* (p. ej. v2.2.1, igual que APP_VERSION): crea la Release de GitHub con el APK y el AAB.
+# - Lanzado a mano (Actions → Android → Run workflow): deja los archivos en "Artifacts" de la ejecución.
 # Firma: secretos ANDROID_KEYSTORE_BASE64, ANDROID_KEYSTORE_PASSWORD, ANDROID_KEY_ALIAS, ANDROID_KEY_PASSWORD.
 # Sin ellos se genera un APK de depuración (instalable, pero no actualizable con la versión firmada).
 name: Android
 
 on:
   push:
-    branches: [android]
     tags: ["v*"]
   workflow_dispatch:
 

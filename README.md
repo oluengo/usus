@@ -57,7 +57,7 @@ El catálogo de ejercicios es **opcional y se decide en cada perfil**. Si empiez
 
 ### Más
 
-- Se instala en el móvil como una app (PWA) y funciona sin conexión.
+- Se instala en el móvil como una app (PWA) y funciona sin conexión. También hay **app para Android** (APK) en [Releases](https://github.com/oluengo/usus/releases): la misma app, con tus datos aparte de la PWA ([detalles](ANDROID.md)).
 - Castellano, català e English.
 - Copias de seguridad en un archivo, para pasar tus datos a otro móvil o guardarlos, y exportación en CSV para analizarlos a tu manera.
 - [Informar de un problema o proponer una mejora](https://github.com/oluengo/usus/issues).
@@ -123,7 +123,7 @@ The exercise catalogue is **optional and chosen per profile**. If you're startin
 
 ### More
 
-- Installs on your phone as an app (PWA) and works offline.
+- Installs on your phone as an app (PWA) and works offline. There is also an **Android app** (APK) in [Releases](https://github.com/oluengo/usus/releases): the same app, with its data kept apart from the PWA ([details](ANDROID.md#english)).
 - Español, català and English.
 - File backups, to move your data to another phone or keep it safe, and CSV export to analyse it your way.
 - [Report a problem or suggest an improvement](https://github.com/oluengo/usus/issues).

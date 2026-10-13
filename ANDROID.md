@@ -16,8 +16,8 @@ No hace falta ordenador: lo hace GitHub Actions (`.github/workflows/android.yml`
 
 | Qué haces | Qué obtienes |
 |---|---|
-| Push a la rama `android`, o «Run workflow» en Actions | APK (y AAB si hay firma) en *Artifacts* de esa ejecución |
-| Crear la etiqueta `vX.Y.Z` (igual que `APP_VERSION`) | Además, una **Release** con el APK y el AAB |
+| Crear la etiqueta `vX.Y.Z` (igual que `APP_VERSION`) | Una **Release** con el APK y el AAB |
+| «Run workflow» en Actions → Android | APK y AAB en *Artifacts* de esa ejecución (pruebas) |
 
 La versión del APK sale de `APP_VERSION`: `2.2.1` → `versionName 2.2.1`, `versionCode 20201`.
 
@@ -51,7 +51,7 @@ npx cap open android  # o: cd android && ./gradlew assembleDebug
 
 ## Tiendas
 
-- **GitHub Releases**: listo con la clave.
+- **GitHub Releases**: listo. Con [Obtainium](https://github.com/ImranR98/Obtainium) el móvil avisa de cada versión nueva.
 - **IzzyOnDroid / F-Droid**: leen las Releases o compilan desde el código; sin dependencias de Google.
 - **Google Play**: usa el `.aab`; cuenta de desarrollador y, en cuentas personales nuevas, prueba cerrada previa.
 
@@ -59,4 +59,4 @@ npx cap open android  # o: cd android && ./gradlew assembleDebug
 
 ## English
 
-The Android app is the **same PWA** packaged with Capacitor, plus a small bridge (`scripts/native.js`) for native file sharing, keeping the screen on while training and the Back button. GitHub Actions builds it: push to `android` (or run the workflow) → APK in *Artifacts*; tag `vX.Y.Z` (matching `APP_VERSION`) → GitHub Release with APK and AAB. Signing uses the repository secrets `ANDROID_KEYSTORE_BASE64`, `ANDROID_KEYSTORE_PASSWORD`, `ANDROID_KEY_ALIAS` and `ANDROID_KEY_PASSWORD` (see the `keytool` commands above). Keep the key safe: without it, no updates can be published. PWA and APK data are separate; move them with an exported backup.
+The Android app is the **same PWA** packaged with Capacitor, plus a small bridge (`scripts/native.js`) for native file sharing, keeping the screen on while training and the Back button. GitHub Actions builds it: tag `vX.Y.Z` (matching `APP_VERSION`) → GitHub Release with APK and AAB; running the workflow by hand → APK and AAB in *Artifacts*. Signing uses the repository secrets `ANDROID_KEYSTORE_BASE64`, `ANDROID_KEYSTORE_PASSWORD`, `ANDROID_KEY_ALIAS` and `ANDROID_KEY_PASSWORD` (see the `keytool` commands above). Keep the key safe: without it, no updates can be published. PWA and APK data are separate; move them with an exported backup.
