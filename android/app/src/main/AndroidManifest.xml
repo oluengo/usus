@@ -37,8 +37,7 @@
         </provider>
     </application>
 
-    <!-- Permissions -->
-
-    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Permisos: solo vibración (avisos del descanso). Sin Internet: la app no se conecta a nada;
+         importar y exportar usan el selector de archivos y el menú de compartir de Android, sin permiso de almacenamiento. -->
     <uses-permission android:name="android.permission.VIBRATE" />
 </manifest>

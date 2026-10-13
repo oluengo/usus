@@ -1,13 +1,14 @@
 # Compila la app Android (APK + AAB) a partir de la PWA.
 # - Etiqueta v* (p. ej. v2.2.1, igual que APP_VERSION), o Release publicada desde la web de GitHub:
-#   adjunta a la Release el APK y el AAB.
-# - Lanzado a mano (Actions → Android → Run workflow): deja los archivos en "Artifacts" de la ejecución.
+#   adjunta a la Release el APK, con las notas de CHANGELOG.md. El AAB queda en Artifacts.
+# - Push a la rama android (pruebas) o lanzado a mano: deja los archivos en "Artifacts" de la ejecución.
 # Firma: secretos ANDROID_KEYSTORE_BASE64, ANDROID_KEYSTORE_PASSWORD, ANDROID_KEY_ALIAS, ANDROID_KEY_PASSWORD.
 # Sin ellos se genera un APK de depuración (instalable, pero no actualizable con la versión firmada).
 name: Android
 
 on:
   push:
+    branches: [android]
     tags: ["v*"]
   release:
     types: [published]
@@ -95,9 +96,15 @@ jobs:
       - name: Huella SHA-256 del certificado
         if: steps.key.outputs.signed == 'true'
         run: |
-          f=$(ls dist/*.apk)
-          "$ANDROID_HOME"/build-tools/*/apksigner verify --print-certs "$f" | grep -i sha-256 | tee dist/firma-sha256.txt
+          f=$(ls dist/*.apk); bt=$(ls -d "$ANDROID_HOME"/build-tools/* | sort -V | tail -1)
+          "$bt/apksigner" verify --print-certs "$f" | grep -i sha-256 | tee dist/firma-sha256.txt
           rm -f "$RUNNER_TEMP/usus.jks"
+
+      - name: Permisos del APK
+        run: |
+          f=$(ls dist/*.apk); bt=$(ls -d "$ANDROID_HOME"/build-tools/* | sort -V | tail -1)
+          "$bt/aapt2" dump permissions "$f" | tee dist/permisos.txt
+          if grep -E "INTERNET|STORAGE|LOCATION|CAMERA|RECORD_AUDIO|CONTACTS" dist/permisos.txt; then echo "::error::Permiso no esperado"; exit 1; fi
 
       - uses: actions/upload-artifact@v7
         with:
@@ -105,17 +112,15 @@ jobs:
           path: dist/
           if-no-files-found: error
 
+      - name: Notas de la versión
+        if: startsWith(github.ref, 'refs/tags/v') && steps.key.outputs.signed == 'true'
+        run: node scripts/notes.mjs "${{ steps.v.outputs.version }}" dist/firma-sha256.txt > "$RUNNER_TEMP/notas.md"
+
+      # En la Release solo va el APK; el AAB (para Google Play) queda en Artifacts de la ejecución.
       - name: Release de GitHub
         if: startsWith(github.ref, 'refs/tags/v') && steps.key.outputs.signed == 'true'
         uses: softprops/action-gh-release@v2
         with:
           name: Usus ${{ steps.v.outputs.version }}
-          files: |
-            dist/*.apk
-            dist/*.aab
-          body: |
-            App Android de Usus ${{ steps.v.outputs.version }}. Instala el archivo `.apk` en el móvil (permite «instalar apps de origen desconocido»).
-            Novedades: [CHANGELOG.md](https://github.com/${{ github.repository }}/blob/main/CHANGELOG.md).
-
-            Android app for Usus ${{ steps.v.outputs.version }}. Install the `.apk` file on your phone (allow “install unknown apps”).
-            What's new: [CHANGELOG.md](https://github.com/${{ github.repository }}/blob/main/CHANGELOG.md).
+          files: dist/*.apk
+          body_path: ${{ runner.temp }}/notas.md

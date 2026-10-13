@@ -8,7 +8,21 @@
 
 **[Abrir Usus →](https://oluengo.github.io/usus/)**
 
-Gratis, sin cuentas y sin anuncios. Todo se guarda **solo en tu móvil**: nada se envía a ningún servidor.
+Gratis, sin cuentas y sin anuncios. Todo se guarda **solo en tu móvil**: nada se envía a ningún servidor ([privacidad](PRIVACY.md)).
+
+*Hecha con IA · probada por humanos.*
+
+## Instalar
+
+| | Cómo | Actualizaciones |
+|---|---|---|
+| **Web (PWA)** · Android, iPhone, ordenador | Abre [oluengo.github.io/usus](https://oluengo.github.io/usus/). Android (Chrome): menú ⋮ → «Instalar aplicación». iPhone (Safari): Compartir → «Añadir a pantalla de inicio». | Solas, al abrirla |
+| **App Android (APK)** | Descarga `usus-X.Y.Z.apk` de la [última versión](https://github.com/oluengo/usus/releases/latest) y ábrelo. Android pedirá permiso para «instalar apps de este origen». | Instalando la nueva encima |
+| **APK con Obtainium** | En [Obtainium](https://github.com/ImranR98/Obtainium), «Añadir app» → `https://github.com/oluengo/usus`. | Obtainium avisa e instala |
+
+- PWA y APK son la misma app, pero **cada una guarda sus datos aparte**. Para pasar de una a otra: Ajustes → Datos → exportar copia en una, importarla en la otra.
+- El APK solo pide un permiso, **vibración** (avisos del descanso). Sin Internet: no se conecta a nada. Importar y exportar usan el selector de archivos y el menú de compartir de Android.
+- El APK va firmado; huella SHA-256 del certificado: `28:B6:FF:4A:8F:61:F6:88:D4:B4:9D:C7:E8:B7:2D:95:D5:D9:44:45:D2:A2:30:07:1A:FA:72:B1:B2:D0:3E:C8`. Más detalles en [ANDROID.md](ANDROID.md).
 
 ## Cómo funciona
 
@@ -57,7 +71,7 @@ El catálogo de ejercicios es **opcional y se decide en cada perfil**. Si empiez
 
 ### Más
 
-- Se instala en el móvil como una app (PWA) y funciona sin conexión. También hay **app para Android** (APK) en [Releases](https://github.com/oluengo/usus/releases): la misma app, con tus datos aparte de la PWA ([detalles](ANDROID.md)).
+- Funciona sin conexión, como PWA o como app de Android ([instalar](#instalar)).
 - Castellano, català e English.
 - Copias de seguridad en un archivo, para pasar tus datos a otro móvil o guardarlos, y exportación en CSV para analizarlos a tu manera.
 - [Informar de un problema o proponer una mejora](https://github.com/oluengo/usus/issues).
@@ -72,7 +86,21 @@ El catálogo de ejercicios es **opcional y se decide en cada perfil**. Si empiez
 
 **[Open Usus →](https://oluengo.github.io/usus/)**
 
-Free, no accounts, no ads. Everything is stored **only on your phone**: nothing is ever sent to a server.
+Free, no accounts, no ads. Everything is stored **only on your phone**: nothing is ever sent to a server ([privacy](PRIVACY.md#english)).
+
+*Built with AI · tested by humans.*
+
+### Install
+
+| | How | Updates |
+|---|---|---|
+| **Web (PWA)** · Android, iPhone, desktop | Open [oluengo.github.io/usus](https://oluengo.github.io/usus/). Android (Chrome): ⋮ menu → “Install app”. iPhone (Safari): Share → “Add to Home Screen”. | Automatic, when you open it |
+| **Android app (APK)** | Download `usus-X.Y.Z.apk` from the [latest release](https://github.com/oluengo/usus/releases/latest) and open it. Android will ask to allow installing apps from that source. | Install the new one on top |
+| **APK with Obtainium** | In [Obtainium](https://github.com/ImranR98/Obtainium), “Add app” → `https://github.com/oluengo/usus`. | Obtainium notifies and installs |
+
+- PWA and APK are the same app, but **each keeps its own data**. To move between them: Settings → Data → export a backup in one, import it in the other.
+- The APK asks for one permission only, **vibration** (rest alerts). No Internet: it connects to nothing. Import and export use Android's file picker and share menu.
+- The APK is signed; SHA-256 certificate fingerprint: `28:B6:FF:4A:8F:61:F6:88:D4:B4:9D:C7:E8:B7:2D:95:D5:D9:44:45:D2:A2:30:07:1A:FA:72:B1:B2:D0:3E:C8`. More in [ANDROID.md](ANDROID.md#english).
 
 ### How it works
 
@@ -123,7 +151,7 @@ The exercise catalogue is **optional and chosen per profile**. If you're startin
 
 ### More
 
-- Installs on your phone as an app (PWA) and works offline. There is also an **Android app** (APK) in [Releases](https://github.com/oluengo/usus/releases): the same app, with its data kept apart from the PWA ([details](ANDROID.md#english)).
+- Works offline, as a PWA or as an Android app ([install](#install)).
 - Español, català and English.
 - File backups, to move your data to another phone or keep it safe, and CSV export to analyse it your way.
 - [Report a problem or suggest an improvement](https://github.com/oluengo/usus/issues).

@@ -3167,6 +3167,7 @@ function viewData() {
     <h2>${T("Acerca de")}</h2>
     <div class="panel">
       <div class="t" style="font-weight:600">Usus · <button class="verb" data-act="news-open">${T("versión")} ${APP_VERSION}</button></div>
+      <p class="muted" style="font-size:.85rem;margin:4px 0 0">${T("Hecha con IA · probada por humanos.")}</p>
       <p class="muted" style="font-size:.85rem;margin:6px 0 0">${T("Software libre bajo licencia MIT: puedes usarlo, copiarlo, modificarlo y distribuirlo, también con fines comerciales, manteniendo el aviso de copyright y de licencia.")}</p>
       <p class="muted" style="font-size:.85rem;margin:8px 0 0">${T("Sin garantías. Los autores no responden de lesiones, pérdida de datos ni ningún otro daño derivado de su uso. No sustituye el consejo de un profesional sanitario o deportivo.")}</p>
       <details style="margin-top:10px"><summary class="muted" style="font-size:.85rem;cursor:pointer">${T("Ver licencia completa")}</summary><pre class="lic">${esc(MIT)}</pre>${LANG !== "en" ? `<p class="muted" style="font-size:.75rem;margin:6px 0 0">${T("El texto legal válido es el original en inglés.")}</p>` : ""}</details>
@@ -3225,6 +3226,7 @@ async function copyText(t) {
 let installEvt = null;
 window.addEventListener("beforeinstallprompt", e => { e.preventDefault(); installEvt = e; if (!LS.get("wk.welcomed", false) || state.tab === "data") render(); });
 window.addEventListener("appinstalled", () => { installEvt = null; toast(T("App instalada")); render(); });
+const isNative = () => !!window.Capacitor?.isNativePlatform?.();
 const isStandalone = () => matchMedia("(display-mode: standalone)").matches || navigator.standalone === true;
 const isIOS = () => /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
 function installBlock() {
@@ -3234,6 +3236,7 @@ function installBlock() {
     <ul class="muted" style="padding-left:18px;margin:8px 0 0;line-height:1.5;font-size:.85rem">
       ${isIOS() ? `<li>${T("iPhone / iPad (Safari): botón Compartir → «Añadir a pantalla de inicio».")}</li><li>${T("Android (Chrome): menú ⋮ → «Instalar aplicación» o «Añadir a pantalla de inicio».")}</li>`
         : `<li>${T("Android (Chrome): menú ⋮ → «Instalar aplicación» o «Añadir a pantalla de inicio».")}</li><li>${T("iPhone / iPad (Safari): botón Compartir → «Añadir a pantalla de inicio».")}</li>`}
+      <li>${T("Android, como app (APK):")} <a href="https://github.com/oluengo/usus/releases/latest" target="_blank" rel="noopener">GitHub → Releases</a>. ${T("Sus datos van aparte de los de la PWA.")}</li>
     </ul>`;
 }
 /* ---------- Novedades (una vez por versión; historial al tocar la versión) ---------- */
@@ -3758,7 +3761,7 @@ function techInfo() {
     || ((/Windows NT [\d.]+|Mac OS X [\d_]+|CrOS|Linux/.exec(ua) || [""])[0]).replace(/_/g, ".");
   const m = /(Edg|SamsungBrowser|Firefox|FxiOS|CriOS|Chrome|Version)\/(\d+)/.exec(ua) || [];
   const br = m[1] ? ({ Edg: "Edge", CriOS: "Chrome", FxiOS: "Firefox", Version: "Safari" }[m[1]] || m[1]) + " " + m[2] : "?";
-  return `Usus ${APP_VERSION} · ${isStandalone() ? "PWA" : "web"}\n${os || "?"} · ${br}\n${LANG} · ${curTheme()}`;
+  return `Usus ${APP_VERSION} · ${isNative() ? "APK" : isStandalone() ? "PWA" : "web"}\n${os || "?"} · ${br}\n${LANG} · ${curTheme()}`;
 }
 function aboutLinks() {
   const it = (act, ico, t, d, end) => `<button class="aitem" data-act="${act}"><span class="aico">${AICO[ico]}</span><span style="flex:1;min-width:0"><b>${t}</b><small>${d}</small></span><span class="muted">${end}</span></button>`;
@@ -4876,6 +4879,9 @@ const I18N = {
     "Gran sesión": "Gran sessió",
     "Bitcoin": "Bitcoin",
     "Lightning / zaps": "Lightning / zaps",
+    "Hecha con IA · probada por humanos.": "Feta amb IA · provada per humans.",
+    "Android, como app (APK):": "Android, com a app (APK):",
+    "Sus datos van aparte de los de la PWA.": "Les seves dades van a part de les de la PWA.",
     "Técnica (opcional)": "Tècnica (opcional)",
     "Ej. bajada 3 s, pausa abajo, agarre ancho": "P. ex. baixada 3 s, pausa a baix, presa ampla",
     "Cambiar ejercicio": "Canviar l'exercici",
@@ -5923,6 +5929,9 @@ const I18N = {
     "Gran sesión": "Great session",
     "Bitcoin": "Bitcoin",
     "Lightning / zaps": "Lightning / zaps",
+    "Hecha con IA · probada por humanos.": "Built with AI · tested by humans.",
+    "Android, como app (APK):": "Android, as an app (APK):",
+    "Sus datos van aparte de los de la PWA.": "Its data is kept apart from the PWA's.",
     "Técnica (opcional)": "Technique (optional)",
     "Ej. bajada 3 s, pausa abajo, agarre ancho": "E.g. 3 s lowering, pause at the bottom, wide grip",
     "Cambiar ejercicio": "Swap exercise",
