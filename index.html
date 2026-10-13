@@ -337,6 +337,39 @@ details.sess td:first-child{font-weight:500;padding-right:12px;width:40%}
 .aiwarn b{display:block;margin-bottom:2px}
 .aipre{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:8px 10px;font:.72rem/1.45 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre-wrap;max-height:200px;overflow:auto;margin:0}
 #aiPaste{width:100%;font:inherit;resize:vertical}
+/* Esfuerzo (PEM, RIR), cambiar ejercicio y notas */
+.pembox{border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin:12px 0 4px;background:var(--bg);text-align:left}
+.pemrow{display:grid;grid-template-columns:repeat(10,1fr);gap:3px;margin:8px 0 4px}
+.pemrow button{border:0;border-radius:7px;height:36px;font-weight:700;font-size:.82rem;color:#fff;opacity:.45;padding:0}
+.pemrow.none button{opacity:.85}
+.pemrow button.on{opacity:1;box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--ink)}
+.pemends{display:flex;justify-content:space-between;font-size:.7rem;color:var(--muted)}
+.pemsel{font-size:.85rem;margin-top:6px;min-height:2.6em}
+.pemchip{display:inline-block;font-size:.72rem;font-weight:700;color:#fff;border-radius:7px;padding:1px 7px;vertical-align:1px;white-space:nowrap}
+.rirbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;border:1px solid var(--accent);background:var(--accent-soft);border-radius:12px;padding:8px 10px;margin:10px 0;font-size:.88rem;text-align:left}
+.rirbar>span{flex:1;min-width:140px}
+.rirbar small{display:block;color:var(--muted);font-size:.75rem}
+.rirb{display:flex;gap:4px}
+.rirb button{min-width:36px;height:34px;border-radius:9px;border:1px solid var(--line);background:var(--surface);font-weight:600;padding:0 6px}
+.rirb button.x{min-width:30px;color:var(--muted)}
+.focus .rirbar{max-width:360px;margin:12px auto 0}
+.ex-head .xinfo.on{background:var(--accent-soft);border-color:var(--accent)}
+.ex-head{flex-wrap:wrap;align-items:center}
+.ex-head .hint{order:10;flex-basis:100%}
+.ex-head .swapnote{order:11}
+.ex-head .exnote{order:12;flex-basis:100%}
+.ex-head>.hint2{order:12}
+.swapnote{display:inline-flex;align-items:center;gap:6px;font-size:.78rem;color:var(--warn);background:var(--warn-soft);border-radius:999px;padding:1px 9px;margin-top:4px}
+.swapnote button{border:0;background:none;color:var(--warn);text-decoration:underline;padding:0;font:inherit}
+.exnote{width:100%;margin-top:8px;font:inherit;font-size:.88rem;resize:vertical;min-height:2.6em}
+.hint2{display:block;font-size:.78rem;color:var(--muted);margin-top:2px}
+.ldch{display:flex;align-items:flex-end;gap:5px;height:130px;margin:10px 0 2px;padding-top:14px}
+.ldch div{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:3px;height:100%;min-width:0}
+.ldch i{display:block;width:100%;border-radius:5px 5px 2px 2px;background:var(--accent)}
+.ldch i.cur{opacity:.55}
+.ldch i.hi{background:var(--warn)}
+.ldch small{font-size:.62rem;color:var(--muted);white-space:nowrap}
+.ldch b{font-size:.62rem;font-weight:600;color:var(--muted)}
 .wrow{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) auto;gap:8px;align-items:center}
 .modal{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.55);display:flex;align-items:flex-end;justify-content:center;padding:16px;padding-bottom:calc(16px + env(safe-area-inset-bottom,0px))}
 .mbox{background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:18px;padding:18px;max-width:520px;width:100%;max-height:85vh;overflow:auto}
@@ -661,7 +694,7 @@ function lastSetsFor(ref) {
   }
   return null;
 }
-const APP_VERSION = "2.1.0";
+const APP_VERSION = "2.2.0";
 const THEMES = [["protector", "Protector", "Oscuro cálido, sin azul"], ["dark", "Oscuro", "Neutro"], ["light", "Claro", "Para el día"], ["auto", "Automático", "Sigue al sistema"]];
 const curTheme = () => document.documentElement.dataset.theme || "auto";
 function applyTheme(t) {
@@ -977,15 +1010,17 @@ function exInfoModal() {
 function xpListHTML() {
   const p = state.xpick, q = norm(p.q || "");
   if (q) { const l = CAT.exercises.filter(x => xMatches(x, q)).sort((a, b) => a.level - b.level); return l.length ? `<div class="xlist" style="margin-top:10px">${l.slice(0, 40).map(x => xRow(x, `data-xpadd="${x.id}"`)).join("")}</div>` : `<p class="muted" style="margin:12px 2px">${T("Sin resultados.")}</p>`; }
-  return PATS.map(([pt, n]) => { const g = CAT.exercises.filter(x => x.pattern === pt).sort((a, b) => a.family.localeCompare(b.family) || a.level - b.level);
+  const sx = p.mode === "swap" && CATBY[state.active?.exercises[p.ei]?.from?.xid || state.active?.exercises[p.ei]?.xid];
+  return (sx ? [PATS.find(z => z[0] === sx.pattern), ...PATS.filter(z => z[0] !== sx.pattern)] : PATS).map(([pt, n]) => { const g = CAT.exercises.filter(x => x.pattern === pt).sort((a, b) => a.family.localeCompare(b.family) || a.level - b.level);
     return `<div class="xgrp">${T(n)}</div><div class="xlist">${g.map(x => xRow(x, `data-xpadd="${x.id}"`)).join("")}</div>`; }).join("");
 }
 function xpickModal() {
   const p = state.xpick; if (!p || !CAT) return "";
   const own = p.mode !== "link";
   return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="xpT"><div class="mbox dsh">
-    <div class="sb-head"><h2 id="xpT" style="margin:0;flex:1">${p.mode === "link" ? T("Elegir del catálogo") : T("Añadir ejercicio")}</h2><button class="btn small" data-act="xp-close">${T("Cerrar")}</button></div>
+    <div class="sb-head"><h2 id="xpT" style="margin:0;flex:1">${p.mode === "link" ? T("Elegir del catálogo") : p.mode === "swap" ? T("Cambiar ejercicio") : T("Añadir ejercicio")}</h2><button class="btn small" data-act="xp-close">${T("Cerrar")}</button></div>
     ${p.mode === "link" ? `<p class="muted" style="margin:4px 0 0;font-size:.85rem">${T("Para «{x}»", { x: esc(p.name || "") })}</p>` : ""}
+    ${p.mode === "swap" && state.active?.exercises[p.ei] ? `<p class="muted" style="margin:4px 0 0;font-size:.85rem">${T("Solo en esta sesión. En lugar de {x}.", { x: `<b style="color:var(--ink)">${esc(exName(state.active.exercises[p.ei].from || state.active.exercises[p.ei]))}</b>` })}</p>` : ""}
     <input type="search" id="xpQ" class="xsearch" placeholder="${T("Buscar en el catálogo")}" value="${esc(p.q || "")}" aria-label="${T("Buscar ejercicio")}">
     ${own ? `<button class="btn" style="width:100%;margin-top:10px" data-act="xp-own" id="xpOwn">${xpOwnLabel()}</button>` : ""}
     <div id="xpList">${xpListHTML()}</div>
@@ -1115,7 +1150,7 @@ function progProposals(s) {
     const last = n => sc.length >= n && sc.slice(0, n).every(Boolean);
     if (!auto && st.next && last(P.up) && sc.slice(0, P.up).every(x => x.ok))
       out.push({ dir: "up", rid: r.id, i, xid: re.xid, to: st.next, hist: sc.slice(0, P.up).map(x => x.vals), tgt: startTarget(CATBY[st.next], re, "up") });
-    else if (nDown && st.prev && last(nDown) && sc.slice(0, nDown).every(x => x.ratio < pct / 100))
+    else if (st.prev && ((nDown && last(nDown) && sc.slice(0, nDown).every(x => x.ratio < pct / 100)) || (P.down !== "never" && h.length >= 2 && sc.length >= 2 && h.slice(0, 2).every(x => +x.s.pem >= 9) && sc.slice(0, 2).every(x => x && !x.ok))))
       out.push({ dir: "down", rid: r.id, i, xid: re.xid, to: st.prev, hist: sc.slice(0, nDown).map(x => x.vals), tgt: startTarget(CATBY[st.prev], re, "down") });
   });
   return out;
@@ -1258,7 +1293,7 @@ es: {
     "`type`: \"reps\" o \"time\" (`reps` son segundos si es \"time\"). `sides`: true si se cuenta por lado. `rest`: segundos de descanso entre series (opcional). `days`: 0 domingo … 6 sábado.",
     "`xid`: copia el del ejercicio original si existe; en ejercicios nuevos, quítalo.",
     "Explica antes del bloque qué cambias y por qué. Si no propones cambios en las rutinas, no añadas el bloque."],
-  data: "Datos", exported: "Exportado", period: "Período", weeks: n => `${n} semanas`,
+  insteadOf: "en lugar de", data: "Datos", exported: "Exportado", period: "Período", weeks: n => `${n} semanas`,
   profile: "Perfil", woman: "Mujer", man: "Hombre", years: n => `${n} años`, noBasic: "Sin datos básicos",
   exp: "Experiencia", sports: "Otros deportes o actividad", inj: "Lesiones o cirugías previas", pain: "Dolores o molestias actuales",
   cond: "Condiciones de salud relevantes", meds: "Medicación relevante", goals: "Objetivos", other: "Otros", noneF: "ninguna indicada", noneM: "ninguno indicado",
@@ -1266,12 +1301,12 @@ es: {
   routines: "Rutinas actuales", variant: "variante", days: "días", all: "todos", perSide: "por lado", rest: "desc", dayL: ["D", "L", "M", "X", "J", "V", "S"],
   plan: "Plan", start: "Inicio", review: "revisión", phases: "fases", wk: "sem", repeat: "(se repiten)", deload: "descarga", no: "no", every: "cada",
   goalW: (a, b) => `Objetivo semanal: ${a} días de fuerza, ${b} días de rutina diaria`,
-  sessions: n => `Sesiones (${n})`, sessFmt: "Formato: fecha hora · rutina · minutos | ejercicio: series (reps, o s si es por tiempo; izq/der si es por lado; @kg = lastre)", free: "libre",
+  sessions: n => `Sesiones (${n})`, sessFmt: "Formato: fecha hora · rutina · minutos · PEM (esfuerzo 1–10) | ejercicio (en lugar de…, si se cambió en la sesión): series (reps, o s si es por tiempo; izq/der si es por lado; @kg = lastre; (n) = RIR, repeticiones en reserva) ✎ nota", free: "libre",
   weight: "Peso (kg)", goal: "objetivo", noRec: "Sin registros en el período", supps: "Suplementos", diary: "Diario", fmt: "Formato: fecha",
   colSleep: "sueño (acostarse–levantarse, calidad 1–5)", colSteps: "pasos", colSupp: "suplementos tomados", colNotes: "etiquetas y nota", colCyc: "ciclo (sangrado, síntomas)", none: "ninguno",
   tags: { skip: "no entrené", pain: "molestia", tired: "cansado", great: "gran sesión" }, flow: { l: "leve", m: "moderada", h: "abundante" },
   acts: "Actividades", periods: n => `Reglas (últimas ${n}, también anteriores al período para ver la regularidad)`, paused: "Seguimiento en pausa desde",
-  csv: { date: "fecha", time: "hora", routine: "rutina", block: "bloque", dur: "duracion_min", ex: "ejercicio", xid: "id_catalogo", type: "tipo", side: "por_lado", set: "serie", val: "reps_o_seg", r2: "reps_der", kg: "lastre_kg",
+  csv: { pem: "pem", load: "carga", rir: "rir", from: "en_lugar_de", date: "fecha", time: "hora", routine: "rutina", block: "bloque", dur: "duracion_min", ex: "ejercicio", xid: "id_catalogo", type: "tipo", side: "por_lado", set: "serie", val: "reps_o_seg", r2: "reps_der", kg: "lastre_kg",
     id: "id", variant: "variante", days: "dias", order: "orden", sets: "series", target: "objetivo", rest: "descanso_s",
     bed: "acostarse", wake: "levantarse", sleepH: "horas_sueno", q: "calidad_sueno", steps: "pasos", tags: "etiquetas", note: "nota",
     supp: "suplemento", taken: "tomado", amount: "cantidad", unit: "unidad", when: "momento", wkg: "kg", atype: "tipo", km: "km", min: "minutos",
@@ -1279,7 +1314,7 @@ es: {
     files: { sesiones: "sesiones", rutinas: "rutinas", diario: "diario", suplementos: "suplementos", peso: "peso", actividades: "actividades", ciclo_reglas: "ciclo_reglas", ciclo_dias: "ciclo_dias" },
     readme: "LEEME", head: "Usus · datos exportados en CSV", all: "todo el historial", last: n => `últimas ${n} semanas`,
     fmtEs: "separador ; y coma decimal (Excel en castellano o català)", fmtIntl: "separador , y punto decimal", enc: "UTF-8 · fechas AAAA-MM-DD", priv: "Tus datos, solo tuyos: este archivo no se ha enviado a ningún sitio.",
-    desc: { sesiones: "Una fila por serie hecha. reps_o_seg son segundos si tipo = tiempo. reps_der solo en ejercicios por lado (reps_o_seg = izquierdo). id_catalogo: identificador fijo del catálogo de Usus, si el ejercicio está vinculado (sirve para agrupar aunque cambie el nombre).",
+    desc: { sesiones: "Una fila por serie hecha. pem: esfuerzo percibido de la sesión (1–10); carga = pem × minutos. reps_o_seg son segundos si tipo = tiempo. reps_der solo en ejercicios por lado (reps_o_seg = izquierdo). rir: repeticiones en reserva (4 = 4 o más). en_lugar_de: ejercicio de la rutina sustituido en esa sesión. nota: en la primera serie de cada ejercicio. id_catalogo: identificador fijo del catálogo de Usus, si el ejercicio está vinculado (sirve para agrupar aunque cambie el nombre).",
       rutinas: "Rutinas actuales, una fila por ejercicio. objetivo: repeticiones o segundos. dias: L M X J V S D.", diario: "Una fila por día con algún dato. horas_sueno, de acostarse a levantarse. calidad_sueno de 1 a 5.",
       suplementos: "Una fila por suplemento y día registrado.", peso: "Registros de peso.", actividades: "Caminar, correr, bici… con distancia y tiempo.",
       ciclo_reglas: "Cada regla: inicio, fin, duración y días hasta la siguiente (= duración del ciclo).", ciclo_dias: "Días con sangrado o síntomas registrados." } }
@@ -1334,7 +1369,7 @@ ca: {
     "`type`: \"reps\" o \"time\" (`reps` són segons si és \"time\"). `sides`: true si es compta per costat. `rest`: segons de descans entre sèries (opcional). `days`: 0 diumenge … 6 dissabte.",
     "`xid`: copia el de l'exercici original si existeix; als exercicis nous, treu-lo.",
     "Explica abans del bloc què canvies i per què. Si no proposes canvis a les rutines, no afegeixis el bloc."],
-  data: "Dades", exported: "Exportat", period: "Període", weeks: n => `${n} setmanes`,
+  insteadOf: "en lloc de", data: "Dades", exported: "Exportat", period: "Període", weeks: n => `${n} setmanes`,
   profile: "Perfil", woman: "Dona", man: "Home", years: n => `${n} anys`, noBasic: "Sense dades bàsiques",
   exp: "Experiència", sports: "Altres esports o activitat", inj: "Lesions o cirurgies prèvies", pain: "Dolors o molèsties actuals",
   cond: "Condicions de salut rellevants", meds: "Medicació rellevant", goals: "Objectius", other: "Altres", noneF: "cap d'indicada", noneM: "cap d'indicat",
@@ -1342,12 +1377,12 @@ ca: {
   routines: "Rutines actuals", variant: "variant", days: "dies", all: "tots", perSide: "per costat", rest: "desc", dayL: ["Dg", "Dl", "Dt", "Dc", "Dj", "Dv", "Ds"],
   plan: "Pla", start: "Inici", review: "revisió", phases: "fases", wk: "setm", repeat: "(es repeteixen)", deload: "descàrrega", no: "no", every: "cada",
   goalW: (a, b) => `Objectiu setmanal: ${a} dies de força, ${b} dies de rutina diària`,
-  sessions: n => `Sessions (${n})`, sessFmt: "Format: data hora · rutina · minuts | exercici: sèries (reps, o s si és per temps; esq/dre si és per costat; @kg = llast)", free: "lliure",
+  sessions: n => `Sessions (${n})`, sessFmt: "Format: data hora · rutina · minuts · PEM (esforç 1–10) | exercici (en lloc de…, si es va canviar a la sessió): sèries (reps, o s si és per temps; esq/dre si és per costat; @kg = llast; (n) = RIR, repeticions en reserva) ✎ nota", free: "lliure",
   weight: "Pes (kg)", goal: "objectiu", noRec: "Sense registres en el període", supps: "Suplements", diary: "Diari", fmt: "Format: data",
   colSleep: "son (anar a dormir–llevar-se, qualitat 1–5)", colSteps: "passos", colSupp: "suplements presos", colNotes: "etiquetes i nota", colCyc: "cicle (sagnat, símptomes)", none: "cap",
   tags: { skip: "no vaig entrenar", pain: "molèstia", tired: "cansat", great: "gran sessió" }, flow: { l: "lleu", m: "moderat", h: "abundant" },
   acts: "Activitats", periods: n => `Regles (últimes ${n}, també anteriors al període per veure'n la regularitat)`, paused: "Seguiment en pausa des de",
-  csv: { date: "data", time: "hora", routine: "rutina", block: "bloc", dur: "durada_min", ex: "exercici", xid: "id_cataleg", type: "tipus", side: "per_costat", set: "serie", val: "reps_o_seg", r2: "reps_dre", kg: "llast_kg",
+  csv: { pem: "pem", load: "carrega", rir: "rir", from: "en_lloc_de", date: "data", time: "hora", routine: "rutina", block: "bloc", dur: "durada_min", ex: "exercici", xid: "id_cataleg", type: "tipus", side: "per_costat", set: "serie", val: "reps_o_seg", r2: "reps_dre", kg: "llast_kg",
     id: "id", variant: "variant", days: "dies", order: "ordre", sets: "series", target: "objectiu", rest: "descans_s",
     bed: "anar_a_dormir", wake: "llevar_se", sleepH: "hores_son", q: "qualitat_son", steps: "passos", tags: "etiquetes", note: "nota",
     supp: "suplement", taken: "pres", amount: "quantitat", unit: "unitat", when: "moment", wkg: "kg", atype: "tipus", km: "km", min: "minuts",
@@ -1355,7 +1390,7 @@ ca: {
     files: { sesiones: "sessions", rutinas: "rutines", diario: "diari", suplementos: "suplements", peso: "pes", actividades: "activitats", ciclo_reglas: "cicle_regles", ciclo_dias: "cicle_dies" },
     readme: "LLEGEIX-ME", head: "Usus · dades exportades en CSV", all: "tot l'historial", last: n => `últimes ${n} setmanes`,
     fmtEs: "separador ; i coma decimal (Excel en català o castellà)", fmtIntl: "separador , i punt decimal", enc: "UTF-8 · dates AAAA-MM-DD", priv: "Les teves dades, només teves: aquest arxiu no s'ha enviat enlloc.",
-    desc: { sesiones: "Una fila per sèrie feta. reps_o_seg són segons si tipus = temps. reps_dre només en exercicis per costat (reps_o_seg = esquerre). id_cataleg: identificador fix del catàleg d'Usus, si l'exercici està vinculat (serveix per agrupar encara que canviï el nom).",
+    desc: { sesiones: "Una fila per sèrie feta. pem: esforç percebut de la sessió (1–10); carrega = pem × minuts. reps_o_seg són segons si tipus = temps. reps_dre només en exercicis per costat (reps_o_seg = esquerre). rir: repeticions en reserva (4 = 4 o més). en_lloc_de: exercici de la rutina substituït en aquella sessió. nota: a la primera sèrie de cada exercici. id_cataleg: identificador fix del catàleg d'Usus, si l'exercici està vinculat.",
       rutinas: "Rutines actuals, una fila per exercici. objectiu: repeticions o segons. dies: Dl Dt Dc Dj Dv Ds Dg.", diario: "Una fila per dia amb alguna dada. hores_son, d'anar a dormir a llevar-se. qualitat_son de 1 a 5.",
       suplementos: "Una fila per suplement i dia registrat.", peso: "Registres de pes.", actividades: "Caminar, córrer, bici… amb distància i temps.",
       ciclo_reglas: "Cada regla: inici, fi, durada i dies fins a la següent (= durada del cicle).", ciclo_dias: "Dies amb sagnat o símptomes registrats." } }
@@ -1410,7 +1445,7 @@ en: {
     "`type`: \"reps\" or \"time\" (`reps` are seconds when \"time\"). `sides`: true if counted per side. `rest`: rest between sets in seconds (optional). `days`: 0 Sunday … 6 Saturday.",
     "`xid`: copy the original exercise's if there is one; leave it out for new exercises.",
     "Explain before the block what you change and why. If you don't suggest routine changes, don't add the block."],
-  data: "Data", exported: "Exported", period: "Period", weeks: n => `${n} weeks`,
+  insteadOf: "instead of", data: "Data", exported: "Exported", period: "Period", weeks: n => `${n} weeks`,
   profile: "Profile", woman: "Woman", man: "Man", years: n => `${n} years old`, noBasic: "No basic data",
   exp: "Experience", sports: "Other sports or activity", inj: "Past injuries or surgery", pain: "Current pain or discomfort",
   cond: "Relevant health conditions", meds: "Relevant medication", goals: "Goals", other: "Other", noneF: "none given", noneM: "none given",
@@ -1418,12 +1453,12 @@ en: {
   routines: "Current routines", variant: "variant", days: "days", all: "every day", perSide: "per side", rest: "rest", dayL: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
   plan: "Plan", start: "Start", review: "review", phases: "phases", wk: "wk", repeat: "(repeating)", deload: "deload", no: "no", every: "every",
   goalW: (a, b) => `Weekly goal: ${a} strength days, ${b} daily-routine days`,
-  sessions: n => `Sessions (${n})`, sessFmt: "Format: date time · routine · minutes | exercise: sets (reps, or s if timed; left/right if per side; @kg = added weight)", free: "free",
+  sessions: n => `Sessions (${n})`, sessFmt: "Format: date time · routine · minutes · RPE (effort 1–10) | exercise (instead of…, if swapped in the session): sets (reps, or s if timed; left/right if per side; @kg = added weight; (n) = RIR, reps in reserve) ✎ note", free: "free",
   weight: "Weight (kg)", goal: "goal", noRec: "No entries in the period", supps: "Supplements", diary: "Diary", fmt: "Format: date",
   colSleep: "sleep (bed–wake, quality 1–5)", colSteps: "steps", colSupp: "supplements taken", colNotes: "tags and note", colCyc: "cycle (bleeding, symptoms)", none: "none",
   tags: { skip: "didn't train", pain: "discomfort", tired: "tired", great: "great session" }, flow: { l: "light", m: "medium", h: "heavy" },
   acts: "Activities", periods: n => `Periods (last ${n}, including before the period to show regularity)`, paused: "Tracking paused since",
-  csv: { date: "date", time: "time", routine: "routine", block: "block", dur: "duration_min", ex: "exercise", xid: "catalogue_id", type: "type", side: "per_side", set: "set", val: "reps_or_sec", r2: "reps_right", kg: "weight_kg",
+  csv: { pem: "rpe", load: "load", rir: "rir", from: "instead_of", date: "date", time: "time", routine: "routine", block: "block", dur: "duration_min", ex: "exercise", xid: "catalogue_id", type: "type", side: "per_side", set: "set", val: "reps_or_sec", r2: "reps_right", kg: "weight_kg",
     id: "id", variant: "variant", days: "days", order: "order", sets: "sets", target: "target", rest: "rest_s",
     bed: "bedtime", wake: "wake_time", sleepH: "sleep_hours", q: "sleep_quality", steps: "steps", tags: "tags", note: "note",
     supp: "supplement", taken: "taken", amount: "amount", unit: "unit", when: "when", wkg: "kg", atype: "type", km: "km", min: "minutes",
@@ -1431,7 +1466,7 @@ en: {
     files: { sesiones: "sessions", rutinas: "routines", diario: "diary", suplementos: "supplements", peso: "weight", actividades: "activities", ciclo_reglas: "cycle_periods", ciclo_dias: "cycle_days" },
     readme: "README", head: "Usus · data exported as CSV", all: "full history", last: n => `last ${n} weeks`,
     fmtEs: "; separator and decimal comma", fmtIntl: ", separator and decimal point", enc: "UTF-8 · dates YYYY-MM-DD", priv: "Your data, only yours: this file hasn't been sent anywhere.",
-    desc: { sesiones: "One row per completed set. reps_or_sec are seconds when type = time. reps_right only for per-side exercises (reps_or_sec = left). catalogue_id: fixed Usus catalogue id, if the exercise is linked (groups it even if the name changes).",
+    desc: { sesiones: "One row per completed set. rpe: session rating of perceived exertion (1–10); load = rpe × minutes. reps_or_sec are seconds when type = time. reps_right only for per-side exercises (reps_or_sec = left). rir: reps in reserve (4 = 4 or more). instead_of: routine exercise swapped out in that session. note: on each exercise's first set. catalogue_id: fixed Usus catalogue id, if the exercise is linked.",
       rutinas: "Current routines, one row per exercise. target: reps or seconds. days: Mo Tu We Th Fr Sa Su.", diario: "One row per day with any data. sleep_hours, from bedtime to wake time. sleep_quality from 1 to 5.",
       suplementos: "One row per supplement and logged day.", peso: "Weight entries.", actividades: "Walking, running, cycling… with distance and time.",
       ciclo_reglas: "Each period: start, end, length and days to the next one (= cycle length).", ciclo_dias: "Days with logged bleeding or symptoms." } }
@@ -1537,7 +1572,7 @@ function aiBuild(o) {
     const g = LS.get("wk.goals", null); if (g && (g.daily || g.strength)) L.push(X.goalW(g.strength || 0, g.daily || 0));
     const S = state.sessions.filter(s => inP(s.start)).sort((a, b) => a.start - b.start);
     L.push("", `## ${X.sessions(S.length)}`, X.sessFmt);
-    S.forEach(s => L.push(`${dayKey(s.start)} ${hmOf(s.start)} · ${s.routine || X.free} · ${Math.round((s.end - s.start) / 60000)} | ${s.exercises.map(e => `${exName(e)}: ${e.sets.map(x => (sideReps(e) ? `${x.r}/${R2(x)}` : `${x.r}`) + (+x.w ? `@${x.w}` : "")).join(",")}${isTime(e) ? " s" : ""}`).join(" | ")}`));
+    S.forEach(s => L.push(`${dayKey(s.start)} ${hmOf(s.start)} · ${s.routine || X.free} · ${Math.round((s.end - s.start) / 60000)}${+s.pem ? ` · ${LANG === "en" ? "RPE" : "PEM"} ${s.pem}` : ""} | ${s.exercises.map(e => `${exName(e)}${e.from ? ` (${X.insteadOf} ${e.from})` : ""}: ${e.sets.map(x => (sideReps(e) ? `${x.r}/${R2(x)}` : `${x.r}`) + (+x.w ? `@${x.w}` : "") + (rirTxt(x) ? `(${rirTxt(x)})` : "")).join(",")}${isTime(e) ? " s" : ""}${e.note ? ` ✎ "${String(e.note).replace(/\s+/g, " ")}"` : ""}`).join(" | ")}`));
     L.push("");
   }
   if (inc.weight) { const Wl = W.list().filter(x => inP(x.t)); L.push(`## ${X.weight}${W.goal() ? ` · ${X.goal} ${W.goal()}` : ""}`, Wl.length ? Wl.map(x => `${dayKey(x.t)} ${x.kg}`).join(" · ") : X.noRec, ""); }
@@ -1585,8 +1620,8 @@ function csvBuild(weeks) {
   const X = XL(), C = X.csv, es = LANG !== "en", now = Date.now(), from = weeks ? now - weeks * 7 * 864e5 : 0, inP = t => t >= from && t <= now, inK = k => k >= dayKey(from) && k <= dayKey(now);
   const yn = b => b ? C.yes : C.no, F = {}, put = (k, head, rows) => { if (rows.length) F[`${C.files[k]}.csv`] = [k, csvTable(head, rows, es)]; };
   const S = state.sessions.filter(s => inP(s.start)).sort((a, b) => a.start - b.start), rows = [];
-  S.forEach(s => s.exercises.forEach(e => e.sets.forEach((x, i) => rows.push([dayKey(s.start), hmOf(s.start), s.routine || "", s.block || "", Math.round((s.end - s.start) / 60000), exName(e), e.xid || "", isTime(e) ? C.tTime : C.tReps, yn(e.sides), i + 1, +x.r || 0, sideReps(e) ? +R2(x) || 0 : null, +x.w || 0]))));
-  put("sesiones", [C.date, C.time, C.routine, C.block, C.dur, C.ex, C.xid, C.type, C.side, C.set, C.val, C.r2, C.kg], rows);
+  S.forEach(s => s.exercises.forEach(e => e.sets.forEach((x, i) => rows.push([dayKey(s.start), hmOf(s.start), s.routine || "", s.block || "", Math.round((s.end - s.start) / 60000), +s.pem || null, sLoad(s) || null, exName(e), e.xid || "", e.from || "", isTime(e) ? C.tTime : C.tReps, yn(e.sides), i + 1, +x.r || 0, sideReps(e) ? +R2(x) || 0 : null, +x.w || 0, x.rir !== undefined && x.rir !== null ? +x.rir : null, i === 0 ? e.note || "" : ""]))));
+  put("sesiones", [C.date, C.time, C.routine, C.block, C.dur, C.pem, C.load, C.ex, C.xid, C.from, C.type, C.side, C.set, C.val, C.r2, C.kg, C.rir, C.note], rows);
   put("rutinas", [C.routine, C.id, C.block, C.variant, C.days, C.order, C.ex, C.xid, C.sets, C.target, C.type, C.side, C.rest],
     state.routines.flatMap(r => r.exercises.map((e, i) => [r.name, r.oid || r.id, r.block || "", normVar(r.variant), WEEK_ORDER.filter(d => (r.days || []).includes(d)).map(d => X.dayL[d]).join(" "), i + 1, exName(e), e.xid || "", +e.sets, +e.reps, isTime(e) ? C.tTime : C.tReps, yn(e.sides), +e.rest || null])));
   const D = DY.all(), days = Object.keys(D).filter(inK).sort();
@@ -1633,6 +1668,106 @@ function csvModal() {
     <div class="row" style="margin-top:14px"><span class="spacer"></span><button class="btn ghost" data-act="cx-close">${T("Cancelar")}</button><button class="btn primary" data-act="cx-go">${T("Exportar .zip")}</button></div>
   </div></div>`;
 }
+/* ---------- Esfuerzo, cambiar ejercicio y notas (2.2) ----------
+   PEM (percepción del esfuerzo, 1–10) por sesión: s.pem. Carga = PEM × minutos (método de Foster).
+   RIR (repeticiones en reserva) por serie, opcional: set.rir (0–4; 4 = 4 o más).
+   Cambiar un ejercicio solo en la sesión: e.from = {name, xid} (el de la rutina); las series cuentan para el que se hace.
+   Nota por ejercicio: e.note. Ajustes: wk.effort = {pem, rir}. */
+const EFF = () => ({ pem: true, rir: false, ...(LS.get("wk.effort", {}) || {}) });
+const PEM_L = [["Muy fácil", "Podrías hablar sin esfuerzo; casi un calentamiento."], ["Fácil", "Cómodo de principio a fin."], ["Moderado", "Notas el trabajo, pero sobra margen."],
+  ["Algo exigente", "Respiración marcada; aún bastante margen."], ["Exigente", "Cuesta, pero lo controlas bien."], ["Bastante duro", "Las últimas series ya pesan."],
+  ["Muy duro", "Terminas cansado; poco margen al final."], ["Durísimo", "Muy cerca del límite en varias series."], ["Casi al límite", "No habrías podido hacer mucho más."], ["Máximo", "Todo lo que tenías."]];
+const PEM_C = ["#3E9C6B", "#5FA455", "#7BA23A", "#A2A830", "#C9A227", "#D68E27", "#D9792B", "#D3612F", "#CC4F33", "#C8423A"];
+const sMin = s => Math.max(1, Math.round((s.end - s.start) / 60000));
+const sLoad = s => +s.pem > 0 ? +s.pem * sMin(s) : 0;
+const pemChip = s => +s.pem > 0 ? `<span class="pemchip" style="background:${PEM_C[s.pem - 1]}" title="${T(PEM_L[s.pem - 1][0])}">${T("PEM")} ${s.pem}</span>` : "";
+function pemPicker(s, attr) {
+  const p = +s.pem || 0;
+  return `<div class="pemrow${p ? "" : " none"}" role="group" aria-label="${T("Esfuerzo de la sesión (PEM)")}">${PEM_C.map((c, i) => `<button style="background:${c}" class="${p === i + 1 ? "on" : ""}" data-${attr}="${s.id}:${i + 1}" aria-pressed="${p === i + 1}" aria-label="${i + 1} · ${T(PEM_L[i][0])}">${i + 1}</button>`).join("")}</div>
+    <div class="pemends"><span>${T("Muy fácil")}</span><span>${T("Máximo")}</span></div>
+    <div class="pemsel">${p ? `<b style="color:${PEM_C[p - 1]}">${p} · ${T(PEM_L[p - 1][0])}</b><br><span class="muted">${T(PEM_L[p - 1][1])}</span><br><span class="muted" style="font-size:.8rem">${T("Carga: {m} min × {p} = {c}", { m: sMin(s), p, c: sLoad(s) })}</span>` : `<span class="muted">${T("Opcional. Ayuda a ver si una semana ha sido demasiado dura.")}</span>`}</div>`;
+}
+function pemBlock(s) {
+  if (!EFF().pem) return "";
+  return `<div class="pembox"><b>${T("¿Cuánto te ha costado?")}</b><div class="muted" style="font-size:.8rem">${T("Esfuerzo percibido de toda la sesión (PEM).")}</div>${pemPicker(s, "pem")}</div>`;
+}
+function setPem(id, n) {
+  const s = state.sessions.find(x => x.id === id); if (!s) return;
+  s.pem = +s.pem === n ? undefined : n; if (!s.pem) delete s.pem; store.saveSession(s);
+}
+/* RIR: tras marcar una serie (si está activado), en la tarjeta y en la pantalla de descanso */
+function rirAsk() {
+  const q = state.rirAsk, a = state.active; if (!q || !a) return "";
+  const e = a.exercises[q.ei], x = e?.sets[q.si]; if (!x || !x.done || x.rir !== undefined) return "";
+  return `<div class="rirbar"><span>${T("¿Cuántas te quedaban?")} <small>${esc(exName(e))} · ${T("serie {n}", { n: q.si + 1 })}</small></span>
+    <div class="rirb">${[0, 1, 2, 3, 4].map(n => `<button data-rir="${n}" aria-label="${n === 4 ? T("4 o más") : n}">${n === 4 ? "4+" : n}</button>`).join("")}<button class="x" data-rir="-1" aria-label="${T("Sin RIR")}">×</button></div></div>`;
+}
+const rirTxt = x => x.rir !== undefined && x.rir !== null ? (x.rir >= 4 ? "4+" : String(x.rir)) : "";
+/* Último registro de un ejercicio (objeto entero: series, nota…) y última sustitución en la misma rutina */
+function lastExFor(e) {
+  const k = exKey(e);
+  for (const s of sortedSessions()) { const x = s.exercises.find(y => exKey(y) === k); if (x && x.sets.length) return { s, e: x }; }
+  return null;
+}
+function lastSwapFor(e, rid) {
+  if (!rid) return null; const k = exKey(e);
+  for (const s of sortedSessions()) { if (s.rid !== rid) continue; const x = s.exercises.find(y => y.from && (y.fromXid ? "x:" + y.fromXid : String(y.from).trim().toLowerCase()) === k);
+    if (x) return x; if (s.exercises.some(y => exKey(y) === k)) return null; }
+  return null;
+}
+/* Cambiar ejercicio en la sesión */
+function swapTo(ei, name, xid, x) {
+  const a = state.active, e = a?.exercises[ei]; if (!e) return;
+  if (!e.from) e.from = { name: e.name, ...(e.xid ? { xid: e.xid } : {}) };
+  e.name = name; if (xid) e.xid = xid; else delete e.xid;
+  if (x) { e.type = x.type === "time" ? "time" : "reps"; e.sides = !!x.sides; }
+  if (exKey(e) === exKey(e.from)) delete e.from;
+  saveActive();
+}
+function swapUndo(ei) {
+  const e = state.active?.exercises[ei]; if (!e?.from) return;
+  e.name = e.from.name; if (e.from.xid) e.xid = e.from.xid; else delete e.xid; delete e.from; saveActive();
+}
+function swapModal() {
+  const w = state.swap; if (!w || !state.active) return "";
+  const e = state.active.exercises[w.ei]; if (!e) return "";
+  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="swT"><div class="mbox">
+    <h2 id="swT" style="margin:0 0 4px">${T("Cambiar ejercicio")}</h2>
+    <p class="muted" style="margin:0;font-size:.85rem">${T("Solo en esta sesión. En lugar de {x}.", { x: `<b style="color:var(--ink)">${esc(exName(e.from || e))}</b>` })}</p>
+    <input type="text" id="swName" list="swNames" style="width:100%;margin-top:12px" placeholder="${T("Nombre del ejercicio")}">
+    <datalist id="swNames">${allExerciseNames().map(n => `<option value="${esc(n)}">`).join("")}</datalist>
+    <div class="row" style="margin-top:14px"><span class="spacer"></span><button class="btn ghost" data-act="sw-cancel">${T("Cancelar")}</button><button class="btn primary" data-act="sw-ok">${T("Cambiar")}</button></div>
+  </div></div>`;
+}
+/* Al terminar: cambios que pueden pasar a la rutina */
+function swapAskBlock(s) {
+  const r = s.rid && state.routines.find(x => x.id === s.rid), sw = s.exercises.filter(e => e.from); if (!r || !sw.length) return "";
+  const done = state.swapDone === s.id;
+  return `<div class="pembox" style="text-align:left"><b>${sw.length === 1 ? T("Cambiaste 1 ejercicio") : T("Cambiaste {n} ejercicios", { n: sw.length })}</b>
+    <div class="muted" style="font-size:.85rem;margin:2px 0 8px">${sw.map(e => T("{x} en lugar de {y}.", { x: esc(exName(e)), y: esc(e.from) })).join(" ")}</div>
+    ${done ? `<div style="color:var(--ok);font-weight:600">✓ ${T("Cambiado también en la rutina")}</div>` : `<div class="row"><button class="btn small primary" data-act="sw-routine">${T("Cambiar también en la rutina")}</button><span class="muted" style="font-size:.8rem">${T("Si no, solo hoy.")}</span></div>`}</div>`;
+}
+function swapToRoutine(s) {
+  const r = state.routines.find(x => x.id === s.rid); if (!r) return;
+  s.exercises.filter(e => e.from).forEach(e => {
+    const k = e.fromXid ? "x:" + e.fromXid : String(e.from).trim().toLowerCase(), re = r.exercises.find(y => exKey(y) === k); if (!re) return;
+    re.name = e.name; if (e.xid) re.xid = e.xid; else delete re.xid; re.type = e.type; re.sides = !!e.sides;
+  });
+  store.saveRoutines(state.routines);
+}
+/* Stats → Entreno: carga semanal */
+function sbCarga(S, now) {
+  const ws = Array.from({ length: 8 }, (_, i) => addDays(weekStart(now), -7 * (7 - i)));
+  const load = ws.map(t => S.filter(s => s.start >= t && s.start < addDays(t, 7)).reduce((a, s) => a + sLoad(s), 0));
+  if (!load.some(Boolean)) return `<div class="panel muted">${EFF().pem ? T("Aún no hay sesiones con esfuerzo (PEM). Se pregunta al terminar cada sesión.") : T("Activa «Preguntar el esfuerzo al terminar» en Ajustes → Entreno.")}</div>`;
+  const mx = Math.max(...load), cur = load[7], lw = load[6], prev4 = load.slice(2, 6).filter(Boolean), avg = prev4.length >= 2 ? prev4.reduce((a, b) => a + b, 0) / prev4.length : 0;
+  const hiW = avg && lw > avg * 1.3 ? 6 : avg && cur > avg * 1.3 ? 7 : -1;
+  const recent = S.filter(s => +s.pem > 0 && s.start >= now - 28 * 864e5), pm = recent.length ? recent.reduce((a, s) => a + +s.pem, 0) / recent.length : 0;
+  return `<div class="panel"><p class="muted" style="font-size:.8rem;margin:0">${T("PEM × minutos de cada sesión, sumado por semana.")}</p>
+    <div class="ldch">${load.map((v, i) => `<div><b>${v || ""}</b><i class="${i === hiW ? "hi" : ""}${i === 7 ? " cur" : ""}" style="height:${mx ? Math.max(v ? 4 : 0, v / mx * 100) : 0}%"></i><small>${new Date(ws[i]).toLocaleDateString(LOC(), { day: "numeric", month: "short" })}</small></div>`).join("")}</div>
+    ${hiW >= 0 ? `<div class="aiwarn" style="margin:10px 0 0"><b>${T("Semana del {d}: +{p} %", { d: new Date(ws[hiW]).toLocaleDateString(LOC(), { day: "numeric", month: "long" }), p: Math.round((load[hiW] / avg - 1) * 100) })}</b>${T("sobre la media de las 4 anteriores. Si no fue a propósito, vigila el descanso.")}</div>` : ""}
+    ${pm ? `<div class="row" style="justify-content:space-between;font-size:.85rem;margin-top:10px"><span class="muted">${T("PEM media · 4 semanas")}</span><b>${fmtNum(pm)}</b></div>` : ""}</div>`;
+}
 
 /* ---------- Iconos ---------- */
 const ICON = {
@@ -1657,7 +1792,7 @@ function render() {
   if (state.tab === "history") state.tab = "diary";
   const v = state.actForm ? viewActForm : state.tab === "data" && state.link ? viewLink : { train: viewTrain, routines: viewRoutines, diary: viewDiary, stats: viewStats, data: viewData }[state.tab];
   const mb = document.querySelector(".mbox.dsh"), mbTop = mb ? mb.scrollTop : 0;
-  $("#app").innerHTML = v() + focusView() + welcomeModal() + newsModal() + cycAckModal() + savedModal() + shareSessModal() + shareRoutModal() + incomingModal() + profPickModal() + profFormModal() + profEditModal() + profCopyModal() + issueModal() + exInfoModal() + xpickModal() + ownMatModal() + catAskModal() + progChangeModal() + aiModal() + csvModal();
+  $("#app").innerHTML = v() + focusView() + welcomeModal() + newsModal() + cycAckModal() + savedModal() + shareSessModal() + shareRoutModal() + incomingModal() + profPickModal() + profFormModal() + profEditModal() + profCopyModal() + issueModal() + exInfoModal() + xpickModal() + ownMatModal() + catAskModal() + progChangeModal() + aiModal() + csvModal() + swapModal();
   if (mb) { const nb = document.querySelector(".mbox.dsh"); if (nb) nb.scrollTop = mbTop; }
   if (state.tab === "train" && state.active && !state.actForm) tick();
   if (state.shareSess && SHOPT().img) sessPreview();
@@ -1729,7 +1864,7 @@ function viewTrain() {
     ${a.pausedAt ? `<div class="panel spaused"><b>${T("Sesión en pausa")}</b><span class="muted" style="font-size:.85rem">${T("El tiempo en pausa no cuenta en la duración del entreno.")}</span></div>` : ""}
     <div class="stats-inline"><span><b id="liveSets">${doneSets(a)}</b> ${T("series")}</span><span><b id="liveVol">${fmtWork(sessionWork(a))}</b></span></div>
     ${n ? `<div class="exnav"><span class="muted">${T("Ejercicio {n} de {m}", { n: cur + 1, m: n })}</span></div>
-      <div class="list" style="margin-top:10px">${exCard(a.exercises[cur], cur)}</div>
+      ${rirAsk()}<div class="list" style="margin-top:10px">${exCard(a.exercises[cur], cur)}</div>
       ${exFooter(a, cur, n)}`
       : sessionPanel(a, false)}
     ${state.sheet && n ? `<div class="modal" role="dialog" aria-modal="true"><div class="mbox">${sessionPanel(a, true)}</div></div>` : ""}
@@ -1761,10 +1896,12 @@ function curEx(a) {
   return p >= 0 ? p : Math.max(0, n - 1);
 }
 function exCard(e, ei) {
-  const prev = lastSetsFor(e), tm = isTime(e);
+  const prev = lastSetsFor(e), tm = isTime(e), lx = lastExFor(e), lsw = !e.from && lastSwapFor(e, state.active?.rid), nOpen = state.noteOpen === ei;
   return `<div class="ex">
-    <div class="ex-head"><strong>${esc(exName(e))}</strong>${e.xid && CATBY[e.xid] ? `<button class="xinfo" data-xinfo="${e.xid}" aria-label="${T("Ver ficha")}">i</button>` : ""}
-      <span class="hint">${prev ? T("Anterior") + ": " + prev.map(p => fmtSet(p, tm, sideReps(e))).join(", ") : ""}</span>
+    <div class="ex-head"><strong>${esc(exName(e))}</strong><button class="xinfo" style="font-family:inherit" data-swap="${ei}" aria-label="${T("Cambiar ejercicio")}" title="${T("Cambiar ejercicio")}">⇄</button><button class="xinfo${e.note || nOpen ? " on" : ""}" style="font-family:inherit" data-enote="${ei}" aria-label="${T("Nota")}" title="${T("Nota")}">✎</button>${e.xid && CATBY[e.xid] ? `<button class="xinfo" data-xinfo="${e.xid}" aria-label="${T("Ver ficha")}">i</button>` : ""}
+      <span class="hint">${prev ? T("Anterior") + ": " + prev.map(p => fmtSet(p, tm, sideReps(e)) + (rirTxt(p) ? ` (${rirTxt(p)})` : "")).join(", ") : e.from ? T("Primera vez con este ejercicio") : ""}${lx?.e.note ? `<span class="hint2">✎ ${esc(lx.e.note)}</span>` : ""}${lsw ? `<span class="hint2">${T("La última vez lo cambiaste por {x}", { x: esc(exName(lsw)) })}${lsw.note ? `: ✎ ${esc(lsw.note)}` : ""}</span>` : ""}</span>
+      ${e.from ? `<span class="swapnote">${T("en lugar de {x}", { x: esc(exName(e.from)) })} · <button data-swapundo="${ei}">${T("Deshacer")}</button></span>` : ""}
+      ${nOpen ? `<textarea class="exnote" data-enotet="${ei}" maxlength="140" rows="2" placeholder="${T("Ej. molestia en el codo, banda verde, agarre más abierto…")}">${esc(e.note || "")}</textarea>` : e.note ? `<span class="hint2" style="flex-basis:100%">✎ ${esc(e.note)}</span>` : ""}
       <span class="spacer"></span><button class="type-t" data-type="${ei}" aria-label="${T("Cambiar entre repeticiones y segundos")}">${tm ? (e.sides ? T("seg · 2 lados") : T("seg")) : (e.sides ? T("reps · izq/der") : T("reps"))}</button>
       <button class="x" aria-label="${T("Quitar ejercicio")}" data-rmex="${ei}">×</button></div>
     <div class="sets${sideReps(e) ? " two" : ""}">
@@ -2028,6 +2165,7 @@ function focusView() {
       <div class="fnum"><span id="fNum">${fmtLeft(left)}</span>${run.lead ? `<small>${T("Reanudando…")}</small>` : run.paused ? `<small>${T("En pausa")}</small>` : ""}</div></div>
     ${f.k !== "restx" && nSets ? `<div class="fdots">${e.sets.map((z, j) => `<i class="${z.done ? "d" : (f.k === "work" || f.k === "switch") && f.si === j ? "c" : ""}"></i>`).join("")}</div>` : ""}
     <p class="muted" style="margin:4px 0 0">${next}</p>
+    ${f.k === "rest" || f.k === "restx" ? rirAsk() : ""}
     ${f.k === "rest" || f.k === "restx" ? `<div class="fadj"><button class="btn" data-act="run-adj" data-d="-5">−5 s</button><button class="btn" data-act="run-adj" data-d="5">+5 s</button></div>` : ""}
     <div class="fbtns"><button class="btn primary" data-act="run-pause" aria-pressed="${holding}">${holding ? "▶ " + T("Reanudar") : "❚❚ " + T("Pausa")}</button>
       <button class="btn" data-act="run-skip">${T("Saltar")}</button><button class="btn" data-act="run-stop">${T("Parar")}</button></div>
@@ -2053,13 +2191,13 @@ function updateLive() {
 async function finishSession() {
   const a = state.active;
   cancelRun();
-  const exercises = a.exercises.map(e => ({ name: e.name, ...(e.xid ? { xid: e.xid } : {}), type: isTime(e) ? "time" : "reps", sides: !!e.sides, sets: e.sets.filter(s => s.done).map(s => ({ w: +s.w || 0, r: +s.r || 0, ...(sideReps(e) ? { r2: +R2(s) || 0 } : {}), done: true })) })).filter(e => e.sets.length);
+  const exercises = a.exercises.map(e => ({ name: e.name, ...(e.xid ? { xid: e.xid } : {}), ...(e.from ? { from: e.from.name, ...(e.from.xid ? { fromXid: e.from.xid } : {}) } : {}), ...(e.note ? { note: String(e.note).trim().slice(0, 140) } : {}), type: isTime(e) ? "time" : "reps", sides: !!e.sides, sets: e.sets.filter(s => s.done).map(s => ({ w: +s.w || 0, r: +s.r || 0, ...(sideReps(e) ? { r2: +R2(s) || 0 } : {}), ...(s.rir !== undefined && s.rir !== null ? { rir: s.rir } : {}), done: true })) })).filter(e => e.sets.length);
   if (!exercises.length) { toast(T("Marca al menos una serie como completada")); return; }
   const s = { id: a.id, start: a.start, end: a.start + activeMs(a), ...(a.rid ? { rid: a.rid } : {}), routine: a.routine, block: a.block || guessBlock(a.routine), exercises };
   state.sessions.push(s);
   state.active = null; saveActive();
   await store.saveSession(s);
-  state.savedSess = s.id; state.progProps = progProposals(s);
+  state.savedSess = s.id; state.swapDone = null; state.rirAsk = null; state.progProps = progProposals(s);
   state.day = dayKey(Date.now()); state.tab = "diary"; render();
 }
 
@@ -2474,10 +2612,11 @@ const fmtHM = m => { m = Math.round(m); return `${Math.floor(m / 60)} h ${String
 function sessionCard(s) {
   const d = new Date(s.start), mins = Math.round((s.end - s.start) / 60000);
   return `<details class="sess">
-    <summary><div style="flex:1;min-width:0"><div style="font-weight:600">${esc(s.routine || T("Sesión libre"))} <span class="tagb">${T(CAT_NAME[catOf(s)] || "Otro")}</span></div>
+    <summary><div style="flex:1;min-width:0"><div style="font-weight:600">${esc(s.routine || T("Sesión libre"))} <span class="tagb">${T(CAT_NAME[catOf(s)] || "Otro")}</span> ${pemChip(s)}</div>
       <div class="muted" style="font-size:.875rem">${d.toLocaleTimeString(LOC(), { hour: "numeric", minute: "2-digit" })} · ${mins} min · ${doneSets(s)} ${T("series")} · ${fmtWork(sessionWork(s))}</div></div></summary>
     <div class="body">
-      <table>${s.exercises.map(e => `<tr><td>${esc(e.name)}</td><td class="muted">${e.sets.map(x => fmtSet(x, isTime(e), sideReps(e))).join(", ")}${sideReps(e) ? ` <span style="font-size:.75rem">(${T("izq/der")})</span>` : ""}</td></tr>`).join("")}</table>
+      <table>${s.exercises.map(e => `<tr><td>${esc(e.name)}${e.from ? `<span class="hint2">${T("en lugar de {x}", { x: esc(e.from) })}</span>` : ""}${e.note ? `<span class="hint2">✎ ${esc(e.note)}</span>` : ""}</td><td class="muted">${e.sets.map(x => fmtSet(x, isTime(e), sideReps(e)) + (rirTxt(x) ? ` (${rirTxt(x)})` : "")).join(", ")}${sideReps(e) ? ` <span style="font-size:.75rem">(${T("izq/der")})</span>` : ""}${e.sets.some(x => rirTxt(x)) ? ` <span style="font-size:.75rem">(${T("RIR")})</span>` : ""}</td></tr>`).join("")}</table>
+      ${EFF().pem ? `<div style="margin-top:10px"><span class="muted" style="font-size:.85rem">${T("Esfuerzo de la sesión (PEM)")}</span>${pemPicker(s, "spem")}</div>` : ""}
       <div class="row" style="margin-top:10px"><button class="btn small shbtn" data-shsess="${s.id}">${SHARE_ICO}${T("Compartir")}</button><span class="spacer"></span><button class="btn small danger" data-delsess="${s.id}">${T("Eliminar sesión")}</button></div>
     </div></details>`;
 }
@@ -2836,7 +2975,7 @@ function sbNotas(now) {
   return `<div class="panel">${Object.keys(cnt).length ? `<div class="chips" style="margin-top:0">${TAGS.filter(([t]) => cnt[t]).map(([t, n]) => `<span class="chip">${T(n)} · ${cnt[t]}</span>`).join("")}</div>` : ""}
     ${notes.map(k => `<button class="noteb" data-day="${k}"><span class="muted" style="font-size:.8rem">${new Date(keyTime(k)).toLocaleDateString(LOC(), { weekday: "short", day: "numeric", month: "short" })}</span><span>${esc(all[k].note.length > 140 ? all[k].note.slice(0, 140) + "…" : all[k].note)}</span></button>`).join("")}</div>`;
 }
-const SB_CAT = { ciclo: "cue", objetivos: "res", resumen: "res", records: "res", constancia: "ent", ejercicios: "ent", equilibrio: "ent", reparto: "ent", horario: "ent", peso: "cue", sueno: "hab", pasos: "hab", actividad: "hab", suplementos: "hab", notas: "hab" };
+const SB_CAT = { carga: "ent", ciclo: "cue", objetivos: "res", resumen: "res", records: "res", constancia: "ent", ejercicios: "ent", equilibrio: "ent", reparto: "ent", horario: "ent", peso: "cue", sueno: "hab", pasos: "hab", actividad: "hab", suplementos: "hab", notas: "hab" };
 const SB_TABS = [["res", "Resumen"], ["ent", "Entreno"], ["cue", "Cuerpo"], ["hab", "Hábitos"]];
 const SBLOCKS = {
   objetivos: ["Objetivos de la semana", (S, IX, n) => sbObjetivos(S, n)],
@@ -2849,6 +2988,7 @@ const SBLOCKS = {
   ciclo: ["Ciclo", () => sbCiclo()],
   resumen: ["Resumen", (S, IX, n) => sbResumen(S, n)],
   constancia: ["Constancia · 12 semanas", (S, IX, n) => sbConstancia(S, n)],
+  carga: ["Carga semanal", (S, IX, n) => sbCarga(S, n)],
   records: ["Récords recientes", (S, IX, n) => sbRecords(IX, n)],
   ejercicios: ["Ejercicios vs objetivo", (S, IX, n) => sbEjercicios(IX, n)],
   equilibrio: ["Equilibrio izq. / der.", (S, IX, n) => sbEquilibrio(S, n)],
@@ -2857,7 +2997,7 @@ const SBLOCKS = {
 };
 function statsOrder() {
   const saved = LS.get("wk.statsOrder", null);
-  if (!saved) return ["objetivos", "resumen", "records", "constancia", "ejercicios", "equilibrio", "reparto", "horario", "peso", "ciclo", "sueno", "pasos", "actividad", "suplementos", "notas"];
+  if (!saved) return ["objetivos", "resumen", "records", "constancia", "carga", "ejercicios", "equilibrio", "reparto", "horario", "peso", "ciclo", "sueno", "pasos", "actividad", "suplementos", "notas"];
   const o = saved.filter(k => SBLOCKS[k]);
   Object.keys(SBLOCKS).forEach(k => { if (!o.includes(k)) o.push(k); });
   return o;
@@ -2968,6 +3108,11 @@ function viewData() {
       <label class="chk" style="grid-column:auto;margin-top:14px"><input type="checkbox" id="autoStartChk" ${autoStart() ? "checked" : ""}> ${T("Inicio automático de series por tiempo")}</label>
       <p class="muted" style="font-size:.8rem;margin:8px 0 0">${T("Cuenta atrás de inicio: pitidos en los últimos segundos de cualquier cuenta atrás que no sea una serie (descansos, cambio de lado, preparación). Aviso final: pitidos en los últimos segundos de cada serie por tiempo. Inicio automático: tras el descanso, la siguiente serie por tiempo arranca sola (en repeticiones nunca); si no, pulsas ▶.")}</p>
     </div>
+    <h2>${T("Esfuerzo")}</h2>
+    <div class="panel">
+      <label class="xtog" style="padding:0;color:var(--ink);font-size:1rem"><span>${T("Preguntar el esfuerzo al terminar")}<small class="muted" style="display:block;font-size:.8rem">${T("PEM del 1 al 10, opcional en cada sesión")}</small></span><input type="checkbox" id="effPem" ${EFF().pem ? "checked" : ""}></label>
+      <label class="xtog" style="padding:12px 0 0;color:var(--ink);font-size:1rem"><span>${T("RIR por serie")}<small class="muted" style="display:block;font-size:.8rem">${T("Repeticiones en reserva al marcar cada serie. Para afinar la intensidad.")}</small></span><input type="checkbox" id="effRir" ${EFF().rir ? "checked" : ""}></label>
+      <p class="muted" style="font-size:.8rem;margin:10px 0 0">${T("La PEM y la carga (PEM × minutos) se ven en el Diario y en Stats → Entreno, y van en el análisis con IA y en el CSV.")}</p></div>
     <h2>${T("Objetivos semanales")}</h2>
     <div class="panel"><div class="wrow"><label class="muted" for="gDaily" style="font-size:.85rem">${T("Días con Diaria")}</label><input id="gDaily" type="number" min="0" max="7" inputmode="numeric" value="${LS.get("wk.goals", {}).daily || 0}"><span></span></div>
       <div class="wrow" style="margin-top:10px"><label class="muted" for="gStr" style="font-size:.85rem">${T("Días con fuerza")}</label><input id="gStr" type="number" min="0" max="7" inputmode="numeric" value="${LS.get("wk.goals", {}).strength || 0}"><span></span></div>
@@ -3085,6 +3230,11 @@ function installBlock() {
 }
 /* ---------- Novedades (una vez por versión; historial al tocar la versión) ---------- */
 const CHANGES = [
+  ["2.2.0", {
+    es: ["Esfuerzo de la sesión (PEM, 1–10) al terminar, opcional. Con la duración da la carga semanal, nuevo bloque en Stats → Entreno con aviso si una semana sube de golpe.", "RIR por serie (repeticiones en reserva), opcional en Ajustes → Entreno.", "Cambiar un ejercicio solo en la sesión (⇄): las series cuentan para el que haces y al terminar puedes pasarlo también a la rutina.", "Nota por ejercicio (✎): la verás la próxima vez junto a «Anterior»."],
+    ca: ["Esforç de la sessió (PEM, 1–10) en acabar, opcional. Amb la durada dona la càrrega setmanal, nou bloc a Stats → Entrenament amb avís si una setmana puja de cop.", "RIR per sèrie (repeticions en reserva), opcional a Ajustos → Entrenament.", "Canviar un exercici només a la sessió (⇄): les sèries compten per al que fas i en acabar el pots passar també a la rutina.", "Nota per exercici (✎): la veuràs la propera vegada al costat d'«Anterior»."],
+    en: ["Session effort (RPE, 1–10) at the end, optional. With the duration it gives the weekly load, a new block in Stats → Workout that warns about sudden jumps.", "RIR per set (reps in reserve), optional in Settings → Workout.", "Swap an exercise for this session only (⇄): sets count for the one you do, and at the end you can also change it in the routine.", "Note per exercise (✎): you'll see it next time next to “Previous”."]
+  }],
   ["2.1.0", {
     es: ["Analizar con IA externa (Stats → Resumen): Usus prepara un texto con tus datos y las instrucciones para que la IA que uses (ChatGPT, Claude, Gemini…) haga un informe con gráficos, listo para imprimir en A4. Usus no envía nada.", "Datos para el análisis: edad, altura, experiencia, lesiones, molestias y objetivos, opcionales. Solo se guardan si quieres (Ajustes → Cuerpo).", "Si la IA propone rutinas ajustadas, pega su respuesta y elige cuáles actualizar.", "Datos en CSV (Ajustes → Datos): un .zip con una tabla por tipo de dato para analizarlos en una hoja de cálculo."],
     ca: ["Analitzar amb IA externa (Stats → Resum): Usus prepara un text amb les teves dades i les instruccions perquè la IA que facis servir (ChatGPT, Claude, Gemini…) faci un informe amb gràfics, a punt per imprimir en A4. Usus no envia res.", "Dades per a l'anàlisi: edat, alçada, experiència, lesions, molèsties i objectius, opcionals. Només es desen si vols (Ajustos → Cos).", "Si la IA proposa rutines ajustades, enganxa'n la resposta i tria quines actualitzar.", "Dades en CSV (Ajustos → Dades): un .zip amb una taula per tipus de dada per analitzar-les en un full de càlcul."],
@@ -3279,7 +3429,7 @@ function savedModal() {
     <h2 id="svT" style="margin:0">${T("Sesión guardada")}</h2>
     <p class="muted" style="margin:2px 0 0">${esc(s.routine || T("Sesión libre"))}</p>
     <div class="svst"><div><b>${fmtDur(s.end - s.start)}</b><small>${T("duración")}</small></div><div><b>${s.exercises.length}</b><small>${T("ejercicios")}</small></div><div><b>${doneSets(s)}</b><small>${T("series")}</small></div></div>
-    ${progCards()}
+    ${pemBlock(s)}${swapAskBlock(s)}${progCards()}
     <div class="row"><button class="btn" style="flex:1" data-act="saved-close">${T("Hecho")}</button><button class="btn primary shbtn" style="flex:1" data-shsess="${s.id}">${SHARE_ICO}${T("Compartir")}</button></div>
   </div></div>`;
 }
@@ -3707,10 +3857,16 @@ document.addEventListener("click", async ev => {
     if (p.mode === "ed") { state.editing.exercises.push(newFromCat(x)); toast(T("Añadido")); }
     else if (p.mode === "sess" && a) { a.exercises.push(buildExercise(xName(x), 3, "", x.type, !!x.sides, null, x.id)); state.exView = a.pre ? null : a.exercises.length - 1; state.sheet = false; saveActive(); }
     else if (p.mode === "link" && state.link) linkApply(p.k, x.id);
+    else if (p.mode === "swap" && a) { swapTo(p.ei, xName(x), x.id, x); toast(T("Cambiado solo en esta sesión")); }
     render(); return;
   }
   if (d.ownmat !== undefined && state.editing) { readEditor(); const e = state.editing.exercises[+d.ownmat]; state.ownMat = { i: +d.ownmat, equip: [...(e.equip || [])], other: e.other || "" }; render(); return; }
   if (d.fx) { LS.set("wk.fx", d.fx); render(); return; }
+  if (d.pem || d.spem) { const [id, n] = (d.pem || d.spem).split(":"); setPem(id, +n); render(); return; }
+  if (d.rir !== undefined && state.rirAsk && a) { const q = state.rirAsk, x = a.exercises[q.ei]?.sets[q.si]; if (x && +d.rir >= 0) x.rir = +d.rir; state.rirAsk = null; saveActive(); render(); return; }
+  if (d.enote !== undefined && a) { state.noteOpen = state.noteOpen === +d.enote ? null : +d.enote; render(); if (state.noteOpen !== null) document.querySelector(`[data-enotet="${d.enote}"]`)?.focus(); return; }
+  if (d.swap !== undefined && a) { state.noteOpen = null; if (catReady()) { state.xpick = { mode: "swap", ei: +d.swap, q: "" }; } else state.swap = { ei: +d.swap }; render(); setTimeout(() => (catReady() ? $("#xpQ") : $("#swName"))?.focus(), 0); return; }
+  if (d.swapundo !== undefined && a) { swapUndo(+d.swapundo); render(); return; }
   if (d.aiw !== undefined && state.ai) { state.ai.weeks = +d.aiw; render(); return; }
   if (d.cxw !== undefined && state.csvx) { state.csvx.weeks = +d.cxw; render(); return; }
   if (d.pgch !== undefined) { const p = state.progProps?.[+d.pgch]; if (p) { state.progChange = { k: +d.pgch, tgt: p.tgt }; render(); } return; }
@@ -3797,7 +3953,7 @@ document.addEventListener("click", async ev => {
   }
   if (d.done && a) {
     const [ei, si] = d.done.split(":").map(Number); const s = a.exercises[ei].sets[si];
-    s.done = !s.done; saveActive();
+    s.done = !s.done; if (!s.done) delete s.rir; state.rirAsk = s.done && EFF().rir && !isTime(a.exercises[ei]) ? { ei, si } : null; saveActive();
     if (s.done && !run) { const q = afterSet(ei, si); if (q.length) { unlockAudio(); startRun(q); return; } advanceIfDone(ei); }
     render(); return;
   }
@@ -3829,6 +3985,9 @@ document.addEventListener("click", async ev => {
     case "cx-go": { const pm = curProf(), pn = multiProf() ? `-${fileSlug(profName(pm))}` : ""; const files = csvBuild(state.csvx.weeks);
       if (Object.keys(files).length < 2) { toast(T("No hay datos para exportar")); return; }
       const ok = await deliver(`usus-${fileSlug(T("datos"))}${pn}-${stamp()}.zip`, makeZip(files), "application/zip"); if (ok) { state.csvx = null; render(); } break; }
+    case "sw-cancel": state.swap = null; render(); break;
+    case "sw-ok": { const n = ($("#swName")?.value || "").trim(); if (!n) { $("#swName")?.focus(); return; } const cx = catReady() ? catMatch(n, true) : null; swapTo(state.swap.ei, cx ? xName(cx) : n, cx?.id || null, cx); state.swap = null; toast(T("Cambiado solo en esta sesión")); render(); break; }
+    case "sw-routine": { const s = state.sessions.find(x => x.id === state.savedSess); if (s) { swapToRoutine(s); state.swapDone = s.id; toast(T("Rutina actualizada")); } render(); break; }
     case "pg-cancel": state.progChange = null; render(); break;
     case "pg-ok": { const c = state.progChange, p = state.progProps?.[c.k]; if (p && progApply(p, c.tgt)) { state.progProps.splice(c.k, 1); toast(T("Rutina actualizada")); } state.progChange = null; render(); break; }
     case "pu-ok": { const L = LS.get("wk.planUpLog", null); if (L) { L.seen = true; LS.set("wk.planUpLog", L); } render(); break; }
@@ -3841,6 +4000,7 @@ document.addEventListener("click", async ev => {
     case "xp-own": {
       const p = state.xpick, q = (p?.q || "").trim(); state.xpick = null;
       if (p?.mode === "ed") { state.editing.exercises.push({ name: q, sets: 3, reps: 10, type: "reps" }); render(); const inp = document.querySelector(`[data-en="${state.editing.exercises.length - 1}"]`); if (inp && !q) inp.focus(); }
+      else if (p?.mode === "swap" && a) { if (q) { swapTo(p.ei, q, null); toast(T("Cambiado solo en esta sesión")); render(); } else { state.swap = { ei: p.ei }; render(); $("#swName")?.focus(); } }
       else if (p?.mode === "sess" && a) { if (q) { a.exercises.push(buildExercise(q)); state.exView = a.pre ? null : a.exercises.length - 1; state.sheet = false; saveActive(); } render(); if (!q) $("#newEx")?.focus(); }
       break;
     }
@@ -4010,6 +4170,7 @@ document.addEventListener("input", ev => {
   }
 });
 document.addEventListener("input", ev => {
+  if (ev.target.dataset?.enotet !== undefined && state.active) { const e = state.active.exercises[+ev.target.dataset.enotet]; if (e) { e.note = ev.target.value.slice(0, 140); saveActive(); } return; }
   if (ev.target.id === "catQ") { state.catQ = ev.target.value; const l = $("#catList"); if (l) l.innerHTML = catListHTML(); }
   if (ev.target.id === "xpQ" && state.xpick) { state.xpick.q = ev.target.value; const l = $("#xpList"); if (l) l.innerHTML = xpListHTML(); const b = $("#xpOwn"); if (b) b.innerHTML = xpOwnLabel(); }
 });
@@ -4018,6 +4179,7 @@ document.addEventListener("change", async ev => {
   if (state.planMode === "edit" && ev.target.closest?.("#app") && (/^p(On|Start|Review|DlW|DlE|Up|UpRule)$/.test(ev.target.id) || ev.target.dataset.pv !== undefined || ev.target.dataset.pw !== undefined)) { readPlan(); render(); return; }
   const tg = ev.target, dk = state.day || dayKey(Date.now());
   if (tg.id === "progOn" || tg.id === "progUp" || tg.id === "progDown") { const P = PROG(); if (tg.id === "progOn") P.on = tg.checked; if (tg.id === "progUp") P.up = +tg.value; if (tg.id === "progDown") P.down = tg.value; LS.set("wk.prog", P); render(); return; }
+  if (tg.id === "effPem" || tg.id === "effRir") { LS.set("wk.effort", { ...EFF(), [tg.id === "effPem" ? "pem" : "rir"]: tg.checked }); render(); return; }
   if (tg.id === "catOnly") { state.catOnly = tg.checked; const l = $("#catList"); if (l) l.innerHTML = catListHTML(); return; }
   if (tg.dataset.omat && state.ownMat) { const k = tg.dataset.omat, l = state.ownMat.equip.filter(z => z !== k); if (tg.checked) l.push(k); state.ownMat.equip = l; return; }
   if (tg.dataset.myeq) { const k = tg.dataset.myeq, l = (myEquip() || []).filter(z => z !== k); if (tg.checked) l.push(k); LS.set("wk.equip", l.length ? MAT_ORDER(l) : null); render(); return; }
@@ -4701,6 +4863,63 @@ const I18N = {
     "Gran sesión": "Gran sessió",
     "Bitcoin": "Bitcoin",
     "Lightning / zaps": "Lightning / zaps",
+    "Cambiar ejercicio": "Canviar l'exercici",
+    "Solo en esta sesión. En lugar de {x}.": "Només en aquesta sessió. En lloc de {x}.",
+    "PEM": "PEM",
+    "Esfuerzo de la sesión (PEM)": "Esforç de la sessió (PEM)",
+    "Muy fácil": "Molt fàcil",
+    "Máximo": "Màxim",
+    "Carga: {m} min × {p} = {c}": "Càrrega: {m} min × {p} = {c}",
+    "Opcional. Ayuda a ver si una semana ha sido demasiado dura.": "Opcional. Ajuda a veure si una setmana ha estat massa dura.",
+    "¿Cuánto te ha costado?": "Quant t'ha costat?",
+    "Esfuerzo percibido de toda la sesión (PEM).": "Esforç percebut de tota la sessió (PEM).",
+    "¿Cuántas te quedaban?": "Quantes te'n quedaven?",
+    "serie {n}": "sèrie {n}",
+    "4 o más": "4 o més",
+    "Sin RIR": "Sense RIR",
+    "Cambiaste 1 ejercicio": "Vas canviar 1 exercici",
+    "Cambiaste {n} ejercicios": "Vas canviar {n} exercicis",
+    "{x} en lugar de {y}.": "{x} en lloc de {y}.",
+    "Cambiado también en la rutina": "Canviat també a la rutina",
+    "Cambiar también en la rutina": "Canviar també a la rutina",
+    "Si no, solo hoy.": "Si no, només avui.",
+    "Aún no hay sesiones con esfuerzo (PEM). Se pregunta al terminar cada sesión.": "Encara no hi ha sessions amb esforç (PEM). Es pregunta en acabar cada sessió.",
+    "Activa «Preguntar el esfuerzo al terminar» en Ajustes → Entreno.": "Activa «Preguntar l'esforç en acabar» a Ajustos → Entrenament.",
+    "PEM × minutos de cada sesión, sumado por semana.": "PEM × minuts de cada sessió, sumat per setmana.",
+    "Semana del {d}: +{p} %": "Setmana del {d}: +{p} %",
+    "sobre la media de las 4 anteriores. Si no fue a propósito, vigila el descanso.": "sobre la mitjana de les 4 anteriors. Si no va ser expressament, vigila el descans.",
+    "PEM media · 4 semanas": "PEM mitjana · 4 setmanes",
+    "Primera vez con este ejercicio": "Primera vegada amb aquest exercici",
+    "La última vez lo cambiaste por {x}": "L'última vegada el vas canviar per {x}",
+    "en lugar de {x}": "en lloc de {x}",
+    "Ej. molestia en el codo, banda verde, agarre más abierto…": "P. ex. molèstia al colze, banda verda, presa més oberta…",
+    "RIR": "RIR",
+    "Esfuerzo": "Esforç",
+    "Preguntar el esfuerzo al terminar": "Preguntar l'esforç en acabar",
+    "PEM del 1 al 10, opcional en cada sesión": "PEM de l'1 al 10, opcional a cada sessió",
+    "RIR por serie": "RIR per sèrie",
+    "Repeticiones en reserva al marcar cada serie. Para afinar la intensidad.": "Repeticions en reserva en marcar cada sèrie. Per afinar la intensitat.",
+    "La PEM y la carga (PEM × minutos) se ven en el Diario y en Stats → Entreno, y van en el análisis con IA y en el CSV.": "La PEM i la càrrega (PEM × minuts) es veuen al Diari i a Stats → Entrenament, i van a l'anàlisi amb IA i al CSV.",
+    "Cambiado solo en esta sesión": "Canviat només en aquesta sessió",
+    "Fácil": "Fàcil",
+    "Moderado": "Moderat",
+    "Algo exigente": "Una mica exigent",
+    "Exigente": "Exigent",
+    "Bastante duro": "Força dur",
+    "Muy duro": "Molt dur",
+    "Durísimo": "Duríssim",
+    "Casi al límite": "Gairebé al límit",
+    "Podrías hablar sin esfuerzo; casi un calentamiento.": "Podries parlar sense esforç; gairebé un escalfament.",
+    "Cómodo de principio a fin.": "Còmode de principi a fi.",
+    "Notas el trabajo, pero sobra margen.": "Notes la feina, però sobra marge.",
+    "Respiración marcada; aún bastante margen.": "Respiració marcada; encara força marge.",
+    "Cuesta, pero lo controlas bien.": "Costa, però ho controles bé.",
+    "Las últimas series ya pesan.": "Les últimes sèries ja pesen.",
+    "Terminas cansado; poco margen al final.": "Acabes cansat; poc marge al final.",
+    "Muy cerca del límite en varias series.": "Molt a prop del límit en diverses sèries.",
+    "No habrías podido hacer mucho más.": "No hauries pogut fer gaire més.",
+    "Todo lo que tenías.": "Tot el que tenies.",
+    "Carga semanal": "Càrrega setmanal",
     "Fecha de nacimiento": "Data de naixement",
     "Altura (cm)": "Alçada (cm)",
     "Experiencia entrenando": "Experiència entrenant",
@@ -5689,6 +5908,63 @@ const I18N = {
     "Gran sesión": "Great session",
     "Bitcoin": "Bitcoin",
     "Lightning / zaps": "Lightning / zaps",
+    "Cambiar ejercicio": "Swap exercise",
+    "Solo en esta sesión. En lugar de {x}.": "This session only. Instead of {x}.",
+    "PEM": "RPE",
+    "Esfuerzo de la sesión (PEM)": "Session effort (RPE)",
+    "Muy fácil": "Very easy",
+    "Máximo": "Maximal",
+    "Carga: {m} min × {p} = {c}": "Load: {m} min × {p} = {c}",
+    "Opcional. Ayuda a ver si una semana ha sido demasiado dura.": "Optional. Helps spot weeks that were too hard.",
+    "¿Cuánto te ha costado?": "How hard was it?",
+    "Esfuerzo percibido de toda la sesión (PEM).": "Perceived effort for the whole session (RPE).",
+    "¿Cuántas te quedaban?": "How many were left in the tank?",
+    "serie {n}": "set {n}",
+    "4 o más": "4 or more",
+    "Sin RIR": "No RIR",
+    "Cambiaste 1 ejercicio": "You swapped 1 exercise",
+    "Cambiaste {n} ejercicios": "You swapped {n} exercises",
+    "{x} en lugar de {y}.": "{x} instead of {y}.",
+    "Cambiado también en la rutina": "Also changed in the routine",
+    "Cambiar también en la rutina": "Also change in the routine",
+    "Si no, solo hoy.": "Otherwise, just today.",
+    "Aún no hay sesiones con esfuerzo (PEM). Se pregunta al terminar cada sesión.": "No sessions with effort (RPE) yet. It's asked at the end of each session.",
+    "Activa «Preguntar el esfuerzo al terminar» en Ajustes → Entreno.": "Turn on “Ask for effort at the end” in Settings → Workout.",
+    "PEM × minutos de cada sesión, sumado por semana.": "RPE × minutes of each session, summed per week.",
+    "Semana del {d}: +{p} %": "Week of {d}: +{p}%",
+    "sobre la media de las 4 anteriores. Si no fue a propósito, vigila el descanso.": "over the average of the previous 4. If it wasn't on purpose, watch your rest.",
+    "PEM media · 4 semanas": "Average RPE · 4 weeks",
+    "Primera vez con este ejercicio": "First time with this exercise",
+    "La última vez lo cambiaste por {x}": "Last time you swapped it for {x}",
+    "en lugar de {x}": "instead of {x}",
+    "Ej. molestia en el codo, banda verde, agarre más abierto…": "E.g. elbow discomfort, green band, wider grip…",
+    "RIR": "RIR",
+    "Esfuerzo": "Effort",
+    "Preguntar el esfuerzo al terminar": "Ask for effort at the end",
+    "PEM del 1 al 10, opcional en cada sesión": "RPE from 1 to 10, optional each session",
+    "RIR por serie": "RIR per set",
+    "Repeticiones en reserva al marcar cada serie. Para afinar la intensidad.": "Reps in reserve when you tick each set. To fine-tune intensity.",
+    "La PEM y la carga (PEM × minutos) se ven en el Diario y en Stats → Entreno, y van en el análisis con IA y en el CSV.": "RPE and load (RPE × minutes) show in the Diary and in Stats → Workout, and are included in the AI analysis and the CSV.",
+    "Cambiado solo en esta sesión": "Swapped for this session only",
+    "Fácil": "Easy",
+    "Moderado": "Moderate",
+    "Algo exigente": "Somewhat hard",
+    "Exigente": "Hard",
+    "Bastante duro": "Quite hard",
+    "Muy duro": "Very hard",
+    "Durísimo": "Extremely hard",
+    "Casi al límite": "Near maximal",
+    "Podrías hablar sin esfuerzo; casi un calentamiento.": "You could chat easily; almost a warm-up.",
+    "Cómodo de principio a fin.": "Comfortable from start to finish.",
+    "Notas el trabajo, pero sobra margen.": "You feel the work, but there's plenty left.",
+    "Respiración marcada; aún bastante margen.": "Heavier breathing; still quite a lot left.",
+    "Cuesta, pero lo controlas bien.": "It's tough, but well under control.",
+    "Las últimas series ya pesan.": "The last sets are getting heavy.",
+    "Terminas cansado; poco margen al final.": "You finish tired; little left at the end.",
+    "Muy cerca del límite en varias series.": "Very close to failure on several sets.",
+    "No habrías podido hacer mucho más.": "You couldn't have done much more.",
+    "Todo lo que tenías.": "Everything you had.",
+    "Carga semanal": "Weekly load",
     "Fecha de nacimiento": "Date of birth",
     "Altura (cm)": "Height (cm)",
     "Experiencia entrenando": "Training experience",

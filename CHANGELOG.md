@@ -4,6 +4,21 @@ Todas las versiones de Usus. Formato basado en [Keep a Changelog](https://keepac
 
 **Castellano** · [Català](#català) · [English](#english)
 
+## [2.2.0] — sin publicar
+
+### Esfuerzo
+- Al terminar la sesión, **¿Cuánto te ha costado?**: PEM del 1 al 10 (esfuerzo percibido), opcional, con una descripción de cada nivel. Se puede poner o cambiar después en el Diario.
+- **Carga** = PEM × minutos. Nuevo bloque en Stats → Entreno: carga semanal de las últimas 8 semanas, aviso si una semana supera en más de un 30 % la media de las 4 anteriores, y PEM media.
+- **RIR por serie** (repeticiones en reserva, 0–4+), opcional y desactivado por defecto: al marcar una serie, en la tarjeta y en la pantalla de descanso. «Anterior» lo muestra.
+- El asistente usa la PEM: 9–10 en dos sesiones seguidas sin llegar al objetivo también propone volver al paso anterior.
+- Ajustes → Entreno → **Esfuerzo**: preguntar la PEM (activado) y RIR por serie (desactivado).
+
+### Cambiar ejercicio y notas
+- **⇄ Cambiar ejercicio** en la sesión: del catálogo (primero los del mismo tipo) o propio. Las series cuentan para el ejercicio que haces; la sesión recuerda a cuál sustituía y se puede deshacer.
+- Al terminar, si cambiaste algo: **Cambiar también en la rutina** (si no, solo ese día). Si vuelves al original, la próxima vez recuerda por cuál lo cambiaste.
+- **✎ Nota** por ejercicio (140 caracteres). Se ve la próxima vez junto a «Anterior» y en el Diario.
+- PEM, carga, RIR, sustituciones y notas van en el análisis con IA y en el CSV.
+
 ## [2.1.0] — sin publicar
 
 ### Análisis con IA externa
@@ -134,6 +149,10 @@ Primera versión pública.
 
 ## Català
 
+### [2.2.0] — sense publicar
+- Esforç de la sessió (PEM 1–10) i càrrega setmanal; RIR per sèrie opcional.
+- Canviar un exercici només a la sessió i notes per exercici.
+
 ### [2.1.0] — sense publicar
 - Analitzar amb IA externa: un text amb instruccions i les teves dades per a la IA que facis servir (informe amb gràfics i PDF A4). Dades opcionals per a l'anàlisi.
 - Dades en CSV: un .zip amb una taula per tipus de dada.
@@ -175,6 +194,10 @@ Primera versió pública: rutines amb sèries per repeticions o per temps, compt
 ---
 
 ## English
+
+### [2.2.0] — unreleased
+- Session effort (RPE 1–10) and weekly load; optional RIR per set.
+- Swap an exercise for one session only, and notes per exercise.
 
 ### [2.1.0] — unreleased
 - Analyse with external AI: a text with instructions and your data for the AI you use (report with charts and an A4 PDF). Optional data for the analysis.
