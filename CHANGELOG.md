@@ -4,7 +4,7 @@ Todas las versiones de Usus. Formato basado en [Keep a Changelog](https://keepac
 
 **Castellano** · [Català](#català) · [English](#english)
 
-## [2.2.0] — sin publicar
+## [2.2.0] — 2026-10-13
 
 ### Esfuerzo
 - Al terminar la sesión, **¿Cuánto te ha costado?**: PEM del 1 al 10 (esfuerzo percibido), opcional, con una descripción de cada nivel. Se puede poner o cambiar después en el Diario.
@@ -19,7 +19,7 @@ Todas las versiones de Usus. Formato basado en [Keep a Changelog](https://keepac
 - **✎ Nota** por ejercicio (140 caracteres). Se ve la próxima vez junto a «Anterior» y en el Diario.
 - PEM, carga, RIR, sustituciones y notas van en el análisis con IA y en el CSV.
 
-## [2.1.0] — sin publicar
+## [2.1.0] — 2026-10-13
 
 ### Análisis con IA externa
 - Stats → Resumen: **Analizar con IA externa**, marcado como externo. Usus genera un único texto (instrucciones + tus datos) para copiar o compartir con la IA que uses. Usus no envía nada.
@@ -149,11 +149,11 @@ Primera versión pública.
 
 ## Català
 
-### [2.2.0] — sense publicar
+### [2.2.0] — 2026-10-13
 - Esforç de la sessió (PEM 1–10) i càrrega setmanal; RIR per sèrie opcional.
 - Canviar un exercici només a la sessió i notes per exercici.
 
-### [2.1.0] — sense publicar
+### [2.1.0] — 2026-10-13
 - Analitzar amb IA externa: un text amb instruccions i les teves dades per a la IA que facis servir (informe amb gràfics i PDF A4). Dades opcionals per a l'anàlisi.
 - Dades en CSV: un .zip amb una taula per tipus de dada.
 
@@ -195,11 +195,11 @@ Primera versió pública: rutines amb sèries per repeticions o per temps, compt
 
 ## English
 
-### [2.2.0] — unreleased
+### [2.2.0] — 2026-10-13
 - Session effort (RPE 1–10) and weekly load; optional RIR per set.
 - Swap an exercise for one session only, and notes per exercise.
 
-### [2.1.0] — unreleased
+### [2.1.0] — 2026-10-13
 - Analyse with external AI: a text with instructions and your data for the AI you use (report with charts and an A4 PDF). Optional data for the analysis.
 - Data as CSV: a .zip with one table per data type.
 
