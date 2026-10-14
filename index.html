@@ -308,6 +308,7 @@ details.sess td:first-child{font-weight:500;padding-right:12px;width:40%}
 .pcn button{width:30px;height:30px;border-radius:8px;border:1px solid var(--line);background:var(--surface);padding:0}
 .pgnote{border-color:var(--ok);margin-top:12px}
 a.btn{text-decoration:none;display:inline-flex;align-items:center}
+.badge-ok{font-size:.72rem;font-weight:600;color:var(--ok);border:1px solid var(--ok);border-radius:999px;padding:1px 8px}
 .pgl{margin:0;padding-left:18px;font-size:.88rem}
 .pchain{margin:4px 0 12px}
 .pst{display:flex;align-items:center;gap:8px;padding:5px 0 5px 22px;position:relative;font-size:.9rem;flex-wrap:wrap}
@@ -364,7 +365,7 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center}
 .swapnote button{border:0;background:none;color:var(--warn);text-decoration:underline;padding:0;font:inherit}
 .exnote{width:100%;margin-top:8px;font:inherit;font-size:.88rem;resize:vertical;min-height:2.6em}
 .hint2{display:block;font-size:.78rem;color:var(--muted);margin-top:2px}
-.ldch{display:flex;align-items:flex-end;gap:5px;height:130px;margin:10px 0 2px;padding-top:14px}
+.ldch{display:flex;align-items:flex-end;gap:5px;height:140px;margin:10px 0 2px;padding-top:22px}
 .ldch div{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:3px;height:100%;min-width:0}
 .ldch i{display:block;width:100%;border-radius:5px 5px 2px 2px;background:var(--accent)}
 .ldch i.cur{opacity:.55}
@@ -522,6 +523,18 @@ textarea{width:100%;font:inherit;padding:10px 12px;border:1px solid var(--line);
 .hm .l1{background:color-mix(in srgb,var(--ok) 55%,var(--surface))}
 .hm .l2{background:var(--accent)}
 .hm .fut{background:none;border:1px dashed var(--line)}
+.hm .skip{background:repeating-linear-gradient(45deg,var(--line) 0 3px,color-mix(in srgb,var(--warn) 45%,var(--surface)) 3px 6px)}
+.hm span.n{position:relative}
+.hm span.n::after{content:"";position:absolute;right:-2px;top:-2px;width:6px;height:6px;border-radius:50%;background:var(--warn);border:1.5px solid var(--surface)}
+.hm [data-dnote]{cursor:pointer}
+.ldn{display:block;flex:none;width:12px;height:12px;border-radius:50%;background:var(--warn);border:2px solid var(--surface);padding:0;margin:0 auto 2px;cursor:pointer}
+.ndot{cursor:pointer}
+.dnd+.dnd{border-top:1px solid var(--line);margin-top:12px;padding-top:12px}
+.dnsrc{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin:10px 0 2px}
+.dntag{display:inline-block;font-size:.75rem;border:1px solid var(--line);border-radius:999px;padding:0 8px;margin:2px 4px 0 0;color:var(--muted)}
+.dntag.skip{border-color:var(--warn);color:var(--warn)}
+.exnl{list-style:none;margin:10px 0 0;padding:0;font-size:.88rem}.exnl li{display:flex;gap:10px;padding:7px 0;border-top:1px solid var(--line)}
+.exnl .d{min-width:58px;color:var(--muted);font-size:.8rem}
 .legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:10px;color:var(--muted);font-size:.8rem;align-items:center}
 .legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
 .exr{display:grid;grid-template-columns:minmax(0,1fr) 72px 58px;gap:8px;align-items:center;width:100%;background:none;border:0;border-top:1px solid var(--line);padding:10px 0;text-align:left}
@@ -695,7 +708,7 @@ function lastSetsFor(ref) {
   }
   return null;
 }
-const APP_VERSION = "2.2.2";
+const APP_VERSION = "2.3.0";
 const THEMES = [["protector", "Protector", "Oscuro cálido, sin azul"], ["dark", "Oscuro", "Neutro"], ["light", "Claro", "Para el día"], ["auto", "Automático", "Sigue al sistema"]];
 const curTheme = () => document.documentElement.dataset.theme || "auto";
 function applyTheme(t) {
@@ -1776,8 +1789,9 @@ function sbCarga(S, now) {
   const mx = Math.max(...load), cur = load[7], lw = load[6], prev4 = load.slice(2, 6).filter(Boolean), avg = prev4.length >= 2 ? prev4.reduce((a, b) => a + b, 0) / prev4.length : 0;
   const hiW = avg && lw > avg * 1.3 ? 6 : avg && cur > avg * 1.3 ? 7 : -1;
   const recent = S.filter(s => +s.pem > 0 && s.start >= now - 28 * 864e5), pm = recent.length ? recent.reduce((a, s) => a + +s.pem, 0) / recent.length : 0;
+  const nd = noteDays(), wn = ws.map(t => Array.from({ length: 7 }, (_, d) => dayKey(addDays(t, d))).filter(k => nd.has(k)));
   return `<div class="panel"><p class="muted" style="font-size:.8rem;margin:0">${T("PEM × minutos de cada sesión, sumado por semana.")}</p>
-    <div class="ldch">${load.map((v, i) => `<div><b>${v || ""}</b><i class="${i === hiW ? "hi" : ""}${i === 7 ? " cur" : ""}" style="height:${mx ? Math.max(v ? 4 : 0, v / mx * 100) : 0}%"></i><small>${new Date(ws[i]).toLocaleDateString(LOC(), { day: "numeric", month: "short" })}</small></div>`).join("")}</div>
+    <div class="ldch">${load.map((v, i) => `<div>${wn[i].length ? `<button class="ldn" data-dnote="${wn[i].join(",")}" aria-label="${T("Ver notas")}"></button>` : ""}<b>${v || ""}</b><i class="${i === hiW ? "hi" : ""}${i === 7 ? " cur" : ""}" style="height:${mx ? Math.max(v ? 4 : 0, v / mx * 100) : 0}%"></i><small>${new Date(ws[i]).toLocaleDateString(LOC(), { day: "numeric", month: "short" })}</small></div>`).join("")}</div>
     ${hiW >= 0 ? `<div class="aiwarn" style="margin:10px 0 0"><b>${T("Semana del {d}: +{p} %", { d: new Date(ws[hiW]).toLocaleDateString(LOC(), { day: "numeric", month: "long" }), p: Math.round((load[hiW] / avg - 1) * 100) })}</b>${T("sobre la media de las 4 anteriores. Si no fue a propósito, vigila el descanso.")}</div>` : ""}
     ${pm ? `<div class="row" style="justify-content:space-between;font-size:.85rem;margin-top:10px"><span class="muted">${T("PEM media · 4 semanas")}</span><b>${fmtNum(pm)}</b></div>` : ""}</div>`;
 }
@@ -1805,7 +1819,7 @@ function render() {
   if (state.tab === "history") state.tab = "diary";
   const v = state.actForm ? viewActForm : state.tab === "data" && state.link ? viewLink : { train: viewTrain, routines: viewRoutines, diary: viewDiary, stats: viewStats, data: viewData }[state.tab];
   const mb = document.querySelector(".mbox.dsh"), mbTop = mb ? mb.scrollTop : 0;
-  $("#app").innerHTML = v() + focusView() + welcomeModal() + newsModal() + cycAckModal() + savedModal() + shareSessModal() + shareRoutModal() + incomingModal() + profPickModal() + profFormModal() + profEditModal() + profCopyModal() + issueModal() + exInfoModal() + xpickModal() + ownMatModal() + catAskModal() + progChangeModal() + aiModal() + csvModal() + swapModal();
+  $("#app").innerHTML = v() + focusView() + welcomeModal() + newsModal() + cycAckModal() + savedModal() + shareSessModal() + shareRoutModal() + incomingModal() + profPickModal() + profFormModal() + profEditModal() + profCopyModal() + issueModal() + exInfoModal() + xpickModal() + ownMatModal() + catAskModal() + progChangeModal() + aiModal() + csvModal() + swapModal() + dayNoteModal();
   if (mb) { const nb = document.querySelector(".mbox.dsh"); if (nb) nb.scrollTop = mbTop; }
   if (state.tab === "train" && state.active && !state.actForm) tick();
   if (state.shareSess && SHOPT().img) sessPreview();
@@ -2784,7 +2798,7 @@ function sbResumen(S, now) {
   </div>`;
 }
 function sbConstancia(S, now) {
-  const lvl = new Map();
+  const lvl = new Map(), nd = noteDays(), D = DY.all();
   S.forEach(s => { const d = dayStart(s.start); lvl.set(d, Math.max(lvl.get(d) || 0, isStrength(s) ? 2 : catOf(s) === "diaria" ? 1 : 1)); });
   const first = addDays(weekStart(now), -77), today = dayStart(now);
   const DL = T("L,M,X,J,V,S,D").split(",");
@@ -2794,14 +2808,15 @@ function sbConstancia(S, now) {
     for (let w = 0; w < 12; w++) {
       const t = addDays(first, w * 7 + d), v = lvl.get(t) || 0;
       const dt = new Date(t);
-      h += `<span class="${t > today ? "fut" : v === 2 ? "l2" : v === 1 ? "l1" : ""}" title="${dt.toLocaleDateString(LOC())}" ${t <= today ? `data-day="${dayKey(t)}" role="button" tabindex="0"` : ""}></span>`;
+      const k = dayKey(t), hasN = t <= today && nd.has(k), skip = !v && (D[k]?.tags || []).includes("skip");
+      h += `<span class="${t > today ? "fut" : v === 2 ? "l2" : v === 1 ? "l1" : skip ? "skip" : ""}${hasN ? " n" : ""}" title="${dt.toLocaleDateString(LOC())}${hasN ? " · " + T("Con nota") : ""}" ${t <= today ? `${hasN ? "data-dnote" : "data-day"}="${k}" role="button" tabindex="0"` : ""}></span>`;
     }
   }
   h += `<span class="ml"></span>`;
   let lastM = -1;
   for (let w = 0; w < 12; w++) { const m = new Date(addDays(first, w * 7)).getMonth(); h += `<span class="ml">${m !== lastM ? MESES[m] : ""}</span>`; lastM = m; }
   return `<div class="panel"><div class="hm" role="img" aria-label="${T("Calendario de las últimas 12 semanas")}">${h}</div>
-    <div class="legend"><span><i style="background:color-mix(in srgb,var(--ok) 55%,var(--surface))"></i>${T("Diaria / otras")}</span><span><i style="background:var(--accent)"></i>${T("Con fuerza")}</span><span><i style="background:var(--line)"></i>${T("Sin entrenar")}</span></div></div>`;
+    <div class="legend"><span><i style="background:color-mix(in srgb,var(--ok) 55%,var(--surface))"></i>${T("Diaria / otras")}</span><span><i style="background:var(--accent)"></i>${T("Con fuerza")}</span><span><i style="background:var(--line)"></i>${T("Sin entrenar")}</span></span><span><i style="background:repeating-linear-gradient(45deg,var(--line) 0 2px,color-mix(in srgb,var(--warn) 45%,var(--surface)) 2px 4px)"></i>${T("No entrené")}</span><span><i style="background:var(--warn);border-radius:50%"></i>${T("Con nota")}</div></div>`;
 }
 function sbRecords(IX, now) {
   const recs = [];
@@ -2875,6 +2890,7 @@ function sbPeso(now) {
     if (g) sv += `<line x1="${pl}" x2="${WD - pr}" y1="${Y(g)}" y2="${Y(g)}" stroke-width="2" stroke-dasharray="6 5" style="stroke:var(--ok)"/><text x="${WD - pr}" y="${Y(g) - 6}" text-anchor="end" font-size="11" style="fill:var(--ok)">${T("objetivo")}</text>`;
     sv += `<polyline fill="none" stroke-width="2.5" stroke-linejoin="round" style="stroke:var(--accent)" points="${trend.map((v, i) => `${X(i)},${Y(v)}`).join(" ")}"/>`;
     l.forEach((x, i) => { const d = new Date(x.t); sv += `<circle cx="${X(i)}" cy="${Y(x.kg)}" r="3.5" style="fill:var(--surface);stroke:var(--muted)" stroke-width="1.5"><title>${d.toLocaleDateString(LOC())} · ${fmtW(x.kg)}</title></circle>`; });
+    const nd = noteDays(); l.forEach((x, i) => { const k = dayKey(x.t); if (nd.has(k)) sv += noteDot(X(i), Math.max(8, Y(x.kg) - 13), [k]); });
     const idx = l.length <= 6 ? l.map((_, i) => i) : [0, Math.floor(l.length / 3), Math.floor(2 * l.length / 3), l.length - 1];
     idx.forEach(i => { const d = new Date(l[i].t); sv += `<text x="${X(i)}" y="${H - 6}" text-anchor="${i === 0 ? "start" : i === l.length - 1 ? "end" : "middle"}" font-size="11" style="fill:var(--muted)">${d.getDate()} ${MESES[d.getMonth()]}</text>`; });
     chart = `<div class="chart" style="margin-top:12px">${sv}</svg></div><div class="legend"><span><i style="background:var(--muted);border-radius:50%"></i>${T("Pesajes")}</span><span><i style="background:var(--accent)"></i>${T("Tendencia (media de 3)")}</span>${g ? `<span><i style="background:var(--ok)"></i>${T("Objetivo")}</span>` : ""}</div>`;
@@ -2906,16 +2922,18 @@ function sbPasos(now) {
   const rec = days.filter(k => st(k) > 0);
   if (!rec.length) return `<div class="panel muted">${T("Anota tus pasos en Diario → Pasos para verlos aquí.")}</div>`;
   const avg = rec.reduce((p, k) => p + st(k), 0) / rec.length, best = rec.reduce((m, k) => st(k) > st(m) ? k : m, rec[0]);
-  const bars = per <= 30 ? days.map(k => ({ v: st(k), l: new Date(keyTime(k)).getDate(), t: new Date(keyTime(k)).toLocaleDateString(LOC()) }))
-    : Array.from({ length: 13 }, (_, w) => { const grp = days.slice(w * 7, w * 7 + 7).filter(k => st(k) > 0), d0 = new Date(keyTime(days[w * 7]));
-      return { v: grp.length ? grp.reduce((p, k) => p + st(k), 0) / grp.length : 0, l: `${d0.getDate()}/${d0.getMonth() + 1}`, t: d0.toLocaleDateString(LOC()) }; });
-  const mx = Math.max(1, goal, ...bars.map(b => b.v)), VW = 640, H = 130, pb = 22, pt = 8, bw = VW / bars.length, Y = v => pt + (1 - v / mx) * (H - pb - pt);
+  const nd = noteDays();
+  const bars = per <= 30 ? days.map(k => ({ v: st(k), l: new Date(keyTime(k)).getDate(), t: new Date(keyTime(k)).toLocaleDateString(LOC()), nk: nd.has(k) ? [k] : [] }))
+    : Array.from({ length: 13 }, (_, w) => { const wk = days.slice(w * 7, w * 7 + 7), grp = wk.filter(k => st(k) > 0), d0 = new Date(keyTime(days[w * 7]));
+      return { v: grp.length ? grp.reduce((p, k) => p + st(k), 0) / grp.length : 0, l: `${d0.getDate()}/${d0.getMonth() + 1}`, t: d0.toLocaleDateString(LOC()), nk: wk.filter(k => nd.has(k)) }; });
+  const mx = Math.max(1, goal, ...bars.map(b => b.v)) * 1.12, VW = 640, H = 130, pb = 22, pt = 8, bw = VW / bars.length, Y = v => pt + (1 - v / mx) * (H - pb - pt);
   const every = bars.length > 20 ? 5 : bars.length > 8 ? 2 : 1;
   let sv = `<svg viewBox="0 0 ${VW} ${H}" role="img" aria-label="${T("Pasos")}">`;
   if (goal) sv += `<line x1="0" x2="${VW}" y1="${Y(goal)}" y2="${Y(goal)}" stroke-dasharray="6 5" style="stroke:var(--ok)"/>`;
   bars.forEach((b, i) => { const x = i * bw + bw * .18, hit = goal && b.v >= goal;
     if (b.v) sv += `<rect x="${x}" y="${Y(b.v)}" width="${bw * .64}" height="${H - pb - Y(b.v)}" rx="3" style="fill:${hit ? "var(--ok)" : "var(--accent)"}"><title>${b.t} · ${Math.round(b.v).toLocaleString(LOC())}</title></rect>`;
     if (i % every === every - 1 || i === bars.length - 1) sv += `<text x="${x + bw * .32}" y="${H - 6}" text-anchor="middle" font-size="11" style="fill:var(--muted)">${b.l}</text>`; });
+  bars.forEach((b, i) => { if (b.nk.length) sv += noteDot(i * bw + bw / 2, Math.max(8, (b.v ? Y(b.v) : H - pb) - 9), b.nk); });
   sv += "</svg>";
   const k = (b, l) => `<div><b>${b}</b><span>${l}</span></div>`;
   return `<div class="panel"><div class="kpis3">${k(fmtNum(avg, 0), T("Media diaria"))}${k(fmtNum(st(best), 0), T("Mejor día"))}${k(goal ? `${rec.filter(x => st(x) >= goal).length}/${rec.length}` : String(rec.length), goal ? T("Días con objetivo") : T("Días registrados"))}</div>
@@ -2931,15 +2949,17 @@ function sbSueno(now) {
   const bedMed = median(beds) % 1440;
   // gráfico: noches (7 y 30 días) o media por semana (90 días)
   const nn = per <= 30 ? per : 91, nk = Array.from({ length: nn }, (_, i) => dayKey(addDays(now, i - (nn - 1)))), nv = nk.map(k => sleepMin(all[k]?.sleep));
-  const grp = per <= 30 ? nk.map((k, i) => ({ v: nv[i], l: new Date(keyTime(k)).getDate(), t: new Date(keyTime(k)).toLocaleDateString(LOC()) }))
-    : Array.from({ length: 13 }, (_, w) => { const g = nv.slice(w * 7, w * 7 + 7).filter(v => v !== null), d0 = new Date(keyTime(nk[w * 7])); return { v: g.length ? g.reduce((p, q) => p + q, 0) / g.length : null, l: `${d0.getDate()}/${d0.getMonth() + 1}`, t: `${d0.toLocaleDateString(LOC())} · ${T("media")}` }; });
-  const mx = Math.max(600, ...grp.map(x => x.v).filter(v => v !== null)), WD = 640, H = 150, pb = 22, pt = 10, bw = WD / grp.length, ev = grp.length > 20 ? 5 : grp.length > 8 ? 2 : 1;
+  const nd = noteDays();
+  const grp = per <= 30 ? nk.map((k, i) => ({ v: nv[i], l: new Date(keyTime(k)).getDate(), t: new Date(keyTime(k)).toLocaleDateString(LOC()), nk: nd.has(k) ? [k] : [] }))
+    : Array.from({ length: 13 }, (_, w) => { const g = nv.slice(w * 7, w * 7 + 7).filter(v => v !== null), d0 = new Date(keyTime(nk[w * 7])); return { v: g.length ? g.reduce((p, q) => p + q, 0) / g.length : null, l: `${d0.getDate()}/${d0.getMonth() + 1}`, t: `${d0.toLocaleDateString(LOC())} · ${T("media")}`, nk: nk.slice(w * 7, w * 7 + 7).filter(k => nd.has(k)) }; });
+  const mx = Math.max(600, ...grp.map(x => x.v).filter(v => v !== null)) * 1.1, WD = 640, H = 150, pb = 22, pt = 10, bw = WD / grp.length, ev = grp.length > 20 ? 5 : grp.length > 8 ? 2 : 1;
   let sv = `<svg viewBox="0 0 ${WD} ${H}" role="img" aria-label="${T("Horas de sueño")}">`;
   const Y = v => pt + (1 - v / mx) * (H - pb - pt);
   sv += `<line x1="0" x2="${WD}" y1="${Y(avg)}" y2="${Y(avg)}" stroke-width="1.5" stroke-dasharray="6 5" style="stroke:var(--ok)"/><text x="${WD - 4}" y="${Y(avg) - 5}" text-anchor="end" font-size="11" style="fill:var(--ok)">${T("media")} ${fmtHM(avg)}</text>`;
   grp.forEach((g, i) => { const x = i * bw + bw * 0.18;
     if (g.v !== null) sv += `<rect x="${x}" y="${Y(g.v)}" width="${bw * 0.64}" height="${H - pb - Y(g.v)}" rx="3" style="fill:var(--accent)"><title>${g.t} · ${fmtHM(g.v)}</title></rect>`;
     if (i % ev === ev - 1 || i === grp.length - 1) sv += `<text x="${x + bw * 0.32}" y="${H - 6}" text-anchor="middle" font-size="11" style="fill:var(--muted)">${g.l}</text>`; });
+  grp.forEach((g, i) => { if (g.nk.length) sv += noteDot(i * bw + bw / 2, Math.max(8, (g.v !== null ? Y(g.v) : H - pb) - 9), g.nk); });
   sv += "</svg>";
   // sueño de la noche antes de un día con o sin fuerza
   const withS = [], without = [];
@@ -2983,15 +3003,59 @@ function suplLog(now) {
     <div class="sgrid" role="group" aria-label="${T("Registro de tomas · 14 días")}">${head}${rows}</div>
     <p class="muted" style="font-size:.78rem;margin:10px 0 0">● ${T("Tomado")} · ○ ${T("No tomado")} · ${T("Toca un día para abrirlo en el Diario.")}</p>`;
 }
-function sbNotas(now) {
-  const all = DY.all(), keys = Object.keys(all).filter(k => keyTime(k) >= dayStart(now - (statsPer() - 1) * 864e5) && keyTime(k) <= now).sort().reverse();
-  const cnt = {}; keys.forEach(k => (all[k].tags || []).forEach(t => cnt[t] = (cnt[t] || 0) + 1));
-  const notes = keys.filter(k => (all[k].note || "").trim()).slice(0, 5);
-  if (!notes.length && !Object.keys(cnt).length) return `<div class="panel muted">${T("Sin notas en este periodo.")}</div>`;
-  return `<div class="panel">${Object.keys(cnt).length ? `<div class="chips" style="margin-top:0">${TAGS.filter(([t]) => cnt[t]).map(([t, n]) => `<span class="chip">${T(n)} · ${cnt[t]}</span>`).join("")}</div>` : ""}
-    ${notes.map(k => `<button class="noteb" data-day="${k}"><span class="muted" style="font-size:.8rem">${new Date(keyTime(k)).toLocaleDateString(LOC(), { weekday: "short", day: "numeric", month: "short" })}</span><span>${esc(all[k].note.length > 140 ? all[k].note.slice(0, 140) + "…" : all[k].note)}</span></button>`).join("")}</div>`;
+/* Notas de un día, de todas partes: diario (nota y etiquetas), ejercicios (nota y cambio), actividades y suplementos */
+function dayNotes(k) {
+  const d = DY.get(k), o = { k, tags: d.tags || [], day: (d.note || "").trim(), ses: [], ex: [], act: [], sup: [] };
+  state.sessions.filter(x => dayKey(x.start) === k).sort((a, b) => a.start - b.start).forEach(x => {
+    o.ses.push({ n: x.routine || T("Libre"), pem: +x.pem || 0, min: Math.round((x.end - x.start) / 60000) });
+    x.exercises.forEach(e => { if ((e.note || "").trim() || e.from) o.ex.push({ n: exLabel(e), note: (e.note || "").trim(), from: e.from || "" }); });
+  });
+  ACT.list().filter(a => a.k === k && (a.note || "").trim()).forEach(a => o.act.push({ n: a.type, note: a.note.trim() }));
+  DY.supps().forEach(x => { const v = d.supp?.[x.id]; if ((v?.note || "").trim()) o.sup.push({ n: x.name, note: v.note.trim() }); });
+  o.has = !!(o.tags.length || o.day || o.ex.length || o.act.length || o.sup.length);
+  return o;
 }
-const SB_CAT = { carga: "ent", ciclo: "cue", objetivos: "res", resumen: "res", records: "res", constancia: "ent", ejercicios: "ent", equilibrio: "ent", reparto: "ent", horario: "ent", peso: "cue", sueno: "hab", pasos: "hab", actividad: "hab", suplementos: "hab", notas: "hab" };
+/* Días con alguna nota (una pasada por todos los datos) */
+function noteDays() {
+  const z = new Set(), D = DY.all();
+  Object.keys(D).forEach(k => { const e = D[k]; if ((e.tags || []).length || (e.note || "").trim() || Object.values(e.supp || {}).some(v => (v?.note || "").trim())) z.add(k); });
+  state.sessions.forEach(x => { if (x.exercises.some(e => (e.note || "").trim() || e.from)) z.add(dayKey(x.start)); });
+  ACT.list().forEach(a => { if ((a.note || "").trim()) z.add(a.k); });
+  return z;
+}
+const noteSnip = o => o.day || o.ex.map(e => e.note || T("en lugar de {x}", { x: e.from })).find(Boolean) || o.act[0]?.note || o.sup[0]?.note || "";
+const tagChips = tags => tags.map(t => { const x = TAGS.find(y => y[0] === t); return `<span class="dntag${t === "skip" ? " skip" : ""}">${esc(x ? T(x[1]) : t)}</span>`; }).join("");
+/* Punto naranja en un gráfico: abre las notas de uno o varios días */
+const noteDot = (x, y, keys) => `<g class="ndot" data-dnote="${keys.join(",")}" role="button" aria-label="${T("Ver notas")}"><circle cx="${x}" cy="${y}" r="20" fill="transparent"/><circle cx="${x}" cy="${y}" r="8" style="fill:var(--warn);stroke:var(--surface)" stroke-width="2.5"/><title>${T("Ver notas")}</title></g>`;
+function dayNoteModal() {
+  if (!state.dnote) return "";
+  const days = state.dnote.map(dayNotes).filter(o => o.has);
+  const fmt = k => new Date(keyTime(k)).toLocaleDateString(LOC(), { weekday: "long", day: "numeric", month: "long" });
+  const one = days.length === 1;
+  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="dnT"><div class="mbox dsh">
+    <h2 id="dnT" style="margin:0 0 6px">${one ? fmt(days[0].k) : T("Notas de la semana")}</h2>
+    ${days.length ? days.map(o => `<div class="dnd">${one ? "" : `<b>${fmt(o.k)}</b>`}<div>${tagChips(o.tags)}</div>
+      ${o.day ? `<div class="dnsrc">${T("Diario")}</div><div>${esc(o.day)}</div>` : ""}
+      ${o.ses.length ? `<div class="dnsrc">${T("Sesión")}</div>${o.ses.map(x => `<div>${esc(x.n)} · ${x.min} min${x.pem ? ` · ${T("PEM")} ${x.pem}` : ""}</div>`).join("")}` : ""}
+      ${o.ex.length ? `<div class="dnsrc">${T("Ejercicios")}</div>${o.ex.map(e => `<div><b style="font-weight:600">${esc(e.n)}</b>${e.from ? ` · ⇄ ${T("en lugar de {x}", { x: esc(e.from) })}` : ""}${e.note ? ` · ✎ ${esc(e.note)}` : ""}</div>`).join("")}` : ""}
+      ${o.act.length ? `<div class="dnsrc">${T("Actividad")}</div>${o.act.map(a => `<div>${esc(a.n)} · ${esc(a.note)}</div>`).join("")}` : ""}
+      ${o.sup.length ? `<div class="dnsrc">${T("Suplementos")}</div>${o.sup.map(a => `<div>${esc(a.n)} · ${esc(a.note)}</div>`).join("")}` : ""}
+      ${one ? "" : `<button class="btn small" style="margin-top:8px" data-day="${o.k}">${T("Abrir en el Diario")}</button>`}</div>`).join("") : `<p class="muted">${T("Sin notas en este periodo.")}</p>`}
+    <div class="row" style="margin-top:14px">${one ? `<button class="btn" style="flex:1" data-day="${days[0].k}">${T("Abrir en el Diario")}</button>` : ""}<button class="btn primary" style="flex:1" data-act="dnote-close">${T("Cerrar")}</button></div>
+  </div></div>`;
+}
+function sbNotas(now) {
+  const all = DY.all(), per = statsPer(), from = dayStart(now - (per - 1) * 864e5), nd = noteDays();
+  const keys = [...nd].filter(k => keyTime(k) >= from && keyTime(k) <= now).sort().reverse();
+  const cnt = {}; keys.forEach(k => (all[k]?.tags || []).forEach(t => cnt[t] = (cnt[t] || 0) + 1));
+  const lbl = `<p class="muted" style="font-size:.8rem;margin:0 0 6px">${T("Últimos {n} días", { n: per })}</p>`;
+  if (!keys.length) return `<div class="panel muted">${lbl}${T("Sin notas en este periodo.")}</div>`;
+  const items = keys.slice(0, 8).map(dayNotes);
+  return `<div class="panel">${lbl}${Object.keys(cnt).length ? `<div class="chips" style="margin-top:0">${TAGS.filter(([t]) => cnt[t]).map(([t, n]) => `<span class="chip">${T(n)} · ${cnt[t]}</span>`).join("")}</div>` : ""}
+    ${items.map(o => `<button class="noteb" data-dnote="${o.k}"><span class="muted" style="font-size:.8rem">${new Date(keyTime(o.k)).toLocaleDateString(LOC(), { weekday: "short", day: "numeric", month: "short" })}</span><span>${tagChips(o.tags)} ${esc((x => x.length > 140 ? x.slice(0, 140) + "…" : x)(noteSnip(o)))}</span></button>`).join("")}
+    ${keys.length > 8 ? `<p class="muted" style="font-size:.8rem;margin:8px 0 0">${T("Y {n} días más en el Diario.", { n: keys.length - 8 })}</p>` : ""}</div>`;
+}
+const SB_CAT = { carga: "ent", ciclo: "cue", objetivos: "res", resumen: "res", records: "res", constancia: "ent", ejercicios: "ent", equilibrio: "ent", reparto: "ent", horario: "ent", peso: "cue", sueno: "hab", pasos: "hab", actividad: "hab", suplementos: "hab", notas: "*" };
 const SB_TABS = [["res", "Resumen"], ["ent", "Entreno"], ["cue", "Cuerpo"], ["hab", "Hábitos"]];
 const SBLOCKS = {
   objetivos: ["Objetivos de la semana", (S, IX, n) => sbObjetivos(S, n)],
@@ -2999,7 +3063,7 @@ const SBLOCKS = {
   sueno: ["Sueño", (S, IX, n) => sbSueno(n)],
   suplementos: ["Suplementos", (S, IX, n) => sbSupl(n)],
   actividad: ["Actividad", (S, IX, n) => sbActividad(n)],
-  notas: ["Notas recientes", (S, IX, n) => sbNotas(n)],
+  notas: ["Notas del periodo", (S, IX, n) => sbNotas(n)],
   peso: ["Peso", (S, IX, n) => sbPeso(n)],
   ciclo: ["Ciclo", () => sbCiclo()],
   resumen: ["Resumen", (S, IX, n) => sbResumen(S, n)],
@@ -3023,7 +3087,7 @@ function viewStats() {
   if (!S.length && !W.list().length && !Object.keys(DY.all()).length && !ACT.list().length) return `<h1>${T("Estadísticas")}</h1><div class="empty" style="margin-top:16px">${T("Completa tu primera sesión para ver tu progreso.")}</div>`;
   const now = Date.now(), IX = exIndex(), ed = !!state.statsEdit, hid = LS.get("wk.statsHidden", []);
   const cat = SB_TABS.some(x => x[0] === state.statsCat) ? state.statsCat : (SB_TABS.some(x => x[0] === LS.get("wk.statsCat", "res")) ? LS.get("wk.statsCat", "res") : "res"), per = statsPer();
-  const ord = statsOrder().filter(k => SB_CAT[k] === cat && (ed || !hid.includes(k)) && (k !== "ciclo" || cycOn()));
+  const ord = statsOrder().filter(k => (SB_CAT[k] === cat || SB_CAT[k] === "*") && (ed || !hid.includes(k)) && (k !== "ciclo" || cycOn()));
   return `<div style="display:flex;align-items:center;gap:8px"><h1 style="flex:1">${T("Estadísticas")}</h1><button class="btn small" data-act="statsedit">${ed ? T("Hecho") : T("Ordenar")}</button></div>
     <div class="stabs" role="group" aria-label="${T("Estadísticas")}">${SB_TABS.map(([k, l]) => `<button data-scat="${k}" aria-pressed="${cat === k}">${T(l)}</button>`).join("")}</div>
     ${cat === "hab" ? `<div class="perrow"><span>${T("Periodo")}</span>${[7, 30, 90].map(p => `<button data-sper="${p}" aria-pressed="${per === p}">${p} ${T("d")}</button>`).join("")}</div>` : ""}
@@ -3043,13 +3107,16 @@ function exerciseProgress(key, name) {
   // Modo: tiempo (segundos), peso corporal (reps) o con carga (1RM estimado)
   let mode = found.some(p => isTime(p.e)) ? "time" : found.some(p => p.e.sets.some(x => +x.w > 0)) ? "load" : "reps";
   if (mode === "reps" && found.some(p => p.e.sides)) mode = "sides";
+  const nd = noteDays();
   const pts = found.map(({ t, e }) => {
     const best = mode === "load" ? Math.max(...e.sets.map(x => e1rm(x.w, x.r))) : Math.max(...e.sets.map(x => +x.r || 0));
     const best2 = Math.max(...e.sets.map(x => +R2(x) || 0));
     const total = mode === "load" ? e.sets.reduce((a, x) => a + x.w * x.r, 0) : e.sets.reduce((a, x) => a + (+x.r || 0), 0);
     const maxW = Math.max(...e.sets.map(x => +x.w || 0));
-    return { t, best, best2, total, maxW };
+    return { t, best, best2, total, maxW, note: (e.note || "").trim(), from: e.from || "" };
   });
+  const nlist = [...pts].reverse().filter(p => p.note || p.from).slice(0, 8);
+  const notesHtml = nlist.length ? `<p class="muted" style="margin:12px 0 0;font-size:.85rem">${T("Notas de este ejercicio")}</p><ul class="exnl">${nlist.map(p => `<li><span class="d">${new Date(p.t).toLocaleDateString(LOC(), { day: "numeric", month: "short" })}</span><span>${p.from ? `⇄ ${T("en lugar de {x}", { x: esc(p.from) })}` : ""}${p.from && p.note ? " · " : ""}${p.note ? `✎ ${esc(p.note)}` : ""}</span></li>`).join("")}</ul>` : "";
   const prB = Math.max(...pts.map(p => p.best)), prT = Math.max(...pts.map(p => p.total)), prW = Math.max(...pts.map(p => p.maxW));
   const M = {
     load: { unit: v => `${fmtKg(v)} kg`, label: T("1RM estimado (fórmula de Epley) por sesión"), cells: [[`${fmtKg(prW)} kg`, T("Peso máximo")], [`${fmtKg(prB)} kg`, T("1RM estimado")], [fmtVol(prT), T("Mejor volumen")]] },
@@ -3058,7 +3125,7 @@ function exerciseProgress(key, name) {
     time: { unit: v => fmtSec(v), label: T("Mejor serie (segundos) por sesión"), cells: [[fmtSec(prB), T("Mejor serie")], [fmtSec(prT), T("Más tiempo en una sesión")], [prW ? `${fmtKg(prW)} kg` : `${pts.length}`, prW ? T("Lastre máximo") : T("Sesiones")]] }
   }[mode];
   const prs = `<div class="prs">${M.cells.map(([v, l]) => `<div><b>${v}</b><span>${l}</span></div>`).join("")}</div>`;
-  if (pts.length < 2) return `<p class="muted" style="margin:14px 0 0">${T("Registra este ejercicio en al menos dos sesiones para ver la evolución.")}</p>${prs}`;
+  if (pts.length < 2) return `<p class="muted" style="margin:14px 0 0">${T("Registra este ejercicio en al menos dos sesiones para ver la evolución.")}</p>${prs}${notesHtml}`;
 
   const W = 640, H = 220, pl = 40, pr = 12, pt = 16, pb = 28;
   const ys = mode === "sides" ? pts.flatMap(p => [p.best, p.best2]) : pts.map(p => p.best);
@@ -3082,9 +3149,10 @@ function exerciseProgress(key, name) {
   });
   const idx = pts.length <= 6 ? pts.map((_, i) => i) : [0, Math.floor(pts.length / 3), Math.floor(2 * pts.length / 3), pts.length - 1];
   idx.forEach(i => { const d = new Date(pts[i].t); svg += `<text x="${X(i)}" y="${H - 8}" text-anchor="middle" font-size="11" style="fill:var(--muted)">${d.getDate()} ${MESES[d.getMonth()]}</text>`; });
+  pts.forEach((p, i) => { const k = dayKey(p.t); if (nd.has(k)) svg += noteDot(X(i), Math.max(8, Y(p.best) - 13), [k]); });
   svg += "</svg>";
   const legend = mode === "sides" ? `<p class="muted" style="margin:6px 0 0;font-size:.8rem"><span style="color:var(--accent)">━</span> ${T("Izquierdo")} · <span style="color:var(--ink)">╍</span> ${T("Derecho")}</p>` : "";
-  return `<p class="muted" style="margin:14px 0 6px;font-size:.85rem">${M.label}</p><div class="chart">${svg}</div>${legend}${prs}`;
+  return `<p class="muted" style="margin:14px 0 6px;font-size:.85rem">${M.label}</p><div class="chart">${svg}</div>${legend}${prs}${notesHtml}`;
 }
 
 /* ---------- Vista: Datos ---------- */
@@ -3182,8 +3250,8 @@ function viewData() {
       <button class="btn small" style="margin-top:12px" data-act="welcome-show">${T("Volver a ver el aviso")}</button>
     </div>
     ${aboutLinks()}
-    <h2>${T("Instalar en el móvil")}</h2>
-    <div class="panel">${installBlock()}</div>
+    ${isNative() ? updatesBlock() : `<h2>${T("Instalar en el móvil")}</h2>
+    <div class="panel">${installBlock()}</div>`}
     <h2>${T("Compartir Usus")}</h2>
     <div class="panel">${shareAppBlock()}</div>
     <h2>${T("Apoyar el proyecto")}</h2>
@@ -3237,6 +3305,18 @@ window.addEventListener("appinstalled", () => { installEvt = null; toast(T("App 
 const isNative = () => !!window.Capacitor?.isNativePlatform?.();
 const isStandalone = () => matchMedia("(display-mode: standalone)").matches || navigator.standalone === true;
 const isIOS = () => /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+const SIGN_FP = "28:B6:FF:4A:8F:61:F6:88:D4:B4:9D:C7:E8:B7:2D:95:D5:D9:44:45:D2:A2:30:07:1A:FA:72:B1:B2:D0:3E:C8";
+function updatesBlock() {
+  return `<h2>${T("Actualizaciones")}</h2>
+    <div class="panel"><div class="row" style="justify-content:space-between;align-items:baseline"><b style="font-size:1.05rem">Usus ${APP_VERSION}</b><span class="badge-ok">${T("App Android")}</span></div>
+      <p class="muted" style="font-size:.85rem;margin:6px 0 0">${T("Esta app no se conecta a Internet, así que no busca versiones nuevas por su cuenta. Se publican en GitHub; al instalar una nueva encima, tus datos se mantienen.")}</p>
+      <div class="row" style="margin-top:12px;flex-wrap:wrap"><a class="btn small primary" href="https://github.com/oluengo/usus/releases/latest" target="_blank" rel="noopener">${T("Ver versiones")} ↗</a><button class="btn small" data-act="news-open">${T("Novedades de la {v}", { v: APP_VERSION })}</button></div></div>
+    <div class="panel" style="margin-top:10px"><b>${T("Avisos automáticos con Obtainium")}</b>
+      <p class="muted" style="font-size:.85rem;margin:4px 0 0">${T("App gratuita que vigila GitHub y te avisa o instala cada versión nueva. Es opcional.")}</p>
+      <ol class="muted" style="font-size:.85rem;margin:8px 0 0;padding-left:20px"><li>${T("Instala Obtainium.")}</li><li>${T("«Añadir app» y pega el enlace:")} <code>github.com/oluengo/usus</code></li></ol>
+      <div class="row" style="margin-top:10px;flex-wrap:wrap"><button class="btn small" data-copy="https://github.com/oluengo/usus">${T("Copiar enlace")}</button><a class="btn small" href="https://github.com/ImranR98/Obtainium" target="_blank" rel="noopener">Obtainium ↗</a></div>
+      <details style="margin-top:10px"><summary class="muted" style="font-size:.85rem;cursor:pointer">${T("Comprobar que el APK es original")}</summary><p class="muted" style="font-size:.8rem;margin:6px 0 0">${T("Huella SHA-256 del certificado de firma:")}<br><code style="word-break:break-all">${SIGN_FP}</code></p></details></div>`;
+}
 function installBlock() {
   if (isStandalone()) return `<p class="muted" style="font-size:.85rem;margin:0">${T("Ya la estás usando como app instalada.")}</p>`;
   return `<p class="muted" style="font-size:.85rem;margin:0">${T("Usus es una app web (PWA): se instala desde el navegador, sin tienda, y funciona sin conexión.")}</p>
@@ -3249,6 +3329,11 @@ function installBlock() {
 }
 /* ---------- Novedades (una vez por versión; historial al tocar la versión) ---------- */
 const CHANGES = [
+  ["2.3.0", {
+    es: ["Notas en Stats: los días con nota llevan un punto naranja en Constancia, Carga, Peso, Sueño, Pasos y el progreso de cada ejercicio. Al tocarlo ves todo lo apuntado ese día (diario, etiquetas, notas y cambios de ejercicio, actividad, suplementos) sin salir de Stats.", "Constancia marca aparte los días con «No entrené».", "«Notas del periodo» en todas las pestañas de Stats, y las notas de cada ejercicio en su historial.", "App Android: Ajustes → App → Actualizaciones, con la versión instalada, el enlace a las versiones y cómo recibir avisos con Obtainium.", "Nombre de ejemplo en el perfil: Cristina."],
+    ca: ["Notes a Stats: els dies amb nota porten un punt taronja a Constància, Càrrega, Pes, Son, Passos i el progrés de cada exercici. En tocar-lo veus tot el que vas apuntar aquell dia (diari, etiquetes, notes i canvis d'exercici, activitat, suplements) sense sortir de Stats.", "Constància marca a part els dies amb «No vaig entrenar».", "«Notes del període» a totes les pestanyes de Stats, i les notes de cada exercici al seu historial.", "App Android: Ajustos → App → Actualitzacions, amb la versió instal·lada, l'enllaç a les versions i com rebre avisos amb Obtainium.", "Nom d'exemple al perfil: Cristina."],
+    en: ["Notes in Stats: days with a note get an orange dot in Consistency, Load, Weight, Sleep, Steps and each exercise's progress. Tap it to see everything logged that day (diary, tags, exercise notes and swaps, activity, supplements) without leaving Stats.", "Consistency shows “Didn't train” days separately.", "“Notes for the period” in every Stats tab, and each exercise's notes in its history.", "Android app: Settings → App → Updates, with the installed version, a link to releases and how to get alerts with Obtainium.", "Example profile name: Cristina."]
+  }],
   ["2.2.2", {
     es: ["Primera versión de la app para Android (APK), en GitHub → Releases. Es la misma app; sus datos van aparte de los de la PWA (se pasan con una copia).", "Fichas del catálogo en català e English, y nombres de los ejercicios en català.", "Avisos de sonido más suaves.", "En Android, la versión web avisa una vez de que existe la app.", "Ajustes → App → Acerca de: «Hecha con IA · probada por humanos»."],
     ca: ["Primera versió de l'app per a Android (APK), a GitHub → Releases. És la mateixa app; les seves dades van a part de les de la PWA (es passen amb una còpia).", "Fitxes del catàleg en català i English, i noms dels exercicis en català.", "Avisos de so més suaus.", "A Android, la versió web avisa un cop que existeix l'app.", "Ajustos → App → Quant a: «Feta amb IA · provada per humans»."],
@@ -3656,7 +3741,7 @@ function profFormModal() {
     <div class="sb-head"><h2 id="pfT" style="margin:0;flex:1">${f.forMain ? T("Tu perfil") : T("Nuevo perfil")}</h2><button class="btn small" data-act="pf-cancel">${T("Cancelar")}</button></div>
     ${f.forMain ? `<p class="muted" style="font-size:.85rem;margin:6px 0 0">${T("Antes de añadir otro perfil, completa el tuyo. Tus datos no cambian.")}</p>` : ""}
     <label class="muted" for="pfName" style="font-size:.85rem;display:block;margin-top:12px">${T("Nombre")}</label>
-    <input type="text" id="pfName" maxlength="20" value="${esc(f.name)}" placeholder="${T("Ej. Marta")}">
+    <input type="text" id="pfName" maxlength="20" value="${esc(f.name)}" placeholder="${T("Ej. Cristina")}">
     <span class="muted" style="font-size:.85rem;display:block;margin-top:12px">${T("Sexo")}</span>
     <div class="psex">${["m", "f"].map(s => `<button data-pfsex="${s}" class="${f.sex === s ? "on" : ""}" aria-pressed="${f.sex === s}">${profAv(null, 48, s, f.sex === s ? f.color : "#6f6253")}<span>${T(SEXN[s])}</span></button>`).join("")}</div>
     <p class="muted" style="font-size:.78rem;margin:6px 0 0">${T("No se podrá cambiar una vez creado el perfil.")}</p>
@@ -3958,7 +4043,7 @@ document.addEventListener("click", async ev => {
   if (d.sdel) { if (!confirm(T("¿Eliminar este suplemento? Su historial también se dejará de mostrar."))) return; DY.saveSupps(DY.supps().filter(x => x.id !== d.sdel)); render(); return; }
   if (d.sarch) { DY.saveSupps(DY.supps().map(x => x.id === d.sarch ? { ...x, archived: !x.archived } : x)); render(); return; }
   if (d.shide) { const h = new Set(LS.get("wk.statsHidden", [])); h.has(d.shide) ? h.delete(d.shide) : h.add(d.shide); LS.set("wk.statsHidden", [...h]); render(); return; }
-  if (d.day) { state.day = d.day; state.dsheet = null; state.tab = "diary"; render(); window.scrollTo(0, 0); return; }
+  if (d.day) { state.day = d.day; state.dsheet = null; state.dnote = null; state.tab = "diary"; render(); window.scrollTo(0, 0); return; }
   if (d.wdel) { if (!confirm(T("¿Borrar este registro de peso?"))) return; W.save(W.list().filter(x => x.id !== d.wdel)); render(); return; }
   if (d.statex) { state.statEx = state.statEx === d.statex ? null : d.statex; render(); return; }
   if (d.langSet) { LS.set("wk.lang", d.langSet); setLang(d.langSet); render(); return; }
@@ -4019,6 +4104,7 @@ document.addEventListener("click", async ev => {
     case "sw-routine": { const s = state.sessions.find(x => x.id === state.savedSess); if (s) { swapToRoutine(s); state.swapDone = s.id; toast(T("Rutina actualizada")); } render(); break; }
     case "pg-cancel": state.progChange = null; render(); break;
     case "pg-ok": { const c = state.progChange, p = state.progProps?.[c.k]; if (p && progApply(p, c.tgt)) { state.progProps.splice(c.k, 1); toast(T("Rutina actualizada")); } state.progChange = null; render(); break; }
+    case "dnote-close": state.dnote = null; render(); break;
     case "apk-tip-no": LS.set("wk.apkTip", true); render(); break;
     case "pu-ok": { const L = LS.get("wk.planUpLog", null); if (L) { L.seen = true; LS.set("wk.planUpLog", L); } render(); break; }
     case "pu-undo": planUpUndo(); toast(T("Cambios deshechos")); render(); break;
@@ -4248,9 +4334,9 @@ document.addEventListener("change", async ev => {
   if (ev.target.id === "statEx") { state.statEx = ev.target.value; render(); }
   if (ev.target.id === "impFile" && ev.target.files[0]) { await importJSON(await ev.target.files[0].text()); ev.target.value = ""; }
 });
-document.addEventListener("click", ev => { const c = ev.target.closest("span[data-day]"); if (c) { state.day = c.dataset.day; state.tab = "diary"; render(); window.scrollTo(0, 0); } });
+document.addEventListener("click", ev => { const n = ev.target.closest("[data-dnote]"); if (n) { state.dnote = n.dataset.dnote.split(","); render(); return; } const c = ev.target.closest("span[data-day]"); if (c) { state.day = c.dataset.day; state.tab = "diary"; render(); window.scrollTo(0, 0); } });
 document.addEventListener("keydown", ev => {
-  if ((ev.key === "Enter" || ev.key === " ") && ev.target.matches?.("span[data-day]")) { ev.preventDefault(); ev.target.click(); } if (ev.key === "Enter" && ev.target.id === "newEx") document.querySelector('[data-act="addex"]')?.click(); });
+  if ((ev.key === "Enter" || ev.key === " ") && ev.target.matches?.("span[data-day],span[data-dnote]")) { ev.preventDefault(); ev.target.click(); } if (ev.key === "Enter" && ev.target.id === "newEx") document.querySelector('[data-act="addex"]')?.click(); });
 
 /* ---------- Traducciones (clave = texto en castellano) ---------- */
 const I18N = {
@@ -4893,6 +4979,25 @@ const I18N = {
     "Gran sesión": "Gran sessió",
     "Bitcoin": "Bitcoin",
     "Lightning / zaps": "Lightning / zaps",
+    "Ver notas": "Veure notes",
+    "Notas de la semana": "Notes de la setmana",
+    "Abrir en el Diario": "Obre al Diari",
+    "Notas del periodo": "Notes del període",
+    "Últimos {n} días": "Últims {n} dies",
+    "Y {n} días más en el Diario.": "I {n} dies més al Diari.",
+    "Con nota": "Amb nota",
+    "Notas de este ejercicio": "Notes d'aquest exercici",
+    "Actualizaciones": "Actualitzacions",
+    "App Android": "App Android",
+    "Esta app no se conecta a Internet, así que no busca versiones nuevas por su cuenta. Se publican en GitHub; al instalar una nueva encima, tus datos se mantienen.": "Aquesta app no es connecta a Internet, així que no busca versions noves pel seu compte. Es publiquen a GitHub; en instal·lar-ne una de nova a sobre, les teves dades es mantenen.",
+    "Ver versiones": "Veure versions",
+    "Novedades de la {v}": "Novetats de la {v}",
+    "Avisos automáticos con Obtainium": "Avisos automàtics amb Obtainium",
+    "App gratuita que vigila GitHub y te avisa o instala cada versión nueva. Es opcional.": "App gratuïta que vigila GitHub i t'avisa o instal·la cada versió nova. És opcional.",
+    "Instala Obtainium.": "Instal·la Obtainium.",
+    "«Añadir app» y pega el enlace:": "«Afegeix app» i enganxa l'enllaç:",
+    "Comprobar que el APK es original": "Comprovar que l'APK és original",
+    "Huella SHA-256 del certificado de firma:": "Empremta SHA-256 del certificat de signatura:",
     "Hay app para Android": "Hi ha app per a Android",
     "La misma Usus, instalada como app (APK). Sus datos van aparte: exporta una copia aquí (Ajustes → Datos) e impórtala allí.": "La mateixa Usus, instal·lada com a app (APK). Les seves dades van a part: exporta una còpia aquí (Ajustos → Dades) i importa-la allà.",
     "Descargar": "Baixa",
@@ -5212,7 +5317,7 @@ const I18N = {
     "Tu perfil": "El teu perfil",
     "Nuevo perfil": "Perfil nou",
     "Antes de añadir otro perfil, completa el tuyo. Tus datos no cambian.": "Abans d'afegir un altre perfil, completa el teu. Les teves dades no canvien.",
-    "Ej. Marta": "P. ex. Marta",
+    "Ej. Cristina": "P. ex. Cristina",
     "Sexo": "Sexe",
     "No se podrá cambiar una vez creado el perfil.": "No es podrà canviar un cop creat el perfil.",
     "Color": "Color",
@@ -5947,6 +6052,25 @@ const I18N = {
     "Gran sesión": "Great session",
     "Bitcoin": "Bitcoin",
     "Lightning / zaps": "Lightning / zaps",
+    "Ver notas": "See notes",
+    "Notas de la semana": "Notes for the week",
+    "Abrir en el Diario": "Open in Diary",
+    "Notas del periodo": "Notes for the period",
+    "Últimos {n} días": "Last {n} days",
+    "Y {n} días más en el Diario.": "And {n} more days in the Diary.",
+    "Con nota": "With a note",
+    "Notas de este ejercicio": "Notes for this exercise",
+    "Actualizaciones": "Updates",
+    "App Android": "Android app",
+    "Esta app no se conecta a Internet, así que no busca versiones nuevas por su cuenta. Se publican en GitHub; al instalar una nueva encima, tus datos se mantienen.": "This app doesn't connect to the Internet, so it doesn't look for new versions by itself. They're published on GitHub; installing a new one on top keeps your data.",
+    "Ver versiones": "See versions",
+    "Novedades de la {v}": "What's new in {v}",
+    "Avisos automáticos con Obtainium": "Automatic alerts with Obtainium",
+    "App gratuita que vigila GitHub y te avisa o instala cada versión nueva. Es opcional.": "A free app that watches GitHub and notifies you or installs each new version. Optional.",
+    "Instala Obtainium.": "Install Obtainium.",
+    "«Añadir app» y pega el enlace:": "“Add app” and paste the link:",
+    "Comprobar que el APK es original": "Check that the APK is genuine",
+    "Huella SHA-256 del certificado de firma:": "SHA-256 fingerprint of the signing certificate:",
     "Hay app para Android": "There's an Android app",
     "La misma Usus, instalada como app (APK). Sus datos van aparte: exporta una copia aquí (Ajustes → Datos) e impórtala allí.": "The same Usus, installed as an app (APK). Its data is separate: export a backup here (Settings → Data) and import it there.",
     "Descargar": "Download",
@@ -6266,7 +6390,7 @@ const I18N = {
     "Tu perfil": "Your profile",
     "Nuevo perfil": "New profile",
     "Antes de añadir otro perfil, completa el tuyo. Tus datos no cambian.": "Before adding another profile, complete yours. Your data doesn't change.",
-    "Ej. Marta": "E.g. Marta",
+    "Ej. Cristina": "E.g. Cristina",
     "Sexo": "Sex",
     "No se podrá cambiar una vez creado el perfil.": "Can't be changed once the profile is created.",
     "Color": "Colour",

@@ -4,6 +4,20 @@ Todas las versiones de Usus. Formato basado en [Keep a Changelog](https://keepac
 
 **Castellano** · [Català](#català) · [English](#english)
 
+## [2.3.0] — 2026-10-14
+
+### Notas en Stats
+- Los días con alguna nota llevan un **punto naranja** en Constancia, Carga semanal, Peso, Sueño, Pasos y el gráfico de progreso de cada ejercicio. Al tocarlo se abre una hoja con todo lo apuntado ese día (o esa semana): nota y etiquetas del Diario, sesión y PEM, notas y cambios de ejercicio, notas de actividad y de suplementos. Con **Abrir en el Diario** para editarlo.
+- Constancia: los días con la etiqueta «No entrené» y sin sesión salen rayados, distintos de los días sin nada apuntado.
+- **Notas del periodo** aparece en todas las pestañas de Stats (antes solo en Hábitos) y recoge notas de cualquier origen, no solo las del Diario.
+- Stats → Ejercicios: al abrir un ejercicio, sus notas (✎) y sustituciones (⇄) bajo el gráfico.
+
+### App Android
+- Ajustes → App → **Actualizaciones** sustituye a «Instalar en el móvil» en el APK: versión instalada, botón a las versiones de GitHub, novedades, cómo recibir avisos con Obtainium y la huella de la firma. El APK sigue sin conectarse a Internet.
+
+### Otros
+- Nombre de ejemplo al crear un perfil: Cristina.
+
 ## [2.2.2] — 2026-10-13
 
 ### App para Android
@@ -176,6 +190,11 @@ Primera versión pública.
 
 ## Català
 
+### [2.3.0] — 2026-10-14
+- Notes a Stats: punt taronja als dies amb nota (Constància, Càrrega, Pes, Son, Passos, progrés de cada exercici); en tocar-lo, tot el que vas apuntar aquell dia.
+- Dies «No vaig entrenar» marcats a Constància; «Notes del període» a totes les pestanyes; notes de cada exercici al seu historial.
+- App Android: Ajustos → App → Actualitzacions.
+
 ### [2.2.2] — 2026-10-13
 - Primera versió de l'app per a Android (APK), a Releases: la mateixa app, amb les dades a part de les de la PWA. Un sol permís (vibració), sense Internet. Es pot actualitzar amb Obtainium.
 - Fitxes del catàleg en català i English; noms dels exercicis en català.
@@ -230,6 +249,11 @@ Primera versió pública: rutines amb sèries per repeticions o per temps, compt
 ---
 
 ## English
+
+### [2.3.0] — 2026-10-14
+- Notes in Stats: an orange dot on days with a note (Consistency, Load, Weight, Sleep, Steps, each exercise's progress); tap it to see everything logged that day.
+- “Didn't train” days marked in Consistency; “Notes for the period” in every tab; each exercise's notes in its history.
+- Android app: Settings → App → Updates.
 
 ### [2.2.2] — 2026-10-13
 - First Android app release (APK), in Releases: the same app, with its data kept apart from the PWA's. One permission only (vibration), no Internet. Can be updated with Obtainium.

@@ -34,7 +34,7 @@ Gratis, sin cuentas y sin anuncios. Todo se guarda **solo en tu móvil**: nada s
 - **Hoy.** Te dice qué toca cada día. Con un plan de progresión, Usus rota las variantes de tus rutinas por semanas (A, B, C…), añade semanas de descarga y te avisa de lo pendiente. Si quieres, la subida de cada vuelta de variante se aplica sola, con aviso y opción de deshacer.
 - **Entrenar.** Un ejercicio por pantalla. Las series por tiempo y los descansos tienen cuenta atrás a pantalla completa, con pitidos, vibración, ambos o ninguno, y se pueden encadenar solas. Puedes cambiar un ejercicio sobre la marcha, anotar cada uno y valorar el esfuerzo de la sesión (y, si quieres, las repeticiones en reserva de cada serie).
 - **Diario.** Sueño, suplementos, pasos, actividad (caminar, correr, bici…), notas y peso semanal.
-- **Estadísticas.** Constancia, récords, progreso por ejercicio, equilibrio entre lados y hábitos, en bloques que puedes ordenar u ocultar.
+- **Estadísticas.** Constancia, récords, progreso por ejercicio, equilibrio entre lados y hábitos, en bloques que puedes ordenar u ocultar. Los días con notas llevan un punto: tócalo y ves por qué (no entrenaste, molestias, un cambio de ejercicio…).
 - **Análisis con IA** *(opcional, externa).* Usus prepara un texto con tus datos y las instrucciones para que la IA que prefieras haga un informe con gráficos, listo para imprimir. Usus no envía nada: lo copias o compartes tú.
 - **Perfiles.** Varias personas en el mismo móvil, cada una con sus datos, ajustes y copia de seguridad.
 - **Ciclo** *(opcional, en perfiles de mujer).* Registro de la regla con una estimación aproximada de la próxima. No es un anticonceptivo ni un diagnóstico.
@@ -114,7 +114,7 @@ Free, no accounts, no ads. Everything is stored **only on your phone**: nothing 
 - **Today.** Shows what's on each day. With a progression plan, Usus rotates your routine variants week by week (A, B, C…), adds deload weeks and keeps track of what's pending. If you like, the increase each time a variant comes back is applied automatically, with a notice and an undo option.
 - **Train.** One exercise per screen. Timed sets and rests get a full-screen countdown with beeps, vibration, both or neither, and can chain automatically. Swap an exercise on the fly, add a note to each one and rate the session's effort (and, if you like, the reps in reserve of each set).
 - **Diary.** Sleep, supplements, steps, activity (walking, running, cycling…), notes and weekly weight.
-- **Stats.** Consistency, PRs, progress per exercise, left/right balance and habits, in blocks you can reorder or hide.
+- **Stats.** Consistency, PRs, progress per exercise, left/right balance and habits, in blocks you can reorder or hide. Days with notes get a dot: tap it to see why (you skipped training, aches, a swapped exercise…).
 - **AI analysis** *(optional, external).* Usus prepares a text with your data and instructions for the AI of your choice to write a report with charts, ready to print. Usus sends nothing: you copy or share it yourself.
 - **Profiles.** Several people on the same phone, each with their own data, settings and backup.
 - **Cycle** *(optional, on women's profiles).* Period log with an approximate estimate of the next one. Not a contraceptive method or a diagnosis.
