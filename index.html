@@ -129,6 +129,8 @@ nav.tabs button[aria-current="page"]{color:var(--accent)}
 .ex-edit .chk{grid-column:3/-1;align-self:end;padding-bottom:10px}
 #rVariant::placeholder,[data-pv]::placeholder{text-transform:none}
 .vchip{display:inline-block;min-width:22px;text-align:center;border-radius:6px;padding:1px 6px;font-size:.75rem;font-weight:700;color:#1A1208;vertical-align:1px}
+.plr{display:flex;gap:8px;align-items:center;padding:8px 0;border-top:1px solid var(--line)}
+.plr:first-of-type{border-top:0}
 .vchip.vd{background:var(--line);color:var(--ink)}
 .plan-b{margin:12px 0}
 .hoybtns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:20px}
@@ -554,9 +556,11 @@ textarea{width:100%;font:inherit;padding:10px 12px;border:1px solid var(--line);
 .exbar{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:14px}
 .exbar .btn{padding:14px 6px}
 .exbar .btn:disabled{opacity:.4}
-.exdone{display:grid;gap:10px;margin-top:14px}
-.exdone .ok{color:var(--ok);font-weight:600}
-.exdone .btn{width:100%;padding:16px;font-size:1.05rem}
+.exdone{display:grid;gap:4px;margin-top:14px;padding:14px;border:2px solid var(--ok);border-radius:14px;background:color-mix(in srgb,var(--ok) 13%,var(--surface))}
+.exdone .ok{color:var(--ok);font-weight:700;font-size:1.08rem}
+.exdone small{color:var(--muted);font-size:.85rem}
+.exdone .btn{width:100%;padding:16px;font-size:1.05rem;margin-top:8px}
+.snoted{margin-top:10px}.snoted textarea,.snoted input{width:100%;margin-top:4px}
 .skipask{background:var(--accent-soft);border-radius:14px;padding:12px 14px;margin-top:14px;display:grid;gap:10px}
 .skipask .row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .exrow{display:flex;align-items:center;gap:10px;width:100%;padding:12px 14px}
@@ -708,7 +712,7 @@ function lastSetsFor(ref) {
   }
   return null;
 }
-const APP_VERSION = "2.3.0";
+const APP_VERSION = "2.4.0";
 const THEMES = [["protector", "Protector", "Oscuro cálido, sin azul"], ["dark", "Oscuro", "Neutro"], ["light", "Claro", "Para el día"], ["auto", "Automático", "Sigue al sistema"]];
 const curTheme = () => document.documentElement.dataset.theme || "auto";
 function applyTheme(t) {
@@ -752,6 +756,21 @@ const normVar = v => String(v || "").trim().toUpperCase().slice(0, 6);
 const WEEK_ORDER = [1, 2, 3, 4, 5, 6, 0];           // lunes primero
 const dayShort = d => T("L,M,X,J,V,S,D").split(",")[WEEK_ORDER.indexOf(d)];
 const PL = { get: () => LS.get("wk.plan", null), save: p => LS.set("wk.plan", p) };
+/* Varios planes: uno activo (wk.plan, el que usa Hoy) y los guardados (wk.plans) para activar, duplicar o borrar */
+const PLS = { list: () => (LS.get("wk.plans", []) || []).filter(p => p && Array.isArray(p.phases)), save: l => LS.set("wk.plans", l) };
+const planName = p => (p?.name || "").trim() || T("Plan");
+const planSpan = p => { const ws = planWeeks(p); if (!ws.length) return ""; const a = ws[0].t, z = addDays(ws[ws.length - 1].t, 6), y = new Date(a).getFullYear() !== new Date(z).getFullYear();
+  const f = t => new Date(t).toLocaleDateString(LOC(), { day: "numeric", month: "short", ...(y ? { year: "numeric" } : {}) }); return `${f(a)} → ${f(z)} · ${planVariants(p).join(" ")}`; };
+function plansBlock() {
+  const a = PL.get(), l = PLS.list();
+  if (!a && !l.length) return "";
+  return `<details class="panel" style="margin-top:12px"${state.plansOpen ? " open" : ""} data-plans><summary style="cursor:pointer;font-weight:600">${T("Mis planes")} · ${(a ? 1 : 0) + l.length}</summary>
+    ${a ? `<div class="plr"><div style="flex:1;min-width:0"><b>${esc(planName(a))}</b> <span class="tagb">${T("Activo")}</span><div class="muted" style="font-size:.8rem">${planSpan(a)}</div></div></div>` : ""}
+    ${l.map(p => `<div class="plr"><div style="flex:1;min-width:0"><b>${esc(planName(p))}</b><div class="muted" style="font-size:.8rem">${planSpan(p)}</div></div>
+      <button class="btn small" data-pact="${p.id}">${T("Activar")}</button><button class="x" data-pdel="${p.id}" aria-label="${T("Eliminar")} ${esc(planName(p))}">×</button></div>`).join("")}
+    <div class="row" style="margin-top:10px;flex-wrap:wrap">${a ? `<button class="btn small" data-act="plan-dup">${T("Duplicar el activo")}</button>` : ""}<button class="btn small" data-act="plan-new">${T("Nuevo plan")}</button></div>
+    <p class="muted" style="font-size:.78rem;margin:8px 0 0">${T("Solo el plan activo cuenta en Hoy. Al cambiar de plan, tus rutinas, sesiones e historial no se tocan.")}</p></details>`;
+}
 function planVariants(p) { return [...new Set((p?.phases || []).map(x => normVar(x.variant)).filter(Boolean))]; }
 function varColor(v, p = PL.get()) {
   const all = [...new Set([...planVariants(p), ...state.routines.map(r => normVar(r.variant)).filter(Boolean)].sort())];
@@ -841,10 +860,10 @@ function planSection() {
   if (!p) return `<div class="panel" style="margin-top:12px"><b>${T("Sin plan de progresión")}</b>
     <p class="muted" style="margin:4px 0 0">${T("Un plan rota variantes de tus rutinas por semanas (por ejemplo A, B, C cada 2 semanas) con semanas de descarga, y Hoy te dice qué rutina toca cada día.")}</p>
     <p class="muted" style="font-size:.85rem;margin:6px 0 0">${T("Para que funcione, pon a cada rutina su Variante y sus Días en Rutinas → Editar.")}</p>
-    <button class="btn primary" style="margin-top:12px" data-act="plan-create">${T("Crear plan")}</button></div>`;
+    <button class="btn primary" style="margin-top:12px" data-act="plan-create">${T("Crear plan")}</button></div>${plansBlock()}`;
   const ws = planWeeks(p), pn = planNow(p), now = Date.now(), vs = planVariants(p);
   const fmt = t => new Date(t).toLocaleDateString(LOC(), { day: "numeric", month: "short" });
-  return `<div class="row" id="planSec" style="margin-top:22px"><h2 style="margin:0;flex:1">${T("Plan")}</h2><button class="btn small" data-act="plan-edit">${T("Editar")}</button></div>
+  return `<div class="row" id="planSec" style="margin-top:22px"><h2 style="margin:0;flex:1">${T("Plan")}${p.name ? ` · ${esc(p.name)}` : ""}</h2><button class="btn small" data-act="plan-edit">${T("Editar")}</button></div>
     ${p.enabled === false ? `<p class="muted">${T("Plan desactivado: Hoy no lo tiene en cuenta.")}</p>` : ""}
     ${ws.length ? `<p class="sub">${fmt(ws[0].t)} → ${fmt(addDays(ws[ws.length - 1].t, 6))}${p.review ? ` · ${T("revisión desde el {d}", { d: fmt(keyTime(p.review)) })}` : ""}</p>
     <div class="legend" style="margin-top:6px">${vs.map(v => `<span>${vChip(v)}</span>`).join("")}<span><span class="vchip vd">${T("Descarga")}</span></span><span>${T("↑ = subir reps · barra = días de fuerza hechos")}</span></div>
@@ -857,7 +876,7 @@ function planSection() {
     <details class="panel" style="margin-top:12px"><summary style="cursor:pointer;font-weight:600">${T("Rutinas por variante")}</summary>
     ${[...vs, ""].map(v => { const rs = state.routines.filter(r => normVar(r.variant) === v);
       return rs.length ? `<div class="pvr"><span style="width:48px">${v ? vChip(v) : `<span class="muted" style="font-size:.78rem">${T("Sin")}</span>`}</span><span style="flex:1;min-width:0">${rs.map(r => `${esc(r.name)} <span class="muted" style="font-size:.78rem">${(r.days || []).length === 7 ? T("todos los días") : WEEK_ORDER.filter(d => (r.days || []).includes(d)).map(dayShort).join(" ")}</span>`).join("<br>")}</span></div>` : ""; }).join("")}
-    ${state.routines.some(r => !(r.days || []).length) ? `<p class="muted" style="font-size:.8rem;margin:8px 0 0">${T("Las rutinas sin días no se sugieren. Ponles días en Rutinas → Editar.")}</p>` : ""}</details>`;
+    ${state.routines.some(r => !(r.days || []).length) ? `<p class="muted" style="font-size:.8rem;margin:8px 0 0">${T("Las rutinas sin días no se sugieren. Ponles días en Rutinas → Editar.")}</p>` : ""}</details>${plansBlock()}`;
 }
 function newPlanDraft() {
   const vs = [...new Set(state.routines.map(r => normVar(r.variant)).filter(Boolean))].sort();
@@ -865,8 +884,9 @@ function newPlanDraft() {
 }
 function viewPlanEdit() {
   const d = state.planDraft, ws = planWeeks(d);
-  return `<h1>${T("Editar plan")}</h1>
+  return `<h1>${state.planNew ? T("Nuevo plan") : T("Editar plan")}</h1>
     <div class="panel" style="margin-top:14px">
+      <label class="muted" for="pName" style="font-size:.85rem">${T("Nombre")}</label><input type="text" id="pName" maxlength="40" value="${esc(d.name || "")}" placeholder="${T("Ej. Bloque fuerza otoño")}" style="margin:4px 0 12px">
       <label class="chk" style="grid-column:auto;margin:0"><input type="checkbox" id="pOn" ${d.enabled !== false ? "checked" : ""}> ${T("Plan activo (se muestra en Hoy)")}</label>
       <div class="wrow2" style="margin-top:12px"><label class="muted" for="pStart">${T("Inicio")}</label><input type="date" id="pStart" value="${esc(d.start || "")}">
         <label class="muted" for="pReview">${T("Revisión (opcional)")}</label><input type="date" id="pReview" value="${esc(d.review || "")}"></div>
@@ -891,7 +911,7 @@ function viewPlanEdit() {
       ${ws.length ? `<div class="pprev">${ws.map(w => `<i style="background:${w.deload ? "var(--line)" : varColor(w.variant, d)}" title="S${w.n} · ${weekLabel(w)}">${w.deload ? "·" : esc(w.variant)}</i>`).join("")}</div>` : ""}
     </div>
     <div class="row" style="margin-top:16px">
-      ${PL.get() ? `<button class="btn danger" data-act="plan-del">${T("Eliminar plan")}</button>` : ""}
+      ${PL.get() && !state.planNew ? `<button class="btn danger" data-act="plan-del">${T("Eliminar plan")}</button>` : ""}
       <span class="spacer"></span>
       <button class="btn ghost" data-act="plan-cancel">${T("Cancelar")}</button>
       <button class="btn primary" data-act="plan-save">${T("Guardar plan")}</button>
@@ -900,6 +920,7 @@ function viewPlanEdit() {
 function readPlan() {
   const d = state.planDraft; if (state.planMode !== "edit" || !d) return;
   const v = id => document.getElementById(id);
+  if (v("pName")) d.name = v("pName").value.trim();
   if (v("pOn")) d.enabled = v("pOn").checked;
   if (v("pStart")) d.start = v("pStart").value; if (v("pReview")) d.review = v("pReview").value;
   if (v("pUp")) d.up = v("pUp").checked; if (v("pUpRule")) d.upRule = v("pUpRule").value;
@@ -1598,7 +1619,7 @@ function aiBuild(o) {
     const g = LS.get("wk.goals", null); if (g && (g.daily || g.strength)) L.push(X.goalW(g.strength || 0, g.daily || 0));
     const S = state.sessions.filter(s => inP(s.start)).sort((a, b) => a.start - b.start);
     L.push("", `## ${X.sessions(S.length)}`, X.sessFmt);
-    S.forEach(s => L.push(`${dayKey(s.start)} ${hmOf(s.start)} · ${s.routine || X.free} · ${Math.round((s.end - s.start) / 60000)}${+s.pem ? ` · ${LANG === "en" ? "RPE" : "PEM"} ${s.pem}` : ""} | ${s.exercises.map(e => `${exLabel(e)}${e.from ? ` (${X.insteadOf} ${e.from})` : ""}: ${e.sets.map(x => (sideReps(e) ? `${x.r}/${R2(x)}` : `${x.r}`) + (+x.w ? `@${x.w}` : "") + (rirTxt(x) ? `(${rirTxt(x)})` : "")).join(",")}${isTime(e) ? " s" : ""}${e.note ? ` ✎ "${String(e.note).replace(/\s+/g, " ")}"` : ""}`).join(" | ")}`));
+    S.forEach(s => L.push(`${dayKey(s.start)} ${hmOf(s.start)} · ${s.routine || X.free} · ${Math.round((s.end - s.start) / 60000)}${+s.pem ? ` · ${LANG === "en" ? "RPE" : "PEM"} ${s.pem}` : ""} | ${s.exercises.map(e => `${exLabel(e)}${e.from ? ` (${X.insteadOf} ${e.from})` : ""}: ${e.sets.map(x => (sideReps(e) ? `${x.r}/${R2(x)}` : `${x.r}`) + (+x.w ? `@${x.w}` : "") + (rirTxt(x, e) ? `(${rirTxt(x, e)})` : "")).join(",")}${isTime(e) ? " s" : ""}${e.note ? ` ✎ "${String(e.note).replace(/\s+/g, " ")}"` : ""}`).join(" | ")}`));
     L.push("");
   }
   if (inc.weight) { const Wl = W.list().filter(x => inP(x.t)); L.push(`## ${X.weight}${W.goal() ? ` · ${X.goal} ${W.goal()}` : ""}`, Wl.length ? Wl.map(x => `${dayKey(x.t)} ${x.kg}`).join(" · ") : X.noRec, ""); }
@@ -1725,10 +1746,11 @@ function setPem(id, n) {
 function rirAsk() {
   const q = state.rirAsk, a = state.active; if (!q || !a) return "";
   const e = a.exercises[q.ei], x = e?.sets[q.si]; if (!x || !x.done || x.rir !== undefined) return "";
-  return `<div class="rirbar"><span>${T("¿Cuántas te quedaban?")} <small>${esc(exName(e))} · ${T("serie {n}", { n: q.si + 1 })}</small></span>
-    <div class="rirb">${[0, 1, 2, 3, 4].map(n => `<button data-rir="${n}" aria-label="${n === 4 ? T("4 o más") : n}">${n === 4 ? "4+" : n}</button>`).join("")}<button class="x" data-rir="-1" aria-label="${T("Sin RIR")}">×</button></div></div>`;
+  const tm = isTime(e), opts = tm ? [0, 5, 10, 15] : [0, 1, 2, 3, 4], top = opts[opts.length - 1];
+  return `<div class="rirbar"><span>${tm ? T("¿Cuánto más habrías aguantado?") : T("¿Cuántas te quedaban?")} <small>${esc(exName(e))} · ${T("serie {n}", { n: q.si + 1 })}</small></span>
+    <div class="rirb">${opts.map(n => `<button data-rir="${n}" aria-label="${n === top ? (tm ? T("15 s o más") : T("4 o más")) : tm ? n + " s" : n}">${n === top ? top + "+" : n}${tm ? "<small>s</small>" : ""}</button>`).join("")}<button class="x" data-rir="-1" aria-label="${T("Sin RIR")}">×</button></div></div>`;
 }
-const rirTxt = x => x.rir !== undefined && x.rir !== null ? (x.rir >= 4 ? "4+" : String(x.rir)) : "";
+const rirTxt = (x, e) => x.rir === undefined || x.rir === null ? "" : e && isTime(e) ? `+${x.rir >= 15 ? "15+" : x.rir} s` : x.rir >= 4 ? "4+" : String(x.rir);
 /* Último registro de un ejercicio (objeto entero: series, nota…) y última sustitución en la misma rutina */
 function lastExFor(e) {
   const k = exKey(e);
@@ -1815,7 +1837,7 @@ function renderTabs() {
 }
 
 function render() {
-  renderTabs();
+  renderTabs(); syncAwake();
   if (state.tab === "history") state.tab = "diary";
   const v = state.actForm ? viewActForm : state.tab === "data" && state.link ? viewLink : { train: viewTrain, routines: viewRoutines, diary: viewDiary, stats: viewStats, data: viewData }[state.tab];
   const mb = document.querySelector(".mbox.dsh"), mbTop = mb ? mb.scrollTop : 0;
@@ -1905,7 +1927,8 @@ function exFooter(a, cur, n) {
   const right = left
     ? (last ? `<button class="btn" data-act="ex-skip">${T("Terminar")}…</button>` : `<button class="btn" data-act="ex-skip">${T("Saltar")} ›</button>`)
     : `<button class="btn" data-act="ex-next" ${last ? "disabled" : ""}>${T("Siguiente")} ›</button>`;
-  const done = !left && e.sets.length ? `<div class="exdone"><span class="ok">✓ ${T("{x} completado · {n} de {n} series", { x: esc(e.name), n: e.sets.length })}</span>
+  const rx = !last ? restXFor(e) : 0;
+  const done = !left && e.sets.length ? `<div class="exdone" role="status"><span class="ok">✓ ${T("{x} hecho", { x: esc(exName(e)) })}</span><small>${T("{n} de {n} series", { n: e.sets.length })}${rx ? " · " + T("descanso {n} s antes del siguiente", { n: rx }) : ""}</small>
       ${last ? `<button class="btn primary" data-act="finish">${T("Terminar y guardar")}</button>`
         : `<button class="btn primary" data-act="ex-next">${T("Siguiente ejercicio: {x}", { x: esc(a.exercises[cur + 1].name) })} →</button>`}</div>` : "";
   const confirm = ask && left ? `<div class="skipask" role="alertdialog"><div><b>${(left === 1 ? T("Queda 1 serie de {x}.", { x: esc(e.name) }) : T("Quedan {n} series de {x}.", { n: left, x: esc(e.name) }))}</b> ${last
@@ -1926,7 +1949,7 @@ function exCard(e, ei) {
   const prev = lastSetsFor(e), tm = isTime(e), lx = lastExFor(e), lsw = !e.from && lastSwapFor(e, state.active?.rid), nOpen = state.noteOpen === ei;
   return `<div class="ex">
     <div class="ex-head"><strong>${esc(exLabel(e))}</strong><button class="xinfo" style="font-family:inherit" data-swap="${ei}" aria-label="${T("Cambiar ejercicio")}" title="${T("Cambiar ejercicio")}">⇄</button><button class="xinfo${e.note || nOpen ? " on" : ""}" style="font-family:inherit" data-enote="${ei}" aria-label="${T("Nota")}" title="${T("Nota")}">✎</button>${e.xid && CATBY[e.xid] ? `<button class="xinfo" data-xinfo="${e.xid}" aria-label="${T("Ver ficha")}">i</button>` : ""}
-      <span class="hint">${prev ? T("Anterior") + ": " + prev.map(p => fmtSet(p, tm, sideReps(e)) + (rirTxt(p) ? ` (${rirTxt(p)})` : "")).join(", ") : e.from ? T("Primera vez con este ejercicio") : ""}${lx?.e.note ? `<span class="hint2">✎ ${esc(lx.e.note)}</span>` : ""}${lsw ? `<span class="hint2">${T("La última vez lo cambiaste por {x}", { x: esc(exName(lsw)) })}${lsw.note ? `: ✎ ${esc(lsw.note)}` : ""}</span>` : ""}</span>
+      <span class="hint">${prev ? T("Anterior") + ": " + prev.map(p => fmtSet(p, tm, sideReps(e)) + (rirTxt(p, e) ? ` (${rirTxt(p, e)})` : "")).join(", ") : e.from ? T("Primera vez con este ejercicio") : ""}${lx?.e.note ? `<span class="hint2">✎ ${esc(lx.e.note)}</span>` : ""}${lsw ? `<span class="hint2">${T("La última vez lo cambiaste por {x}", { x: esc(exName(lsw)) })}${lsw.note ? `: ✎ ${esc(lsw.note)}` : ""}</span>` : ""}</span>
       ${e.from ? `<span class="swapnote">${T("en lugar de {x}", { x: esc(exName(e.from)) })} · <button data-swapundo="${ei}">${T("Deshacer")}</button></span>` : ""}
       ${nOpen ? `<textarea class="exnote" data-enotet="${ei}" maxlength="140" rows="2" placeholder="${T("Ej. molestia en el codo, banda verde, agarre más abierto…")}">${esc(e.note || "")}</textarea>` : e.note ? `<span class="hint2" style="flex-basis:100%">✎ ${esc(e.note)}</span>` : ""}
       <span class="spacer"></span><button class="type-t" data-type="${ei}" aria-label="${T("Cambiar entre repeticiones y segundos")}">${tm ? (e.sides ? T("seg · 2 lados") : T("seg")) : (e.sides ? T("reps · izq/der") : T("reps"))}</button>
@@ -2003,9 +2026,9 @@ function toggleSessionPause(force) {
 }
 /* Cualquier acción de entreno reanuda la sesión si estaba en pausa */
 function resumeIfPaused() { if (state.active?.pausedAt) { toggleSessionPause(false); toast(T("Sesión reanudada")); } }
-const SWITCH = 5;
-const prepSecs = () => Math.max(0, +LS.get("wk.prep", 5));     // cuenta atrás antes de la primera serie
-const warnSecs = () => Math.max(0, +LS.get("wk.warn", 3));     // pitidos de aviso al final
+const switchSecs = () => Math.max(0, +LS.get("wk.switch", 5));   // cambio de lado en ejercicios por lado
+const prepSecs = () => Math.max(0, +LS.get("wk.prep", 5));     // preparación antes de una serie por tiempo que arrancas tú
+const warnSecs = () => Math.max(0, +LS.get("wk.warn", 3));     // tics en los últimos segundos de cualquier cuenta atrás
 const autoStart = () => LS.get("wk.autoStart", true) !== false;   // series por tiempo: inicio automático tras el descanso
 const defRestX = () => LS.get("wk.restExDefault", 120);       // descanso entre ejercicios por defecto
 const restXFor = e => (e && e.restAfter !== null && e.restAfter !== undefined && e.restAfter !== "" ? Math.max(0, +e.restAfter) : defRestX());
@@ -2034,8 +2057,19 @@ function beep(freq = 660, ms = 400, delay = 0, vol = 0.35) {
     o.start(t0); o.stop(t0 + ms / 1000 + 0.05);
   } catch {}
 }
-const beepEnd = () => { beep(660, 400, 0); beep(660, 400, 0.35); beep(990, 900, 0.7); };
-const buzz = p => { if (fxMode() === "sound" || fxMode() === "off") return false; try { return navigator.vibrate ? navigator.vibrate(p) : false; } catch { return false; } };
+/* Vibración: siempre a través del ajuste de avisos; con vibración apagada, corta cualquier patrón en curso */
+const vib = p => {
+  if (fxMode() === "sound" || fxMode() === "off") { try { navigator.vibrate?.(0); } catch {} return false; }
+  try { return navigator.vibrate ? navigator.vibrate(p) : false; } catch { return false; }
+};
+const buzz = vib;
+/* Tres avisos: tic (últimos segundos), inicio (empieza una serie) y fin (acaba una serie o un descanso sin nada detrás) */
+function sfx(k) {
+  if (k === "tick") { beep(660, 160, 0, 0.25); vib(40); }
+  else if (k === "go") { beep(660, 160); beep(880, 600, 0.15); vib(300); }
+  else { beep(880, 300); beep(660, 300, 0.25); beep(523, 700, 0.5); vib([300, 120, 300]); }
+}
+const beepEnd = () => sfx("end");
 function flash() { const f = document.createElement("div"); f.className = "flash"; document.body.appendChild(f); setTimeout(() => f.remove(), 800); }
 async function keepAwake(on) {
   try {
@@ -2048,49 +2082,55 @@ async function keepAwake(on) {
 const exOf = ei => state.active?.exercises?.[ei];
 function nextUndone(ei, si) { const e = exOf(ei); for (let j = si + 1; j < (e?.sets.length || 0); j++) if (!e.sets[j].done) return j; return -1; }
 function nextExercise(ei) { const ex = state.active?.exercises || []; for (let j = ei + 1; j < ex.length; j++) if (ex[j].sets.some(s => !s.done)) return j; return -1; }
-/* Qué viene tras terminar la serie si de un ejercicio */
-function afterSet(ei, si) {
-  const e = exOf(ei), nx = nextUndone(ei, si);
-  if (nx >= 0) { const d = restFor(e); return d > 0 ? [{ k: "rest", d, ei, nx }] : []; }
-  const ne = nextExercise(ei), d = restXFor(e), nxq = autoStart() ? autoNext(ne) : [];
-  return ne >= 0 && d > 0 ? [{ k: "restx", d, ei: ne }, ...nxq] : nxq;
+/* Motor de tiempos (2.4). Cinco tramos y una regla para cada uno:
+   - prep    Preparación: antes de una serie por tiempo que arrancas tú (▶) o al reanudar. Al acabar → «inicio».
+   - work    Serie por tiempo. Al acabar → «fin» y se marca hecha.
+   - switch  Cambio de lado, entre lado 1 y lado 2. Al acabar → «inicio».
+   - rest    Descanso entre series.
+   - restx   Descanso entre ejercicios.
+   Al acabar un descanso: si sigue una serie por tiempo con inicio automático, «inicio» y empieza (el final del
+   descanso hace de preparación); si no, «fin» y espera. En todas las cuentas atrás, «tic» en los últimos segundos (Aviso final).
+   Las series por repeticiones nunca arrancan solas. */
+/* Fases de una serie por tiempo (con su cambio de lado) */
+const workPhases = (ei, j) => {
+  const e = exOf(ei), st = e.sets[j], d = Math.round(+st.r || 0);
+  if (!e.sides) return [{ k: "work", d, ei, si: j, side: null }];
+  const sw = switchSecs();
+  return [{ k: "work", d, ei, si: j, side: "a" }, ...(sw ? [{ k: "switch", d: sw, ei, si: j }] : []), { k: "work", d, ei, si: j, side: "b" }];
+};
+/* Qué viene después de la serie j del ejercicio ei: descanso y, con inicio automático, la siguiente serie por tiempo encadenada */
+function chainAfter(ei, j) {
+  const e = exOf(ei), nx = nextUndone(ei, j), auto = autoStart();
+  if (nx >= 0) {
+    const r = restFor(e), next = auto && isTime(e) && timedReady(ei, nx);
+    if (!next) return r > 0 ? [{ k: "rest", d: r, ei, nx }] : [];
+    return [...(r > 0 ? [{ k: "rest", d: r, ei, nx }] : prepSecs() ? [{ k: "prep", d: prepSecs(), ei, si: nx }] : []), ...timedChain(ei, nx)];
+  }
+  const ne = nextExercise(ei); if (ne < 0) return [];
+  const rx = restXFor(e), nj = exOf(ne).sets.findIndex(s => !s.done), next = auto && isTime(exOf(ne)) && timedReady(ne, nj);
+  if (!next) return rx > 0 ? [{ k: "restx", d: rx, ei: ne }] : [];
+  return [...(rx > 0 ? [{ k: "restx", d: rx, ei: ne }] : prepSecs() ? [{ k: "prep", d: prepSecs(), ei: ne, si: nj }] : []), ...timedChain(ne, nj)];
 }
-/* Inicio automático del siguiente ejercicio si es por tiempo (las series por repeticiones nunca arrancan solas) */
-function autoNext(ne) {
-  const e = exOf(ne); if (!e || !isTime(e)) return [];
-  const j = e.sets.findIndex(x => !x.done);
-  return j >= 0 && Math.round(+e.sets[j].r || 0) > 0 ? timedQueue(ne, j, false) : [];
+const timedReady = (ei, j) => { const e = exOf(ei); return !!e && j >= 0 && isTime(e) && Math.round(+e.sets[j].r || 0) > 0; };
+/* Serie por tiempo y todo lo que se encadena detrás */
+function timedChain(ei, j) {
+  const e = exOf(ei), secs = Math.round(+e.sets[j].r || 0);
+  e.sets.forEach((x, k) => { if (k >= j && !x.done && !(+x.r > 0)) x.r = secs; });   // aplica el tiempo de la serie a las vacías
+  return [...workPhases(ei, j), ...chainAfter(ei, j)];
 }
+/* Tras marcar una serie por repeticiones: su descanso (y lo que se encadene detrás) */
+const afterSet = (ei, si) => chainAfter(ei, si);
 /* Si el ejercicio queda completo y no hay descanso, pasa al siguiente */
 function advanceIfDone(ei) {
   const e = exOf(ei); if (!e || !e.sets.every(s => s.done)) return;
   const ne = nextExercise(ei); if (ne >= 0 && curEx(state.active) === ei) { state.exView = ne; window.scrollTo(0, 0); }
 }
+/* ▶ en una serie por tiempo: preparación y la serie (con lo que se encadene) */
 function startTimed(ei, si) {
-  const e = exOf(ei), first = e.sets[si], secs = Math.round(+first.r || 0);
+  const e = exOf(ei), secs = Math.round(+e.sets[si].r || 0);
   if (secs < 1) { toast(T("Pon los segundos de la serie")); document.querySelector(`[data-r="${ei}:${si}"]`)?.focus(); return; }
-  saveActive(); unlockAudio(); buzz(60); startRun(timedQueue(ei, si, true));
-}
-/* Fases de un ejercicio por tiempo desde la serie si. Con inicio automático encadena todas las series y, si el siguiente
-   ejercicio también es por tiempo, sigue con él; sin él, hace una serie y su descanso y espera a que pulses ▶. */
-function timedQueue(ei, si, withPrep) {
-  const e = exOf(ei), q = [], secs = Math.round(+e.sets[si].r || 0), auto = autoStart();
-  const all = e.sets.map((x, j) => j).filter(j => j >= si && !e.sets[j].done), todo = auto ? all : all.slice(0, 1);
-  if (withPrep && prepSecs()) q.push({ k: "prep", d: prepSecs(), ei, si });
-  todo.forEach((j, n) => {
-    const st = e.sets[j]; if (!(+st.r > 0)) st.r = secs;          // aplica el tiempo de la primera a las vacías
-    const d = Math.round(+st.r);
-    q.push({ k: "work", d, ei, si: j, side: e.sides ? "a" : null });
-    if (e.sides) { q.push({ k: "switch", d: SWITCH, ei, si: j }); q.push({ k: "work", d, ei, si: j, side: "b" }); }
-    if (n < todo.length - 1) { const r = restFor(e); q.push(r > 0 ? { k: "rest", d: r, ei, nx: todo[n + 1] } : { k: "prep", d: Math.max(3, prepSecs()), ei, si: todo[n + 1] }); }
-  });
-  if (all.length > todo.length) { const r = restFor(e); if (r > 0) q.push({ k: "rest", d: r, ei, nx: all[todo.length] }); }
-  else {
-    const ne = nextExercise(ei), rx = restXFor(e), nxq = auto ? autoNext(ne) : [];
-    if (ne >= 0 && rx > 0) q.push({ k: "restx", d: rx, ei: ne, after: true }, ...nxq);
-    else if (ne >= 0) q.push(...nxq);
-  }
-  return q;
+  saveActive(); unlockAudio(); vib(40);
+  startRun([...(prepSecs() ? [{ k: "prep", d: prepSecs(), ei, si }] : []), ...timedChain(ei, si)]);
 }
 function startRun(q) {
   if (!q.length) { render(); return; }
@@ -2100,41 +2140,40 @@ function startRun(q) {
 }
 function enterPhase(i) {
   run.i = i; const f = run.q[i]; run.end = Date.now() + f.d * 1000; run.tick = null;
-  if (f.k === "work") { state.exView = f.ei; beep(880, 600); buzz(300); flash(); }
-  else if (f.k === "switch") { beep(660, 400); beep(660, 400, 0.35); buzz([300, 150, 300]); flash(); }
+  if (f.k === "work") { state.exView = f.ei; sfx("go"); flash(); }
+  if (f.k === "restx") { state.exView = f.ei; }
   render();
 }
 function markSet(f, secsDone) {
   const e = exOf(f.ei), st = e?.sets[f.si]; if (!st) return;
   if (secsDone !== undefined) st.r = secsDone;
   st.done = true; saveActive();
+  if (EFF().rir) state.rirAsk = { ei: f.ei, si: f.si };
 }
+/* Fin de un tramo. natural: llegó a 0 (no se saltó) */
 function phaseDone(natural) {
-  const f = run.q[run.i];
-  if (f.k === "work" && f.side !== "a") { markSet(f, natural ? f.d : Math.max(1, Math.round(f.d - Math.max(0, run.end - Date.now()) / 1000)));
-    if (natural) { const nx = run.q[run.i + 1]; if (!nx || nx.k === "rest" || nx.k === "restx" || nx.k === "prep") { beepEnd(); buzz([400, 150, 400, 150, 400]); } } }
-  if (f.k === "rest" || f.k === "restx") buzz(200);
-  if (f.k === "restx") { state.exView = f.ei; window.scrollTo(0, 0); }
-  if (run.i + 1 >= run.q.length) { endRun(); return; }
+  const f = run.q[run.i], nx = run.q[run.i + 1];
+  if (f.k === "work") {
+    if (f.side !== "a") markSet(f, natural ? f.d : Math.max(1, Math.round(f.d - Math.max(0, run.end - Date.now()) / 1000)));
+    if (natural) sfx("end");
+  } else if (natural && (f.k === "rest" || f.k === "restx" || f.k === "prep" || f.k === "switch") && (!nx || nx.k !== "work")) sfx("end");
+  if (!nx) { endRun(); return; }
   enterPhase(run.i + 1);
 }
 function runTick() {
   if (!run) return clearInterval(runT);
-  if (run.lead) {
+  if (run.lead) {                                                     // reanudar tras una pausa: preparación y sigue
     const l = Math.ceil((run.lead - Date.now()) / 1000);
-    if (l <= 0) { run.end = Date.now() + run.rem; run.paused = false; run.lead = null; run.tick = null; beep(880, 600); buzz(300); render(); return; }
+    if (l <= 0) { run.end = Date.now() + run.rem; run.paused = false; run.lead = null; run.tick = null; sfx("go"); render(); return; }
     const n = $("#fNum"); if (n) n.textContent = fmtLeft(l);
-    if (run.leadTick !== l) { run.leadTick = l; beep(660, 160, 0, 0.25); }
+    if (l <= warnSecs() && run.leadTick !== l) { run.leadTick = l; sfx("tick"); }
     return;
   }
   if (run.paused) return;
   const f = run.q[run.i], left = Math.ceil((run.end - Date.now()) / 1000);
   if (left <= 0) { phaseDone(true); return; }
-  // Aviso final: solo en series por tiempo. Cualquier otra cuenta atrás (descansos, cambio de lado, preparación) usa la cuenta atrás de inicio
-
-  const warn = f.k === "work" ? warnSecs() : f.k === "prep" ? f.d : prepSecs();
   const n = $("#fNum"); if (n) n.textContent = fmtLeft(left);
-  if (left <= warn && run.tick !== left) { run.tick = left; beep(660, 160, 0, 0.25); }
+  if (left <= warnSecs() && run.tick !== left) { run.tick = left; sfx("tick"); }
   const r = $("#fRing"); if (r) r.style.strokeDashoffset = String(RING * Math.max(0, (run.end - Date.now()) / (f.d * 1000)));
 }
 const RING = 2 * Math.PI * 88;
@@ -2166,10 +2205,14 @@ function stopRun() {
   const f = run.q[run.i], now = run.paused ? run.end - run.rem : Date.now();
   if (f.k === "work") { const el = Math.round(f.d - Math.max(0, run.end - now) / 1000); if (el >= 1) markSet(f, el); }
   if (f.k === "switch") markSet(f);
-  beep(660, 400); endRun();
+  sfx("end"); endRun();
 }
-function endRun() { clearInterval(runT); run = null; keepAwake(false); render(); updateLive(); }
-function cancelRun() { if (run) { clearInterval(runT); run = null; keepAwake(false); } }
+function endRun() { clearInterval(runT); run = null; render(); updateLive(); }
+function cancelRun() { if (run) { clearInterval(runT); run = null; } syncAwake(); }
+/* Pantalla encendida mientras hay una sesión en marcha (o una cuenta atrás) */
+const syncAwake = () => keepAwake(!!run || !!(state.active && !state.active.pre));
+document.addEventListener("toggle", ev => { if (ev.target.matches?.("details[data-plans]")) state.plansOpen = ev.target.open; }, true);
+document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") { wakeLock = null; syncAwake(); } });
 function focusView() {
   if (!run || !state.active) return "";
   const f = run.q[run.i], e = exOf(f.ei) || {}, nx = run.q[run.i + 1], left = run.lead ? Math.max(0, Math.ceil((run.lead - Date.now()) / 1000)) : run.paused ? Math.ceil(run.rem / 1000) : Math.max(0, Math.ceil((run.end - Date.now()) / 1000));
@@ -2639,14 +2682,18 @@ const toMin = hm => { if (!hm) return null; const [h, m] = hm.split(":").map(Num
 function sleepMin(sl) { const b = toMin(sl?.bed), w = toMin(sl?.wake); if (b === null || w === null) return null; let d = w - b; if (d <= 0) d += 1440; return d; }
 const fmtHM = m => { m = Math.round(m); return `${Math.floor(m / 60)} h ${String(m % 60).padStart(2, "0")}`; };
 function sessionCard(s) {
-  const d = new Date(s.start), mins = Math.round((s.end - s.start) / 60000);
-  return `<details class="sess">
+  const d = new Date(s.start), mins = Math.round((s.end - s.start) / 60000), ed = state.sessNoteEd === s.id;
+  return `<details class="sess"${ed || state.sessOpen === s.id ? " open" : ""}>
     <summary><div style="flex:1;min-width:0"><div style="font-weight:600">${esc(s.routine || T("Sesión libre"))} <span class="tagb">${T(CAT_NAME[catOf(s)] || "Otro")}</span> ${pemChip(s)}</div>
       <div class="muted" style="font-size:.875rem">${d.toLocaleTimeString(LOC(), { hour: "numeric", minute: "2-digit" })} · ${mins} min · ${doneSets(s)} ${T("series")} · ${fmtWork(sessionWork(s))}</div></div></summary>
     <div class="body">
-      <table>${s.exercises.map(e => `<tr><td>${esc(exLabel(e))}${e.from ? `<span class="hint2">${T("en lugar de {x}", { x: esc(e.from) })}</span>` : ""}${e.note ? `<span class="hint2">✎ ${esc(e.note)}</span>` : ""}</td><td class="muted">${e.sets.map(x => fmtSet(x, isTime(e), sideReps(e)) + (rirTxt(x) ? ` (${rirTxt(x)})` : "")).join(", ")}${sideReps(e) ? ` <span style="font-size:.75rem">(${T("izq/der")})</span>` : ""}${e.sets.some(x => rirTxt(x)) ? ` <span style="font-size:.75rem">(${T("RIR")})</span>` : ""}</td></tr>`).join("")}</table>
+      <table>${s.exercises.map(e => `<tr><td>${esc(exLabel(e))}${e.from ? `<span class="hint2">${T("en lugar de {x}", { x: esc(e.from) })}</span>` : ""}${e.note ? `<span class="hint2">✎ ${esc(e.note)}</span>` : ""}</td><td class="muted">${e.sets.map(x => fmtSet(x, isTime(e), sideReps(e)) + (rirTxt(x, e) ? ` (${rirTxt(x, e)})` : "")).join(", ")}${sideReps(e) ? ` <span style="font-size:.75rem">(${T("izq/der")})</span>` : ""}${e.sets.some(x => rirTxt(x, e)) ? ` <span style="font-size:.75rem">(${T("RIR")})</span>` : ""}</td></tr>`).join("")}</table>
+      ${ed ? `<div class="snoted"><label class="muted" for="ssn_${s.id}" style="font-size:.85rem">${T("Nota de la sesión")}</label><textarea id="ssn_${s.id}" data-ssnote="${s.id}" rows="2" maxlength="280" placeholder="${T("Cómo ha ido, molestias, cambios…")}">${esc(s.note || "")}</textarea>
+        ${s.exercises.map((e, i) => `<label class="muted" style="font-size:.85rem;display:block;margin-top:8px" for="sxn_${s.id}_${i}">✎ ${esc(exLabel(e))}</label><input type="text" id="sxn_${s.id}_${i}" data-sxnote="${s.id}:${i}" maxlength="140" value="${esc(e.note || "")}">`).join("")}
+        <button class="btn small primary" style="margin-top:10px" data-act="snote-done">${T("Hecho")}</button></div>`
+        : `${s.note ? `<p style="margin:10px 0 0">✎ ${esc(s.note)}</p>` : ""}`}
       ${EFF().pem ? `<div style="margin-top:10px"><span class="muted" style="font-size:.85rem">${T("Esfuerzo de la sesión (PEM)")}</span>${pemPicker(s, "spem")}</div>` : ""}
-      <div class="row" style="margin-top:10px"><button class="btn small shbtn" data-shsess="${s.id}">${SHARE_ICO}${T("Compartir")}</button><span class="spacer"></span><button class="btn small danger" data-delsess="${s.id}">${T("Eliminar sesión")}</button></div>
+      <div class="row" style="margin-top:10px">${ed ? "" : `<button class="btn small" data-snote="${s.id}">✎ ${T("Notas")}</button>`}<button class="btn small shbtn" data-shsess="${s.id}">${SHARE_ICO}${T("Compartir")}</button><span class="spacer"></span><button class="btn small danger" data-delsess="${s.id}">${T("Eliminar sesión")}</button></div>
     </div></details>`;
 }
 function viewDiary() {
@@ -3007,23 +3054,24 @@ function suplLog(now) {
 function dayNotes(k) {
   const d = DY.get(k), o = { k, tags: d.tags || [], day: (d.note || "").trim(), ses: [], ex: [], act: [], sup: [] };
   state.sessions.filter(x => dayKey(x.start) === k).sort((a, b) => a.start - b.start).forEach(x => {
-    o.ses.push({ n: x.routine || T("Libre"), pem: +x.pem || 0, min: Math.round((x.end - x.start) / 60000) });
+    o.ses.push({ n: x.routine || T("Libre"), pem: +x.pem || 0, min: Math.round((x.end - x.start) / 60000), note: (x.note || "").trim() });
+    if ((x.note || "").trim()) o.snote = true;
     x.exercises.forEach(e => { if ((e.note || "").trim() || e.from) o.ex.push({ n: exLabel(e), note: (e.note || "").trim(), from: e.from || "" }); });
   });
   ACT.list().filter(a => a.k === k && (a.note || "").trim()).forEach(a => o.act.push({ n: a.type, note: a.note.trim() }));
   DY.supps().forEach(x => { const v = d.supp?.[x.id]; if ((v?.note || "").trim()) o.sup.push({ n: x.name, note: v.note.trim() }); });
-  o.has = !!(o.tags.length || o.day || o.ex.length || o.act.length || o.sup.length);
+  o.has = !!(o.tags.length || o.day || o.snote || o.ex.length || o.act.length || o.sup.length);
   return o;
 }
 /* Días con alguna nota (una pasada por todos los datos) */
 function noteDays() {
   const z = new Set(), D = DY.all();
   Object.keys(D).forEach(k => { const e = D[k]; if ((e.tags || []).length || (e.note || "").trim() || Object.values(e.supp || {}).some(v => (v?.note || "").trim())) z.add(k); });
-  state.sessions.forEach(x => { if (x.exercises.some(e => (e.note || "").trim() || e.from)) z.add(dayKey(x.start)); });
+  state.sessions.forEach(x => { if ((x.note || "").trim() || x.exercises.some(e => (e.note || "").trim() || e.from)) z.add(dayKey(x.start)); });
   ACT.list().forEach(a => { if ((a.note || "").trim()) z.add(a.k); });
   return z;
 }
-const noteSnip = o => o.day || o.ex.map(e => e.note || T("en lugar de {x}", { x: e.from })).find(Boolean) || o.act[0]?.note || o.sup[0]?.note || "";
+const noteSnip = o => o.day || o.ses.map(x => x.note).find(Boolean) || o.ex.map(e => e.note || T("en lugar de {x}", { x: e.from })).find(Boolean) || o.act[0]?.note || o.sup[0]?.note || "";
 const tagChips = tags => tags.map(t => { const x = TAGS.find(y => y[0] === t); return `<span class="dntag${t === "skip" ? " skip" : ""}">${esc(x ? T(x[1]) : t)}</span>`; }).join("");
 /* Punto naranja en un gráfico: abre las notas de uno o varios días */
 const noteDot = (x, y, keys) => `<g class="ndot" data-dnote="${keys.join(",")}" role="button" aria-label="${T("Ver notas")}"><circle cx="${x}" cy="${y}" r="20" fill="transparent"/><circle cx="${x}" cy="${y}" r="8" style="fill:var(--warn);stroke:var(--surface)" stroke-width="2.5"/><title>${T("Ver notas")}</title></g>`;
@@ -3036,7 +3084,7 @@ function dayNoteModal() {
     <h2 id="dnT" style="margin:0 0 6px">${one ? fmt(days[0].k) : T("Notas de la semana")}</h2>
     ${days.length ? days.map(o => `<div class="dnd">${one ? "" : `<b>${fmt(o.k)}</b>`}<div>${tagChips(o.tags)}</div>
       ${o.day ? `<div class="dnsrc">${T("Diario")}</div><div>${esc(o.day)}</div>` : ""}
-      ${o.ses.length ? `<div class="dnsrc">${T("Sesión")}</div>${o.ses.map(x => `<div>${esc(x.n)} · ${x.min} min${x.pem ? ` · ${T("PEM")} ${x.pem}` : ""}</div>`).join("")}` : ""}
+      ${o.ses.length ? `<div class="dnsrc">${T("Sesión")}</div>${o.ses.map(x => `<div>${esc(x.n)} · ${x.min} min${x.pem ? ` · ${T("PEM")} ${x.pem}` : ""}${x.note ? `<div>✎ ${esc(x.note)}</div>` : ""}</div>`).join("")}` : ""}
       ${o.ex.length ? `<div class="dnsrc">${T("Ejercicios")}</div>${o.ex.map(e => `<div><b style="font-weight:600">${esc(e.n)}</b>${e.from ? ` · ⇄ ${T("en lugar de {x}", { x: esc(e.from) })}` : ""}${e.note ? ` · ✎ ${esc(e.note)}` : ""}</div>`).join("")}` : ""}
       ${o.act.length ? `<div class="dnsrc">${T("Actividad")}</div>${o.act.map(a => `<div>${esc(a.n)} · ${esc(a.note)}</div>`).join("")}` : ""}
       ${o.sup.length ? `<div class="dnsrc">${T("Suplementos")}</div>${o.sup.map(a => `<div>${esc(a.n)} · ${esc(a.note)}</div>`).join("")}` : ""}
@@ -3187,10 +3235,11 @@ function viewData() {
       <div class="wrow"><label class="muted" for="restDef" style="font-size:.85rem">${T("Descanso entre series (s)")}</label><input id="restDef" type="number" min="0" step="5" inputmode="numeric" value="${defRest()}"><span></span></div>
       <div class="wrow" style="margin-top:10px"><label class="muted" for="restXDef" style="font-size:.85rem">${T("Descanso entre ejercicios (s)")}</label><input id="restXDef" type="number" min="0" step="5" inputmode="numeric" value="${defRestX()}"><span></span></div>
       <p class="muted" style="font-size:.8rem;margin:8px 0 0">${T("Se usan en los ejercicios sin descanso propio (Rutinas → Editar). 0 = sin descanso.")}</p>
-      <div class="wrow" style="margin-top:14px"><label class="muted" for="prepDef" style="font-size:.85rem">${T("Cuenta atrás de inicio (s)")}</label><input id="prepDef" type="number" min="0" max="30" inputmode="numeric" value="${prepSecs()}"><span></span></div>
+      <div class="wrow" style="margin-top:14px"><label class="muted" for="prepDef" style="font-size:.85rem">${T("Preparación (s)")}</label><input id="prepDef" type="number" min="0" max="30" inputmode="numeric" value="${prepSecs()}"><span></span></div>
       <div class="wrow" style="margin-top:10px"><label class="muted" for="warnDef" style="font-size:.85rem">${T("Aviso final (s)")}</label><input id="warnDef" type="number" min="0" max="10" inputmode="numeric" value="${warnSecs()}"><span></span></div>
+      <div class="wrow" style="margin-top:10px"><label class="muted" for="switchDef" style="font-size:.85rem">${T("Cambio de lado (s)")}</label><input id="switchDef" type="number" min="0" max="30" inputmode="numeric" value="${switchSecs()}"><span></span></div>
       <label class="chk" style="grid-column:auto;margin-top:14px"><input type="checkbox" id="autoStartChk" ${autoStart() ? "checked" : ""}> ${T("Inicio automático de series por tiempo")}</label>
-      <p class="muted" style="font-size:.8rem;margin:8px 0 0">${T("Cuenta atrás de inicio: pitidos en los últimos segundos de cualquier cuenta atrás que no sea una serie (descansos, cambio de lado, preparación). Aviso final: pitidos en los últimos segundos de cada serie por tiempo. Inicio automático: tras el descanso, la siguiente serie por tiempo arranca sola (en repeticiones nunca); si no, pulsas ▶.")}</p>
+      <p class="muted" style="font-size:.8rem;margin:8px 0 0">${T("Preparación: cuenta atrás antes de una serie por tiempo que arrancas tú (▶) o al reanudar. Aviso final: tics en los últimos segundos de cualquier cuenta atrás. Cambio de lado: pausa entre lado 1 y lado 2. Inicio automático: al acabar el descanso, la siguiente serie por tiempo empieza sola (el final del descanso hace de preparación); las series por repeticiones nunca.")}</p>
     </div>
     <h2>${T("Esfuerzo")}</h2>
     <div class="panel">
@@ -3329,6 +3378,11 @@ function installBlock() {
 }
 /* ---------- Novedades (una vez por versión; historial al tocar la versión) ---------- */
 const CHANGES = [
+  ["2.4.0", {
+    es: ["Cuenta atrás rehecha desde cero con cinco tramos y una regla para cada uno: preparación, serie, cambio de lado (ahora ajustable), descanso entre series y entre ejercicios. Al acabar un descanso, si sigue una serie por tiempo con inicio automático, empieza sola sin otra cuenta atrás; si no, espera.", "Tres sonidos: tic en los últimos segundos de cualquier cuenta atrás, inicio y fin. La vibración respeta siempre Ajustes → Avisos.", "La pantalla se mantiene encendida durante toda la sesión, no solo en las cuentas atrás.", "RIR también en series por tiempo: cuánto más habrías aguantado (0, 5, 10, 15+ s).", "«Ejercicio hecho» bien visible, con el descanso que viene y el botón al siguiente.", "Diario: nota de la sesión y notas de cada ejercicio editables después de terminar.", "Varios planes: el activo marca Hoy y los demás quedan guardados para activar, duplicar o borrar. Cada plan puede tener nombre."],
+    ca: ["Compte enrere refet des de zero amb cinc trams i una regla per a cadascun: preparació, sèrie, canvi de costat (ara ajustable), descans entre sèries i entre exercicis. En acabar un descans, si segueix una sèrie per temps amb inici automàtic, comença sola sense un altre compte enrere; si no, espera.", "Tres sons: tic als últims segons de qualsevol compte enrere, inici i fi. La vibració respecta sempre Ajustos → Avisos.", "La pantalla es manté encesa durant tota la sessió, no només als comptes enrere.", "RIR també en sèries per temps: quant més hauries aguantat (0, 5, 10, 15+ s).", "«Exercici fet» ben visible, amb el descans que ve i el botó al següent.", "Diari: nota de la sessió i notes de cada exercici editables després d'acabar.", "Diversos plans: l'actiu marca Avui i la resta queden desats per activar, duplicar o esborrar. Cada pla pot tenir nom."],
+    en: ["Countdown rebuilt from scratch with five stages and one rule each: get-ready, set, side switch (now adjustable), rest between sets and between exercises. When a rest ends, if a timed set with auto start follows, it starts right away with no extra countdown; otherwise it waits.", "Three sounds: a tick in the last seconds of any countdown, start and end. Vibration always follows Settings → Alerts.", "The screen stays on during the whole session, not just during countdowns.", "RIR for timed sets too: how much longer you could have held (0, 5, 10, 15+ s).", "A clearly visible “Exercise done” card with the upcoming rest and a button to the next one.", "Diary: session note and each exercise's note can be edited after finishing.", "Several plans: the active one drives Today and the rest stay saved to activate, duplicate or delete. Each plan can have a name."]
+  }],
   ["2.3.0", {
     es: ["Notas en Stats: los días con nota llevan un punto naranja en Constancia, Carga, Peso, Sueño, Pasos y el progreso de cada ejercicio. Al tocarlo ves todo lo apuntado ese día (diario, etiquetas, notas y cambios de ejercicio, actividad, suplementos) sin salir de Stats.", "Constancia marca aparte los días con «No entrené».", "«Notas del periodo» en todas las pestañas de Stats, y las notas de cada ejercicio en su historial.", "App Android: Ajustes → App → Actualizaciones, con la versión instalada, el enlace a las versiones y cómo recibir avisos con Obtainium.", "Nombre de ejemplo en el perfil: Cristina."],
     ca: ["Notes a Stats: els dies amb nota porten un punt taronja a Constància, Càrrega, Pes, Son, Passos i el progrés de cada exercici. En tocar-lo veus tot el que vas apuntar aquell dia (diari, etiquetes, notes i canvis d'exercici, activitat, suplements) sense sortir de Stats.", "Constància marca a part els dies amb «No vaig entrenar».", "«Notes del període» a totes les pestanyes de Stats, i les notes de cada exercici al seu historial.", "App Android: Ajustos → App → Actualitzacions, amb la versió instal·lada, l'enllaç a les versions i com rebre avisos amb Obtainium.", "Nom d'exemple al perfil: Cristina."],
@@ -3931,6 +3985,7 @@ async function importJSON(text) {
   if (j.weightGoal && !W.goal()) LS.set("wk.weightGoal", +j.weightGoal);
   if (j.diary && typeof j.diary === "object") { const cur = DY.all(); Object.entries(j.diary).forEach(([k, v]) => { if (/^\d{4}-\d{2}-\d{2}$/.test(k) && v && typeof v === "object") cur[k] = { ...(cur[k] || {}), ...v, supp: { ...(cur[k]?.supp || {}), ...(v.supp || {}) } }; }); LS.set("wk.diary", cur); }
   if (j.plan && typeof j.plan === "object" && j.plan.start && Array.isArray(j.plan.phases)) PL.save(j.plan);
+  if (Array.isArray(j.plans)) PLS.save(j.plans.filter(p => p && typeof p === "object" && p.start && Array.isArray(p.phases)).map(p => ({ ...p, id: p.id || uid() })));
   if (Array.isArray(j.supplements)) { const m = new Map(DY.supps().map(x => [x.id, x])); j.supplements.filter(x => x && x.id && x.name).forEach(x => m.set(x.id, x)); DY.saveSupps([...m.values()]); }
   if (Array.isArray(j.activities)) { const m = new Map(ACT.list().map(x => [x.id, x])); j.activities.filter(x => x && x.id && /^\d{4}-\d{2}-\d{2}$/.test(x.k) && x.type && (+x.km > 0 || +x.min > 0)).forEach(x => m.set(x.id, { id: String(x.id), k: x.k, type: String(x.type).slice(0, 24), km: +x.km || 0, min: +x.min || 0, note: String(x.note || "").slice(0, 140) })); ACT.save([...m.values()]); }
   if (Array.isArray(j.activityTypes)) ACT.saveTypes([...new Set([...ACT.types(), ...j.activityTypes.filter(x => typeof x === "string" && x.trim()).map(x => x.trim().slice(0, 24))])]);
@@ -3976,6 +4031,10 @@ document.addEventListener("click", async ev => {
   }
   if (d.ownmat !== undefined && state.editing) { readEditor(); const e = state.editing.exercises[+d.ownmat]; state.ownMat = { i: +d.ownmat, equip: [...(e.equip || [])], other: e.other || "" }; render(); return; }
   if (d.fx) { LS.set("wk.fx", d.fx); render(); return; }
+  if (d.pact) { const l = PLS.list(), p = l.find(x => x.id === d.pact); if (!p) return; const a = PL.get(), rest = l.filter(x => x.id !== d.pact);
+    if (a) rest.unshift({ ...a, id: a.id || uid() }); PLS.save(rest); PL.save(p); state.plansOpen = true; toast(T("Plan activo: {x}", { x: planName(p) })); render(); return; }
+  if (d.pdel) { const p = PLS.list().find(x => x.id === d.pdel); if (!p || !confirm(T("¿Eliminar el plan «{x}»? Tus rutinas y sesiones no se tocan.", { x: planName(p) }))) return; PLS.save(PLS.list().filter(x => x.id !== d.pdel)); state.plansOpen = true; render(); return; }
+  if (d.snote) { state.sessNoteEd = d.snote; render(); document.querySelector(`[data-ssnote="${d.snote}"]`)?.focus(); return; }
   if (d.pem || d.spem) { const [id, n] = (d.pem || d.spem).split(":"); setPem(id, +n); render(); return; }
   if (d.rir !== undefined && state.rirAsk && a) { const q = state.rirAsk, x = a.exercises[q.ei]?.sets[q.si]; if (x && +d.rir >= 0) x.rir = +d.rir; state.rirAsk = null; saveActive(); render(); return; }
   if (d.enote !== undefined && a) { state.noteOpen = state.noteOpen === +d.enote ? null : +d.enote; render(); if (state.noteOpen !== null) document.querySelector(`[data-enotet="${d.enote}"]`)?.focus(); return; }
@@ -4067,7 +4126,7 @@ document.addEventListener("click", async ev => {
   }
   if (d.done && a) {
     const [ei, si] = d.done.split(":").map(Number); const s = a.exercises[ei].sets[si];
-    s.done = !s.done; if (!s.done) delete s.rir; state.rirAsk = s.done && EFF().rir && !isTime(a.exercises[ei]) ? { ei, si } : null; saveActive();
+    s.done = !s.done; if (!s.done) delete s.rir; state.rirAsk = s.done && EFF().rir ? { ei, si } : null; saveActive();
     if (s.done && !run) { const q = afterSet(ei, si); if (q.length) { unlockAudio(); startRun(q); return; } advanceIfDone(ei); }
     render(); return;
   }
@@ -4105,6 +4164,7 @@ document.addEventListener("click", async ev => {
     case "pg-cancel": state.progChange = null; render(); break;
     case "pg-ok": { const c = state.progChange, p = state.progProps?.[c.k]; if (p && progApply(p, c.tgt)) { state.progProps.splice(c.k, 1); toast(T("Rutina actualizada")); } state.progChange = null; render(); break; }
     case "dnote-close": state.dnote = null; render(); break;
+    case "snote-done": state.sessOpen = state.sessNoteEd; state.sessNoteEd = null; render(); break;
     case "apk-tip-no": LS.set("wk.apkTip", true); render(); break;
     case "pu-ok": { const L = LS.get("wk.planUpLog", null); if (L) { L.seen = true; LS.set("wk.planUpLog", L); } render(); break; }
     case "pu-undo": planUpUndo(); toast(T("Cambios deshechos")); render(); break;
@@ -4223,16 +4283,19 @@ document.addEventListener("click", async ev => {
     case "addre": readEditor(); state.editing.exercises.push({ name: "", sets: 3, reps: 10, type: "reps" }); render();
       document.querySelector(`[data-en="${state.editing.exercises.length - 1}"]`)?.focus(); break;
     case "plan-open": readEditor(); state.editing = null; state.tab = "train"; state.planMode = null; render(); setTimeout(() => $("#planSec")?.scrollIntoView({ block: "start" }), 0); break;
-    case "plan-create": state.tab = "train"; state.planDraft = newPlanDraft(); state.planMode = "edit"; render(); window.scrollTo(0, 0); break;
-    case "plan-edit": state.tab = "train"; state.planDraft = JSON.parse(JSON.stringify(PL.get() || newPlanDraft())); state.planDraft.phases.forEach(x => x.id = x.id || uid()); state.planMode = "edit"; render(); window.scrollTo(0, 0); break;
+    case "plan-new": state.tab = "train"; state.planNew = true; state.planDraft = newPlanDraft(); state.planMode = "edit"; render(); window.scrollTo(0, 0); break;
+    case "plan-dup": { const a = PL.get(); if (!a) break; const l = PLS.list(); l.unshift({ ...JSON.parse(JSON.stringify(a)), id: uid(), name: T("Copia de {x}", { x: planName(a) }) }); PLS.save(l); state.plansOpen = true; toast(T("Plan duplicado. Actívalo para editarlo.")); render(); break; }
+    case "plan-create": state.planNew = false; state.tab = "train"; state.planDraft = newPlanDraft(); state.planMode = "edit"; render(); window.scrollTo(0, 0); break;
+    case "plan-edit": state.planNew = false; state.tab = "train"; state.planDraft = JSON.parse(JSON.stringify(PL.get() || newPlanDraft())); state.planDraft.phases.forEach(x => x.id = x.id || uid()); state.planMode = "edit"; render(); window.scrollTo(0, 0); break;
     case "plan-addph": { const used = new Set(state.planDraft.phases.map(x => x.variant)), nx = "ABCDEFGH".split("").find(c => !used.has(c)) || ""; state.planDraft.phases.push({ id: uid(), variant: nx, weeks: 2 }); render(); break; }
-    case "plan-cancel": state.planDraft = null; state.planMode = null; render(); setTimeout(() => $("#planSec")?.scrollIntoView({ block: "start" }), 0); break;
+    case "plan-cancel": state.planDraft = null; state.planMode = null; state.planNew = false; render(); setTimeout(() => $("#planSec")?.scrollIntoView({ block: "start" }), 0); break;
     case "plan-save": {
       const dr = state.planDraft; dr.phases = dr.phases.filter(x => normVar(x.variant));
       if (!dr.start) { toast(T("Pon la fecha de inicio")); return; }
       if (!dr.phases.length) { toast(T("Añade al menos una fase con variante")); return; }
       if (dr.review && dr.review <= dr.start) { toast(T("La revisión debe ser posterior al inicio")); return; }
-      PL.save(dr); state.planDraft = null; state.planMode = null; toast(T("Plan guardado")); render(); setTimeout(() => $("#planSec")?.scrollIntoView({ block: "start" }), 0); break;
+      if (state.planNew) { const old = PL.get(); if (old) PLS.save([{ ...old, id: old.id || uid() }, ...PLS.list()]); dr.id = uid(); }
+      dr.id = dr.id || uid(); PL.save(dr); state.planDraft = null; state.planMode = null; state.planNew = false; toast(T("Plan guardado")); render(); setTimeout(() => $("#planSec")?.scrollIntoView({ block: "start" }), 0); break;
     }
     case "plan-del": if (!confirm(T("¿Eliminar el plan? Tus rutinas y sesiones no se tocan."))) return; LS.set("wk.plan", null); state.planDraft = null; state.planMode = null; render(); break;
     case "cancelroutine": state.editing = null; render(); break;
@@ -4246,7 +4309,7 @@ document.addEventListener("click", async ev => {
     }
     case "exp-all": {
       const pm = curProf(), pn = multiProf() ? `-${fileSlug(profName(pm))}` : "";
-      const ok = await deliver(`usus-${T("copia")}${pn}-${stamp()}.json`, JSON.stringify({ app: "usus", version: 1, exported: new Date().toISOString(), ...(pm.sex ? { profile: { name: pm.name, sex: pm.sex, color: pm.color } } : {}), routines: state.routines, sessions: state.sessions, weights: W.list(), weightGoal: W.goal(), diary: DY.all(), cycle: { periods: CYC.list(), symptoms: CYC.syms(), settings: CYC.cfg() }, supplements: DY.supps(), activities: ACT.list(), activityTypes: ACT.types(), goals: LS.get("wk.goals", null), plan: PL.get(), ...(aiHasData(aiProf()) ? { aiProfile: aiProf() } : {}) }, null, 2), "application/json");
+      const ok = await deliver(`usus-${T("copia")}${pn}-${stamp()}.json`, JSON.stringify({ app: "usus", version: 1, exported: new Date().toISOString(), ...(pm.sex ? { profile: { name: pm.name, sex: pm.sex, color: pm.color } } : {}), routines: state.routines, sessions: state.sessions, weights: W.list(), weightGoal: W.goal(), diary: DY.all(), cycle: { periods: CYC.list(), symptoms: CYC.syms(), settings: CYC.cfg() }, supplements: DY.supps(), activities: ACT.list(), activityTypes: ACT.types(), goals: LS.get("wk.goals", null), plan: PL.get(), plans: PLS.list(), ...(aiHasData(aiProf()) ? { aiProfile: aiProf() } : {}) }, null, 2), "application/json");
       if (ok) { LS.set("wk.lastBackup", Date.now()); render(); } break;
     }
     case "w-ban": case "w-add": {
@@ -4290,6 +4353,15 @@ document.addEventListener("input", ev => {
   if (ev.target.id === "catQ") { state.catQ = ev.target.value; const l = $("#catList"); if (l) l.innerHTML = catListHTML(); }
   if (ev.target.id === "xpQ" && state.xpick) { state.xpick.q = ev.target.value; const l = $("#xpList"); if (l) l.innerHTML = xpListHTML(); const b = $("#xpOwn"); if (b) b.innerHTML = xpOwnLabel(); }
 });
+document.addEventListener("input", ev => {
+  const sn = ev.target.dataset?.ssnote, xn = ev.target.dataset?.sxnote;
+  if (sn || xn) {
+    const [id, i] = (sn || xn).split(":"), x = state.sessions.find(z => z.id === id); if (!x) return;
+    const v = ev.target.value.trim(), o = sn ? x : x.exercises[+i]; if (!o) return;
+    if (v) o.note = v; else delete o.note;
+    store.saveSession(x);
+  }
+});
 document.addEventListener("input", ev => { if (state.actForm && /^af[khm]$/.test(ev.target.id)) { readActForm(); const p = document.getElementById("apv"); if (p) p.innerHTML = actPreview(state.actForm); } });
 document.addEventListener("change", async ev => {
   if (state.planMode === "edit" && ev.target.closest?.("#app") && (/^p(On|Start|Review|DlW|DlE|Up|UpRule)$/.test(ev.target.id) || ev.target.dataset.pv !== undefined || ev.target.dataset.pw !== undefined)) { readPlan(); render(); return; }
@@ -4318,7 +4390,8 @@ document.addEventListener("change", async ev => {
   if (tg.id === "gDaily" || tg.id === "gStr") { const g = LS.get("wk.goals", { daily: 0, strength: 0 }); g[tg.id === "gDaily" ? "daily" : "strength"] = Math.max(0, Math.min(7, Math.round(+tg.value || 0))); LS.set("wk.goals", g); toast(T("Objetivo guardado")); }
   if (ev.target.id === "restXDef") { const v = Math.max(0, Math.round(+ev.target.value || 0)); LS.set("wk.restExDefault", v); toast(T("Descanso entre ejercicios: {n} s", { n: v })); }
   if (ev.target.id === "autoStartChk") { LS.set("wk.autoStart", ev.target.checked); toast(ev.target.checked ? T("Inicio automático: sí") : T("Inicio automático: no")); }
-  if (ev.target.id === "prepDef") { const v = Math.max(0, Math.min(30, Math.round(+ev.target.value || 0))); LS.set("wk.prep", v); toast(T("Cuenta atrás de inicio: {n} s", { n: v })); }
+  if (ev.target.id === "switchDef") { const v = Math.max(0, Math.min(30, Math.round(+ev.target.value || 0))); LS.set("wk.switch", v); toast(T("Cambio de lado: {n} s", { n: v })); }
+  if (ev.target.id === "prepDef") { const v = Math.max(0, Math.min(30, Math.round(+ev.target.value || 0))); LS.set("wk.prep", v); toast(T("Preparación: {n} s", { n: v })); }
   if (ev.target.id === "warnDef") { const v = Math.max(0, Math.min(10, Math.round(+ev.target.value || 0))); LS.set("wk.warn", v); toast(T("Aviso final: {n} s", { n: v })); }
   if (ev.target.id === "restDef") { const v = Math.max(0, Math.round(+ev.target.value || 0)); LS.set("wk.restDefault", v); toast(v ? T("Descanso por defecto: {n} s", { n: v }) : T("Sin descanso por defecto")); }
   if (tg.id === "cycOn") { if (tg.checked && !CYC.cfg().ack) { tg.checked = false; state.cycAsk = true; render(); return; } CYC.set({ on: tg.checked }); if (!tg.checked) { state.dsheet = state.dsheet === "cyc" ? null : state.dsheet; } toast(tg.checked ? T("Seguimiento del ciclo activado") : T("Seguimiento del ciclo desactivado")); render(); return; }
@@ -4979,6 +5052,30 @@ const I18N = {
     "Gran sesión": "Gran sessió",
     "Bitcoin": "Bitcoin",
     "Lightning / zaps": "Lightning / zaps",
+    "Mis planes": "Els meus plans",
+    "Activo": "Actiu",
+    "Activar": "Activa",
+    "Duplicar el activo": "Duplica l'actiu",
+    "Nuevo plan": "Pla nou",
+    "Solo el plan activo cuenta en Hoy. Al cambiar de plan, tus rutinas, sesiones e historial no se tocan.": "Només el pla actiu compta a Avui. En canviar de pla, les teves rutines, sessions i historial no es toquen.",
+    "Ej. Bloque fuerza otoño": "P. ex. Bloc força tardor",
+    "Copia de {x}": "Còpia de {x}",
+    "Plan duplicado. Actívalo para editarlo.": "Pla duplicat. Activa'l per editar-lo.",
+    "Plan activo: {x}": "Pla actiu: {x}",
+    "¿Eliminar el plan «{x}»? Tus rutinas y sesiones no se tocan.": "Eliminar el pla «{x}»? Les teves rutines i sessions no es toquen.",
+    "¿Cuánto más habrías aguantado?": "Quant més hauries aguantat?",
+    "15 s o más": "15 s o més",
+    "Preparación (s)": "Preparació (s)",
+    "Cambio de lado (s)": "Canvi de costat (s)",
+    "Cambio de lado: {n} s": "Canvi de costat: {n} s",
+    "Preparación: {n} s": "Preparació: {n} s",
+    "Preparación: cuenta atrás antes de una serie por tiempo que arrancas tú (▶) o al reanudar. Aviso final: tics en los últimos segundos de cualquier cuenta atrás. Cambio de lado: pausa entre lado 1 y lado 2. Inicio automático: al acabar el descanso, la siguiente serie por tiempo empieza sola (el final del descanso hace de preparación); las series por repeticiones nunca.": "Preparació: compte enrere abans d'una sèrie per temps que comences tu (▶) o en reprendre. Avís final: tics als últims segons de qualsevol compte enrere. Canvi de costat: pausa entre el costat 1 i el 2. Inici automàtic: en acabar el descans, la sèrie per temps següent comença sola (el final del descans fa de preparació); les sèries per repeticions, mai.",
+    "{x} hecho": "{x} fet",
+    "{n} de {n} series": "{n} de {n} sèries",
+    "descanso {n} s antes del siguiente": "descans de {n} s abans del següent",
+    "Nota de la sesión": "Nota de la sessió",
+    "Cómo ha ido, molestias, cambios…": "Com ha anat, molèsties, canvis…",
+    "Notas": "Notes",
     "Ver notas": "Veure notes",
     "Notas de la semana": "Notes de la setmana",
     "Abrir en el Diario": "Obre al Diari",
@@ -6052,6 +6149,30 @@ const I18N = {
     "Gran sesión": "Great session",
     "Bitcoin": "Bitcoin",
     "Lightning / zaps": "Lightning / zaps",
+    "Mis planes": "My plans",
+    "Activo": "Active",
+    "Activar": "Activate",
+    "Duplicar el activo": "Duplicate the active one",
+    "Nuevo plan": "New plan",
+    "Solo el plan activo cuenta en Hoy. Al cambiar de plan, tus rutinas, sesiones e historial no se tocan.": "Only the active plan counts in Today. Switching plans doesn't touch your routines, sessions or history.",
+    "Ej. Bloque fuerza otoño": "E.g. Autumn strength block",
+    "Copia de {x}": "Copy of {x}",
+    "Plan duplicado. Actívalo para editarlo.": "Plan duplicated. Activate it to edit it.",
+    "Plan activo: {x}": "Active plan: {x}",
+    "¿Eliminar el plan «{x}»? Tus rutinas y sesiones no se tocan.": "Delete the plan “{x}”? Your routines and sessions aren't touched.",
+    "¿Cuánto más habrías aguantado?": "How much longer could you have held?",
+    "15 s o más": "15 s or more",
+    "Preparación (s)": "Get ready (s)",
+    "Cambio de lado (s)": "Side switch (s)",
+    "Cambio de lado: {n} s": "Side switch: {n} s",
+    "Preparación: {n} s": "Get ready: {n} s",
+    "Preparación: cuenta atrás antes de una serie por tiempo que arrancas tú (▶) o al reanudar. Aviso final: tics en los últimos segundos de cualquier cuenta atrás. Cambio de lado: pausa entre lado 1 y lado 2. Inicio automático: al acabar el descanso, la siguiente serie por tiempo empieza sola (el final del descanso hace de preparación); las series por repeticiones nunca.": "Get ready: countdown before a timed set you start yourself (▶) or when resuming. Final warning: ticks in the last seconds of any countdown. Side switch: pause between side 1 and side 2. Auto start: when the rest ends, the next timed set starts by itself (the end of the rest is the get-ready); rep sets never do.",
+    "{x} hecho": "{x} done",
+    "{n} de {n} series": "{n} of {n} sets",
+    "descanso {n} s antes del siguiente": "{n} s rest before the next one",
+    "Nota de la sesión": "Session note",
+    "Cómo ha ido, molestias, cambios…": "How it went, aches, changes…",
+    "Notas": "Notes",
     "Ver notas": "See notes",
     "Notas de la semana": "Notes for the week",
     "Abrir en el Diario": "Open in Diary",

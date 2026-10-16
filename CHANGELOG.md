@@ -4,6 +4,28 @@ Todas las versiones de Usus. Formato basado en [Keep a Changelog](https://keepac
 
 **Castellano** · [Català](#català) · [English](#english)
 
+## [2.4.0] — 2026-10-16
+
+### Cuenta atrás, desde cero
+- Se rehace el motor de tiempos con cinco tramos y una regla para cada uno:
+  - **Preparación**: antes de una serie por tiempo que arrancas tú (▶) o al reanudar una pausa. Al acabar, sonido de inicio.
+  - **Serie por tiempo**: al acabar, sonido de fin y se marca hecha.
+  - **Cambio de lado**: entre lado 1 y lado 2; ahora se ajusta en Ajustes → Entreno → Tiempos (5 s por defecto).
+  - **Descanso entre series** y **entre ejercicios**: al acabar, si sigue una serie por tiempo con inicio automático, empieza sola (el final del descanso hace de preparación, sin una segunda cuenta atrás); si no, sonido de fin y espera.
+- **Aviso final**: tic en los últimos segundos de *cualquier* cuenta atrás. Solo hay tres sonidos: tic, inicio y fin.
+- La vibración pasa siempre por Ajustes → Avisos; con «Solo sonido» o «Desactivados» corta cualquier vibración en curso.
+- La pantalla se mantiene encendida durante toda la sesión (no solo en las cuentas atrás) y se vuelve a pedir al volver a la app.
+
+### Entrenar
+- **RIR en series por tiempo**: «¿Cuánto más habrías aguantado?» (0, 5, 10, 15+ s), también en series encadenadas con inicio automático; se pregunta durante el descanso.
+- **Ejercicio hecho**: bloque verde bien visible bajo la última serie, con el descanso que viene y el botón al siguiente ejercicio (o «Terminar y guardar»).
+
+### Plan
+- **Varios planes**: el plan activo es el que marca Hoy; los demás quedan guardados en **Mis planes** para activarlos, duplicarlos (preparar el siguiente bloque a partir del actual) o borrarlos. Cada plan puede tener nombre. Van en la copia de seguridad.
+
+### Diario
+- En una sesión ya terminada, **✎ Notas**: nota de la sesión y nota de cada ejercicio. Salen en Stats (puntos de notas y Notas del periodo).
+
 ## [2.3.0] — 2026-10-14
 
 ### Notas en Stats
@@ -190,6 +212,11 @@ Primera versión pública.
 
 ## Català
 
+### [2.4.0] — 2026-10-16
+- Compte enrere refet: preparació, sèrie, canvi de costat (ajustable), descansos; tres sons (tic, inici, fi); la vibració respecta sempre els avisos; pantalla encesa durant tota la sessió.
+- RIR en sèries per temps; «Exercici fet» ben visible; notes editables en sessions acabades.
+- Diversos plans: un d'actiu i la resta desats (activar, duplicar, esborrar).
+
 ### [2.3.0] — 2026-10-14
 - Notes a Stats: punt taronja als dies amb nota (Constància, Càrrega, Pes, Son, Passos, progrés de cada exercici); en tocar-lo, tot el que vas apuntar aquell dia.
 - Dies «No vaig entrenar» marcats a Constància; «Notes del període» a totes les pestanyes; notes de cada exercici al seu historial.
@@ -249,6 +276,11 @@ Primera versió pública: rutines amb sèries per repeticions o per temps, compt
 ---
 
 ## English
+
+### [2.4.0] — 2026-10-16
+- Countdown rebuilt: get-ready, set, side switch (adjustable), rests; three sounds (tick, start, end); vibration always follows alerts; screen stays on for the whole session.
+- RIR for timed sets; clearly visible “Exercise done”; notes editable on finished sessions.
+- Several plans: one active and the rest saved (activate, duplicate, delete).
 
 ### [2.3.0] — 2026-10-14
 - Notes in Stats: an orange dot on days with a note (Consistency, Load, Weight, Sleep, Steps, each exercise's progress); tap it to see everything logged that day.
