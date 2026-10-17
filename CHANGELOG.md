@@ -12,6 +12,7 @@ Todas las versiones de Usus. Formato basado en [Keep a Changelog](https://keepac
 - **Reordenar** con ↑ ↓ (salta grupos enteros y pasa de una sección a otra) o arrastrando desde ⋮⋮.
 - Letras de orden (A, B, C1, C2…) y **duración aproximada** de la rutina.
 - **Modo edición para PC o pantalla grande** (desde ~1000 px: ordenador, tablet en horizontal): se activa solo. Cada ejercicio en una fila tipo tabla, el **catálogo al lado** para tocar o arrastrar ejercicios a cualquier sección y una barra fija con Guardar. En el móvil, el editor lo indica.
+- **Escritorio**: en pantalla grande las secciones (Hoy, Rutinas, Diario, Stats, Ajustes) pasan a una barra lateral, y Rutinas muestra la lista a la izquierda y la rutina elegida a la derecha, con sus ejercicios en tabla; el catálogo de ejercicios se ve en rejilla.
 
 ### Entrenar superseries y circuitos
 - Las superseries y circuitos se entrenan como tales: A1 → A2 → descanso entre vueltas → A1…, con una barra que muestra la vuelta en curso y el orden. Con series por tiempo e inicio automático, la cuenta atrás encadena el circuito entero.
@@ -232,6 +233,7 @@ Primera versión pública.
 - Mode disseny de rutines: seccions, supersèries i circuits (voltes, descans entre voltes), reordenar amb ↑ ↓ o arrossegant, durada aproximada.
 - Supersèries i circuits també en entrenar, amb la volta en curs a la vista i el compte enrere encadenat.
 - Mode edició per a PC o pantalla gran (s'activa sol): cada exercici en una fila, catàleg al costat i barra fixa amb Desa.
+- Escriptori: barra lateral de seccions; Rutines amb la llista a l'esquerra i la rutina a la dreta; catàleg en graella.
 - Imprimir / PDF: un full per exercici (o dos per full) o full de setmanes amb 6 sessions.
 - Compte enrere refet: preparació, sèrie, canvi de costat (ajustable), descansos; tres sons (tic, inici, fi); la vibració respecta sempre els avisos; pantalla encesa durant tota la sessió.
 - RIR en sèries per temps; «Exercici fet» ben visible; notes editables en sessions acabades.
@@ -301,6 +303,7 @@ Primera versió pública: rutines amb sèries per repeticions o per temps, compt
 - Routine design mode: sections, supersets and circuits (rounds, rest between rounds), reorder with ↑ ↓ or by dragging, estimated duration.
 - Supersets and circuits while training too, with the current round in view and the countdown chained.
 - Edit mode for PC or large screens (turns on by itself): one row per exercise, catalogue alongside and a fixed bar with Save.
+- Desktop: sidebar for sections; Routines with the list on the left and the selected routine on the right; catalogue in a grid.
 - Print / PDF: one sheet per exercise (or two per sheet) or a weekly sheet with 6 sessions.
 - Countdown rebuilt: get-ready, set, side switch (adjustable), rests; three sounds (tick, start, end); vibration always follows alerts; screen stays on for the whole session.
 - RIR for timed sets; clearly visible “Exercise done”; notes editable on finished sessions.
