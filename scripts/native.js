@@ -42,6 +42,9 @@
     try { Object.defineProperty(navigator, "wakeLock", { value: wl, configurable: true }); } catch (e) {}
   }
 
+  // Imprimir / guardar PDF: el WebView de Android no implementa window.print(); lo hace el plugin propio UsusPrint
+  try { const pr = C.registerPlugin ? C.registerPlugin("UsusPrint") : P.UsusPrint; if (pr) window.ususPrint = name => pr.print({ name: String(name || "Usus") }).catch(() => {}); } catch (e) {}
+
   const CLOSE = '[data-act$="-close"],[data-act$="-cancel"],[data-act$="-back"],[data-act$="-no"]';
   if (P.App) P.App.addListener("backButton", () => {
     const modals = document.querySelectorAll(".modal");

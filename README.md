@@ -28,7 +28,7 @@ Gratis, sin cuentas y sin anuncios. Todo se guarda **solo en tu móvil**: nada s
 
 ## Cómo funciona
 
-- **Rutinas.** Creas tus rutinas con sus ejercicios, series y repeticiones o tiempo. Puedes marcar ejercicios «por lado», poner lastre y un descanso propio a cada uno.
+- **Rutinas.** Creas tus rutinas con sus ejercicios, series y repeticiones o tiempo. Puedes marcar ejercicios «por lado», poner lastre y un descanso propio a cada uno. Si quieres, las ordenas por secciones (calentamiento, principal, core, vuelta a la calma) y agrupas ejercicios en superseries o circuitos. En el ordenador o la tablet, el catálogo se abre al lado del editor. Cada rutina se puede imprimir o guardar en PDF: una hoja por ejercicio para seguir su progresión, o la rutina entera con varias sesiones.
 - **Ejercicios** *(opcional).* Un catálogo de ejercicios de calistenia, cada uno con su ficha: para qué sirve, cómo se hace, errores típicos, material necesario y progresión, del más fácil al más difícil. Se elige ejercicio al crear la rutina y se ve la ficha en cualquier momento, también entrenando.
 - **Progresión.** Al terminar una sesión, Usus te propone pasar al siguiente ejercicio cuando dominas el actual, o volver al anterior si te está costando demasiado. Siempre es una propuesta: decides tú.
 - **Hoy.** Te dice qué toca cada día. Con un plan de progresión, Usus rota las variantes de tus rutinas por semanas (A, B, C…), añade semanas de descarga y te avisa de lo pendiente. Si quieres, la subida de cada vuelta de variante se aplica sola, con aviso y opción de deshacer.
@@ -108,7 +108,7 @@ Free, no accounts, no ads. Everything is stored **only on your phone**: nothing 
 
 ### How it works
 
-- **Routines.** Build routines with exercises, sets and reps or time. Mark exercises as “per side”, add weight and set a rest time for each one.
+- **Routines.** Build routines with exercises, sets and reps or time. Mark exercises as “per side”, add weight and set a rest time for each one. If you like, split them into sections (warm-up, main, core, cool-down) and group exercises into supersets or circuits. On a computer or tablet the catalogue opens next to the editor. Any routine can be printed or saved as PDF: one sheet per exercise to track its progress, or the whole routine across several sessions.
 - **Exercises** *(optional).* A catalogue of calisthenics exercises, each with its own card: what it's for, how to do it, common mistakes, equipment needed and progression, from easiest to hardest. Pick exercises when building a routine and check the card at any time, even mid-workout.
 - **Progression.** After a session, Usus suggests moving on to the next exercise once you've mastered the current one, or going back to the previous one if it's too hard for now. It's always a suggestion: you decide.
 - **Today.** Shows what's on each day. With a progression plan, Usus rotates your routine variants week by week (A, B, C…), adds deload weeks and keeps track of what's pending. If you like, the increase each time a variant comes back is applied automatically, with a notice and an undo option.
