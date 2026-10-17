@@ -587,7 +587,7 @@ textarea{width:100%;font:inherit;padding:10px 12px;border:1px solid var(--line);
 @media (min-width:1000px){
   .wrap,nav.tabs .in{max-width:880px}
   body.edw .wrap{max-width:1180px}
-  body.edw .edgrid{display:grid;grid-template-columns:minmax(0,1fr) 270px;gap:20px;align-items:start}
+  body.edw .edgrid.hascat{display:grid;grid-template-columns:minmax(0,1fr) 270px;gap:20px;align-items:start}
   body.edw .edcat{display:block;position:sticky;top:12px;max-height:calc(100vh - 110px);overflow:auto}
   body.edw .edmain .ex-edit{grid-template-columns:repeat(6,minmax(0,1fr))}
   .egh{grid-template-columns:auto repeat(3,minmax(0,140px)) auto}.egh select[data-gkind],.egh .btn{grid-column:auto;align-self:center}
@@ -598,7 +598,7 @@ textarea{width:100%;font:inherit;padding:10px 12px;border:1px solid var(--line);
 @media (min-width:1000px){.pchint{display:none}}
 @media (min-width:1000px){
   body.edw .wrap{max-width:1500px;padding:16px 24px 110px}
-  body.edw .edgrid{grid-template-columns:270px minmax(0,1fr)}
+  body.edw .edgrid.hascat{grid-template-columns:270px minmax(0,1fr)}
   body.edw .edcat{order:-1;top:72px;max-height:calc(100vh - 170px)}
   body.edw .edtop{position:sticky;top:0;z-index:6;background:var(--bg);padding:10px 0;border-bottom:1px solid var(--line);margin-bottom:4px}
   body.edw .edtop .btn,body.edw .edtop .edsum{display:inline-flex}.edtop .edsum{font-size:.88rem;margin-right:6px}
@@ -611,7 +611,7 @@ textarea{width:100%;font:inherit;padding:10px 12px;border:1px solid var(--line);
   body.edw .edcat .xrow{padding-top:7px;padding-bottom:7px}
 }
 @media (min-width:1240px){
-  body.edw .edgrid{grid-template-columns:260px minmax(0,1fr)}
+  body.edw .edgrid.hascat{grid-template-columns:260px minmax(0,1fr)}
   body.edw .edhead{grid-template-columns:minmax(200px,2fr) minmax(130px,1fr) minmax(110px,.8fr) auto}
   body.edw .edhead .ehd{grid-column:auto}
   /* Ejercicios en filas, como una tabla */
@@ -646,6 +646,7 @@ textarea{width:100%;font:inherit;padding:10px 12px;border:1px solid var(--line);
   body.rtw .rtop .rseg{order:1;margin:0;min-width:300px}body.rtw .rtop>.row>:not(h1){order:2}
   body.rtw .rsplit{display:grid;grid-template-columns:minmax(280px,360px) minmax(0,1fr);gap:20px;align-items:start;margin-top:16px}
   body.rtw .rsplit>.list{margin-top:0!important;gap:6px}
+  body.rtw .rsplit:not(:has(.rdet)){display:block}body.rtw .rsplit:not(:has(.rdet)) .empty{max-width:640px;margin:40px auto}
   body.rtw .rcard .rbody,body.rtw .rcard .chev{display:none}
   body.rtw .rcard.open{border-color:var(--line)}
   body.rtw .rcard.cur{border-color:var(--accent);background:var(--accent-soft)}
@@ -2510,8 +2511,8 @@ function viewRoutines() {
   if (ed) {
     const secs = ed.secs || [], n = ed.exercises.length, sel = state.edSel || new Set(), selL = [...sel].map(i => ed.exercises[i]).filter(Boolean);
     const canGrp = selL.length >= 2 && (!secs.length || selL.every(e => e.sec === selL[0].sec));
-    return `<div class="edgrid"><div class="edmain">
-      <div class="edtop"><h1>${ed.isNew ? T("Nueva rutina") : T("Editar rutina")}</h1><span class="spacer"></span><span class="muted edsum">${n ? T("{n} ejercicios · ≈ {m} min", { n, m: routineMins(ed) }) : ""}</span>
+    return `<div class="edgrid${catReady() ? " hascat" : ""}"><div class="edmain">
+      <div class="edtop"><h1>${ed.isNew ? T("Nueva rutina") : T("Editar rutina")}</h1><span class="spacer"></span><span class="muted edsum">${n ? T(n === 1 ? "1 ejercicio · ≈ {m} min" : "{n} ejercicios · ≈ {m} min", { n, m: routineMins(ed) }) : ""}</span>
         <button class="btn ghost" data-act="cancelroutine">${T("Cancelar")}</button><button class="btn primary" data-act="saveroutine">${T("Guardar rutina")}</button></div>
       <div class="panel edhead" style="margin-top:16px">
         <div class="ehf ehn"><label class="muted" for="rName" style="font-size:.85rem">${T("Nombre")}</label>
@@ -2527,7 +2528,7 @@ function viewRoutines() {
           <button data-rday="all" class="ghostc">${T("Todos")}</button><button data-rday="none" class="ghostc">${T("Ninguno")}</button></div></div>
         </div>
       <div class="panel" style="margin-top:12px">
-        <div class="row" style="align-items:baseline"><h2 style="margin:0;flex:1;font-size:1rem">${T("Ejercicios")}</h2><span class="muted edsum2" style="font-size:.85rem">${n ? T("{n} ejercicios · ≈ {m} min", { n, m: routineMins(ed) }) : ""}</span></div>
+        <div class="row" style="align-items:baseline"><h2 style="margin:0;flex:1;font-size:1rem">${T("Ejercicios")}</h2><span class="muted edsum2" style="font-size:.85rem">${n ? T(n === 1 ? "1 ejercicio · ≈ {m} min" : "{n} ejercicios · ≈ {m} min", { n, m: routineMins(ed) }) : ""}</span></div>
         ${edList(ed)}
         <datalist id="exNames2">${allExerciseNames().map(n => `<option value="${esc(n)}">`).join("")}</datalist>
         <div class="row" style="margin-top:12px;flex-wrap:wrap"><button class="btn small" data-act="${catReady() ? "xpick-ed" : "addre"}">${T("Añadir ejercicio")}</button>
@@ -5477,6 +5478,7 @@ const I18N = {
     "Gran sesión": "Gran sessió",
     "Bitcoin": "Bitcoin",
     "Lightning / zaps": "Lightning / zaps",
+    "1 ejercicio · ≈ {m} min": "1 exercici · ≈ {m} min",
     "En un ordenador o una tablet en horizontal, el editor se abre en modo amplio: cada ejercicio en una fila y el catálogo al lado para tocar o arrastrar.": "En un ordinador o una tauleta en horitzontal, l'editor s'obre en mode ampli: cada exercici en una fila i el catàleg al costat per tocar o arrossegar.",
     "Al terminar (s)": "En acabar (s)",
     "Superserie": "Supersèrie",
@@ -6637,6 +6639,7 @@ const I18N = {
     "Gran sesión": "Great session",
     "Bitcoin": "Bitcoin",
     "Lightning / zaps": "Lightning / zaps",
+    "1 ejercicio · ≈ {m} min": "1 exercise · ≈ {m} min",
     "En un ordenador o una tablet en horizontal, el editor se abre en modo amplio: cada ejercicio en una fila y el catálogo al lado para tocar o arrastrar.": "On a computer or a tablet in landscape, the editor opens in wide mode: each exercise on one row and the catalogue alongside to tap or drag.",
     "Al terminar (s)": "After (s)",
     "Superserie": "Superset",
