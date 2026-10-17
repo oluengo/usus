@@ -592,6 +592,50 @@ textarea{width:100%;font:inherit;padding:10px 12px;border:1px solid var(--line);
   body.edw .edmain .ex-edit{grid-template-columns:repeat(6,minmax(0,1fr))}
   .egh{grid-template-columns:auto repeat(3,minmax(0,140px)) auto}.egh select[data-gkind],.egh .btn{grid-column:auto;align-self:center}
 }
+.edtop{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.edtop h1{margin:4px 0 2px}.edtop .btn,.edtop .edsum{display:none}
+.edcols{display:none}
+@media (min-width:1000px){
+  body.edw .wrap{max-width:1500px;padding:16px 24px 110px}
+  body.edw .edgrid{grid-template-columns:320px minmax(0,1fr)}
+  body.edw .edcat{order:-1;top:72px;max-height:calc(100vh - 170px)}
+  body.edw .edtop{position:sticky;top:0;z-index:6;background:var(--bg);padding:10px 0;border-bottom:1px solid var(--line);margin-bottom:4px}
+  body.edw .edtop .btn,body.edw .edtop .edsum{display:inline-flex}.edtop .edsum{font-size:.88rem;margin-right:6px}
+  body.edw .edsum2,body.edw .edbot .btn:not(.danger){display:none}
+  body.edw .edhead{display:grid;gap:4px 16px;align-items:start;padding:12px 16px}
+  body.edw .edhead label,body.edw .edhead .ehd>span{margin-top:0!important}
+  body.edw .ehint{display:none}
+  body.edw .edhead{grid-template-columns:minmax(200px,2fr) minmax(130px,1fr) minmax(110px,.8fr)}
+  body.edw .edhead .ehd{grid-column:1/-1}
+  body.edw .edcat .xrow{padding-top:7px;padding-bottom:7px}
+}
+@media (min-width:1200px){
+  body.edw .edgrid{grid-template-columns:280px minmax(0,1fr)}
+  body.edw .edhead{grid-template-columns:minmax(200px,2fr) minmax(130px,1fr) minmax(110px,.8fr) auto}
+  body.edw .edhead .ehd{grid-column:auto}
+  /* Ejercicios en filas, como una tabla */
+  body.edw .edcols,body.edw .edmain .ex-edit{display:grid;grid-template-columns:18px 50px minmax(170px,1fr) 60px 66px 80px 84px 84px 82px 24px 24px 24px;gap:4px 8px;align-items:center}
+  body.edw .edcols{font-size:.72rem;color:var(--muted);padding:8px 0 4px;border-bottom:1px solid var(--line)}
+  body.edw .edcols span:first-child{grid-column:1/3}body.edw .edcols span:last-child{grid-column:9/-1}
+  body.edw .edmain .ex-edit{padding:6px 0}
+  body.edw .ex-edit .exh2{display:contents}
+  body.edw .ex-edit .exh2 .spacer{display:none}
+  body.edw .ex-edit .hdl{grid-column:1;grid-row:1}body.edw .ex-edit .ek{grid-column:2;grid-row:1}
+  body.edw .ex-edit .exh2 [data-emv$=":-1"]{grid-column:10;grid-row:1}body.edw .ex-edit .exh2 [data-emv$=":1"]:not([data-emv$=":-1"]){grid-column:11;grid-row:1}body.edw .ex-edit .exh2 [data-rmre]{grid-column:12;grid-row:1}
+  body.edw .ex-edit .ico,body.edw .ex-edit .x{padding:4px 2px}
+  body.edw .ex-edit .xname,body.edw .ex-edit input[data-en]{grid-column:3;grid-row:1;min-height:0}
+  body.edw .ex-edit .fld:has([data-etech]),body.edw .ex-edit .exmat{grid-column:3!important;grid-row:2}
+  body.edw .ex-edit .fld:has([data-etech])>span{display:none}
+  body.edw .ex-edit .fld:has([data-es]){grid-column:4;grid-row:1}body.edw .ex-edit .fld:has([data-er]){grid-column:5;grid-row:1}body.edw .ex-edit .fld:has([data-et]){grid-column:6;grid-row:1}
+  body.edw .ex-edit .fld:has([data-erest]){grid-column:7;grid-row:1}body.edw .ex-edit .fld:has([data-erestx]){grid-column:8;grid-row:1}
+  body.edw .ex-edit .chk{grid-column:9;grid-row:1;padding:0;font-size:.82rem}
+  body.edw .ex-edit .fld>span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  body.edw .ex-edit .fld input,body.edw .ex-edit .fld select,body.edw .ex-edit input[data-en]{height:38px;padding:6px 8px}
+  body.edw .ex-edit .xname b{font-size:.95rem}
+  body.edw .egrp{padding:6px 8px 2px}
+  body.edw .egh{grid-template-columns:auto 110px 150px 150px auto;padding:2px 0 6px}
+  body.edw .egh .fld input{height:34px}
+  body.edw .sech input{font-size:1rem}
+}
 /* Imprimible */
 .prt-ui .rseg{margin:10px 0}
 .prt-opts{display:flex;flex-wrap:wrap;gap:6px 16px;margin:4px 0 12px}.prt-opts label{display:flex;align-items:center;gap:6px;font-size:.9rem}
@@ -2413,22 +2457,23 @@ function viewRoutines() {
     const secs = ed.secs || [], n = ed.exercises.length, sel = state.edSel || new Set(), selL = [...sel].map(i => ed.exercises[i]).filter(Boolean);
     const canGrp = selL.length >= 2 && (!secs.length || selL.every(e => e.sec === selL[0].sec));
     return `<div class="edgrid"><div class="edmain">
-      <h1>${ed.isNew ? T("Nueva rutina") : T("Editar rutina")}</h1>
-      <div class="panel" style="margin-top:16px">
-        <label class="muted" for="rName" style="font-size:.85rem">${T("Nombre")}</label>
-        <input type="text" id="rName" value="${esc(ed.name)}" placeholder="${T("Ej. Torso A")}">
-        <label class="muted" for="rBlock" style="font-size:.85rem;display:block;margin-top:12px">${T("Bloque")}</label>
-        <select id="rBlock">${CATS.map(([k, n]) => `<option value="${k}" ${(ed.block || guessBlock(ed.name)) === k ? "selected" : ""}>${T(n)}</option>`).join("")}</select>
-        <label class="muted" for="rVariant" style="font-size:.85rem;display:block;margin-top:12px">${T("Variante del plan")}</label>
+      <div class="edtop"><h1>${ed.isNew ? T("Nueva rutina") : T("Editar rutina")}</h1><span class="spacer"></span><span class="muted edsum">${n ? T("{n} ejercicios · ≈ {m} min", { n, m: routineMins(ed) }) : ""}</span>
+        <button class="btn ghost" data-act="cancelroutine">${T("Cancelar")}</button><button class="btn primary" data-act="saveroutine">${T("Guardar rutina")}</button></div>
+      <div class="panel edhead" style="margin-top:16px">
+        <div class="ehf ehn"><label class="muted" for="rName" style="font-size:.85rem">${T("Nombre")}</label>
+        <input type="text" id="rName" value="${esc(ed.name)}" placeholder="${T("Ej. Torso A")}"></div>
+        <div class="ehf"><label class="muted" for="rBlock" style="font-size:.85rem;display:block;margin-top:12px">${T("Bloque")}</label>
+        <select id="rBlock">${CATS.map(([k, n]) => `<option value="${k}" ${(ed.block || guessBlock(ed.name)) === k ? "selected" : ""}>${T(n)}</option>`).join("")}</select></div>
+        <div class="ehf"><label class="muted" for="rVariant" style="font-size:.85rem;display:block;margin-top:12px">${T("Variante del plan")}</label>
         <input type="text" id="rVariant" value="${esc(ed.variant ?? guessVariant(ed.name))}" maxlength="6" list="rVarList" placeholder="${T("Sin variante")}" style="text-transform:uppercase">
         <datalist id="rVarList">${planVariants(PL.get()).map(v => `<option value="${esc(v)}">`).join("")}</datalist>
-        <p class="muted" style="font-size:.78rem;margin:4px 0 0">${T("Ej. A, B, C. Vacío = se sugiere en cualquier semana, también en descarga (como la Diaria).")}</p>
-        <span class="muted" style="font-size:.85rem;display:block;margin-top:12px">${T("Días en que se sugiere")}</span>
+        <p class="muted ehint" style="font-size:.78rem;margin:4px 0 0">${T("Ej. A, B, C. Vacío = se sugiere en cualquier semana, también en descarga (como la Diaria).")}</p></div>
+        <div class="ehf ehd"><span class="muted" style="font-size:.85rem;display:block;margin-top:12px">${T("Días en que se sugiere")}</span>
         <div class="chips" style="margin-top:6px" role="group" aria-label="${T("Días en que se sugiere")}">${WEEK_ORDER.map(x => `<button data-rday="${x}" class="${(ed.days || []).includes(x) ? "on" : ""}" aria-pressed="${(ed.days || []).includes(x)}" aria-label="${DIAS[x]}">${dayShort(x)}</button>`).join("")}
-          <button data-rday="all" class="ghostc">${T("Todos")}</button><button data-rday="none" class="ghostc">${T("Ninguno")}</button></div>
+          <button data-rday="all" class="ghostc">${T("Todos")}</button><button data-rday="none" class="ghostc">${T("Ninguno")}</button></div></div>
         </div>
       <div class="panel" style="margin-top:12px">
-        <div class="row" style="align-items:baseline"><h2 style="margin:0;flex:1;font-size:1rem">${T("Ejercicios")}</h2><span class="muted" style="font-size:.85rem">${n ? T("{n} ejercicios · ≈ {m} min", { n, m: routineMins(ed) }) : ""}</span></div>
+        <div class="row" style="align-items:baseline"><h2 style="margin:0;flex:1;font-size:1rem">${T("Ejercicios")}</h2><span class="muted edsum2" style="font-size:.85rem">${n ? T("{n} ejercicios · ≈ {m} min", { n, m: routineMins(ed) }) : ""}</span></div>
         ${edList(ed)}
         <datalist id="exNames2">${allExerciseNames().map(n => `<option value="${esc(n)}">`).join("")}</datalist>
         <div class="row" style="margin-top:12px;flex-wrap:wrap"><button class="btn small" data-act="${catReady() ? "xpick-ed" : "addre"}">${T("Añadir ejercicio")}</button>
@@ -2437,7 +2482,7 @@ function viewRoutines() {
       </div>
       ${sel.size ? `<div class="selbar" role="region" aria-label="${T("Marcados")}"><span>${T("{n} marcados", { n: sel.size })}${sel.size >= 2 && !canGrp ? ` · <small>${T("deben estar en la misma sección")}</small>` : ""}</span><span class="spacer"></span>
         <button class="btn small" data-act="sel-clear">${T("Desmarcar")}</button><button class="btn small primary" data-act="ed-group" ${canGrp ? "" : "disabled"}>${T("Agrupar")}</button></div>` : ""}
-      <div class="row" style="margin-top:16px">
+      <div class="row edbot" style="margin-top:16px">
         ${!ed.isNew ? `<button class="btn danger" data-act="delroutine">${T("Eliminar")}</button>` : ""}
         <span class="spacer"></span>
         <button class="btn ghost" data-act="cancelroutine">${T("Cancelar")}</button>
@@ -2510,12 +2555,13 @@ function edList(ed) {
       if (e.grp && ed.groups?.[e.grp]) { const run = []; while (k < idxs.length && L[idxs[k]].grp === e.grp) run.push(idxs[k++]); h += edGroup(ed, e.grp, run.map(j => edExRow(ed, L[j], j, keys[j])).join("")); }
       else { h += edExRow(ed, e, i, keys[i]); k++; } }
     return h; };
-  if (!secs.length) return `<div class="dropz" data-dsec="">${body(L.map((_, i) => i)) || `<p class="muted dz">${T("Sin ejercicios")}</p>`}</div>`;
+  const cols = `<div class="edcols" aria-hidden="true"><span></span><span>${T("Ejercicio")}</span><span>${T("Series")}</span><span>${T("Objetivo")}</span><span>${T("Tipo")}</span><span>${T("Descanso (s)")}</span><span>${T("Al terminar (s)")}</span><span></span></div>`;
+  if (!secs.length) return cols + `<div class="dropz" data-dsec="">${body(L.map((_, i) => i)) || `<p class="muted dz">${T("Sin ejercicios")}</p>`}</div>`;
   return secs.map((x, si) => { const idxs = L.map((e, i) => e.sec === x.id ? i : -1).filter(i => i >= 0), on = x.id === cur;
     return `<section class="esec"><div class="sech"><input type="text" data-secn="${x.id}" value="${esc(x.name)}" maxlength="40" aria-label="${T("Nombre de la sección")}">
       <button class="btn small${on ? " primary" : ""}" data-seccur="${x.id}" aria-pressed="${on}">${on ? T("Añadiendo aquí") : T("Añadir aquí")}</button>
       <button class="ico" data-secmv="${x.id}:-1" ${si ? "" : "disabled"} aria-label="${T("Subir sección")}">↑</button><button class="ico" data-secmv="${x.id}:1" ${si < secs.length - 1 ? "" : "disabled"} aria-label="${T("Bajar sección")}">↓</button><button class="x" data-secdel="${x.id}" aria-label="${T("Quitar sección")}">×</button></div>
-      <div class="dropz" data-dsec="${x.id}">${body(idxs) || `<p class="muted dz">${T("Vacía: añade o arrastra aquí ejercicios.")}</p>`}</div></section>`; }).join("");
+      ${idxs.length ? cols : ""}<div class="dropz" data-dsec="${x.id}">${body(idxs) || `<p class="muted dz">${T("Vacía: añade o arrastra aquí ejercicios.")}</p>`}</div></section>`; }).join("");
 }
 /* Mover un ejercicio con ↑ ↓: dentro de su sección (salta grupos enteros), al cambiar de sección pasa a la vecina, y en el borde de un grupo sale de él */
 function edMove(i, dir) {
@@ -5355,6 +5401,7 @@ const I18N = {
     "Gran sesión": "Gran sessió",
     "Bitcoin": "Bitcoin",
     "Lightning / zaps": "Lightning / zaps",
+    "Al terminar (s)": "En acabar (s)",
     "Superserie": "Supersèrie",
     "Circuito": "Circuit",
     "Calentamiento": "Escalfament",
@@ -6513,6 +6560,7 @@ const I18N = {
     "Gran sesión": "Great session",
     "Bitcoin": "Bitcoin",
     "Lightning / zaps": "Lightning / zaps",
+    "Al terminar (s)": "After (s)",
     "Superserie": "Superset",
     "Circuito": "Circuit",
     "Calentamiento": "Warm-up",
