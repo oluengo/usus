@@ -26,6 +26,17 @@ Gratis, sin cuentas y sin anuncios. Todo se guarda **solo en tu móvil**: nada s
 - El APK solo pide un permiso, **vibración** (avisos del descanso). Sin Internet: no se conecta a nada. Importar y exportar usan el selector de archivos y el menú de compartir de Android.
 - El APK va firmado; huella SHA-256 del certificado: `28:B6:FF:4A:8F:61:F6:88:D4:B4:9D:C7:E8:B7:2D:95:D5:D9:44:45:D2:A2:30:07:1A:FA:72:B1:B2:D0:3E:C8`. Más detalles en [ANDROID.md](ANDROID.md).
 
+### Versión de pruebas (beta)
+
+Lo nuevo se prueba antes en una versión beta, sin tocar la principal. Puede tener fallos.
+
+| | Cómo | Datos |
+|---|---|---|
+| **Web beta** | [oluengo.github.io/usus/beta](https://oluengo.github.io/usus/beta/) | Aparte de la web principal |
+| **App «Usus Beta»** | `usus-beta-….apk` de la pre-release [Usus Beta](https://github.com/oluengo/usus/releases/tag/beta). Se instala **junto** a la Usus normal. Con Obtainium: añade el repositorio otra vez, activa «incluir pre-releases» y filtra los APK por `beta`. | Aparte de la app normal |
+
+Para probar la beta con tus datos, exporta una copia en la versión normal e impórtala en la beta. Nada de lo que hagas en la beta llega a la principal.
+
 ## Cómo funciona
 
 - **Rutinas.** Creas tus rutinas con sus ejercicios, series y repeticiones o tiempo. Puedes marcar ejercicios «por lado», poner lastre y un descanso propio a cada uno. Si quieres, las ordenas por secciones (calentamiento, principal, core, vuelta a la calma) y agrupas ejercicios en superseries o circuitos. En el ordenador o la tablet hay un **modo edición para pantalla grande**: cada ejercicio en una fila y el catálogo al lado. Cada rutina se puede imprimir o guardar en PDF: una hoja por ejercicio para seguir su progresión, o la rutina entera con varias sesiones.
@@ -105,6 +116,17 @@ Free, no accounts, no ads. Everything is stored **only on your phone**: nothing 
 - PWA and APK are the same app, but **each keeps its own data**. To move between them: Settings → Data → export a backup in one, import it in the other.
 - The APK asks for one permission only, **vibration** (rest alerts). No Internet: it connects to nothing. Import and export use Android's file picker and share menu.
 - The APK is signed; SHA-256 certificate fingerprint: `28:B6:FF:4A:8F:61:F6:88:D4:B4:9D:C7:E8:B7:2D:95:D5:D9:44:45:D2:A2:30:07:1A:FA:72:B1:B2:D0:3E:C8`. More in [ANDROID.md](ANDROID.md#english).
+
+#### Test version (beta)
+
+New features are tried first in a beta version, without touching the main one. It may have bugs.
+
+| | How | Data |
+|---|---|---|
+| **Web beta** | [oluengo.github.io/usus/beta](https://oluengo.github.io/usus/beta/) | Separate from the main web app |
+| **“Usus Beta” app** | `usus-beta-….apk` from the [Usus Beta](https://github.com/oluengo/usus/releases/tag/beta) pre-release. It installs **alongside** the regular Usus. With Obtainium: add the repository again, enable “include pre-releases” and filter APKs by `beta`. | Separate from the regular app |
+
+To try the beta with your data, export a backup in the regular version and import it in the beta. Nothing you do in the beta reaches the main version.
 
 ### How it works
 
