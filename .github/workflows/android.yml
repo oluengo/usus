@@ -2,7 +2,7 @@
 # - Etiqueta v* (p. ej. v2.2.1, igual que APP_VERSION), o Release publicada desde la web de GitHub:
 #   adjunta a la Release el APK, con las notas de CHANGELOG.md. El AAB queda en Artifacts.
 # - Push a la rama beta: «Usus Beta», otra app (io.github.oluengo.usus.beta) con sus propios datos, versión X.Y.Z-beta.N.
-#   Se publica como pre-release «Usus Beta» (etiqueta beta, se sustituye en cada push) y queda en Artifacts.
+#   Se publica como pre-release «Usus Beta» (etiqueta usus-beta, se sustituye en cada push) y queda en Artifacts.
 # - Lanzado a mano: deja los archivos en "Artifacts" de la ejecución.
 # Firma: secretos ANDROID_KEYSTORE_BASE64, ANDROID_KEYSTORE_PASSWORD, ANDROID_KEY_ALIAS, ANDROID_KEY_PASSWORD.
 # Sin ellos se genera un APK de depuración (instalable, pero no actualizable con la versión firmada).
@@ -136,14 +136,15 @@ jobs:
           files: dist/*.apk
           body_path: ${{ runner.temp }}/notas.md
 
-      # Beta: una sola pre-release «Usus Beta» (etiqueta beta) que se rehace en cada push; no cuenta como última versión.
+      # Beta: una sola pre-release «Usus Beta» (etiqueta usus-beta) que se rehace en cada push; no cuenta como última versión.
       - name: Pre-release beta
         if: env.USUS_BETA == '1' && steps.key.outputs.signed == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          gh release delete usus-beta --cleanup-tag --yes || true
           gh release delete beta --cleanup-tag --yes || true
           printf '%s\n\n%s\n\n%s\n' "**Versión de pruebas** ${{ steps.v.outputs.version }} · $(git log -1 --format=%s)" \
             "Se instala como otra app, «Usus Beta», con sus propios datos: no toca la Usus normal. Puede tener fallos." \
             "Web beta: https://oluengo.github.io/usus/beta/ (datos aparte de la web principal)." > "$RUNNER_TEMP/beta.md"
-          gh release create beta dist/*.apk --prerelease --target "$GITHUB_SHA" --title "Usus Beta ${{ steps.v.outputs.version }}" --notes-file "$RUNNER_TEMP/beta.md"
+          gh release create usus-beta dist/*.apk --prerelease --target "$GITHUB_SHA" --title "Usus Beta ${{ steps.v.outputs.version }}" --notes-file "$RUNNER_TEMP/beta.md"

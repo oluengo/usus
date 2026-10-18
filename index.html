@@ -834,7 +834,7 @@ const fmtSet = (x, time, sides) => time ? (+x.w ? `${fmtKg(x.w)} kg · ${fmtSec(
 /* ---------- Almacenamiento: db del artefacto o localStorage ---------- */
 /* Versión de pruebas: la web en …/beta/ (datos aparte, ver <head>) o el APK «Usus Beta» (otra app, datos aparte) */
 const BETA = !!(window.USUS_WEB_BETA || window.USUS_BETA);
-const REL_URL = BETA ? "https://github.com/oluengo/usus/releases/tag/beta" : "https://github.com/oluengo/usus/releases/latest";
+const REL_URL = BETA ? "https://github.com/oluengo/usus/releases/tag/usus-beta" : "https://github.com/oluengo/usus/releases/latest";
 /* Claves de localStorage de esta versión (en la beta web, sin el prefijo; en la principal, sin las de la beta) */
 const lsKeys = () => { try { const k = Object.keys(localStorage); return window.USUS_WEB_BETA ? k.filter(x => x.startsWith("beta:")).map(x => x.slice(5)) : k.filter(x => !x.startsWith("beta:")); } catch { return []; } };
 if (BETA) { document.documentElement.classList.add("beta"); document.title = "Usus Beta"; const bt = document.getElementById("betaTag"); if (bt) bt.hidden = false; }
