@@ -1,0 +1,76 @@
+# Publica la web en GitHub Pages:
+# - rama main → https://oluengo.github.io/usus/
+# - rama beta → https://oluengo.github.io/usus/beta/ (versión de pruebas, con sus datos aparte)
+# Requiere Settings → Pages → Build and deployment → Source: «GitHub Actions».
+# El entorno github-pages solo admite publicar desde main: un push a beta relanza este flujo sobre main,
+# que monta las dos ramas (main en la raíz y beta en /beta/).
+name: Web
+
+on:
+  push:
+    branches: [main, beta]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+  actions: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  relanzar:
+    if: github.ref == 'refs/heads/beta'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Publicar desde main (incluye la beta)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run pages.yml --repo "$GITHUB_REPOSITORY" --ref main
+
+  build:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: main
+          path: main
+      - uses: actions/checkout@v7
+        with:
+          ref: beta
+          path: beta
+        continue-on-error: true
+
+      - name: Montar el sitio
+        run: |
+          WEB="index.html sw.js ejercicios.json manifest.webmanifest icon-192.png icon-512.png icon-maskable-512.png favicon-48.png LICENSE PRIVACY.md README.md ANDROID.md CHANGELOG.md fonts capturas"
+          mkdir -p _site
+          for f in $WEB; do if [ -e "main/$f" ]; then cp -r "main/$f" _site/; fi; done
+          touch _site/.nojekyll
+          if [ -f beta/index.html ]; then
+            mkdir -p _site/beta
+            for f in $WEB; do if [ -e "beta/$f" ] && [ "$f" != "capturas" ]; then cp -r "beta/$f" _site/beta/; fi; done
+            # Caché propia de la beta y nombre propio al instalarla
+            sed -i 's/const CACHE = "usus-/const CACHE = "usus-beta-/' _site/beta/sw.js
+            node -e 'const f="_site/beta/manifest.webmanifest",fs=require("fs"),m=JSON.parse(fs.readFileSync(f,"utf8"));m.name="Usus Beta";m.short_name="Usus β";if(m.id)m.id="beta/";fs.writeFileSync(f,JSON.stringify(m,null,2))'
+          fi
+          ls -la _site _site/beta 2>/dev/null | head -40
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.d.outputs.page_url }}
+    steps:
+      - id: d
+        uses: actions/deploy-pages@v4

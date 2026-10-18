@@ -6,12 +6,16 @@ const CORE = ["./", "index.html", "ejercicios.json", "manifest.webmanifest", "ic
 self.addEventListener("install", e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(CORE)).then(() => self.skipWaiting()));
 });
+// La beta (…/beta/) comparte dominio: cada versión borra solo sus propias cachés y la principal no toca nada de /beta/
+const FAM = CACHE.startsWith("usus-beta-") ? "usus-beta-" : "usus-";
+const mine = k => k.startsWith(FAM) && (FAM === "usus-beta-" || !k.startsWith("usus-beta-"));
 self.addEventListener("activate", e => {
-  e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== CACHE).map(k => caches.delete(k)))).then(() => self.clients.claim()));
+  e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => mine(k) && k !== CACHE).map(k => caches.delete(k)))).then(() => self.clients.claim()));
 });
 self.addEventListener("fetch", e => {
   const req = e.request;
   if (req.method !== "GET") return;
+  if (FAM === "usus-" && new URL(req.url).pathname.startsWith(new URL("beta/", self.registration.scope).pathname)) return;
   // Red primero para la página (coge actualizaciones), caché si no hay conexión
   if (req.mode === "navigate") {
     e.respondWith(fetch(req).then(r => { const c = r.clone(); caches.open(CACHE).then(x => x.put("index.html", c)); return r; })
