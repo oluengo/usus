@@ -33,7 +33,7 @@ Lo nuevo se prueba antes en una versión beta, sin tocar la principal. Puede ten
 | | Cómo | Datos |
 |---|---|---|
 | **Web beta** | [oluengo.github.io/usus/beta](https://oluengo.github.io/usus/beta/) | Aparte de la web principal |
-| **App «Usus Beta»** | `usus-beta-….apk` de la pre-release [Usus Beta](https://github.com/oluengo/usus/releases/tag/beta). Se instala **junto** a la Usus normal. Con Obtainium: añade el repositorio otra vez, activa «incluir pre-releases» y filtra los APK por `beta`. | Aparte de la app normal |
+| **App «Usus Beta»** | `usus-beta-….apk` de la pre-release [Usus Beta](https://github.com/oluengo/usus/releases/tag/usus-beta). Se instala **junto** a la Usus normal. Con Obtainium: añade el repositorio otra vez, activa «incluir pre-releases» y filtra los APK por `beta`. | Aparte de la app normal |
 
 Para probar la beta con tus datos, exporta una copia en la versión normal e impórtala en la beta. Nada de lo que hagas en la beta llega a la principal.
 
@@ -124,7 +124,7 @@ New features are tried first in a beta version, without touching the main one. I
 | | How | Data |
 |---|---|---|
 | **Web beta** | [oluengo.github.io/usus/beta](https://oluengo.github.io/usus/beta/) | Separate from the main web app |
-| **“Usus Beta” app** | `usus-beta-….apk` from the [Usus Beta](https://github.com/oluengo/usus/releases/tag/beta) pre-release. It installs **alongside** the regular Usus. With Obtainium: add the repository again, enable “include pre-releases” and filter APKs by `beta`. | Separate from the regular app |
+| **“Usus Beta” app** | `usus-beta-….apk` from the [Usus Beta](https://github.com/oluengo/usus/releases/tag/usus-beta) pre-release. It installs **alongside** the regular Usus. With Obtainium: add the repository again, enable “include pre-releases” and filter APKs by `beta`. | Separate from the regular app |
 
 To try the beta with your data, export a backup in the regular version and import it in the beta. Nothing you do in the beta reaches the main version.
 

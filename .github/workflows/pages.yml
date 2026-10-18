@@ -37,11 +37,11 @@ jobs:
     steps:
       - uses: actions/checkout@v7
         with:
-          ref: main
+          ref: refs/heads/main
           path: main
       - uses: actions/checkout@v7
         with:
-          ref: beta
+          ref: refs/heads/beta
           path: beta
         continue-on-error: true
 
