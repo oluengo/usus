@@ -45,6 +45,14 @@ jobs:
           path: beta
         continue-on-error: true
 
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+
+      - name: Traducciones al día (desde i18n/*.po)
+        run: |
+          for d in main beta; do if [ -f "$d/scripts/i18n.mjs" ]; then (cd "$d" && node scripts/i18n.mjs build); fi; done
+
       - name: Montar el sitio
         run: |
           WEB="index.html sw.js ejercicios.json manifest.webmanifest icon-192.png icon-512.png icon-maskable-512.png favicon-48.png LICENSE PRIVACY.md README.md ANDROID.md CHANGELOG.md fonts capturas"
