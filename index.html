@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Usus</title>
 <meta name="theme-color" id="themeColor" content="#16120E">
+<script>/* Beta en la web (…/usus/beta/): mismo dominio que la versión principal, así que guarda todo con el prefijo «beta:» */
+(function(){var B=/\/beta\/(index\.html)?$/.test(location.pathname);window.USUS_WEB_BETA=B;if(!B)return;var S=Storage.prototype,g=S.getItem,s=S.setItem,r=S.removeItem,L=function(t){try{return t===window.localStorage}catch(e){return false}};
+S.getItem=function(k){return g.call(this,L(this)?"beta:"+k:k)};S.setItem=function(k,v){return s.call(this,L(this)?"beta:"+k:k,v)};S.removeItem=function(k){return r.call(this,L(this)?"beta:"+k:k)}})();</script>
 <script>try{var p=JSON.parse(localStorage.getItem("wk.profile"))||"main";document.documentElement.dataset.theme=JSON.parse(localStorage.getItem(p==="main"?"wk.theme":"wk."+p+".theme"))||"auto"}catch(e){document.documentElement.dataset.theme="auto"}</script>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="favicon-48.png">
@@ -689,6 +692,10 @@ textarea{width:100%;font:inherit;padding:10px 12px;border:1px solid var(--line);
   nav.tabs .in::before{content:"Usus";font-size:1rem;text-align:center;padding:4px 0 14px}
   nav.tabs button{flex-direction:column;justify-content:center;gap:4px;padding:10px 2px;font-size:.7rem}
 }
+.betatag{position:fixed;top:calc(6px + env(safe-area-inset-top,0px));right:8px;z-index:40;font:700 .62rem/1 system-ui,sans-serif;letter-spacing:.1em;background:var(--ext);color:#fff;border-radius:6px;padding:4px 7px;pointer-events:none}
+.betatag[hidden]{display:none}
+@media (min-width:1000px){html.beta nav.tabs .in::before{content:"Usus β"}}
+@media print{.betatag{display:none!important}}
 /* Imprimible */
 .prt-ui .rseg{margin:10px 0}
 .prt-opts{display:flex;flex-wrap:wrap;gap:6px 16px;margin:4px 0 12px}.prt-opts label{display:flex;align-items:center;gap:6px;font-size:.9rem}
@@ -781,6 +788,7 @@ textarea{width:100%;font:inherit;padding:10px 12px;border:1px solid var(--line);
 <body>
 <div class="wrap" id="app"><p class="muted">Cargando…</p></div>
 <nav class="tabs" aria-label="Secciones"><div class="in" id="tabs"></div></nav>
+<div class="betatag" id="betaTag" hidden>BETA</div>
 <div class="toast" id="toast" role="status"></div>
 
 <script>
@@ -824,6 +832,12 @@ const fmtSet = (x, time, sides) => time ? (+x.w ? `${fmtKg(x.w)} kg · ${fmtSec(
   : (+x.w ? `${fmtKg(x.w)}×` : "") + (sides ? `${x.r}/${R2(x)}` : `${x.r}`);
 
 /* ---------- Almacenamiento: db del artefacto o localStorage ---------- */
+/* Versión de pruebas: la web en …/beta/ (datos aparte, ver <head>) o el APK «Usus Beta» (otra app, datos aparte) */
+const BETA = !!(window.USUS_WEB_BETA || window.USUS_BETA);
+const REL_URL = BETA ? "https://github.com/oluengo/usus/releases/tag/beta" : "https://github.com/oluengo/usus/releases/latest";
+/* Claves de localStorage de esta versión (en la beta web, sin el prefijo; en la principal, sin las de la beta) */
+const lsKeys = () => { try { const k = Object.keys(localStorage); return window.USUS_WEB_BETA ? k.filter(x => x.startsWith("beta:")).map(x => x.slice(5)) : k.filter(x => !x.startsWith("beta:")); } catch { return []; } };
+if (BETA) { document.documentElement.classList.add("beta"); document.title = "Usus Beta"; const bt = document.getElementById("betaTag"); if (bt) bt.hidden = false; }
 /* Perfiles: el primero ("main") usa las claves de siempre (wk.*); los demás, wk.<id>.*. No renombrar nunca las claves. */
 const GLOBAL_KEYS = new Set(["wk.profiles", "wk.profile", "wk.welcomed", "wk.seenVersion", "wk.apkTip"]);
 const rawGet = (k, d) => { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch { return d; } };
@@ -1464,7 +1478,7 @@ function apkTip() {
   if (isNative() || !/android/i.test(navigator.userAgent) || LS.get("wk.apkTip", false)) return "";
   return `<div class="panel" style="margin-top:12px"><b>${T("Hay app para Android")}</b>
     <p class="muted" style="margin:4px 0 8px;font-size:.88rem">${T("La misma Usus, instalada como app (APK). Sus datos van aparte: exporta una copia aquí (Ajustes → Datos) e impórtala allí.")}</p>
-    <div class="row"><a class="btn small primary" href="https://github.com/oluengo/usus/releases/latest" target="_blank" rel="noopener">${T("Descargar")}</a><button class="btn small" data-act="apk-tip-no">${T("No, gracias")}</button></div></div>`;
+    <div class="row"><a class="btn small primary" href="${REL_URL}" target="_blank" rel="noopener">${T("Descargar")}</a><button class="btn small" data-act="apk-tip-no">${T("No, gracias")}</button></div></div>`;
 }
 function planUpNotice() {
   const L = LS.get("wk.planUpLog", null), pn = planNow(); if (!L || L.seen || !pn || pn.status !== "on" || dayKey(pn.w.t) !== L.week) return "";
@@ -3667,7 +3681,7 @@ function viewData() {
     </div>
     <h2>${T("Acerca de")}</h2>
     <div class="panel">
-      <div class="t" style="font-weight:600">Usus · <button class="verb" data-act="news-open">${T("versión")} ${APP_VERSION}</button></div>
+      <div class="t" style="font-weight:600">Usus · <button class="verb" data-act="news-open">${T("versión")} ${APP_VERSION}${BETA ? " beta" : ""}</button></div>
       <p class="muted" style="font-size:.85rem;margin:4px 0 0">${T("Hecha con IA · probada por humanos.")}</p>
       <p class="muted" style="font-size:.85rem;margin:6px 0 0">${T("Software libre bajo licencia MIT: puedes usarlo, copiarlo, modificarlo y distribuirlo, también con fines comerciales, manteniendo el aviso de copyright y de licencia.")}</p>
       <p class="muted" style="font-size:.85rem;margin:8px 0 0">${T("Sin garantías. Los autores no responden de lesiones, pérdida de datos ni ningún otro daño derivado de su uso. No sustituye el consejo de un profesional sanitario o deportivo.")}</p>
@@ -3733,9 +3747,9 @@ const isIOS = () => /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.
 const SIGN_FP = "28:B6:FF:4A:8F:61:F6:88:D4:B4:9D:C7:E8:B7:2D:95:D5:D9:44:45:D2:A2:30:07:1A:FA:72:B1:B2:D0:3E:C8";
 function updatesBlock() {
   return `<h2>${T("Actualizaciones")}</h2>
-    <div class="panel"><div class="row" style="justify-content:space-between;align-items:baseline"><b style="font-size:1.05rem">Usus ${APP_VERSION}</b><span class="badge-ok">${T("App Android")}</span></div>
+    <div class="panel"><div class="row" style="justify-content:space-between;align-items:baseline"><b style="font-size:1.05rem">Usus ${APP_VERSION}${BETA ? " beta" : ""}</b><span class="badge-ok">${T("App Android")}</span></div>
       <p class="muted" style="font-size:.85rem;margin:6px 0 0">${T("Esta app no se conecta a Internet, así que no busca versiones nuevas por su cuenta. Se publican en GitHub; al instalar una nueva encima, tus datos se mantienen.")}</p>
-      <div class="row" style="margin-top:12px;flex-wrap:wrap"><a class="btn small primary" href="https://github.com/oluengo/usus/releases/latest" target="_blank" rel="noopener">${T("Ver versiones")} ↗</a><button class="btn small" data-act="news-open">${T("Novedades de la {v}", { v: APP_VERSION })}</button></div></div>
+      <div class="row" style="margin-top:12px;flex-wrap:wrap"><a class="btn small primary" href="${REL_URL}" target="_blank" rel="noopener">${T("Ver versiones")} ↗</a><button class="btn small" data-act="news-open">${T("Novedades de la {v}", { v: APP_VERSION })}</button></div></div>
     <div class="panel" style="margin-top:10px"><b>${T("Avisos automáticos con Obtainium")}</b>
       <p class="muted" style="font-size:.85rem;margin:4px 0 0">${T("App gratuita que vigila GitHub y te avisa o instala cada versión nueva. Es opcional.")}</p>
       <ol class="muted" style="font-size:.85rem;margin:8px 0 0;padding-left:20px"><li>${T("Instala Obtainium.")}</li><li>${T("«Añadir app» y pega el enlace:")} <code>github.com/oluengo/usus</code></li></ol>
@@ -3749,7 +3763,7 @@ function installBlock() {
     <ul class="muted" style="padding-left:18px;margin:8px 0 0;line-height:1.5;font-size:.85rem">
       ${isIOS() ? `<li>${T("iPhone / iPad (Safari): botón Compartir → «Añadir a pantalla de inicio».")}</li><li>${T("Android (Chrome): menú ⋮ → «Instalar aplicación» o «Añadir a pantalla de inicio».")}</li>`
         : `<li>${T("Android (Chrome): menú ⋮ → «Instalar aplicación» o «Añadir a pantalla de inicio».")}</li><li>${T("iPhone / iPad (Safari): botón Compartir → «Añadir a pantalla de inicio».")}</li>`}
-      <li>${T("Android, como app (APK):")} <a href="https://github.com/oluengo/usus/releases/latest" target="_blank" rel="noopener">GitHub → Releases</a>. ${T("Sus datos van aparte de los de la PWA.")}</li>
+      <li>${T("Android, como app (APK):")} <a href="${REL_URL}" target="_blank" rel="noopener">GitHub → Releases</a>. ${T("Sus datos van aparte de los de la PWA.")}</li>
     </ul>`;
 }
 /* ---------- Novedades (una vez por versión; historial al tocar la versión) ---------- */
@@ -4259,7 +4273,7 @@ function profDelete() {
   if (!confirm(T("Se borrarán el perfil «{x}» y todos sus datos de este dispositivo. ¿Has exportado su copia?", { x: profName(p) }))) return;
   if (!confirm(T("Última confirmación: ¿borrar «{x}»?", { x: profName(p) }))) return;
   const own = k => k.startsWith("wk.") && !GLOBAL_KEYS.has(k) && (PROF === "main" ? !/^wk\.p[0-9a-z]+\./.test(k) : k.startsWith(`wk.${PROF}.`));
-  try { Object.keys(localStorage).filter(own).forEach(k => localStorage.removeItem(k)); } catch {}
+  try { lsKeys().filter(own).forEach(k => localStorage.removeItem(k)); } catch {}
   const rest = PROFS().filter(x => x.id !== PROF); saveProfs(rest);
   state.active = null; try { localStorage.setItem("wk.profile", JSON.stringify(rest[0].id)); } catch {}
   keepPlace(); location.reload();
@@ -4293,7 +4307,7 @@ function techInfo() {
     || ((/Windows NT [\d.]+|Mac OS X [\d_]+|CrOS|Linux/.exec(ua) || [""])[0]).replace(/_/g, ".");
   const m = /(Edg|SamsungBrowser|Firefox|FxiOS|CriOS|Chrome|Version)\/(\d+)/.exec(ua) || [];
   const br = m[1] ? ({ Edg: "Edge", CriOS: "Chrome", FxiOS: "Firefox", Version: "Safari" }[m[1]] || m[1]) + " " + m[2] : "?";
-  return `Usus ${APP_VERSION} · ${isNative() ? "APK" : isStandalone() ? "PWA" : "web"}\n${os || "?"} · ${br}\n${LANG} · ${curTheme()}`;
+  return `Usus ${APP_VERSION}${BETA ? " beta" : ""} · ${isNative() ? "APK" : isStandalone() ? "PWA" : "web"}\n${os || "?"} · ${br}\n${LANG} · ${curTheme()}`;
 }
 function aboutLinks() {
   const it = (act, ico, t, d, end) => `<button class="aitem" data-act="${act}"><span class="aico">${AICO[ico]}</span><span style="flex:1;min-width:0"><b>${t}</b><small>${d}</small></span><span class="muted">${end}</span></button>`;

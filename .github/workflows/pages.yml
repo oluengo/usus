@@ -2,8 +2,6 @@
 # - rama main → https://oluengo.github.io/usus/
 # - rama beta → https://oluengo.github.io/usus/beta/ (versión de pruebas, con sus datos aparte)
 # Requiere Settings → Pages → Build and deployment → Source: «GitHub Actions».
-# El entorno github-pages solo admite publicar desde main: un push a beta relanza este flujo sobre main,
-# que monta las dos ramas (main en la raíz y beta en /beta/).
 name: Web
 
 on:
@@ -15,33 +13,22 @@ permissions:
   contents: read
   pages: write
   id-token: write
-  actions: write
 
 concurrency:
   group: pages
   cancel-in-progress: false
 
 jobs:
-  relanzar:
-    if: github.ref == 'refs/heads/beta'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Publicar desde main (incluye la beta)
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: gh workflow run pages.yml --repo "$GITHUB_REPOSITORY" --ref main
-
   build:
-    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
         with:
-          ref: refs/heads/main
+          ref: main
           path: main
       - uses: actions/checkout@v7
         with:
-          ref: refs/heads/beta
+          ref: beta
           path: beta
         continue-on-error: true
 
