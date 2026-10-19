@@ -270,6 +270,9 @@ msgstr "4 setmanes"
 msgid "A, B… = orden. A1, A2 = superserie o circuito: se hacen seguidos y se repite la vuelta."
 msgstr "A, B… = ordre. A1, A2 = supersèrie o circuit: es fan seguits i es repeteix la volta."
 
+msgid "Abrir"
+msgstr "Obrir"
+
 msgid "Abrir en el Diario"
 msgstr "Obre al Diari"
 
@@ -355,8 +358,8 @@ msgstr "En canviar de perfil et quedes a la mateixa pantalla (per exemple, Ajust
 msgid "Al terminar (s)"
 msgstr "En acabar (s)"
 
-msgid "Al terminar cada sesión"
-msgstr "En acabar cada sessió"
+msgid "Al terminar cada sesión, solo en ejercicios del catálogo"
+msgstr "En acabar cada sessió, només en exercicis del catàleg"
 
 msgid "Al vincular un nombre como «Fondos (bajada 3 s)», lo que va entre paréntesis pasa a ser la técnica."
 msgstr "En vincular un nom com «Fons (baixada 3 s)», el que va entre parèntesis passa a ser la tècnica."
@@ -414,6 +417,9 @@ msgstr "Abans d'afegir un altre perfil, completa el teu. Les teves dades no canv
 
 msgid "Antes de empezar:"
 msgstr "Abans de començar:"
+
+msgid "Antes de una serie por tiempo que empiezas tú"
+msgstr "Abans d'una sèrie per temps que comences tu"
 
 msgid "Anticonceptivo hormonal"
 msgstr "Anticonceptiu hormonal"
@@ -1057,6 +1063,10 @@ msgstr "Desmarca"
 
 msgid "Detalle de la experiencia y otros deportes"
 msgstr "Detall de l'experiència i altres esports"
+
+#, python-brace-format
+msgid "Detalles de {x}"
+msgstr "Detalls de {x}"
 
 msgid "día"
 msgstr "dia"
@@ -1790,9 +1800,6 @@ msgstr "La nit que acaba aquest dia."
 msgid "La pantalla se mantiene encendida durante toda la sesión, no solo en las cuentas atrás."
 msgstr "La pantalla es manté encesa durant tota la sessió, no només als comptes enrere."
 
-msgid "La PEM y la carga (PEM × minutos) se ven en el Diario y en Stats → Entreno, y van en el análisis con IA y en el CSV."
-msgstr "La PEM i la càrrega (PEM × minuts) es veuen al Diari i a Stats → Entrenament, i van a l'anàlisi amb IA i al CSV."
-
 #, python-brace-format
 msgid "La regla podría bajarte en {n} días"
 msgstr "La regla et podria baixar d'aquí a {n} dies"
@@ -1864,6 +1871,9 @@ msgstr "El que vulguis que la IA tingui en compte"
 
 msgid "Los datos del ciclo se guardan solo en este dispositivo y van en la copia de seguridad completa."
 msgstr "Les dades del cicle es desen només en aquest dispositiu i van a la còpia de seguretat completa."
+
+msgid "Los descansos se usan en los ejercicios sin descanso propio. 0 = sin descanso."
+msgstr "Els descansos s'usen en els exercicis sense descans propi. 0 = sense descans."
 
 #, python-brace-format
 msgid "Luego: {x}"
@@ -2061,6 +2071,9 @@ msgstr "Molt dur"
 
 msgid "Muy fácil"
 msgstr "Molt fàcil"
+
+msgid "Nada anotado este día"
+msgstr "Res anotat aquest dia"
 
 msgid "Nada marcado = solo suelo."
 msgstr "Res marcat = només terra."
@@ -2362,9 +2375,6 @@ msgstr "Per a què ho faries servir"
 msgid "Para qué sirve"
 msgstr "Per a què serveix"
 
-msgid "Para quien empieza: fichas con explicación, material y progresiones al crear rutinas. Si ya lo tienes claro, puedes prescindir; tus rutinas funcionan igual. Funciona sin conexión."
-msgstr "Per a qui comença: fitxes amb explicació, material i progressions en crear rutines. Si ja ho tens clar, pots prescindir-ne; les teves rutines funcionen igual. Funciona sense connexió."
-
 msgid "Paralelas"
 msgstr "Paral·leles"
 
@@ -2594,9 +2604,6 @@ msgstr "Preparació (s)"
 msgid "Preparación: {n} s"
 msgstr "Preparació: {n} s"
 
-msgid "Preparación: cuenta atrás antes de una serie por tiempo que arrancas tú (▶) o al reanudar. Aviso final: tics en los últimos segundos de cualquier cuenta atrás. Cambio de lado: pausa entre lado 1 y lado 2. Inicio automático: al acabar el descanso, la siguiente serie por tiempo empieza sola (el final del descanso hace de preparación); las series por repeticiones nunca."
-msgstr "Preparació: compte enrere abans d'una sèrie per temps que comences tu (▶) o en reprendre. Avís final: tics als últims segons de qualsevol compte enrere. Canvi de costat: pausa entre el costat 1 i el 2. Inici automàtic: en acabar el descans, la sèrie per temps següent comença sola (el final del descans fa de preparació); les sèries per repeticions, mai."
-
 msgid "Preparar análisis"
 msgstr "Preparar l'anàlisi"
 
@@ -2657,9 +2664,6 @@ msgstr "proposta"
 
 msgid "Propuestas aceptadas"
 msgstr "Propostes acceptades"
-
-msgid "Propuestas de progresión"
-msgstr "Propostes de progressió"
 
 msgid "Protector"
 msgstr "Protector"
@@ -2798,8 +2802,8 @@ msgstr "Repartiment per bloc"
 msgid "repeticiones"
 msgstr "repeticions"
 
-msgid "Repeticiones en reserva al marcar cada serie. Para afinar la intensidad."
-msgstr "Repeticions en reserva en marcar cada sèrie. Per afinar la intensitat."
+msgid "Repeticiones en reserva al marcar cada serie"
+msgstr "Repeticions en reserva en marcar cada sèrie"
 
 #, python-brace-format
 msgid "Repeticiones lado derecho serie {n}"
@@ -2944,20 +2948,17 @@ msgstr "Es desa únicament en aquest mòbil, dins d'aquest perfil."
 msgid "Se ha aplicado la regla de tu plan: {x}."
 msgstr "S'ha aplicat la regla del teu pla: {x}."
 
-msgid "Se muestran en Stats → Resumen. 0 = no mostrar. Fuerza = cualquier bloque salvo Diaria, Cardio y Otro."
-msgstr "Es mostren a Stats → Resum. 0 = no mostrar. Força = qualsevol bloc excepte Diària, Cardio i Altre."
-
 msgid "Se ofrece tal cual, sin garantías de ningún tipo. La usas bajo tu responsabilidad."
 msgstr "S'ofereix tal com és, sense garanties de cap mena. La fas servir sota la teva responsabilitat."
 
 msgid "Se queda como ejercicio propio"
 msgstr "Es queda com a exercici propi"
 
-msgid "Se usan en los ejercicios sin descanso propio (Rutinas → Editar). 0 = sin descanso."
-msgstr "S'apliquen als exercicis sense descans propi (Rutines → Edita). 0 = sense descans."
-
 msgid "Se ve al abrir la app; no hay notificaciones con el móvil bloqueado."
 msgstr "Es veu en obrir l'app; no hi ha notificacions amb el mòbil bloquejat."
+
+msgid "Se ven en Progreso → Resumen. 0 = no mostrar."
+msgstr "Es veuen a Progrés → Resum. 0 = no mostrar."
 
 msgid "Sección"
 msgstr "Secció"
@@ -3240,9 +3241,6 @@ msgstr "Només les rutines. Cap registre."
 msgid "Solo los datos de {x}. Cada perfil tiene su propia copia."
 msgstr "Només les dades de {x}. Cada perfil té la seva còpia."
 
-msgid "Solo para ejercicios del catálogo. El objetivo es el de cada ejercicio en tu rutina; en «por lado» cuenta el peor lado. Las rutinas con subida automática en el plan solo reciben propuestas de retroceder."
-msgstr "Només per a exercicis del catàleg. L'objectiu és el de cada exercici a la teva rutina; en «per costat» compta el pitjor costat. Les rutines amb pujada automàtica al pla només reben propostes de retrocedir."
-
 msgid "Solo recordatorio (↑)"
 msgstr "Només recordatori (↑)"
 
@@ -3369,6 +3367,9 @@ msgstr "Acabes cansat; poc marge al final."
 msgid "Texto"
 msgstr "Text"
 
+msgid "Tics en los últimos segundos"
+msgstr "Tics en els últims segons"
+
 msgid "tiempo"
 msgstr "temps"
 
@@ -3451,6 +3452,9 @@ msgstr "Tracció horitzontal"
 msgid "Tracción vertical"
 msgstr "Tracció vertical"
 
+msgid "Tras el descanso, la siguiente serie por tiempo empieza sola"
+msgstr "Després del descans, la sèrie per temps següent comença sola"
+
 msgid "Tres sonidos: tic en los últimos segundos de cualquier cuenta atrás, inicio y fin. La vibración respeta siempre Ajustes → Avisos."
 msgstr "Tres sons: tic als últims segons de qualsevol compte enrere, inici i fi. La vibració respecta sempre Ajustos → Avisos."
 
@@ -3511,6 +3515,9 @@ msgstr "Una columna per sessió: apunta el que has fet (p. ex. 8·8·7·6)"
 
 msgid "Una hoja por ejercicio con muchas fechas para ver su progresión."
 msgstr "Un full per exercici amb moltes dates per veure'n la progressió."
+
+msgid "Une tus nombres con las fichas del catálogo"
+msgstr "Uneix els teus noms amb les fitxes del catàleg"
 
 msgid "Unidad"
 msgstr "Unitat"
@@ -3704,6 +3711,33 @@ msgstr "Jo"
 
 msgid "Zona peligrosa"
 msgstr "Zona perillosa"
+
+#~ msgid "Al terminar cada sesión"
+#~ msgstr "En acabar cada sessió"
+
+#~ msgid "La PEM y la carga (PEM × minutos) se ven en el Diario y en Stats → Entreno, y van en el análisis con IA y en el CSV."
+#~ msgstr "La PEM i la càrrega (PEM × minuts) es veuen al Diari i a Stats → Entrenament, i van a l'anàlisi amb IA i al CSV."
+
+#~ msgid "Para quien empieza: fichas con explicación, material y progresiones al crear rutinas. Si ya lo tienes claro, puedes prescindir; tus rutinas funcionan igual. Funciona sin conexión."
+#~ msgstr "Per a qui comença: fitxes amb explicació, material i progressions en crear rutines. Si ja ho tens clar, pots prescindir-ne; les teves rutines funcionen igual. Funciona sense connexió."
+
+#~ msgid "Preparación: cuenta atrás antes de una serie por tiempo que arrancas tú (▶) o al reanudar. Aviso final: tics en los últimos segundos de cualquier cuenta atrás. Cambio de lado: pausa entre lado 1 y lado 2. Inicio automático: al acabar el descanso, la siguiente serie por tiempo empieza sola (el final del descanso hace de preparación); las series por repeticiones nunca."
+#~ msgstr "Preparació: compte enrere abans d'una sèrie per temps que comences tu (▶) o en reprendre. Avís final: tics als últims segons de qualsevol compte enrere. Canvi de costat: pausa entre el costat 1 i el 2. Inici automàtic: en acabar el descans, la sèrie per temps següent comença sola (el final del descans fa de preparació); les sèries per repeticions, mai."
+
+#~ msgid "Propuestas de progresión"
+#~ msgstr "Propostes de progressió"
+
+#~ msgid "Repeticiones en reserva al marcar cada serie. Para afinar la intensidad."
+#~ msgstr "Repeticions en reserva en marcar cada sèrie. Per afinar la intensitat."
+
+#~ msgid "Se muestran en Stats → Resumen. 0 = no mostrar. Fuerza = cualquier bloque salvo Diaria, Cardio y Otro."
+#~ msgstr "Es mostren a Stats → Resum. 0 = no mostrar. Força = qualsevol bloc excepte Diària, Cardio i Altre."
+
+#~ msgid "Se usan en los ejercicios sin descanso propio (Rutinas → Editar). 0 = sin descanso."
+#~ msgstr "S'apliquen als exercicis sense descans propi (Rutines → Edita). 0 = sense descans."
+
+#~ msgid "Solo para ejercicios del catálogo. El objetivo es el de cada ejercicio en tu rutina; en «por lado» cuenta el peor lado. Las rutinas con subida automática en el plan solo reciben propuestas de retroceder."
+#~ msgstr "Només per a exercicis del catàleg. L'objectiu és el de cada exercici a la teva rutina; en «per costat» compta el pitjor costat. Les rutines amb pujada automàtica al pla només reben propostes de retrocedir."
 
 #~ msgid "App"
 #~ msgstr "App"

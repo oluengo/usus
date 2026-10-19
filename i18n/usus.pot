@@ -269,6 +269,9 @@ msgstr ""
 msgid "A, B… = orden. A1, A2 = superserie o circuito: se hacen seguidos y se repite la vuelta."
 msgstr ""
 
+msgid "Abrir"
+msgstr ""
+
 msgid "Abrir en el Diario"
 msgstr ""
 
@@ -354,7 +357,7 @@ msgstr ""
 msgid "Al terminar (s)"
 msgstr ""
 
-msgid "Al terminar cada sesión"
+msgid "Al terminar cada sesión, solo en ejercicios del catálogo"
 msgstr ""
 
 msgid "Al vincular un nombre como «Fondos (bajada 3 s)», lo que va entre paréntesis pasa a ser la técnica."
@@ -412,6 +415,9 @@ msgid "Antes de añadir otro perfil, completa el tuyo. Tus datos no cambian."
 msgstr ""
 
 msgid "Antes de empezar:"
+msgstr ""
+
+msgid "Antes de una serie por tiempo que empiezas tú"
 msgstr ""
 
 msgid "Anticonceptivo hormonal"
@@ -1055,6 +1061,10 @@ msgid "Desmarcar"
 msgstr ""
 
 msgid "Detalle de la experiencia y otros deportes"
+msgstr ""
+
+#, python-brace-format
+msgid "Detalles de {x}"
 msgstr ""
 
 msgid "día"
@@ -1789,9 +1799,6 @@ msgstr ""
 msgid "La pantalla se mantiene encendida durante toda la sesión, no solo en las cuentas atrás."
 msgstr ""
 
-msgid "La PEM y la carga (PEM × minutos) se ven en el Diario y en Stats → Entreno, y van en el análisis con IA y en el CSV."
-msgstr ""
-
 #, python-brace-format
 msgid "La regla podría bajarte en {n} días"
 msgstr ""
@@ -1862,6 +1869,9 @@ msgid "Lo que quieras que la IA tenga en cuenta"
 msgstr ""
 
 msgid "Los datos del ciclo se guardan solo en este dispositivo y van en la copia de seguridad completa."
+msgstr ""
+
+msgid "Los descansos se usan en los ejercicios sin descanso propio. 0 = sin descanso."
 msgstr ""
 
 #, python-brace-format
@@ -2059,6 +2069,9 @@ msgid "Muy duro"
 msgstr ""
 
 msgid "Muy fácil"
+msgstr ""
+
+msgid "Nada anotado este día"
 msgstr ""
 
 msgid "Nada marcado = solo suelo."
@@ -2361,9 +2374,6 @@ msgstr ""
 msgid "Para qué sirve"
 msgstr ""
 
-msgid "Para quien empieza: fichas con explicación, material y progresiones al crear rutinas. Si ya lo tienes claro, puedes prescindir; tus rutinas funcionan igual. Funciona sin conexión."
-msgstr ""
-
 msgid "Paralelas"
 msgstr ""
 
@@ -2593,9 +2603,6 @@ msgstr ""
 msgid "Preparación: {n} s"
 msgstr ""
 
-msgid "Preparación: cuenta atrás antes de una serie por tiempo que arrancas tú (▶) o al reanudar. Aviso final: tics en los últimos segundos de cualquier cuenta atrás. Cambio de lado: pausa entre lado 1 y lado 2. Inicio automático: al acabar el descanso, la siguiente serie por tiempo empieza sola (el final del descanso hace de preparación); las series por repeticiones nunca."
-msgstr ""
-
 msgid "Preparar análisis"
 msgstr ""
 
@@ -2655,9 +2662,6 @@ msgid "propuesta"
 msgstr ""
 
 msgid "Propuestas aceptadas"
-msgstr ""
-
-msgid "Propuestas de progresión"
 msgstr ""
 
 msgid "Protector"
@@ -2797,7 +2801,7 @@ msgstr ""
 msgid "repeticiones"
 msgstr ""
 
-msgid "Repeticiones en reserva al marcar cada serie. Para afinar la intensidad."
+msgid "Repeticiones en reserva al marcar cada serie"
 msgstr ""
 
 #, python-brace-format
@@ -2943,19 +2947,16 @@ msgstr ""
 msgid "Se ha aplicado la regla de tu plan: {x}."
 msgstr ""
 
-msgid "Se muestran en Stats → Resumen. 0 = no mostrar. Fuerza = cualquier bloque salvo Diaria, Cardio y Otro."
-msgstr ""
-
 msgid "Se ofrece tal cual, sin garantías de ningún tipo. La usas bajo tu responsabilidad."
 msgstr ""
 
 msgid "Se queda como ejercicio propio"
 msgstr ""
 
-msgid "Se usan en los ejercicios sin descanso propio (Rutinas → Editar). 0 = sin descanso."
+msgid "Se ve al abrir la app; no hay notificaciones con el móvil bloqueado."
 msgstr ""
 
-msgid "Se ve al abrir la app; no hay notificaciones con el móvil bloqueado."
+msgid "Se ven en Progreso → Resumen. 0 = no mostrar."
 msgstr ""
 
 msgid "Sección"
@@ -3239,9 +3240,6 @@ msgstr ""
 msgid "Solo los datos de {x}. Cada perfil tiene su propia copia."
 msgstr ""
 
-msgid "Solo para ejercicios del catálogo. El objetivo es el de cada ejercicio en tu rutina; en «por lado» cuenta el peor lado. Las rutinas con subida automática en el plan solo reciben propuestas de retroceder."
-msgstr ""
-
 msgid "Solo recordatorio (↑)"
 msgstr ""
 
@@ -3368,6 +3366,9 @@ msgstr ""
 msgid "Texto"
 msgstr ""
 
+msgid "Tics en los últimos segundos"
+msgstr ""
+
 msgid "tiempo"
 msgstr ""
 
@@ -3450,6 +3451,9 @@ msgstr ""
 msgid "Tracción vertical"
 msgstr ""
 
+msgid "Tras el descanso, la siguiente serie por tiempo empieza sola"
+msgstr ""
+
 msgid "Tres sonidos: tic en los últimos segundos de cualquier cuenta atrás, inicio y fin. La vibración respeta siempre Ajustes → Avisos."
 msgstr ""
 
@@ -3509,6 +3513,9 @@ msgid "Una columna por sesión: apunta lo hecho (p. ej. 8·8·7·6)"
 msgstr ""
 
 msgid "Una hoja por ejercicio con muchas fechas para ver su progresión."
+msgstr ""
+
+msgid "Une tus nombres con las fichas del catálogo"
 msgstr ""
 
 msgid "Unidad"

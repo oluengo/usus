@@ -45,13 +45,14 @@ h2{font-size:1.125rem;font-weight:600;margin:28px 0 10px}
 button,input,select{font:inherit;color:inherit}
 button{cursor:pointer}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.btn{border:1px solid var(--line);background:var(--surface);padding:10px 14px;border-radius:10px;font-weight:500}
+.btn{border:1px solid var(--line);background:var(--surface);padding:10px 16px;border-radius:12px;font-weight:600;min-height:44px;line-height:1.2}
 .btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
 :root[data-theme="dark"] .btn.primary{color:#0E1320}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .btn.primary{color:#0E1320}}
-.btn.ghost{background:transparent;border-color:transparent;color:var(--muted)}
-.btn.danger{color:var(--danger)}
-.btn.small{padding:6px 10px;font-size:.875rem}
+.btn.ghost{background:transparent;border-color:transparent;color:var(--accent);padding-left:10px;padding-right:10px}
+.btn.danger{color:var(--danger);background:transparent;border-color:transparent}
+.btn.small{padding:6px 12px;font-size:.875rem;min-height:36px;border-radius:10px}
+.btn:disabled{opacity:.45;cursor:default}
 .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .spacer{flex:1}
 input[type=text],input[type=search],input[type=number],input[type=date],select{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 12px;width:100%;min-width:0}
@@ -648,6 +649,36 @@ textarea{width:100%;font:inherit;padding:10px 12px;border:1px solid var(--line);
   body.edw .egh .fld input{height:34px}
   body.edw .sech input{font-size:1rem}
 }
+/* 3.0 · Componentes: interruptor, filas de ajustes, hojas inferiores */
+input[type=checkbox][role=switch]{-webkit-appearance:none;appearance:none;width:46px;height:28px;border-radius:999px;background:color-mix(in srgb,var(--muted) 55%,var(--line));position:relative;flex:none;cursor:pointer;margin:0;transition:background .15s;accent-color:auto}
+input[type=checkbox][role=switch]::before{content:"";position:absolute;width:22px;height:22px;left:3px;top:3px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:transform .15s}
+input[type=checkbox][role=switch]:checked{background:var(--accent)}
+input[type=checkbox][role=switch]:checked::before{transform:translateX(18px)}
+input[type=checkbox][role=switch]:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.srow{display:flex;align-items:center;gap:12px;min-height:56px;padding:10px 16px;border-top:1px solid var(--line);cursor:default}
+label.srow{cursor:pointer}
+.srow:first-child{border-top:0}
+.srow .t{flex:1;min-width:0;font-size:.95rem}
+.srow .t small{display:block;color:var(--muted);font-size:.8rem;margin-top:1px}
+.srow input[type=number]{width:84px;flex:none;text-align:center;padding:8px}
+.srow select{width:auto;max-width:55%;flex:none}
+.note{color:var(--muted);font-size:.8rem;margin:8px 4px 0}
+.swrow{color:var(--ink);font-size:.95rem;padding:12px 0 0;align-items:center}
+.swrow small{display:block;color:var(--muted);font-size:.8rem}
+.addchips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.addchips .chip{min-height:36px;font-weight:500}
+/* Editor compacto en el móvil */
+.exsum{grid-column:1/-1;display:none;align-items:center;gap:8px;justify-content:space-between;width:100%;border:0;background:none;color:var(--muted);font:inherit;font-size:.88rem;text-align:left;padding:2px 0 0;min-height:32px}
+@media (max-width:999px){
+  .ex-edit .exsum{display:flex}
+  .ex-edit.cmp{row-gap:2px;padding:10px 0}
+  .ex-edit.cmp>.fld,.ex-edit.cmp>.chk,.ex-edit.cmp>.exmat{display:none}
+  .ex-edit.cmp .xname{min-height:0}
+  /* Ventanas como hoja inferior */
+  .modal{padding:0;align-items:flex-end}
+  .mbox{border-radius:22px 22px 0 0;max-width:none;max-height:92vh;border-width:1px 0 0;padding:10px 18px calc(18px + env(safe-area-inset-bottom,0px))}
+  .mbox::before{content:"";display:block;width:40px;height:4px;border-radius:2px;background:var(--line);margin:0 auto 12px}
+}
 /* 3.0 · Estructura: cabecera, pestañas subrayadas, listas en filas, pantallas con Atrás */
 .phead{display:flex;align-items:center;gap:8px;margin:4px 0 16px;min-height:44px}
 .phead h1{flex:1;margin:0;font-size:1.75rem;line-height:1.15}
@@ -1126,7 +1157,7 @@ function viewPlanEdit() {
   return `<h1>${state.planNew ? T("Nuevo plan") : T("Editar plan")}</h1>
     <div class="panel" style="margin-top:14px">
       <label class="muted" for="pName" style="font-size:.85rem">${T("Nombre")}</label><input type="text" id="pName" maxlength="40" value="${esc(d.name || "")}" placeholder="${T("Ej. Bloque fuerza otoño")}" style="margin:4px 0 12px">
-      <label class="chk" style="grid-column:auto;margin:0"><input type="checkbox" id="pOn" ${d.enabled !== false ? "checked" : ""}> ${T("Plan activo (se muestra en Hoy)")}</label>
+      <label class="xtog swrow"><span>${T("Plan activo (se muestra en Hoy)")}</span><input type="checkbox" role="switch" id="pOn" ${d.enabled !== false ? "checked" : ""}></label>
       <div class="wrow2" style="margin-top:12px"><label class="muted" for="pStart">${T("Inicio")}</label><input type="date" id="pStart" value="${esc(d.start || "")}">
         <label class="muted" for="pReview">${T("Revisión (opcional)")}</label><input type="date" id="pReview" value="${esc(d.review || "")}"></div>
       <p class="muted" style="font-size:.78rem;margin:6px 0 0">${T("El plan empieza el lunes de la semana de inicio. Sin revisión, dura un año.")}</p>
@@ -1142,7 +1173,7 @@ function viewPlanEdit() {
       <div class="wrow2"><label class="muted" for="pDlW">${T("Semanas de descarga")}</label><input type="number" id="pDlW" min="0" max="4" value="${+d.deload?.weeks || 0}" inputmode="numeric">
         <label class="muted" for="pDlE">${T("Cada (semanas de entreno)")}</label><input type="number" id="pDlE" min="0" max="26" value="${+d.deload?.every || 0}" inputmode="numeric"></div>
       <p class="muted" style="font-size:.78rem;margin:6px 0 0">${T("0 = sin descarga. En descarga solo se sugieren rutinas sin variante.")}</p>
-      <label class="chk" style="grid-column:auto;margin-top:14px"><input type="checkbox" id="pUp" ${d.up ? "checked" : ""}> ${T("Marcar ↑ cuando se repite una variante (recordatorio para progresar)")}</label>
+      <label class="xtog swrow" style="margin-top:14px"><span>${T("Marcar ↑ cuando se repite una variante (recordatorio para progresar)")}</span><input type="checkbox" role="switch" id="pUp" ${d.up ? "checked" : ""}></label>
       ${d.up ? `<label class="muted" for="pUpRule" style="font-size:.85rem;display:block;margin-top:10px">${T("En la semana ↑")}</label>
       <select id="pUpRule">${UP_RULES.map(([k, n]) => `<option value="${k}" ${upRuleOf(d) === k ? "selected" : ""}>${T(n)}</option>`).join("")}</select>
       <p class="muted" style="font-size:.78rem;margin:6px 0 0">${upRuleOf(d) === "mark" ? T("Solo se marca la semana; tú decides qué subir.") : upRuleOf(d) === "step" ? T("Se aplica sola al empezar la semana a las rutinas de esa variante, con aviso en Hoy y opción de deshacer. Pasa al siguiente paso del catálogo solo si la última vez llegaste al objetivo.") : T("Se aplica sola al empezar la semana a las rutinas de esa variante, con aviso en Hoy y opción de deshacer.")}</p>` : ""}
@@ -1249,7 +1280,7 @@ function catListHTML() {
 function viewCatalog() {
   return `<input type="search" id="catQ" class="xsearch" placeholder="${T("Buscar (también en inglés o por alias)")}" value="${esc(state.catQ || "")}" aria-label="${T("Buscar ejercicio")}">
     <div class="chips xchips" role="group" aria-label="${T("Tipo de movimiento")}"><button data-catpat="" class="${state.catPat ? "" : "on"}">${T("Todos")}</button>${PATS.map(([p, n]) => `<button data-catpat="${p}" class="${state.catPat === p ? "on" : ""}">${T(n)}</button>`).join("")}</div>
-    ${myEquip() ? `<label class="xtog"><span>${T("Solo con mi material")}</span><input type="checkbox" id="catOnly" ${state.catOnly ? "checked" : ""}></label>` : ""}
+    ${myEquip() ? `<label class="xtog"><span>${T("Solo con mi material")}</span><input type="checkbox" role="switch" id="catOnly" ${state.catOnly ? "checked" : ""}></label>` : ""}
     <div id="catList">${catListHTML()}</div>
     <p class="muted" style="font-size:.78rem;margin:14px 2px 0">${T("Barras = nivel dentro de su progresión (1 fácil, 5 difícil). Iconos = material; en naranja, lo que no tienes marcado en Ajustes → Entreno.")}</p>`;
 }
@@ -2692,11 +2723,13 @@ function edCatHTML() {
     return `<div class="xgrp">${T(n)}</div><div class="xlist">${g.map(x => xRow(x, `data-edadd="${x.id}" draggable="true"`)).join("")}</div>`; }).join("");
 }
 function edExRow(ed, e, i, key) {
-  const g = e.grp && ed.groups?.[e.grp], on = !!state.edSel?.has(i), nm = exName(e) || T("Ejercicio {n}", { n: i + 1 });
-  return `<div class="ex-edit${g ? " ing" : ""}${on ? " sel" : ""}" data-dex="${i}">
+  const g = e.grp && ed.groups?.[e.grp], on = !!state.edSel?.has(i), nm = exName(e) || T("Ejercicio {n}", { n: i + 1 }), open = state.edOpen === i || !exName(e);
+  const sum = `${g ? "" : `${esc(e.sets)} × `}${esc(e.reps)}${isTime(e) ? " s" : ""}${e.sides ? ` · ${T("por lado")}` : ""}${techOf(e) ? ` · ${esc(techOf(e))}` : ""}`;
+  return `<div class="ex-edit${g ? " ing" : ""}${on ? " sel" : ""}${open ? "" : " cmp"}" data-dex="${i}">
     <div class="exh2"><span class="hdl" draggable="true" aria-hidden="true" title="${T("Arrastrar")}">⋮⋮</span><label class="ek"><input type="checkbox" data-esel="${i}" ${on ? "checked" : ""} aria-label="${T("Marcar {x}", { x: esc(nm) })}"><b>${key}</b></label><span class="spacer"></span>
       <button class="ico" data-emv="${i}:-1" aria-label="${T("Subir {x}", { x: esc(nm) })}">↑</button><button class="ico" data-emv="${i}:1" aria-label="${T("Bajar {x}", { x: esc(nm) })}">↓</button><button class="x" data-rmre="${i}" aria-label="${T("Quitar ejercicio")}">×</button></div>
     ${edNameCell(e, i)}
+    <button class="exsum" data-eopen="${i}" aria-expanded="${open}" aria-label="${T("Detalles de {x}", { x: esc(nm) })}"><span>${sum}</span><span aria-hidden="true">${open ? "▴" : "▾"}</span></button>
     <label class="fld"><span>${g ? T("Vueltas") : T("Series")}</span><input type="number" min="1" value="${esc(g ? g.rounds : e.sets)}" data-es="${i}" inputmode="numeric" ${g ? "disabled" : ""}></label>
     <label class="fld"><span>${T("Objetivo")}</span><input type="number" min="1" value="${esc(e.reps)}" data-er="${i}" inputmode="numeric"></label>
     <label class="fld"><span>${T("Tipo")}</span><select data-et="${i}"><option value="reps" ${isTime(e) ? "" : "selected"}>${T("reps")}</option><option value="time" ${isTime(e) ? "selected" : ""}>${T("seg")}</option></select></label>
@@ -2732,6 +2765,7 @@ function edList(ed) {
 /* Mover un ejercicio con ↑ ↓: dentro de su sección (salta grupos enteros), al cambiar de sección pasa a la vecina, y en el borde de un grupo sale de él */
 function edMove(i, dir) {
   const ed = state.editing, L = ed.exercises, e = L[i], j = i + dir, nb = L[j]; if (!e || !nb) return;
+  state.edOpen = null;
   if ((ed.secs || []).length && nb.sec !== e.sec) { e.sec = nb.sec; delete e.grp; }
   else if (e.grp && nb.grp === e.grp) { L[i] = nb; L[j] = e; }
   else if (e.grp) delete e.grp;
@@ -3005,7 +3039,7 @@ function sbCiclo() {
 }
 /* Ajustes del ciclo */
 function cycSettings() {
-  const c = CYC.cfg(), sw = (id, on, l, sub) => `<label class="chk" style="grid-column:auto;margin-top:10px;align-items:flex-start"><input type="checkbox" id="${id}" ${on ? "checked" : ""}><span>${l}${sub ? `<br><span class="muted">${sub}</span>` : ""}</span></label>`;
+  const c = CYC.cfg(), sw = (id, on, l, sub) => `<label class="xtog swrow"><span>${l}${sub ? `<small>${sub}</small>` : ""}</span><input type="checkbox" role="switch" id="${id}" ${on ? "checked" : ""}></label>`;
   return `<div class="panel">
     ${sw("cycOn", c.on, T("Seguimiento del ciclo"), T("Desactivado por defecto. Al activarlo aparece en Hoy, Diario y Stats; desactivado no se ve nada."))}
     ${c.on ? `${sw("cycFert", c.fert, T("Mostrar ovulación y ventana fértil (estimación)"))}
@@ -3173,7 +3207,8 @@ function viewDiary() {
     const dots = [sleepMin(x.sleep) !== null, DY.supps().some(z => !z.archived && x.supp?.[z.id]?.taken), state.sessions.some(z => dayKey(z.start) === kk) || allA.some(z => z.k === kk), +x.steps > 0, !!(x.note || "").trim()];
     if (cycOn()) dots.push(cycKind(kk, cr) === "per" || !!(x.cyc?.sym || []).length);
     return `<button data-dsel="${kk}" ${kk > today ? "disabled" : ""} aria-pressed="${kk === k}" aria-label="${new Date(dt).toLocaleDateString(LOC(), { weekday: "long", day: "numeric", month: "long" })}"><span class="wd">${new Date(dt).toLocaleDateString(LOC(), { weekday: "narrow" })}</span><b>${new Date(dt).getDate()}</b><span class="dots">${dots.map(v => `<i class="${v ? "on" : ""}"></i>`).join("")}</span></button>`; }).join("");
-  const tile = (key, label, v, dsc, on, wide) => `<button class="dtile${wide ? " wide" : ""}" data-dsh="${key}" aria-label="${esc(label)}: ${esc(v)}"><span class="k">${label}<i class="${on ? "on" : ""}"></i></span><span class="v">${v}</span><span class="d">${dsc || "&nbsp;"}</span></button>`;
+  const miss = [], tile = (key, label, v, dsc, on, wide, keep) => { if (!on && !keep) { miss.push([key, label]); return ""; }
+    return `<button class="dtile${wide ? " wide" : ""}" data-dsh="${key}" aria-label="${esc(label)}: ${esc(v)}"><span class="k">${label}<i class="${on ? "on" : ""}"></i></span><span class="v">${v}</span><span class="d">${dsc || "&nbsp;"}</span></button>`; };
   const q = sl.q ? "★".repeat(sl.q) + "☆".repeat(5 - sl.q) : "";
   const actTxt = acts.map(a => esc(a.type) + (a.km ? " · " + fmtKm(a.km) : "") + (a.min ? " · " + fmtActDur(a.min) : "")).join("  ·  ");
   const SHN = { sleep: "Sueño", sup: "Suplementos", ses: "Entrenos del día", steps: "Pasos", peso: "Peso", act: "Actividad", note: "Notas del día", cyc: "Ciclo" };
@@ -3237,17 +3272,17 @@ function viewDiary() {
     </div>
     ${k !== today ? `<div style="text-align:center;margin-top:6px"><button class="btn ghost small" data-dmove="today">${T("Ir a hoy")}</button></div>` : ""}
     <div class="wstrip">${strip}</div>
-    <div class="dtiles">
-      ${tile("sleep", T("Sueño"), dur !== null ? fmtHM(dur) : "—", q, dur !== null)}
-      ${tile("sup", T("Suplementos"), sp.length ? `${nTaken}/${sp.length}` : "—", sp.length ? T("tomados") : T("Sin suplementos"), sp.length > 0 && nTaken === sp.length)}
-      ${tile("ses", T("Entreno"), sess.length ? esc(sess[0].routine || T("Sesión libre")) : "—", sess.length ? `${Math.round(sess.reduce((p, z) => p + (z.end - z.start), 0) / 60000)} min · ${sess.reduce((p, z) => p + doneSets(z), 0)} ${T("series")}` : T("Sin entrenos este día."), sess.length > 0)}
+    ${(() => { const tl = `      ${tile("sleep", T("Sueño"), dur !== null ? fmtHM(dur) : "—", q, dur !== null)}
+      ${tile("sup", T("Suplementos"), sp.length ? `${nTaken}/${sp.length}` : "—", sp.length ? T("tomados") : T("Sin suplementos"), sp.length > 0 && nTaken === sp.length, false, sp.length > 0)}
+      ${sess.length ? tile("ses", T("Entreno"), sess.length ? esc(sess[0].routine || T("Sesión libre")) : "—", sess.length ? `${Math.round(sess.reduce((p, z) => p + (z.end - z.start), 0) / 60000)} min · ${sess.reduce((p, z) => p + doneSets(z), 0)} ${T("series")}` : T("Sin entrenos este día."), sess.length > 0) : ""}
       ${tile("steps", T("Pasos"), +e.steps > 0 ? (+e.steps).toLocaleString(LOC()) : "—", goalSt ? `${T("objetivo")} ${goalSt.toLocaleString(LOC())}` : "", +e.steps > 0 && (!goalSt || e.steps >= goalSt))}
       ${tile("peso", T("Peso"), dayW ? fmtW(dayW.kg) : "—", !dayW && lastW ? `${T("último")}: ${fmtW(lastW.kg)}` : W.goal() ? `${T("objetivo")} ${fmtW(W.goal())}` : "", !!dayW)}
       ${tile("act", T("Actividad"), acts.length ? actTxt : "—", acts.length ? "" : T("Sin actividad este día."), acts.length > 0)}
       ${cr ? (() => { const kd = cycKind(k, cr), ce = e.cyc || {}, dd = cr.last && k >= cr.last.s ? kDiff(k, cr.last.s) + 1 : null, ph = CYC.cfg().phase && cr.last && k >= cr.last.s ? cycPhase(cr, k) : null;
-        return tile("cyc", T("Ciclo"), kd === "per" ? T("Regla") : dd ? T("Día {n}", { n: dd }) : "—", (ce.sym || []).length ? ce.sym.map(x => esc(T(x))).join(", ") : (ph && kd !== "per" ? ph : ""), kd === "per" || !!(ce.sym || []).length, true); })() : ""}
-      ${tile("note", T("Notas del día"), (e.note || "").trim() ? esc(e.note.trim().slice(0, 40)) + (e.note.trim().length > 40 ? "…" : "") : "—", (e.tags || []).length ? (e.tags || []).map(x => T((TAGS.find(z => z[0] === x) || [0, x])[1])).join(" · ") : "", !!(e.note || "").trim(), true)}
-    </div>
+        return tile("cyc", T("Ciclo"), kd === "per" ? T("Regla") : dd ? T("Día {n}", { n: dd }) : "—", (ce.sym || []).length ? ce.sym.map(x => esc(T(x))).join(", ") : (ph && kd !== "per" ? ph : ""), kd === "per" || !!(ce.sym || []).length, true, true); })() : ""}
+      ${tile("note", T("Notas del día"), (e.note || "").trim() ? esc(e.note.trim().slice(0, 40)) + (e.note.trim().length > 40 ? "…" : "") : "—", (e.tags || []).length ? (e.tags || []).map(x => T((TAGS.find(z => z[0] === x) || [0, x])[1])).join(" · ") : "", !!(e.note || "").trim(), true)}`;
+      return `${tl.trim() ? `<div class="dtiles">${tl}</div>` : `<div class="empty" style="margin-top:12px">${T("Nada anotado este día")}</div>`}
+      ${miss.length ? `<div class="addchips" role="group" aria-label="${T("Añadir")}">${miss.map(([kk, l]) => `<button class="chip" data-dsh="${kk}">+ ${l}</button>`).join("")}</div>` : ""}`; })()}
     ${sh}`;
 }
 
@@ -3705,41 +3740,40 @@ function viewData() {
   const P = {
     entreno: `
     <h2>${T("Tiempos")}</h2>
-    <div class="panel">
-      <div class="wrow"><label class="muted" for="restDef" style="font-size:.85rem">${T("Descanso entre series (s)")}</label><input id="restDef" type="number" min="0" step="5" inputmode="numeric" value="${defRest()}"><span></span></div>
-      <div class="wrow" style="margin-top:10px"><label class="muted" for="restXDef" style="font-size:.85rem">${T("Descanso entre ejercicios (s)")}</label><input id="restXDef" type="number" min="0" step="5" inputmode="numeric" value="${defRestX()}"><span></span></div>
-      <p class="muted" style="font-size:.8rem;margin:8px 0 0">${T("Se usan en los ejercicios sin descanso propio (Rutinas → Editar). 0 = sin descanso.")}</p>
-      <div class="wrow" style="margin-top:14px"><label class="muted" for="prepDef" style="font-size:.85rem">${T("Preparación (s)")}</label><input id="prepDef" type="number" min="0" max="30" inputmode="numeric" value="${prepSecs()}"><span></span></div>
-      <div class="wrow" style="margin-top:10px"><label class="muted" for="warnDef" style="font-size:.85rem">${T("Aviso final (s)")}</label><input id="warnDef" type="number" min="0" max="10" inputmode="numeric" value="${warnSecs()}"><span></span></div>
-      <div class="wrow" style="margin-top:10px"><label class="muted" for="switchDef" style="font-size:.85rem">${T("Cambio de lado (s)")}</label><input id="switchDef" type="number" min="0" max="30" inputmode="numeric" value="${switchSecs()}"><span></span></div>
-      <label class="chk" style="grid-column:auto;margin-top:14px"><input type="checkbox" id="autoStartChk" ${autoStart() ? "checked" : ""}> ${T("Inicio automático de series por tiempo")}</label>
-      <p class="muted" style="font-size:.8rem;margin:8px 0 0">${T("Preparación: cuenta atrás antes de una serie por tiempo que arrancas tú (▶) o al reanudar. Aviso final: tics en los últimos segundos de cualquier cuenta atrás. Cambio de lado: pausa entre lado 1 y lado 2. Inicio automático: al acabar el descanso, la siguiente serie por tiempo empieza sola (el final del descanso hace de preparación); las series por repeticiones nunca.")}</p>
+    <div class="lgroup">
+      ${srowN("restDef", T("Descanso entre series (s)"), defRest(), 'min="0" step="5"')}
+      ${srowN("restXDef", T("Descanso entre ejercicios (s)"), defRestX(), 'min="0" step="5"')}
+      ${srowN("prepDef", T("Preparación (s)"), prepSecs(), 'min="0" max="30"', T("Antes de una serie por tiempo que empiezas tú"))}
+      ${srowN("warnDef", T("Aviso final (s)"), warnSecs(), 'min="0" max="10"', T("Tics en los últimos segundos"))}
+      ${srowN("switchDef", T("Cambio de lado (s)"), switchSecs(), 'min="0" max="30"')}
+      ${srowS("autoStartChk", T("Inicio automático de series por tiempo"), autoStart(), T("Tras el descanso, la siguiente serie por tiempo empieza sola"))}
     </div>
+    <p class="note">${T("Los descansos se usan en los ejercicios sin descanso propio. 0 = sin descanso.")}</p>
     <h2>${T("Esfuerzo")}</h2>
-    <div class="panel">
-      <label class="xtog" style="padding:0;color:var(--ink);font-size:1rem"><span>${T("Preguntar el esfuerzo al terminar")}<small class="muted" style="display:block;font-size:.8rem">${T("PEM del 1 al 10, opcional en cada sesión")}</small></span><input type="checkbox" id="effPem" ${EFF().pem ? "checked" : ""}></label>
-      <label class="xtog" style="padding:12px 0 0;color:var(--ink);font-size:1rem"><span>${T("RIR por serie")}<small class="muted" style="display:block;font-size:.8rem">${T("Repeticiones en reserva al marcar cada serie. Para afinar la intensidad.")}</small></span><input type="checkbox" id="effRir" ${EFF().rir ? "checked" : ""}></label>
-      <p class="muted" style="font-size:.8rem;margin:10px 0 0">${T("La PEM y la carga (PEM × minutos) se ven en el Diario y en Stats → Entreno, y van en el análisis con IA y en el CSV.")}</p></div>
+    <div class="lgroup">
+      ${srowS("effPem", T("Preguntar el esfuerzo al terminar"), EFF().pem, T("PEM del 1 al 10, opcional en cada sesión"))}
+      ${srowS("effRir", T("RIR por serie"), EFF().rir, T("Repeticiones en reserva al marcar cada serie"))}
+    </div>
     <h2>${T("Objetivos semanales")}</h2>
-    <div class="panel"><div class="wrow"><label class="muted" for="gDaily" style="font-size:.85rem">${T("Días con Diaria")}</label><input id="gDaily" type="number" min="0" max="7" inputmode="numeric" value="${LS.get("wk.goals", {}).daily || 0}"><span></span></div>
-      <div class="wrow" style="margin-top:10px"><label class="muted" for="gStr" style="font-size:.85rem">${T("Días con fuerza")}</label><input id="gStr" type="number" min="0" max="7" inputmode="numeric" value="${LS.get("wk.goals", {}).strength || 0}"><span></span></div>
-      <p class="muted" style="font-size:.8rem;margin:8px 0 0">${T("Se muestran en Stats → Resumen. 0 = no mostrar. Fuerza = cualquier bloque salvo Diaria, Cardio y Otro.")}</p></div>
-    ${catOn() ? `<h2>${T("Propuestas de progresión")}</h2>
-    <div class="panel">
-      <label class="xtog" style="padding:0;color:var(--ink);font-size:1rem"><span>${T("Proponer cambios de paso")}<small class="muted" style="display:block;font-size:.8rem">${T("Al terminar cada sesión")}</small></span><input type="checkbox" id="progOn" ${PROG().on ? "checked" : ""}></label>
-      ${PROG().on ? `<div class="wrow" style="margin-top:12px"><label class="muted" for="progUp" style="font-size:.85rem">${T("Subir tras (al objetivo)")}</label><select id="progUp">${[2, 3].map(n => `<option value="${n}" ${PROG().up === n ? "selected" : ""}>${T("{n} sesiones", { n })}</option>`).join("")}</select><span></span></div>
-      <div class="wrow" style="margin-top:10px"><label class="muted" for="progDown" style="font-size:.85rem">${T("Proponer retroceder")}</label><select id="progDown">${DOWN_OPTS.map(([k, n]) => `<option value="${k}" ${PROG().down === k ? "selected" : ""}>${T(n)}</option>`).join("")}</select><span></span></div>` : ""}
-      <p class="muted" style="font-size:.8rem;margin:10px 0 0">${T("Solo para ejercicios del catálogo. El objetivo es el de cada ejercicio en tu rutina; en «por lado» cuenta el peor lado. Las rutinas con subida automática en el plan solo reciben propuestas de retroceder.")}</p>
-      ${(LS.get("wk.progMute", []) || []).length ? `<button class="btn small" style="margin-top:10px" data-act="prog-unmute">${T("Volver a proponer en todos ({n} silenciados)", { n: (LS.get("wk.progMute", []) || []).length })}</button>` : ""}
-    </div>` : ""}
-    ${catOn() ? `<h2>${T("Mi material")}</h2>
+    <div class="lgroup">
+      ${srowN("gDaily", T("Días con Diaria"), LS.get("wk.goals", {}).daily || 0, 'min="0" max="7"')}
+      ${srowN("gStr", T("Días con fuerza"), LS.get("wk.goals", {}).strength || 0, 'min="0" max="7"')}
+    </div>
+    <p class="note">${T("Se ven en Progreso → Resumen. 0 = no mostrar.")}</p>
+    ${catOn() ? `<h2>${T("Progresión")}</h2>
+    <div class="lgroup">
+      ${srowS("progOn", T("Proponer cambios de paso"), PROG().on, T("Al terminar cada sesión, solo en ejercicios del catálogo"))}
+      ${PROG().on ? `<div class="srow"><label class="t" for="progUp">${T("Subir tras (al objetivo)")}</label><select id="progUp">${[2, 3].map(n => `<option value="${n}" ${PROG().up === n ? "selected" : ""}>${T("{n} sesiones", { n })}</option>`).join("")}</select></div>
+      <div class="srow"><label class="t" for="progDown">${T("Proponer retroceder")}</label><select id="progDown">${DOWN_OPTS.map(([k, n]) => `<option value="${k}" ${PROG().down === k ? "selected" : ""}>${T(n)}</option>`).join("")}</select></div>` : ""}
+      ${(LS.get("wk.progMute", []) || []).length ? `<div class="srow"><span class="t">${T("Volver a proponer en todos ({n} silenciados)", { n: (LS.get("wk.progMute", []) || []).length })}</span><button class="btn small" data-act="prog-unmute">${T("Activar")}</button></div>` : ""}
+    </div>
+    <h2>${T("Mi material")}</h2>
     <div class="panel"><p class="muted" style="font-size:.85rem;margin:0">${T("Marca lo que tienes. En el catálogo, lo demás se ve en naranja y se puede ocultar. Sin nada marcado, no se filtra.")}</p>
       <div class="matsel">${Object.entries(MAT).map(([k, [n]]) => `<label><input type="checkbox" data-myeq="${k}" ${myEquip()?.includes(k) ? "checked" : ""}>${matIco(k)}${T(n)}</label>`).join("")}</div></div>` : ""}
     <h2>${T("Catálogo de ejercicios")}</h2>
-    <div class="panel">
-      <label class="xtog" style="padding:0;color:var(--ink);font-size:1rem"><span>${T("Usar el catálogo")}<small class="muted" style="display:block;font-size:.8rem">${catOn() ? (CAT ? T("{n} ejercicios con ficha y progresión", { n: CAT.exercises.length }) : T("Cargando…")) : T("Desactivado: solo tus ejercicios")}</small></span><input type="checkbox" id="catChk" ${catOn() ? "checked" : ""}></label>
-      <p class="muted" style="font-size:.85rem;margin:10px 0 0">${T("Para quien empieza: fichas con explicación, material y progresiones al crear rutinas. Si ya lo tienes claro, puedes prescindir; tus rutinas funcionan igual. Funciona sin conexión.")}</p>
-      ${catReady() ? `<button class="btn small" style="margin-top:10px" data-act="link-open">${T("Vincular ejercicios")}${(() => { const own = new Set(LS.get("wk.linkOwn", []) || []), c = linkCandidates().filter(x => !own.has(x.k)).length; return c ? ` · ${c}` : ""; })()}</button>` : ""}
+    <div class="lgroup">
+      ${srowS("catChk", T("Usar el catálogo"), catOn(), catOn() ? (CAT ? T("{n} ejercicios con ficha y progresión", { n: CAT.exercises.length }) : T("Cargando…")) : T("Desactivado: solo tus ejercicios"))}
+      ${catReady() ? `<div class="srow"><span class="t">${T("Vincular ejercicios")}<small>${T("Une tus nombres con las fichas del catálogo")}</small></span><button class="btn small" data-act="link-open">${T("Abrir")}${(() => { const own = new Set(LS.get("wk.linkOwn", []) || []), c = linkCandidates().filter(x => !own.has(x.k)).length; return c ? ` · ${c}` : ""; })()}</button></div>` : ""}
     </div>
 `,
     perfil: `
@@ -3798,6 +3832,9 @@ function viewData() {
     <p class="sub" style="margin:12px 4px 0">${T("{r} rutinas · {s} sesiones", { r: state.routines.length, s: state.sessions.length })}</p></div>
     <section class="sdet" aria-labelledby="sdT"><button class="back" data-back="set">‹ ${T("Ajustes")}</button><h2 class="sdh" id="sdT">${T(G[1])}</h2>${P[cur]}</section></div>`;
 }
+/* Filas de ajustes: número o interruptor a la derecha */
+const srowN = (id, l, v, attrs, sub) => `<div class="srow"><label class="t" for="${id}">${l}${sub ? `<small>${sub}</small>` : ""}</label><input id="${id}" type="number" inputmode="numeric" ${attrs} value="${esc(v)}"></div>`;
+const srowS = (id, l, on, sub) => `<label class="srow"><span class="t">${l}${sub ? `<small>${sub}</small>` : ""}</span><input type="checkbox" role="switch" id="${id}" ${on ? "checked" : ""}></label>`;
 /* Ajustes: grupos, cada uno con su pantalla */
 const SET_GROUPS = [["perfil", "Perfil", "user"], ["entreno", "Entreno", "train"], ["avisos", "Avisos", "bell"], ["apariencia", "Apariencia e idioma", "paint"], ["datos", "Datos y copias", "db"], ["acerca", "Acerca de", "info"]];
 const SICO = {
@@ -4122,7 +4159,7 @@ function savedModal() {
 }
 function shareSessModal() {
   const s = state.shareSess && state.sessions.find(x => x.id === state.shareSess); if (!s) return "";
-  const o = SHOPT(), ck = (id, k, l) => `<label class="shopt"><span>${l}</span><input type="checkbox" id="${id}" ${o[k] ? "checked" : ""}></label>`;
+  const o = SHOPT(), ck = (id, k, l) => `<label class="shopt"><span>${l}</span><input type="checkbox" role="switch" id="${id}" ${o[k] ? "checked" : ""}></label>`;
   return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="shT"><div class="mbox dsh">
     <div class="sb-head"><h2 id="shT" style="margin:0;flex:1">${T("Compartir entreno")}</h2><button class="btn small" data-act="shsess-close">${T("Cerrar")}</button></div>
     <div class="seg" style="margin:10px 0 12px" role="group" aria-label="${T("Formato")}"><button data-shimg="1" class="${o.img ? "on" : ""}" aria-pressed="${o.img}" style="text-align:center">${T("Imagen")}</button><button data-shimg="0" class="${o.img ? "" : "on"}" aria-pressed="${!o.img}" style="text-align:center">${T("Texto")}</button></div>
@@ -4165,7 +4202,7 @@ function shareRoutModal() {
     <div class="rsl">${rGroups().map(([v, rs]) => { const k = rs.filter(r => sel.has(r.id)).length;
       return `<button class="rsg" data-rsg="${esc(v)}" aria-pressed="${k === rs.length}">${box(k === rs.length)}<b>${esc(gName(v))}</b><small>${k}/${rs.length}</small></button>`
         + rs.map(r => `<button class="rsr" data-rsr="${r.id}" aria-pressed="${sel.has(r.id)}">${box(sel.has(r.id))}<span>${esc(r.name)}</span></button>`).join(""); }).join("")}</div>
-    ${p ? `<label class="shopt" style="margin-top:10px"><span>${T("Incluir plan de progresión")}<small class="muted" style="display:block;font-size:.78rem">${T("Fases, semanas y descargas. No tu fecha de inicio ni la de revisión.")}</small></span><input type="checkbox" id="rsPlan" ${sh.plan ? "checked" : ""}></label>` : ""}
+    ${p ? `<label class="shopt" style="margin-top:10px"><span>${T("Incluir plan de progresión")}<small class="muted" style="display:block;font-size:.78rem">${T("Fases, semanas y descargas. No tu fecha de inicio ni la de revisión.")}</small></span><input type="checkbox" role="switch" id="rsPlan" ${sh.plan ? "checked" : ""}></label>` : ""}
     ${miss.length ? `<p style="font-size:.8rem;color:var(--accent);margin:6px 0 0">${T("El plan usa la variante {v}, que no va incluida: esas semanas quedarán sin rutina.", { v: miss.join(", ") })}</p>` : ""}
     <div class="row" style="margin-top:12px"><button class="btn" style="flex:1" data-act="rs-file" ${sel.size ? "" : "disabled"}>${T("Archivo")}</button><button class="btn primary shbtn" style="flex:1" data-act="rs-link" ${sel.size ? "" : "disabled"}>${SHARE_ICO}${T("Enlace")}</button></div>
   </div></div>`;
@@ -4212,7 +4249,7 @@ function incomingModal() {
     ${inc.routines.length ? `<div class="rsl">${inc.routines.map((r, i) => { const m = sharedMatch(r), upd = m && inc.mode[i] !== "new";
       return `<div class="rsrow"><button class="rsr" style="padding-left:12px" data-inr="${i}" aria-pressed="${sel.has(i)}">${box(sel.has(i))}<span style="flex:1;min-width:0">${esc(r.name)}<small class="muted" style="display:block;font-size:.78rem">${T("{e} ejercicios · {s} series", { e: r.exercises.length, s: r.exercises.reduce((a, e) => a + e.sets, 0) })}</small></span></button>
         ${m && sel.has(i) ? `<div class="rsmode"><small class="muted">${T("Ya la tienes: «{x}»", { x: esc(m.name) })}</small><div class="rsseg"><button data-inm="${i}:upd" class="${upd ? "on" : ""}" aria-pressed="${upd}">${T("Actualizar")}</button><button data-inm="${i}:new" class="${upd ? "" : "on"}" aria-pressed="${!upd}">${T("Añadir como nueva")}</button></div></div>` : ""}</div>`; }).join("")}</div>` : ""}
-    ${p ? `<label class="shopt" style="margin-top:10px"><span>${T("Añadir el plan de progresión")}<small class="muted" style="display:block;font-size:.78rem">${esc(phs)}. ${T("Empieza el {d}.", { d: kFmt(nextMonday(), { weekday: "long", day: "numeric", month: "short" }) })}${PL.get() ? " " + T("Sustituirá tu plan actual.") : ""}</small></span><input type="checkbox" id="inPlan" ${inc.withPlan ? "checked" : ""}></label>` : ""}
+    ${p ? `<label class="shopt" style="margin-top:10px"><span>${T("Añadir el plan de progresión")}<small class="muted" style="display:block;font-size:.78rem">${esc(phs)}. ${T("Empieza el {d}.", { d: kFmt(nextMonday(), { weekday: "long", day: "numeric", month: "short" }) })}${PL.get() ? " " + T("Sustituirá tu plan actual.") : ""}</small></span><input type="checkbox" role="switch" id="inPlan" ${inc.withPlan ? "checked" : ""}></label>` : ""}
     <p class="muted" style="font-size:.78rem;margin:8px 0 0">${T("Si ya tienes una rutina con el mismo nombre, se añade como «(2)».")} ${T("Al actualizar se cambian los ejercicios; el nombre, los días, la variante y tus sesiones no se tocan.")}</p>
     <div class="row" style="margin-top:12px"><button class="btn" style="flex:1" data-act="in-no">${T("Ahora no")}</button><button class="btn primary" style="flex:1" data-act="in-yes" ${sel.size || (p && inc.withPlan) ? "" : "disabled"}>${T("Añadir")}</button></div>
   </div></div>`;
@@ -4324,7 +4361,7 @@ function profFormModal() {
     <p class="muted" style="font-size:.78rem;margin:6px 0 0">${T("No se podrá cambiar una vez creado el perfil.")}</p>
     <span class="muted" style="font-size:.85rem;display:block;margin-top:12px">${T("Color")}</span>
     <div class="pcols">${PCOLORS.map(c => `<button data-pfcol="${c}" style="background:${c}" aria-pressed="${f.color === c}" aria-label="${T("Color")}"></button>`).join("")}</div>
-    ${f.sex === "f" ? `<div class="pcyc"><label class="pcyh"><b>${T("Registro de la regla")}</b><input type="checkbox" id="pfCyc" ${f.cyc ? "checked" : ""}></label>${CYC_INFO()}</div>` : ""}
+    ${f.sex === "f" ? `<div class="pcyc"><label class="pcyh"><b>${T("Registro de la regla")}</b><input type="checkbox" role="switch" id="pfCyc" ${f.cyc ? "checked" : ""}></label>${CYC_INFO()}</div>` : ""}
     ${f.forMain ? "" : `<h3 class="wh">${T("Empezar con")}</h3>
       <button class="popt${f.from === "empty" ? " on" : ""}" data-pffrom="empty"><i></i><span><b>${T("Vacío")}</b><small>${T("Sin rutinas.")}</small></span></button>
       <button class="popt${f.from === "copy" ? " on" : ""}" data-pffrom="copy"><i></i><span><b>${T("Rutinas de otro perfil")}</b><small>${T("Solo las rutinas. Ningún registro.")}</small></span></button>
@@ -4449,7 +4486,7 @@ function issueModal() {
     <h2 id="isT" style="margin:0 0 4px">${bug ? T("Informar de un problema") : T("Proponer una mejora")}</h2>
     <p class="muted" style="font-size:.85rem;margin:0 0 10px">${T("Se abrirá GitHub con el formulario preparado.")}</p>
     <ul class="ainfo"><li>${T("Necesitas una cuenta de GitHub (gratis).")}</li><li>${T("No se envía nada hasta que tú lo revises y lo publiques en GitHub.")}</li><li>${T("Nunca incluye tus rutinas, sesiones ni registros.")}</li></ul>
-    ${bug ? `<label class="shopt"><span>${T("Incluir datos técnicos")}</span><input type="checkbox" id="isTech" ${state.issueTech !== false ? "checked" : ""}></label>${state.issueTech !== false ? `<pre class="shtxt" style="margin-top:8px">${esc(techInfo())}</pre>` : ""}` : ""}
+    ${bug ? `<label class="shopt"><span>${T("Incluir datos técnicos")}</span><input type="checkbox" role="switch" id="isTech" ${state.issueTech !== false ? "checked" : ""}></label>${state.issueTech !== false ? `<pre class="shtxt" style="margin-top:8px">${esc(techInfo())}</pre>` : ""}` : ""}
     <div class="row" style="margin-top:12px"><button class="btn" style="flex:1" data-act="issue-close">${T("Cancelar")}</button><button class="btn primary" style="flex:1" data-act="issue-go">${T("Abrir GitHub")} ↗</button></div>
   </div></div>`;
 }
@@ -4623,6 +4660,7 @@ document.addEventListener("click", async ev => {
   }
   if (d.prm && state.planDraft) { state.planDraft.phases.splice(+d.prm, 1); render(); return; }
   if (d.pmv && state.planDraft) { const [i, dir] = d.pmv.split(":").map(Number), ph = state.planDraft.phases, j = i + dir; if (j >= 0 && j < ph.length) [ph[i], ph[j]] = [ph[j], ph[i]]; render(); return; }
+  if (d.eopen !== undefined) { readEditor(); state.edOpen = state.edOpen === +d.eopen ? null : +d.eopen; render(); return; }
   if (d.ropen) { state.routOpen = d.ropen; render(); window.scrollTo(0, 0); return; }
   if (d.back) { if (d.back === "rout") state.routOpen = null; if (d.back === "set") state.setTab = null; render(); window.scrollTo(0, 0); return; }
   if (d.dup) {
@@ -4682,7 +4720,7 @@ document.addEventListener("click", async ev => {
   }
   if (d.rmset && a) { cancelRun(); const [ei, si] = d.rmset.split(":").map(Number); a.exercises[ei].sets.splice(si, 1); saveActive(); render(); return; }
   if (d.rmex && a) { if (!confirm(T("¿Quitar \"{x}\" de la sesión?", { x: a.exercises[+d.rmex].name }))) return; cancelRun(); a.exercises.splice(+d.rmex, 1); saveActive(); render(); return; }
-  if (d.edit) { const r = state.routines.find(x => x.id === d.edit); state.editing = normRoutine(JSON.parse(JSON.stringify(r))); state.edSel = null; state.edSec = null; render(); return; }
+  if (d.edit) { const r = state.routines.find(x => x.id === d.edit); state.editing = normRoutine(JSON.parse(JSON.stringify(r))); state.edSel = null; state.edSec = null; state.edOpen = null; render(); window.scrollTo(0, 0); return; }
   if (d.pmode && state.print) { state.print.mode = d.pmode; render(); return; }
   if (d.rprint) { state.print = { rid: d.rprint, mode: "ej", two: false, cal: false }; render(); window.scrollTo(0, 0); return; }
   if (d.emv && state.editing) { readEditor(); const [i, dir] = d.emv.split(":").map(Number); edMove(i, dir); render(); return; }
@@ -4842,8 +4880,8 @@ document.addEventListener("click", async ev => {
       const cx = catReady() ? catMatch(n, true) : null;
       a.exercises.push(cx ? buildExercise(xName(cx), 3, "", cx.type, !!cx.sides, null, cx.id) : buildExercise(n)); state.exView = a.pre ? null : a.exercises.length - 1; state.sheet = false; saveActive(); render(); break;
     }
-    case "newroutine": state.edSel = null; state.edSec = null; state.edQ = ""; state.editing = { id: uid(), isNew: true, name: "", variant: "", days: [], exercises: [{ name: "", sets: 3, reps: 10, type: "reps" }] }; render(); break;
-    case "addre": { readEditor(); const i = edAdd({ name: "", sets: 3, reps: 10, type: "reps" }); render();
+    case "newroutine": state.edOpen = null; state.edSel = null; state.edSec = null; state.edQ = ""; state.editing = { id: uid(), isNew: true, name: "", variant: "", days: [], exercises: [{ name: "", sets: 3, reps: 10, type: "reps" }] }; render(); break;
+    case "addre": { readEditor(); const i = edAdd({ name: "", sets: 3, reps: 10, type: "reps" }); state.edOpen = i; render();
       document.querySelector(`[data-en="${i}"]`)?.focus(); break; }
     case "plan-open": readEditor(); state.editing = null; state.tab = "routines"; state.routView = "plan"; state.routOpen = null; state.planMode = null; render(); window.scrollTo(0, 0); break;
     case "plan-new": state.tab = "routines"; state.routView = "plan"; state.planNew = true; state.planDraft = newPlanDraft(); state.planMode = "edit"; render(); window.scrollTo(0, 0); break;
@@ -5091,6 +5129,7 @@ const I18N = {
     "4 o más": "4 o més",
     "4 semanas": "4 setmanes",
     "A, B… = orden. A1, A2 = superserie o circuito: se hacen seguidos y se repite la vuelta.": "A, B… = ordre. A1, A2 = supersèrie o circuit: es fan seguits i es repeteix la volta.",
+    "Abrir": "Obrir",
     "Abrir en el Diario": "Obre al Diari",
     "Abrir GitHub": "Obrir GitHub",
     "Abundante": "Abundant",
@@ -5119,7 +5158,7 @@ const I18N = {
     "Al actualizar se cambian los ejercicios; el nombre, los días, la variante y tus sesiones no se tocan.": "En actualitzar canvien els exercicis; el nom, els dies, la variant i les teves sessions no es toquen.",
     "Al cambiar de perfil te quedas en la misma pantalla (por ejemplo, Ajustes) en vez de volver a Hoy.": "En canviar de perfil et quedes a la mateixa pantalla (per exemple, Ajustos) en lloc de tornar a Avui.",
     "Al terminar (s)": "En acabar (s)",
-    "Al terminar cada sesión": "En acabar cada sessió",
+    "Al terminar cada sesión, solo en ejercicios del catálogo": "En acabar cada sessió, només en exercicis del catàleg",
     "Al vincular un nombre como «Fondos (bajada 3 s)», lo que va entre paréntesis pasa a ser la técnica.": "En vincular un nom com «Fons (baixada 3 s)», el que va entre parèntesis passa a ser la tècnica.",
     "Algo exigente": "Una mica exigent",
     "Algo no funciona como debería": "Alguna cosa no funciona com hauria",
@@ -5139,6 +5178,7 @@ const I18N = {
     "antes": "abans",
     "Antes de añadir otro perfil, completa el tuyo. Tus datos no cambian.": "Abans d'afegir un altre perfil, completa el teu. Les teves dades no canvien.",
     "Antes de empezar:": "Abans de començar:",
+    "Antes de una serie por tiempo que empiezas tú": "Abans d'una sèrie per temps que comences tu",
     "Anticonceptivo hormonal": "Anticonceptiu hormonal",
     "Antojos": "Desitjos",
     "Añade al menos una fase con variante": "Afegeix almenys una fase amb variant",
@@ -5347,6 +5387,7 @@ const I18N = {
     "Deshacer": "Desfés",
     "Desmarcar": "Desmarca",
     "Detalle de la experiencia y otros deportes": "Detall de l'experiència i altres esports",
+    "Detalles de {x}": "Detalls de {x}",
     "día": "dia",
     "Día {n}": "Dia {n}",
     "Día {n} del ciclo": "Dia {n} del cicle",
@@ -5585,7 +5626,6 @@ const I18N = {
     "La misma Usus, instalada como app (APK). Sus datos van aparte: exporta una copia aquí (Ajustes → Datos) e impórtala allí.": "La mateixa Usus, instal·lada com a app (APK). Les seves dades van a part: exporta una còpia aquí (Ajustos → Dades) i importa-la allà.",
     "La noche que termina este día.": "La nit que acaba aquest dia.",
     "La pantalla se mantiene encendida durante toda la sesión, no solo en las cuentas atrás.": "La pantalla es manté encesa durant tota la sessió, no només als comptes enrere.",
-    "La PEM y la carga (PEM × minutos) se ven en el Diario y en Stats → Entreno, y van en el análisis con IA y en el CSV.": "La PEM i la càrrega (PEM × minuts) es veuen al Diari i a Stats → Entrenament, i van a l'anàlisi amb IA i al CSV.",
     "La regla podría bajarte en {n} días": "La regla et podria baixar d'aquí a {n} dies",
     "La regla podría bajarte mañana": "La regla et podria baixar demà",
     "La regla se retrasa {n} días respecto a la previsión ({d}).": "La regla s'endarrereix {n} dies respecte a la previsió ({d}).",
@@ -5609,6 +5649,7 @@ const I18N = {
     "Lo que pase después depende de la IA que elijas: revisa su política de privacidad. El análisis lo hace una IA, no un profesional sanitario.": "El que passi després depèn de la IA que triïs: revisa'n la política de privacitat. L'anàlisi la fa una IA, no un professional sanitari.",
     "Lo que quieras que la IA tenga en cuenta": "El que vulguis que la IA tingui en compte",
     "Los datos del ciclo se guardan solo en este dispositivo y van en la copia de seguridad completa.": "Les dades del cicle es desen només en aquest dispositiu i van a la còpia de seguretat completa.",
+    "Los descansos se usan en los ejercicios sin descanso propio. 0 = sin descanso.": "Els descansos s'usen en els exercicis sense descans propi. 0 = sense descans.",
     "Luego: {x}": "Després: {x}",
     "Luego: cambio de ejercicio ({n} s)": "Després: canvi d'exercici ({n} s)",
     "Luego: cambio de lado": "Després: canvi de costat",
@@ -5673,6 +5714,7 @@ const I18N = {
     "Muy cerca del límite en varias series.": "Molt a prop del límit en diverses sèries.",
     "Muy duro": "Molt dur",
     "Muy fácil": "Molt fàcil",
+    "Nada anotado este día": "Res anotat aquest dia",
     "Nada marcado = solo suelo.": "Res marcat = només terra.",
     "Nada que añadir": "Res a afegir",
     "Necesitas una cuenta de GitHub (gratis).": "Necessites un compte de GitHub (gratuït).",
@@ -5769,7 +5811,6 @@ const I18N = {
     "Para que funcione, pon a cada rutina su Variante y sus Días en Rutinas → Editar.": "Perquè funcioni, posa a cada rutina la Variant i els Dies a Rutines → Edita.",
     "Para qué lo usarías": "Per a què ho faries servir",
     "Para qué sirve": "Per a què serveix",
-    "Para quien empieza: fichas con explicación, material y progresiones al crear rutinas. Si ya lo tienes claro, puedes prescindir; tus rutinas funcionan igual. Funciona sin conexión.": "Per a qui comença: fitxes amb explicació, material i progressions en crear rutines. Si ja ho tens clar, pots prescindir-ne; les teves rutines funcionen igual. Funciona sense connexió.",
     "Paralelas": "Paral·leles",
     "Parar": "Atura",
     "Pared": "Paret",
@@ -5844,7 +5885,6 @@ const I18N = {
     "Preguntar el esfuerzo al terminar": "Preguntar l'esforç en acabar",
     "Preparación (s)": "Preparació (s)",
     "Preparación: {n} s": "Preparació: {n} s",
-    "Preparación: cuenta atrás antes de una serie por tiempo que arrancas tú (▶) o al reanudar. Aviso final: tics en los últimos segundos de cualquier cuenta atrás. Cambio de lado: pausa entre lado 1 y lado 2. Inicio automático: al acabar el descanso, la siguiente serie por tiempo empieza sola (el final del descanso hace de preparación); las series por repeticiones nunca.": "Preparació: compte enrere abans d'una sèrie per temps que comences tu (▶) o en reprendre. Avís final: tics als últims segons de qualsevol compte enrere. Canvi de costat: pausa entre el costat 1 i el 2. Inici automàtic: en acabar el descans, la sèrie per temps següent comença sola (el final del descans fa de preparació); les sèries per repeticions, mai.",
     "Preparar análisis": "Preparar l'anàlisi",
     "Prepárate": "Prepara't",
     "Prevista": "Prevista",
@@ -5865,7 +5905,6 @@ const I18N = {
     "Proponer una mejora": "Proposar una millora",
     "propuesta": "proposta",
     "Propuestas aceptadas": "Propostes acceptades",
-    "Propuestas de progresión": "Propostes de progressió",
     "Protector": "Protector",
     "Próxima ovulación aprox.: {d}": "Propera ovulació aprox.: {d}",
     "Próxima regla: {d} (± {n} d) · en {m} días": "Propera regla: {d} (± {n} d) · d'aquí a {m} dies",
@@ -5909,7 +5948,7 @@ const I18N = {
     "Regla registrada · {d}": "Regla registrada · {d}",
     "Reparto por bloque": "Repartiment per bloc",
     "repeticiones": "repeticions",
-    "Repeticiones en reserva al marcar cada serie. Para afinar la intensidad.": "Repeticions en reserva en marcar cada sèrie. Per afinar la intensitat.",
+    "Repeticiones en reserva al marcar cada serie": "Repeticions en reserva en marcar cada sèrie",
     "Repeticiones lado derecho serie {n}": "Repeticions costat dret sèrie {n}",
     "Repeticiones lado izquierdo serie {n}": "Repeticions costat esquerre sèrie {n}",
     "Repeticiones serie {n}": "Repeticions sèrie {n}",
@@ -5955,11 +5994,10 @@ const I18N = {
     "Se borrarán todos los datos de «{x}» en este dispositivo. Los demás perfiles no se tocan. ¿Has hecho una copia?": "S'esborraran totes les dades de «{x}» en aquest dispositiu. Els altres perfils no es toquen. Has fet una còpia?",
     "Se guarda únicamente en este móvil, dentro de este perfil.": "Es desa únicament en aquest mòbil, dins d'aquest perfil.",
     "Se ha aplicado la regla de tu plan: {x}.": "S'ha aplicat la regla del teu pla: {x}.",
-    "Se muestran en Stats → Resumen. 0 = no mostrar. Fuerza = cualquier bloque salvo Diaria, Cardio y Otro.": "Es mostren a Stats → Resum. 0 = no mostrar. Força = qualsevol bloc excepte Diària, Cardio i Altre.",
     "Se ofrece tal cual, sin garantías de ningún tipo. La usas bajo tu responsabilidad.": "S'ofereix tal com és, sense garanties de cap mena. La fas servir sota la teva responsabilitat.",
     "Se queda como ejercicio propio": "Es queda com a exercici propi",
-    "Se usan en los ejercicios sin descanso propio (Rutinas → Editar). 0 = sin descanso.": "S'apliquen als exercicis sense descans propi (Rutines → Edita). 0 = sense descans.",
     "Se ve al abrir la app; no hay notificaciones con el móvil bloqueado.": "Es veu en obrir l'app; no hi ha notificacions amb el mòbil bloquejat.",
+    "Se ven en Progreso → Resumen. 0 = no mostrar.": "Es veuen a Progrés → Resum. 0 = no mostrar.",
     "Sección": "Secció",
     "Sección {n}": "Secció {n}",
     "Secciones": "Seccions",
@@ -6048,7 +6086,6 @@ const I18N = {
     "Solo en esta sesión. En lugar de {x}.": "Només en aquesta sessió. En lloc de {x}.",
     "Solo las rutinas. Ningún registro.": "Només les rutines. Cap registre.",
     "Solo los datos de {x}. Cada perfil tiene su propia copia.": "Només les dades de {x}. Cada perfil té la seva còpia.",
-    "Solo para ejercicios del catálogo. El objetivo es el de cada ejercicio en tu rutina; en «por lado» cuenta el peor lado. Las rutinas con subida automática en el plan solo reciben propuestas de retroceder.": "Només per a exercicis del catàleg. L'objectiu és el de cada exercici a la teva rutina; en «per costat» compta el pitjor costat. Les rutines amb pujada automàtica al pla només reben propostes de retrocedir.",
     "Solo recordatorio (↑)": "Només recordatori (↑)",
     "Solo rutinas": "Només rutines",
     "Solo sale lo que ves aquí. Nunca tu peso, el diario ni el ciclo.": "Només surt el que veus aquí. Mai el teu pes, el diari ni el cicle.",
@@ -6089,6 +6126,7 @@ const I18N = {
     "Terminar y guardar": "Acaba i desa",
     "Terminas cansado; poco margen al final.": "Acabes cansat; poc marge al final.",
     "Texto": "Text",
+    "Tics en los últimos segundos": "Tics en els últims segons",
     "tiempo": "temps",
     "Tiempo": "Temps",
     "Tiempos": "Temps",
@@ -6116,6 +6154,7 @@ const I18N = {
     "Tracción": "Tracció",
     "Tracción horizontal": "Tracció horitzontal",
     "Tracción vertical": "Tracció vertical",
+    "Tras el descanso, la siguiente serie por tiempo empieza sola": "Després del descans, la sèrie per temps següent comença sola",
     "Tres sonidos: tic en los últimos segundos de cualquier cuenta atrás, inicio y fin. La vibración respeta siempre Ajustes → Avisos.": "Tres sons: tic als últims segons de qualsevol compte enrere, inici i fi. La vibració respecta sempre Ajustos → Avisos.",
     "Tu nombre": "El teu nom",
     "Tu perfil": "El teu perfil",
@@ -6135,6 +6174,7 @@ const I18N = {
     "Un plan rota variantes de tus rutinas por semanas (por ejemplo A, B, C cada 2 semanas) con semanas de descarga, y Hoy te dice qué rutina toca cada día.": "Un pla fa rotar variants de les teves rutines per setmanes (per exemple A, B, C cada 2 setmanes) amb setmanes de descàrrega, i Avui et diu quina rutina toca cada dia.",
     "Una columna por sesión: apunta lo hecho (p. ej. 8·8·7·6)": "Una columna per sessió: apunta el que has fet (p. ex. 8·8·7·6)",
     "Una hoja por ejercicio con muchas fechas para ver su progresión.": "Un full per exercici amb moltes dates per veure'n la progressió.",
+    "Une tus nombres con las fichas del catálogo": "Uneix els teus noms amb les fitxes del catàleg",
     "Unidad": "Unitat",
     "Unidad de distancia": "Unitat de distància",
     "Unidad y objetivos": "Unitat i objectius",
@@ -6273,6 +6313,7 @@ const I18N = {
     "4 o más": "4 or more",
     "4 semanas": "4 weeks",
     "A, B… = orden. A1, A2 = superserie o circuito: se hacen seguidos y se repite la vuelta.": "A, B… = order. A1, A2 = superset or circuit: done back to back, then the round repeats.",
+    "Abrir": "Open",
     "Abrir en el Diario": "Open in Diary",
     "Abrir GitHub": "Open GitHub",
     "Abundante": "Heavy",
@@ -6301,7 +6342,7 @@ const I18N = {
     "Al actualizar se cambian los ejercicios; el nombre, los días, la variante y tus sesiones no se tocan.": "Updating changes the exercises; the name, days, variant and your sessions aren't touched.",
     "Al cambiar de perfil te quedas en la misma pantalla (por ejemplo, Ajustes) en vez de volver a Hoy.": "Switching profile keeps you on the same screen (for example, Settings) instead of going back to Today.",
     "Al terminar (s)": "After (s)",
-    "Al terminar cada sesión": "After each session",
+    "Al terminar cada sesión, solo en ejercicios del catálogo": "After each session, only for catalogue exercises",
     "Al vincular un nombre como «Fondos (bajada 3 s)», lo que va entre paréntesis pasa a ser la técnica.": "When linking a name like “Dips (3 s lowering)”, the part in brackets becomes the technique.",
     "Algo exigente": "Somewhat hard",
     "Algo no funciona como debería": "Something isn't working as it should",
@@ -6321,6 +6362,7 @@ const I18N = {
     "antes": "before",
     "Antes de añadir otro perfil, completa el tuyo. Tus datos no cambian.": "Before adding another profile, complete yours. Your data doesn't change.",
     "Antes de empezar:": "Before you start:",
+    "Antes de una serie por tiempo que empiezas tú": "Before a timed set you start yourself",
     "Anticonceptivo hormonal": "Hormonal contraception",
     "Antojos": "Cravings",
     "Añade al menos una fase con variante": "Add at least one phase with a variant",
@@ -6529,6 +6571,7 @@ const I18N = {
     "Deshacer": "Undo",
     "Desmarcar": "Clear",
     "Detalle de la experiencia y otros deportes": "Experience details and other sports",
+    "Detalles de {x}": "Details of {x}",
     "día": "day",
     "Día {n}": "Day {n}",
     "Día {n} del ciclo": "Cycle day {n}",
@@ -6767,7 +6810,6 @@ const I18N = {
     "La misma Usus, instalada como app (APK). Sus datos van aparte: exporta una copia aquí (Ajustes → Datos) e impórtala allí.": "The same Usus, installed as an app (APK). Its data is separate: export a backup here (Settings → Data) and import it there.",
     "La noche que termina este día.": "The night that ends on this day.",
     "La pantalla se mantiene encendida durante toda la sesión, no solo en las cuentas atrás.": "The screen stays on during the whole session, not just during countdowns.",
-    "La PEM y la carga (PEM × minutos) se ven en el Diario y en Stats → Entreno, y van en el análisis con IA y en el CSV.": "RPE and load (RPE × minutes) show in the Diary and in Stats → Workout, and are included in the AI analysis and the CSV.",
     "La regla podría bajarte en {n} días": "Your period could start in {n} days",
     "La regla podría bajarte mañana": "Your period could start tomorrow",
     "La regla se retrasa {n} días respecto a la previsión ({d}).": "Your period is {n} days later than estimated ({d}).",
@@ -6791,6 +6833,7 @@ const I18N = {
     "Lo que pase después depende de la IA que elijas: revisa su política de privacidad. El análisis lo hace una IA, no un profesional sanitario.": "What happens next depends on the AI you choose: check its privacy policy. The analysis is done by an AI, not a health professional.",
     "Lo que quieras que la IA tenga en cuenta": "Anything you want the AI to take into account",
     "Los datos del ciclo se guardan solo en este dispositivo y van en la copia de seguridad completa.": "Cycle data is stored only on this device and is included in the full backup.",
+    "Los descansos se usan en los ejercicios sin descanso propio. 0 = sin descanso.": "Rests apply to exercises without their own rest. 0 = no rest.",
     "Luego: {x}": "Then: {x}",
     "Luego: cambio de ejercicio ({n} s)": "Then: next exercise ({n} s)",
     "Luego: cambio de lado": "Then: switch sides",
@@ -6855,6 +6898,7 @@ const I18N = {
     "Muy cerca del límite en varias series.": "Very close to failure on several sets.",
     "Muy duro": "Very hard",
     "Muy fácil": "Very easy",
+    "Nada anotado este día": "Nothing logged this day",
     "Nada marcado = solo suelo.": "Nothing ticked = floor only.",
     "Nada que añadir": "Nothing to add",
     "Necesitas una cuenta de GitHub (gratis).": "You need a (free) GitHub account.",
@@ -6951,7 +6995,6 @@ const I18N = {
     "Para que funcione, pon a cada rutina su Variante y sus Días en Rutinas → Editar.": "For it to work, give each routine its Variant and Days in Routines → Edit.",
     "Para qué lo usarías": "What you'd use it for",
     "Para qué sirve": "What it's for",
-    "Para quien empieza: fichas con explicación, material y progresiones al crear rutinas. Si ya lo tienes claro, puedes prescindir; tus rutinas funcionan igual. Funciona sin conexión.": "For beginners: cards with explanations, equipment and progressions when building routines. If you already know your way around, you can skip it; your routines work the same. Works offline.",
     "Paralelas": "Parallel bars",
     "Parar": "Stop",
     "Pared": "Wall",
@@ -7026,7 +7069,6 @@ const I18N = {
     "Preguntar el esfuerzo al terminar": "Ask for effort at the end",
     "Preparación (s)": "Get ready (s)",
     "Preparación: {n} s": "Get ready: {n} s",
-    "Preparación: cuenta atrás antes de una serie por tiempo que arrancas tú (▶) o al reanudar. Aviso final: tics en los últimos segundos de cualquier cuenta atrás. Cambio de lado: pausa entre lado 1 y lado 2. Inicio automático: al acabar el descanso, la siguiente serie por tiempo empieza sola (el final del descanso hace de preparación); las series por repeticiones nunca.": "Get ready: countdown before a timed set you start yourself (▶) or when resuming. Final warning: ticks in the last seconds of any countdown. Side switch: pause between side 1 and side 2. Auto start: when the rest ends, the next timed set starts by itself (the end of the rest is the get-ready); rep sets never do.",
     "Preparar análisis": "Prepare analysis",
     "Prepárate": "Get ready",
     "Prevista": "Expected",
@@ -7047,7 +7089,6 @@ const I18N = {
     "Proponer una mejora": "Suggest an improvement",
     "propuesta": "suggested",
     "Propuestas aceptadas": "Suggestions accepted",
-    "Propuestas de progresión": "Progression suggestions",
     "Protector": "Night",
     "Próxima ovulación aprox.: {d}": "Next approx. ovulation: {d}",
     "Próxima regla: {d} (± {n} d) · en {m} días": "Next period: {d} (± {n} d) · in {m} days",
@@ -7091,7 +7132,7 @@ const I18N = {
     "Regla registrada · {d}": "Period logged · {d}",
     "Reparto por bloque": "Split by block",
     "repeticiones": "reps",
-    "Repeticiones en reserva al marcar cada serie. Para afinar la intensidad.": "Reps in reserve when you tick each set. To fine-tune intensity.",
+    "Repeticiones en reserva al marcar cada serie": "Reps in reserve when you tick each set",
     "Repeticiones lado derecho serie {n}": "Right side reps set {n}",
     "Repeticiones lado izquierdo serie {n}": "Left side reps set {n}",
     "Repeticiones serie {n}": "Reps set {n}",
@@ -7137,11 +7178,10 @@ const I18N = {
     "Se borrarán todos los datos de «{x}» en este dispositivo. Los demás perfiles no se tocan. ¿Has hecho una copia?": "All of “{x}”'s data on this device will be deleted. Other profiles aren't touched. Have you made a backup?",
     "Se guarda únicamente en este móvil, dentro de este perfil.": "It's stored only on this phone, inside this profile.",
     "Se ha aplicado la regla de tu plan: {x}.": "Your plan's rule was applied: {x}.",
-    "Se muestran en Stats → Resumen. 0 = no mostrar. Fuerza = cualquier bloque salvo Diaria, Cardio y Otro.": "Shown in Stats → Summary. 0 = hide. Strength = any block except Daily, Cardio and Other.",
     "Se ofrece tal cual, sin garantías de ningún tipo. La usas bajo tu responsabilidad.": "Provided as is, without warranty of any kind. Use it at your own risk.",
     "Se queda como ejercicio propio": "Stays as your own exercise",
-    "Se usan en los ejercicios sin descanso propio (Rutinas → Editar). 0 = sin descanso.": "Used for exercises without their own rest (Routines → Edit). 0 = no rest.",
     "Se ve al abrir la app; no hay notificaciones con el móvil bloqueado.": "Shown when you open the app; there are no notifications while the phone is locked.",
+    "Se ven en Progreso → Resumen. 0 = no mostrar.": "Shown in Progress → Summary. 0 = don't show.",
     "Sección": "Section",
     "Sección {n}": "Section {n}",
     "Secciones": "Sections",
@@ -7230,7 +7270,6 @@ const I18N = {
     "Solo en esta sesión. En lugar de {x}.": "This session only. Instead of {x}.",
     "Solo las rutinas. Ningún registro.": "Routines only. No logs.",
     "Solo los datos de {x}. Cada perfil tiene su propia copia.": "Only {x}'s data. Each profile has its own backup.",
-    "Solo para ejercicios del catálogo. El objetivo es el de cada ejercicio en tu rutina; en «por lado» cuenta el peor lado. Las rutinas con subida automática en el plan solo reciben propuestas de retroceder.": "Catalogue exercises only. The target is each exercise's target in your routine; for “per side” the weaker side counts. Routines with automatic increases in the plan only get go-back suggestions.",
     "Solo recordatorio (↑)": "Reminder only (↑)",
     "Solo rutinas": "Routines only",
     "Solo sale lo que ves aquí. Nunca tu peso, el diario ni el ciclo.": "Only what you see here is shared. Never your weight, diary or cycle.",
@@ -7271,6 +7310,7 @@ const I18N = {
     "Terminar y guardar": "Finish and save",
     "Terminas cansado; poco margen al final.": "You finish tired; little left at the end.",
     "Texto": "Text",
+    "Tics en los últimos segundos": "Ticks in the last seconds",
     "tiempo": "time",
     "Tiempo": "Time",
     "Tiempos": "Timing",
@@ -7298,6 +7338,7 @@ const I18N = {
     "Tracción": "Pull",
     "Tracción horizontal": "Horizontal pull",
     "Tracción vertical": "Vertical pull",
+    "Tras el descanso, la siguiente serie por tiempo empieza sola": "After the rest, the next timed set starts on its own",
     "Tres sonidos: tic en los últimos segundos de cualquier cuenta atrás, inicio y fin. La vibración respeta siempre Ajustes → Avisos.": "Three sounds: a tick in the last seconds of any countdown, start and end. Vibration always follows Settings → Alerts.",
     "Tu nombre": "Your name",
     "Tu perfil": "Your profile",
@@ -7317,6 +7358,7 @@ const I18N = {
     "Un plan rota variantes de tus rutinas por semanas (por ejemplo A, B, C cada 2 semanas) con semanas de descarga, y Hoy te dice qué rutina toca cada día.": "A plan rotates variants of your routines by week (for example A, B, C every 2 weeks) with deload weeks, and Today tells you which routine is due each day.",
     "Una columna por sesión: apunta lo hecho (p. ej. 8·8·7·6)": "One column per session: write what you did (e.g. 8·8·7·6)",
     "Una hoja por ejercicio con muchas fechas para ver su progresión.": "One sheet per exercise with many dates to track its progress.",
+    "Une tus nombres con las fichas del catálogo": "Link your names to the catalogue cards",
     "Unidad": "Unit",
     "Unidad de distancia": "Distance unit",
     "Unidad y objetivos": "Unit and goals",

@@ -270,6 +270,9 @@ msgstr "4 weeks"
 msgid "A, B… = orden. A1, A2 = superserie o circuito: se hacen seguidos y se repite la vuelta."
 msgstr "A, B… = order. A1, A2 = superset or circuit: done back to back, then the round repeats."
 
+msgid "Abrir"
+msgstr "Open"
+
 msgid "Abrir en el Diario"
 msgstr "Open in Diary"
 
@@ -355,8 +358,8 @@ msgstr "Switching profile keeps you on the same screen (for example, Settings) i
 msgid "Al terminar (s)"
 msgstr "After (s)"
 
-msgid "Al terminar cada sesión"
-msgstr "After each session"
+msgid "Al terminar cada sesión, solo en ejercicios del catálogo"
+msgstr "After each session, only for catalogue exercises"
 
 msgid "Al vincular un nombre como «Fondos (bajada 3 s)», lo que va entre paréntesis pasa a ser la técnica."
 msgstr "When linking a name like “Dips (3 s lowering)”, the part in brackets becomes the technique."
@@ -414,6 +417,9 @@ msgstr "Before adding another profile, complete yours. Your data doesn't change.
 
 msgid "Antes de empezar:"
 msgstr "Before you start:"
+
+msgid "Antes de una serie por tiempo que empiezas tú"
+msgstr "Before a timed set you start yourself"
 
 msgid "Anticonceptivo hormonal"
 msgstr "Hormonal contraception"
@@ -1057,6 +1063,10 @@ msgstr "Clear"
 
 msgid "Detalle de la experiencia y otros deportes"
 msgstr "Experience details and other sports"
+
+#, python-brace-format
+msgid "Detalles de {x}"
+msgstr "Details of {x}"
 
 msgid "día"
 msgstr "day"
@@ -1790,9 +1800,6 @@ msgstr "The night that ends on this day."
 msgid "La pantalla se mantiene encendida durante toda la sesión, no solo en las cuentas atrás."
 msgstr "The screen stays on during the whole session, not just during countdowns."
 
-msgid "La PEM y la carga (PEM × minutos) se ven en el Diario y en Stats → Entreno, y van en el análisis con IA y en el CSV."
-msgstr "RPE and load (RPE × minutes) show in the Diary and in Stats → Workout, and are included in the AI analysis and the CSV."
-
 #, python-brace-format
 msgid "La regla podría bajarte en {n} días"
 msgstr "Your period could start in {n} days"
@@ -1864,6 +1871,9 @@ msgstr "Anything you want the AI to take into account"
 
 msgid "Los datos del ciclo se guardan solo en este dispositivo y van en la copia de seguridad completa."
 msgstr "Cycle data is stored only on this device and is included in the full backup."
+
+msgid "Los descansos se usan en los ejercicios sin descanso propio. 0 = sin descanso."
+msgstr "Rests apply to exercises without their own rest. 0 = no rest."
 
 #, python-brace-format
 msgid "Luego: {x}"
@@ -2061,6 +2071,9 @@ msgstr "Very hard"
 
 msgid "Muy fácil"
 msgstr "Very easy"
+
+msgid "Nada anotado este día"
+msgstr "Nothing logged this day"
 
 msgid "Nada marcado = solo suelo."
 msgstr "Nothing ticked = floor only."
@@ -2362,9 +2375,6 @@ msgstr "What you'd use it for"
 msgid "Para qué sirve"
 msgstr "What it's for"
 
-msgid "Para quien empieza: fichas con explicación, material y progresiones al crear rutinas. Si ya lo tienes claro, puedes prescindir; tus rutinas funcionan igual. Funciona sin conexión."
-msgstr "For beginners: cards with explanations, equipment and progressions when building routines. If you already know your way around, you can skip it; your routines work the same. Works offline."
-
 msgid "Paralelas"
 msgstr "Parallel bars"
 
@@ -2594,9 +2604,6 @@ msgstr "Get ready (s)"
 msgid "Preparación: {n} s"
 msgstr "Get ready: {n} s"
 
-msgid "Preparación: cuenta atrás antes de una serie por tiempo que arrancas tú (▶) o al reanudar. Aviso final: tics en los últimos segundos de cualquier cuenta atrás. Cambio de lado: pausa entre lado 1 y lado 2. Inicio automático: al acabar el descanso, la siguiente serie por tiempo empieza sola (el final del descanso hace de preparación); las series por repeticiones nunca."
-msgstr "Get ready: countdown before a timed set you start yourself (▶) or when resuming. Final warning: ticks in the last seconds of any countdown. Side switch: pause between side 1 and side 2. Auto start: when the rest ends, the next timed set starts by itself (the end of the rest is the get-ready); rep sets never do."
-
 msgid "Preparar análisis"
 msgstr "Prepare analysis"
 
@@ -2657,9 +2664,6 @@ msgstr "suggested"
 
 msgid "Propuestas aceptadas"
 msgstr "Suggestions accepted"
-
-msgid "Propuestas de progresión"
-msgstr "Progression suggestions"
 
 msgid "Protector"
 msgstr "Night"
@@ -2798,8 +2802,8 @@ msgstr "Split by block"
 msgid "repeticiones"
 msgstr "reps"
 
-msgid "Repeticiones en reserva al marcar cada serie. Para afinar la intensidad."
-msgstr "Reps in reserve when you tick each set. To fine-tune intensity."
+msgid "Repeticiones en reserva al marcar cada serie"
+msgstr "Reps in reserve when you tick each set"
 
 #, python-brace-format
 msgid "Repeticiones lado derecho serie {n}"
@@ -2944,20 +2948,17 @@ msgstr "It's stored only on this phone, inside this profile."
 msgid "Se ha aplicado la regla de tu plan: {x}."
 msgstr "Your plan's rule was applied: {x}."
 
-msgid "Se muestran en Stats → Resumen. 0 = no mostrar. Fuerza = cualquier bloque salvo Diaria, Cardio y Otro."
-msgstr "Shown in Stats → Summary. 0 = hide. Strength = any block except Daily, Cardio and Other."
-
 msgid "Se ofrece tal cual, sin garantías de ningún tipo. La usas bajo tu responsabilidad."
 msgstr "Provided as is, without warranty of any kind. Use it at your own risk."
 
 msgid "Se queda como ejercicio propio"
 msgstr "Stays as your own exercise"
 
-msgid "Se usan en los ejercicios sin descanso propio (Rutinas → Editar). 0 = sin descanso."
-msgstr "Used for exercises without their own rest (Routines → Edit). 0 = no rest."
-
 msgid "Se ve al abrir la app; no hay notificaciones con el móvil bloqueado."
 msgstr "Shown when you open the app; there are no notifications while the phone is locked."
+
+msgid "Se ven en Progreso → Resumen. 0 = no mostrar."
+msgstr "Shown in Progress → Summary. 0 = don't show."
 
 msgid "Sección"
 msgstr "Section"
@@ -3240,9 +3241,6 @@ msgstr "Routines only. No logs."
 msgid "Solo los datos de {x}. Cada perfil tiene su propia copia."
 msgstr "Only {x}'s data. Each profile has its own backup."
 
-msgid "Solo para ejercicios del catálogo. El objetivo es el de cada ejercicio en tu rutina; en «por lado» cuenta el peor lado. Las rutinas con subida automática en el plan solo reciben propuestas de retroceder."
-msgstr "Catalogue exercises only. The target is each exercise's target in your routine; for “per side” the weaker side counts. Routines with automatic increases in the plan only get go-back suggestions."
-
 msgid "Solo recordatorio (↑)"
 msgstr "Reminder only (↑)"
 
@@ -3369,6 +3367,9 @@ msgstr "You finish tired; little left at the end."
 msgid "Texto"
 msgstr "Text"
 
+msgid "Tics en los últimos segundos"
+msgstr "Ticks in the last seconds"
+
 msgid "tiempo"
 msgstr "time"
 
@@ -3451,6 +3452,9 @@ msgstr "Horizontal pull"
 msgid "Tracción vertical"
 msgstr "Vertical pull"
 
+msgid "Tras el descanso, la siguiente serie por tiempo empieza sola"
+msgstr "After the rest, the next timed set starts on its own"
+
 msgid "Tres sonidos: tic en los últimos segundos de cualquier cuenta atrás, inicio y fin. La vibración respeta siempre Ajustes → Avisos."
 msgstr "Three sounds: a tick in the last seconds of any countdown, start and end. Vibration always follows Settings → Alerts."
 
@@ -3511,6 +3515,9 @@ msgstr "One column per session: write what you did (e.g. 8·8·7·6)"
 
 msgid "Una hoja por ejercicio con muchas fechas para ver su progresión."
 msgstr "One sheet per exercise with many dates to track its progress."
+
+msgid "Une tus nombres con las fichas del catálogo"
+msgstr "Link your names to the catalogue cards"
 
 msgid "Unidad"
 msgstr "Unit"
@@ -3704,6 +3711,33 @@ msgstr "Me"
 
 msgid "Zona peligrosa"
 msgstr "Danger zone"
+
+#~ msgid "Al terminar cada sesión"
+#~ msgstr "After each session"
+
+#~ msgid "La PEM y la carga (PEM × minutos) se ven en el Diario y en Stats → Entreno, y van en el análisis con IA y en el CSV."
+#~ msgstr "RPE and load (RPE × minutes) show in the Diary and in Stats → Workout, and are included in the AI analysis and the CSV."
+
+#~ msgid "Para quien empieza: fichas con explicación, material y progresiones al crear rutinas. Si ya lo tienes claro, puedes prescindir; tus rutinas funcionan igual. Funciona sin conexión."
+#~ msgstr "For beginners: cards with explanations, equipment and progressions when building routines. If you already know your way around, you can skip it; your routines work the same. Works offline."
+
+#~ msgid "Preparación: cuenta atrás antes de una serie por tiempo que arrancas tú (▶) o al reanudar. Aviso final: tics en los últimos segundos de cualquier cuenta atrás. Cambio de lado: pausa entre lado 1 y lado 2. Inicio automático: al acabar el descanso, la siguiente serie por tiempo empieza sola (el final del descanso hace de preparación); las series por repeticiones nunca."
+#~ msgstr "Get ready: countdown before a timed set you start yourself (▶) or when resuming. Final warning: ticks in the last seconds of any countdown. Side switch: pause between side 1 and side 2. Auto start: when the rest ends, the next timed set starts by itself (the end of the rest is the get-ready); rep sets never do."
+
+#~ msgid "Propuestas de progresión"
+#~ msgstr "Progression suggestions"
+
+#~ msgid "Repeticiones en reserva al marcar cada serie. Para afinar la intensidad."
+#~ msgstr "Reps in reserve when you tick each set. To fine-tune intensity."
+
+#~ msgid "Se muestran en Stats → Resumen. 0 = no mostrar. Fuerza = cualquier bloque salvo Diaria, Cardio y Otro."
+#~ msgstr "Shown in Stats → Summary. 0 = hide. Strength = any block except Daily, Cardio and Other."
+
+#~ msgid "Se usan en los ejercicios sin descanso propio (Rutinas → Editar). 0 = sin descanso."
+#~ msgstr "Used for exercises without their own rest (Routines → Edit). 0 = no rest."
+
+#~ msgid "Solo para ejercicios del catálogo. El objetivo es el de cada ejercicio en tu rutina; en «por lado» cuenta el peor lado. Las rutinas con subida automática en el plan solo reciben propuestas de retroceder."
+#~ msgstr "Catalogue exercises only. The target is each exercise's target in your routine; for “per side” the weaker side counts. Routines with automatic increases in the plan only get go-back suggestions."
 
 #~ msgid "App"
 #~ msgstr "App"
