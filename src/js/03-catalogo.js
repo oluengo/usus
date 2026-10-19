@@ -93,7 +93,7 @@ function exInfoModal() {
   const sib = base ? [base, ...(VARS[base] || []).filter(v => v !== x.id)] : (VARS[x.id] || []);
   const more = (CHAIN[x.id] || []).slice(1).map(o => o.c[o.i + 1]).filter(Boolean);
   const link = id => `<button data-xinfo="${id}">${esc(xName(CATBY[id]))}</button>`;
-  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="xiT"><div class="mbox dsh">
+  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="xiT"><div class="mbox dsh full"><button class="back" data-act="xi-close">‹ ${T("Atrás")}</button>
     <div class="sb-head"><h2 id="xiT" style="margin:0;flex:1">${esc(xName(x))}</h2><button class="btn small" data-act="xi-close">${T("Cerrar")}</button></div>
     <p class="muted" style="margin:2px 0 0;font-size:.85rem">${esc(LANG === "en" ? x.name.es : x.name.en)}</p>
     <div class="xmeta" style="margin-top:8px;font-size:.8rem"><span class="otag">${T(pat?.[1] || "")}</span>${LV(x.level)}<span>${x.type === "time" ? T("por tiempo") : T("repeticiones")}</span>${x.sides ? `<span class="otag">${T("por lado")}</span>` : ""}${x.impact ? `<span class="otag">${T("impacto")}</span>` : ""}</div>

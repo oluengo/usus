@@ -31,7 +31,7 @@ function aiModal() {
   const fem = curProf().sex !== "m";
   if (a.step === 2) {
     const kb = (new Blob([a.txt]).size / 1024).toLocaleString(LOC(), { maximumFractionDigits: 1 });
-    return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="aiT"><div class="mbox dsh">
+    return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="aiT"><div class="mbox dsh full"><button class="back" data-act="ai-close">‹ ${T("Atrás")}</button>
       <div class="sb-head"><h2 id="aiT" style="margin:0;flex:1">${T("Analizar con IA externa")}</h2><button class="btn small" data-act="ai-close">${T("Cerrar")}</button></div>
       <p class="aistep">${T("1 Datos")} → <b>${T("2 Exportar")}</b></p>
       <p class="muted" style="font-size:.85rem;margin:8px 0 6px">${T("{n} líneas · {k} KB · {w}", { n: a.txt.split("\n").length, k: kb, w: a.weeks ? T("{n} semanas", { n: a.weeks }) : T("Todo") })}</p>
@@ -45,7 +45,7 @@ function aiModal() {
       <button class="btn ghost" style="width:100%;margin-top:4px" data-act="ai-back">‹ ${T("Volver a los datos")}</button>
     </div></div>`;
   }
-  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="aiT"><div class="mbox dsh">
+  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="aiT"><div class="mbox dsh full"><button class="back" data-act="ai-close">‹ ${T("Atrás")}</button>
     <div class="sb-head"><h2 id="aiT" style="margin:0;flex:1">${T("Analizar con IA externa")}</h2><button class="btn small" data-act="ai-close">${T("Cerrar")}</button></div>
     <p class="aistep"><b>${T("1 Datos")}</b> → ${T("2 Exportar")}</p>
     <h3 class="wh">${T("Período")}</h3>

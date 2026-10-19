@@ -668,6 +668,15 @@ label.srow{cursor:pointer}
 .swrow small{display:block;color:var(--muted);font-size:.8rem}
 .addchips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
 .addchips .chip{min-height:36px;font-weight:500}
+/* Pantalla completa en el móvil para lo largo (ficha, compartir, analizar con IA, recibir rutinas): Atrás arriba */
+.mbox.full>.back{display:none}
+@media (max-width:999px){
+  .modal:has(.mbox.full){padding:0;background:var(--bg)}
+  .mbox.full{height:100%;max-height:none;border-radius:0;border:0;padding-top:calc(4px + env(safe-area-inset-top,0px))}
+  .mbox.full::before{display:none}
+  .mbox.full>.back{display:inline-flex}
+  .mbox.full .sb-head>.btn[data-act$="-close"]{display:none}
+}
 /* Editor compacto en el móvil */
 .exsum{grid-column:1/-1;display:none;align-items:center;gap:8px;justify-content:space-between;width:100%;border:0;background:none;color:var(--muted);font:inherit;font-size:.88rem;text-align:left;padding:2px 0 0;min-height:32px}
 @media (max-width:999px){
@@ -1295,7 +1304,7 @@ function exInfoModal() {
   const sib = base ? [base, ...(VARS[base] || []).filter(v => v !== x.id)] : (VARS[x.id] || []);
   const more = (CHAIN[x.id] || []).slice(1).map(o => o.c[o.i + 1]).filter(Boolean);
   const link = id => `<button data-xinfo="${id}">${esc(xName(CATBY[id]))}</button>`;
-  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="xiT"><div class="mbox dsh">
+  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="xiT"><div class="mbox dsh full"><button class="back" data-act="xi-close">‹ ${T("Atrás")}</button>
     <div class="sb-head"><h2 id="xiT" style="margin:0;flex:1">${esc(xName(x))}</h2><button class="btn small" data-act="xi-close">${T("Cerrar")}</button></div>
     <p class="muted" style="margin:2px 0 0;font-size:.85rem">${esc(LANG === "en" ? x.name.es : x.name.en)}</p>
     <div class="xmeta" style="margin-top:8px;font-size:.8rem"><span class="otag">${T(pat?.[1] || "")}</span>${LV(x.level)}<span>${x.type === "time" ? T("por tiempo") : T("repeticiones")}</span>${x.sides ? `<span class="otag">${T("por lado")}</span>` : ""}${x.impact ? `<span class="otag">${T("impacto")}</span>` : ""}</div>
@@ -1866,7 +1875,7 @@ function aiModal() {
   const fem = curProf().sex !== "m";
   if (a.step === 2) {
     const kb = (new Blob([a.txt]).size / 1024).toLocaleString(LOC(), { maximumFractionDigits: 1 });
-    return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="aiT"><div class="mbox dsh">
+    return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="aiT"><div class="mbox dsh full"><button class="back" data-act="ai-close">‹ ${T("Atrás")}</button>
       <div class="sb-head"><h2 id="aiT" style="margin:0;flex:1">${T("Analizar con IA externa")}</h2><button class="btn small" data-act="ai-close">${T("Cerrar")}</button></div>
       <p class="aistep">${T("1 Datos")} → <b>${T("2 Exportar")}</b></p>
       <p class="muted" style="font-size:.85rem;margin:8px 0 6px">${T("{n} líneas · {k} KB · {w}", { n: a.txt.split("\n").length, k: kb, w: a.weeks ? T("{n} semanas", { n: a.weeks }) : T("Todo") })}</p>
@@ -1880,7 +1889,7 @@ function aiModal() {
       <button class="btn ghost" style="width:100%;margin-top:4px" data-act="ai-back">‹ ${T("Volver a los datos")}</button>
     </div></div>`;
   }
-  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="aiT"><div class="mbox dsh">
+  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="aiT"><div class="mbox dsh full"><button class="back" data-act="ai-close">‹ ${T("Atrás")}</button>
     <div class="sb-head"><h2 id="aiT" style="margin:0;flex:1">${T("Analizar con IA externa")}</h2><button class="btn small" data-act="ai-close">${T("Cerrar")}</button></div>
     <p class="aistep"><b>${T("1 Datos")}</b> → ${T("2 Exportar")}</p>
     <h3 class="wh">${T("Período")}</h3>
@@ -4173,7 +4182,7 @@ function savedModal() {
 function shareSessModal() {
   const s = state.shareSess && state.sessions.find(x => x.id === state.shareSess); if (!s) return "";
   const o = SHOPT(), ck = (id, k, l) => `<label class="shopt"><span>${l}</span><input type="checkbox" role="switch" id="${id}" ${o[k] ? "checked" : ""}></label>`;
-  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="shT"><div class="mbox dsh">
+  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="shT"><div class="mbox dsh full"><button class="back" data-act="shsess-close">‹ ${T("Atrás")}</button>
     <div class="sb-head"><h2 id="shT" style="margin:0;flex:1">${T("Compartir entreno")}</h2><button class="btn small" data-act="shsess-close">${T("Cerrar")}</button></div>
     <div class="seg" style="margin:10px 0 12px" role="group" aria-label="${T("Formato")}"><button data-shimg="1" class="${o.img ? "on" : ""}" aria-pressed="${o.img}" style="text-align:center">${T("Imagen")}</button><button data-shimg="0" class="${o.img ? "" : "on"}" aria-pressed="${!o.img}" style="text-align:center">${T("Texto")}</button></div>
     ${o.img ? `<img id="shPrev" class="shprev" alt="${T("Vista previa")}">` : `<pre class="shtxt">${esc(sessText(s))}</pre>`}
@@ -4209,7 +4218,7 @@ function shareRoutModal() {
   const sh = state.rshare; if (!sh) return "";
   const sel = new Set(sh.sel), p = PL.get(), box = on => `<i class="cbx${on ? " on" : ""}">${on ? CHECK : ""}</i>`;
   const miss = sh.plan && p ? planVariants(p).filter(v => !state.routines.some(r => sel.has(r.id) && normVar(r.variant) === v)) : [];
-  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="rsT"><div class="mbox dsh">
+  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="rsT"><div class="mbox dsh full"><button class="back" data-act="rs-close">‹ ${T("Atrás")}</button>
     <div class="sb-head"><h2 id="rsT" style="margin:0;flex:1">${T("Compartir rutinas")}</h2><button class="btn small" data-act="rs-close">${T("Cerrar")}</button></div>
     <p class="muted" style="font-size:.85rem;margin:6px 0 10px">${T("{n} de {m} seleccionadas · sin tus sesiones ni registros.", { n: sel.size, m: state.routines.length })}</p>
     <div class="rsl">${rGroups().map(([v, rs]) => { const k = rs.filter(r => sel.has(r.id)).length;
@@ -4256,7 +4265,7 @@ function incomingModal() {
   const inc = state.incoming; if (!inc || !LS.get("wk.welcomed", false) || run) return "";
   const sel = new Set(inc.sel), box = on => `<i class="cbx${on ? " on" : ""}">${on ? CHECK : ""}</i>`, p = inc.plan;
   const phs = p ? p.phases.map(x => `${x.variant} ${T("{n} sem.", { n: x.weeks })}`).join(" → ") + (p.deload.weeks ? " · " + T("descarga {w} sem. cada {e}", { w: p.deload.weeks, e: p.deload.every }) : "") : "";
-  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="inT"><div class="mbox dsh">
+  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="inT"><div class="mbox dsh full"><button class="back" data-act="in-no">‹ ${T("Atrás")}</button>
     <h2 id="inT" style="margin:0 0 4px">${inc.routines.length === 1 ? T("Te han compartido una rutina") : inc.routines.length ? T("Te han compartido {n} rutinas", { n: inc.routines.length }) : T("Te han compartido un plan")}</h2>
     <p class="muted" style="font-size:.85rem;margin:0 0 10px">${T("Revisa y elige qué añadir. No se borra nada de lo que ya tienes.")}</p>
     ${inc.routines.length ? `<div class="rsl">${inc.routines.map((r, i) => { const m = sharedMatch(r), upd = m && inc.mode[i] !== "new";

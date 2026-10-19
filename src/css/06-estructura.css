@@ -16,6 +16,15 @@ label.srow{cursor:pointer}
 .swrow small{display:block;color:var(--muted);font-size:.8rem}
 .addchips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
 .addchips .chip{min-height:36px;font-weight:500}
+/* Pantalla completa en el móvil para lo largo (ficha, compartir, analizar con IA, recibir rutinas): Atrás arriba */
+.mbox.full>.back{display:none}
+@media (max-width:999px){
+  .modal:has(.mbox.full){padding:0;background:var(--bg)}
+  .mbox.full{height:100%;max-height:none;border-radius:0;border:0;padding-top:calc(4px + env(safe-area-inset-top,0px))}
+  .mbox.full::before{display:none}
+  .mbox.full>.back{display:inline-flex}
+  .mbox.full .sb-head>.btn[data-act$="-close"]{display:none}
+}
 /* Editor compacto en el móvil */
 .exsum{grid-column:1/-1;display:none;align-items:center;gap:8px;justify-content:space-between;width:100%;border:0;background:none;color:var(--muted);font:inherit;font-size:.88rem;text-align:left;padding:2px 0 0;min-height:32px}
 @media (max-width:999px){

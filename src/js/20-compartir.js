@@ -118,7 +118,7 @@ function savedModal() {
 function shareSessModal() {
   const s = state.shareSess && state.sessions.find(x => x.id === state.shareSess); if (!s) return "";
   const o = SHOPT(), ck = (id, k, l) => `<label class="shopt"><span>${l}</span><input type="checkbox" role="switch" id="${id}" ${o[k] ? "checked" : ""}></label>`;
-  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="shT"><div class="mbox dsh">
+  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="shT"><div class="mbox dsh full"><button class="back" data-act="shsess-close">‹ ${T("Atrás")}</button>
     <div class="sb-head"><h2 id="shT" style="margin:0;flex:1">${T("Compartir entreno")}</h2><button class="btn small" data-act="shsess-close">${T("Cerrar")}</button></div>
     <div class="seg" style="margin:10px 0 12px" role="group" aria-label="${T("Formato")}"><button data-shimg="1" class="${o.img ? "on" : ""}" aria-pressed="${o.img}" style="text-align:center">${T("Imagen")}</button><button data-shimg="0" class="${o.img ? "" : "on"}" aria-pressed="${!o.img}" style="text-align:center">${T("Texto")}</button></div>
     ${o.img ? `<img id="shPrev" class="shprev" alt="${T("Vista previa")}">` : `<pre class="shtxt">${esc(sessText(s))}</pre>`}
@@ -154,7 +154,7 @@ function shareRoutModal() {
   const sh = state.rshare; if (!sh) return "";
   const sel = new Set(sh.sel), p = PL.get(), box = on => `<i class="cbx${on ? " on" : ""}">${on ? CHECK : ""}</i>`;
   const miss = sh.plan && p ? planVariants(p).filter(v => !state.routines.some(r => sel.has(r.id) && normVar(r.variant) === v)) : [];
-  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="rsT"><div class="mbox dsh">
+  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="rsT"><div class="mbox dsh full"><button class="back" data-act="rs-close">‹ ${T("Atrás")}</button>
     <div class="sb-head"><h2 id="rsT" style="margin:0;flex:1">${T("Compartir rutinas")}</h2><button class="btn small" data-act="rs-close">${T("Cerrar")}</button></div>
     <p class="muted" style="font-size:.85rem;margin:6px 0 10px">${T("{n} de {m} seleccionadas · sin tus sesiones ni registros.", { n: sel.size, m: state.routines.length })}</p>
     <div class="rsl">${rGroups().map(([v, rs]) => { const k = rs.filter(r => sel.has(r.id)).length;
@@ -201,7 +201,7 @@ function incomingModal() {
   const inc = state.incoming; if (!inc || !LS.get("wk.welcomed", false) || run) return "";
   const sel = new Set(inc.sel), box = on => `<i class="cbx${on ? " on" : ""}">${on ? CHECK : ""}</i>`, p = inc.plan;
   const phs = p ? p.phases.map(x => `${x.variant} ${T("{n} sem.", { n: x.weeks })}`).join(" → ") + (p.deload.weeks ? " · " + T("descarga {w} sem. cada {e}", { w: p.deload.weeks, e: p.deload.every }) : "") : "";
-  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="inT"><div class="mbox dsh">
+  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="inT"><div class="mbox dsh full"><button class="back" data-act="in-no">‹ ${T("Atrás")}</button>
     <h2 id="inT" style="margin:0 0 4px">${inc.routines.length === 1 ? T("Te han compartido una rutina") : inc.routines.length ? T("Te han compartido {n} rutinas", { n: inc.routines.length }) : T("Te han compartido un plan")}</h2>
     <p class="muted" style="font-size:.85rem;margin:0 0 10px">${T("Revisa y elige qué añadir. No se borra nada de lo que ya tienes.")}</p>
     ${inc.routines.length ? `<div class="rsl">${inc.routines.map((r, i) => { const m = sharedMatch(r), upd = m && inc.mode[i] !== "new";
