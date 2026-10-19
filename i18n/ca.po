@@ -68,6 +68,9 @@ msgstr "Li pot servir a algú? Envia-li l'enllaç."
 msgid "¿Pasar igualmente a {x}? Las series pendientes quedan sin hacer."
 msgstr "Vols passar igualment a {x}? Les sèries pendents queden sense fer."
 
+msgid "¿Qué quieres conseguir? Cuanto más concreto, mejor"
+msgstr "Què vols aconseguir? Com més concret, millor"
+
 #, python-brace-format
 msgid "¿Quitar \"{x}\" de la sesión?"
 msgstr "Vols treure \"{x}\" de la sessió?"
@@ -95,6 +98,9 @@ msgstr "«Exercici fet» ben visible, amb el descans que ve i el botó al següe
 
 msgid "«Notas del periodo» en todas las pestañas de Stats, y las notas de cada ejercicio en su historial."
 msgstr "«Notes del període» a totes les pestanyes de Stats, i les notes de cada exercici al seu historial."
+
+msgid "«Recordar mis respuestas»: el formulario sale rellenado la próxima vez; se guarda en el perfil y va en la copia completa."
+msgstr "«Recordar les meves respostes»: el formulari surt omplert la propera vegada; es desa al perfil i va a la còpia completa."
 
 msgid "(copia)"
 msgstr "(còpia)"
@@ -317,6 +323,9 @@ msgstr "Hora típica d'anar a dormir"
 msgid "Activa «Preguntar el esfuerzo al terminar» en Ajustes → Entreno."
 msgstr "Activa «Preguntar l'esforç en acabar» a Ajustos → Entrenament."
 
+msgid "Activa (trabajo físico)"
+msgstr "Activa (feina física)"
+
 msgid "Activar"
 msgstr "Activa"
 
@@ -325,6 +334,9 @@ msgstr "Activitat"
 
 msgid "Actividad eliminada"
 msgstr "Activitat eliminada"
+
+msgid "Actividad fuera del entreno"
+msgstr "Activitat fora de l'entrenament"
 
 msgid "Actividad guardada"
 msgstr "Activitat desada"
@@ -386,8 +398,14 @@ msgstr "En vincular un nom com «Fons (baixada 3 s)», el que va entre parèntes
 msgid "Algo exigente"
 msgstr "Una mica exigent"
 
+msgid "Algo más"
+msgstr "Alguna cosa més"
+
 msgid "Algo no funciona como debería"
 msgstr "Alguna cosa no funciona com hauria"
+
+msgid "Alimentación"
+msgstr "Alimentació"
 
 msgid "Alternativas"
 msgstr "Alternatives"
@@ -433,6 +451,9 @@ msgstr "abans"
 
 msgid "Antes de añadir otro perfil, completa el tuyo. Tus datos no cambian."
 msgstr "Abans d'afegir un altre perfil, completa el teu. Les teves dades no canvien."
+
+msgid "Antes de empezar"
+msgstr "Abans de començar"
 
 msgid "Antes de empezar:"
 msgstr "Abans de començar:"
@@ -584,6 +605,9 @@ msgstr "Avisos"
 
 msgid "Avisos automáticos con Obtainium"
 msgstr "Avisos automàtics amb Obtainium"
+
+msgid "Avisos claros: una IA no es un entrenador ni un profesional sanitario, y vas a compartir datos de salud con un servicio externo. Usus no envía nada."
+msgstr "Avisos clars: una IA no és un entrenador ni un professional sanitari, i compartiràs dades de salut amb un servei extern. Usus no envia res."
 
 msgid "Avisos de sonido más suaves."
 msgstr "Avisos de so més suaus."
@@ -742,6 +766,9 @@ msgstr "Cancel·la"
 msgid "Cansado"
 msgstr "Cansat"
 
+msgid "Cansado o con mucho estrés"
+msgstr "Cansat o amb molt d'estrès"
+
 msgid "Cansancio"
 msgstr "Cansament"
 
@@ -760,6 +787,9 @@ msgstr "Càrrega: {m} min × {p} = {c}"
 
 msgid "Cargando…"
 msgstr "Carregant…"
+
+msgid "Casa"
+msgstr "Casa"
 
 msgid "Casi al límite"
 msgstr "Gairebé al límit"
@@ -855,6 +885,9 @@ msgstr "Amb dues regles registrades veuràs aquí la durada de cada cicle."
 msgid "Con embarazo, lactancia, anticonceptivos hormonales o en la perimenopausia el ciclo cambia o desaparece, y una previsión basada en ciclos anteriores no sería fiable. En pausa puedes seguir anotando sangrado y síntomas."
 msgstr "Amb embaràs, lactància, anticonceptius hormonals o a la perimenopausa el cicle canvia o desapareix, i una previsió basada en cicles anteriors no seria fiable. En pausa pots continuar anotant sagnat i símptomes."
 
+msgid "Con energía"
+msgstr "Amb energia"
+
 msgid "Con fuerza"
 msgstr "Amb força"
 
@@ -863,6 +896,9 @@ msgstr "amb llast"
 
 msgid "Con nota"
 msgstr "Amb nota"
+
+msgid "Con variantes, Usus usa su plan de progresión: Hoy te dice qué toca cada semana."
+msgstr "Amb variants, Usus fa servir el seu pla de progressió: Avui et diu què toca cada setmana."
 
 msgid "Condiciones de salud relevantes"
 msgstr "Condicions de salut rellevants"
@@ -911,6 +947,9 @@ msgstr "Copia l'adreça {x}"
 msgid "Copiar enlace"
 msgstr "Copiar l'enllaç"
 
+msgid "Copiar indicaciones"
+msgstr "Copiar indicacions"
+
 msgid "Copiar rutinas a otro perfil"
 msgstr "Copiar rutines a un altre perfil"
 
@@ -935,6 +974,12 @@ msgstr "Crear perfil"
 
 msgid "Crear plan"
 msgstr "Crea un pla"
+
+msgid "Crear plan con IA"
+msgstr "Crear pla amb IA"
+
+msgid "Crear plan con IA (Entreno → Plan y Progreso → Resumen): en 4 pasos (sobre ti, qué buscas, tu semana y para la IA) Usus prepara unas indicaciones con tus datos, cómo debe responder la IA y el enlace al catálogo de ejercicios. Las copias o exportas, las pegas en tu IA y su respuesta vuelve a Usus para revisarla antes de importar."
+msgstr "Crear pla amb IA (Entrenament → Pla i Progrés → Resum): en 4 passos (sobre tu, què busques, la teva setmana i per a la IA) Usus prepara unes indicacions amb les teves dades, com ha de respondre la IA i l'enllaç al catàleg d'exercicis. Les copies o exportes, les enganxes a la teva IA i la seva resposta torna a Usus per revisar-la abans d'importar."
 
 msgid "Cuándo"
 msgstr "Quan"
@@ -997,11 +1042,23 @@ msgstr "Dades i còpies"
 msgid "de ~{n}"
 msgstr "de ~{n}"
 
+msgid "de Mi material"
+msgstr "del Meu material"
+
 msgid "deben estar en la misma sección"
 msgstr "han d'estar a la mateixa secció"
 
 msgid "Dejar como propio"
 msgstr "Deixa'l com a propi"
+
+msgid "del diario"
+msgstr "del diari"
+
+msgid "del perfil"
+msgstr "del perfil"
+
+msgid "del registro"
+msgstr "del registre"
 
 msgid "der."
 msgstr "dre."
@@ -1104,6 +1161,9 @@ msgstr "Dia {n}"
 msgid "Día {n} del ciclo"
 msgstr "Dia {n} del cicle"
 
+msgid "Día a día"
+msgstr "Dia a dia"
+
 msgid "Día anterior"
 msgstr "Dia anterior"
 
@@ -1150,6 +1210,9 @@ msgstr "Dies d'antelació"
 msgid "Días en que se sugiere"
 msgstr "Dies en què es suggereix"
 
+msgid "Días que puedes entrenar"
+msgstr "Dies que pots entrenar"
+
 msgid "Días registrados"
 msgstr "Dies registrats"
 
@@ -1182,6 +1245,9 @@ msgstr "Mal de cap"
 msgid "Dolores o molestias actuales"
 msgstr "Dolors o molèsties actuals"
 
+msgid "Dónde entrenas"
+msgstr "On entrenes"
+
 msgid "Dosis"
 msgstr "Dosi"
 
@@ -1199,6 +1265,9 @@ msgstr "Durada"
 
 msgid "Duración del ciclo: media de los últimos 6 (28 días hasta tener 2 registrados). Regla prevista: último inicio + esa media, con un margen según lo que varían tus ciclos. Ovulación aproximada: 14 días antes de la regla siguiente. Ventana fértil: de 5 días antes a 1 día después de la ovulación."
 msgstr "Durada del cicle: mitjana dels últims 6 (28 dies fins a tenir-ne 2 de registrats). Regla prevista: últim inici + aquesta mitjana, amb un marge segons el que varien els teus cicles. Ovulació aproximada: 14 dies abans de la regla següent. Finestra fèrtil: de 5 dies abans a 1 dia després de l'ovulació."
+
+msgid "Duración del plan"
+msgstr "Durada del pla"
 
 msgid "Duración media de la regla"
 msgstr "Durada mitjana de la regla"
@@ -1233,8 +1302,14 @@ msgstr "Editor de rutina més compacte al mòbil: cada exercici en una fila amb 
 msgid "Ej. 10 dominadas, perder 3 kg, dormir mejor"
 msgstr "P. ex. 10 dominades, perdre 3 kg, dormir millor"
 
+msgid "Ej. 10 dominadas, primer pino contra la pared, bajar 4 kg"
+msgstr "P. ex. 10 dominades, primera vertical a la paret, baixar 4 kg"
+
 msgid "Ej. 2 años de calistenia, antes fútbol"
 msgstr "P. ex. 2 anys de calistènia, abans futbol"
+
+msgid "Ej. 7 h"
+msgstr "P. ex. 7 h"
 
 msgid "Ej. A, B, C. Vacío = se sugiere en cualquier semana, también en descarga (como la Diaria)."
 msgstr "Ex. A, B, C. Buit = es suggereix qualsevol setmana, també en descàrrega (com la Diària)."
@@ -1254,17 +1329,29 @@ msgstr "P. ex. Cristina"
 msgid "Ej. lumbar al levantarme por la mañana"
 msgstr "P. ex. lumbar en llevar-me al matí"
 
+msgid "Ej. mañana, al salir del trabajo"
+msgstr "P. ex. matí, en sortir de la feina"
+
 msgid "Ej. mochila, toalla, escalón"
 msgstr "P. ex. motxilla, tovallola, graó"
 
 msgid "Ej. molestia en el codo, banda verde, agarre más abierto…"
 msgstr "P. ex. molèstia al colze, banda verda, presa més oberta…"
 
+msgid "Ej. pádel los sábados"
+msgstr "P. ex. pàdel els dissabtes"
+
 msgid "Ej. rotura de menisco izquierdo (2019)"
 msgstr "P. ex. trencament de menisc esquerre (2019)"
 
+msgid "Ej. saltos, carrera, nada de rodillas en el suelo"
+msgstr "P. ex. salts, córrer, res amb els genolls a terra"
+
 msgid "Ej. Torso A"
 msgstr "Ex. Tors A"
+
+msgid "Ej. vegetariana, en déficit, 2 comidas al día"
+msgstr "P. ex. vegetariana, en dèficit, 2 àpats al dia"
 
 msgid "Ejercicio"
 msgstr "Exercici"
@@ -1283,6 +1370,9 @@ msgstr "exercicis"
 msgid "Ejercicios"
 msgstr "Exercicis"
 
+msgid "Ejercicios que no puedes o no quieres hacer"
+msgstr "Exercicis que no pots o no vols fer"
+
 msgid "Ejercicios vs objetivo"
 msgstr "Exercicis vs objectiu"
 
@@ -1291,6 +1381,9 @@ msgstr "Exercicis i sèries"
 
 msgid "El archivo no es un JSON válido"
 msgstr "El fitxer no és un JSON vàlid"
+
+msgid "El catálogo de ejercicios no se copia: las indicaciones llevan el enlace para que la IA lo consulte."
+msgstr "El catàleg d'exercicis no es copia: les indicacions porten l'enllaç perquè la IA el consulti."
 
 msgid "El enlace no es válido o está incompleto"
 msgstr "L'enllaç no és vàlid o està incomplet"
@@ -1415,6 +1508,9 @@ msgstr "En perfils de dona, registre de la regla opcional, només en aquest mòb
 msgid "En un ordenador o una tablet en horizontal, el editor se abre en modo amplio: cada ejercicio en una fila y el catálogo al lado para tocar o arrastrar."
 msgstr "En un ordinador o una tauleta en horitzontal, l'editor s'obre en mode ampli: cada exercici en una fila i el catàleg al costat per tocar o arrossegar."
 
+msgid "Energía y estrés"
+msgstr "Energia i estrès"
+
 msgid "Enlace"
 msgstr "Enllaç"
 
@@ -1534,6 +1630,9 @@ msgstr "Exportar .txt"
 msgid "Exportar .zip"
 msgstr "Exportar .zip"
 
+msgid "Exportar a .txt"
+msgstr "Exportar a .txt"
+
 msgid "Exportar ahora"
 msgstr "Exporta ara"
 
@@ -1592,11 +1691,17 @@ msgstr "Força"
 msgid "Full body"
 msgstr "Cos sencer"
 
+msgid "Ganar músculo"
+msgstr "Guanyar múscul"
+
 msgid "Generar texto"
 msgstr "Generar el text"
 
 msgid "Gestionar"
 msgstr "Gestiona"
+
+msgid "Gimnasio"
+msgstr "Gimnàs"
 
 msgid "Gran sesión"
 msgstr "Gran sessió"
@@ -1621,6 +1726,9 @@ msgstr "Desa la rutina"
 
 msgid "Ha terminado hoy"
 msgstr "Ha acabat avui"
+
+msgid "Habilidades (dominadas, pino, muscle-up…)"
+msgstr "Habilitats (dominades, vertical, muscle-up…)"
 
 msgid "Hábitos"
 msgstr "Hàbits"
@@ -1753,11 +1861,17 @@ msgstr "Inclou l'escalfament i la tornada a la calma"
 msgid "Incluir datos técnicos"
 msgstr "Incloure dades tècniques"
 
+msgid "Incluir en las indicaciones"
+msgstr "Incloure a les indicacions"
+
 msgid "Incluir plan de progresión"
 msgstr "Incloure el pla de progressió"
 
 msgid "Incluye un plan, que sustituirá al actual."
 msgstr "Inclou un pla, que substituirà l'actual."
+
+msgid "Indicaciones copiadas"
+msgstr "Indicacions copiades"
 
 msgid "Informar de un problema"
 msgstr "Informar d'un problema"
@@ -1839,6 +1953,9 @@ msgstr "La nit que acaba aquest dia."
 
 msgid "La pantalla se mantiene encendida durante toda la sesión, no solo en las cuentas atrás."
 msgstr "La pantalla es manté encesa durant tota la sessió, no només als comptes enrere."
+
+msgid "La próxima vez el formulario sale ya rellenado. Se guardan solo en este dispositivo, en tu perfil, y van en la copia completa."
+msgstr "La propera vegada el formulari surt ja omplert. Es desen només en aquest dispositiu, al teu perfil, i van a la còpia completa."
 
 #, python-brace-format
 msgid "La regla podría bajarte en {n} días"
@@ -2037,6 +2154,9 @@ msgstr "Millor sèrie per costat (reps) per sessió"
 msgid "Mejor volumen"
 msgstr "Millor volum"
 
+msgid "Mejores series de las últimas 8 semanas, para partir de tu nivel real."
+msgstr "Millors sèries de les últimes 8 setmanes, per partir del teu nivell real."
+
 msgid "Menos"
 msgstr "Menys"
 
@@ -2061,11 +2181,23 @@ msgstr "El meu material (Ajustos → Entrenament) i material als teus exercicis 
 msgid "Minutos"
 msgstr "Minuts"
 
+msgid "Minutos por sesión"
+msgstr "Minuts per sessió"
+
+msgid "Mis marcas recientes"
+msgstr "Les meves marques recents"
+
 msgid "Mis planes"
 msgstr "Els meus plans"
 
+msgid "Mis rutinas actuales"
+msgstr "Les meves rutines actuals"
+
 msgid "Moderada"
 msgstr "Moderada"
+
+msgid "Moderada (de pie, caminar)"
+msgstr "Moderada (dempeus, caminar)"
 
 msgid "Moderado"
 msgstr "Moderat"
@@ -2084,6 +2216,9 @@ msgstr "Moment"
 
 msgid "Momento (opcional)"
 msgstr "Moment (opcional)"
+
+msgid "Momento del día"
+msgstr "Moment del dia"
 
 msgid "Mostrar la fase del ciclo"
 msgstr "Mostra la fase del cicle"
@@ -2225,6 +2360,9 @@ msgstr "Nom de la secció"
 msgid "Nombre del ejercicio"
 msgstr "Nom de l'exercici"
 
+msgid "Normal"
+msgstr "Normal"
+
 msgid "Nota"
 msgstr "Nota"
 
@@ -2323,6 +2461,9 @@ msgstr "Objectiu diari de passos"
 msgid "Objetivo guardado"
 msgstr "Objectiu desat"
 
+msgid "Objetivo principal (hasta 2)"
+msgstr "Objectiu principal (fins a 2)"
+
 msgid "Objetivo quitado"
 msgstr "Objectiu eliminat"
 
@@ -2388,6 +2529,9 @@ msgstr "Un altre motiu"
 msgid "Otros"
 msgstr "Altres"
 
+msgid "Otros deportes o actividades"
+msgstr "Altres esports o activitats"
+
 msgid "Ovulación (aprox.)"
 msgstr "Ovulació (aprox.)"
 
@@ -2412,8 +2556,14 @@ msgstr "Per a l'objectiu ({g})"
 msgid "Para elegir ejercicios al crear rutinas y saber cómo avanzar."
 msgstr "Per triar exercicis en crear rutines i saber com avançar."
 
+msgid "Para la IA"
+msgstr "Per a la IA"
+
 msgid "Para que funcione, pon a cada rutina su variante y sus días al editarla."
 msgstr "Perquè funcioni, posa a cada rutina la variant i els dies en editar-la."
+
+msgid "Para que las mejore o las respete (p. ej. una rutina diaria)."
+msgstr "Perquè les millori o les respecti (p. ex. una rutina diària)."
 
 msgid "Para qué lo usarías"
 msgstr "Per a què ho faries servir"
@@ -2429,6 +2579,9 @@ msgstr "Atura"
 
 msgid "Pared"
 msgstr "Paret"
+
+msgid "Parque / al aire libre"
+msgstr "Parc / a l'aire lliure"
 
 msgid "Pasa a ser el plan activo; el actual queda guardado en Mis planes."
 msgstr "Passa a ser el pla actiu; l'actual queda desat a Els meus plans."
@@ -2483,6 +2636,12 @@ msgstr "Pit"
 msgid "Pega aquí la respuesta de la IA"
 msgstr "Enganxa aquí la resposta de la IA"
 
+msgid "Pega aquí su respuesta completa. Usus solo lee el bloque de datos y te enseña las rutinas y el plan antes de importar nada."
+msgstr "Enganxa aquí la seva resposta completa. Usus només llegeix el bloc de dades i et mostra les rutines i el pla abans d'importar res."
+
+msgid "Pégalas en una conversación nueva de tu IA (ChatGPT, Claude, Gemini…) o sube el archivo."
+msgstr "Enganxa-les en una conversa nova de la teva IA (ChatGPT, Claude, Gemini…) o puja el fitxer."
+
 msgid "Pégalo en una conversación nueva de la IA que uses, o sube el archivo .txt. Si es muy largo para tu IA, prueba con menos semanas."
 msgstr "Enganxa'l en una conversa nova de la IA que facis servir, o puja l'arxiu .txt. Si és massa llarg per a la teva IA, prova amb menys setmanes."
 
@@ -2510,6 +2669,9 @@ msgstr "Pendents aquesta setmana"
 
 msgid "peor lado"
 msgstr "pitjor costat"
+
+msgid "Perder grasa"
+msgstr "Perdre greix"
 
 msgid "Perfil"
 msgstr "Perfil"
@@ -2540,6 +2702,9 @@ msgstr "Pesades"
 
 msgid "Peso"
 msgstr "Pes"
+
+msgid "Peso (kg)"
+msgstr "Pes (kg)"
 
 msgid "Peso en kg"
 msgstr "Pes en kg"
@@ -2579,6 +2744,12 @@ msgstr "Pla actiu: {x}"
 
 msgid "plan añadido"
 msgstr "pla afegit"
+
+msgid "plan con IA"
+msgstr "pla amb IA"
+
+msgid "Plan con IA"
+msgstr "Pla amb IA"
 
 msgid "Plan desactivado: Hoy no lo tiene en cuenta."
 msgstr "Pla desactivat: Avui no el té en compte."
@@ -2714,6 +2885,9 @@ msgstr "Proposar una millora"
 msgid "propuesta"
 msgstr "proposta"
 
+msgid "Propuesta de la IA"
+msgstr "Proposta de la IA"
+
 msgid "Propuestas aceptadas"
 msgstr "Propostes acceptades"
 
@@ -2730,6 +2904,9 @@ msgstr "Propera regla: {d} (± {n} d) · d'aquí a {m} dies"
 
 msgid "Próximas fechas"
 msgstr "Properes dates"
+
+msgid "Qué buscas"
+msgstr "Què busques"
 
 msgid "Qué esperabas"
 msgstr "Què esperaves"
@@ -2787,6 +2964,9 @@ msgstr "Reprèn"
 
 msgid "récord"
 msgstr "rècord"
+
+msgid "Recordar mis respuestas"
+msgstr "Recordar les meves respostes"
 
 msgid "Récords"
 msgstr "Rècords"
@@ -2881,6 +3061,9 @@ msgstr "reps · esq/dre"
 msgid "Reps de las últimas 4 semanas. Aviso si un lado rinde más de un 10% menos."
 msgstr "Reps de les últimes 4 setmanes. Avís si un costat rendeix més d'un 10% menys."
 
+msgid "Resistencia"
+msgstr "Resistència"
+
 msgid "Respiración marcada; aún bastante margen."
 msgstr "Respiració marcada; encara força marge."
 
@@ -2902,6 +3085,9 @@ msgstr "Revisar"
 
 msgid "Revisar rutinas propuestas"
 msgstr "Revisar les rutines proposades"
+
+msgid "Revisar rutinas y plan"
+msgstr "Revisar rutines i pla"
 
 msgid "Revisión (opcional)"
 msgstr "Revisió (opcional)"
@@ -2970,6 +3156,9 @@ msgstr "Salta"
 msgid "Saltar ejercicio"
 msgstr "Salta l'exercici"
 
+msgid "Salud y movilidad"
+msgstr "Salut i mobilitat"
+
 msgid "Se abrirá GitHub con el formulario preparado."
 msgstr "S'obrirà GitHub amb el formulari preparat."
 
@@ -3024,6 +3213,9 @@ msgstr "Secció {n}"
 
 msgid "Secciones"
 msgstr "Seccions"
+
+msgid "Sedentaria (oficina, coche)"
+msgstr "Sedentària (oficina, cotxe)"
 
 msgid "seg"
 msgstr "seg"
@@ -3269,6 +3461,9 @@ msgstr "Només serveix per anotar la regla i els símptomes, i veure una estimac
 msgid "sobre la media de las 4 anteriores. Si no fue a propósito, vigila el descanso."
 msgstr "sobre la mitjana de les 4 anteriors. Si no va ser expressament, vigila el descans."
 
+msgid "Sobre ti"
+msgstr "Sobre tu"
+
 msgid "Sobre ti (para interpretar los datos)"
 msgstr "Sobre tu (per interpretar les dades)"
 
@@ -3443,6 +3638,9 @@ msgstr "Tipus de grup"
 msgid "Tipo de movimiento"
 msgstr "Tipus de moviment"
 
+msgid "Tipo de plan"
+msgstr "Tipus de pla"
+
 msgid "Toca hoy"
 msgstr "Avui toca"
 
@@ -3519,6 +3717,9 @@ msgstr "El teu perfil"
 msgid "Tu progresión"
 msgstr "La teva progressió"
 
+msgid "Tu semana"
+msgstr "La teva setmana"
+
 msgid "Tus datos se guardan solo en este dispositivo. Haz copias desde Ajustes: si borras el navegador o desinstalas la app, se pierden."
 msgstr "Les teves dades es desen només en aquest dispositiu. Fes còpies des d'Ajustos: si esborres el navegador o desinstal·les l'app, es perden."
 
@@ -3568,6 +3769,12 @@ msgstr "Una columna per sessió: apunta el que has fet (p. ex. 8·8·7·6)"
 msgid "Una hoja por ejercicio con muchas fechas para ver su progresión."
 msgstr "Un full per exercici amb moltes dates per veure'n la progressió."
 
+msgid "Una IA no es un entrenador ni un profesional sanitario. Si tienes lesiones, dolor, una condición de salud, estás embarazada o hace tiempo que no entrenas, consulta antes con un profesional. Todo es opcional."
+msgstr "Una IA no és un entrenador ni un professional sanitari. Si tens lesions, dolor, una condició de salut, estàs embarassada o fa temps que no entrenes, consulta abans un professional. Tot és opcional."
+
+msgid "Una rutina por día, siempre igual"
+msgstr "Una rutina per dia, sempre igual"
+
 msgid "Une tus nombres con las fichas del catálogo"
 msgstr "Uneix els teus noms amb les fitxes del catàleg"
 
@@ -3593,6 +3800,9 @@ msgstr "Usus és una app web (PWA): s'instal·la des del navegador, sense botiga
 #, python-brace-format
 msgid "Usus incluye un catálogo opcional de {n} ejercicios de calistenia, cada uno con su ficha: para qué sirve, cómo se hace, errores típicos, material y progresión."
 msgstr "Usus inclou un catàleg opcional de {n} exercicis de calistènia, cadascun amb la seva fitxa: per a què serveix, com es fa, errors típics, material i progressió."
+
+msgid "Usus no envía nada: lo copias o compartes tú. Lo que pase después depende de la IA que elijas; revisa su política de privacidad. El plan lo hace una IA, no un entrenador ni un profesional sanitario: revísalo y escucha a tu cuerpo."
+msgstr "Usus no envia res: ho copies o comparteixes tu. El que passi després depèn de la IA que triïs; revisa'n la política de privacitat. El pla el fa una IA, no un entrenador ni un professional sanitari: revisa'l i escolta el teu cos."
 
 msgid "Usus prepara un texto con tus datos y las instrucciones para que una IA (ChatGPT, Claude, Gemini…) los analice. Usus no envía nada: lo copias o compartes tú."
 msgstr "Usus prepara un text amb les teves dades i les instruccions perquè una IA (ChatGPT, Claude, Gemini…) les analitzi. Usus no envia res: el copies o el comparteixes tu."
@@ -3641,11 +3851,17 @@ msgstr "Variant repetida: pujada automàtica segons el teu pla."
 msgid "Variantes del mismo nivel"
 msgstr "Variants del mateix nivell"
 
+msgid "Variantes que rotan (A, B, C) con descarga"
+msgstr "Variants que roten (A, B, C) amb descàrrega"
+
 msgid "Varias personas pueden usar Usus en este móvil, cada una con sus propios datos y ajustes."
 msgstr "Diverses persones poden fer servir Usus en aquest mòbil, cadascuna amb les seves dades i ajustos."
 
 msgid "Varios planes: el activo marca Hoy y los demás quedan guardados para activar, duplicar o borrar. Cada plan puede tener nombre."
 msgstr "Diversos plans: l'actiu marca Avui i la resta queden desats per activar, duplicar o esborrar. Cada pla pot tenir nom."
+
+msgid "Varios sitios"
+msgstr "Diversos llocs"
 
 msgid "Vas a compartir datos de salud con un servicio externo"
 msgstr "Compartiràs dades de salut amb un servei extern"

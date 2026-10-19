@@ -4,6 +4,12 @@ Todas las versiones de Usus. Formato basado en [Keep a Changelog](https://keepac
 
 **Castellano** · [Català](#català) · [English](#english)
 
+## [3.1.0] — en pruebas (beta)
+
+- Crear plan con IA (Entreno → Plan y Progreso → Resumen): en 4 pasos (sobre ti, qué buscas, tu semana y para la IA) Usus prepara unas indicaciones con tus datos, cómo debe responder la IA y el enlace al catálogo de ejercicios. Las copias o exportas, las pegas en tu IA y su respuesta vuelve a Usus para revisarla antes de importar.
+- Avisos claros: una IA no es un entrenador ni un profesional sanitario, y vas a compartir datos de salud con un servicio externo. Usus no envía nada.
+- «Recordar mis respuestas»: el formulario sale rellenado la próxima vez; se guarda en el perfil y va en la copia completa.
+
 ## [3.0.0] — en pruebas (beta)
 
 Rediseño: estructura nueva, componentes unificados y glosario único (es/ca/en). Los datos no cambian: las copias de la 2.x se importan igual.
@@ -245,6 +251,11 @@ Primera versión pública.
 
 ## Català
 
+### [3.1.0] — en proves (beta)
+- Crear pla amb IA (Entrenament → Pla i Progrés → Resum): en 4 passos (sobre tu, què busques, la teva setmana i per a la IA) Usus prepara unes indicacions amb les teves dades, com ha de respondre la IA i l'enllaç al catàleg d'exercicis. Les copies o exportes, les enganxes a la teva IA i la seva resposta torna a Usus per revisar-la abans d'importar.
+- Avisos clars: una IA no és un entrenador ni un professional sanitari, i compartiràs dades de salut amb un servei extern. Usus no envia res.
+- «Recordar les meves respostes»: el formulari surt omplert la propera vegada; es desa al perfil i va a la còpia completa.
+
 ### [3.0.0] — en proves (beta)
 - Nova estructura: Avui · Entrenament · Diari · Progrés · Ajustos. Entrenament aplega Rutines, Pla i Exercicis; Stats passa a dir-se Progrés.
 - Avui: el que toca, a dalt i amb un sol botó Comença; accessos ràpids a una altra rutina, sessió lliure i activitat; els avisos, junts a «Pendent».
@@ -327,6 +338,11 @@ Primera versió pública: rutines amb sèries per repeticions o per temps, compt
 ---
 
 ## English
+
+### [3.1.0] — in testing (beta)
+- Create a plan with AI (Workout → Plan and Progress → Summary): in 4 steps (about you, your goals, your week and for the AI) Usus prepares instructions with your data, how the AI should answer and the link to the exercise catalogue. Copy or export them, paste them into your AI and bring its answer back to Usus to review before importing.
+- Clear notices: an AI is not a coach or a health professional, and you'll be sharing health data with an external service. Usus sends nothing.
+- “Remember my answers”: the form comes pre-filled next time; it's saved in the profile and included in the full backup.
 
 ### [3.0.0] — in testing (beta)
 - New layout: Today · Workout · Diary · Progress · Settings. Workout brings together Routines, Plan and Exercises; Stats is now called Progress.

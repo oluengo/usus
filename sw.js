@@ -1,5 +1,5 @@
 // Cambia la versión al actualizar index.html para forzar la recarga de la caché
-const CACHE = "usus-3.0.0";
+const CACHE = "usus-3.1.0";
 const CORE = ["./", "index.html", "ejercicios.json", "manifest.webmanifest", "icon-192.png", "icon-512.png", "icon-maskable-512.png", "favicon-48.png",
   "fonts/instrument-sans-400.woff2", "fonts/instrument-sans-500.woff2", "fonts/instrument-sans-600.woff2", "fonts/instrument-sans-700.woff2"];
 

@@ -202,7 +202,7 @@ function incomingModal() {
   const sel = new Set(inc.sel), box = on => `<i class="cbx${on ? " on" : ""}">${on ? CHECK : ""}</i>`, p = inc.plan;
   const phs = p ? p.phases.map(x => `${x.variant} ${T("{n} sem.", { n: x.weeks })}`).join(" → ") + (p.deload.weeks ? " · " + T("descarga {w} sem. cada {e}", { w: p.deload.weeks, e: p.deload.every }) : "") : "";
   return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="inT"><div class="mbox dsh full"><button class="back" data-act="in-no">‹ ${T("Atrás")}</button>
-    <h2 id="inT" style="margin:0 0 4px">${inc.routines.length === 1 ? T("Te han compartido una rutina") : inc.routines.length ? T("Te han compartido {n} rutinas", { n: inc.routines.length }) : T("Te han compartido un plan")}</h2>
+    <h2 id="inT" style="margin:0 0 4px">${inc.ai ? `✦ ${T("Propuesta de la IA")}` : inc.routines.length === 1 ? T("Te han compartido una rutina") : inc.routines.length ? T("Te han compartido {n} rutinas", { n: inc.routines.length }) : T("Te han compartido un plan")}</h2>
     <p class="muted" style="font-size:.85rem;margin:0 0 10px">${T("Revisa y elige qué añadir. No se borra nada de lo que ya tienes.")}</p>
     ${inc.routines.length ? `<div class="rsl">${inc.routines.map((r, i) => { const m = sharedMatch(r), upd = m && inc.mode[i] !== "new";
       return `<div class="rsrow"><button class="rsr" style="padding-left:12px" data-inr="${i}" aria-pressed="${sel.has(i)}">${box(sel.has(i))}<span style="flex:1;min-width:0">${esc(r.name)}<small class="muted" style="display:block;font-size:.78rem">${T("{e} ejercicios · {s} series", { e: r.exercises.length, s: r.exercises.reduce((a, e) => a + e.sets, 0) })}</small></span></button>
@@ -227,7 +227,7 @@ async function incomingAdd() {
   state.routines.push(...add); await store.saveRoutines(state.routines);
   const plan = inc.plan && inc.withPlan;
   if (plan) { const old = PL.get(); if (old) PLS.save([{ ...old, id: old.id || uid() }, ...PLS.list()]);   // el activo anterior pasa a Mis planes
-    PL.save({ id: uid(), enabled: true, start: nextMonday(), review: "", phases: inc.plan.phases.map(x => ({ id: uid(), ...x })), deload: inc.plan.deload, up: inc.plan.up, upRule: inc.plan.upRule }); }
+    PL.save({ id: uid(), enabled: true, start: nextMonday(), review: "", ...(inc.ai ? { name: T("Plan con IA") } : {}), phases: inc.plan.phases.map(x => ({ id: uid(), ...x })), deload: inc.plan.deload, up: inc.plan.up, upRule: inc.plan.upRule }); }
   state.incoming = null; state.tab = add.length || upd ? "routines" : "train"; state.editing = null;
   const msg = [add.length ? (add.length === 1 ? T("Rutina añadida") : T("Añadidas {n} rutinas", { n: add.length })) : "", upd ? (upd === 1 ? T("1 rutina actualizada") : T("{n} rutinas actualizadas", { n: upd })) : "", plan ? T("plan añadido") : ""].filter(Boolean).join(" · ");
   toast(msg || T("Nada que añadir")); render(); window.scrollTo(0, 0);

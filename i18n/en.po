@@ -68,6 +68,9 @@ msgstr "Could it help someone? Send them the link."
 msgid "¿Pasar igualmente a {x}? Las series pendientes quedan sin hacer."
 msgstr "Move on to {x} anyway? Pending sets stay undone."
 
+msgid "¿Qué quieres conseguir? Cuanto más concreto, mejor"
+msgstr "What do you want to achieve? The more specific, the better"
+
 #, python-brace-format
 msgid "¿Quitar \"{x}\" de la sesión?"
 msgstr "Remove \"{x}\" from the session?"
@@ -95,6 +98,9 @@ msgstr "A clearly visible “Exercise done” card with the upcoming rest and a 
 
 msgid "«Notas del periodo» en todas las pestañas de Stats, y las notas de cada ejercicio en su historial."
 msgstr "“Notes for the period” in every Stats tab, and each exercise's notes in its history."
+
+msgid "«Recordar mis respuestas»: el formulario sale rellenado la próxima vez; se guarda en el perfil y va en la copia completa."
+msgstr "“Remember my answers”: the form comes pre-filled next time; it's saved in the profile and included in the full backup."
 
 msgid "(copia)"
 msgstr "(copy)"
@@ -317,6 +323,9 @@ msgstr "Typical bedtime"
 msgid "Activa «Preguntar el esfuerzo al terminar» en Ajustes → Entreno."
 msgstr "Turn on “Ask for effort at the end” in Settings → Workout."
 
+msgid "Activa (trabajo físico)"
+msgstr "Active (physical work)"
+
 msgid "Activar"
 msgstr "Activate"
 
@@ -325,6 +334,9 @@ msgstr "Activity"
 
 msgid "Actividad eliminada"
 msgstr "Activity deleted"
+
+msgid "Actividad fuera del entreno"
+msgstr "Activity outside training"
 
 msgid "Actividad guardada"
 msgstr "Activity saved"
@@ -386,8 +398,14 @@ msgstr "When linking a name like “Dips (3 s lowering)”, the part in brackets
 msgid "Algo exigente"
 msgstr "Somewhat hard"
 
+msgid "Algo más"
+msgstr "Anything else"
+
 msgid "Algo no funciona como debería"
 msgstr "Something isn't working as it should"
+
+msgid "Alimentación"
+msgstr "Diet"
 
 msgid "Alternativas"
 msgstr "Alternatives"
@@ -433,6 +451,9 @@ msgstr "before"
 
 msgid "Antes de añadir otro perfil, completa el tuyo. Tus datos no cambian."
 msgstr "Before adding another profile, complete yours. Your data doesn't change."
+
+msgid "Antes de empezar"
+msgstr "Before you start"
 
 msgid "Antes de empezar:"
 msgstr "Before you start:"
@@ -584,6 +605,9 @@ msgstr "Alerts"
 
 msgid "Avisos automáticos con Obtainium"
 msgstr "Automatic alerts with Obtainium"
+
+msgid "Avisos claros: una IA no es un entrenador ni un profesional sanitario, y vas a compartir datos de salud con un servicio externo. Usus no envía nada."
+msgstr "Clear notices: an AI is not a coach or a health professional, and you'll be sharing health data with an external service. Usus sends nothing."
 
 msgid "Avisos de sonido más suaves."
 msgstr "Softer sound alerts."
@@ -742,6 +766,9 @@ msgstr "Cancel"
 msgid "Cansado"
 msgstr "Tired"
 
+msgid "Cansado o con mucho estrés"
+msgstr "Tired or very stressed"
+
 msgid "Cansancio"
 msgstr "Tiredness"
 
@@ -760,6 +787,9 @@ msgstr "Load: {m} min × {p} = {c}"
 
 msgid "Cargando…"
 msgstr "Loading…"
+
+msgid "Casa"
+msgstr "Home"
 
 msgid "Casi al límite"
 msgstr "Near maximal"
@@ -855,6 +885,9 @@ msgstr "Once two periods are logged you'll see each cycle's length here."
 msgid "Con embarazo, lactancia, anticonceptivos hormonales o en la perimenopausia el ciclo cambia o desaparece, y una previsión basada en ciclos anteriores no sería fiable. En pausa puedes seguir anotando sangrado y síntomas."
 msgstr "With pregnancy, breastfeeding, hormonal contraception or perimenopause the cycle changes or stops, so a forecast based on previous cycles wouldn't be reliable. While paused you can still log bleeding and symptoms."
 
+msgid "Con energía"
+msgstr "Full of energy"
+
 msgid "Con fuerza"
 msgstr "With strength"
 
@@ -863,6 +896,9 @@ msgstr "weighted"
 
 msgid "Con nota"
 msgstr "With a note"
+
+msgid "Con variantes, Usus usa su plan de progresión: Hoy te dice qué toca cada semana."
+msgstr "With variants, Usus uses its progression plan: Today tells you what's on each week."
 
 msgid "Condiciones de salud relevantes"
 msgstr "Relevant health conditions"
@@ -911,6 +947,9 @@ msgstr "Copy {x} address"
 msgid "Copiar enlace"
 msgstr "Copy link"
 
+msgid "Copiar indicaciones"
+msgstr "Copy instructions"
+
 msgid "Copiar rutinas a otro perfil"
 msgstr "Copy routines to another profile"
 
@@ -935,6 +974,12 @@ msgstr "Create profile"
 
 msgid "Crear plan"
 msgstr "Create plan"
+
+msgid "Crear plan con IA"
+msgstr "Create a plan with AI"
+
+msgid "Crear plan con IA (Entreno → Plan y Progreso → Resumen): en 4 pasos (sobre ti, qué buscas, tu semana y para la IA) Usus prepara unas indicaciones con tus datos, cómo debe responder la IA y el enlace al catálogo de ejercicios. Las copias o exportas, las pegas en tu IA y su respuesta vuelve a Usus para revisarla antes de importar."
+msgstr "Create a plan with AI (Workout → Plan and Progress → Summary): in 4 steps (about you, your goals, your week and for the AI) Usus prepares instructions with your data, how the AI should answer and the link to the exercise catalogue. Copy or export them, paste them into your AI and bring its answer back to Usus to review before importing."
 
 msgid "Cuándo"
 msgstr "When"
@@ -997,11 +1042,23 @@ msgstr "Data and backups"
 msgid "de ~{n}"
 msgstr "of ~{n}"
 
+msgid "de Mi material"
+msgstr "from My equipment"
+
 msgid "deben estar en la misma sección"
 msgstr "they must be in the same section"
 
 msgid "Dejar como propio"
 msgstr "Keep as my own"
+
+msgid "del diario"
+msgstr "from diary"
+
+msgid "del perfil"
+msgstr "from profile"
+
+msgid "del registro"
+msgstr "from log"
 
 msgid "der."
 msgstr "R"
@@ -1104,6 +1161,9 @@ msgstr "Day {n}"
 msgid "Día {n} del ciclo"
 msgstr "Cycle day {n}"
 
+msgid "Día a día"
+msgstr "Day to day"
+
 msgid "Día anterior"
 msgstr "Previous day"
 
@@ -1150,6 +1210,9 @@ msgstr "Days before"
 msgid "Días en que se sugiere"
 msgstr "Days it's suggested"
 
+msgid "Días que puedes entrenar"
+msgstr "Days you can train"
+
 msgid "Días registrados"
 msgstr "Days logged"
 
@@ -1182,6 +1245,9 @@ msgstr "Headache"
 msgid "Dolores o molestias actuales"
 msgstr "Current pain or discomfort"
 
+msgid "Dónde entrenas"
+msgstr "Where you train"
+
 msgid "Dosis"
 msgstr "Dose"
 
@@ -1199,6 +1265,9 @@ msgstr "Duration"
 
 msgid "Duración del ciclo: media de los últimos 6 (28 días hasta tener 2 registrados). Regla prevista: último inicio + esa media, con un margen según lo que varían tus ciclos. Ovulación aproximada: 14 días antes de la regla siguiente. Ventana fértil: de 5 días antes a 1 día después de la ovulación."
 msgstr "Cycle length: average of the last 6 (28 days until 2 are logged). Expected period: last start + that average, with a margin based on how much your cycles vary. Approx. ovulation: 14 days before the next period. Fertile window: from 5 days before to 1 day after ovulation."
+
+msgid "Duración del plan"
+msgstr "Plan length"
 
 msgid "Duración media de la regla"
 msgstr "Average period length"
@@ -1233,8 +1302,14 @@ msgstr "More compact routine editor on phones: one row per exercise with its sum
 msgid "Ej. 10 dominadas, perder 3 kg, dormir mejor"
 msgstr "E.g. 10 pull-ups, lose 3 kg, sleep better"
 
+msgid "Ej. 10 dominadas, primer pino contra la pared, bajar 4 kg"
+msgstr "E.g. 10 pull-ups, first wall handstand, lose 4 kg"
+
 msgid "Ej. 2 años de calistenia, antes fútbol"
 msgstr "E.g. 2 years of calisthenics, football before"
+
+msgid "Ej. 7 h"
+msgstr "E.g. 7 h"
 
 msgid "Ej. A, B, C. Vacío = se sugiere en cualquier semana, también en descarga (como la Diaria)."
 msgstr "E.g. A, B, C. Empty = suggested in any week, including deload (like Daily)."
@@ -1254,17 +1329,29 @@ msgstr "E.g. Cristina"
 msgid "Ej. lumbar al levantarme por la mañana"
 msgstr "E.g. lower back when getting up in the morning"
 
+msgid "Ej. mañana, al salir del trabajo"
+msgstr "E.g. morning, after work"
+
 msgid "Ej. mochila, toalla, escalón"
 msgstr "E.g. backpack, towel, step"
 
 msgid "Ej. molestia en el codo, banda verde, agarre más abierto…"
 msgstr "E.g. elbow discomfort, green band, wider grip…"
 
+msgid "Ej. pádel los sábados"
+msgstr "E.g. padel on Saturdays"
+
 msgid "Ej. rotura de menisco izquierdo (2019)"
 msgstr "E.g. torn left meniscus (2019)"
 
+msgid "Ej. saltos, carrera, nada de rodillas en el suelo"
+msgstr "E.g. jumps, running, nothing kneeling on the floor"
+
 msgid "Ej. Torso A"
 msgstr "E.g. Upper A"
+
+msgid "Ej. vegetariana, en déficit, 2 comidas al día"
+msgstr "E.g. vegetarian, in a deficit, 2 meals a day"
 
 msgid "Ejercicio"
 msgstr "Exercise"
@@ -1283,6 +1370,9 @@ msgstr "exercises"
 msgid "Ejercicios"
 msgstr "Exercises"
 
+msgid "Ejercicios que no puedes o no quieres hacer"
+msgstr "Exercises you can't or don't want to do"
+
 msgid "Ejercicios vs objetivo"
 msgstr "Exercises vs target"
 
@@ -1291,6 +1381,9 @@ msgstr "Exercises and sets"
 
 msgid "El archivo no es un JSON válido"
 msgstr "The file isn't valid JSON"
+
+msgid "El catálogo de ejercicios no se copia: las indicaciones llevan el enlace para que la IA lo consulte."
+msgstr "The exercise catalogue isn't copied: the instructions include the link for the AI to check it."
 
 msgid "El enlace no es válido o está incompleto"
 msgstr "The link is invalid or incomplete"
@@ -1415,6 +1508,9 @@ msgstr "On women's profiles, optional period log, only on this phone."
 msgid "En un ordenador o una tablet en horizontal, el editor se abre en modo amplio: cada ejercicio en una fila y el catálogo al lado para tocar o arrastrar."
 msgstr "On a computer or a tablet in landscape, the editor opens in wide mode: each exercise on one row and the catalogue alongside to tap or drag."
 
+msgid "Energía y estrés"
+msgstr "Energy and stress"
+
 msgid "Enlace"
 msgstr "Link"
 
@@ -1534,6 +1630,9 @@ msgstr "Export .txt"
 msgid "Exportar .zip"
 msgstr "Export .zip"
 
+msgid "Exportar a .txt"
+msgstr "Export as .txt"
+
 msgid "Exportar ahora"
 msgstr "Export now"
 
@@ -1592,11 +1691,17 @@ msgstr "Strength"
 msgid "Full body"
 msgstr "Full body"
 
+msgid "Ganar músculo"
+msgstr "Build muscle"
+
 msgid "Generar texto"
 msgstr "Generate text"
 
 msgid "Gestionar"
 msgstr "Manage"
+
+msgid "Gimnasio"
+msgstr "Gym"
 
 msgid "Gran sesión"
 msgstr "Great session"
@@ -1621,6 +1726,9 @@ msgstr "Save routine"
 
 msgid "Ha terminado hoy"
 msgstr "It ended today"
+
+msgid "Habilidades (dominadas, pino, muscle-up…)"
+msgstr "Skills (pull-ups, handstand, muscle-up…)"
 
 msgid "Hábitos"
 msgstr "Habits"
@@ -1753,11 +1861,17 @@ msgstr "Include warm-up and cool-down"
 msgid "Incluir datos técnicos"
 msgstr "Include technical details"
 
+msgid "Incluir en las indicaciones"
+msgstr "Include in the instructions"
+
 msgid "Incluir plan de progresión"
 msgstr "Include progression plan"
 
 msgid "Incluye un plan, que sustituirá al actual."
 msgstr "Includes a plan, which will replace the current one."
+
+msgid "Indicaciones copiadas"
+msgstr "Instructions copied"
 
 msgid "Informar de un problema"
 msgstr "Report a problem"
@@ -1839,6 +1953,9 @@ msgstr "The night that ends on this day."
 
 msgid "La pantalla se mantiene encendida durante toda la sesión, no solo en las cuentas atrás."
 msgstr "The screen stays on during the whole session, not just during countdowns."
+
+msgid "La próxima vez el formulario sale ya rellenado. Se guardan solo en este dispositivo, en tu perfil, y van en la copia completa."
+msgstr "Next time the form comes pre-filled. Saved only on this device, in your profile, and included in the full backup."
 
 #, python-brace-format
 msgid "La regla podría bajarte en {n} días"
@@ -2037,6 +2154,9 @@ msgstr "Best set per side (reps) per session"
 msgid "Mejor volumen"
 msgstr "Best volume"
 
+msgid "Mejores series de las últimas 8 semanas, para partir de tu nivel real."
+msgstr "Best sets from the last 8 weeks, to start from your real level."
+
 msgid "Menos"
 msgstr "Less"
 
@@ -2061,11 +2181,23 @@ msgstr "My equipment (Settings → Workout) and equipment for your own exercises
 msgid "Minutos"
 msgstr "Minutes"
 
+msgid "Minutos por sesión"
+msgstr "Minutes per session"
+
+msgid "Mis marcas recientes"
+msgstr "My recent bests"
+
 msgid "Mis planes"
 msgstr "My plans"
 
+msgid "Mis rutinas actuales"
+msgstr "My current routines"
+
 msgid "Moderada"
 msgstr "Medium"
+
+msgid "Moderada (de pie, caminar)"
+msgstr "Moderate (standing, walking)"
 
 msgid "Moderado"
 msgstr "Moderate"
@@ -2084,6 +2216,9 @@ msgstr "Time of day"
 
 msgid "Momento (opcional)"
 msgstr "Time of day (optional)"
+
+msgid "Momento del día"
+msgstr "Time of day"
 
 msgid "Mostrar la fase del ciclo"
 msgstr "Show the cycle phase"
@@ -2225,6 +2360,9 @@ msgstr "Section name"
 msgid "Nombre del ejercicio"
 msgstr "Exercise name"
 
+msgid "Normal"
+msgstr "Normal"
+
 msgid "Nota"
 msgstr "Note"
 
@@ -2323,6 +2461,9 @@ msgstr "Daily step goal"
 msgid "Objetivo guardado"
 msgstr "Goal saved"
 
+msgid "Objetivo principal (hasta 2)"
+msgstr "Main goal (up to 2)"
+
 msgid "Objetivo quitado"
 msgstr "Target removed"
 
@@ -2388,6 +2529,9 @@ msgstr "Other reason"
 msgid "Otros"
 msgstr "Other"
 
+msgid "Otros deportes o actividades"
+msgstr "Other sports or activities"
+
 msgid "Ovulación (aprox.)"
 msgstr "Ovulation (approx.)"
 
@@ -2412,8 +2556,14 @@ msgstr "To target ({g})"
 msgid "Para elegir ejercicios al crear rutinas y saber cómo avanzar."
 msgstr "To pick exercises when building routines and know how to progress."
 
+msgid "Para la IA"
+msgstr "For the AI"
+
 msgid "Para que funcione, pon a cada rutina su variante y sus días al editarla."
 msgstr "For it to work, give each routine its variant and days when editing it."
+
+msgid "Para que las mejore o las respete (p. ej. una rutina diaria)."
+msgstr "So it improves or keeps them (e.g. a daily routine)."
 
 msgid "Para qué lo usarías"
 msgstr "What you'd use it for"
@@ -2429,6 +2579,9 @@ msgstr "Stop"
 
 msgid "Pared"
 msgstr "Wall"
+
+msgid "Parque / al aire libre"
+msgstr "Park / outdoors"
 
 msgid "Pasa a ser el plan activo; el actual queda guardado en Mis planes."
 msgstr "It becomes the active plan; the current one stays saved in My plans."
@@ -2483,6 +2636,12 @@ msgstr "Chest"
 msgid "Pega aquí la respuesta de la IA"
 msgstr "Paste the AI's reply here"
 
+msgid "Pega aquí su respuesta completa. Usus solo lee el bloque de datos y te enseña las rutinas y el plan antes de importar nada."
+msgstr "Paste its full answer here. Usus only reads the data block and shows you the routines and plan before importing anything."
+
+msgid "Pégalas en una conversación nueva de tu IA (ChatGPT, Claude, Gemini…) o sube el archivo."
+msgstr "Paste them into a new chat with your AI (ChatGPT, Claude, Gemini…) or upload the file."
+
 msgid "Pégalo en una conversación nueva de la IA que uses, o sube el archivo .txt. Si es muy largo para tu IA, prueba con menos semanas."
 msgstr "Paste it into a new chat with the AI you use, or upload the .txt file. If it's too long for your AI, try fewer weeks."
 
@@ -2510,6 +2669,9 @@ msgstr "Pending this week"
 
 msgid "peor lado"
 msgstr "weaker side"
+
+msgid "Perder grasa"
+msgstr "Lose fat"
 
 msgid "Perfil"
 msgstr "Profile"
@@ -2540,6 +2702,9 @@ msgstr "Weigh-ins"
 
 msgid "Peso"
 msgstr "Weight"
+
+msgid "Peso (kg)"
+msgstr "Weight (kg)"
 
 msgid "Peso en kg"
 msgstr "Weight in kg"
@@ -2579,6 +2744,12 @@ msgstr "Active plan: {x}"
 
 msgid "plan añadido"
 msgstr "plan added"
+
+msgid "plan con IA"
+msgstr "AI plan"
+
+msgid "Plan con IA"
+msgstr "AI plan"
 
 msgid "Plan desactivado: Hoy no lo tiene en cuenta."
 msgstr "Plan turned off: Today ignores it."
@@ -2714,6 +2885,9 @@ msgstr "Suggest an improvement"
 msgid "propuesta"
 msgstr "suggested"
 
+msgid "Propuesta de la IA"
+msgstr "AI proposal"
+
 msgid "Propuestas aceptadas"
 msgstr "Suggestions accepted"
 
@@ -2730,6 +2904,9 @@ msgstr "Next period: {d} (± {n} d) · in {m} days"
 
 msgid "Próximas fechas"
 msgstr "Upcoming dates"
+
+msgid "Qué buscas"
+msgstr "Your goals"
 
 msgid "Qué esperabas"
 msgstr "What you expected"
@@ -2787,6 +2964,9 @@ msgstr "Resume"
 
 msgid "récord"
 msgstr "PR"
+
+msgid "Recordar mis respuestas"
+msgstr "Remember my answers"
 
 msgid "Récords"
 msgstr "PRs"
@@ -2881,6 +3061,9 @@ msgstr "reps · L/R"
 msgid "Reps de las últimas 4 semanas. Aviso si un lado rinde más de un 10% menos."
 msgstr "Reps over the last 4 weeks. Flagged if one side does over 10% less."
 
+msgid "Resistencia"
+msgstr "Endurance"
+
 msgid "Respiración marcada; aún bastante margen."
 msgstr "Heavier breathing; still quite a lot left."
 
@@ -2902,6 +3085,9 @@ msgstr "Go back"
 
 msgid "Revisar rutinas propuestas"
 msgstr "Review suggested routines"
+
+msgid "Revisar rutinas y plan"
+msgstr "Review routines and plan"
 
 msgid "Revisión (opcional)"
 msgstr "Review (optional)"
@@ -2970,6 +3156,9 @@ msgstr "Skip"
 msgid "Saltar ejercicio"
 msgstr "Skip exercise"
 
+msgid "Salud y movilidad"
+msgstr "Health and mobility"
+
 msgid "Se abrirá GitHub con el formulario preparado."
 msgstr "GitHub will open with the form ready."
 
@@ -3024,6 +3213,9 @@ msgstr "Section {n}"
 
 msgid "Secciones"
 msgstr "Sections"
+
+msgid "Sedentaria (oficina, coche)"
+msgstr "Sedentary (office, car)"
 
 msgid "seg"
 msgstr "sec"
@@ -3269,6 +3461,9 @@ msgstr "It's only for logging your period and symptoms and seeing an estimate of
 msgid "sobre la media de las 4 anteriores. Si no fue a propósito, vigila el descanso."
 msgstr "over the average of the previous 4. If it wasn't on purpose, watch your rest."
 
+msgid "Sobre ti"
+msgstr "About you"
+
 msgid "Sobre ti (para interpretar los datos)"
 msgstr "About you (to interpret the data)"
 
@@ -3443,6 +3638,9 @@ msgstr "Group type"
 msgid "Tipo de movimiento"
 msgstr "Movement type"
 
+msgid "Tipo de plan"
+msgstr "Plan type"
+
 msgid "Toca hoy"
 msgstr "Due today"
 
@@ -3519,6 +3717,9 @@ msgstr "Your profile"
 msgid "Tu progresión"
 msgstr "Your progression"
 
+msgid "Tu semana"
+msgstr "Your week"
+
 msgid "Tus datos se guardan solo en este dispositivo. Haz copias desde Ajustes: si borras el navegador o desinstalas la app, se pierden."
 msgstr "Your data is stored only on this device. Make backups from Settings: clearing the browser or uninstalling the app deletes it."
 
@@ -3568,6 +3769,12 @@ msgstr "One column per session: write what you did (e.g. 8·8·7·6)"
 msgid "Una hoja por ejercicio con muchas fechas para ver su progresión."
 msgstr "One sheet per exercise with many dates to track its progress."
 
+msgid "Una IA no es un entrenador ni un profesional sanitario. Si tienes lesiones, dolor, una condición de salud, estás embarazada o hace tiempo que no entrenas, consulta antes con un profesional. Todo es opcional."
+msgstr "An AI is not a coach or a health professional. If you have injuries, pain, a health condition, are pregnant or haven't trained in a while, check with a professional first. Everything is optional."
+
+msgid "Una rutina por día, siempre igual"
+msgstr "One routine per day, always the same"
+
 msgid "Une tus nombres con las fichas del catálogo"
 msgstr "Link your names to the catalogue cards"
 
@@ -3593,6 +3800,9 @@ msgstr "Usus is a web app (PWA): you install it from the browser, no app store, 
 #, python-brace-format
 msgid "Usus incluye un catálogo opcional de {n} ejercicios de calistenia, cada uno con su ficha: para qué sirve, cómo se hace, errores típicos, material y progresión."
 msgstr "Usus includes an optional catalogue of {n} calisthenics exercises, each with its own card: what it's for, how to do it, common mistakes, equipment and progression."
+
+msgid "Usus no envía nada: lo copias o compartes tú. Lo que pase después depende de la IA que elijas; revisa su política de privacidad. El plan lo hace una IA, no un entrenador ni un profesional sanitario: revísalo y escucha a tu cuerpo."
+msgstr "Usus sends nothing: you copy or share it yourself. What happens next depends on the AI you choose; check its privacy policy. The plan is made by an AI, not a coach or a health professional: review it and listen to your body."
 
 msgid "Usus prepara un texto con tus datos y las instrucciones para que una IA (ChatGPT, Claude, Gemini…) los analice. Usus no envía nada: lo copias o compartes tú."
 msgstr "Usus prepares a text with your data and instructions for an AI (ChatGPT, Claude, Gemini…) to analyse it. Usus sends nothing: you copy or share it yourself."
@@ -3641,11 +3851,17 @@ msgstr "Repeated variant: automatic increase from your plan."
 msgid "Variantes del mismo nivel"
 msgstr "Variations at the same level"
 
+msgid "Variantes que rotan (A, B, C) con descarga"
+msgstr "Rotating variants (A, B, C) with deload"
+
 msgid "Varias personas pueden usar Usus en este móvil, cada una con sus propios datos y ajustes."
 msgstr "Several people can use Usus on this phone, each with their own data and settings."
 
 msgid "Varios planes: el activo marca Hoy y los demás quedan guardados para activar, duplicar o borrar. Cada plan puede tener nombre."
 msgstr "Several plans: the active one drives Today and the rest stay saved to activate, duplicate or delete. Each plan can have a name."
+
+msgid "Varios sitios"
+msgstr "Several places"
 
 msgid "Vas a compartir datos de salud con un servicio externo"
 msgstr "You're about to share health data with an external service"

@@ -1,5 +1,10 @@
 /* ---------- Novedades (una vez por versión; historial al tocar la versión) ---------- */
 const CHANGES = [  // Novedades: solo en castellano; las traducciones, en i18n/*.po
+  ["3.1.0", [
+    N_("Crear plan con IA (Entreno → Plan y Progreso → Resumen): en 4 pasos (sobre ti, qué buscas, tu semana y para la IA) Usus prepara unas indicaciones con tus datos, cómo debe responder la IA y el enlace al catálogo de ejercicios. Las copias o exportas, las pegas en tu IA y su respuesta vuelve a Usus para revisarla antes de importar."),
+    N_("Avisos claros: una IA no es un entrenador ni un profesional sanitario, y vas a compartir datos de salud con un servicio externo. Usus no envía nada."),
+    N_("«Recordar mis respuestas»: el formulario sale rellenado la próxima vez; se guarda en el perfil y va en la copia completa.")
+  ]],
   ["3.0.0", [
     N_("Nueva estructura: Hoy · Entreno · Diario · Progreso · Ajustes. Entreno reúne Rutinas, Plan y Ejercicios; Stats pasa a llamarse Progreso."),
     N_("Hoy: lo que toca, arriba y con un único botón Empezar; accesos rápidos a otra rutina, sesión libre y actividad; los avisos, juntos en «Pendiente»."),

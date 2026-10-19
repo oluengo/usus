@@ -47,6 +47,7 @@ Para probar la beta con tus datos, exporta una copia en la versión normal e imp
 - **Diario.** Sueño, suplementos, pasos, peso, actividad (caminar, correr, bici…) y notas. Solo se ve lo que has anotado; lo demás se añade con un toque.
 - **Progreso.** Constancia, récords, progreso por ejercicio, equilibrio entre lados y hábitos, en bloques que puedes ordenar u ocultar. Los días con notas llevan un punto: tócalo y ves por qué (no entrenaste, molestias, un cambio de ejercicio…).
 - **Análisis con IA** *(opcional, externa).* Usus prepara un texto con tus datos y las instrucciones para que la IA que prefieras haga un informe con gráficos, listo para imprimir. Usus no envía nada: lo copias o compartes tú.
+- **Crear plan con IA** *(opcional).* Usus te hace unas preguntas (sobre ti, qué buscas, tu semana) y prepara unas indicaciones para la IA que prefieras, con el formato de las rutinas y el enlace al catálogo. Pegas su respuesta en Usus, la revisas y la importas. Una IA no es un entrenador ni un profesional sanitario.
 - **Perfiles.** Varias personas en el mismo móvil, cada una con sus datos, ajustes y copia de seguridad.
 - **Ciclo** *(opcional, en perfiles de mujer).* Registro de la regla con una estimación aproximada de la próxima. No es un anticonceptivo ni un diagnóstico.
 - **Compartir.** Un entreno como imagen o texto, o tus rutinas y tu plan mediante un enlace que lleva los datos dentro, sin pasar por ningún servidor.
@@ -146,6 +147,7 @@ To try the beta with your data, export a backup in the regular version and impor
 - **Diary.** Sleep, supplements, steps, weight, activity (walking, running, cycling…) and notes. Only what you logged is shown; add the rest with one tap.
 - **Progress.** Consistency, PRs, progress per exercise, left/right balance and habits, in blocks you can reorder or hide. Days with notes get a dot: tap it to see why (you skipped training, aches, a swapped exercise…).
 - **AI analysis** *(optional, external).* Usus prepares a text with your data and instructions for the AI of your choice to write a report with charts, ready to print. Usus sends nothing: you copy or share it yourself.
+- **Create a plan with AI** *(optional).* Usus asks a few questions (about you, your goals, your week) and prepares instructions for the AI of your choice, with the routine format and the catalogue link. Paste its answer back into Usus, review it and import it. An AI is not a coach or a health professional.
 - **Profiles.** Several people on the same phone, each with their own data, settings and backup.
 - **Cycle** *(optional, on women's profiles).* Period log with an approximate estimate of the next one. Not a contraceptive method or a diagnosis.
 - **Share.** A workout as an image or text, or your routines and plan through a link that carries the data itself, with no server involved.
