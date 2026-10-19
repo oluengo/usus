@@ -111,11 +111,25 @@ msgid "{e} ejercicios · {s} series"
 msgstr ""
 
 #, python-brace-format
+msgid "{e} ejercicios · ≈ {m} min"
+msgstr ""
+
+#, python-brace-format
 msgid "{n} de {m} seleccionadas · sin tus sesiones ni registros."
 msgstr ""
 
 #, python-brace-format
 msgid "{n} de {n} series"
+msgstr ""
+
+#, python-brace-format
+msgid "{n} ejercicio"
+msgid_plural "{n} ejercicios"
+msgstr[0] ""
+msgstr[1] ""
+
+#, python-brace-format
+msgid "{n} ejercicio"
 msgstr ""
 
 #, python-brace-format
@@ -382,6 +396,9 @@ msgstr ""
 msgid "Anota tus pasos en Diario → Pasos para verlos aquí."
 msgstr ""
 
+msgid "Anotar"
+msgstr ""
+
 msgid "Anteayer"
 msgstr ""
 
@@ -465,9 +482,6 @@ msgstr ""
 msgid "Apoyar el proyecto"
 msgstr ""
 
-msgid "App"
-msgstr ""
-
 msgid "App Android"
 msgstr ""
 
@@ -531,6 +545,9 @@ msgstr ""
 
 #, python-brace-format
 msgid "Aviso final: {n} s"
+msgstr ""
+
+msgid "Avisos"
 msgstr ""
 
 msgid "Avisos automáticos con Obtainium"
@@ -967,9 +984,6 @@ msgid "Desactivado: solo tus ejercicios"
 msgstr ""
 
 msgid "Desactivados"
-msgstr ""
-
-msgid "desc."
 msgstr ""
 
 msgid "Desc."
@@ -1436,16 +1450,19 @@ msgstr ""
 msgid "Esta copia es de una versión más nueva de Usus. Actualiza la app para importarla completa. ¿Importar igualmente lo que se pueda?"
 msgstr ""
 
+msgid "esta semana"
+msgstr ""
+
 msgid "Esta semana"
 msgstr ""
 
 msgid "Esta semana no"
 msgstr ""
 
-msgid "Estadísticas"
+msgid "Este navegador no permite vibrar"
 msgstr ""
 
-msgid "Este navegador no permite vibrar"
+msgid "Este perfil"
 msgstr ""
 
 msgid "Estimación aproximada a partir de tus ciclos anteriores. No sirve como anticonceptivo ni como diagnóstico."
@@ -1993,9 +2010,6 @@ msgstr ""
 msgid "Mis planes"
 msgstr ""
 
-msgid "Mis rutinas"
-msgstr ""
-
 msgid "Moderada"
 msgstr ""
 
@@ -2296,7 +2310,7 @@ msgstr ""
 msgid "Oscuro cálido, sin azul"
 msgstr ""
 
-msgid "Otra rutina…"
+msgid "Otra rutina"
 msgstr ""
 
 msgid "Otras opciones del mismo nivel"
@@ -2424,6 +2438,9 @@ msgstr ""
 msgid "PEM media · 4 semanas"
 msgstr ""
 
+msgid "Pendiente"
+msgstr ""
+
 #, python-brace-format
 msgid "Pendiente desde el {d}"
 msgstr ""
@@ -2441,6 +2458,9 @@ msgid "Perfil guardado"
 msgstr ""
 
 msgid "Perfiles"
+msgstr ""
+
+msgid "Perfiles y datos personales"
 msgstr ""
 
 msgid "Perfiles: varias personas en el mismo móvil, cada una con sus datos, ajustes y copia de seguridad. Se cambia desde Hoy o Ajustes. Se pueden copiar rutinas de un perfil a otro."
@@ -2614,6 +2634,9 @@ msgid "Progresión"
 msgstr ""
 
 msgid "Progresión: al terminar una sesión, propuesta de subir al siguiente ejercicio o de volver al anterior. Se ajusta en Ajustes → Entreno."
+msgstr ""
+
+msgid "Progreso"
 msgstr ""
 
 msgid "propio"
@@ -2923,10 +2946,6 @@ msgstr ""
 msgid "Se muestran en Stats → Resumen. 0 = no mostrar. Fuerza = cualquier bloque salvo Diaria, Cardio y Otro."
 msgstr ""
 
-#, python-brace-format
-msgid "Se muestran los 6 últimos de {n}."
-msgstr ""
-
 msgid "Se ofrece tal cual, sin garantías de ningún tipo. La usas bajo tu responsabilidad."
 msgstr ""
 
@@ -3199,6 +3218,10 @@ msgstr ""
 msgid "Software libre bajo licencia MIT: puedes usarlo, copiarlo, modificarlo y distribuirlo, también con fines comerciales, manteniendo el aviso de copyright y de licencia."
 msgstr ""
 
+#, python-brace-format
+msgid "Solo afecta a {x}."
+msgstr ""
+
 msgid "Solo con mi material"
 msgstr ""
 
@@ -3244,9 +3267,6 @@ msgid "Solo vibración"
 msgstr ""
 
 msgid "Sonido y vibración"
-msgstr ""
-
-msgid "Stats"
 msgstr ""
 
 msgid "Subir"
@@ -3357,6 +3377,9 @@ msgstr ""
 msgid "Tiempos"
 msgstr ""
 
+msgid "Tiempos, esfuerzo, objetivos y catálogo"
+msgstr ""
+
 msgid "Tipo"
 msgstr ""
 
@@ -3400,10 +3423,6 @@ msgstr ""
 msgid "Todo en tablas (.zip) para analizarlo en una hoja de cálculo."
 msgstr ""
 
-#, python-brace-format
-msgid "Todo lo de esta pantalla es solo de {x}."
-msgstr ""
-
 msgid "Todo lo que tenías."
 msgstr ""
 
@@ -3429,9 +3448,6 @@ msgid "Tracción horizontal"
 msgstr ""
 
 msgid "Tracción vertical"
-msgstr ""
-
-msgid "tras"
 msgstr ""
 
 msgid "Tres sonidos: tic en los últimos segundos de cualquier cuenta atrás, inicio y fin. La vibración respeta siempre Ajustes → Avisos."
@@ -3593,6 +3609,9 @@ msgid "Ver licencia completa"
 msgstr ""
 
 msgid "Ver notas"
+msgstr ""
+
+msgid "Ver plan"
 msgstr ""
 
 msgid "Ver versiones"

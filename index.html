@@ -595,6 +595,7 @@ textarea{width:100%;font:inherit;padding:10px 12px;border:1px solid var(--line);
 .gseq button.on{border-color:var(--ext);color:var(--ext);font-weight:700}
 @media (min-width:1000px){
   .wrap,nav.tabs .in{max-width:880px}
+  body.stw .wrap{max-width:1100px}
   body.edw .wrap{max-width:1180px}
   body.edw .edgrid.hascat{display:grid;grid-template-columns:minmax(0,1fr) 270px;gap:20px;align-items:start}
   body.edw .edcat{display:block;position:sticky;top:12px;max-height:calc(100vh - 110px);overflow:auto}
@@ -647,34 +648,88 @@ textarea{width:100%;font:inherit;padding:10px 12px;border:1px solid var(--line);
   body.edw .egh .fld input{height:34px}
   body.edw .sech input{font-size:1rem}
 }
+/* 3.0 · Estructura: cabecera, pestañas subrayadas, listas en filas, pantallas con Atrás */
+.phead{display:flex;align-items:center;gap:8px;margin:4px 0 16px;min-height:44px}
+.phead h1{flex:1;margin:0;font-size:1.75rem;line-height:1.15}
+.phead .sub{text-align:right}
+.utabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin:0 0 16px;overflow-x:auto;scrollbar-width:none}
+.utabs button{border:0;background:none;padding:10px 12px;font-weight:600;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap;min-height:44px}
+.utabs button[aria-selected=true]{color:var(--accent);border-bottom-color:var(--accent)}
+.glabel{font-size:.75rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:20px 4px 8px}
+.glabel:first-child{margin-top:4px}
+.lgroup{background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.lrow{display:flex;align-items:center;gap:12px;width:100%;min-height:56px;padding:10px 16px;border:0;border-top:1px solid var(--line);background:none;color:inherit;text-align:left;font:inherit}
+.lrow:first-child{border-top:0}
+.lrow .t{flex:1;min-width:0}.lrow .t b{display:block;font-weight:600;overflow:hidden;text-overflow:ellipsis}
+.lrow .t small{display:block;color:var(--muted);font-size:.82rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lrow .chev{color:var(--muted);font-size:1.2rem}
+.lico{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent);flex:none}
+.lico svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.back{display:inline-flex;align-items:center;gap:4px;border:0;background:none;color:var(--accent);font-weight:600;padding:10px 0;min-height:44px}
+.btn.icon{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;padding:0}
+.btn.icon svg,.btn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.btn.primary svg{fill:currentColor;stroke:none}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px}
+/* Hoy */
+.today{border-width:1.5px}
+.sugr .sn{flex:1;min-width:0}.sugr .sn small{display:block;color:var(--muted);font-size:.8rem}
+.sugr.pri .sn{font-weight:600;font-size:1.05rem}
+.sugr.pri .btn{padding:10px 18px;font-size:1rem}
+.quick{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:12px}
+.quick .btn{flex-direction:column;gap:4px;padding:12px 4px;font-size:.85rem;font-weight:600}
+.quick .btn svg{width:20px;height:20px}
+.plist2{background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.prow{display:grid;grid-template-columns:10px minmax(0,1fr);gap:4px 12px;padding:12px 16px;border-top:1px solid var(--line)}
+.prow:first-child{border-top:0}
+.prow .dot{width:10px;height:10px;border-radius:50%;margin-top:7px}
+.prow .t b{display:block;font-weight:600}.prow .t small{display:block;color:var(--muted);font-size:.85rem}
+.prow .pa{grid-column:2;display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+/* Entreno: rutina */
+.rrow .vchip{flex:none}
 .rdet{display:none}
+.rsplit.hasdet .rlist{display:none}
+.rsplit.hasdet .rdet{display:block}
+#app:has(.rsplit.hasdet) .rtop{display:none}
+.rdh{display:flex;gap:10px;align-items:center}.rdh h2{margin:0;font-size:1.5rem;line-height:1.2}
+.rdet>.sub{margin:6px 0 0}
+.rdact{display:flex;align-items:center;gap:6px;margin:16px 0}.rdact .btn.primary{padding-left:18px;padding-right:18px}.rdact .btn.icon{width:42px;height:42px}
+@media (min-width:1000px){.rdact{gap:8px}.rdact .btn.primary{min-width:140px}}
+.rbody{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:4px 16px}
+.rbody .rex:first-child,.rbody .rsec:first-child+.rex{border-top:0}
+.onlyw{display:none}
+/* Ajustes: grupos */
+.sdet{display:none}
+.ssplit.hasdet .slist{display:none}
+.ssplit.hasdet .sdet{display:block}
+.sdh{font-size:1.75rem;margin:0 0 16px;line-height:1.15}
+.sdet>h2:not(.sdh){font-size:.75rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:24px 4px 8px}
 @media (min-width:1000px){
-  body.rtw .wrap{max-width:1280px;padding:16px 24px 110px}
-  body.rtw .rtop{display:flex;align-items:center;gap:16px;position:sticky;top:0;z-index:5;background:var(--bg);padding:10px 0;border-bottom:1px solid var(--line)}
-  body.rtw .rtop>.row{display:contents}body.rtw .rtop h1{margin:0 8px 0 0;order:0}
-  body.rtw .rtop .rseg{order:1;margin:0;min-width:300px}body.rtw .rtop>.row>:not(h1){order:2}
-  body.rtw .rsplit{display:grid;grid-template-columns:minmax(280px,360px) minmax(0,1fr);gap:20px;align-items:start;margin-top:16px}
-  body.rtw .rsplit>.list{margin-top:0!important;gap:6px}
-  body.rtw .rsplit:not(:has(.rdet)){display:block}body.rtw .rsplit:not(:has(.rdet)) .empty{max-width:640px;margin:40px auto}
-  body.rtw .rcard .rbody,body.rtw .rcard .chev{display:none}
-  body.rtw .rcard.open{border-color:var(--line)}
-  body.rtw .rcard.cur{border-color:var(--accent);background:var(--accent-soft)}
-  body.rtw .rhead{padding:10px 14px}
-  body.rtw .rdet{display:block;position:sticky;top:76px;padding:20px 22px}
-  .rdh{display:flex;gap:12px;align-items:flex-start}.rdh h2{margin:0 0 2px;font-size:1.35rem}
-  .rdact{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 6px}.rdact .btn.primary{min-width:140px}
-  .rdtab{width:100%;border-collapse:collapse;margin-top:10px;font-size:.95rem}
+  body.rtw .wrap{max-width:1280px;padding:16px 24px 40px}
+  .rtop{position:sticky;top:0;z-index:5;background:var(--bg);padding-top:8px}
+  .rsplit{display:grid;grid-template-columns:minmax(280px,380px) minmax(0,1fr);gap:24px;align-items:start}
+  .rsplit .rlist{display:block!important}
+  .rdet{display:block;position:sticky;top:132px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px 24px}
+  #app:has(.rsplit.hasdet) .rtop{display:block}
+  .back{display:none}
+  .onlyw{display:table}.onlyn{display:none}
+  .rdtab{width:100%;border-collapse:collapse;margin-top:4px;font-size:.95rem}
   .rdtab th{font-size:.75rem;font-weight:500;color:var(--muted);text-align:left;padding:6px 8px;border-bottom:1px solid var(--line)}
   .rdtab td{padding:9px 8px;border-bottom:1px solid var(--line)}
   .rdtab .k{width:44px;font-weight:700}.rdtab .n{text-align:right;white-space:nowrap;width:104px;font-variant-numeric:tabular-nums}
   .rdtab .rdsec td{font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding-top:16px;border-bottom:2px solid var(--ink)}
   .rdtab .rdgrp td{font-size:.82rem;font-weight:600;color:var(--ext);padding-top:12px;border-bottom:0}
   .rdtab tr.ing td:first-child{border-left:3px solid var(--ext)}
+  .ssplit{display:grid;grid-template-columns:300px minmax(0,1fr);gap:24px;align-items:start}
+  .ssplit .slist{display:block!important;position:sticky;top:12px}
+  .sdet{display:block}
+  .sdh{margin-top:8px}
   /* Catálogo de ejercicios en rejilla */
   body.rtw .chips.xchips{flex-wrap:wrap;overflow:visible}
   body.rtw .xlist{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:8px;border:0;background:none;overflow:visible}
   body.rtw .xlist .xrow{background:var(--surface);border:1px solid var(--line);border-radius:12px}
   body.rtw .xlist .xrow:hover{border-color:var(--accent)}
+  .lrow:hover{background:var(--bg)}
+  .lrow.cur,.lrow.cur:hover{background:var(--accent-soft)}
 }
 /* Pantalla ancha: barra de secciones lateral */
 @media (min-width:1000px){
@@ -787,8 +842,6 @@ textarea{width:100%;font:inherit;padding:10px 12px;border:1px solid var(--line);
 .kp2>div{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
 .kp2 b{display:block;font-size:1.1rem;font-variant-numeric:tabular-nums}.kp2 span{color:var(--muted);font-size:.78rem}
 .achart text{fill:var(--muted);font-size:11px}
-.hoybar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:12px -16px 0;padding:8px 16px;background:var(--bg);border-bottom:1px solid var(--line)}
-.hoybar .btn{padding:10px 2px;font-size:.8rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 </style>
 </head>
 <body>
@@ -870,7 +923,7 @@ const store = {
 
 /* ---------- Estado ---------- */
 const state = {
-  tab: "train", routines: [], sessions: [], setTab: LS.get("wk.setTab", "datos"),
+  tab: "train", routines: [], sessions: [], setTab: null,
   active: LS.get("wk.active", null),   // sesión en curso (se guarda localmente como borrador)
   editing: null,                        // rutina en edición
   statEx: null
@@ -1014,40 +1067,42 @@ function pendingBlock(w) {
   const sun = new Date().getDay() === 0;
   return `<div class="pend"><b>${T("Pendientes esta semana")}</b> <span class="muted">(${pw.total - pw.pend.length}/${pw.total})</span>
     ${sun ? `<p class="muted" style="font-size:.8rem;margin:2px 0 0">${T("Hoy es el último día: lo que falte contará como saltado.")}</p>` : ""}
-    ${pw.pend.map(r => `<div class="sugr">${vChip(normVar(r.variant))}<span style="flex:1;min-width:0">${esc(r.name)}</span><button class="btn small" data-start="${r.id}">${T("Empezar")}</button></div>`).join("")}</div>`;
+    ${pw.pend.map(r => `<div class="sugr">${vChip(normVar(r.variant))}<span class="sn">${esc(r.name)}</span><button class="btn small" data-start="${r.id}">${T("Empezar")}</button></div>`).join("")}</div>`;
 }
 /* Tarjeta "Toca hoy": con plan, según la semana; sin plan, rutinas con hoy en sus días */
 function todayCard() {
   const today = new Date().getDay(), todayK = dayKey(Date.now()), pn = planNow();
-  const row = r => { const done = state.sessions.some(s => dayKey(s.start) === todayK && s.routine === r.name);
-    return `<div class="sugr">${vChip(normVar(r.variant))}<span style="flex:1;min-width:0">${esc(r.name)}${done ? ` <span style="color:var(--ok)">✓</span>` : ""}</span><button class="btn ${done ? "" : "primary"} small" data-start="${r.id}">${done ? T("Repetir") : T("Empezar")}</button></div>`; };
+  let first = true;
+  const row = r => { const done = state.sessions.some(s => dayKey(s.start) === todayK && s.routine === r.name), pri = !done && first; if (pri) first = false;
+    return `<div class="sugr${pri ? " pri" : ""}">${vChip(normVar(r.variant))}<span class="sn">${esc(r.name)}${done ? ` <span style="color:var(--ok)">✓</span>` : ""}<small>${T("{e} ejercicios · ≈ {m} min", { e: r.exercises.length, m: routineMins(normRoutine(JSON.parse(JSON.stringify(r)))) })}</small></span><button class="btn ${pri ? "primary" : ""} small" data-start="${r.id}">${done ? T("Repetir") : T("Empezar")}</button></div>`; };
   const list = rs => rs.length ? rs.map(row).join("") : `<p class="muted" style="margin:6px 0 0">${T("Hoy no hay ninguna rutina prevista.")}</p>`;
   if (pn?.status === "on") {
     const w = pn.w, next = pn.ws.slice(pn.i + 1).find(x => weekLabel(x) !== weekLabel(w));
-    return `<div class="panel plan-b" style="border-color:${w.deload ? "var(--line)" : varColor(w.variant)}">
-      <div class="row" style="gap:8px">${w.deload ? `<span class="vchip vd">${T("Desc.")}</span>` : vChip(w.variant)}<b style="flex:1">${T("Semana {n} de {m}", { n: w.n, m: pn.ws.length })} · ${weekLabel(w)}</b></div>
+    const L = list(suggestedFor(w, today));
+    return `<div class="panel plan-b today" style="border-color:${w.deload ? "var(--line)" : varColor(w.variant)}">
+      <div class="row" style="gap:8px">${w.deload ? `<span class="vchip vd">${T("Desc.")}</span>` : vChip(w.variant)}<b style="flex:1">${T("Semana {n} de {m}", { n: w.n, m: pn.ws.length })} · ${weekLabel(w)}</b><button class="btn ghost small" data-act="plan-open">${T("Ver plan")}</button></div>
       ${w.up ? `<p class="muted" style="margin:6px 0 0">↑ ${upRuleOf(PL.get()) === "mark" ? T("Variante repetida: sube 1-2 reps o 1 serie si hay margen.") : T("Variante repetida: subida automática según tu plan.")}</p>` : ""}
       ${w.deload ? `<p class="muted" style="margin:6px 0 0">${T("Semana de descarga: solo rutinas sin variante (p. ej. Diaria).")}</p>` : ""}
-      <div class="muted" style="font-size:.85rem;margin-top:10px">${T("Toca hoy:")}</div>${list(suggestedFor(w, today))}${pendingBlock(w)}
+      <div class="muted" style="font-size:.85rem;margin-top:10px">${T("Toca hoy:")}</div>${L}${pendingBlock(w)}
       ${next ? `<p class="muted" style="font-size:.8rem;margin:10px 0 0">${T("Siguiente: {x} desde el {d}", { x: weekLabel(next), d: new Date(next.t).toLocaleDateString(LOC(), { day: "numeric", month: "short" }) })}</p>` : ""}
     </div>`;
   }
   const rs = state.routines.filter(r => (r.days || []).includes(today));
   const msg = pn?.status === "pre" ? T("El plan empieza el {d}.", { d: new Date(pn.ws[0].t).toLocaleDateString(LOC(), { weekday: "long", day: "numeric", month: "long" }) })
     : pn?.status === "done" ? T("Plan terminado") + ". " + T("Toca revisar el progreso y decidir el siguiente plan.") : "";
-  return `<div class="panel plan-b"><b>${T("Toca hoy")}</b>${msg ? `<p class="muted" style="margin:4px 0 0">${msg}</p>` : ""}${list(rs)}
+  return `<div class="panel plan-b today"><b>${T("Toca hoy")}</b>${msg ? `<p class="muted" style="margin:4px 0 0">${msg}</p>` : ""}${list(rs)}
     ${rs.length ? "" : `<p class="muted" style="font-size:.8rem;margin:6px 0 0">${T("Marca los días de cada rutina en Rutinas → Editar.")}</p>`}</div>`;
 }
 /* Bloque del plan en Hoy: calendario, rutinas por variante y Editar */
 function planSection() {
   const p = PL.get();
-  if (!p) return `<div class="panel" style="margin-top:12px"><b>${T("Sin plan de progresión")}</b>
+  if (!p) return `<div class="panel"><b>${T("Sin plan de progresión")}</b>
     <p class="muted" style="margin:4px 0 0">${T("Un plan rota variantes de tus rutinas por semanas (por ejemplo A, B, C cada 2 semanas) con semanas de descarga, y Hoy te dice qué rutina toca cada día.")}</p>
     <p class="muted" style="font-size:.85rem;margin:6px 0 0">${T("Para que funcione, pon a cada rutina su Variante y sus Días en Rutinas → Editar.")}</p>
     <button class="btn primary" style="margin-top:12px" data-act="plan-create">${T("Crear plan")}</button></div>${plansBlock()}`;
   const ws = planWeeks(p), pn = planNow(p), now = Date.now(), vs = planVariants(p);
   const fmt = t => new Date(t).toLocaleDateString(LOC(), { day: "numeric", month: "short" });
-  return `<div class="row" id="planSec" style="margin-top:22px"><h2 style="margin:0;flex:1">${T("Plan")}${p.name ? ` · ${esc(p.name)}` : ""}</h2><button class="btn small" data-act="plan-edit">${T("Editar")}</button></div>
+  return `<div class="row" id="planSec"><h2 style="margin:0;flex:1">${p.name ? esc(p.name) : T("Plan")}</h2><button class="btn small" data-act="plan-edit">${T("Editar plan")}</button></div>
     ${p.enabled === false ? `<p class="muted">${T("Plan desactivado: Hoy no lo tiene en cuenta.")}</p>` : ""}
     ${ws.length ? `<p class="sub">${fmt(ws[0].t)} → ${fmt(addDays(ws[ws.length - 1].t, 6))}${p.review ? ` · ${T("revisión desde el {d}", { d: fmt(keyTime(p.review)) })}` : ""}</p>
     <div class="legend" style="margin-top:6px">${vs.map(v => `<span>${vChip(v)}</span>`).join("")}<span><span class="vchip vd">${T("Descarga")}</span></span><span>${T("↑ = subir reps · barra = días de fuerza hechos")}</span></div>
@@ -1487,9 +1542,8 @@ function planUpCheck() {
 }
 function apkTip() {
   if (isNative() || !/android/i.test(navigator.userAgent) || LS.get("wk.apkTip", false)) return "";
-  return `<div class="panel" style="margin-top:12px"><b>${T("Hay app para Android")}</b>
-    <p class="muted" style="margin:4px 0 8px;font-size:.88rem">${T("La misma Usus, instalada como app (APK). Sus datos van aparte: exporta una copia aquí (Ajustes → Datos) e impórtala allí.")}</p>
-    <div class="row"><a class="btn small primary" href="${REL_URL}" target="_blank" rel="noopener">${T("Descargar")}</a><button class="btn small" data-act="apk-tip-no">${T("No, gracias")}</button></div></div>`;
+  return prow("var(--muted)", T("Hay app para Android"), T("La misma Usus, instalada como app (APK). Sus datos van aparte: exporta una copia aquí (Ajustes → Datos) e impórtala allí."),
+    `<a class="btn small" href="${REL_URL}" target="_blank" rel="noopener">${T("Descargar")}</a><button class="btn ghost small" data-act="apk-tip-no">${T("No, gracias")}</button>`);
 }
 function planUpNotice() {
   const L = LS.get("wk.planUpLog", null), pn = planNow(); if (!L || L.seen || !pn || pn.status !== "on" || dayKey(pn.w.t) !== L.week) return "";
@@ -1810,9 +1864,9 @@ function aiModal() {
   </div></div>`;
 }
 function aiCard() {
-  return `<section class="sblock"><div class="panel aicard"><div class="aih">✦ ${T("Analizar con IA externa")} <span class="aibadge">${T("Externa")}</span></div>
+  return `<div class="panel aicard"><div class="aih">✦ ${T("Analizar con IA externa")} <span class="aibadge">${T("Externa")}</span></div>
     <p class="muted" style="font-size:.88rem;margin:6px 0 0">${T("Usus prepara un texto con tus datos y las instrucciones para que una IA (ChatGPT, Claude, Gemini…) los analice. Usus no envía nada: lo copias o compartes tú.")}</p>
-    <button class="btn primary" style="width:100%;margin-top:10px" data-act="ai-open">${T("Preparar análisis")}</button></div></section>`;
+    <button class="btn" style="margin-top:10px" data-act="ai-open">${T("Preparar análisis")}</button></div>`;
 }
 function aiProfPanel() {
   const f = aiProf(); if (!aiHasData(f)) return "";
@@ -2054,12 +2108,18 @@ const ICON = {
   stats: '<svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>',
   data: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>'
 };
+const QICO = {
+  list: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01"/></svg>',
+  free: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>',
+  act: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="13" cy="4.5" r="1.8"/><path d="M7 21l3-6 3 2v5M10 15l1-5-3 1-2 3M11 10l3 2 3-1"/></svg>'
+};
+const MORE_ICO = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/></svg>';
 const PRINT_ICO = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9V3h12v6M6 18H4a1 1 0 0 1-1-1v-6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6a1 1 0 0 1-1 1h-2"/><path d="M6 14h12v7H6z"/></svg>';
 const CHECK = '<svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg>';
 const PLAY = '<svg viewBox="0 0 24 24"><path d="M8 5.5l10 6.5-10 6.5z"/></svg>';
 
 function renderTabs() {
-  const items = [["train",T("Hoy")],["routines",T("Rutinas")],["diary",T("Diario")],["stats",T("Stats")],["data",T("Ajustes")]];
+  const items = [["train",T("Hoy")],["routines",T("Entreno")],["diary",T("Diario")],["stats",T("Progreso")],["data",T("Ajustes")]];
   $("#tabs").innerHTML = items.map(([k, l]) =>
     `<button data-tab="${k}" ${state.tab === k ? 'aria-current="page"' : ""}>${ICON[k]}<span>${l}</span></button>`).join("");
 }
@@ -2075,6 +2135,7 @@ function render() {
   if (state.shareSess && SHOPT().img) sessPreview();
   document.body.classList.toggle("edw", state.tab === "routines" && !!state.editing && !state.print);
   document.body.classList.toggle("rtw", state.tab === "routines" && !state.editing && !state.print);
+  document.body.classList.toggle("stw", state.tab === "data" && !state.link);
   if (state.print) fitPrint();
 }
 
@@ -2092,6 +2153,8 @@ function addWeight(t, kg) {
   const d = dayStart(t), l = W.list().filter(x => dayStart(x.t) !== d);
   l.push({ id: uid(), t: d + 12 * 3600e3, kg }); W.save(l);
 }
+/* Fila de «Pendiente» en Hoy: punto de color, título, detalle y acciones */
+const prow = (col, t, d, acts) => `<div class="prow"><span class="dot" style="background:${col}"></span><div class="t"><b>${t}</b><small>${d}</small></div><div class="pa">${acts}</div></div>`;
 /* Aviso: desde el día de pesaje hasta el domingo, si no hay registro esa semana */
 function weightBanner() {
   const now = Date.now(), wd = W.day(), today = new Date(now).getDay();
@@ -2100,10 +2163,8 @@ function weightBanner() {
   if (todayIdx < dueIdx || LS.get("wk.weightSkip", 0) === wk) return "";
   if (W.list().some(x => x.t >= addDays(wk, dueIdx))) return "";
   const last = W.list().slice(-1)[0];
-  return `<div class="panel bk"><div class="t">${T("Peso semanal")}</div>
-    <div class="d">${today === wd ? T("Hoy toca pesarte") : T("Pendiente desde el {d}", { d: DIAS[wd] })}${last ? ` · ${T("último")}: ${fmtW(last.kg)}` : ""}</div>
-    <div style="display:flex;gap:8px;margin-top:10px;align-items:center"><input id="wBanKg" type="text" inputmode="decimal" placeholder="${fmtNum(last ? last.kg : 75)}" aria-label="${T("Peso en kg")}" style="width:96px"><span class="muted">kg</span>
-    <button class="btn primary small" data-act="w-ban">${T("Guardar")}</button><button class="btn ghost small" data-act="w-skip">${T("Esta semana no")}</button></div></div>`;
+  return prow("var(--accent)", T("Peso semanal"), `${today === wd ? T("Hoy toca pesarte") : T("Pendiente desde el {d}", { d: DIAS[wd] })}${last ? ` · ${T("último")}: ${fmtW(last.kg)}` : ""}`,
+    `<button class="btn small" data-act="w-open">${T("Anotar")}</button><button class="btn ghost small" data-act="w-skip">${T("Esta semana no")}</button>`);
 }
 
 /* Recordatorio de copia de seguridad: cada 30 días, aplazable 3 días */
@@ -2113,25 +2174,24 @@ function backupBanner() {
   const now = Date.now(), last = LS.get("wk.lastBackup", 0), snooze = LS.get("wk.backupSnooze", 0);
   if (now - last < BACKUP_DAYS * 864e5 || now < snooze) return "";
   const days = last ? Math.floor((now - last) / 864e5) : 0;
-  return `<div class="panel bk" role="status"><div class="t">${T("Copia de seguridad")}</div>
-    <div class="d">${last ? T("Han pasado {n} días desde tu última copia.", { n: days }) : T("Aún no has hecho ninguna copia.")} ${T("Tus datos solo están en este móvil.")}</div>
-    <div style="display:flex;gap:8px;margin-top:10px"><button class="btn primary small" data-act="exp-all">${T("Exportar ahora")}</button><button class="btn ghost small" data-act="bk-later">${T("Más tarde")}</button></div></div>`;
+  return prow("var(--warn)", T("Copia de seguridad"), `${last ? T("Han pasado {n} días desde tu última copia.", { n: days }) : T("Aún no has hecho ninguna copia.")} ${T("Tus datos solo están en este móvil.")}`,
+    `<button class="btn small" data-act="exp-all">${T("Exportar ahora")}</button><button class="btn ghost small" data-act="bk-later">${T("Más tarde")}</button>`);
+}
+function pendingCard() {
+  const rows = backupBanner() + weightBanner() + cycBanner() + apkTip();
+  return rows ? `<h2>${T("Pendiente")}</h2><div class="plist2" role="status">${rows}</div>` : "";
 }
 function viewTrain() {
   const a = state.active;
-  if (state.planMode === "edit" && state.planDraft) return viewPlanEdit();
   if (!a) {
-    const last = sortedSessions()[0], now = new Date();
+    const last = sortedSessions()[0], now = new Date(), dt = now.toLocaleDateString(LOC(), { weekday: "long", day: "numeric", month: "long" });
     return `
-      ${multiProf() ? `<div class="row"><h1 style="flex:1">${T("Hoy")}</h1>${profChip()}</div><p class="muted" style="font-size:.9rem;margin:0 0 4px">${now.toLocaleDateString(LOC(), { weekday: "long", day: "numeric", month: "long" })}</p>`
-        : `<div class="row" style="align-items:baseline"><h1 style="flex:1">${T("Hoy")}</h1><span class="muted" style="font-size:.9rem">${now.toLocaleDateString(LOC(), { weekday: "long", day: "numeric", month: "long" })}</span></div>`}
-      <div class="hoybar"><button class="btn" data-tab="routines">${T("Otra rutina…")}</button><button class="btn" data-start="free">${T("Sesión libre")}</button><button class="btn primary" data-act="act-open">+ ${T("Actividad")}</button></div>
-      ${backupBanner()}
-      ${weightBanner()}
-      ${cycBanner()}
-      ${apkTip()}${planUpNotice()}${todayCard()}
+      <div class="phead"><h1>${T("Hoy")}</h1>${multiProf() ? profChip() : `<span class="sub">${dt}</span>`}</div>
+      ${multiProf() ? `<p class="sub" style="margin:-10px 0 14px">${dt}</p>` : ""}
+      ${planUpNotice()}${todayCard()}
+      <div class="quick"><button class="btn" data-tab="routines">${QICO.list}${T("Otra rutina")}</button><button class="btn" data-start="free">${QICO.free}${T("Sesión libre")}</button><button class="btn" data-act="act-open">${QICO.act}${T("Actividad")}</button></div>
       ${cycCard()}
-      ${planSection()}
+      ${pendingCard()}
       <p class="sync" style="margin-top:22px">${last ? T("Última sesión: {d}", { d: new Date(last.start).toLocaleDateString(LOC(), { weekday: "long", day: "numeric", month: "long" }) }) + " · " : ""}${T("Datos guardados solo en este dispositivo. Haz copias desde Ajustes.")}</p>`;
   }
   if (a.pre) return viewPre(a);
@@ -2574,50 +2634,54 @@ function viewRoutines() {
         <p class="muted" style="font-size:.78rem;margin:6px 0 0">${secs.length ? T("Toca para añadir a «{x}», o arrastra a cualquier sección.", { x: esc(secs.find(x => x.id === edCurSec(ed))?.name || "") }) : T("Toca para añadir, o arrastra a la lista.")}</p>
         <div id="edList">${edCatHTML()}</div></aside>` : ""}</div>`;
   }
+  const rv = state.routView === "cat" && catReady() ? "cat" : state.routView === "plan" ? "plan" : "mine";
+  if (rv === "plan" && state.planMode === "edit" && state.planDraft) return viewPlanEdit();
+  const tabs = [["mine", T("Rutinas")], ["plan", T("Plan")], ...(catReady() ? [["cat", T("Ejercicios")]] : [])];
+  const head = rv === "mine" ? `${state.routines.length ? `<button class="btn icon shbtn" data-act="rs-open" aria-label="${T("Compartir rutinas")}" title="${T("Compartir rutinas")}">${SHARE_ICO}</button>` : ""}<button class="btn primary" data-act="newroutine">+ ${T("Nueva rutina")}</button>` : "";
+  const cur = routCur(), open = !!state.routOpen && !!cur;
   return `
-    <div class="rtop"><div class="row"><h1>${T("Rutinas")}</h1><span class="spacer"></span>${state.routines.length ? `<button class="btn shbtn icon" data-act="rs-open" aria-label="${T("Compartir rutinas")}" title="${T("Compartir rutinas")}">${SHARE_ICO}</button>` : ""}<button class="btn primary" data-act="newroutine">${T("Nueva rutina")}</button></div>
-    ${catReady() ? `<div class="rseg" role="group" aria-label="${T("Rutinas")}"><button data-rview="mine" aria-pressed="${state.routView !== "cat"}">${T("Mis rutinas")}</button><button data-rview="cat" aria-pressed="${state.routView === "cat"}">${T("Ejercicios")}</button></div>` : ""}</div>
-    ${catReady() && state.routView === "cat" ? viewCatalog() : `<div class="rsplit"><div class="list" style="margin-top:16px">
-      ${state.routines.length ? state.routines.map(r => {
-        const open = state.routOpen === r.id, nSets = r.exercises.reduce((a, e) => a + (+e.sets || 0), 0);
-        return `
-        <div class="card rcard${open ? " open" : ""}${r.id === routCur()?.id ? " cur" : ""}">
-          <button class="rhead" data-ropen="${r.id}" aria-expanded="${open}">
-            <span style="flex:1;min-width:0"><span class="title">${esc(r.name)} <span class="tagb">${T(CAT_NAME[r.block] || "Otro")}</span></span>
-              <span class="meta" style="display:block">${normVar(r.variant) ? vChip(normVar(r.variant)) + " " : ""}${(r.days || []).length ? ((r.days.length === 7 ? T("todos los días") : WEEK_ORDER.filter(x => r.days.includes(x)).map(dayShort).join(" ")) + " · ") : ""}${T("{e} ejercicios · {s} series", { e: r.exercises.length, s: nSets })}</span></span>
-            <svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
-          </button>
-          ${open ? `<div class="rbody">
-            ${r.exercises.length ? r.exercises.map((e, i, all) => `${r.secs?.length && (i === 0 || all[i - 1].sec !== e.sec) ? `<div class="rsec">${esc(r.secs.find(x => x.id === e.sec)?.name || "")}</div>` : ""}${e.grp && r.groups?.[e.grp] && (i === 0 || all[i - 1].grp !== e.grp) ? `<div class="rgrp">${grpLabel(r.groups[e.grp])} · ${T("{n} vueltas", { n: r.groups[e.grp].rounds })}${+r.groups[e.grp].rest ? ` · ${T("{n} s entre vueltas", { n: r.groups[e.grp].rest })}` : ""}</div>` : ""}<div class="rex${e.grp ? " ing" : ""}"><span>${r.groups || r.secs ? `<b class="ekey">${exKeys(all)[i]}</b> ` : ""}${esc(exLabel(e))}${e.sides && !SIDE_RX.test(e.name) ? ` <span class="muted" style="font-size:.78rem">· ${T("por lado")}</span>` : ""}</span><span class="muted">${e.sets}×${e.reps}${isTime(e) ? " s" : ""}${+e.rest > 0 ? ` · ${T("desc.")} ${e.rest} s` : ""}${e.restAfter !== null && e.restAfter !== undefined ? ` · ${T("tras")} ${e.restAfter} s` : ""}</span></div>`).join("") : `<p class="muted" style="margin:0">${T("Sin ejercicios")}</p>`}
-            <div class="ract">
-              <button class="btn primary" data-start="${r.id}">${T("Empezar")}</button>
-              <button class="btn" data-edit="${r.id}">${T("Editar")}</button>
-              <button class="btn" data-dup="${r.id}" aria-label="${T("Duplicar")} ${esc(r.name)}">${T("Duplicar")}</button>
-              <button class="btn shbtn icon" data-rprint="${r.id}" aria-label="${T("Imprimir")} ${esc(r.name)}" title="${T("Imprimir")}">${PRINT_ICO}</button>
-              <button class="btn shbtn icon" data-rshare="${r.id}" aria-label="${T("Compartir")} ${esc(r.name)}" title="${T("Compartir")}">${SHARE_ICO}</button>
-            </div></div>` : ""}
-        </div>`; }).join("") : `<div class="empty">${T("Crea una rutina con sus ejercicios, series y repeticiones objetivo.")}</div>`}
-    </div>${routDetail(routCur())}</div>`}`;
+    <div class="rtop"><div class="phead"><h1>${T("Entreno")}</h1>${head}</div>
+    ${utabs(tabs, rv, "rview", T("Entreno"))}</div>
+    ${rv === "cat" ? viewCatalog() : rv === "plan" ? planSection() : state.routines.length ? `<div class="rsplit${open ? " hasdet" : ""}"><div class="rlist">${routGroups().map(([g, rs]) => `${g ? `<div class="glabel">${g}</div>` : ""}<div class="lgroup">${rs.map(r => routRow(r, r.id === cur?.id)).join("")}</div>`).join("")}</div>${routDetail(cur)}</div>`
+      : `<div class="empty" style="margin-top:16px">${T("Crea una rutina con sus ejercicios, series y repeticiones objetivo.")}</div>`}`;
 }
-/* Pantalla ancha: lista a la izquierda y la rutina elegida a la derecha, con sus ejercicios en tabla */
+/* Pestañas subrayadas (un solo estilo en toda la app) */
+const utabs = (list, cur, attr, label) => `<div class="utabs" role="tablist" aria-label="${esc(label)}">${list.map(([k, n]) => `<button role="tab" data-${attr}="${k}" aria-selected="${cur === k}">${esc(n)}</button>`).join("")}</div>`;
+const daysTxt = r => (r.days || []).length ? (r.days.length === 7 ? T("todos los días") : WEEK_ORDER.filter(x => r.days.includes(x)).map(dayShort).join(" ")) : "";
+/* Rutinas por variante: primero las que no tienen (Diaria, extras), luego A, B, C… La de esta semana del plan, marcada */
+function routGroups() {
+  const vs = [...new Set(state.routines.map(r => normVar(r.variant)).filter(Boolean))].sort(), none = state.routines.filter(r => !normVar(r.variant));
+  if (!vs.length) return [["", state.routines]];
+  const pn = planNow(), wv = pn?.status === "on" && !pn.w.deload ? pn.w.variant : null;
+  return [...(none.length ? [[T("Sin variante"), none]] : []), ...vs.map(v => [T("Variante {v}", { v: esc(v) }) + (v === wv ? ` · ${T("esta semana")}` : ""), state.routines.filter(r => normVar(r.variant) === v)])];
+}
+function routRow(r, cur) {
+  const v = normVar(r.variant), d = daysTxt(r);
+  return `<button class="lrow rrow${cur ? " cur" : ""}" data-ropen="${r.id}" aria-current="${cur && !!state.routOpen}">${v ? vChip(v) : `<span class="vchip vd">·</span>`}
+    <span class="t"><b>${esc(r.name)}</b><small>${T(CAT_NAME[r.block] || "Otro")}${d ? ` · ${d}` : ""} · ${TN(r.exercises.length, "{n} ejercicio", "{n} ejercicios")}</small></span><span class="chev" aria-hidden="true">›</span></button>`;
+}
+/* La rutina: pantalla propia en el móvil (con Atrás) y panel a la derecha de la lista en pantalla ancha */
 const routCur = () => state.routines.find(r => r.id === state.routOpen) || state.routines[0] || null;
 function routDetail(r) {
   if (!r) return "";
-  const L = r.exercises, keys = exKeys(L), nSets = L.reduce((a, e) => a + (+e.sets || 0), 0), C = 5;
-  let rows = "";
+  const L = r.exercises, keys = exKeys(L), C = 5, d = daysTxt(r), v = normVar(r.variant), many = !!(r.groups || r.secs);
+  let rows = "", items = "";
   L.forEach((e, i) => {
-    if (r.secs?.length && (i === 0 || L[i - 1].sec !== e.sec)) rows += `<tr class="rdsec"><td colspan="${C}">${esc(r.secs.find(x => x.id === e.sec)?.name || "")}</td></tr>`;
-    const g = e.grp && r.groups?.[e.grp];
-    if (g && (i === 0 || L[i - 1].grp !== e.grp)) rows += `<tr class="rdgrp"><td colspan="${C}">${grpLabel(g)} · ${T("{n} vueltas", { n: g.rounds })}${+g.rest ? ` · ${T("{n} s entre vueltas", { n: g.rest })}` : ""}</td></tr>`;
-    rows += `<tr class="${g ? "ing" : ""}"><td class="k">${keys[i]}</td><td>${esc(exLabel(e))}${e.sides && !SIDE_RX.test(e.name) ? ` <span class="muted" style="font-size:.8rem">· ${T("por lado")}</span>` : ""}</td>
+    const g = e.grp && r.groups?.[e.grp], side = e.sides && !SIDE_RX.test(e.name) ? ` <span class="muted" style="font-size:.8rem">· ${T("por lado")}</span>` : "";
+    if (r.secs?.length && (i === 0 || L[i - 1].sec !== e.sec)) { const sn = esc(r.secs.find(x => x.id === e.sec)?.name || ""); rows += `<tr class="rdsec"><td colspan="${C}">${sn}</td></tr>`; items += `<div class="rsec">${sn}</div>`; }
+    if (g && (i === 0 || L[i - 1].grp !== e.grp)) { const gl = `${grpLabel(g)} · ${T("{n} vueltas", { n: g.rounds })}${+g.rest ? ` · ${T("{n} s entre vueltas", { n: g.rest })}` : ""}`; rows += `<tr class="rdgrp"><td colspan="${C}">${gl}</td></tr>`; items += `<div class="rgrp">${gl}</div>`; }
+    rows += `<tr class="${g ? "ing" : ""}"><td class="k">${keys[i]}</td><td>${esc(exLabel(e))}${side}</td>
       <td class="n">${g ? "" : e.sets + " × "}${e.reps}${isTime(e) ? " s" : ""}</td><td class="n">${g ? (+e.rest > 0 ? e.rest + " s" : "—") : restFor(e) + " s"}</td><td class="n">${g ? "" : restXFor(e) + " s"}</td></tr>`;
+    items += `<div class="rex${g ? " ing" : ""}"><span>${many ? `<b class="ekey">${keys[i]}</b> ` : ""}${esc(exLabel(e))}${side}</span><span class="muted">${g ? "" : e.sets + " × "}${e.reps}${isTime(e) ? " s" : ""}</span></div>`;
   });
-  return `<section class="rdet panel" aria-label="${esc(r.name)}">
-    <div class="rdh"><div style="flex:1;min-width:0"><h2>${esc(r.name)} <span class="tagb">${T(CAT_NAME[r.block] || "Otro")}</span></h2>
-      <div class="muted" style="font-size:.88rem">${normVar(r.variant) ? vChip(normVar(r.variant)) + " " : ""}${(r.days || []).length ? ((r.days.length === 7 ? T("todos los días") : WEEK_ORDER.filter(x => r.days.includes(x)).map(dayShort).join(" ")) + " · ") : ""}${T("{e} ejercicios · {s} series", { e: L.length, s: nSets })} · ≈ ${routineMins(normRoutine(JSON.parse(JSON.stringify(r))))} min</div></div></div>
-    <div class="rdact"><button class="btn primary" data-start="${r.id}">${T("Empezar")}</button><button class="btn" data-edit="${r.id}">${T("Editar")}</button><button class="btn" data-dup="${r.id}">${T("Duplicar")}</button>
-      <button class="btn shbtn" data-rprint="${r.id}">${PRINT_ICO}${T("Imprimir")}</button><button class="btn shbtn" data-rshare="${r.id}">${SHARE_ICO}${T("Compartir")}</button></div>
-    ${L.length ? `<table class="rdtab"><thead><tr><th></th><th>${T("Ejercicio")}</th><th class="n">${T("Objetivo")}</th><th class="n">${T("Descanso (s)")}</th><th class="n">${T("Al terminar (s)")}</th></tr></thead><tbody>${rows}</tbody></table>` : `<p class="muted">${T("Sin ejercicios")}</p>`}
+  return `<section class="rdet" aria-label="${esc(r.name)}">
+    <button class="back" data-back="rout">‹ ${T("Rutinas")}</button>
+    <div class="rdh">${v ? vChip(v) : ""}<h2>${esc(r.name)}</h2></div>
+    <p class="sub">${T(CAT_NAME[r.block] || "Otro")}${d ? ` · ${d}` : ""} · ${TN(L.length, "{n} ejercicio", "{n} ejercicios")} · ≈ ${routineMins(normRoutine(JSON.parse(JSON.stringify(r))))} min</p>
+    <div class="rdact"><button class="btn primary" data-start="${r.id}">${PLAY}${T("Empezar")}</button><button class="btn" data-edit="${r.id}">${T("Editar")}</button><span class="spacer"></span>
+      <button class="btn icon" data-rprint="${r.id}" aria-label="${T("Imprimir")} ${esc(r.name)}" title="${T("Imprimir")}">${PRINT_ICO}</button><button class="btn icon" data-rshare="${r.id}" aria-label="${T("Compartir")} ${esc(r.name)}" title="${T("Compartir")}">${SHARE_ICO}</button><button class="btn icon" data-dup="${r.id}" aria-label="${T("Duplicar")} ${esc(r.name)}" title="${T("Duplicar")}">${MORE_ICO}</button></div>
+    ${L.length ? `<table class="rdtab onlyw"><thead><tr><th></th><th>${T("Ejercicio")}</th><th class="n">${T("Objetivo")}</th><th class="n">${T("Descanso (s)")}</th><th class="n">${T("Al terminar (s)")}</th></tr></thead><tbody>${rows}</tbody></table>
+      <div class="rbody onlyn">${items}</div>` : `<p class="muted">${T("Sin ejercicios")}</p>`}
   </section>`;
 }
 const edCurSec = ed => { const secs = ed.secs || []; return secs.some(x => x.id === state.edSec) ? state.edSec : secs[Math.min(1, secs.length - 1)]?.id || ""; };
@@ -2875,9 +2939,8 @@ function cycBanner() {
   const r = cycCalc(); if (!r.last || r.ongoing) return "";
   const left = kDiff(r.next, r.today);
   if (left < 0 || left > c.warnDays || LS.get("wk.cycWarnSeen", "") === r.next) return "";
-  return `<div class="panel bk cyc-warn" role="status"><div class="t">${left === 0 ? T("Hoy podría bajarte la regla") : left === 1 ? T("La regla podría bajarte mañana") : T("La regla podría bajarte en {n} días", { n: left })}</div>
-    <div class="d">${T("Prevista para el {d} (± {n} d).", { d: kFmt(r.next, { weekday: "long", day: "numeric", month: "long" }), n: r.spread })}</div>
-    <div style="margin-top:10px"><button class="btn ghost small" data-act="cyc-warn-ok">${T("Entendido")}</button></div></div>`;
+  return prow("var(--cyc)", left === 0 ? T("Hoy podría bajarte la regla") : left === 1 ? T("La regla podría bajarte mañana") : T("La regla podría bajarte en {n} días", { n: left }),
+    T("Prevista para el {d} (± {n} d).", { d: kFmt(r.next, { weekday: "long", day: "numeric", month: "long" }), n: r.spread }), `<button class="btn ghost small" data-act="cyc-warn-ok">${T("Entendido")}</button>`);
 }
 /* Hoja del diario: regla del día, flujo, síntomas y calendario */
 function cycSheet(k) {
@@ -3113,7 +3176,8 @@ function viewDiary() {
   const tile = (key, label, v, dsc, on, wide) => `<button class="dtile${wide ? " wide" : ""}" data-dsh="${key}" aria-label="${esc(label)}: ${esc(v)}"><span class="k">${label}<i class="${on ? "on" : ""}"></i></span><span class="v">${v}</span><span class="d">${dsc || "&nbsp;"}</span></button>`;
   const q = sl.q ? "★".repeat(sl.q) + "☆".repeat(5 - sl.q) : "";
   const actTxt = acts.map(a => esc(a.type) + (a.km ? " · " + fmtKm(a.km) : "") + (a.min ? " · " + fmtActDur(a.min) : "")).join("  ·  ");
-  const SHN = { sleep: "Sueño", sup: "Suplementos", ses: "Entrenos del día", steps: "Pasos", act: "Actividad", note: "Notas del día", cyc: "Ciclo" };
+  const SHN = { sleep: "Sueño", sup: "Suplementos", ses: "Entrenos del día", steps: "Pasos", peso: "Peso", act: "Actividad", note: "Notas del día", cyc: "Ciclo" };
+  const dayW = W.list().find(x => dayKey(x.t) === k), lastW = W.list().slice(-1)[0];
   const SHB = {
     sleep: `    <div class="panel">
       <div class="wrow2"><label class="muted" for="slBed">${T("Acostarse")}</label><input type="time" id="slBed" value="${esc(sl.bed || "")}">
@@ -3147,6 +3211,14 @@ function viewDiary() {
       <input type="number" id="dSteps" inputmode="numeric" min="0" value="${+e.steps > 0 ? e.steps : ""}" placeholder="0" style="width:130px;text-align:right"></div>`,
     act: `${acts.length ? `<div class="list">${acts.map(actCard).join("")}</div>` : `<div class="empty">${T("Sin actividad este día.")}</div>`}<div style="margin-top:10px"><button class="btn small" data-act="act-open">+ ${T("Registrar")}</button></div>`,
     cyc: cycOn() ? cycSheet(k) : "",
+    peso: `    <div class="panel">
+      <input type="hidden" id="wDate" value="${k}">
+      <div class="wrow"><label class="muted" for="wKg" style="font-size:.85rem">${T("Peso en kg")}</label><input id="wKg" type="text" inputmode="decimal" value="${dayW ? fmtNum(dayW.kg) : ""}" placeholder="${lastW ? fmtNum(lastW.kg) : "kg"}"><button class="btn primary small" data-act="w-add">${T("Guardar")}</button></div>
+      ${dayW ? `<button class="btn ghost small danger" style="margin-top:8px" data-wdel="${dayW.id}">${T("Borrar registro")}</button>` : ""}
+      <div class="wrow" style="margin-top:14px"><label class="muted" for="wGoal" style="font-size:.85rem">${T("Objetivo")}</label><input id="wGoal" type="text" inputmode="decimal" placeholder="${T("sin objetivo")}" value="${W.goal() ? fmtNum(W.goal()) : ""}"><button class="btn small" data-act="w-goal">${T("Guardar")}</button></div>
+      <div class="wrow" style="margin-top:12px"><label class="muted" for="wDay" style="font-size:.85rem">${T("Día de pesaje")}</label><select id="wDay">${[1, 2, 3, 4, 5, 6, 0].map(i => `<option value="${i}" ${W.day() === i ? "selected" : ""}>${DIAS[i]}</option>`).join("")}</select><span></span></div>
+      ${W.list().length ? `<div style="margin-top:12px">${W.list().slice(-6).reverse().map(x => `<div class="rowx" style="padding:6px 0;border-top:1px solid var(--line);align-items:center"><span>${new Date(x.t).toLocaleDateString(LOC(), { day: "numeric", month: "short", year: "numeric" })} · <b>${fmtW(x.kg)}</b></span><button class="x" data-wdel="${x.id}" aria-label="${T("Borrar registro")}">×</button></div>`).join("")}</div>` : ""}
+    </div>`,
     note: `    <div class="panel">
       <textarea id="dNote" rows="3" placeholder="${T("Cómo ha ido, por qué no se ha podido entrenar, molestias…")}">${esc(e.note || "")}</textarea>
       <div class="chips">${TAGS.map(([tk, tn]) => `<button data-dtag="${tk}" class="${(e.tags || []).includes(tk) ? "on" : ""}" aria-pressed="${(e.tags || []).includes(tk)}">${T(tn)}</button>`).join("")}</div>
@@ -3170,7 +3242,8 @@ function viewDiary() {
       ${tile("sup", T("Suplementos"), sp.length ? `${nTaken}/${sp.length}` : "—", sp.length ? T("tomados") : T("Sin suplementos"), sp.length > 0 && nTaken === sp.length)}
       ${tile("ses", T("Entreno"), sess.length ? esc(sess[0].routine || T("Sesión libre")) : "—", sess.length ? `${Math.round(sess.reduce((p, z) => p + (z.end - z.start), 0) / 60000)} min · ${sess.reduce((p, z) => p + doneSets(z), 0)} ${T("series")}` : T("Sin entrenos este día."), sess.length > 0)}
       ${tile("steps", T("Pasos"), +e.steps > 0 ? (+e.steps).toLocaleString(LOC()) : "—", goalSt ? `${T("objetivo")} ${goalSt.toLocaleString(LOC())}` : "", +e.steps > 0 && (!goalSt || e.steps >= goalSt))}
-      ${tile("act", T("Actividad"), acts.length ? actTxt : "—", acts.length ? "" : T("Sin actividad este día."), acts.length > 0, true)}
+      ${tile("peso", T("Peso"), dayW ? fmtW(dayW.kg) : "—", !dayW && lastW ? `${T("último")}: ${fmtW(lastW.kg)}` : W.goal() ? `${T("objetivo")} ${fmtW(W.goal())}` : "", !!dayW)}
+      ${tile("act", T("Actividad"), acts.length ? actTxt : "—", acts.length ? "" : T("Sin actividad este día."), acts.length > 0)}
       ${cr ? (() => { const kd = cycKind(k, cr), ce = e.cyc || {}, dd = cr.last && k >= cr.last.s ? kDiff(k, cr.last.s) + 1 : null, ph = CYC.cfg().phase && cr.last && k >= cr.last.s ? cycPhase(cr, k) : null;
         return tile("cyc", T("Ciclo"), kd === "per" ? T("Regla") : dd ? T("Día {n}", { n: dd }) : "—", (ce.sym || []).length ? ce.sym.map(x => esc(T(x))).join(", ") : (ph && kd !== "per" ? ph : ""), kd === "per" || !!(ce.sym || []).length, true); })() : ""}
       ${tile("note", T("Notas del día"), (e.note || "").trim() ? esc(e.note.trim().slice(0, 40)) + (e.note.trim().length > 40 ? "…" : "") : "—", (e.tags || []).length ? (e.tags || []).map(x => T((TAGS.find(z => z[0] === x) || [0, x])[1])).join(" · ") : "", !!(e.note || "").trim(), true)}
@@ -3533,20 +3606,20 @@ function statsOrder() {
 }
 function viewStats() {
   const S = state.sessions;
-  if (!S.length && !W.list().length && !Object.keys(DY.all()).length && !ACT.list().length) return `<h1>${T("Estadísticas")}</h1><div class="empty" style="margin-top:16px">${T("Completa tu primera sesión para ver tu progreso.")}</div>`;
+  if (!S.length && !W.list().length && !Object.keys(DY.all()).length && !ACT.list().length) return `<div class="phead"><h1>${T("Progreso")}</h1></div><div class="empty">${T("Completa tu primera sesión para ver tu progreso.")}</div>`;
   const now = Date.now(), IX = exIndex(), ed = !!state.statsEdit, hid = LS.get("wk.statsHidden", []);
   const cat = SB_TABS.some(x => x[0] === state.statsCat) ? state.statsCat : (SB_TABS.some(x => x[0] === LS.get("wk.statsCat", "res")) ? LS.get("wk.statsCat", "res") : "res"), per = statsPer();
   const ord = statsOrder().filter(k => (SB_CAT[k] === cat || SB_CAT[k] === "*") && (ed || !hid.includes(k)) && (k !== "ciclo" || cycOn()));
-  return `<div style="display:flex;align-items:center;gap:8px"><h1 style="flex:1">${T("Estadísticas")}</h1><button class="btn small" data-act="statsedit">${ed ? T("Hecho") : T("Ordenar")}</button></div>
-    <div class="stabs" role="group" aria-label="${T("Estadísticas")}">${SB_TABS.map(([k, l]) => `<button data-scat="${k}" aria-pressed="${cat === k}">${T(l)}</button>`).join("")}</div>
+  return `<div class="phead"><h1>${T("Progreso")}</h1><button class="btn ghost small" data-act="statsedit">${ed ? T("Hecho") : T("Ordenar")}</button></div>
+    ${utabs(SB_TABS.map(([k, l]) => [k, T(l)]), cat, "scat", T("Progreso"))}
+    ${cat === "res" && !ed ? aiCard() : ""}
     ${cat === "hab" ? `<div class="perrow"><span>${T("Periodo")}</span>${[7, 30, 90].map(p => `<button data-sper="${p}" aria-pressed="${per === p}">${p} ${T("d")}</button>`).join("")}</div>` : ""}
     ${ed ? `<p class="muted" style="font-size:.85rem;margin:8px 0 0">${T("Ordena con ↑ ↓ y elige qué bloques ver.")}</p>` : ""}
     ${ord.map((k, i) => `<section class="sblock${ed && hid.includes(k) ? " hidb" : ""}" data-sb="${k}"><div class="sb-head"><h2>${T(SBLOCKS[k][0])}</h2>${ed ? `
       <button class="btn small" data-shide="${k}" aria-pressed="${!hid.includes(k)}">${hid.includes(k) ? T("Oculto") : T("Visible")}</button>
       <button class="mv" data-mv="${k}:-1" aria-label="${T("Subir")} ${T(SBLOCKS[k][0])}" ${i === 0 ? "disabled" : ""}>↑</button>
       <button class="mv" data-mv="${k}:1" aria-label="${T("Bajar")} ${T(SBLOCKS[k][0])}" ${i === ord.length - 1 ? "disabled" : ""}>↓</button>` : ""}</div>
-      ${ed ? "" : SBLOCKS[k][1](S, IX, now)}</section>`).join("")}
-    ${cat === "res" && !ed ? aiCard() : ""}`;
+      ${ed ? "" : SBLOCKS[k][1](S, IX, now)}</section>`).join("")}`;
 }
 
 function exerciseProgress(key, name) {
@@ -3628,7 +3701,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.`;
 const item = (t, d, act, label, primary) => `<div class="data-item"><div style="flex:1"><div class="t">${t}</div><div class="d">${d}</div></div><button class="btn small${primary ? " primary" : ""}" data-act="${act}">${label}</button></div>`;
 function viewData() {
-  const lastBk = LS.get("wk.lastBackup", 0), tab = SET_TABS.some(t => t[0] === state.setTab) ? state.setTab : "datos";
+  const lastBk = LS.get("wk.lastBackup", 0), sel = SET_GROUPS.some(g => g[0] === state.setTab) ? state.setTab : null, cur = sel || "perfil";
   const P = {
     entreno: `
     <h2>${T("Tiempos")}</h2>
@@ -3662,35 +3735,33 @@ function viewData() {
     ${catOn() ? `<h2>${T("Mi material")}</h2>
     <div class="panel"><p class="muted" style="font-size:.85rem;margin:0">${T("Marca lo que tienes. En el catálogo, lo demás se ve en naranja y se puede ocultar. Sin nada marcado, no se filtra.")}</p>
       <div class="matsel">${Object.entries(MAT).map(([k, [n]]) => `<label><input type="checkbox" data-myeq="${k}" ${myEquip()?.includes(k) ? "checked" : ""}>${matIco(k)}${T(n)}</label>`).join("")}</div></div>` : ""}
-`,
-    cuerpo: `
-    <h2>${T("Peso")}</h2>
-    <div class="panel">
-      <div class="wrow"><input id="wDate" type="date" value="${new Date(Date.now() - new Date().getTimezoneOffset() * 6e4).toISOString().slice(0, 10)}" aria-label="${T("Fecha")}"><input id="wKg" type="text" inputmode="decimal" placeholder="kg" aria-label="${T("Peso en kg")}"><button class="btn primary small" data-act="w-add">${T("Añadir")}</button></div>
-      <div class="wrow" style="margin-top:12px"><label class="muted" for="wGoal" style="font-size:.85rem">${T("Objetivo")}</label><input id="wGoal" type="text" inputmode="decimal" placeholder="${T("sin objetivo")}" value="${W.goal() ? fmtNum(W.goal()) : ""}"><button class="btn small" data-act="w-goal">${T("Guardar")}</button></div>
-      <div class="wrow" style="margin-top:12px"><label class="muted" for="wDay" style="font-size:.85rem">${T("Día de pesaje")}</label><select id="wDay">${[1, 2, 3, 4, 5, 6, 0].map(i => `<option value="${i}" ${W.day() === i ? "selected" : ""}>${DIAS[i]}</option>`).join("")}</select><span></span></div>
-      ${W.list().length ? `<div style="margin-top:12px">${W.list().slice(-6).reverse().map(x => `<div class="rowx" style="padding:6px 0;border-top:1px solid var(--line);align-items:center"><span>${new Date(x.t).toLocaleDateString(LOC(), { day: "numeric", month: "short", year: "numeric" })} · <b>${fmtW(x.kg)}</b></span><button class="x" data-wdel="${x.id}" aria-label="${T("Borrar registro")}">×</button></div>`).join("")}${W.list().length > 6 ? `<p class="muted" style="font-size:.78rem;margin:6px 0 0">${T("Se muestran los 6 últimos de {n}.", { n: W.list().length })}</p>` : ""}</div>` : ""}
-    </div>
-    ${curProf().sex === "m" ? "" : `<h2>${T("Ciclo")}</h2>
-    ${cycSettings()}`}
-    ${aiProfPanel()}
-`,
-    app: `
-    <h2>${T("Idioma")}</h2>
-    <div class="seg" style="grid-template-columns:repeat(auto-fit,minmax(100px,1fr))" role="group" aria-label="${T("Idioma")}">${Object.entries(LANGS).map(([k, v]) => `<button data-lang-set="${k}" class="${LANG === k ? "on" : ""}" aria-pressed="${LANG === k}" lang="${k}">${v.name}</button>`).join("")}</div>
-    <h2>${T("Apariencia")}</h2>
-    <div class="seg" role="group" aria-label="${T("Tema")}">${THEMES.map(([k, n, d]) => `<button data-theme-set="${k}" class="${curTheme() === k ? "on" : ""}" aria-pressed="${curTheme() === k}">${T(n)}<small>${T(d)}</small></button>`).join("")}</div>
-    <h2>${T("Avisos durante el entreno")}</h2>
-    <div class="panel"><div class="seg" role="group" aria-label="${T("Avisos durante el entreno")}">${FX.map(([k, n]) => `<button data-fx="${k}" class="${fxMode() === k ? "on" : ""}" aria-pressed="${fxMode() === k}">${T(n)}</button>`).join("")}</div>
-      <p class="muted" style="font-size:.85rem;margin:10px 0 0">${fxMode() === "off" ? T("Sin pitidos ni vibración: solo la cuenta atrás y el destello en pantalla.") : fxMode() === "vib" ? T("Útil con auriculares o si entrenas con gente al lado. Si no vibra, revisa No molestar y la vibración del sistema.") : T("El pitido usa el volumen multimedia. Si no vibra, revisa No molestar y la vibración del sistema.")}</p>
-      ${fxMode() === "off" ? "" : `<button class="btn small" style="margin-top:10px" data-act="testfx">${T("Probar")}</button>`}</div>
     <h2>${T("Catálogo de ejercicios")}</h2>
     <div class="panel">
       <label class="xtog" style="padding:0;color:var(--ink);font-size:1rem"><span>${T("Usar el catálogo")}<small class="muted" style="display:block;font-size:.8rem">${catOn() ? (CAT ? T("{n} ejercicios con ficha y progresión", { n: CAT.exercises.length }) : T("Cargando…")) : T("Desactivado: solo tus ejercicios")}</small></span><input type="checkbox" id="catChk" ${catOn() ? "checked" : ""}></label>
       <p class="muted" style="font-size:.85rem;margin:10px 0 0">${T("Para quien empieza: fichas con explicación, material y progresiones al crear rutinas. Si ya lo tienes claro, puedes prescindir; tus rutinas funcionan igual. Funciona sin conexión.")}</p>
       ${catReady() ? `<button class="btn small" style="margin-top:10px" data-act="link-open">${T("Vincular ejercicios")}${(() => { const own = new Set(LS.get("wk.linkOwn", []) || []), c = linkCandidates().filter(x => !own.has(x.k)).length; return c ? ` · ${c}` : ""; })()}</button>` : ""}
     </div>
-    <h2>${T("Acerca de")}</h2>
+`,
+    perfil: `
+    ${profSettings()}
+    ${curProf().sex === "m" ? "" : `<h2>${T("Ciclo")}</h2>
+    ${cycSettings()}`}
+    ${aiProfPanel()}
+    ${profDataTools()}
+`,
+    apariencia: `
+    <h2>${T("Idioma")}</h2>
+    <div class="seg" style="grid-template-columns:repeat(auto-fit,minmax(100px,1fr))" role="group" aria-label="${T("Idioma")}">${Object.entries(LANGS).map(([k, v]) => `<button data-lang-set="${k}" class="${LANG === k ? "on" : ""}" aria-pressed="${LANG === k}" lang="${k}">${v.name}</button>`).join("")}</div>
+    <h2>${T("Apariencia")}</h2>
+    <div class="seg" role="group" aria-label="${T("Tema")}">${THEMES.map(([k, n, d]) => `<button data-theme-set="${k}" class="${curTheme() === k ? "on" : ""}" aria-pressed="${curTheme() === k}">${T(n)}<small>${T(d)}</small></button>`).join("")}</div>
+`,
+    avisos: `
+    <p class="muted" style="margin:0 0 12px">${T("Avisos durante el entreno")}</p>
+    <div class="panel"><div class="seg" role="group" aria-label="${T("Avisos durante el entreno")}">${FX.map(([k, n]) => `<button data-fx="${k}" class="${fxMode() === k ? "on" : ""}" aria-pressed="${fxMode() === k}">${T(n)}</button>`).join("")}</div>
+      <p class="muted" style="font-size:.85rem;margin:10px 0 0">${fxMode() === "off" ? T("Sin pitidos ni vibración: solo la cuenta atrás y el destello en pantalla.") : fxMode() === "vib" ? T("Útil con auriculares o si entrenas con gente al lado. Si no vibra, revisa No molestar y la vibración del sistema.") : T("El pitido usa el volumen multimedia. Si no vibra, revisa No molestar y la vibración del sistema.")}</p>
+      ${fxMode() === "off" ? "" : `<button class="btn small" style="margin-top:10px" data-act="testfx">${T("Probar")}</button>`}</div>
+`,
+    acerca: `
     <div class="panel">
       <div class="t" style="font-weight:600">Usus · <button class="verb" data-act="news-open">${T("versión")} ${APP_VERSION}${BETA ? " beta" : ""}</button></div>
       <p class="muted" style="font-size:.85rem;margin:4px 0 0">${T("Hecha con IA · probada por humanos.")}</p>
@@ -3717,19 +3788,34 @@ function viewData() {
     <h2>${T("Importar")}</h2>
     <div class="panel">${item(T("Importar JSON"), T("Copia completa o solo rutinas. Se combina con lo existente; los duplicados se actualizan."), "imp", T("Elegir archivo"))}</div>
     <input type="file" id="impFile" accept="application/json,.json" hidden>
-    ${profDataTools()}
     <h2>${T("Zona peligrosa")}</h2>
     <button class="btn danger" data-act="wipe">${T("Borrar todos los datos")}</button>
 `
   };
-  return `
-    <div class="row"><h1 style="flex:1">${T("Ajustes")}</h1></div>
-    <p class="sub">${T("{r} rutinas · {s} sesiones", { r: state.routines.length, s: state.sessions.length })} · ${lastBk ? T("última copia {d}", { d: new Date(lastBk).toLocaleDateString(LOC()) }) : T("sin copias todavía")}</p>
-    ${profSettings()}
-    <div class="stabs settabs" role="group" aria-label="${T("Ajustes")}">${SET_TABS.map(([k, l]) => `<button data-stab="${k}" aria-pressed="${tab === k}">${T(l)}</button>`).join("")}</div>
-    ${P[tab]}`;
+  const G = SET_GROUPS.find(g => g[0] === cur);
+  return `<div class="ssplit${sel ? " hasdet" : ""}"><div class="slist"><div class="phead"><h1>${T("Ajustes")}</h1></div>
+    <div class="lgroup">${SET_GROUPS.map(([k, n, ic]) => `<button class="lrow${k === cur ? " cur" : ""}" data-stab="${k}" aria-current="${k === sel}"><span class="lico">${SICO[ic]}</span><span class="t"><b>${T(n)}</b><small>${setSub(k, lastBk)}</small></span><span class="chev" aria-hidden="true">›</span></button>`).join("")}</div>
+    <p class="sub" style="margin:12px 4px 0">${T("{r} rutinas · {s} sesiones", { r: state.routines.length, s: state.sessions.length })}</p></div>
+    <section class="sdet" aria-labelledby="sdT"><button class="back" data-back="set">‹ ${T("Ajustes")}</button><h2 class="sdh" id="sdT">${T(G[1])}</h2>${P[cur]}</section></div>`;
 }
-const SET_TABS = [["entreno", "Entreno"], ["cuerpo", "Cuerpo"], ["app", "App"], ["datos", "Datos"]];
+/* Ajustes: grupos, cada uno con su pantalla */
+const SET_GROUPS = [["perfil", "Perfil", "user"], ["entreno", "Entreno", "train"], ["avisos", "Avisos", "bell"], ["apariencia", "Apariencia e idioma", "paint"], ["datos", "Datos y copias", "db"], ["acerca", "Acerca de", "info"]];
+const SICO = {
+  user: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>',
+  train: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7v10M18 7v10M3 10v4M21 10v4M6 12h12"/></svg>',
+  bell: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 16V11a6 6 0 1 1 12 0v5l2 2H4z"/><path d="M10 21h4"/></svg>',
+  paint: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M12 3a9 9 0 0 1 0 18"/></svg>',
+  db: '<svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg>',
+  info: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg>'
+};
+function setSub(k, lastBk) {
+  if (k === "perfil") return multiProf() ? esc(profName(curProf())) : T("Perfiles y datos personales");
+  if (k === "entreno") return T("Tiempos, esfuerzo, objetivos y catálogo");
+  if (k === "avisos") return T((FX.find(x => x[0] === fxMode()) || FX[0])[1]);
+  if (k === "apariencia") return `${T((THEMES.find(x => x[0] === curTheme()) || THEMES[3])[1])} · ${LANGS[LANG]?.name || LANG}`;
+  if (k === "datos") return lastBk ? T("última copia {d}", { d: new Date(lastBk).toLocaleDateString(LOC()) }) : T("sin copias todavía");
+  return `${T("versión")} ${APP_VERSION}${BETA ? " beta" : ""}`;
+}
 /* Donaciones: se copian al tocar */
 const DONATE = [
   ["btc", "Bitcoin", "bc1pnvdct6hfnh67p7dcg2e5mdveyz8jlxuzv4yflkxqccc72qkuc8ls8raspa"],
@@ -4183,7 +4269,7 @@ const keepPlace = () => { try { sessionStorage.setItem("usus.place", JSON.string
 function restorePlace() {
   try { const p = JSON.parse(sessionStorage.getItem("usus.place") || "null"); sessionStorage.removeItem("usus.place");
     if (p && ["train", "routines", "diary", "stats", "data"].includes(p.tab)) state.tab = p.tab;
-    if (p && SET_TABS.some(t => t[0] === p.setTab)) state.setTab = p.setTab; } catch {}
+    if (p && SET_GROUPS.some(t => t[0] === p.setTab)) state.setTab = p.setTab; } catch {}
 }
 const profSessions = id => (rawGet(PK("wk.sessions", id), []) || []).length;
 function switchProfile(id) {
@@ -4323,16 +4409,16 @@ function profDelete() {
 }
 function profSettings() {
   const p = curProf();
-  if (!multiProf() && !p.sex) return `<div class="panel" style="margin-top:12px"><p class="muted" style="font-size:.85rem;margin:0 0 10px">${T("Varias personas pueden usar Usus en este móvil, cada una con sus propios datos y ajustes.")}</p>
+  if (!multiProf() && !p.sex) return `<div class="panel"><p class="muted" style="font-size:.85rem;margin:0 0 10px">${T("Varias personas pueden usar Usus en este móvil, cada una con sus propios datos y ajustes.")}</p>
     <button class="btn small" data-act="prof-add">+ ${T("Añadir perfil")}</button></div>`;
-  return `<div class="panel" style="margin-top:12px"><div class="row" style="gap:12px;flex-wrap:nowrap">${profAv(p, 44)}<div style="flex:1;min-width:0"><div style="font-weight:600">${esc(profName(p))}</div><div class="muted" style="font-size:.85rem">${T(SEXN[p.sex] || "—")} · ${T("{n} sesiones", { n: state.sessions.length })}</div></div>
+  return `<div class="panel"><div class="row" style="gap:12px;flex-wrap:nowrap">${profAv(p, 44)}<div style="flex:1;min-width:0"><div style="font-weight:600">${esc(profName(p))}</div><div class="muted" style="font-size:.85rem">${T(SEXN[p.sex] || "—")} · ${T("{n} sesiones", { n: state.sessions.length })}</div></div>
     <button class="btn small" data-act="prof-edit">${T("Editar")}</button><button class="btn small" data-act="prof-pick">${T("Perfiles")}</button></div></div>`;
 }
 function profDataTools() {
   if (!multiProf()) return "";
   const p = curProf();
-  return `<h2>${T("Perfil")}</h2>
-    <div class="panel"><p class="muted" style="font-size:.85rem;margin:0 0 10px">${T("Todo lo de esta pantalla es solo de {x}.", { x: esc(profName(p)) })}</p>
+  return `<h2>${T("Este perfil")}</h2>
+    <div class="panel"><p class="muted" style="font-size:.85rem;margin:0 0 10px">${T("Solo afecta a {x}.", { x: esc(profName(p)) })}</p>
       <button class="btn small" data-act="prof-copy">${T("Copiar rutinas a otro perfil")}</button>
       <button class="btn small danger" style="margin-top:8px;display:block" data-act="prof-del">${T("Borrar perfil «{x}»", { x: esc(profName(p)) })}</button></div>`;
 }
@@ -4466,7 +4552,7 @@ document.addEventListener("click", async ev => {
   const t = ev.target.closest("button"); if (!t) return;
   const d = t.dataset;
   readPlan(); readActForm(); readAiForm();
-  if (d.tab) { readEditor(); state.print = null; state.dsheet = null; state.actForm = null; state.planMode = null; state.planDraft = null; state.tab = d.tab; render(); window.scrollTo(0, 0); return; }
+  if (d.tab) { readEditor(); state.print = null; state.dsheet = null; state.actForm = null; state.planMode = null; state.planDraft = null; state.routOpen = null; state.setTab = null; state.tab = d.tab; render(); window.scrollTo(0, 0); return; }
   if (d.start) { if (state.active && !confirm(T("Ya tienes una sesión en curso. ¿Descartarla y empezar otra?"))) return; cancelRun(); state.tab = "train"; startSession(d.start); return; }
   const a = state.active;
   if (d.mv) {
@@ -4513,7 +4599,7 @@ document.addEventListener("click", async ev => {
     else if (d.lnpick) { state.xpick = { mode: "link", k: it.k, name: it.name, q: "" }; render(); setTimeout(() => $("#xpQ")?.focus(), 0); return; }
     render(); return;
   }
-  if (d.stab) { state.setTab = d.stab; LS.set("wk.setTab", d.stab); render(); window.scrollTo(0, 0); return; }
+  if (d.stab) { state.setTab = d.stab; render(); window.scrollTo(0, 0); return; }
   if (d.pswitch) { switchProfile(d.pswitch); return; }
   if (d.pfsex && state.pform) { readProfForm(); state.pform.sex = d.pfsex; if (d.pfsex === "m") state.pform.cyc = false; render(); return; }
   if (d.pfcol && state.pform) { readProfForm(); state.pform.color = d.pfcol; render(); return; }
@@ -4537,7 +4623,8 @@ document.addEventListener("click", async ev => {
   }
   if (d.prm && state.planDraft) { state.planDraft.phases.splice(+d.prm, 1); render(); return; }
   if (d.pmv && state.planDraft) { const [i, dir] = d.pmv.split(":").map(Number), ph = state.planDraft.phases, j = i + dir; if (j >= 0 && j < ph.length) [ph[i], ph[j]] = [ph[j], ph[i]]; render(); return; }
-  if (d.ropen) { state.routOpen = matchMedia("(min-width:1000px)").matches ? d.ropen : state.routOpen === d.ropen ? null : d.ropen; render(); return; }
+  if (d.ropen) { state.routOpen = d.ropen; render(); window.scrollTo(0, 0); return; }
+  if (d.back) { if (d.back === "rout") state.routOpen = null; if (d.back === "set") state.setTab = null; render(); window.scrollTo(0, 0); return; }
   if (d.dup) {
     const r = state.routines.find(x => x.id === d.dup); if (!r) return;
     state.editing = normRoutine({ ...JSON.parse(JSON.stringify(r)), id: uid(), isNew: true, name: `${r.name} ${T("(copia)")}` }); state.edSel = null; state.edSec = null; render(); window.scrollTo(0, 0); return;
@@ -4550,7 +4637,7 @@ document.addEventListener("click", async ev => {
   if (d.cycSym) { const k = state.day || dayKey(Date.now()), ce = DY.get(k).cyc || {}, l = new Set(ce.sym || []); l.has(d.cycSym) ? l.delete(d.cycSym) : l.add(d.cycSym); DY.set(k, { cyc: { ...ce, sym: [...l] } }); render(); return; }
   if (d.cycSdel !== undefined) { const l = CYC.syms(); l.splice(+d.cycSdel, 1); CYC.saveSyms(l); render(); return; }
   if (d.dsh) { state.dsheet = d.dsh; render(); return; }
-  if (d.dgo) { const m = { sleep: ["hab", "sueno"], sup: ["hab", "suplementos"], ses: ["ent", "constancia"], steps: ["hab", "pasos"], act: ["hab", "actividad"], note: ["hab", "notas"], cyc: ["cue", "ciclo"] }[d.dgo] || ["res"]; state.statsCat = m[0]; LS.set("wk.statsCat", m[0]); state.dsheet = null; state.tab = "stats"; render(); const el = m[1] && [...document.querySelectorAll("[data-sb]")].find(x => x.dataset.sb === m[1]); window.scrollTo(0, el ? Math.max(0, el.getBoundingClientRect().top + scrollY - 8) : 0); return; }
+  if (d.dgo) { const m = { sleep: ["hab", "sueno"], sup: ["hab", "suplementos"], ses: ["ent", "constancia"], steps: ["hab", "pasos"], act: ["hab", "actividad"], note: ["hab", "notas"], cyc: ["cue", "ciclo"], peso: ["cue", "peso"] }[d.dgo] || ["res"]; state.statsCat = m[0]; LS.set("wk.statsCat", m[0]); state.dsheet = null; state.tab = "stats"; render(); const el = m[1] && [...document.querySelectorAll("[data-sb]")].find(x => x.dataset.sb === m[1]); window.scrollTo(0, el ? Math.max(0, el.getBoundingClientRect().top + scrollY - 8) : 0); return; }
   if (d.scat) { state.statsCat = d.scat; LS.set("wk.statsCat", d.scat); render(); window.scrollTo(0, 0); return; }
   if (d.sper) { LS.set("wk.statsPer", +d.sper); render(); return; }
   if (d.dmove) { const k = state.day || dayKey(Date.now()); state.day = d.dmove === "today" ? dayKey(Date.now()) : dayKey(addDays(keyTime(k), +d.dmove)); if (state.day > dayKey(Date.now())) state.day = dayKey(Date.now()); render(); return; }
@@ -4661,7 +4748,7 @@ document.addEventListener("click", async ev => {
     case "cat-no": LS.set("wk.catalog", false); state.catAsk = false; render(); break;
     case "link-open": linkOpen(); render(); window.scrollTo(0, 0); break;
     case "ln-all": state.link.items.forEach(it => { if (it.to && !state.link.done[it.k] && !(LS.get("wk.linkOwn", []) || []).includes(it.k)) linkApply(it.k, it.to); }); toast(T("Propuestas aceptadas")); render(); break;
-    case "ln-close": state.link = null; state.setTab = "app"; render(); window.scrollTo(0, 0); break;
+    case "ln-close": state.link = null; state.setTab = "entreno"; render(); window.scrollTo(0, 0); break;
     case "act-open": actFormInit(state.tab === "diary" ? state.day : null); render(); window.scrollTo(0, 0); break;
     case "act-set": state.actSet = !state.actSet; render(); break;
     case "act-cancel": state.actForm = null; render(); break;
@@ -4758,11 +4845,11 @@ document.addEventListener("click", async ev => {
     case "newroutine": state.edSel = null; state.edSec = null; state.edQ = ""; state.editing = { id: uid(), isNew: true, name: "", variant: "", days: [], exercises: [{ name: "", sets: 3, reps: 10, type: "reps" }] }; render(); break;
     case "addre": { readEditor(); const i = edAdd({ name: "", sets: 3, reps: 10, type: "reps" }); render();
       document.querySelector(`[data-en="${i}"]`)?.focus(); break; }
-    case "plan-open": readEditor(); state.editing = null; state.tab = "train"; state.planMode = null; render(); setTimeout(() => $("#planSec")?.scrollIntoView({ block: "start" }), 0); break;
-    case "plan-new": state.tab = "train"; state.planNew = true; state.planDraft = newPlanDraft(); state.planMode = "edit"; render(); window.scrollTo(0, 0); break;
+    case "plan-open": readEditor(); state.editing = null; state.tab = "routines"; state.routView = "plan"; state.routOpen = null; state.planMode = null; render(); window.scrollTo(0, 0); break;
+    case "plan-new": state.tab = "routines"; state.routView = "plan"; state.planNew = true; state.planDraft = newPlanDraft(); state.planMode = "edit"; render(); window.scrollTo(0, 0); break;
     case "plan-dup": { const a = PL.get(); if (!a) break; const l = PLS.list(); l.unshift({ ...JSON.parse(JSON.stringify(a)), id: uid(), name: T("Copia de {x}", { x: planName(a) }) }); PLS.save(l); state.plansOpen = true; toast(T("Plan duplicado. Actívalo para editarlo.")); render(); break; }
-    case "plan-create": state.planNew = false; state.tab = "train"; state.planDraft = newPlanDraft(); state.planMode = "edit"; render(); window.scrollTo(0, 0); break;
-    case "plan-edit": state.planNew = false; state.tab = "train"; state.planDraft = JSON.parse(JSON.stringify(PL.get() || newPlanDraft())); state.planDraft.phases.forEach(x => x.id = x.id || uid()); state.planMode = "edit"; render(); window.scrollTo(0, 0); break;
+    case "plan-create": state.planNew = false; state.tab = "routines"; state.routView = "plan"; state.planDraft = newPlanDraft(); state.planMode = "edit"; render(); window.scrollTo(0, 0); break;
+    case "plan-edit": state.planNew = false; state.tab = "routines"; state.routView = "plan"; state.planDraft = JSON.parse(JSON.stringify(PL.get() || newPlanDraft())); state.planDraft.phases.forEach(x => x.id = x.id || uid()); state.planMode = "edit"; render(); window.scrollTo(0, 0); break;
     case "plan-addph": { const used = new Set(state.planDraft.phases.map(x => x.variant)), nx = "ABCDEFGH".split("").find(c => !used.has(c)) || ""; state.planDraft.phases.push({ id: uid(), variant: nx, weeks: 2 }); render(); break; }
     case "plan-cancel": state.planDraft = null; state.planMode = null; state.planNew = false; render(); setTimeout(() => $("#planSec")?.scrollIntoView({ block: "start" }), 0); break;
     case "plan-save": {
@@ -4798,13 +4885,14 @@ document.addEventListener("click", async ev => {
       const ok = await deliver(`usus-${T("copia")}${pn}-${stamp()}.json`, JSON.stringify({ app: "usus", version: DATA_VERSION, exported: new Date().toISOString(), ...(pm.sex ? { profile: { name: pm.name, sex: pm.sex, color: pm.color } } : {}), routines: state.routines, sessions: state.sessions, weights: W.list(), weightGoal: W.goal(), diary: DY.all(), cycle: { periods: CYC.list(), symptoms: CYC.syms(), settings: CYC.cfg() }, supplements: DY.supps(), activities: ACT.list(), activityTypes: ACT.types(), goals: LS.get("wk.goals", null), plan: PL.get(), plans: PLS.list(), ...(aiHasData(aiProf()) ? { aiProfile: aiProf() } : {}) }, null, 2), "application/json");
       if (ok) { LS.set("wk.lastBackup", Date.now()); render(); } break;
     }
-    case "w-ban": case "w-add": {
-      const isBan = d.act === "w-ban", inp = $(isBan ? "#wBanKg" : "#wKg"), kg = parseKg(inp?.value);
+    case "w-add": {
+      const isBan = false, inp = $("#wKg"), kg = parseKg(inp?.value);
       if (kg === null) { toast(T("Escribe un peso válido, por ejemplo {v}", { v: fmtNum(74.6) })); inp?.focus(); return; }
       let t = Date.now();
       if (!isBan) { const v = $("#wDate")?.value; if (v) { const [y, m, dd] = v.split("-").map(Number); t = new Date(y, m - 1, dd).getTime(); } }
       addWeight(t, kg); toast(T("Peso guardado: {v}", { v: fmtW(kg) })); render(); break;
     }
+    case "w-open": state.tab = "diary"; state.day = dayKey(Date.now()); state.dsheet = "peso"; render(); setTimeout(() => $("#wKg")?.focus(), 0); break;
     case "w-skip": LS.set("wk.weightSkip", weekStart(Date.now())); render(); break;
     case "w-goal": { const v = $("#wGoal")?.value.trim(); if (!v) { LS.set("wk.weightGoal", null); toast(T("Objetivo quitado")); render(); break; }
       const g = parseKg(v); if (g === null) { toast(T("Escribe un objetivo válido, por ejemplo {v}", { v: 70 })); return; } LS.set("wk.weightGoal", g); toast(T("Objetivo: {v}", { v: fmtW(g) })); render(); break; }
@@ -4959,8 +5047,11 @@ const I18N = {
     "{a} de {b} revisados": "{a} de {b} revisats",
     "{d} · {e} ejercicios · {s} series": "{d} · {e} exercicis · {s} sèries",
     "{e} ejercicios · {s} series": "{e} exercicis · {s} sèries",
+    "{e} ejercicios · ≈ {m} min": "{e} exercicis · ≈ {m} min",
     "{n} de {m} seleccionadas · sin tus sesiones ni registros.": "{n} de {m} seleccionades · sense les teves sessions ni registres.",
     "{n} de {n} series": "{n} de {n} sèries",
+    "{n} ejercicio\u0004{n} ejercicios": ["{n} exercici","{n} exercicis"],
+    "{n} ejercicio": "{n} exercici",
     "{n} ejercicios · ≈ {m} min": "{n} exercicis · ≈ {m} min",
     "{n} ejercicios con ficha y progresión": "{n} exercicis amb fitxa i progressió",
     "{n} hojas": "{n} fulls",
@@ -5042,6 +5133,7 @@ const I18N = {
     "Anillas": "Anelles",
     "Ánimo bajo": "Ànim baix",
     "Anota tus pasos en Diario → Pasos para verlos aquí.": "Anota els teus passos a Diari → Passos per veure'ls aquí.",
+    "Anotar": "Anotar",
     "Anteayer": "Abans-d'ahir",
     "Anterior": "Anterior",
     "antes": "abans",
@@ -5069,7 +5161,6 @@ const I18N = {
     "Añadir suplemento": "Afegeix suplement",
     "Apariencia": "Aparença",
     "Apoyar el proyecto": "Dona suport al projecte",
-    "App": "App",
     "App Android": "App Android",
     "App Android: Ajustes → App → Actualizaciones, con la versión instalada, el enlace a las versiones y cómo recibir avisos con Obtainium.": "App Android: Ajustos → App → Actualitzacions, amb la versió instal·lada, l'enllaç a les versions i com rebre avisos amb Obtainium.",
     "App gratuita que vigila GitHub y te avisa o instala cada versión nueva. Es opcional.": "App gratuïta que vigila GitHub i t'avisa o instal·la cada versió nova. És opcional.",
@@ -5091,6 +5182,7 @@ const I18N = {
     "Aviso en Hoy antes de la regla prevista": "Avís a Avui abans de la regla prevista",
     "Aviso final (s)": "Avís final (s)",
     "Aviso final: {n} s": "Avís final: {n} s",
+    "Avisos": "Avisos",
     "Avisos automáticos con Obtainium": "Avisos automàtics amb Obtainium",
     "Avisos de sonido más suaves.": "Avisos de so més suaus.",
     "Avisos desactivados": "Avisos desactivats",
@@ -5233,7 +5325,6 @@ const I18N = {
     "Desactivado por defecto. Al activarlo aparece en Hoy, Diario y Stats; desactivado no se ve nada.": "Desactivat per defecte. En activar-lo apareix a Avui, Diari i Stats; desactivat no es veu res.",
     "Desactivado: solo tus ejercicios": "Desactivat: només els teus exercicis",
     "Desactivados": "Desactivats",
-    "desc.": "desc.",
     "Desc.": "Desc.",
     "Descanso (s)": "Descans (s)",
     "descanso {n} s": "descans {n} s",
@@ -5382,10 +5473,11 @@ const I18N = {
     "Esta app es una herramienta de registro, no un consejo médico ni un plan de entrenamiento. Consulta con un profesional antes de empezar o cambiar tu actividad física.": "Aquesta app és una eina de registre, no un consell mèdic ni un pla d'entrenament. Consulta un professional abans de començar o canviar la teva activitat física.",
     "Esta app no se conecta a Internet, así que no busca versiones nuevas por su cuenta. Se publican en GitHub; al instalar una nueva encima, tus datos se mantienen.": "Aquesta app no es connecta a Internet, així que no busca versions noves pel seu compte. Es publiquen a GitHub; en instal·lar-ne una de nova a sobre, les teves dades es mantenen.",
     "Esta copia es de una versión más nueva de Usus. Actualiza la app para importarla completa. ¿Importar igualmente lo que se pueda?": "Aquesta còpia és d'una versió més nova d'Usus. Actualitza l'app per importar-la completa. Vols importar igualment el que es pugui?",
+    "esta semana": "aquesta setmana",
     "Esta semana": "Aquesta setmana",
     "Esta semana no": "Aquesta setmana no",
-    "Estadísticas": "Estadístiques",
     "Este navegador no permite vibrar": "Aquest navegador no permet vibrar",
+    "Este perfil": "Aquest perfil",
     "Estimación aproximada a partir de tus ciclos anteriores. No sirve como anticonceptivo ni como diagnóstico.": "Estimació aproximada a partir dels teus cicles anteriors. No serveix com a anticonceptiu ni com a diagnòstic.",
     "Evolución del peso": "Evolució del pes",
     "Exigente": "Exigent",
@@ -5564,7 +5656,6 @@ const I18N = {
     "Mi material (Ajustes → Entreno) y material en tus ejercicios propios.": "El meu material (Ajustos → Entrenament) i material als teus exercicis propis.",
     "Minutos": "Minuts",
     "Mis planes": "Els meus plans",
-    "Mis rutinas": "Les meves rutines",
     "Moderada": "Moderada",
     "Moderado": "Moderat",
     "Modo diseño de rutinas: secciones (calentamiento, principal, core, vuelta a la calma o las tuyas), superseries y circuitos con vueltas y descanso entre vueltas, reordenar con ↑ ↓ o arrastrando, y duración aproximada.": "Mode disseny de rutines: seccions (escalfament, principal, core, tornada a la calma o les teves), supersèries i circuits amb voltes i descans entre voltes, reordenar amb ↑ ↓ o arrossegant, i durada aproximada.",
@@ -5662,7 +5753,7 @@ const I18N = {
     "Ordenar": "Ordena",
     "Oscuro": "Fosc",
     "Oscuro cálido, sin azul": "Fosc càlid, sense blau",
-    "Otra rutina…": "Una altra rutina…",
+    "Otra rutina": "Una altra rutina",
     "Otras opciones del mismo nivel": "Altres opcions del mateix nivell",
     "Otro": "Altre",
     "Otro material (sin icono)": "Altre material (sense icona)",
@@ -5703,12 +5794,14 @@ const I18N = {
     "PEM × minutos de cada sesión, sumado por semana.": "PEM × minuts de cada sessió, sumat per setmana.",
     "PEM del 1 al 10, opcional en cada sesión": "PEM de l'1 al 10, opcional a cada sessió",
     "PEM media · 4 semanas": "PEM mitjana · 4 setmanes",
+    "Pendiente": "Pendent",
     "Pendiente desde el {d}": "Pendent des de {d}",
     "Pendientes esta semana": "Pendents aquesta setmana",
     "peor lado": "pitjor costat",
     "Perfil": "Perfil",
     "Perfil guardado": "Perfil desat",
     "Perfiles": "Perfils",
+    "Perfiles y datos personales": "Perfils i dades personals",
     "Perfiles: varias personas en el mismo móvil, cada una con sus datos, ajustes y copia de seguridad. Se cambia desde Hoy o Ajustes. Se pueden copiar rutinas de un perfil a otro.": "Perfils: diverses persones al mateix mòbil, cadascuna amb les seves dades, ajustos i còpia de seguretat. Es canvia des d'Avui o Ajustos. Es poden copiar rutines d'un perfil a un altre.",
     "Perimenopausia o menopausia": "Perimenopausa o menopausa",
     "Periodo": "Període",
@@ -5765,6 +5858,7 @@ const I18N = {
     "Probar": "Prova",
     "Progresión": "Progressió",
     "Progresión: al terminar una sesión, propuesta de subir al siguiente ejercicio o de volver al anterior. Se ajusta en Ajustes → Entreno.": "Progressió: en acabar una sessió, proposta de pujar a l'exercici següent o de tornar a l'anterior. S'ajusta a Ajustos → Entrenament.",
+    "Progreso": "Progrés",
     "propio": "propi",
     "Proponer cambios de paso": "Proposa canvis de pas",
     "Proponer retroceder": "Proposa retrocedir",
@@ -5862,7 +5956,6 @@ const I18N = {
     "Se guarda únicamente en este móvil, dentro de este perfil.": "Es desa únicament en aquest mòbil, dins d'aquest perfil.",
     "Se ha aplicado la regla de tu plan: {x}.": "S'ha aplicat la regla del teu pla: {x}.",
     "Se muestran en Stats → Resumen. 0 = no mostrar. Fuerza = cualquier bloque salvo Diaria, Cardio y Otro.": "Es mostren a Stats → Resum. 0 = no mostrar. Força = qualsevol bloc excepte Diària, Cardio i Altre.",
-    "Se muestran los 6 últimos de {n}.": "Es mostren els 6 últims de {n}.",
     "Se ofrece tal cual, sin garantías de ningún tipo. La usas bajo tu responsabilidad.": "S'ofereix tal com és, sense garanties de cap mena. La fas servir sota la teva responsabilitat.",
     "Se queda como ejercicio propio": "Es queda com a exercici propi",
     "Se usan en los ejercicios sin descanso propio (Rutinas → Editar). 0 = sin descanso.": "S'apliquen als exercicis sense descans propi (Rutines → Edita). 0 = sense descans.",
@@ -5949,6 +6042,7 @@ const I18N = {
     "sobre la media de las 4 anteriores. Si no fue a propósito, vigila el descanso.": "sobre la mitjana de les 4 anteriors. Si no va ser expressament, vigila el descans.",
     "Sobre ti (para interpretar los datos)": "Sobre tu (per interpretar les dades)",
     "Software libre bajo licencia MIT: puedes usarlo, copiarlo, modificarlo y distribuirlo, también con fines comerciales, manteniendo el aviso de copyright y de licencia.": "Programari lliure amb llicència MIT: pots fer-lo servir, copiar-lo, modificar-lo i distribuir-lo, també amb finalitats comercials, mantenint l'avís de copyright i de llicència.",
+    "Solo afecta a {x}.": "Només afecta {x}.",
     "Solo con mi material": "Només amb el meu material",
     "Solo el plan activo cuenta en Hoy. Al cambiar de plan, tus rutinas, sesiones e historial no se tocan.": "Només el pla actiu compta a Avui. En canviar de pla, les teves rutines, sessions i historial no es toquen.",
     "Solo en esta sesión. En lugar de {x}.": "Només en aquesta sessió. En lloc de {x}.",
@@ -5964,7 +6058,6 @@ const I18N = {
     "Solo sonido": "Només so",
     "Solo vibración": "Només vibració",
     "Sonido y vibración": "So i vibració",
-    "Stats": "Stats",
     "Subir": "Puja",
     "Subir {x}": "Puja {x}",
     "Subir de paso": "Pujar de pas",
@@ -5999,6 +6092,7 @@ const I18N = {
     "tiempo": "temps",
     "Tiempo": "Temps",
     "Tiempos": "Temps",
+    "Tiempos, esfuerzo, objetivos y catálogo": "Temps, esforç, objectius i catàleg",
     "Tipo": "Tipus",
     "Tipo de grupo": "Tipus de grup",
     "Tipo de movimiento": "Tipus de moviment",
@@ -6013,7 +6107,6 @@ const I18N = {
     "Todo": "Tot",
     "Todo en JSON: rutinas, plan, sesiones, pesos, diario, suplementos y ciclo. Sirve para restaurar.": "Tot en JSON: rutines, pla, sessions, pesos, diari, suplements i cicle. Serveix per restaurar.",
     "Todo en tablas (.zip) para analizarlo en una hoja de cálculo.": "Tot en taules (.zip) per analitzar-ho en un full de càlcul.",
-    "Todo lo de esta pantalla es solo de {x}.": "Tot el d'aquesta pantalla és només de {x}.",
     "Todo lo que tenías.": "Tot el que tenies.",
     "Todo opcional, pero ayuda: no es lo mismo 5 flexiones de alguien que empieza que de alguien con dolor lumbar.": "Tot opcional, però ajuda: no és el mateix 5 flexions d'algú que comença que d'algú amb dolor lumbar.",
     "Todos": "Tots",
@@ -6023,7 +6116,6 @@ const I18N = {
     "Tracción": "Tracció",
     "Tracción horizontal": "Tracció horitzontal",
     "Tracción vertical": "Tracció vertical",
-    "tras": "després",
     "Tres sonidos: tic en los últimos segundos de cualquier cuenta atrás, inicio y fin. La vibración respeta siempre Ajustes → Avisos.": "Tres sons: tic als últims segons de qualsevol compte enrere, inici i fi. La vibració respecta sempre Ajustos → Avisos.",
     "Tu nombre": "El teu nom",
     "Tu perfil": "El teu perfil",
@@ -6075,6 +6167,7 @@ const I18N = {
     "Ver la app primero. Las rutinas se crean en Rutinas → Nueva rutina.": "Veure l'app primer. Les rutines es creen a Rutines → Nova rutina.",
     "Ver licencia completa": "Mostra la llicència completa",
     "Ver notas": "Veure notes",
+    "Ver plan": "Mostra el pla",
     "Ver versiones": "Veure versions",
     "versión": "versió",
     "Versión {v}": "Versió {v}",
@@ -6136,8 +6229,11 @@ const I18N = {
     "{a} de {b} revisados": "{a} of {b} reviewed",
     "{d} · {e} ejercicios · {s} series": "{d} · {e} exercises · {s} sets",
     "{e} ejercicios · {s} series": "{e} exercises · {s} sets",
+    "{e} ejercicios · ≈ {m} min": "{e} exercises · ≈ {m} min",
     "{n} de {m} seleccionadas · sin tus sesiones ni registros.": "{n} of {m} selected · without your sessions or logs.",
     "{n} de {n} series": "{n} of {n} sets",
+    "{n} ejercicio\u0004{n} ejercicios": ["{n} exercise","{n} exercises"],
+    "{n} ejercicio": "{n} exercise",
     "{n} ejercicios · ≈ {m} min": "{n} exercises · ≈ {m} min",
     "{n} ejercicios con ficha y progresión": "{n} exercises with card and progression",
     "{n} hojas": "{n} sheets",
@@ -6219,6 +6315,7 @@ const I18N = {
     "Anillas": "Rings",
     "Ánimo bajo": "Low mood",
     "Anota tus pasos en Diario → Pasos para verlos aquí.": "Log your steps in Diary → Steps to see them here.",
+    "Anotar": "Log",
     "Anteayer": "2 days ago",
     "Anterior": "Previous",
     "antes": "before",
@@ -6246,7 +6343,6 @@ const I18N = {
     "Añadir suplemento": "Add supplement",
     "Apariencia": "Appearance",
     "Apoyar el proyecto": "Support the project",
-    "App": "App",
     "App Android": "Android app",
     "App Android: Ajustes → App → Actualizaciones, con la versión instalada, el enlace a las versiones y cómo recibir avisos con Obtainium.": "Android app: Settings → App → Updates, with the installed version, a link to releases and how to get alerts with Obtainium.",
     "App gratuita que vigila GitHub y te avisa o instala cada versión nueva. Es opcional.": "A free app that watches GitHub and notifies you or installs each new version. Optional.",
@@ -6268,6 +6364,7 @@ const I18N = {
     "Aviso en Hoy antes de la regla prevista": "Notice in Today before the expected period",
     "Aviso final (s)": "Final warning (s)",
     "Aviso final: {n} s": "Final warning: {n} s",
+    "Avisos": "Alerts",
     "Avisos automáticos con Obtainium": "Automatic alerts with Obtainium",
     "Avisos de sonido más suaves.": "Softer sound alerts.",
     "Avisos desactivados": "Alerts are off",
@@ -6410,7 +6507,6 @@ const I18N = {
     "Desactivado por defecto. Al activarlo aparece en Hoy, Diario y Stats; desactivado no se ve nada.": "Off by default. When on it shows in Today, Diary and Stats; when off nothing is shown.",
     "Desactivado: solo tus ejercicios": "Off: only your exercises",
     "Desactivados": "Off",
-    "desc.": "rest",
     "Desc.": "Del.",
     "Descanso (s)": "Rest (s)",
     "descanso {n} s": "rest {n} s",
@@ -6559,10 +6655,11 @@ const I18N = {
     "Esta app es una herramienta de registro, no un consejo médico ni un plan de entrenamiento. Consulta con un profesional antes de empezar o cambiar tu actividad física.": "This app is a logging tool, not medical advice or a training plan. Talk to a professional before starting or changing your physical activity.",
     "Esta app no se conecta a Internet, así que no busca versiones nuevas por su cuenta. Se publican en GitHub; al instalar una nueva encima, tus datos se mantienen.": "This app doesn't connect to the Internet, so it doesn't look for new versions by itself. They're published on GitHub; installing a new one on top keeps your data.",
     "Esta copia es de una versión más nueva de Usus. Actualiza la app para importarla completa. ¿Importar igualmente lo que se pueda?": "This backup is from a newer version of Usus. Update the app to import it fully. Import what's possible anyway?",
+    "esta semana": "this week",
     "Esta semana": "This week",
     "Esta semana no": "Skip this week",
-    "Estadísticas": "Statistics",
     "Este navegador no permite vibrar": "This browser can't vibrate",
+    "Este perfil": "This profile",
     "Estimación aproximada a partir de tus ciclos anteriores. No sirve como anticonceptivo ni como diagnóstico.": "Approximate estimate based on your previous cycles. Not a contraceptive method or a diagnosis.",
     "Evolución del peso": "Weight trend",
     "Exigente": "Hard",
@@ -6741,7 +6838,6 @@ const I18N = {
     "Mi material (Ajustes → Entreno) y material en tus ejercicios propios.": "My equipment (Settings → Workout) and equipment for your own exercises.",
     "Minutos": "Minutes",
     "Mis planes": "My plans",
-    "Mis rutinas": "My routines",
     "Moderada": "Medium",
     "Moderado": "Moderate",
     "Modo diseño de rutinas: secciones (calentamiento, principal, core, vuelta a la calma o las tuyas), superseries y circuitos con vueltas y descanso entre vueltas, reordenar con ↑ ↓ o arrastrando, y duración aproximada.": "Routine design mode: sections (warm-up, main, core, cool-down or your own), supersets and circuits with rounds and rest between rounds, reorder with ↑ ↓ or by dragging, and an estimated duration.",
@@ -6839,7 +6935,7 @@ const I18N = {
     "Ordenar": "Reorder",
     "Oscuro": "Dark",
     "Oscuro cálido, sin azul": "Warm dark, no blue",
-    "Otra rutina…": "Another routine…",
+    "Otra rutina": "Another routine",
     "Otras opciones del mismo nivel": "Other options at the same level",
     "Otro": "Other",
     "Otro material (sin icono)": "Other equipment (no icon)",
@@ -6880,12 +6976,14 @@ const I18N = {
     "PEM × minutos de cada sesión, sumado por semana.": "RPE × minutes of each session, summed per week.",
     "PEM del 1 al 10, opcional en cada sesión": "RPE from 1 to 10, optional each session",
     "PEM media · 4 semanas": "Average RPE · 4 weeks",
+    "Pendiente": "To do",
     "Pendiente desde el {d}": "Due since {d}",
     "Pendientes esta semana": "Pending this week",
     "peor lado": "weaker side",
     "Perfil": "Profile",
     "Perfil guardado": "Profile saved",
     "Perfiles": "Profiles",
+    "Perfiles y datos personales": "Profiles and personal data",
     "Perfiles: varias personas en el mismo móvil, cada una con sus datos, ajustes y copia de seguridad. Se cambia desde Hoy o Ajustes. Se pueden copiar rutinas de un perfil a otro.": "Profiles: several people on the same phone, each with their own data, settings and backup. Switch from Today or Settings. Routines can be copied between profiles.",
     "Perimenopausia o menopausia": "Perimenopause or menopause",
     "Periodo": "Period",
@@ -6942,6 +7040,7 @@ const I18N = {
     "Probar": "Test",
     "Progresión": "Progression",
     "Progresión: al terminar una sesión, propuesta de subir al siguiente ejercicio o de volver al anterior. Se ajusta en Ajustes → Entreno.": "Progression: after a session, a suggestion to move on to the next exercise or go back to the previous one. Set it up in Settings → Workout.",
+    "Progreso": "Progress",
     "propio": "own",
     "Proponer cambios de paso": "Suggest step changes",
     "Proponer retroceder": "Suggest going back",
@@ -7039,7 +7138,6 @@ const I18N = {
     "Se guarda únicamente en este móvil, dentro de este perfil.": "It's stored only on this phone, inside this profile.",
     "Se ha aplicado la regla de tu plan: {x}.": "Your plan's rule was applied: {x}.",
     "Se muestran en Stats → Resumen. 0 = no mostrar. Fuerza = cualquier bloque salvo Diaria, Cardio y Otro.": "Shown in Stats → Summary. 0 = hide. Strength = any block except Daily, Cardio and Other.",
-    "Se muestran los 6 últimos de {n}.": "Showing the latest 6 of {n}.",
     "Se ofrece tal cual, sin garantías de ningún tipo. La usas bajo tu responsabilidad.": "Provided as is, without warranty of any kind. Use it at your own risk.",
     "Se queda como ejercicio propio": "Stays as your own exercise",
     "Se usan en los ejercicios sin descanso propio (Rutinas → Editar). 0 = sin descanso.": "Used for exercises without their own rest (Routines → Edit). 0 = no rest.",
@@ -7126,6 +7224,7 @@ const I18N = {
     "sobre la media de las 4 anteriores. Si no fue a propósito, vigila el descanso.": "over the average of the previous 4. If it wasn't on purpose, watch your rest.",
     "Sobre ti (para interpretar los datos)": "About you (to interpret the data)",
     "Software libre bajo licencia MIT: puedes usarlo, copiarlo, modificarlo y distribuirlo, también con fines comerciales, manteniendo el aviso de copyright y de licencia.": "Free software under the MIT license: you may use, copy, modify and distribute it, including commercially, as long as the copyright and license notice is kept.",
+    "Solo afecta a {x}.": "Only affects {x}.",
     "Solo con mi material": "Only with my equipment",
     "Solo el plan activo cuenta en Hoy. Al cambiar de plan, tus rutinas, sesiones e historial no se tocan.": "Only the active plan counts in Today. Switching plans doesn't touch your routines, sessions or history.",
     "Solo en esta sesión. En lugar de {x}.": "This session only. Instead of {x}.",
@@ -7141,7 +7240,6 @@ const I18N = {
     "Solo sonido": "Sound only",
     "Solo vibración": "Vibration only",
     "Sonido y vibración": "Sound and vibration",
-    "Stats": "Stats",
     "Subir": "Move up",
     "Subir {x}": "Move {x} up",
     "Subir de paso": "Step up",
@@ -7176,6 +7274,7 @@ const I18N = {
     "tiempo": "time",
     "Tiempo": "Time",
     "Tiempos": "Timing",
+    "Tiempos, esfuerzo, objetivos y catálogo": "Timers, effort, goals and catalogue",
     "Tipo": "Type",
     "Tipo de grupo": "Group type",
     "Tipo de movimiento": "Movement type",
@@ -7190,7 +7289,6 @@ const I18N = {
     "Todo": "All",
     "Todo en JSON: rutinas, plan, sesiones, pesos, diario, suplementos y ciclo. Sirve para restaurar.": "Everything in JSON: routines, plan, sessions, weights, diary, supplements and cycle. Use it to restore.",
     "Todo en tablas (.zip) para analizarlo en una hoja de cálculo.": "Everything in tables (.zip) to analyse in a spreadsheet.",
-    "Todo lo de esta pantalla es solo de {x}.": "Everything on this screen belongs to {x} only.",
     "Todo lo que tenías.": "Everything you had.",
     "Todo opcional, pero ayuda: no es lo mismo 5 flexiones de alguien que empieza que de alguien con dolor lumbar.": "All optional, but it helps: 5 push-ups mean something different for a beginner than for someone with low back pain.",
     "Todos": "All",
@@ -7200,7 +7298,6 @@ const I18N = {
     "Tracción": "Pull",
     "Tracción horizontal": "Horizontal pull",
     "Tracción vertical": "Vertical pull",
-    "tras": "after",
     "Tres sonidos: tic en los últimos segundos de cualquier cuenta atrás, inicio y fin. La vibración respeta siempre Ajustes → Avisos.": "Three sounds: a tick in the last seconds of any countdown, start and end. Vibration always follows Settings → Alerts.",
     "Tu nombre": "Your name",
     "Tu perfil": "Your profile",
@@ -7252,6 +7349,7 @@ const I18N = {
     "Ver la app primero. Las rutinas se crean en Rutinas → Nueva rutina.": "See the app first. Routines are created in Routines → New routine.",
     "Ver licencia completa": "View full license",
     "Ver notas": "See notes",
+    "Ver plan": "View plan",
     "Ver versiones": "See versions",
     "versión": "version",
     "Versión {v}": "Version {v}",

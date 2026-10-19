@@ -8,6 +8,6 @@ test("número de hojas", async ({ page }) => {
   await page.locator('[data-popt="two"]').check(); await expect(page.locator(".page")).toHaveCount(2);
   await page.locator('[data-popt="cal"]').check(); await expect(page.locator(".page")).toHaveCount(3);
   await page.locator('[data-pmode="sem"]').click(); await expect(page.locator(".page")).toHaveCount(1);
-  await page.locator('[data-act="print-close"]').click(); await expect(page.locator(".rcard")).toHaveCount(3);
+  await page.locator('[data-act="print-close"]').click(); await expect(page.locator(".rrow")).toHaveCount(3);
   expect(errors).toEqual([]);
 });

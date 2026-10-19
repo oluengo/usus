@@ -21,6 +21,7 @@ test("compartir copia, imprimir y botón Atrás", async ({ page }) => {
   await page.locator('[data-act="print-close"]').click();
   await page.locator('[data-rshare="r1"]:visible').click(); await expect(page.locator(".modal")).toHaveCount(1);
   await page.evaluate(() => window.__back()); await expect(page.locator(".modal")).toHaveCount(0);
+  await page.evaluate(() => window.__back()); await expect(page.locator(".rrow").first()).toBeVisible();   // de la rutina a la lista
   await page.evaluate(() => window.__back()); await expect(page.locator('#tabs [aria-current="page"]')).toHaveAttribute("data-tab", "train");
   await page.evaluate(() => window.__back()); expect(await page.evaluate(() => window.__min)).toBe(1);
   expect(errors).toEqual([]);

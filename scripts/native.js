@@ -1,7 +1,7 @@
 // Puente para la versión Android (Capacitor). Solo se incluye en el APK; la PWA no lo carga.
 // - Compartir archivos (copias, CSV, análisis) con la hoja nativa de Android.
 // - Pantalla encendida durante el entreno (wakeLock nativo).
-// - Botón Atrás: cierra el diálogo abierto, vuelve a Hoy o minimiza la app.
+// - Botón Atrás: cierra el diálogo abierto, vuelve de una pantalla (rutina, grupo de Ajustes), vuelve a Hoy o minimiza la app.
 (function () {
   const C = window.Capacitor;
   if (!C || !C.isNativePlatform || !C.isNativePlatform()) return;
@@ -49,6 +49,8 @@
   if (P.App) P.App.addListener("backButton", () => {
     const modals = document.querySelectorAll(".modal");
     if (modals.length) { const b = modals[modals.length - 1].querySelector(CLOSE); if (b) b.click(); return; }
+    const bk = [...document.querySelectorAll("#app [data-back]")].find(e => e.offsetParent);
+    if (bk) { bk.click(); return; }
     const hoy = document.querySelector('#tabs [data-tab="train"]');
     if (hoy && hoy.getAttribute("aria-current") !== "page") { hoy.click(); return; }
     P.App.minimizeApp();

@@ -112,12 +112,26 @@ msgid "{e} ejercicios · {s} series"
 msgstr "{e} exercises · {s} sets"
 
 #, python-brace-format
+msgid "{e} ejercicios · ≈ {m} min"
+msgstr "{e} exercises · ≈ {m} min"
+
+#, python-brace-format
 msgid "{n} de {m} seleccionadas · sin tus sesiones ni registros."
 msgstr "{n} of {m} selected · without your sessions or logs."
 
 #, python-brace-format
 msgid "{n} de {n} series"
 msgstr "{n} of {n} sets"
+
+#, python-brace-format
+msgid "{n} ejercicio"
+msgid_plural "{n} ejercicios"
+msgstr[0] "{n} exercise"
+msgstr[1] "{n} exercises"
+
+#, python-brace-format
+msgid "{n} ejercicio"
+msgstr "{n} exercise"
 
 #, python-brace-format
 msgid "{n} ejercicios · ≈ {m} min"
@@ -383,6 +397,9 @@ msgstr "Low mood"
 msgid "Anota tus pasos en Diario → Pasos para verlos aquí."
 msgstr "Log your steps in Diary → Steps to see them here."
 
+msgid "Anotar"
+msgstr "Log"
+
 msgid "Anteayer"
 msgstr "2 days ago"
 
@@ -466,9 +483,6 @@ msgstr "Appearance"
 msgid "Apoyar el proyecto"
 msgstr "Support the project"
 
-msgid "App"
-msgstr "App"
-
 msgid "App Android"
 msgstr "Android app"
 
@@ -533,6 +547,9 @@ msgstr "Final warning (s)"
 #, python-brace-format
 msgid "Aviso final: {n} s"
 msgstr "Final warning: {n} s"
+
+msgid "Avisos"
+msgstr "Alerts"
 
 msgid "Avisos automáticos con Obtainium"
 msgstr "Automatic alerts with Obtainium"
@@ -969,9 +986,6 @@ msgstr "Off: only your exercises"
 
 msgid "Desactivados"
 msgstr "Off"
-
-msgid "desc."
-msgstr "rest"
 
 msgid "Desc."
 msgstr "Del."
@@ -1437,17 +1451,20 @@ msgstr "This app doesn't connect to the Internet, so it doesn't look for new ver
 msgid "Esta copia es de una versión más nueva de Usus. Actualiza la app para importarla completa. ¿Importar igualmente lo que se pueda?"
 msgstr "This backup is from a newer version of Usus. Update the app to import it fully. Import what's possible anyway?"
 
+msgid "esta semana"
+msgstr "this week"
+
 msgid "Esta semana"
 msgstr "This week"
 
 msgid "Esta semana no"
 msgstr "Skip this week"
 
-msgid "Estadísticas"
-msgstr "Statistics"
-
 msgid "Este navegador no permite vibrar"
 msgstr "This browser can't vibrate"
+
+msgid "Este perfil"
+msgstr "This profile"
 
 msgid "Estimación aproximada a partir de tus ciclos anteriores. No sirve como anticonceptivo ni como diagnóstico."
 msgstr "Approximate estimate based on your previous cycles. Not a contraceptive method or a diagnosis."
@@ -1994,9 +2011,6 @@ msgstr "Minutes"
 msgid "Mis planes"
 msgstr "My plans"
 
-msgid "Mis rutinas"
-msgstr "My routines"
-
 msgid "Moderada"
 msgstr "Medium"
 
@@ -2297,8 +2311,8 @@ msgstr "Dark"
 msgid "Oscuro cálido, sin azul"
 msgstr "Warm dark, no blue"
 
-msgid "Otra rutina…"
-msgstr "Another routine…"
+msgid "Otra rutina"
+msgstr "Another routine"
 
 msgid "Otras opciones del mismo nivel"
 msgstr "Other options at the same level"
@@ -2425,6 +2439,9 @@ msgstr "RPE from 1 to 10, optional each session"
 msgid "PEM media · 4 semanas"
 msgstr "Average RPE · 4 weeks"
 
+msgid "Pendiente"
+msgstr "To do"
+
 #, python-brace-format
 msgid "Pendiente desde el {d}"
 msgstr "Due since {d}"
@@ -2443,6 +2460,9 @@ msgstr "Profile saved"
 
 msgid "Perfiles"
 msgstr "Profiles"
+
+msgid "Perfiles y datos personales"
+msgstr "Profiles and personal data"
 
 msgid "Perfiles: varias personas en el mismo móvil, cada una con sus datos, ajustes y copia de seguridad. Se cambia desde Hoy o Ajustes. Se pueden copiar rutinas de un perfil a otro."
 msgstr "Profiles: several people on the same phone, each with their own data, settings and backup. Switch from Today or Settings. Routines can be copied between profiles."
@@ -2616,6 +2636,9 @@ msgstr "Progression"
 
 msgid "Progresión: al terminar una sesión, propuesta de subir al siguiente ejercicio o de volver al anterior. Se ajusta en Ajustes → Entreno."
 msgstr "Progression: after a session, a suggestion to move on to the next exercise or go back to the previous one. Set it up in Settings → Workout."
+
+msgid "Progreso"
+msgstr "Progress"
 
 msgid "propio"
 msgstr "own"
@@ -2924,10 +2947,6 @@ msgstr "Your plan's rule was applied: {x}."
 msgid "Se muestran en Stats → Resumen. 0 = no mostrar. Fuerza = cualquier bloque salvo Diaria, Cardio y Otro."
 msgstr "Shown in Stats → Summary. 0 = hide. Strength = any block except Daily, Cardio and Other."
 
-#, python-brace-format
-msgid "Se muestran los 6 últimos de {n}."
-msgstr "Showing the latest 6 of {n}."
-
 msgid "Se ofrece tal cual, sin garantías de ningún tipo. La usas bajo tu responsabilidad."
 msgstr "Provided as is, without warranty of any kind. Use it at your own risk."
 
@@ -3200,6 +3219,10 @@ msgstr "About you (to interpret the data)"
 msgid "Software libre bajo licencia MIT: puedes usarlo, copiarlo, modificarlo y distribuirlo, también con fines comerciales, manteniendo el aviso de copyright y de licencia."
 msgstr "Free software under the MIT license: you may use, copy, modify and distribute it, including commercially, as long as the copyright and license notice is kept."
 
+#, python-brace-format
+msgid "Solo afecta a {x}."
+msgstr "Only affects {x}."
+
 msgid "Solo con mi material"
 msgstr "Only with my equipment"
 
@@ -3246,9 +3269,6 @@ msgstr "Vibration only"
 
 msgid "Sonido y vibración"
 msgstr "Sound and vibration"
-
-msgid "Stats"
-msgstr "Stats"
 
 msgid "Subir"
 msgstr "Move up"
@@ -3358,6 +3378,9 @@ msgstr "Time"
 msgid "Tiempos"
 msgstr "Timing"
 
+msgid "Tiempos, esfuerzo, objetivos y catálogo"
+msgstr "Timers, effort, goals and catalogue"
+
 msgid "Tipo"
 msgstr "Type"
 
@@ -3401,10 +3424,6 @@ msgstr "Everything in JSON: routines, plan, sessions, weights, diary, supplement
 msgid "Todo en tablas (.zip) para analizarlo en una hoja de cálculo."
 msgstr "Everything in tables (.zip) to analyse in a spreadsheet."
 
-#, python-brace-format
-msgid "Todo lo de esta pantalla es solo de {x}."
-msgstr "Everything on this screen belongs to {x} only."
-
 msgid "Todo lo que tenías."
 msgstr "Everything you had."
 
@@ -3431,9 +3450,6 @@ msgstr "Horizontal pull"
 
 msgid "Tracción vertical"
 msgstr "Vertical pull"
-
-msgid "tras"
-msgstr "after"
 
 msgid "Tres sonidos: tic en los últimos segundos de cualquier cuenta atrás, inicio y fin. La vibración respeta siempre Ajustes → Avisos."
 msgstr "Three sounds: a tick in the last seconds of any countdown, start and end. Vibration always follows Settings → Alerts."
@@ -3596,6 +3612,9 @@ msgstr "View full license"
 msgid "Ver notas"
 msgstr "See notes"
 
+msgid "Ver plan"
+msgstr "View plan"
+
 msgid "Ver versiones"
 msgstr "See versions"
 
@@ -3686,6 +3705,35 @@ msgstr "Me"
 msgid "Zona peligrosa"
 msgstr "Danger zone"
 
+#~ msgid "App"
+#~ msgstr "App"
+
+#~ msgid "desc."
+#~ msgstr "rest"
+
+#~ msgid "Estadísticas"
+#~ msgstr "Statistics"
+
+#~ msgid "Mis rutinas"
+#~ msgstr "My routines"
+
+#~ msgid "Otra rutina…"
+#~ msgstr "Another routine…"
+
+#, python-brace-format
+#~ msgid "Se muestran los 6 últimos de {n}."
+#~ msgstr "Showing the latest 6 of {n}."
+
+#~ msgid "Stats"
+#~ msgstr "Stats"
+
+#, python-brace-format
+#~ msgid "Todo lo de esta pantalla es solo de {x}."
+#~ msgstr "Everything on this screen belongs to {x} only."
+
+#~ msgid "tras"
+#~ msgstr "after"
+
 #, python-brace-format
 #~ msgid "{x} completado · {n} de {n} series"
 #~ msgstr "{x} done · {n} of {n} sets"
@@ -3714,9 +3762,6 @@ msgstr "Danger zone"
 #, python-brace-format
 #~ msgid "Cuenta atrás de inicio: {n} s"
 #~ msgstr "Start countdown: {n} s"
-
-#~ msgid "Ver plan"
-#~ msgstr "View plan"
 
 #, python-brace-format
 #~ msgid "Hoy toca ({d}):"
@@ -3805,9 +3850,6 @@ msgstr "Danger zone"
 
 #~ msgid "Se usa en los ejercicios que no tienen un descanso propio (Rutinas → Editar → Descanso). 0 = sin descanso."
 #~ msgstr "Used for exercises without their own rest (Routines → Edit → Rest). 0 = no rest."
-
-#~ msgid "Avisos"
-#~ msgstr "Alerts"
 
 #~ msgid "Probar sonido y vibración"
 #~ msgstr "Test sound and vibration"

@@ -112,12 +112,26 @@ msgid "{e} ejercicios · {s} series"
 msgstr "{e} exercicis · {s} sèries"
 
 #, python-brace-format
+msgid "{e} ejercicios · ≈ {m} min"
+msgstr "{e} exercicis · ≈ {m} min"
+
+#, python-brace-format
 msgid "{n} de {m} seleccionadas · sin tus sesiones ni registros."
 msgstr "{n} de {m} seleccionades · sense les teves sessions ni registres."
 
 #, python-brace-format
 msgid "{n} de {n} series"
 msgstr "{n} de {n} sèries"
+
+#, python-brace-format
+msgid "{n} ejercicio"
+msgid_plural "{n} ejercicios"
+msgstr[0] "{n} exercici"
+msgstr[1] "{n} exercicis"
+
+#, python-brace-format
+msgid "{n} ejercicio"
+msgstr "{n} exercici"
 
 #, python-brace-format
 msgid "{n} ejercicios · ≈ {m} min"
@@ -383,6 +397,9 @@ msgstr "Ànim baix"
 msgid "Anota tus pasos en Diario → Pasos para verlos aquí."
 msgstr "Anota els teus passos a Diari → Passos per veure'ls aquí."
 
+msgid "Anotar"
+msgstr "Anotar"
+
 msgid "Anteayer"
 msgstr "Abans-d'ahir"
 
@@ -466,9 +483,6 @@ msgstr "Aparença"
 msgid "Apoyar el proyecto"
 msgstr "Dona suport al projecte"
 
-msgid "App"
-msgstr "App"
-
 msgid "App Android"
 msgstr "App Android"
 
@@ -533,6 +547,9 @@ msgstr "Avís final (s)"
 #, python-brace-format
 msgid "Aviso final: {n} s"
 msgstr "Avís final: {n} s"
+
+msgid "Avisos"
+msgstr "Avisos"
 
 msgid "Avisos automáticos con Obtainium"
 msgstr "Avisos automàtics amb Obtainium"
@@ -969,9 +986,6 @@ msgstr "Desactivat: només els teus exercicis"
 
 msgid "Desactivados"
 msgstr "Desactivats"
-
-msgid "desc."
-msgstr "desc."
 
 msgid "Desc."
 msgstr "Desc."
@@ -1437,17 +1451,20 @@ msgstr "Aquesta app no es connecta a Internet, així que no busca versions noves
 msgid "Esta copia es de una versión más nueva de Usus. Actualiza la app para importarla completa. ¿Importar igualmente lo que se pueda?"
 msgstr "Aquesta còpia és d'una versió més nova d'Usus. Actualitza l'app per importar-la completa. Vols importar igualment el que es pugui?"
 
+msgid "esta semana"
+msgstr "aquesta setmana"
+
 msgid "Esta semana"
 msgstr "Aquesta setmana"
 
 msgid "Esta semana no"
 msgstr "Aquesta setmana no"
 
-msgid "Estadísticas"
-msgstr "Estadístiques"
-
 msgid "Este navegador no permite vibrar"
 msgstr "Aquest navegador no permet vibrar"
+
+msgid "Este perfil"
+msgstr "Aquest perfil"
 
 msgid "Estimación aproximada a partir de tus ciclos anteriores. No sirve como anticonceptivo ni como diagnóstico."
 msgstr "Estimació aproximada a partir dels teus cicles anteriors. No serveix com a anticonceptiu ni com a diagnòstic."
@@ -1994,9 +2011,6 @@ msgstr "Minuts"
 msgid "Mis planes"
 msgstr "Els meus plans"
 
-msgid "Mis rutinas"
-msgstr "Les meves rutines"
-
 msgid "Moderada"
 msgstr "Moderada"
 
@@ -2297,8 +2311,8 @@ msgstr "Fosc"
 msgid "Oscuro cálido, sin azul"
 msgstr "Fosc càlid, sense blau"
 
-msgid "Otra rutina…"
-msgstr "Una altra rutina…"
+msgid "Otra rutina"
+msgstr "Una altra rutina"
 
 msgid "Otras opciones del mismo nivel"
 msgstr "Altres opcions del mateix nivell"
@@ -2425,6 +2439,9 @@ msgstr "PEM de l'1 al 10, opcional a cada sessió"
 msgid "PEM media · 4 semanas"
 msgstr "PEM mitjana · 4 setmanes"
 
+msgid "Pendiente"
+msgstr "Pendent"
+
 #, python-brace-format
 msgid "Pendiente desde el {d}"
 msgstr "Pendent des de {d}"
@@ -2443,6 +2460,9 @@ msgstr "Perfil desat"
 
 msgid "Perfiles"
 msgstr "Perfils"
+
+msgid "Perfiles y datos personales"
+msgstr "Perfils i dades personals"
 
 msgid "Perfiles: varias personas en el mismo móvil, cada una con sus datos, ajustes y copia de seguridad. Se cambia desde Hoy o Ajustes. Se pueden copiar rutinas de un perfil a otro."
 msgstr "Perfils: diverses persones al mateix mòbil, cadascuna amb les seves dades, ajustos i còpia de seguretat. Es canvia des d'Avui o Ajustos. Es poden copiar rutines d'un perfil a un altre."
@@ -2616,6 +2636,9 @@ msgstr "Progressió"
 
 msgid "Progresión: al terminar una sesión, propuesta de subir al siguiente ejercicio o de volver al anterior. Se ajusta en Ajustes → Entreno."
 msgstr "Progressió: en acabar una sessió, proposta de pujar a l'exercici següent o de tornar a l'anterior. S'ajusta a Ajustos → Entrenament."
+
+msgid "Progreso"
+msgstr "Progrés"
 
 msgid "propio"
 msgstr "propi"
@@ -2924,10 +2947,6 @@ msgstr "S'ha aplicat la regla del teu pla: {x}."
 msgid "Se muestran en Stats → Resumen. 0 = no mostrar. Fuerza = cualquier bloque salvo Diaria, Cardio y Otro."
 msgstr "Es mostren a Stats → Resum. 0 = no mostrar. Força = qualsevol bloc excepte Diària, Cardio i Altre."
 
-#, python-brace-format
-msgid "Se muestran los 6 últimos de {n}."
-msgstr "Es mostren els 6 últims de {n}."
-
 msgid "Se ofrece tal cual, sin garantías de ningún tipo. La usas bajo tu responsabilidad."
 msgstr "S'ofereix tal com és, sense garanties de cap mena. La fas servir sota la teva responsabilitat."
 
@@ -3200,6 +3219,10 @@ msgstr "Sobre tu (per interpretar les dades)"
 msgid "Software libre bajo licencia MIT: puedes usarlo, copiarlo, modificarlo y distribuirlo, también con fines comerciales, manteniendo el aviso de copyright y de licencia."
 msgstr "Programari lliure amb llicència MIT: pots fer-lo servir, copiar-lo, modificar-lo i distribuir-lo, també amb finalitats comercials, mantenint l'avís de copyright i de llicència."
 
+#, python-brace-format
+msgid "Solo afecta a {x}."
+msgstr "Només afecta {x}."
+
 msgid "Solo con mi material"
 msgstr "Només amb el meu material"
 
@@ -3246,9 +3269,6 @@ msgstr "Només vibració"
 
 msgid "Sonido y vibración"
 msgstr "So i vibració"
-
-msgid "Stats"
-msgstr "Stats"
 
 msgid "Subir"
 msgstr "Puja"
@@ -3358,6 +3378,9 @@ msgstr "Temps"
 msgid "Tiempos"
 msgstr "Temps"
 
+msgid "Tiempos, esfuerzo, objetivos y catálogo"
+msgstr "Temps, esforç, objectius i catàleg"
+
 msgid "Tipo"
 msgstr "Tipus"
 
@@ -3401,10 +3424,6 @@ msgstr "Tot en JSON: rutines, pla, sessions, pesos, diari, suplements i cicle. S
 msgid "Todo en tablas (.zip) para analizarlo en una hoja de cálculo."
 msgstr "Tot en taules (.zip) per analitzar-ho en un full de càlcul."
 
-#, python-brace-format
-msgid "Todo lo de esta pantalla es solo de {x}."
-msgstr "Tot el d'aquesta pantalla és només de {x}."
-
 msgid "Todo lo que tenías."
 msgstr "Tot el que tenies."
 
@@ -3431,9 +3450,6 @@ msgstr "Tracció horitzontal"
 
 msgid "Tracción vertical"
 msgstr "Tracció vertical"
-
-msgid "tras"
-msgstr "després"
 
 msgid "Tres sonidos: tic en los últimos segundos de cualquier cuenta atrás, inicio y fin. La vibración respeta siempre Ajustes → Avisos."
 msgstr "Tres sons: tic als últims segons de qualsevol compte enrere, inici i fi. La vibració respecta sempre Ajustos → Avisos."
@@ -3596,6 +3612,9 @@ msgstr "Mostra la llicència completa"
 msgid "Ver notas"
 msgstr "Veure notes"
 
+msgid "Ver plan"
+msgstr "Mostra el pla"
+
 msgid "Ver versiones"
 msgstr "Veure versions"
 
@@ -3686,6 +3705,35 @@ msgstr "Jo"
 msgid "Zona peligrosa"
 msgstr "Zona perillosa"
 
+#~ msgid "App"
+#~ msgstr "App"
+
+#~ msgid "desc."
+#~ msgstr "desc."
+
+#~ msgid "Estadísticas"
+#~ msgstr "Estadístiques"
+
+#~ msgid "Mis rutinas"
+#~ msgstr "Les meves rutines"
+
+#~ msgid "Otra rutina…"
+#~ msgstr "Una altra rutina…"
+
+#, python-brace-format
+#~ msgid "Se muestran los 6 últimos de {n}."
+#~ msgstr "Es mostren els 6 últims de {n}."
+
+#~ msgid "Stats"
+#~ msgstr "Stats"
+
+#, python-brace-format
+#~ msgid "Todo lo de esta pantalla es solo de {x}."
+#~ msgstr "Tot el d'aquesta pantalla és només de {x}."
+
+#~ msgid "tras"
+#~ msgstr "després"
+
 #, python-brace-format
 #~ msgid "{x} completado · {n} de {n} series"
 #~ msgstr "{x} completat · {n} de {n} sèries"
@@ -3714,9 +3762,6 @@ msgstr "Zona perillosa"
 #, python-brace-format
 #~ msgid "Cuenta atrás de inicio: {n} s"
 #~ msgstr "Compte enrere d'inici: {n} s"
-
-#~ msgid "Ver plan"
-#~ msgstr "Mostra el pla"
 
 #, python-brace-format
 #~ msgid "Hoy toca ({d}):"
@@ -3805,9 +3850,6 @@ msgstr "Zona perillosa"
 
 #~ msgid "Se usa en los ejercicios que no tienen un descanso propio (Rutinas → Editar → Descanso). 0 = sin descanso."
 #~ msgstr "S'aplica als exercicis que no tenen un descans propi (Rutines → Edita → Descans). 0 = sense descans."
-
-#~ msgid "Avisos"
-#~ msgstr "Avisos"
 
 #~ msgid "Probar sonido y vibración"
 #~ msgstr "Prova el so i la vibració"
