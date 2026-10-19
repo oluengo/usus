@@ -532,6 +532,9 @@ msgstr "File saved"
 msgid "Arrastrar"
 msgstr "Drag"
 
+msgid "Arreglo: al añadir un plan recibido se conserva su regla de subida, y el plan activo anterior queda guardado en Mis planes."
+msgstr "Fix: adding a received plan keeps its progression rule, and the previous active plan is saved in My plans."
+
 msgid "Atrás"
 msgstr "Back"
 
@@ -2427,6 +2430,9 @@ msgstr "Stop"
 msgid "Pared"
 msgstr "Wall"
 
+msgid "Pasa a ser el plan activo; el actual queda guardado en Mis planes."
+msgstr "It becomes the active plan; the current one stays saved in My plans."
+
 #, python-brace-format
 msgid "Paso {n} de {t}"
 msgstr "Step {n} of {t}"
@@ -3352,9 +3358,6 @@ msgstr "Supplements"
 msgid "Sus datos van aparte de los de la PWA."
 msgstr "Its data is kept apart from the PWA's."
 
-msgid "Sustituirá tu plan actual."
-msgstr "It will replace your current plan."
-
 msgid "También lleva a"
 msgstr "Also leads to"
 
@@ -3760,6 +3763,9 @@ msgstr "Me"
 
 msgid "Zona peligrosa"
 msgstr "Danger zone"
+
+#~ msgid "Sustituirá tu plan actual."
+#~ msgstr "It will replace your current plan."
 
 #, python-brace-format
 #~ msgid "{r} rutinas · {s} sesiones"

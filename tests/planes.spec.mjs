@@ -20,3 +20,15 @@ test("duplicar, nuevo, activar y borrar", async ({ page }) => {
   expect((await ls(page, "wk.plans")).map(p => p.name)).toEqual(["Bloque 1"]);
   expect(errors).toEqual([]);
 });
+test("plan recibido: conserva su regla de subida y el activo pasa a Mis planes", async ({ page }) => {
+  const errors = await openApp(page, { clock: new Date("2026-10-16T09:00:00"), data: { "wk.routines": R, "wk.plan": PLAN } });
+  await nav(page, "data"); await page.locator('[data-stab="datos"]').click();
+  const shared = { app: "usus", shared: 1, routines: [{ name: "C · Fuerza", variant: "C", days: [2], exercises: [{ name: "Remo", sets: 3, reps: 10, type: "reps" }] }],
+    plan: { phases: [{ variant: "A", weeks: 2 }, { variant: "C", weeks: 2 }], deload: { weeks: 1, every: 6 }, up: true, upRule: "reps1" } };
+  await page.setInputFiles("#impFile", { name: "plan.json", mimeType: "application/json", buffer: Buffer.from(JSON.stringify(shared)) });
+  await expect(page.locator('[data-act="in-yes"]')).toBeVisible();
+  await page.locator('[data-act="in-yes"]').click();
+  expect((await ls(page, "wk.plan")).upRule).toBe("reps1");
+  expect((await ls(page, "wk.plans")).map(p => p.name)).toEqual(["Bloque 1"]);
+  expect(errors).toEqual([]);
+});

@@ -18,6 +18,7 @@ Rediseño: estructura nueva, componentes unificados y glosario único (es/ca/en)
 - Estilo unificado: un solo tipo de pestañas, botones con tamaños fijos y ventanas como hoja inferior en el móvil. El morado queda solo para la IA.
 - Primer uso guiado en pasos: idioma y avisos, catálogo, material y cómo empezar (crear la primera rutina o importar una copia).
 - Las traducciones pasan a archivos estándar (gettext) para poder traducir la app desde el navegador.
+- Arreglo: al añadir un plan recibido se conserva su regla de subida, y el plan activo anterior queda guardado en Mis planes.
 
 ## [2.5.0] — 2026-10-17
 
@@ -255,6 +256,7 @@ Primera versión pública.
 - Estil unificat: un sol tipus de pestanyes, botons amb mides fixes i finestres com a full inferior al mòbil. El lila queda només per a la IA.
 - Primer ús guiat en passos: idioma i avisos, catàleg, material i com començar (crear la primera rutina o importar una còpia).
 - Les traduccions passen a fitxers estàndard (gettext) per poder traduir l'app des del navegador.
+- Correcció: en afegir un pla rebut es conserva la seva regla de pujada, i el pla actiu anterior queda desat a Els meus plans.
 
 ### [2.5.0] — 2026-10-17
 - Mode disseny de rutines: seccions, supersèries i circuits (voltes, descans entre voltes), reordenar amb ↑ ↓ o arrossegant, durada aproximada.
@@ -337,6 +339,7 @@ Primera versió pública: rutines amb sèries per repeticions o per temps, compt
 - Unified style: one kind of tabs, buttons with fixed sizes and dialogs as bottom sheets on phones. Purple is now only for AI.
 - Guided first run in steps: language and notices, catalogue, equipment and how to start (create your first routine or import a backup).
 - Translations move to standard files (gettext) so the app can be translated from the browser.
+- Fix: adding a received plan keeps its progression rule, and the previous active plan is saved in My plans.
 
 ### [2.5.0] — 2026-10-17
 - Routine design mode: sections, supersets and circuits (rounds, rest between rounds), reorder with ↑ ↓ or by dragging, estimated duration.

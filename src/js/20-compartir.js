@@ -207,7 +207,7 @@ function incomingModal() {
     ${inc.routines.length ? `<div class="rsl">${inc.routines.map((r, i) => { const m = sharedMatch(r), upd = m && inc.mode[i] !== "new";
       return `<div class="rsrow"><button class="rsr" style="padding-left:12px" data-inr="${i}" aria-pressed="${sel.has(i)}">${box(sel.has(i))}<span style="flex:1;min-width:0">${esc(r.name)}<small class="muted" style="display:block;font-size:.78rem">${T("{e} ejercicios · {s} series", { e: r.exercises.length, s: r.exercises.reduce((a, e) => a + e.sets, 0) })}</small></span></button>
         ${m && sel.has(i) ? `<div class="rsmode"><small class="muted">${T("Ya la tienes: «{x}»", { x: esc(m.name) })}</small><div class="rsseg"><button data-inm="${i}:upd" class="${upd ? "on" : ""}" aria-pressed="${upd}">${T("Actualizar")}</button><button data-inm="${i}:new" class="${upd ? "" : "on"}" aria-pressed="${!upd}">${T("Añadir como nueva")}</button></div></div>` : ""}</div>`; }).join("")}</div>` : ""}
-    ${p ? `<label class="shopt" style="margin-top:10px"><span>${T("Añadir el plan de progresión")}<small class="muted" style="display:block;font-size:.78rem">${esc(phs)}. ${T("Empieza el {d}.", { d: kFmt(nextMonday(), { weekday: "long", day: "numeric", month: "short" }) })}${PL.get() ? " " + T("Sustituirá tu plan actual.") : ""}</small></span><input type="checkbox" role="switch" id="inPlan" ${inc.withPlan ? "checked" : ""}></label>` : ""}
+    ${p ? `<label class="shopt" style="margin-top:10px"><span>${T("Añadir el plan de progresión")}<small class="muted" style="display:block;font-size:.78rem">${esc(phs)}. ${T("Empieza el {d}.", { d: kFmt(nextMonday(), { weekday: "long", day: "numeric", month: "short" }) })}${PL.get() ? " " + T("Pasa a ser el plan activo; el actual queda guardado en Mis planes.") : ""}</small></span><input type="checkbox" role="switch" id="inPlan" ${inc.withPlan ? "checked" : ""}></label>` : ""}
     <p class="muted" style="font-size:.78rem;margin:8px 0 0">${T("Si ya tienes una rutina con el mismo nombre, se añade como «(2)».")} ${T("Al actualizar se cambian los ejercicios; el nombre, los días, la variante y tus sesiones no se tocan.")}</p>
     <div class="row" style="margin-top:12px"><button class="btn" style="flex:1" data-act="in-no">${T("Ahora no")}</button><button class="btn primary" style="flex:1" data-act="in-yes" ${sel.size || (p && inc.withPlan) ? "" : "disabled"}>${T("Añadir")}</button></div>
   </div></div>`;
@@ -226,7 +226,8 @@ async function incomingAdd() {
   });
   state.routines.push(...add); await store.saveRoutines(state.routines);
   const plan = inc.plan && inc.withPlan;
-  if (plan) PL.save({ enabled: true, start: nextMonday(), review: "", phases: inc.plan.phases.map(x => ({ id: uid(), ...x })), deload: inc.plan.deload, up: inc.plan.up });
+  if (plan) { const old = PL.get(); if (old) PLS.save([{ ...old, id: old.id || uid() }, ...PLS.list()]);   // el activo anterior pasa a Mis planes
+    PL.save({ id: uid(), enabled: true, start: nextMonday(), review: "", phases: inc.plan.phases.map(x => ({ id: uid(), ...x })), deload: inc.plan.deload, up: inc.plan.up, upRule: inc.plan.upRule }); }
   state.incoming = null; state.tab = add.length || upd ? "routines" : "train"; state.editing = null;
   const msg = [add.length ? (add.length === 1 ? T("Rutina añadida") : T("Añadidas {n} rutinas", { n: add.length })) : "", upd ? (upd === 1 ? T("1 rutina actualizada") : T("{n} rutinas actualizadas", { n: upd })) : "", plan ? T("plan añadido") : ""].filter(Boolean).join(" · ");
   toast(msg || T("Nada que añadir")); render(); window.scrollTo(0, 0);

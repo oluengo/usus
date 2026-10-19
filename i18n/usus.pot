@@ -531,6 +531,9 @@ msgstr ""
 msgid "Arrastrar"
 msgstr ""
 
+msgid "Arreglo: al añadir un plan recibido se conserva su regla de subida, y el plan activo anterior queda guardado en Mis planes."
+msgstr ""
+
 msgid "Atrás"
 msgstr ""
 
@@ -2426,6 +2429,9 @@ msgstr ""
 msgid "Pared"
 msgstr ""
 
+msgid "Pasa a ser el plan activo; el actual queda guardado en Mis planes."
+msgstr ""
+
 #, python-brace-format
 msgid "Paso {n} de {t}"
 msgstr ""
@@ -3349,9 +3355,6 @@ msgid "Suplementos"
 msgstr ""
 
 msgid "Sus datos van aparte de los de la PWA."
-msgstr ""
-
-msgid "Sustituirá tu plan actual."
 msgstr ""
 
 msgid "También lleva a"

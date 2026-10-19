@@ -532,6 +532,9 @@ msgstr "Fitxer desat"
 msgid "Arrastrar"
 msgstr "Arrossega"
 
+msgid "Arreglo: al añadir un plan recibido se conserva su regla de subida, y el plan activo anterior queda guardado en Mis planes."
+msgstr "Correcció: en afegir un pla rebut es conserva la seva regla de pujada, i el pla actiu anterior queda desat a Els meus plans."
+
 msgid "Atrás"
 msgstr "Enrere"
 
@@ -2427,6 +2430,9 @@ msgstr "Atura"
 msgid "Pared"
 msgstr "Paret"
 
+msgid "Pasa a ser el plan activo; el actual queda guardado en Mis planes."
+msgstr "Passa a ser el pla actiu; l'actual queda desat a Els meus plans."
+
 #, python-brace-format
 msgid "Paso {n} de {t}"
 msgstr "Pas {n} de {t}"
@@ -3352,9 +3358,6 @@ msgstr "Suplements"
 msgid "Sus datos van aparte de los de la PWA."
 msgstr "Les seves dades van a part de les de la PWA."
 
-msgid "Sustituirá tu plan actual."
-msgstr "Substituirà el teu pla actual."
-
 msgid "También lleva a"
 msgstr "També porta a"
 
@@ -3760,6 +3763,9 @@ msgstr "Jo"
 
 msgid "Zona peligrosa"
 msgstr "Zona perillosa"
+
+#~ msgid "Sustituirá tu plan actual."
+#~ msgstr "Substituirà el teu pla actual."
 
 #, python-brace-format
 #~ msgid "{r} rutinas · {s} sesiones"

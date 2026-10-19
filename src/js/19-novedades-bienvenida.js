@@ -10,7 +10,8 @@ const CHANGES = [  // Novedades: solo en castellano; las traducciones, en i18n/*
     N_("Editor de rutina más compacto en el móvil: cada ejercicio en una fila con su resumen; los detalles se abren al tocarla."),
     N_("Estilo unificado: un solo tipo de pestañas, botones con tamaños fijos y ventanas como hoja inferior en el móvil. El morado queda solo para la IA."),
     N_("Primer uso guiado en pasos: idioma y avisos, catálogo, material y cómo empezar (crear la primera rutina o importar una copia)."),
-    N_("Las traducciones pasan a archivos estándar (gettext) para poder traducir la app desde el navegador.")
+    N_("Las traducciones pasan a archivos estándar (gettext) para poder traducir la app desde el navegador."),
+    N_("Arreglo: al añadir un plan recibido se conserva su regla de subida, y el plan activo anterior queda guardado en Mis planes.")
   ]],
   ["2.5.0", [
     N_("Modo diseño de rutinas: secciones (calentamiento, principal, core, vuelta a la calma o las tuyas), superseries y circuitos con vueltas y descanso entre vueltas, reordenar con ↑ ↓ o arrastrando, y duración aproximada."),
