@@ -51,6 +51,9 @@ msgstr ""
 msgid "¿Eliminar este suplemento? Su historial también se dejará de mostrar."
 msgstr ""
 
+msgid "¿Hacer descarga esta semana? Solo se sugieren las rutinas de todas las semanas, y el resto del plan se corre una semana."
+msgstr ""
+
 msgid "¿Has notado la vibración?"
 msgstr ""
 
@@ -108,10 +111,6 @@ msgstr ""
 
 #, python-brace-format
 msgid "{e} ejercicios · {s} series"
-msgstr ""
-
-#, python-brace-format
-msgid "{e} ejercicios · ≈ {m} min"
 msgstr ""
 
 #, python-brace-format
@@ -204,6 +203,16 @@ msgstr ""
 
 #, python-brace-format
 msgid "{n} sem."
+msgstr ""
+
+#, python-brace-format
+msgid "{n} semana"
+msgid_plural "{n} semanas"
+msgstr[0] ""
+msgstr[1] ""
+
+#, python-brace-format
+msgid "{n} semana"
 msgstr ""
 
 #, python-brace-format
@@ -542,6 +551,12 @@ msgid "Apariencia"
 msgstr ""
 
 msgid "Apariencia e idioma"
+msgstr ""
+
+msgid "Aplazado a mañana"
+msgstr ""
+
+msgid "Aplazar a mañana"
 msgstr ""
 
 msgid "Apoyar el proyecto"
@@ -1114,13 +1129,29 @@ msgstr ""
 msgid "descarga {w} sem. cada {e}"
 msgstr ""
 
+msgid "Descarga esta semana"
+msgstr ""
+
 msgid "Descargar"
 msgstr ""
 
 msgid "Descartar"
 msgstr ""
 
+msgid "Desde"
+msgstr ""
+
+#, python-brace-format
+msgid "desde el {d}"
+msgstr ""
+
 msgid "Desde el inicio"
+msgstr ""
+
+msgid "desde esta semana"
+msgstr ""
+
+msgid "desde la próxima"
 msgstr ""
 
 msgid "Deshacer"
@@ -2533,6 +2564,9 @@ msgstr ""
 msgid "Pausar"
 msgstr ""
 
+msgid "Pausar el plan"
+msgstr ""
+
 msgid "Pausar lo oculta del diario sin borrar su historial."
 msgstr ""
 
@@ -2649,6 +2683,16 @@ msgid "Plan desactivado: Hoy no lo tiene en cuenta."
 msgstr ""
 
 msgid "Plan duplicado. Actívalo para editarlo."
+msgstr ""
+
+msgid "Plan en pausa"
+msgstr ""
+
+#, python-brace-format
+msgid "Plan en pausa: solo rutinas de todas las semanas (p. ej. Diaria). Sigue el {d}."
+msgstr ""
+
+msgid "Plan flexible: aplazar a mañana las sesiones de hoy (las siguientes de la semana se corren), hacer descarga esta semana o pausar el plan 1 a 4 semanas; el resto del plan se corre. Además, «Rutinas y días» se eligen dentro del propio plan."
 msgstr ""
 
 msgid "Plan guardado"
@@ -3142,6 +3186,9 @@ msgstr ""
 msgid "Semana {n} de {m}"
 msgstr ""
 
+msgid "Semana de descarga"
+msgstr ""
+
 msgid "Semana de descarga: solo rutinas sin variante (p. ej. Diaria)."
 msgstr ""
 
@@ -3160,6 +3207,9 @@ msgid "Semanas"
 msgstr ""
 
 msgid "Semanas de descarga"
+msgstr ""
+
+msgid "Semanas de pausa"
 msgstr ""
 
 msgid "Sensibilidad"
@@ -3217,6 +3267,16 @@ msgid "sesiones"
 msgstr ""
 
 msgid "Sesiones"
+msgstr ""
+
+#, python-brace-format
+msgid "Sesiones aplazadas {n} día desde el {d}."
+msgid_plural "Sesiones aplazadas {n} días desde el {d}."
+msgstr[0] ""
+msgstr[1] ""
+
+#, python-brace-format
+msgid "Sesiones aplazadas {n} día desde el {d}."
 msgstr ""
 
 msgid "Sexo"
@@ -3694,6 +3754,9 @@ msgstr ""
 msgid "V"
 msgstr ""
 
+msgid "Vacaciones, lesión, un viaje… Las semanas de pausa solo sugieren las rutinas de todas las semanas, y el resto del plan se corre."
+msgstr ""
+
 msgid "Vacía: añade o arrastra aquí ejercicios."
 msgstr ""
 
@@ -3831,6 +3894,9 @@ msgid "Y {n} días más en el Diario."
 msgstr ""
 
 msgid "Ya hay un perfil con ese nombre"
+msgstr ""
+
+msgid "Ya hay una pausa esa semana"
 msgstr ""
 
 msgid "Ya la estás usando como app instalada."

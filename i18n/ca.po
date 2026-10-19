@@ -52,6 +52,9 @@ msgstr "Vols eliminar aquesta sessió? No es pot desfer."
 msgid "¿Eliminar este suplemento? Su historial también se dejará de mostrar."
 msgstr "Vols eliminar aquest suplement? El seu historial també deixarà de mostrar-se."
 
+msgid "¿Hacer descarga esta semana? Solo se sugieren las rutinas de todas las semanas, y el resto del plan se corre una semana."
+msgstr "Fer descàrrega aquesta setmana? Només se suggereixen les rutines de totes les setmanes, i la resta del pla es desplaça una setmana."
+
 msgid "¿Has notado la vibración?"
 msgstr "Has notat la vibració?"
 
@@ -110,10 +113,6 @@ msgstr "{d} · {e} exercicis · {s} sèries"
 #, python-brace-format
 msgid "{e} ejercicios · {s} series"
 msgstr "{e} exercicis · {s} sèries"
-
-#, python-brace-format
-msgid "{e} ejercicios · ≈ {m} min"
-msgstr "{e} exercicis · ≈ {m} min"
 
 #, python-brace-format
 msgid "{n} de {m} seleccionadas"
@@ -206,6 +205,16 @@ msgstr "{n} s entre voltes"
 #, python-brace-format
 msgid "{n} sem."
 msgstr "{n} setm."
+
+#, python-brace-format
+msgid "{n} semana"
+msgid_plural "{n} semanas"
+msgstr[0] "{n} setmana"
+msgstr[1] "{n} setmanes"
+
+#, python-brace-format
+msgid "{n} semana"
+msgstr "{n} setmana"
 
 #, python-brace-format
 msgid "{n} semanas"
@@ -544,6 +553,12 @@ msgstr "Aparença"
 
 msgid "Apariencia e idioma"
 msgstr "Aparença i idioma"
+
+msgid "Aplazado a mañana"
+msgstr "Ajornat a demà"
+
+msgid "Aplazar a mañana"
+msgstr "Ajornar a demà"
 
 msgid "Apoyar el proyecto"
 msgstr "Dona suport al projecte"
@@ -1115,14 +1130,30 @@ msgstr "Descàrrega"
 msgid "descarga {w} sem. cada {e}"
 msgstr "descàrrega {w} setm. cada {e}"
 
+msgid "Descarga esta semana"
+msgstr "Descàrrega aquesta setmana"
+
 msgid "Descargar"
 msgstr "Baixa"
 
 msgid "Descartar"
 msgstr "Descarta"
 
+msgid "Desde"
+msgstr "Des de"
+
+#, python-brace-format
+msgid "desde el {d}"
+msgstr "des del {d}"
+
 msgid "Desde el inicio"
 msgstr "Des de l'inici"
+
+msgid "desde esta semana"
+msgstr "des d'aquesta setmana"
+
+msgid "desde la próxima"
+msgstr "des de la propera"
 
 msgid "Deshacer"
 msgstr "Desfés"
@@ -2534,6 +2565,9 @@ msgstr "Pausa"
 msgid "Pausar"
 msgstr "Pausa"
 
+msgid "Pausar el plan"
+msgstr "Pausar el pla"
+
 msgid "Pausar lo oculta del diario sin borrar su historial."
 msgstr "Pausar-lo l'amaga del diari sense esborrar-ne l'historial."
 
@@ -2651,6 +2685,16 @@ msgstr "Pla desactivat: Avui no el té en compte."
 
 msgid "Plan duplicado. Actívalo para editarlo."
 msgstr "Pla duplicat. Activa'l per editar-lo."
+
+msgid "Plan en pausa"
+msgstr "Pla en pausa"
+
+#, python-brace-format
+msgid "Plan en pausa: solo rutinas de todas las semanas (p. ej. Diaria). Sigue el {d}."
+msgstr "Pla en pausa: només rutines de totes les setmanes (p. ex. Diària). Continua el {d}."
+
+msgid "Plan flexible: aplazar a mañana las sesiones de hoy (las siguientes de la semana se corren), hacer descarga esta semana o pausar el plan 1 a 4 semanas; el resto del plan se corre. Además, «Rutinas y días» se eligen dentro del propio plan."
+msgstr "Pla flexible: ajornar a demà les sessions d'avui (les següents de la setmana es desplacen), fer descàrrega aquesta setmana o pausar el pla d'1 a 4 setmanes; la resta del pla es desplaça. A més, «Rutines i dies» es trien dins del mateix pla."
 
 msgid "Plan guardado"
 msgstr "Pla desat"
@@ -3143,6 +3187,9 @@ msgstr "Segons sèrie {n}"
 msgid "Semana {n} de {m}"
 msgstr "Setmana {n} de {m}"
 
+msgid "Semana de descarga"
+msgstr "Setmana de descàrrega"
+
 msgid "Semana de descarga: solo rutinas sin variante (p. ej. Diaria)."
 msgstr "Setmana de descàrrega: només rutines sense variant (p. ex. Diària)."
 
@@ -3162,6 +3209,9 @@ msgstr "Setmanes"
 
 msgid "Semanas de descarga"
 msgstr "Setmanes de descàrrega"
+
+msgid "Semanas de pausa"
+msgstr "Setmanes de pausa"
 
 msgid "Sensibilidad"
 msgstr "Sensibilitat"
@@ -3219,6 +3269,16 @@ msgstr "sessions"
 
 msgid "Sesiones"
 msgstr "Sessions"
+
+#, python-brace-format
+msgid "Sesiones aplazadas {n} día desde el {d}."
+msgid_plural "Sesiones aplazadas {n} días desde el {d}."
+msgstr[0] "Sessions ajornades {n} dia des del {d}."
+msgstr[1] "Sessions ajornades {n} dies des del {d}."
+
+#, python-brace-format
+msgid "Sesiones aplazadas {n} día desde el {d}."
+msgstr "Sessions ajornades {n} dia des del {d}."
 
 msgid "Sexo"
 msgstr "Sexe"
@@ -3695,6 +3755,9 @@ msgstr "Útil amb auriculars o si entrenes amb gent al costat. Si no vibra, revi
 msgid "V"
 msgstr "Dv"
 
+msgid "Vacaciones, lesión, un viaje… Las semanas de pausa solo sugieren las rutinas de todas las semanas, y el resto del plan se corre."
+msgstr "Vacances, lesió, un viatge… Les setmanes de pausa només suggereixen les rutines de totes les setmanes, i la resta del pla es desplaça."
+
 msgid "Vacía: añade o arrastra aquí ejercicios."
 msgstr "Buida: afegeix o arrossega aquí exercicis."
 
@@ -3834,6 +3897,9 @@ msgstr "I {n} dies més al Diari."
 msgid "Ya hay un perfil con ese nombre"
 msgstr "Ja hi ha un perfil amb aquest nom"
 
+msgid "Ya hay una pausa esa semana"
+msgstr "Ja hi ha una pausa aquella setmana"
+
 msgid "Ya la estás usando como app instalada."
 msgstr "Ja l'estàs fent servir com a app instal·lada."
 
@@ -3859,6 +3925,10 @@ msgstr "Jo"
 
 msgid "Zona peligrosa"
 msgstr "Zona perillosa"
+
+#, python-brace-format
+#~ msgid "{e} ejercicios · ≈ {m} min"
+#~ msgstr "{e} exercicis · ≈ {m} min"
 
 #~ msgid "Para que funcione, pon a cada rutina su variante y sus días al editarla."
 #~ msgstr "Perquè funcioni, posa a cada rutina la variant i els dies en editar-la."

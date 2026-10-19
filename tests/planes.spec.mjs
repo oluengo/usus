@@ -47,3 +47,22 @@ test("rutinas y días desde el plan", async ({ page }) => {
   expect((await ls(page, "wk.plan")).rmap).toBeUndefined();
   expect(errors).toEqual([]);
 });
+test("aplazar una sesión, descarga esta semana y pausa", async ({ page }) => {
+  const D = { id: "rd", name: "Diaria", block: "core", variant: "", days: [0, 1, 2, 3, 4, 5, 6], exercises: [{ name: "Plancha", sets: 1, reps: 30, type: "time" }] };
+  const errors = await openApp(page, { clock: new Date("2026-10-19T09:00:00"), data: { "wk.routines": [...R, D], "wk.plan": PLAN } });   // lunes, semana 3 = B
+  const today = () => page.locator(".today > .sugr, .today > p").allInnerTexts().then(l => l.join(" | "));   // lo de hoy (sin «Pendientes esta semana»)
+  expect(await today()).toContain("B · Fuerza");
+  await page.locator('[data-act="pl-postpone"]').click();
+  expect(await today()).not.toContain("B · Fuerza"); expect(await today()).toContain("Diaria");
+  await page.clock.fastForward("24:00:00"); await page.locator('nav [data-tab="routines"]').click(); await page.locator('nav [data-tab="train"]').click();
+  expect(await today()).toContain("B · Fuerza");                                   // martes: lo del lunes
+  await page.locator('[data-act="pl-deload"]').click();                            // descarga esta semana (confirm aceptado)
+  expect(await today()).toContain("descarga"); expect(await today()).not.toContain("B · Fuerza");
+  const ws = await page.evaluate(() => JSON.parse(localStorage.getItem("wk.plan")).pauses);
+  expect(ws).toEqual([{ from: "2026-10-19", weeks: 1, kind: "deload" }]);
+  await page.locator('nav [data-tab="routines"]').click(); await page.locator('[data-rview="plan"]').click();
+  await page.locator("details[data-pauses] summary").click(); await page.selectOption("#pzW", "2"); await page.selectOption("#pzF", "1"); await page.locator('[data-act="pl-pause"]').click();
+  const labels = await page.locator(".pwk b").allInnerTexts();
+  expect(labels.slice(0, 7)).toEqual(["S1 · A", "S2 · A", "S3 · Desc.", "S4 · Pausa", "S5 · Pausa", "S6 · B", "S7 · B"]);   // B se corre 3 semanas
+  expect(errors).toEqual([]);
+});

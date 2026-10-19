@@ -52,6 +52,9 @@ msgstr "Delete this session? This can't be undone."
 msgid "¿Eliminar este suplemento? Su historial también se dejará de mostrar."
 msgstr "Delete this supplement? Its history will no longer be shown either."
 
+msgid "¿Hacer descarga esta semana? Solo se sugieren las rutinas de todas las semanas, y el resto del plan se corre una semana."
+msgstr "Make this a deload week? Only every-week routines are suggested, and the rest of the plan moves one week later."
+
 msgid "¿Has notado la vibración?"
 msgstr "Did you feel the vibration?"
 
@@ -110,10 +113,6 @@ msgstr "{d} · {e} exercises · {s} sets"
 #, python-brace-format
 msgid "{e} ejercicios · {s} series"
 msgstr "{e} exercises · {s} sets"
-
-#, python-brace-format
-msgid "{e} ejercicios · ≈ {m} min"
-msgstr "{e} exercises · ≈ {m} min"
 
 #, python-brace-format
 msgid "{n} de {m} seleccionadas"
@@ -206,6 +205,16 @@ msgstr "{n} s between rounds"
 #, python-brace-format
 msgid "{n} sem."
 msgstr "{n} wk"
+
+#, python-brace-format
+msgid "{n} semana"
+msgid_plural "{n} semanas"
+msgstr[0] "{n} week"
+msgstr[1] "{n} weeks"
+
+#, python-brace-format
+msgid "{n} semana"
+msgstr "{n} week"
 
 #, python-brace-format
 msgid "{n} semanas"
@@ -544,6 +553,12 @@ msgstr "Appearance"
 
 msgid "Apariencia e idioma"
 msgstr "Appearance and language"
+
+msgid "Aplazado a mañana"
+msgstr "Moved to tomorrow"
+
+msgid "Aplazar a mañana"
+msgstr "Move to tomorrow"
 
 msgid "Apoyar el proyecto"
 msgstr "Support the project"
@@ -1115,14 +1130,30 @@ msgstr "Deload"
 msgid "descarga {w} sem. cada {e}"
 msgstr "deload {w} wk every {e}"
 
+msgid "Descarga esta semana"
+msgstr "Deload this week"
+
 msgid "Descargar"
 msgstr "Download"
 
 msgid "Descartar"
 msgstr "Discard"
 
+msgid "Desde"
+msgstr "From"
+
+#, python-brace-format
+msgid "desde el {d}"
+msgstr "from {d}"
+
 msgid "Desde el inicio"
 msgstr "Since start"
+
+msgid "desde esta semana"
+msgstr "from this week"
+
+msgid "desde la próxima"
+msgstr "from next week"
 
 msgid "Deshacer"
 msgstr "Undo"
@@ -2534,6 +2565,9 @@ msgstr "Pause"
 msgid "Pausar"
 msgstr "Pause"
 
+msgid "Pausar el plan"
+msgstr "Pause the plan"
+
 msgid "Pausar lo oculta del diario sin borrar su historial."
 msgstr "Pausing hides it from the diary without deleting its history."
 
@@ -2651,6 +2685,16 @@ msgstr "Plan turned off: Today ignores it."
 
 msgid "Plan duplicado. Actívalo para editarlo."
 msgstr "Plan duplicated. Activate it to edit it."
+
+msgid "Plan en pausa"
+msgstr "Plan paused"
+
+#, python-brace-format
+msgid "Plan en pausa: solo rutinas de todas las semanas (p. ej. Diaria). Sigue el {d}."
+msgstr "Plan paused: only every-week routines (e.g. Daily). It resumes on {d}."
+
+msgid "Plan flexible: aplazar a mañana las sesiones de hoy (las siguientes de la semana se corren), hacer descarga esta semana o pausar el plan 1 a 4 semanas; el resto del plan se corre. Además, «Rutinas y días» se eligen dentro del propio plan."
+msgstr "Flexible plan: move today's sessions to tomorrow (the rest of the week shifts), make this a deload week or pause the plan for 1 to 4 weeks; the rest of the plan moves later. Also, “Routines and days” are chosen inside the plan itself."
 
 msgid "Plan guardado"
 msgstr "Plan saved"
@@ -3143,6 +3187,9 @@ msgstr "Seconds set {n}"
 msgid "Semana {n} de {m}"
 msgstr "Week {n} of {m}"
 
+msgid "Semana de descarga"
+msgstr "Deload week"
+
 msgid "Semana de descarga: solo rutinas sin variante (p. ej. Diaria)."
 msgstr "Deload week: only routines without a variant (e.g. Daily)."
 
@@ -3162,6 +3209,9 @@ msgstr "Weeks"
 
 msgid "Semanas de descarga"
 msgstr "Deload weeks"
+
+msgid "Semanas de pausa"
+msgstr "Weeks of pause"
 
 msgid "Sensibilidad"
 msgstr "Tenderness"
@@ -3219,6 +3269,16 @@ msgstr "sessions"
 
 msgid "Sesiones"
 msgstr "Sessions"
+
+#, python-brace-format
+msgid "Sesiones aplazadas {n} día desde el {d}."
+msgid_plural "Sesiones aplazadas {n} días desde el {d}."
+msgstr[0] "Sessions moved {n} day from {d}."
+msgstr[1] "Sessions moved {n} days from {d}."
+
+#, python-brace-format
+msgid "Sesiones aplazadas {n} día desde el {d}."
+msgstr "Sessions moved {n} day from {d}."
 
 msgid "Sexo"
 msgstr "Sex"
@@ -3695,6 +3755,9 @@ msgstr "Useful with headphones or when training next to others. If it doesn't vi
 msgid "V"
 msgstr "F"
 
+msgid "Vacaciones, lesión, un viaje… Las semanas de pausa solo sugieren las rutinas de todas las semanas, y el resto del plan se corre."
+msgstr "Holidays, injury, a trip… Pause weeks only suggest every-week routines, and the rest of the plan moves later."
+
 msgid "Vacía: añade o arrastra aquí ejercicios."
 msgstr "Empty: add or drag exercises here."
 
@@ -3834,6 +3897,9 @@ msgstr "And {n} more days in the Diary."
 msgid "Ya hay un perfil con ese nombre"
 msgstr "There's already a profile with that name"
 
+msgid "Ya hay una pausa esa semana"
+msgstr "There's already a pause that week"
+
 msgid "Ya la estás usando como app instalada."
 msgstr "You're already using it as an installed app."
 
@@ -3859,6 +3925,10 @@ msgstr "Me"
 
 msgid "Zona peligrosa"
 msgstr "Danger zone"
+
+#, python-brace-format
+#~ msgid "{e} ejercicios · ≈ {m} min"
+#~ msgstr "{e} exercises · ≈ {m} min"
 
 #~ msgid "Para que funcione, pon a cada rutina su variante y sus días al editarla."
 #~ msgstr "For it to work, give each routine its variant and days when editing it."

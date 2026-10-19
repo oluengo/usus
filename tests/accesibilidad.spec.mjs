@@ -4,7 +4,7 @@ import AxeBuilder from "@axe-core/playwright";
 import { openApp, nav, ROUTINES } from "./helpers.mjs";
 const PLAN = { enabled: true, name: "Bloque", start: "2026-09-28", review: "", phases: [{ id: "a", variant: "A", weeks: 2 }, { id: "b", variant: "B", weeks: 2 }], deload: { weeks: 1, every: 6 }, up: true };
 const SCREENS = [["train"], ["routines", '[data-rview="plan"]', '[data-act="plan-edit"]'], ["routines"], ["routines", '[data-ropen="r1"]'], ["routines", '[data-ropen="r1"]', '[data-edit="r1"]:visible'],
-  ["routines", '[data-rview="cat"]'], ["diary"], ["stats"], ["data"], ["data", '[data-stab="perfil"]'], ["data", '[data-stab="entreno"]'], ["data", '[data-stab="apariencia"]'], ["data", '[data-stab="datos"]'], ["data", '[data-stab="acerca"]'], ["routines", '[data-rview="plan"]'], ["diary", '[data-dsh="peso"]'],
+  ["routines", '[data-rview="cat"]'], ["diary"], ["stats"], ["data"], ["data", '[data-stab="perfil"]'], ["data", '[data-stab="entreno"]'], ["data", '[data-stab="apariencia"]'], ["data", '[data-stab="datos"]'], ["data", '[data-stab="acerca"]'], ["routines", '[data-rview="plan"]'], ["diary", '[data-dsh="peso"]'], ["routines", '[data-rview="plan"]', 'details[data-pauses] summary'],
   ["routines", '[data-rview="mine"]', '[data-ropen="r3"]', '[data-start="r3"]:visible', '[data-act="sess-begin"]'], ["train", '[data-play="0:0"]']];
 const SESS = [{ id: "s1", start: Date.parse("2026-10-13T07:00:00"), end: Date.parse("2026-10-13T07:30:00"), rid: "r3", routine: "Core lateral", pem: 7, exercises: [{ name: "Flexiones", type: "reps", sets: [{ r: 8, w: 0, done: true }] }] }];
 for (const theme of ["light", "dark", "protector"]) {

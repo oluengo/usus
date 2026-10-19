@@ -34,10 +34,14 @@ const vChip = v => v ? `<span class="vchip" style="background:${varColor(v)}">${
 function planWeeks(p) {
   const ph = (p?.phases || []).filter(x => normVar(x.variant) && +x.weeks > 0);
   if (!p?.start || !ph.length) return [];
-  const st = weekStart(keyTime(p.start)), end = p.review ? keyTime(p.review) : addDays(st, 7 * 52);
+  // Pausas y descargas añadidas a mano (p.pauses): ocupan sus semanas y el resto del plan se corre
+  const ins = new Map(planPauses(p).map(x => [weekStart(keyTime(x.from)), x])), extra = [...ins.values()].reduce((a, x) => a + x.weeks, 0);
+  const st = weekStart(keyTime(p.start)), end = addDays(p.review ? keyTime(p.review) : addDays(st, 7 * 52), 7 * extra);
   const every = Math.max(0, +p.deload?.every || 0), dl = Math.max(0, +p.deload?.weeks || 0);
-  const out = [], seen = new Set(); let pi = 0, pw = 0, trained = 0, dLeft = 0;
+  const out = [], seen = new Set(); let pi = 0, pw = 0, trained = 0, dLeft = 0, iLeft = 0, iKind = "";
   for (let t = st; t < end && out.length < 104; t = addDays(t, 7)) {
+    if (!iLeft && ins.has(t)) { iLeft = ins.get(t).weeks; iKind = ins.get(t).kind; }
+    if (iLeft > 0) { out.push({ t, n: out.length + 1, deload: true, ...(iKind === "pause" ? { pause: true } : {}), added: true }); iLeft--; continue; }
     if (dLeft > 0) { out.push({ t, n: out.length + 1, deload: true }); dLeft--; continue; }
     const v = normVar(ph[pi].variant), up = !!p.up && pw === 0 && seen.has(v);
     if (pw === 0) seen.add(v);
@@ -54,10 +58,19 @@ function planNow(p = PL.get(), now = Date.now()) {
   const i = ws.findIndex(w => now >= w.t && now < addDays(w.t, 7));
   return i < 0 ? { status: "done", ws } : { status: "on", ws, i, w: ws[i] };
 }
-const weekLabel = w => w.deload ? T("Descarga") : T("Variante {v}", { v: w.variant });
+const weekLabel = w => w.pause ? T("Pausa") : w.deload ? T("Descarga") : T("Variante {v}", { v: w.variant });
+const planPauses = p => (Array.isArray(p?.pauses) ? p.pauses : []).filter(x => x && /^\d{4}-\d{2}-\d{2}$/.test(x.from) && +x.weeks > 0).map(x => ({ from: x.from, weeks: Math.min(8, Math.round(+x.weeks)), kind: x.kind === "deload" ? "deload" : "pause" }));
+/* Aplazar: desde un día de la semana, las rutinas con variante se corren N días (las que pasan del domingo quedan pendientes) */
+const SHIFT = { get: () => LS.get("wk.planShift", null), set: v => LS.set("wk.planShift", v) };
+function shiftedDay(w, day) {
+  const sh = SHIFT.get(), i = (day + 6) % 7;
+  if (!sh || sh.week !== dayKey(w.t) || i < sh.from) return day;
+  const j = i - sh.by; return j >= sh.from ? WEEK_ORDER[j] : null;
+}
 /* Rutinas que el plan sugiere un día: las de ese día con la variante de la semana o sin variante (en descarga, solo sin variante) */
 function suggestedFor(w, day) {
-  return state.routines.filter(r => (r.days || []).includes(day) && (w.deload ? !normVar(r.variant) : (!normVar(r.variant) || normVar(r.variant) === w.variant)))
+  const vd = w.deload ? null : shiftedDay(w, day);   // las de variante, según lo aplazado; las de todas las semanas, su día
+  return state.routines.filter(r => normVar(r.variant) ? (!w.deload && normVar(r.variant) === w.variant && vd !== null && (r.days || []).includes(vd)) : (r.days || []).includes(day))
     .sort((a, b) => (normVar(a.variant) ? 1 : 0) - (normVar(b.variant) ? 1 : 0));
 }
 function plannedDays(w) {
@@ -89,7 +102,7 @@ function todayCard() {
   const today = new Date().getDay(), todayK = dayKey(Date.now()), pn = planNow();
   let first = true;
   const row = r => { const done = state.sessions.some(s => dayKey(s.start) === todayK && s.routine === r.name), pri = !done && first; if (pri) first = false;
-    return `<div class="sugr${pri ? " pri" : ""}">${vChip(normVar(r.variant))}<span class="sn">${esc(r.name)}${done ? ` <span style="color:var(--ok)">✓</span>` : ""}<small>${T("{e} ejercicios · ≈ {m} min", { e: r.exercises.length, m: routineMins(normRoutine(JSON.parse(JSON.stringify(r)))) })}</small></span><button class="btn ${pri ? "primary" : ""} small" data-start="${r.id}">${done ? T("Repetir") : T("Empezar")}</button></div>`; };
+    return `<div class="sugr${pri ? " pri" : ""}">${vChip(normVar(r.variant))}<span class="sn">${esc(r.name)}${done ? ` <span style="color:var(--ok)">✓</span>` : ""}<small>${TN(r.exercises.length, "{n} ejercicio", "{n} ejercicios")} · ≈ ${routineMins(normRoutine(JSON.parse(JSON.stringify(r))))} min</small></span><button class="btn ${pri ? "primary" : ""} small" data-start="${r.id}">${done ? T("Repetir") : T("Empezar")}</button></div>`; };
   const list = rs => rs.length ? rs.map(row).join("") : `<p class="muted" style="margin:6px 0 0">${T("Hoy no hay ninguna rutina prevista.")}</p>`;
   if (pn?.status === "on") {
     const w = pn.w, next = pn.ws.slice(pn.i + 1).find(x => weekLabel(x) !== weekLabel(w));
@@ -97,8 +110,10 @@ function todayCard() {
     return `<div class="panel plan-b today" style="border-color:${w.deload ? "var(--line)" : varColor(w.variant)}">
       <div class="row" style="gap:8px">${w.deload ? `<span class="vchip vd">${T("Desc.")}</span>` : vChip(w.variant)}<b style="flex:1">${T("Semana {n} de {m}", { n: w.n, m: pn.ws.length })} · ${weekLabel(w)}</b><button class="btn ghost small" data-act="plan-open">${T("Ver plan")}</button></div>
       ${w.up ? `<p class="muted" style="margin:6px 0 0">↑ ${upRuleOf(PL.get()) === "mark" ? T("Variante repetida: sube 1-2 reps o 1 serie si hay margen.") : T("Variante repetida: subida automática según tu plan.")}</p>` : ""}
-      ${w.deload ? `<p class="muted" style="margin:6px 0 0">${T("Semana de descarga: solo rutinas sin variante (p. ej. Diaria).")}</p>` : ""}
+      ${w.pause ? `<p class="muted" style="margin:6px 0 0">${T("Plan en pausa: solo rutinas de todas las semanas (p. ej. Diaria). Sigue el {d}.", { d: new Date((pn.ws.slice(pn.i).find(x => !x.pause) || { t: addDays(w.t, 7) }).t).toLocaleDateString(LOC(), { weekday: "long", day: "numeric", month: "long" }) })}</p>`
+        : w.deload ? `<p class="muted" style="margin:6px 0 0">${T("Semana de descarga: solo rutinas sin variante (p. ej. Diaria).")}</p>` : ""}
       <div class="muted" style="font-size:.85rem;margin-top:10px">${T("Toca hoy:")}</div>${L}${pendingBlock(w)}
+      ${planTodayActs(pn, today)}
       ${next ? `<p class="muted" style="font-size:.8rem;margin:10px 0 0">${T("Siguiente: {x} desde el {d}", { x: weekLabel(next), d: new Date(next.t).toLocaleDateString(LOC(), { day: "numeric", month: "short" }) })}</p>` : ""}
     </div>`;
   }
@@ -107,6 +122,25 @@ function todayCard() {
     : pn?.status === "done" ? T("Plan terminado") + ". " + T("Toca revisar el progreso y decidir el siguiente plan.") : "";
   return `<div class="panel plan-b today"><b>${T("Toca hoy")}</b>${msg ? `<p class="muted" style="margin:4px 0 0">${msg}</p>` : ""}${list(rs)}
     ${rs.length ? "" : `<p class="muted" style="font-size:.8rem;margin:6px 0 0">${T("Marca los días de cada rutina al editarla.")}</p>`}</div>`;
+}
+/* Acciones del plan en Hoy: aplazar lo de hoy, deshacer, descarga esta semana */
+function planTodayActs(pn, today) {
+  const w = pn.w, sh = SHIFT.get(), shOn = sh && sh.week === dayKey(w.t), todayK = dayKey(Date.now());
+  const varToday = !w.deload && suggestedFor(w, today).some(r => normVar(r.variant) && !state.sessions.some(s => dayKey(s.start) === todayK && s.routine === r.name));
+  const acts = [varToday ? `<button class="btn small" data-act="pl-postpone">${T("Aplazar a mañana")}</button>` : "",
+    !w.deload ? `<button class="btn ghost small" data-act="pl-deload">${T("Descarga esta semana")}</button>` : ""].join("");
+  return `${shOn ? `<p class="muted" style="font-size:.82rem;margin:10px 0 0">${TN(sh.by, "Sesiones aplazadas {n} día desde el {d}.", "Sesiones aplazadas {n} días desde el {d}.", { d: DIAS[WEEK_ORDER[sh.from]] })} <button class="verb" data-act="pl-unshift">${T("Deshacer")}</button></p>` : ""}
+    ${acts ? `<div class="row" style="margin-top:10px;gap:6px;flex-wrap:wrap">${acts}</div>` : ""}`;
+}
+/* Pausas en Entreno → Plan */
+function planPauseBlock(p) {
+  const ps = planPauses(p), fmt = k => new Date(keyTime(k)).toLocaleDateString(LOC(), { day: "numeric", month: "short" });
+  return `<details class="panel" style="margin-top:12px"${state.pauseOpen ? " open" : ""} data-pauses><summary style="cursor:pointer;font-weight:600">${T("Pausar el plan")}${ps.length ? ` · ${ps.length}` : ""}</summary>
+    <p class="muted" style="font-size:.85rem;margin:8px 0 10px">${T("Vacaciones, lesión, un viaje… Las semanas de pausa solo sugieren las rutinas de todas las semanas, y el resto del plan se corre.")}</p>
+    <div class="row" style="gap:8px;flex-wrap:wrap"><select id="pzW" aria-label="${T("Semanas de pausa")}">${[1, 2, 3, 4].map(n => `<option value="${n}">${TN(n, "{n} semana", "{n} semanas")}</option>`).join("")}</select>
+      <select id="pzF" aria-label="${T("Desde")}"><option value="0">${T("desde esta semana")}</option><option value="1">${T("desde la próxima")}</option></select>
+      <button class="btn small" data-act="pl-pause">${T("Pausar")}</button></div>
+    ${ps.length ? `<div style="margin-top:10px">${ps.map((x, i) => `<div class="plr"><div style="flex:1">${x.kind === "pause" ? T("Pausa") : T("Descarga")} · ${TN(x.weeks, "{n} semana", "{n} semanas")} · ${T("desde el {d}", { d: fmt(x.from) })}</div><button class="x" data-pzdel="${i}" aria-label="${T("Quitar")}">×</button></div>`).join("")}</div>` : ""}</details>`;
 }
 /* Bloque del plan en Hoy: calendario, rutinas por variante y Editar */
 function planSection() {
@@ -122,10 +156,10 @@ function planSection() {
     ${ws.length ? `<p class="sub">${fmt(ws[0].t)} → ${fmt(addDays(ws[ws.length - 1].t, 6))}${p.review ? ` · ${T("revisión desde el {d}", { d: fmt(keyTime(p.review)) })}` : ""}</p>
     <div class="legend" style="margin-top:6px">${vs.map(v => `<span>${vChip(v)}</span>`).join("")}<span><span class="vchip vd">${T("Descarga")}</span></span><span>${T("↑ = subir reps · barra = días de fuerza hechos")}</span></div>
     <div class="pgrid">${ws.map((w, i) => { const pd = plannedDays(w), dd = doneDays(w), cur = pn?.status === "on" && pn.i === i, past = addDays(w.t, 7) <= now;
-      return `<button class="pwk${past ? " past" : ""}${cur ? " now" : ""}${w.deload ? " dl" : ""}" style="${w.deload ? "" : `background:${varColor(w.variant, p)}`}" data-day="${dayKey(Math.min(w.t, now))}" aria-label="${T("Semana {n} de {m}", { n: w.n, m: ws.length })} · ${weekLabel(w)}">
-        <b>S${w.n} · ${w.deload ? T("Desc.") : esc(w.variant)}</b><span>${fmt(w.t)}</span>${w.up ? `<i class="up">↑</i>` : ""}
+      return `<button class="pwk${past ? " past" : ""}${cur ? " now" : ""}${w.deload ? " dl" : ""}${w.pause ? " pz" : ""}" style="${w.deload ? "" : `background:${varColor(w.variant, p)}`}" data-day="${dayKey(Math.min(w.t, now))}" aria-label="${T("Semana {n} de {m}", { n: w.n, m: ws.length })} · ${weekLabel(w)}">
+        <b>S${w.n} · ${w.pause ? T("Pausa") : w.deload ? T("Desc.") : esc(w.variant)}</b><span>${fmt(w.t)}</span>${w.up ? `<i class="up">↑</i>` : ""}
         ${pd ? `<span class="pbar2"><i style="width:${Math.min(100, dd / pd * 100)}%"></i></span>` : ""}</button>`; }).join("")}</div>
-    <p class="muted" style="font-size:.8rem;margin:10px 0 0">${T("Toca una semana para ver sus días en el Diario.")}</p>`
+    <p class="muted" style="font-size:.8rem;margin:10px 0 0">${T("Toca una semana para ver sus días en el Diario.")}</p>${planPauseBlock(p)}`
     : `<div class="empty" style="margin-top:14px">${T("El plan no tiene fases válidas. Edítalo para añadirlas.")}</div>`}
     <details class="panel" style="margin-top:12px"><summary style="cursor:pointer;font-weight:600">${T("Rutinas por variante")}</summary>
     ${[...vs, ""].map(v => { const rs = state.routines.filter(r => normVar(r.variant) === v);

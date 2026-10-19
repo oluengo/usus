@@ -75,6 +75,7 @@ document.addEventListener("click", async ev => {
   }
   if (d.prd && state.planDraft) { const [id, x] = d.prd.split(":"), m = planRmap(state.planDraft)[id]; if (m) { const k = +x; m.days = m.days.includes(k) ? m.days.filter(z => z !== k) : [...m.days, k]; } render(); return; }
   if (d.prx && state.planDraft) { const m = planRmap(state.planDraft)[d.prx]; if (m) { m.on = false; m.variant = ""; m.days = []; } render(); return; }
+  if (d.pzdel !== undefined) { const p = PL.get(); if (!p) return; const l = planPauses(p); l.splice(+d.pzdel, 1); p.pauses = l; PL.save(p); state.pauseOpen = true; render(); return; }
   if (d.prm && state.planDraft) { state.planDraft.phases.splice(+d.prm, 1); render(); return; }
   if (d.pmv && state.planDraft) { const [i, dir] = d.pmv.split(":").map(Number), ph = state.planDraft.phases, j = i + dir; if (j >= 0 && j < ph.length) [ph[i], ph[j]] = [ph[j], ph[i]]; render(); return; }
   if (d.eopen !== undefined) { readEditor(); state.edOpen = state.edOpen === +d.eopen ? null : +d.eopen; render(); return; }
@@ -307,6 +308,15 @@ document.addEventListener("click", async ev => {
     case "plan-dup": { const a = PL.get(); if (!a) break; const l = PLS.list(); l.unshift({ ...JSON.parse(JSON.stringify(a)), id: uid(), name: T("Copia de {x}", { x: planName(a) }) }); PLS.save(l); state.plansOpen = true; toast(T("Plan duplicado. Actívalo para editarlo.")); render(); break; }
     case "plan-create": state.planNew = false; state.tab = "routines"; state.routView = "plan"; state.planDraft = newPlanDraft(); state.planMode = "edit"; render(); window.scrollTo(0, 0); break;
     case "plan-edit": state.planNew = false; state.tab = "routines"; state.routView = "plan"; state.planDraft = JSON.parse(JSON.stringify(PL.get() || newPlanDraft())); state.planDraft.phases.forEach(x => x.id = x.id || uid()); state.planMode = "edit"; render(); window.scrollTo(0, 0); break;
+    case "pl-postpone": { const pn = planNow(); if (pn?.status !== "on") break; const wk = dayKey(pn.w.t), sh = SHIFT.get(), i = (new Date().getDay() + 6) % 7;
+      SHIFT.set(sh && sh.week === wk ? { ...sh, by: sh.by + 1 } : { week: wk, from: i, by: 1 }); toast(T("Aplazado a mañana")); render(); break; }
+    case "pl-unshift": SHIFT.set(null); render(); break;
+    case "pl-deload": { const p = PL.get(), pn = planNow(); if (!p || pn?.status !== "on") break;
+      if (!confirm(T("¿Hacer descarga esta semana? Solo se sugieren las rutinas de todas las semanas, y el resto del plan se corre una semana."))) return;
+      p.pauses = [...planPauses(p), { from: dayKey(pn.w.t), weeks: 1, kind: "deload" }]; PL.save(p); SHIFT.set(null); toast(T("Semana de descarga")); render(); break; }
+    case "pl-pause": { const p = PL.get(); if (!p) break; const n = +($("#pzW")?.value || 1), f = +($("#pzF")?.value || 0), from = dayKey(addDays(weekStart(Date.now()), 7 * f));
+      if (planPauses(p).some(x => x.from === from)) { toast(T("Ya hay una pausa esa semana")); return; }
+      p.pauses = [...planPauses(p), { from, weeks: n, kind: "pause" }]; PL.save(p); if (!f) SHIFT.set(null); state.pauseOpen = true; toast(T("Plan en pausa")); render(); break; }
     case "plan-addph": { const used = new Set(state.planDraft.phases.map(x => x.variant)), nx = "ABCDEFGH".split("").find(c => !used.has(c)) || ""; state.planDraft.phases.push({ id: uid(), variant: nx, weeks: 2 }); render(); break; }
     case "plan-cancel": state.planDraft = null; state.planMode = null; state.planNew = false; render(); setTimeout(() => $("#planSec")?.scrollIntoView({ block: "start" }), 0); break;
     case "plan-save": {
