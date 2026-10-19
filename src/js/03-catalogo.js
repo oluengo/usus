@@ -14,6 +14,8 @@ const MAT = {
   rueda: ["Rueda abdominal", '<circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/><path d="M2 12h4M18 12h4"/>']
 };
 const MAT_ORDER = l => Object.keys(MAT).filter(k => l.includes(k));
+const MAT_ALWAYS = new Set(["pared"]);   // siempre hay una pared: no se pregunta ni se filtra
+const MAT_SEL = () => Object.entries(MAT).filter(([k]) => !MAT_ALWAYS.has(k));
 const PATS = [["empuje-h", "Empuje horizontal"], ["empuje-v", "Empuje vertical"], ["traccion-v", "Tracción vertical"], ["traccion-h", "Tracción horizontal"],
   ["rodilla", "Pierna · rodilla"], ["cadera", "Pierna · cadera"], ["core", "Core"], ["habilidad", "Isométricos y habilidades"], ["movilidad", "Movilidad y calentamiento"]];
 let CAT = null, CATBY = {}, CHAIN = {}, VARS = {}, catLoad = null;
@@ -38,7 +40,7 @@ const exLabel = e => exName(e) + (e?.xid && techOf(e) ? " · " + techOf(e) : "")
 /* Al vincular un nombre propio, lo que va entre paréntesis (salvo «por lado») pasa a ser la técnica */
 const techFromName = n => { const m = /\(([^)]*)\)/.exec(n || ""); return m ? m[1].split(",").map(x => x.trim()).filter(x => x && !SIDE_RX.test(x)).join(", ").slice(0, 60) : ""; };
 const myEquip = () => { const l = LS.get("wk.equip", null); return Array.isArray(l) ? l : null; };
-const haveMat = k => { const l = myEquip(); return !l || l.includes(k); };
+const haveMat = k => { const l = myEquip(); return MAT_ALWAYS.has(k) || !l || l.includes(k); };
 const LV = n => `<span class="bars l${n}" role="img" aria-label="${T("Nivel {n} de 5", { n })}">${[1, 2, 3, 4, 5].map(i => `<i class="${i <= n ? "on" : ""}"></i>`).join("")}</span>`;
 const matIco = k => MAT[k] ? `<span class="mat${haveMat(k) ? "" : " no"}" title="${T(MAT[k][0])}"><svg viewBox="0 0 24 24" aria-hidden="true">${MAT[k][1]}</svg></span>` : "";
 const matsOf = (eq, other) => (eq?.length || other) ? `<span class="mats">${(eq || []).map(matIco).join("")}${other ? `<span class="otag">${esc(other)}</span>` : ""}</span>` : "";
@@ -143,7 +145,7 @@ function ownMatModal() {
   return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="omT"><div class="mbox">
     <h2 id="omT" style="margin:0 0 4px">${T("Material")}</h2>
     <p class="muted" style="margin:0;font-size:.85rem">${esc(state.editing?.exercises[o.i]?.name || "")}</p>
-    <div class="matsel">${Object.entries(MAT).map(([k, [n]]) => `<label><input type="checkbox" data-omat="${k}" ${o.equip.includes(k) ? "checked" : ""}>${matIco(k)}${T(n)}</label>`).join("")}</div>
+    <div class="matsel">${(state.ownMat ? Object.entries(MAT) : MAT_SEL()).map(([k, [n]]) => `<label><input type="checkbox" data-omat="${k}" ${o.equip.includes(k) ? "checked" : ""}>${matIco(k)}${T(n)}</label>`).join("")}</div>
     <label class="muted" for="omOther" style="font-size:.85rem;display:block;margin-top:12px">${T("Otro material (sin icono)")}</label>
     <input type="text" id="omOther" maxlength="40" value="${esc(o.other || "")}" placeholder="${T("Ej. mochila, toalla, escalón")}">
     <p class="muted" style="font-size:.8rem;margin:6px 0 0">${T("Nada marcado = solo suelo.")}</p>

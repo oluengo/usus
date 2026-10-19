@@ -45,7 +45,7 @@ function profPickModal() {
 function newProfForm(forMain) {
   const used = new Set(PROFS().map(p => p.color)), me = curProf();
   return forMain ? { forMain: true, step: "form", name: me.name || "", sex: me.sex || (CYC.cfg().on ? "f" : null), color: me.color || PCOLORS[0], cyc: CYC.cfg().on }
-    : { step: "form", name: "", sex: null, color: PCOLORS.find(c => !used.has(c)) || PCOLORS[2], cyc: false, from: "empty", src: PROF, sel: null };
+    : { step: "form", name: "", sex: null, color: PCOLORS.find(c => !used.has(c)) || PCOLORS[2], cyc: false, from: state.routines.length ? "copy" : "empty", src: PROF, sel: null };
 }
 function startAddProfile() {
   state.ppick = false;
@@ -80,9 +80,10 @@ function profFormModal() {
     ${f.sex === "f" ? `<div class="pcyc"><label class="pcyh"><b>${T("Registro de la regla")}</b><input type="checkbox" role="switch" id="pfCyc" ${f.cyc ? "checked" : ""}></label>${CYC_INFO()}</div>` : ""}
     ${f.forMain ? "" : `<h3 class="wh">${T("Empezar con")}</h3>
       <button class="popt${f.from === "empty" ? " on" : ""}" data-pffrom="empty"><i></i><span><b>${T("Vacío")}</b><small>${T("Sin rutinas.")}</small></span></button>
-      <button class="popt${f.from === "copy" ? " on" : ""}" data-pffrom="copy"><i></i><span><b>${T("Rutinas de otro perfil")}</b><small>${T("Solo las rutinas. Ningún registro.")}</small></span></button>
-      ${f.from === "copy" ? `<div class="row" style="margin:4px 0 8px">${PROFS().map(p => `<button class="btn small pchip2${f.src === p.id ? " on" : ""}" data-pfsrc="${p.id}">${profAv(p, 20)} ${esc(profName(p))}</button>`).join("")}</div>
-        ${srcR.length ? `<div class="rsl">${srcR.map(r => `<button class="rsr" style="padding-left:12px" data-pfr="${r.id}">${box(sel.has(r.id))}<span>${esc(r.name)}</span></button>`).join("")}</div>` : `<p class="muted" style="font-size:.85rem">${T("Ese perfil no tiene rutinas.")}</p>`}` : ""}`}
+      <button class="popt${f.from === "copy" ? " on" : ""}" data-pffrom="copy"><i></i><span><b>${PROFS().length > 1 ? T("Rutinas de otro perfil") : T("Copiar rutinas de {x}", { x: esc(profName(curProf())) })}</b><small>${T("Solo las rutinas. Ningún registro.")}</small></span></button>
+      ${f.from === "copy" ? `${PROFS().length > 1 ? `<div class="row" style="margin:4px 0 8px">${PROFS().map(p => `<button class="btn small pchip2${f.src === p.id ? " on" : ""}" data-pfsrc="${p.id}">${profAv(p, 20)} ${esc(profName(p))}</button>`).join("")}</div>` : ""}
+        ${srcR.length ? `<div class="row" style="margin:8px 0 6px"><span class="muted" style="font-size:.85rem;flex:1">${T("{n} de {m} seleccionadas", { n: srcR.filter(r => sel.has(r.id)).length, m: srcR.length })}</span><button class="btn ghost small" data-act="pf-all">${T("Todas")}</button><button class="btn ghost small" data-act="pf-none">${T("Ninguna")}</button></div>
+        <div class="rsl">${srcR.map(r => `<button class="rsr" style="padding-left:12px" data-pfr="${r.id}" aria-pressed="${sel.has(r.id)}">${box(sel.has(r.id))}<span>${esc(r.name)}</span></button>`).join("")}</div>` : `<p class="muted" style="font-size:.85rem">${T("Ese perfil no tiene rutinas.")}</p>`}` : ""}`}
     <button class="btn primary" style="width:100%;margin-top:14px" data-act="pf-next">${f.forMain ? T("Continuar") : T("Crear perfil")}</button>
   </div></div>`;
 }
@@ -93,7 +94,7 @@ function profFormNext() {
   if (!n) { toast(T("Ponle un nombre")); document.getElementById("pfName")?.focus(); return; }
   if (PROFS().some(p => p.id !== (f.forMain ? PROF : "") && (p.name || "").toLowerCase() === n.toLowerCase())) { toast(T("Ya hay un perfil con ese nombre")); return; }
   if (!f.sex) { toast(T("Elige hombre o mujer")); return; }
-  f.step = "confirm"; render();
+  profFormOk();   // sin paso de confirmación: el aviso de que el sexo no se cambia ya está en el formulario
 }
 function profFormOk() {
   const f = state.pform, n = f.name.trim().slice(0, 20);
@@ -165,7 +166,8 @@ function profSettings() {
   if (!multiProf() && !p.sex) return `<div class="panel"><p class="muted" style="font-size:.85rem;margin:0 0 10px">${T("Varias personas pueden usar Usus en este móvil, cada una con sus propios datos y ajustes.")}</p>
     <button class="btn small" data-act="prof-add">+ ${T("Añadir perfil")}</button></div>`;
   return `<div class="panel"><div class="row" style="gap:12px;flex-wrap:nowrap">${profAv(p, 44)}<div style="flex:1;min-width:0"><div style="font-weight:600">${esc(profName(p))}</div><div class="muted" style="font-size:.85rem">${T(SEXN[p.sex] || "—")} · ${TN(state.sessions.length, "{n} sesión", "{n} sesiones")}</div></div>
-    <button class="btn small" data-act="prof-edit">${T("Editar")}</button><button class="btn small" data-act="prof-pick">${T("Perfiles")}</button></div></div>`;
+    <button class="btn small" data-act="prof-edit">${T("Editar")}</button><button class="btn small" data-act="prof-pick">${T("Perfiles")}</button></div>
+    <button class="btn ghost small" style="margin-top:8px" data-act="prof-add">+ ${T("Añadir perfil")}</button></div>`;
 }
 function profDataTools() {
   if (!multiProf()) return "";

@@ -146,15 +146,14 @@ function viewPre(a) {
   return `<div class="row"><span class="muted">${T("Sesión sin iniciar")}</span><span class="spacer"></span>
       <button class="btn ghost small danger" data-act="discard">${T("Descartar")}</button></div>
     <h1 style="margin-top:8px">${esc(a.routine || T("Sesión libre"))}</h1>
-    <p class="muted" style="margin:0 0 14px">${T("Revisa la sesión. El reloj y las series se activan al iniciar.")}</p>
+    <div class="prebar"><button class="btn primary" data-act="sess-begin">${PLAY}${T("Iniciar")}</button><small class="muted">${T("El reloj y las series se activan al iniciar.")}</small></div>
     <div class="list">${a.exercises.map((e, i, all) => { const tm = isTime(e), r0 = e.sets[0]?.r, g = grpOf(e), ks = a.groups ? exKeys(all) : null;
       return `<div class="ex${g ? " ing" : ""}"><strong>${ks ? `<b class="ekey">${ks[i]}</b> ` : ""}${esc(exLabel(e))}</strong><div class="muted" style="margin-top:2px">${g ? `${grpLabel(g)} · ${T("{n} vueltas", { n: e.sets.length })} × ${r0 ? (tm ? r0 + " s" : r0 + " reps") : "—"}` : `${e.sets.length} × ${r0 ? (tm ? r0 + " s" : r0 + " reps") : "—"} · ${T("descanso {n} s", { n: restFor(e) })}`}</div></div>`; }).join("")}</div>
     <div class="row" style="margin-top:14px">
       <input type="text" id="newEx" placeholder="${T("Nombre del ejercicio")}" list="exNames" style="flex:1">
       <button class="btn" data-act="addex">${T("Añadir ejercicio")}</button>
     </div>${catReady() ? `<button class="btn" style="width:100%;margin-top:8px" data-act="xpick-sess">${T("Añadir del catálogo")}</button>` : ""}
-    <datalist id="exNames">${allExerciseNames().map(n => `<option value="${esc(n)}">`).join("")}</datalist>
-    <button class="btn primary" style="width:100%;margin-top:22px;padding:18px;font-size:1.1rem" data-act="sess-begin">${T("Iniciar")}</button>`;
+    <datalist id="exNames">${allExerciseNames().map(n => `<option value="${esc(n)}">`).join("")}</datalist>`;
 }
 function allExerciseNames() {
   const set = new Set();

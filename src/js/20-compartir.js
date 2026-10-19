@@ -12,10 +12,11 @@ async function shareOut({ title, text, url, file }) {
   if (text) data.text = text;
   if (url) data.url = url;
   if (file) { if (navigator.canShare && navigator.canShare({ files: [file] })) data.files = [file]; else { saveFile(file); toast(T("Archivo guardado")); return true; } }
-  if (navigator.share) { try { await navigator.share(data); return true; } catch (e) { if (e.name === "AbortError") return false; } }
+  const desk = !matchMedia("(pointer: coarse)").matches && !isNative();
+  if (navigator.share && !(desk && url && !file)) { try { await navigator.share(data); return true; } catch (e) { if (e.name === "AbortError") return false; } }
   if (file) { saveFile(file); toast(T("Archivo guardado")); return true; }
-  const ok = await copyText([text, url].filter(Boolean).join("\n"));
-  toast(ok ? T("Copiado. Pégalo donde quieras.") : T("No se pudo copiar")); return ok;
+  const ok = await copyText(url || text);   // con enlace, solo el enlace
+  toast(ok ? (url ? T("Enlace copiado. Pégalo donde quieras.") : T("Copiado. Pégalo donde quieras.")) : T("No se pudo copiar")); return ok;
 }
 /* La app */
 const shareAppText = () => T("Usus: registro de entrenos y hábitos. Gratis, sin cuentas y tus datos se quedan en tu móvil.");
@@ -199,14 +200,14 @@ function sanitizeShared(j) {
 const nextMonday = () => { const d = new Date(); d.setHours(0, 0, 0, 0); d.setDate(d.getDate() + (8 - d.getDay()) % 7); return dayKey(d.getTime()); };
 function incomingModal() {
   const inc = state.incoming; if (!inc || !LS.get("wk.welcomed", false) || run) return "";
-  const sel = new Set(inc.sel), box = on => `<i class="cbx${on ? " on" : ""}">${on ? CHECK : ""}</i>`, p = inc.plan;
+  const mt = incMatch(inc), sel = new Set(inc.sel), box = on => `<i class="cbx${on ? " on" : ""}">${on ? CHECK : ""}</i>`, p = inc.plan;
   const phs = p ? p.phases.map(x => `${x.variant} ${T("{n} sem.", { n: x.weeks })}`).join(" → ") + (p.deload.weeks ? " · " + T("descarga {w} sem. cada {e}", { w: p.deload.weeks, e: p.deload.every }) : "") : "";
   return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="inT"><div class="mbox dsh full"><button class="back" data-act="in-no">‹ ${T("Atrás")}</button>
     <h2 id="inT" style="margin:0 0 4px">${inc.routines.length === 1 ? T("Te han compartido una rutina") : inc.routines.length ? T("Te han compartido {n} rutinas", { n: inc.routines.length }) : T("Te han compartido un plan")}</h2>
     <p class="muted" style="font-size:.85rem;margin:0 0 10px">${T("Revisa y elige qué añadir. No se borra nada de lo que ya tienes.")}</p>
-    ${inc.routines.length ? `<div class="rsl">${inc.routines.map((r, i) => { const m = sharedMatch(r), upd = m && inc.mode[i] !== "new";
+    ${inc.routines.length ? `<div class="rsl">${inc.routines.map((r, i) => { const mm = mt[i], m = mm?.r, upd = m && inc.mode[i] !== "new";
       return `<div class="rsrow"><button class="rsr" style="padding-left:12px" data-inr="${i}" aria-pressed="${sel.has(i)}">${box(sel.has(i))}<span style="flex:1;min-width:0">${esc(r.name)}<small class="muted" style="display:block;font-size:.78rem">${T("{e} ejercicios · {s} series", { e: r.exercises.length, s: r.exercises.reduce((a, e) => a + e.sets, 0) })}</small></span></button>
-        ${m && sel.has(i) ? `<div class="rsmode"><small class="muted">${T("Ya la tienes: «{x}»", { x: esc(m.name) })}</small><div class="rsseg"><button data-inm="${i}:upd" class="${upd ? "on" : ""}" aria-pressed="${upd}">${T("Actualizar")}</button><button data-inm="${i}:new" class="${upd ? "" : "on"}" aria-pressed="${!upd}">${T("Añadir como nueva")}</button></div></div>` : ""}</div>`; }).join("")}</div>` : ""}
+        ${mm ? `<div class="rsmode"><small class="dupw">⚠ ${mm.same ? T("Ya la tienes igual: «{x}»", { x: esc(m.name) }) : mm.oid && !mm.sim ? T("Ya la tienes: «{x}»", { x: esc(m.name) }) : T("Se parece un {p} % a «{x}», que ya tienes", { p: Math.round(mm.sim * 100), x: esc(m.name) })}</small>${sel.has(i) ? `<div class="rsseg"><button data-inm="${i}:upd" class="${upd ? "on" : ""}" aria-pressed="${upd}">${T("Actualizar")}</button><button data-inm="${i}:new" class="${upd ? "" : "on"}" aria-pressed="${!upd}">${T("Añadir como nueva")}</button></div>` : ""}</div>` : ""}</div>`; }).join("")}</div>` : ""}
     ${p ? `<label class="shopt" style="margin-top:10px"><span>${T("Añadir el plan de progresión")}<small class="muted" style="display:block;font-size:.78rem">${esc(phs)}. ${T("Empieza el {d}.", { d: kFmt(nextMonday(), { weekday: "long", day: "numeric", month: "short" }) })}${PL.get() ? " " + T("Pasa a ser el plan activo; el actual queda guardado en Mis planes.") : ""}</small></span><input type="checkbox" role="switch" id="inPlan" ${inc.withPlan ? "checked" : ""}></label>` : ""}
     <p class="muted" style="font-size:.78rem;margin:8px 0 0">${T("Si ya tienes una rutina con el mismo nombre, se añade como «(2)».")} ${T("Al actualizar se cambian los ejercicios; el nombre, los días, la variante y tus sesiones no se tocan.")}</p>
     <div class="row" style="margin-top:12px"><button class="btn" style="flex:1" data-act="in-no">${T("Ahora no")}</button><button class="btn primary" style="flex:1" data-act="in-yes" ${sel.size || (p && inc.withPlan) ? "" : "disabled"}>${T("Añadir")}</button></div>
@@ -214,12 +215,34 @@ function incomingModal() {
 }
 /* Rutina recibida que ya tienes: misma rutina de origen (oid) o es tuya (su id) */
 const sharedMatch = r => r.oid ? state.routines.find(x => x.oid === r.oid || x.id === r.oid) : null;
+/* ¿Ya la tienes? La misma rutina (enlace anterior) o una con los mismos ejercicios: igual, o parecida al 75 % o más */
+const exSig = e => `${exKey(e)}|${+e.sets || 0}x${+e.reps || 0}${isTime(e) ? "s" : ""}${e.sides ? "|l" : ""}`;
+function routMatch(r) {
+  let best = null;
+  for (const x of state.routines) {
+    const A = r.exercises.map(exKey), pool = x.exercises.map(exKey); if (!A.length || !pool.length) continue;
+    let hit = 0; A.forEach(k => { const j = pool.indexOf(k); if (j >= 0) { hit++; pool.splice(j, 1); } });
+    const sim = hit / Math.max(A.length, x.exercises.length), same = sim === 1 && r.exercises.map(exSig).join() === x.exercises.map(exSig).join();
+    if (!best || sim > best.sim || (sim === best.sim && same && !best.same)) best = { r: x, sim, same };
+  }
+  const o = sharedMatch(r);
+  if (o) return { r: o, sim: best?.r === o ? best.sim : 0, same: best?.r === o && best.same, oid: true };
+  return best && best.sim >= .75 ? best : null;
+}
+/* Una vez por recepción: qué se parece a lo que ya tienes; lo idéntico sale sin marcar */
+function incMatch(inc) {
+  if (inc.match) return inc.match;
+  inc.match = inc.routines.map(routMatch);
+  inc.sel = inc.sel.filter(i => !inc.match[i]?.same);
+  inc.match.forEach((m, i) => { if (m && !m.oid && inc.mode[i] === undefined) inc.mode[i] = "new"; });
+  return inc.match;
+}
 async function incomingAdd() {
   const inc = state.incoming; if (!inc) return;
   const names = new Set(state.routines.map(r => r.name.trim().toLowerCase())), add = []; let upd = 0;
   inc.routines.forEach((r, i) => {
     if (!inc.sel.includes(i)) return;
-    const m = sharedMatch(r);
+    const m = (inc.match ? inc.match[i] : routMatch(r))?.r;
     if (m && inc.mode[i] !== "new") { m.exercises = JSON.parse(JSON.stringify(r.exercises)); m.block = r.block; m.oid = m.oid || r.oid; upd++; return; }
     let n = r.name, k = 2; while (names.has(n.toLowerCase())) n = `${r.name} (${k++})`; names.add(n.toLowerCase());
     const { oid, ...rest } = r; add.push({ ...rest, name: n, id: uid(), ...(oid ? { oid } : {}) });

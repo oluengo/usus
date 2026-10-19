@@ -116,6 +116,10 @@ msgid "{e} ejercicios · ≈ {m} min"
 msgstr "{e} exercicis · ≈ {m} min"
 
 #, python-brace-format
+msgid "{n} de {m} seleccionadas"
+msgstr "{n} de {m} seleccionades"
+
+#, python-brace-format
 msgid "{n} de {m} seleccionadas · sin tus sesiones ni registros."
 msgstr "{n} de {m} seleccionades · sense les teves sessions ni registres."
 
@@ -374,6 +378,9 @@ msgstr "En actualitzar canvien els exercicis; el nom, els dies, la variant i les
 msgid "Al cambiar de perfil te quedas en la misma pantalla (por ejemplo, Ajustes) en vez de volver a Hoy."
 msgstr "En canviar de perfil et quedes a la mateixa pantalla (per exemple, Ajustos) en lloc de tornar a Avui."
 
+msgid "Al crearlo eliges qué rutinas van en cada variante y qué días tocan."
+msgstr "En crear-lo tries quines rutines van a cada variant i quins dies toquen."
+
 msgid "Al terminar (s)"
 msgstr "En acabar (s)"
 
@@ -496,6 +503,16 @@ msgstr "Afegeix fase"
 msgid "Añadir perfil"
 msgstr "Afegir perfil"
 
+msgid "Añadir rutina"
+msgstr "Afegir rutina"
+
+#, python-brace-format
+msgid "Añadir rutina a la variante {v}"
+msgstr "Afegir rutina a la variant {v}"
+
+msgid "Añadir rutina para todas las semanas"
+msgstr "Afegir rutina per a totes les setmanes"
+
 msgid "Añadir serie"
 msgstr "Afegeix sèrie"
 
@@ -552,6 +569,9 @@ msgstr "Encara no hi ha sessions amb esforç (PEM). Es pregunta en acabar cada s
 
 msgid "Aún no tienes rutinas."
 msgstr "Encara no tens rutines."
+
+msgid "Aún no tienes rutinas. Créalas en Entreno → Rutinas y vuelve aquí."
+msgstr "Encara no tens rutines. Crea-les a Entrenament → Rutines i torna aquí."
 
 msgid "Aún no tienes suplementos. Añádelos con Gestionar."
 msgstr "Encara no tens suplements. Afegeix-los amb Gestiona."
@@ -914,6 +934,10 @@ msgstr "Copiar l'enllaç"
 msgid "Copiar rutinas a otro perfil"
 msgstr "Copiar rutines a un altre perfil"
 
+#, python-brace-format
+msgid "Copiar rutinas de {x}"
+msgstr "Copiar rutines de {x}"
+
 msgid "Core"
 msgstr "Core"
 
@@ -1144,6 +1168,10 @@ msgstr "Dies amb força"
 msgid "Días con objetivo"
 msgstr "Dies amb objectiu"
 
+#, python-brace-format
+msgid "Días de {x}"
+msgstr "Dies de {x}"
+
 msgid "Días de antelación"
 msgstr "Dies d'antelació"
 
@@ -1315,6 +1343,9 @@ msgstr "El pla no té fases vàlides. Edita'l per afegir-ne."
 msgid "El plan usa la variante {v}, que no va incluida: esas semanas quedarán sin rutina."
 msgstr "El pla fa servir la variant {v}, que no hi va inclosa: aquelles setmanes quedaran sense rutina."
 
+msgid "El reloj y las series se activan al iniciar."
+msgstr "El rellotge i les sèries s'activen en iniciar."
+
 msgid "El sexo no se podrá cambiar después. El nombre y el color, sí."
 msgstr "El sexe no es podrà canviar després. El nom i el color, sí."
 
@@ -1335,6 +1366,9 @@ msgstr "Tria una data"
 
 msgid "Elegir otro"
 msgstr "Tria'n un altre"
+
+msgid "Elige al menos un día"
+msgstr "Tria almenys un dia"
 
 msgid "Elige hombre o mujer"
 msgstr "Tria home o dona"
@@ -1417,6 +1451,9 @@ msgstr "En un ordinador o una tauleta en horitzontal, l'editor s'obre en mode am
 
 msgid "Enlace"
 msgstr "Enllaç"
+
+msgid "Enlace copiado. Pégalo donde quieras."
+msgstr "Enllaç copiat. Enganxa'l on vulguis."
 
 msgid "Entendido"
 msgstr "Entesos"
@@ -1524,6 +1561,9 @@ msgstr "Exigent"
 
 msgid "Experiencia entrenando"
 msgstr "Experiència entrenant"
+
+msgid "Exporta antes una copia."
+msgstr "Exporta abans una còpia."
 
 msgid "Exportar"
 msgstr "Exporta"
@@ -1709,6 +1749,9 @@ msgstr "Idees i peticions"
 
 msgid "Idioma"
 msgstr "Idioma"
+
+msgid "Idioma de la app"
+msgstr "Idioma de l'app"
 
 msgid "Imagen"
 msgstr "Imatge"
@@ -1896,6 +1939,9 @@ msgstr "Lleu"
 
 msgid "Libre"
 msgstr "Lliure"
+
+msgid "Licencia MIT y garantías"
+msgstr "Llicència MIT i garanties"
 
 msgid "Lightning / zaps"
 msgstr "Lightning / zaps"
@@ -2129,6 +2175,9 @@ msgstr "Necessites un compte de GitHub (gratuït)."
 
 msgid "Neutro"
 msgstr "Neutre"
+
+msgid "Ninguna"
+msgstr "Cap"
 
 msgid "Ninguno"
 msgstr "Cap"
@@ -2411,9 +2460,6 @@ msgstr "Per a l'objectiu ({g})"
 
 msgid "Para elegir ejercicios al crear rutinas y saber cómo avanzar."
 msgstr "Per triar exercicis en crear rutines i saber com avançar."
-
-msgid "Para que funcione, pon a cada rutina su variante y sus días al editarla."
-msgstr "Perquè funcioni, posa a cada rutina la variant i els dies en editar-la."
 
 msgid "Para qué lo usarías"
 msgstr "Per a què ho faries servir"
@@ -2740,6 +2786,9 @@ msgstr "Què ha passat"
 msgid "Qué hay de nuevo"
 msgstr "Què hi ha de nou"
 
+msgid "Qué rutinas entran en cada variante y qué días tocan. «Todas las semanas» se sugiere siempre, también en descarga (como la Diaria)."
+msgstr "Quines rutines entren a cada variant i quins dies toquen. «Totes les setmanes» se suggereix sempre, també en descàrrega (com la Diària)."
+
 msgid "Qué te gustaría"
 msgstr "Què t'agradaria"
 
@@ -2756,6 +2805,10 @@ msgstr "Queden {n} sèries de {x}."
 
 msgid "Quitar"
 msgstr "Treu"
+
+#, python-brace-format
+msgid "Quitar {x}"
+msgstr "Treure {x}"
 
 msgid "Quitar ejercicio"
 msgstr "Treu l'exercici"
@@ -2872,6 +2925,9 @@ msgstr "Repeticions sèrie {n}"
 msgid "Repetir"
 msgstr "Repeteix"
 
+msgid "Repetir la configuración inicial"
+msgstr "Repetir la configuració inicial"
+
 msgid "reps"
 msgstr "reps"
 
@@ -2890,9 +2946,6 @@ msgstr "Resum"
 #, python-brace-format
 msgid "retraso {n} d"
 msgstr "retard {n} d"
-
-msgid "Revisa la sesión. El reloj y las series se activan al iniciar."
-msgstr "Revisa la sessió. El rellotge i les sèries s'activen en iniciar."
 
 msgid "Revisa y elige qué añadir. No se borra nada de lo que ya tienes."
 msgstr "Revisa i tria què vols afegir. No s'esborra res del que ja tens."
@@ -2958,6 +3011,9 @@ msgstr "Rutines d'un altre perfil"
 msgid "Rutinas por variante"
 msgstr "Rutines per variant"
 
+msgid "Rutinas y días"
+msgstr "Rutines i dies"
+
 msgid "S"
 msgstr "Ds"
 
@@ -2982,6 +3038,12 @@ msgstr "S'aplica sola en començar la setmana a les rutines d'aquesta variant, a
 msgid "Se aplica sola al empezar la semana a las rutinas de esa variante, con aviso en Hoy y opción de deshacer. Pasa al siguiente paso del catálogo solo si la última vez llegaste al objetivo."
 msgstr "S'aplica sola en començar la setmana a les rutines d'aquesta variant, amb avís a Avui i opció de desfer. Passa al pas següent del catàleg només si l'última vegada vas arribar a l'objectiu."
 
+msgid "Se borra todo lo de este dispositivo: rutinas, sesiones, plan, peso, diario y ciclo. No se puede deshacer."
+msgstr "S'esborra tot el d'aquest dispositiu: rutines, sessions, pla, pes, diari i cicle. No es pot desfer."
+
+msgid "Se borra todo lo de este perfil en este dispositivo: rutinas, sesiones, plan, peso, diario y ciclo. No se puede deshacer."
+msgstr "S'esborra tot el d'aquest perfil en aquest dispositiu: rutines, sessions, pla, pes, diari i cicle. No es pot desfer."
+
 #, python-brace-format
 msgid "Se borrarán el perfil «{x}» y todos sus datos de este dispositivo. ¿Has exportado su copia?"
 msgstr "S'esborraran el perfil «{x}» i totes les seves dades d'aquest dispositiu. N'has exportat la còpia?"
@@ -3005,6 +3067,10 @@ msgstr "S'ha aplicat la regla del teu pla: {x}."
 
 msgid "Se ofrece tal cual, sin garantías de ningún tipo. La usas bajo tu responsabilidad."
 msgstr "S'ofereix tal com és, sense garanties de cap mena. La fas servir sota la teva responsabilitat."
+
+#, python-brace-format
+msgid "Se parece un {p} % a «{x}», que ya tienes"
+msgstr "S'assembla un {p} % a «{x}», que ja tens"
 
 msgid "Se queda como ejercicio propio"
 msgstr "Es queda com a exercici propi"
@@ -3468,6 +3534,9 @@ msgstr "Toca una setmana per veure'n els dies al Diari."
 msgid "Todas"
 msgstr "Totes"
 
+msgid "Todas las semanas"
+msgstr "Totes les setmanes"
+
 msgid "Todo"
 msgstr "Tot"
 
@@ -3653,6 +3722,9 @@ msgstr "Compartiràs dades de salut amb un servei extern"
 msgid "Ventana fértil"
 msgstr "Finestra fèrtil"
 
+msgid "Ver el aviso"
+msgstr "Veure l'avís"
+
 msgid "Ver en Progreso"
 msgstr "Veure a Progrés"
 
@@ -3664,9 +3736,6 @@ msgstr "Mostra l'historial"
 
 msgid "Ver la app primero. Las rutinas se crean en Entreno → Nueva rutina."
 msgstr "Veure l'app primer. Les rutines es creen a Entrenament → Nova rutina."
-
-msgid "Ver licencia completa"
-msgstr "Mostra la llicència completa"
 
 msgid "Ver notas"
 msgstr "Veure notes"
@@ -3719,9 +3788,6 @@ msgstr "Tornar a les dades"
 msgid "Volver a proponer en todos ({n} silenciados)"
 msgstr "Torna a proposar a tots ({n} silenciats)"
 
-msgid "Volver a ver el aviso"
-msgstr "Torna a veure l'avís"
-
 msgid "Volver al paso anterior"
 msgstr "Tornar al pas anterior"
 
@@ -3752,6 +3818,10 @@ msgid "Ya la estás usando como app instalada."
 msgstr "Ja l'estàs fent servir com a app instal·lada."
 
 #, python-brace-format
+msgid "Ya la tienes igual: «{x}»"
+msgstr "Ja la tens igual: «{x}»"
+
+#, python-brace-format
 msgid "Ya la tienes: «{x}»"
 msgstr "Ja la tens: «{x}»"
 
@@ -3763,6 +3833,18 @@ msgstr "Jo"
 
 msgid "Zona peligrosa"
 msgstr "Zona perillosa"
+
+#~ msgid "Para que funcione, pon a cada rutina su variante y sus días al editarla."
+#~ msgstr "Perquè funcioni, posa a cada rutina la variant i els dies en editar-la."
+
+#~ msgid "Revisa la sesión. El reloj y las series se activan al iniciar."
+#~ msgstr "Revisa la sessió. El rellotge i les sèries s'activen en iniciar."
+
+#~ msgid "Ver licencia completa"
+#~ msgstr "Mostra la llicència completa"
+
+#~ msgid "Volver a ver el aviso"
+#~ msgstr "Torna a veure l'avís"
 
 #~ msgid "Sustituirá tu plan actual."
 #~ msgstr "Substituirà el teu pla actual."

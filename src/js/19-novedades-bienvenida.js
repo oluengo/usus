@@ -115,7 +115,7 @@ function welcomeModal() {
   const next = (txt = T("Siguiente")) => `<div class="row wzbar">${back}<span class="spacer"></span><button class="btn primary" data-act="wiz-next">${txt}</button></div>`;
   let body = "";
   if (st === "hola") body = `
-    <div class="seg" role="group" aria-label="${T("Idioma")}" style="grid-template-columns:repeat(${Object.keys(LANGS).length},minmax(0,1fr));margin-bottom:14px">${Object.entries(LANGS).map(([k, v]) => `<button data-lang-set="${k}" class="${LANG === k ? "on" : ""}" aria-pressed="${LANG === k}" lang="${k}" style="text-align:center">${v.name}</button>`).join("")}</div>
+    <div class="langrow"><span aria-hidden="true">🌐</span><select id="langSel" aria-label="${T("Idioma")}">${Object.entries(LANGS).map(([k, v]) => `<option value="${k}" lang="${k}" ${LANG === k ? "selected" : ""}>${v.name}</option>`).join("")}</select></div>
     <h2 id="wlT" style="margin:0 0 6px">${T("Bienvenido a Usus")}</h2>
     <p class="muted" style="margin:0">${T("Antes de empezar:")}</p>
     <ul class="muted" style="padding-left:18px;margin:8px 0 0;line-height:1.5">
@@ -135,7 +135,7 @@ function welcomeModal() {
   else if (st === "mat") body = `
     <h2 id="wlT" style="margin:0 0 6px">${T("Mi material")}</h2>
     <p class="muted" style="margin:0">${T("Marca lo que tienes. En el catálogo, lo demás se ve en naranja y se puede ocultar. Sin nada marcado, no se filtra.")}</p>
-    <div class="matsel">${Object.entries(MAT).map(([k, [n]]) => `<label><input type="checkbox" data-myeq="${k}" ${myEquip()?.includes(k) ? "checked" : ""}>${matIco(k)}${T(n)}</label>`).join("")}</div>
+    <div class="matsel">${MAT_SEL().map(([k, [n]]) => `<label><input type="checkbox" data-myeq="${k}" ${myEquip()?.includes(k) ? "checked" : ""}>${matIco(k)}${T(n)}</label>`).join("")}</div>
     <p class="muted" style="font-size:.8rem;margin:10px 0 0">${T("Opcional. Se puede cambiar en Ajustes → Entreno.")}</p>${next()}`;
   else body = `
     <h2 id="wlT" style="margin:0 0 6px">${T("¿Cómo quieres empezar?")}</h2>
@@ -149,5 +149,16 @@ function welcomeModal() {
     <details class="wzmore"><summary>${T("Apoyar el proyecto")}</summary>${donateBlock()}</details>
     <div class="row wzbar">${back}</div>`;
   return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="wlT"><div class="mbox">${dots}${step}${body}</div></div>`;
+}
+/* El aviso de primer uso, solo el texto (Ajustes → Acerca de) */
+const NOTICE = () => `<ul class="muted" style="padding-left:18px;margin:8px 0 0;line-height:1.5">
+      <li>${T("Esta app es una herramienta de registro, no un consejo médico ni un plan de entrenamiento. Consulta con un profesional antes de empezar o cambiar tu actividad física.")}</li>
+      <li>${T("Tus datos se guardan solo en este dispositivo. Haz copias desde Ajustes: si borras el navegador o desinstalas la app, se pierden.")}</li>
+      <li>${T("Se ofrece tal cual, sin garantías de ningún tipo. La usas bajo tu responsabilidad.")}</li>
+    </ul>`;
+function noticeModal() {
+  if (!state.notice) return "";
+  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="ntT"><div class="mbox"><h2 id="ntT" style="margin:0 0 4px">${T("Aviso")}</h2>${NOTICE()}
+    <button class="btn primary" style="width:100%;margin-top:16px" data-act="notice-close">${T("Entendido")}</button></div></div>`;
 }
 function wizDone() { LS.set("wk.welcomed", true); LS.set("wk.seenVersion", APP_VERSION); state.wiz = 0; state.catAsk = false; }

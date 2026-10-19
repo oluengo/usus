@@ -116,6 +116,10 @@ msgid "{e} ejercicios · ≈ {m} min"
 msgstr "{e} exercises · ≈ {m} min"
 
 #, python-brace-format
+msgid "{n} de {m} seleccionadas"
+msgstr "{n} of {m} selected"
+
+#, python-brace-format
 msgid "{n} de {m} seleccionadas · sin tus sesiones ni registros."
 msgstr "{n} of {m} selected · without your sessions or logs."
 
@@ -374,6 +378,9 @@ msgstr "Updating changes the exercises; the name, days, variant and your session
 msgid "Al cambiar de perfil te quedas en la misma pantalla (por ejemplo, Ajustes) en vez de volver a Hoy."
 msgstr "Switching profile keeps you on the same screen (for example, Settings) instead of going back to Today."
 
+msgid "Al crearlo eliges qué rutinas van en cada variante y qué días tocan."
+msgstr "When you create it, you choose which routines go in each variant and on which days."
+
 msgid "Al terminar (s)"
 msgstr "After (s)"
 
@@ -496,6 +503,16 @@ msgstr "Add phase"
 msgid "Añadir perfil"
 msgstr "Add profile"
 
+msgid "Añadir rutina"
+msgstr "Add routine"
+
+#, python-brace-format
+msgid "Añadir rutina a la variante {v}"
+msgstr "Add routine to variant {v}"
+
+msgid "Añadir rutina para todas las semanas"
+msgstr "Add routine for every week"
+
 msgid "Añadir serie"
 msgstr "Add set"
 
@@ -552,6 +569,9 @@ msgstr "No sessions with effort (RPE) yet. It's asked at the end of each session
 
 msgid "Aún no tienes rutinas."
 msgstr "You have no routines yet."
+
+msgid "Aún no tienes rutinas. Créalas en Entreno → Rutinas y vuelve aquí."
+msgstr "You have no routines yet. Create them in Workout → Routines and come back here."
 
 msgid "Aún no tienes suplementos. Añádelos con Gestionar."
 msgstr "No supplements yet. Add them with Manage."
@@ -914,6 +934,10 @@ msgstr "Copy link"
 msgid "Copiar rutinas a otro perfil"
 msgstr "Copy routines to another profile"
 
+#, python-brace-format
+msgid "Copiar rutinas de {x}"
+msgstr "Copy routines from {x}"
+
 msgid "Core"
 msgstr "Core"
 
@@ -1144,6 +1168,10 @@ msgstr "Strength days"
 msgid "Días con objetivo"
 msgstr "Days on target"
 
+#, python-brace-format
+msgid "Días de {x}"
+msgstr "Days for {x}"
+
 msgid "Días de antelación"
 msgstr "Days before"
 
@@ -1315,6 +1343,9 @@ msgstr "The plan has no valid phases. Edit it to add some."
 msgid "El plan usa la variante {v}, que no va incluida: esas semanas quedarán sin rutina."
 msgstr "The plan uses variant {v}, which isn't included: those weeks will have no routine."
 
+msgid "El reloj y las series se activan al iniciar."
+msgstr "The clock and sets start when you begin."
+
 msgid "El sexo no se podrá cambiar después. El nombre y el color, sí."
 msgstr "Sex can't be changed later. Name and colour can."
 
@@ -1335,6 +1366,9 @@ msgstr "Pick a date"
 
 msgid "Elegir otro"
 msgstr "Choose another"
+
+msgid "Elige al menos un día"
+msgstr "Choose at least one day"
 
 msgid "Elige hombre o mujer"
 msgstr "Choose man or woman"
@@ -1417,6 +1451,9 @@ msgstr "On a computer or a tablet in landscape, the editor opens in wide mode: e
 
 msgid "Enlace"
 msgstr "Link"
+
+msgid "Enlace copiado. Pégalo donde quieras."
+msgstr "Link copied. Paste it wherever you like."
 
 msgid "Entendido"
 msgstr "Got it"
@@ -1524,6 +1561,9 @@ msgstr "Hard"
 
 msgid "Experiencia entrenando"
 msgstr "Training experience"
+
+msgid "Exporta antes una copia."
+msgstr "Export a backup first."
 
 msgid "Exportar"
 msgstr "Export"
@@ -1709,6 +1749,9 @@ msgstr "Ideas and requests"
 
 msgid "Idioma"
 msgstr "Language"
+
+msgid "Idioma de la app"
+msgstr "App language"
 
 msgid "Imagen"
 msgstr "Image"
@@ -1896,6 +1939,9 @@ msgstr "Light"
 
 msgid "Libre"
 msgstr "Free"
+
+msgid "Licencia MIT y garantías"
+msgstr "MIT licence and warranty"
 
 msgid "Lightning / zaps"
 msgstr "Lightning / zaps"
@@ -2129,6 +2175,9 @@ msgstr "You need a (free) GitHub account."
 
 msgid "Neutro"
 msgstr "Neutral"
+
+msgid "Ninguna"
+msgstr "None"
 
 msgid "Ninguno"
 msgstr "None"
@@ -2411,9 +2460,6 @@ msgstr "To target ({g})"
 
 msgid "Para elegir ejercicios al crear rutinas y saber cómo avanzar."
 msgstr "To pick exercises when building routines and know how to progress."
-
-msgid "Para que funcione, pon a cada rutina su variante y sus días al editarla."
-msgstr "For it to work, give each routine its variant and days when editing it."
 
 msgid "Para qué lo usarías"
 msgstr "What you'd use it for"
@@ -2740,6 +2786,9 @@ msgstr "What happened"
 msgid "Qué hay de nuevo"
 msgstr "What's new"
 
+msgid "Qué rutinas entran en cada variante y qué días tocan. «Todas las semanas» se sugiere siempre, también en descarga (como la Diaria)."
+msgstr "Which routines go in each variant and on which days. “Every week” is always suggested, deload weeks included (like the Daily)."
+
 msgid "Qué te gustaría"
 msgstr "What you'd like"
 
@@ -2756,6 +2805,10 @@ msgstr "{n} sets of {x} left."
 
 msgid "Quitar"
 msgstr "Remove"
+
+#, python-brace-format
+msgid "Quitar {x}"
+msgstr "Remove {x}"
 
 msgid "Quitar ejercicio"
 msgstr "Remove exercise"
@@ -2872,6 +2925,9 @@ msgstr "Reps set {n}"
 msgid "Repetir"
 msgstr "Repeat"
 
+msgid "Repetir la configuración inicial"
+msgstr "Repeat the initial setup"
+
 msgid "reps"
 msgstr "reps"
 
@@ -2890,9 +2946,6 @@ msgstr "Summary"
 #, python-brace-format
 msgid "retraso {n} d"
 msgstr "{n} d late"
-
-msgid "Revisa la sesión. El reloj y las series se activan al iniciar."
-msgstr "Review the session. The clock and sets activate when you start."
 
 msgid "Revisa y elige qué añadir. No se borra nada de lo que ya tienes."
 msgstr "Review and choose what to add. Nothing you already have is deleted."
@@ -2958,6 +3011,9 @@ msgstr "Routines from another profile"
 msgid "Rutinas por variante"
 msgstr "Routines by variant"
 
+msgid "Rutinas y días"
+msgstr "Routines and days"
+
 msgid "S"
 msgstr "S"
 
@@ -2982,6 +3038,12 @@ msgstr "Applied automatically when the week starts to that variant's routines, w
 msgid "Se aplica sola al empezar la semana a las rutinas de esa variante, con aviso en Hoy y opción de deshacer. Pasa al siguiente paso del catálogo solo si la última vez llegaste al objetivo."
 msgstr "Applied automatically when the week starts to that variant's routines, with a notice in Today and an undo option. Moves to the next catalogue step only if you hit the target last time."
 
+msgid "Se borra todo lo de este dispositivo: rutinas, sesiones, plan, peso, diario y ciclo. No se puede deshacer."
+msgstr "Everything on this device is deleted: routines, sessions, plan, weight, diary and cycle. This can't be undone."
+
+msgid "Se borra todo lo de este perfil en este dispositivo: rutinas, sesiones, plan, peso, diario y ciclo. No se puede deshacer."
+msgstr "Everything in this profile on this device is deleted: routines, sessions, plan, weight, diary and cycle. This can't be undone."
+
 #, python-brace-format
 msgid "Se borrarán el perfil «{x}» y todos sus datos de este dispositivo. ¿Has exportado su copia?"
 msgstr "Profile “{x}” and all its data will be deleted from this device. Have you exported its backup?"
@@ -3005,6 +3067,10 @@ msgstr "Your plan's rule was applied: {x}."
 
 msgid "Se ofrece tal cual, sin garantías de ningún tipo. La usas bajo tu responsabilidad."
 msgstr "Provided as is, without warranty of any kind. Use it at your own risk."
+
+#, python-brace-format
+msgid "Se parece un {p} % a «{x}», que ya tienes"
+msgstr "{p}% similar to “{x}”, which you already have"
 
 msgid "Se queda como ejercicio propio"
 msgstr "Stays as your own exercise"
@@ -3468,6 +3534,9 @@ msgstr "Tap a week to see its days in the Diary."
 msgid "Todas"
 msgstr "All"
 
+msgid "Todas las semanas"
+msgstr "Every week"
+
 msgid "Todo"
 msgstr "All"
 
@@ -3653,6 +3722,9 @@ msgstr "You're about to share health data with an external service"
 msgid "Ventana fértil"
 msgstr "Fertile window"
 
+msgid "Ver el aviso"
+msgstr "View the notice"
+
 msgid "Ver en Progreso"
 msgstr "See in Progress"
 
@@ -3664,9 +3736,6 @@ msgstr "View history"
 
 msgid "Ver la app primero. Las rutinas se crean en Entreno → Nueva rutina."
 msgstr "See the app first. Routines are created in Workout → New routine."
-
-msgid "Ver licencia completa"
-msgstr "View full license"
 
 msgid "Ver notas"
 msgstr "See notes"
@@ -3719,9 +3788,6 @@ msgstr "Back to the data"
 msgid "Volver a proponer en todos ({n} silenciados)"
 msgstr "Suggest for all again ({n} muted)"
 
-msgid "Volver a ver el aviso"
-msgstr "Show the notice again"
-
 msgid "Volver al paso anterior"
 msgstr "Go back a step"
 
@@ -3752,6 +3818,10 @@ msgid "Ya la estás usando como app instalada."
 msgstr "You're already using it as an installed app."
 
 #, python-brace-format
+msgid "Ya la tienes igual: «{x}»"
+msgstr "You already have it: “{x}”"
+
+#, python-brace-format
 msgid "Ya la tienes: «{x}»"
 msgstr "You already have it: “{x}”"
 
@@ -3763,6 +3833,18 @@ msgstr "Me"
 
 msgid "Zona peligrosa"
 msgstr "Danger zone"
+
+#~ msgid "Para que funcione, pon a cada rutina su variante y sus días al editarla."
+#~ msgstr "For it to work, give each routine its variant and days when editing it."
+
+#~ msgid "Revisa la sesión. El reloj y las series se activan al iniciar."
+#~ msgstr "Review the session. The clock and sets activate when you start."
+
+#~ msgid "Ver licencia completa"
+#~ msgstr "View full license"
+
+#~ msgid "Volver a ver el aviso"
+#~ msgstr "Show the notice again"
 
 #~ msgid "Sustituirá tu plan actual."
 #~ msgstr "It will replace your current plan."

@@ -25,6 +25,31 @@ label.srow{cursor:pointer}
   .mbox.full>.back{display:inline-flex}
   .mbox.full .sb-head>.btn[data-act$="-close"]{display:none}
 }
+/* Antes de iniciar la sesión: Iniciar arriba y fijo */
+.prebar{position:sticky;top:0;z-index:6;display:grid;gap:4px;margin:4px -16px 12px;padding:10px 16px;background:var(--bg);border-bottom:1px solid var(--line)}
+.prebar .btn{width:100%;padding:14px;font-size:1.05rem}
+.prebar small{text-align:center;font-size:.8rem}
+.dupw{display:block;color:var(--warn);font-weight:600;font-size:.8rem}
+/* Plan: rutinas y días */
+.pvar{border:1px solid var(--line);border-radius:14px;padding:10px 12px;margin-top:10px;background:var(--bg)}
+.pvh{font-weight:700;display:flex;align-items:center;gap:6px;margin-bottom:6px}
+.prr{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 8px;align-items:center;padding:8px 0;border-top:1px solid var(--line)}
+.prr .n{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.prr .pdays,.prr .dupw{grid-column:1/-1}
+.pdays{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}
+.pdays button{min-height:36px;border:1px solid var(--line);background:var(--surface);border-radius:10px;font-weight:600;color:var(--muted);padding:0}
+.pdays button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+:root[data-theme="dark"] .pdays button.on,:root[data-theme="protector"] .pdays button.on{color:#1A1208}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .pdays button.on{color:#1A1208}}
+.pvar select{margin-top:8px}
+/* Zona peligrosa */
+.dzone{border:1.5px solid var(--danger);background:color-mix(in srgb,var(--danger) 8%,var(--surface));border-radius:16px;padding:14px 16px}
+.dzone b{color:var(--danger)}.dzone p{margin:6px 0 12px;font-size:.88rem}
+.btn.dangerfill{background:var(--danger);border-color:var(--danger);color:#fff}
+:root[data-theme="dark"] .btn.dangerfill,:root[data-theme="protector"] .btn.dangerfill{color:#1A1208}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .btn.dangerfill{color:#1A1208}}
+.langrow{display:flex;align-items:center;gap:10px;margin-bottom:14px}.langrow select{flex:1}
+.abouth{display:flex;align-items:baseline;gap:10px}.abouth b{font-size:1.25rem}
 /* Editor compacto en el móvil */
 .exsum{grid-column:1/-1;display:none;align-items:center;gap:8px;justify-content:space-between;width:100%;border:0;background:none;color:var(--muted);font:inherit;font-size:.88rem;text-align:left;padding:2px 0 0;min-height:32px}
 @media (max-width:999px){

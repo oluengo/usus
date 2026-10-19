@@ -55,7 +55,7 @@ function viewData() {
     </div>
     <h2>${T("Mi material")}</h2>
     <div class="panel"><p class="muted" style="font-size:.85rem;margin:0">${T("Marca lo que tienes. En el catálogo, lo demás se ve en naranja y se puede ocultar. Sin nada marcado, no se filtra.")}</p>
-      <div class="matsel">${Object.entries(MAT).map(([k, [n]]) => `<label><input type="checkbox" data-myeq="${k}" ${myEquip()?.includes(k) ? "checked" : ""}>${matIco(k)}${T(n)}</label>`).join("")}</div></div>` : ""}
+      <div class="matsel">${MAT_SEL().map(([k, [n]]) => `<label><input type="checkbox" data-myeq="${k}" ${myEquip()?.includes(k) ? "checked" : ""}>${matIco(k)}${T(n)}</label>`).join("")}</div></div>` : ""}
     <h2>${T("Catálogo de ejercicios")}</h2>
     <div class="lgroup">
       ${srowS("catChk", T("Usar el catálogo"), catOn(), catOn() ? (CAT ? T("{n} ejercicios con ficha y progresión", { n: CAT.exercises.length }) : T("Cargando…")) : T("Desactivado: solo tus ejercicios"))}
@@ -71,7 +71,7 @@ function viewData() {
 `,
     apariencia: `
     <h2>${T("Idioma")}</h2>
-    <div class="seg" style="grid-template-columns:repeat(auto-fit,minmax(100px,1fr))" role="group" aria-label="${T("Idioma")}">${Object.entries(LANGS).map(([k, v]) => `<button data-lang-set="${k}" class="${LANG === k ? "on" : ""}" aria-pressed="${LANG === k}" lang="${k}">${v.name}</button>`).join("")}</div>
+    <div class="lgroup"><div class="srow"><label class="t" for="langSel">${T("Idioma de la app")}</label><select id="langSel">${Object.entries(LANGS).map(([k, v]) => `<option value="${k}" lang="${k}" ${LANG === k ? "selected" : ""}>${v.name}</option>`).join("")}</select></div></div>
     <h2>${T("Apariencia")}</h2>
     <div class="seg" role="group" aria-label="${T("Tema")}">${THEMES.map(([k, n, d]) => `<button data-theme-set="${k}" class="${curTheme() === k ? "on" : ""}" aria-pressed="${curTheme() === k}">${T(n)}<small>${T(d)}</small></button>`).join("")}</div>
 `,
@@ -83,12 +83,12 @@ function viewData() {
 `,
     acerca: `
     <div class="panel">
-      <div class="t" style="font-weight:600">Usus · <button class="verb" data-act="news-open">${T("versión")} ${APP_VERSION}${BETA ? " beta" : ""}</button></div>
-      <p class="muted" style="font-size:.85rem;margin:4px 0 0">${T("Hecha con IA · probada por humanos.")}</p>
+      <div class="abouth"><b>Usus</b><button class="verb" data-act="news-open">${T("versión")} ${APP_VERSION}${BETA ? " beta" : ""}</button></div>
+      <p class="muted" style="font-size:.85rem;margin:2px 0 0">${T("Hecha con IA · probada por humanos.")}</p>
+      <details style="margin-top:10px"><summary class="muted" style="font-size:.85rem;cursor:pointer">${T("Licencia MIT y garantías")}</summary>
       <p class="muted" style="font-size:.85rem;margin:6px 0 0">${T("Software libre bajo licencia MIT: puedes usarlo, copiarlo, modificarlo y distribuirlo, también con fines comerciales, manteniendo el aviso de copyright y de licencia.")}</p>
-      <p class="muted" style="font-size:.85rem;margin:8px 0 0">${T("Sin garantías. Los autores no responden de lesiones, pérdida de datos ni ningún otro daño derivado de su uso. No sustituye el consejo de un profesional sanitario o deportivo.")}</p>
-      <details style="margin-top:10px"><summary class="muted" style="font-size:.85rem;cursor:pointer">${T("Ver licencia completa")}</summary><pre class="lic">${esc(MIT)}</pre>${LANG !== "en" ? `<p class="muted" style="font-size:.75rem;margin:6px 0 0">${T("El texto legal válido es el original en inglés.")}</p>` : ""}</details>
-      <button class="btn small" style="margin-top:12px" data-act="welcome-show">${T("Volver a ver el aviso")}</button>
+      <p class="muted" style="font-size:.85rem;margin:8px 0 0">${T("Sin garantías. Los autores no responden de lesiones, pérdida de datos ni ningún otro daño derivado de su uso. No sustituye el consejo de un profesional sanitario o deportivo.")}</p><pre class="lic">${esc(MIT)}</pre>${LANG !== "en" ? `<p class="muted" style="font-size:.75rem;margin:6px 0 0">${T("El texto legal válido es el original en inglés.")}</p>` : ""}</details>
+      <div class="row" style="margin-top:12px;flex-wrap:wrap"><button class="btn small" data-act="notice-open">${T("Ver el aviso")}</button><button class="btn small" data-act="welcome-show">${T("Repetir la configuración inicial")}</button></div>
     </div>
     ${aboutLinks()}
     ${isNative() ? updatesBlock() : `<h2>${T("Instalar en el móvil")}</h2>
@@ -109,7 +109,9 @@ function viewData() {
     <div class="panel">${item(T("Importar JSON"), T("Copia completa o solo rutinas. Se combina con lo existente; los duplicados se actualizan."), "imp", T("Elegir archivo"))}</div>
     <input type="file" id="impFile" accept="application/json,.json" hidden>
     <h2>${T("Zona peligrosa")}</h2>
-    <button class="btn danger" data-act="wipe">${T("Borrar todos los datos")}</button>
+    <div class="dzone" role="note"><b>⚠ ${T("Borrar todos los datos")}</b>
+      <p>${multiProf() ? T("Se borra todo lo de este perfil en este dispositivo: rutinas, sesiones, plan, peso, diario y ciclo. No se puede deshacer.") : T("Se borra todo lo de este dispositivo: rutinas, sesiones, plan, peso, diario y ciclo. No se puede deshacer.")} ${T("Exporta antes una copia.")}</p>
+      <button class="btn dangerfill" data-act="wipe">${T("Borrar todos los datos")}</button></div>
 `
   };
   const G = SET_GROUPS.find(g => g[0] === cur);

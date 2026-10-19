@@ -16,8 +16,8 @@ test("primera vez: asistente con catálogo y material, y crear la primera rutina
   await page.goto("./");
   const m = page.locator(".modal");
   await expect(m).toContainText("Paso 1 de 3");
-  await m.locator('[data-lang-set="en"]').click(); await expect(m).toContainText("Step 1 of 3");
-  await m.locator('[data-lang-set="es"]').click();
+  await m.locator("#langSel").selectOption("en"); await expect(m).toContainText("Step 1 of 3");
+  await m.locator("#langSel").selectOption("es");
   await m.locator('[data-act="wiz-next"]').click();
   await m.locator('[data-act="wiz-cat-yes"]').click();
   await expect(m).toContainText("Paso 3 de 4"); await expect(m).toContainText("Mi material");

@@ -113,7 +113,7 @@ function planSection() {
   const p = PL.get();
   if (!p) return `<div class="panel"><b>${T("Sin plan de progresión")}</b>
     <p class="muted" style="margin:4px 0 0">${T("Un plan rota variantes de tus rutinas por semanas (por ejemplo A, B, C cada 2 semanas) con semanas de descarga, y Hoy te dice qué rutina toca cada día.")}</p>
-    <p class="muted" style="font-size:.85rem;margin:6px 0 0">${T("Para que funcione, pon a cada rutina su variante y sus días al editarla.")}</p>
+    <p class="muted" style="font-size:.85rem;margin:6px 0 0">${T("Al crearlo eliges qué rutinas van en cada variante y qué días tocan.")}</p>
     <button class="btn primary" style="margin-top:12px" data-act="plan-create">${T("Crear plan")}</button></div>${plansBlock()}`;
   const ws = planWeeks(p), pn = planNow(p), now = Date.now(), vs = planVariants(p);
   const fmt = t => new Date(t).toLocaleDateString(LOC(), { day: "numeric", month: "short" });
@@ -153,6 +153,7 @@ function viewPlanEdit() {
         <span class="phbtn"><button class="mv" data-pmv="${i}:-1" aria-label="${T("Subir")}" ${i === 0 ? "disabled" : ""}>↑</button><button class="mv" data-pmv="${i}:1" aria-label="${T("Bajar")}" ${i === d.phases.length - 1 ? "disabled" : ""}>↓</button><button class="x" data-prm="${i}" aria-label="${T("Quitar fase")}">×</button></span>
       </div>`).join("")}
       <button class="btn small" style="margin-top:10px" data-act="plan-addph">${T("Añadir fase")}</button>
+      ${planRoutinesEd(d)}
       <h2 style="margin:18px 0 4px;font-size:1rem">${T("Descarga")}</h2>
       <div class="wrow2"><label class="muted" for="pDlW">${T("Semanas de descarga")}</label><input type="number" id="pDlW" min="0" max="4" value="${+d.deload?.weeks || 0}" inputmode="numeric">
         <label class="muted" for="pDlE">${T("Cada (semanas de entreno)")}</label><input type="number" id="pDlE" min="0" max="26" value="${+d.deload?.every || 0}" inputmode="numeric"></div>
@@ -170,6 +171,28 @@ function viewPlanEdit() {
       <button class="btn ghost" data-act="plan-cancel">${T("Cancelar")}</button>
       <button class="btn primary" data-act="plan-save">${T("Guardar plan")}</button>
     </div>`;
+}
+/* Rutinas y días del plan: qué rutina va en cada variante (o todas las semanas) y qué días. Se guarda en cada rutina. */
+function planRmap(d) {
+  return d.rmap = d.rmap || Object.fromEntries(state.routines.map(r => [r.id, { on: !!normVar(r.variant) || (r.days || []).length > 0, variant: normVar(r.variant), days: [...(r.days || [])] }]));
+}
+function planRoutinesEd(d) {
+  const rm = planRmap(d), R = state.routines, vs = [...new Set(d.phases.map(x => normVar(x.variant)).filter(Boolean))];
+  if (!R.length) return `<h2 style="margin:18px 0 4px;font-size:1rem">${T("Rutinas y días")}</h2><p class="muted" style="font-size:.85rem;margin:0">${T("Aún no tienes rutinas. Créalas en Entreno → Rutinas y vuelve aquí.")}</p>`;
+  const days = r => `<div class="pdays" role="group" aria-label="${T("Días de {x}", { x: esc(r.name) })}">${WEEK_ORDER.map(x => { const on = rm[r.id].days.includes(x); return `<button data-prd="${r.id}:${x}" class="${on ? "on" : ""}" aria-pressed="${on}" aria-label="${DIAS[x]}">${dayShort(x)}</button>`; }).join("")}</div>`;
+  return `<h2 style="margin:18px 0 4px;font-size:1rem">${T("Rutinas y días")}</h2>
+    <p class="muted" style="font-size:.8rem;margin:0 0 8px">${T("Qué rutinas entran en cada variante y qué días tocan. «Todas las semanas» se sugiere siempre, también en descarga (como la Diaria).")}</p>
+    ${[...vs, ""].map(v => { const l = R.filter(r => rm[r.id].on && rm[r.id].variant === v), others = R.filter(r => !l.includes(r));
+      return `<div class="pvar"><div class="pvh">${v ? `${vChip(v)} ${T("Variante {v}", { v: esc(v) })}` : T("Todas las semanas")}</div>
+        ${l.map(r => `<div class="prr"><span class="n">${esc(r.name)}</span><button class="x" data-prx="${r.id}" aria-label="${T("Quitar {x}", { x: esc(r.name) })}">×</button>${days(r)}${rm[r.id].days.length ? "" : `<small class="dupw">${T("Elige al menos un día")}</small>`}</div>`).join("")}
+        ${others.length ? `<select data-padd="${esc(v)}" aria-label="${v ? T("Añadir rutina a la variante {v}", { v: esc(v) }) : T("Añadir rutina para todas las semanas")}"><option value="">+ ${T("Añadir rutina")}</option>${others.map(r => `<option value="${r.id}">${esc(r.name)}${rm[r.id].on && rm[r.id].variant ? ` (${esc(rm[r.id].variant)})` : ""}</option>`).join("")}</select>` : ""}</div>`; }).join("")}`;
+}
+function planRmapSave(d) {
+  const rm = d.rmap; delete d.rmap; if (!rm) return;
+  let ch = false;
+  state.routines.forEach(r => { const m = rm[r.id]; if (!m) return; const v = m.on ? m.variant : "", ds = m.on ? WEEK_ORDER.filter(x => m.days.includes(x)) : [];
+    if (normVar(r.variant) !== v || (r.days || []).join() !== ds.join()) { r.variant = v; r.days = ds; ch = true; } });
+  if (ch) store.saveRoutines(state.routines);
 }
 function readPlan() {
   const d = state.planDraft; if (state.planMode !== "edit" || !d) return;

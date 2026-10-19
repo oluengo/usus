@@ -115,6 +115,10 @@ msgid "{e} ejercicios · ≈ {m} min"
 msgstr ""
 
 #, python-brace-format
+msgid "{n} de {m} seleccionadas"
+msgstr ""
+
+#, python-brace-format
 msgid "{n} de {m} seleccionadas · sin tus sesiones ni registros."
 msgstr ""
 
@@ -373,6 +377,9 @@ msgstr ""
 msgid "Al cambiar de perfil te quedas en la misma pantalla (por ejemplo, Ajustes) en vez de volver a Hoy."
 msgstr ""
 
+msgid "Al crearlo eliges qué rutinas van en cada variante y qué días tocan."
+msgstr ""
+
 msgid "Al terminar (s)"
 msgstr ""
 
@@ -495,6 +502,16 @@ msgstr ""
 msgid "Añadir perfil"
 msgstr ""
 
+msgid "Añadir rutina"
+msgstr ""
+
+#, python-brace-format
+msgid "Añadir rutina a la variante {v}"
+msgstr ""
+
+msgid "Añadir rutina para todas las semanas"
+msgstr ""
+
 msgid "Añadir serie"
 msgstr ""
 
@@ -550,6 +567,9 @@ msgid "Aún no hay sesiones con esfuerzo (PEM). Se pregunta al terminar cada ses
 msgstr ""
 
 msgid "Aún no tienes rutinas."
+msgstr ""
+
+msgid "Aún no tienes rutinas. Créalas en Entreno → Rutinas y vuelve aquí."
 msgstr ""
 
 msgid "Aún no tienes suplementos. Añádelos con Gestionar."
@@ -913,6 +933,10 @@ msgstr ""
 msgid "Copiar rutinas a otro perfil"
 msgstr ""
 
+#, python-brace-format
+msgid "Copiar rutinas de {x}"
+msgstr ""
+
 msgid "Core"
 msgstr ""
 
@@ -1143,6 +1167,10 @@ msgstr ""
 msgid "Días con objetivo"
 msgstr ""
 
+#, python-brace-format
+msgid "Días de {x}"
+msgstr ""
+
 msgid "Días de antelación"
 msgstr ""
 
@@ -1314,6 +1342,9 @@ msgstr ""
 msgid "El plan usa la variante {v}, que no va incluida: esas semanas quedarán sin rutina."
 msgstr ""
 
+msgid "El reloj y las series se activan al iniciar."
+msgstr ""
+
 msgid "El sexo no se podrá cambiar después. El nombre y el color, sí."
 msgstr ""
 
@@ -1333,6 +1364,9 @@ msgid "Elegir fecha"
 msgstr ""
 
 msgid "Elegir otro"
+msgstr ""
+
+msgid "Elige al menos un día"
 msgstr ""
 
 msgid "Elige hombre o mujer"
@@ -1415,6 +1449,9 @@ msgid "En un ordenador o una tablet en horizontal, el editor se abre en modo amp
 msgstr ""
 
 msgid "Enlace"
+msgstr ""
+
+msgid "Enlace copiado. Pégalo donde quieras."
 msgstr ""
 
 msgid "Entendido"
@@ -1522,6 +1559,9 @@ msgid "Exigente"
 msgstr ""
 
 msgid "Experiencia entrenando"
+msgstr ""
+
+msgid "Exporta antes una copia."
 msgstr ""
 
 msgid "Exportar"
@@ -1709,6 +1749,9 @@ msgstr ""
 msgid "Idioma"
 msgstr ""
 
+msgid "Idioma de la app"
+msgstr ""
+
 msgid "Imagen"
 msgstr ""
 
@@ -1894,6 +1937,9 @@ msgid "Leve"
 msgstr ""
 
 msgid "Libre"
+msgstr ""
+
+msgid "Licencia MIT y garantías"
 msgstr ""
 
 msgid "Lightning / zaps"
@@ -2127,6 +2173,9 @@ msgid "Necesitas una cuenta de GitHub (gratis)."
 msgstr ""
 
 msgid "Neutro"
+msgstr ""
+
+msgid "Ninguna"
 msgstr ""
 
 msgid "Ninguno"
@@ -2409,9 +2458,6 @@ msgid "Para el objetivo ({g})"
 msgstr ""
 
 msgid "Para elegir ejercicios al crear rutinas y saber cómo avanzar."
-msgstr ""
-
-msgid "Para que funcione, pon a cada rutina su variante y sus días al editarla."
 msgstr ""
 
 msgid "Para qué lo usarías"
@@ -2739,6 +2785,9 @@ msgstr ""
 msgid "Qué hay de nuevo"
 msgstr ""
 
+msgid "Qué rutinas entran en cada variante y qué días tocan. «Todas las semanas» se sugiere siempre, también en descarga (como la Diaria)."
+msgstr ""
+
 msgid "Qué te gustaría"
 msgstr ""
 
@@ -2754,6 +2803,10 @@ msgid "Quedan {n} series de {x}."
 msgstr ""
 
 msgid "Quitar"
+msgstr ""
+
+#, python-brace-format
+msgid "Quitar {x}"
 msgstr ""
 
 msgid "Quitar ejercicio"
@@ -2871,6 +2924,9 @@ msgstr ""
 msgid "Repetir"
 msgstr ""
 
+msgid "Repetir la configuración inicial"
+msgstr ""
+
 msgid "reps"
 msgstr ""
 
@@ -2888,9 +2944,6 @@ msgstr ""
 
 #, python-brace-format
 msgid "retraso {n} d"
-msgstr ""
-
-msgid "Revisa la sesión. El reloj y las series se activan al iniciar."
 msgstr ""
 
 msgid "Revisa y elige qué añadir. No se borra nada de lo que ya tienes."
@@ -2957,6 +3010,9 @@ msgstr ""
 msgid "Rutinas por variante"
 msgstr ""
 
+msgid "Rutinas y días"
+msgstr ""
+
 msgid "S"
 msgstr ""
 
@@ -2981,6 +3037,12 @@ msgstr ""
 msgid "Se aplica sola al empezar la semana a las rutinas de esa variante, con aviso en Hoy y opción de deshacer. Pasa al siguiente paso del catálogo solo si la última vez llegaste al objetivo."
 msgstr ""
 
+msgid "Se borra todo lo de este dispositivo: rutinas, sesiones, plan, peso, diario y ciclo. No se puede deshacer."
+msgstr ""
+
+msgid "Se borra todo lo de este perfil en este dispositivo: rutinas, sesiones, plan, peso, diario y ciclo. No se puede deshacer."
+msgstr ""
+
 #, python-brace-format
 msgid "Se borrarán el perfil «{x}» y todos sus datos de este dispositivo. ¿Has exportado su copia?"
 msgstr ""
@@ -3003,6 +3065,10 @@ msgid "Se ha aplicado la regla de tu plan: {x}."
 msgstr ""
 
 msgid "Se ofrece tal cual, sin garantías de ningún tipo. La usas bajo tu responsabilidad."
+msgstr ""
+
+#, python-brace-format
+msgid "Se parece un {p} % a «{x}», que ya tienes"
 msgstr ""
 
 msgid "Se queda como ejercicio propio"
@@ -3467,6 +3533,9 @@ msgstr ""
 msgid "Todas"
 msgstr ""
 
+msgid "Todas las semanas"
+msgstr ""
+
 msgid "Todo"
 msgstr ""
 
@@ -3652,6 +3721,9 @@ msgstr ""
 msgid "Ventana fértil"
 msgstr ""
 
+msgid "Ver el aviso"
+msgstr ""
+
 msgid "Ver en Progreso"
 msgstr ""
 
@@ -3662,9 +3734,6 @@ msgid "Ver historial"
 msgstr ""
 
 msgid "Ver la app primero. Las rutinas se crean en Entreno → Nueva rutina."
-msgstr ""
-
-msgid "Ver licencia completa"
 msgstr ""
 
 msgid "Ver notas"
@@ -3718,9 +3787,6 @@ msgstr ""
 msgid "Volver a proponer en todos ({n} silenciados)"
 msgstr ""
 
-msgid "Volver a ver el aviso"
-msgstr ""
-
 msgid "Volver al paso anterior"
 msgstr ""
 
@@ -3748,6 +3814,10 @@ msgid "Ya hay un perfil con ese nombre"
 msgstr ""
 
 msgid "Ya la estás usando como app instalada."
+msgstr ""
+
+#, python-brace-format
+msgid "Ya la tienes igual: «{x}»"
 msgstr ""
 
 #, python-brace-format

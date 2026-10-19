@@ -56,6 +56,7 @@ document.addEventListener("click", async ev => {
   if (d.pfcol && state.pform) { readProfForm(); state.pform.color = d.pfcol; render(); return; }
   if (d.pffrom && state.pform) { readProfForm(); state.pform.from = d.pffrom; render(); return; }
   if (d.pfsrc && state.pform) { readProfForm(); state.pform.src = d.pfsrc; state.pform.sel = null; render(); return; }
+  if ((d.act === "pf-all" || d.act === "pf-none") && state.pform) { readProfForm(); const f = state.pform; f.sel = d.act === "pf-all" ? null : []; render(); return; }
   if (d.pfr && state.pform) { readProfForm(); const f = state.pform, all = (f.src === PROF ? state.routines : rawGet(PK("wk.routines", f.src), []) || []).map(r => r.id), sel = new Set(f.sel || all); sel.has(d.pfr) ? sel.delete(d.pfr) : sel.add(d.pfr); f.sel = [...sel]; render(); return; }
   if (d.pecol && state.pedit) { state.pedit.color = d.pecol; const n = $("#peName")?.value; render(); if (n !== undefined && $("#peName")) $("#peName").value = n; return; }
   if (d.pkto && state.pcopy) { state.pcopy.to = d.pkto; render(); return; }
@@ -72,6 +73,8 @@ document.addEventListener("click", async ev => {
     if (d.rday === "all") WEEK_ORDER.forEach(x => set.add(x)); else if (d.rday === "none") set.clear(); else { const x = +d.rday; set.has(x) ? set.delete(x) : set.add(x); }
     ed.days = [...set]; render(); return;
   }
+  if (d.prd && state.planDraft) { const [id, x] = d.prd.split(":"), m = planRmap(state.planDraft)[id]; if (m) { const k = +x; m.days = m.days.includes(k) ? m.days.filter(z => z !== k) : [...m.days, k]; } render(); return; }
+  if (d.prx && state.planDraft) { const m = planRmap(state.planDraft)[d.prx]; if (m) { m.on = false; m.variant = ""; m.days = []; } render(); return; }
   if (d.prm && state.planDraft) { state.planDraft.phases.splice(+d.prm, 1); render(); return; }
   if (d.pmv && state.planDraft) { const [i, dir] = d.pmv.split(":").map(Number), ph = state.planDraft.phases, j = i + dir; if (j >= 0 && j < ph.length) [ph[i], ph[j]] = [ph[j], ph[i]]; render(); return; }
   if (d.eopen !== undefined) { readEditor(); state.edOpen = state.edOpen === +d.eopen ? null : +d.eopen; render(); return; }
@@ -285,6 +288,8 @@ document.addEventListener("click", async ev => {
     case "rs-link": await shareRoutGo("link"); break;
     case "in-no": state.incoming = null; render(); break;
     case "in-yes": await incomingAdd(); break;
+    case "notice-open": state.notice = true; render(); break;
+    case "notice-close": state.notice = false; render(); break;
     case "welcome-show": LS.set("wk.welcomed", false); state.wiz = 0; render(); break;
     case "statsedit": state.statsEdit = !state.statsEdit; render(); break;
     case "testfx": { const m = fxMode(); if (m === "off") { toast(T("Avisos desactivados")); break; } unlockAudio(); beepEnd(); flash(); const v = buzz([400, 150, 400, 150, 400]);
@@ -310,7 +315,7 @@ document.addEventListener("click", async ev => {
       if (!dr.phases.length) { toast(T("Añade al menos una fase con variante")); return; }
       if (dr.review && dr.review <= dr.start) { toast(T("La revisión debe ser posterior al inicio")); return; }
       if (state.planNew) { const old = PL.get(); if (old) PLS.save([{ ...old, id: old.id || uid() }, ...PLS.list()]); dr.id = uid(); }
-      dr.id = dr.id || uid(); PL.save(dr); state.planDraft = null; state.planMode = null; state.planNew = false; toast(T("Plan guardado")); render(); setTimeout(() => $("#planSec")?.scrollIntoView({ block: "start" }), 0); break;
+      dr.id = dr.id || uid(); planRmapSave(dr); PL.save(dr); state.planDraft = null; state.planMode = null; state.planNew = false; toast(T("Plan guardado")); render(); setTimeout(() => $("#planSec")?.scrollIntoView({ block: "start" }), 0); break;
     }
     case "plan-del": if (!confirm(T("¿Eliminar el plan? Tus rutinas y sesiones no se tocan."))) return; LS.set("wk.plan", null); state.planDraft = null; state.planMode = null; render(); break;
     case "print-close": state.print = null; render(); break;
@@ -416,12 +421,14 @@ document.addEventListener("drop", ev => {
 });
 document.addEventListener("dragend", () => { edDrag = null; document.querySelectorAll(".dropz.over").forEach(x => x.classList.remove("over")); });
 document.addEventListener("change", async ev => {
+  if (state.planMode === "edit" && ev.target.dataset?.padd !== undefined) { const id = ev.target.value, m = id && planRmap(state.planDraft)[id]; if (m) { readPlan(); m.on = true; m.variant = ev.target.dataset.padd; } render(); return; }
   if (state.planMode === "edit" && ev.target.closest?.("#app") && (/^p(On|Start|Review|DlW|DlE|Up|UpRule)$/.test(ev.target.id) || ev.target.dataset.pv !== undefined || ev.target.dataset.pw !== undefined)) { readPlan(); render(); return; }
   const tg = ev.target, dk = state.day || dayKey(Date.now());
   if (tg.id === "progOn" || tg.id === "progUp" || tg.id === "progDown") { const P = PROG(); if (tg.id === "progOn") P.on = tg.checked; if (tg.id === "progUp") P.up = +tg.value; if (tg.id === "progDown") P.down = tg.value; LS.set("wk.prog", P); render(); return; }
   if (tg.id === "effPem" || tg.id === "effRir") { LS.set("wk.effort", { ...EFF(), [tg.id === "effPem" ? "pem" : "rir"]: tg.checked }); render(); return; }
   if (tg.id === "catOnly") { state.catOnly = tg.checked; const l = $("#catList"); if (l) l.innerHTML = catListHTML(); return; }
   if (tg.dataset.omat && state.ownMat) { const k = tg.dataset.omat, l = state.ownMat.equip.filter(z => z !== k); if (tg.checked) l.push(k); state.ownMat.equip = l; return; }
+  if (tg.id === "langSel") { LS.set("wk.lang", tg.value); setLang(tg.value); render(); return; }
   if (tg.dataset.myeq) { const k = tg.dataset.myeq, l = (myEquip() || []).filter(z => z !== k); if (tg.checked) l.push(k); LS.set("wk.equip", l.length ? MAT_ORDER(l) : null); render(); return; }
   if (tg.id === "catChk") { LS.set("wk.catalog", tg.checked); state.routView = null; if (tg.checked) { toast(T("Catálogo activado")); render(); const c = await loadCatalog(); if (!c) toast(T("No se pudo cargar el catálogo. Se volverá a intentar al abrir la app.")); } else toast(T("Catálogo desactivado")); render(); return; }
   if (tg.id === "isTech") { state.issueTech = tg.checked; render(); return; }

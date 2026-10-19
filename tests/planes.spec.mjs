@@ -32,3 +32,18 @@ test("plan recibido: conserva su regla de subida y el activo pasa a Mis planes",
   expect((await ls(page, "wk.plans")).map(p => p.name)).toEqual(["Bloque 1"]);
   expect(errors).toEqual([]);
 });
+test("rutinas y días desde el plan", async ({ page }) => {
+  const errors = await openApp(page, { clock: new Date("2026-10-16T09:00:00"), data: { "wk.routines": [...R, { id: "rd", name: "Diaria", block: "core", variant: "", days: [], exercises: [{ name: "Plancha", sets: 1, reps: 30, type: "time" }] }] } });
+  await nav(page, "routines"); await page.locator('[data-rview="plan"]').click(); await page.locator('[data-act="plan-create"]').click();
+  await page.locator('select[data-padd=""]').selectOption("rd");
+  for (const d of [1, 2, 3, 4, 5]) await page.locator(`[data-prd="rd:${d}"]`).click();
+  await page.locator('[data-prd="ra:3"]').click(); await page.locator('[data-prd="ra:5"]').click();   // A: lunes y viernes (quita miércoles, añade viernes)
+  await page.locator('[data-prx="rb"]').click();                                                     // B fuera del plan
+  await page.locator('[data-act="plan-save"]').click();
+  const rs = Object.fromEntries((await ls(page, "wk.routines")).map(r => [r.id, r]));
+  expect([rs.rd.variant, rs.rd.days]).toEqual(["", [1, 2, 3, 4, 5]]);
+  expect([rs.ra.variant, rs.ra.days]).toEqual(["A", [1, 5]]);
+  expect([rs.rb.variant, rs.rb.days]).toEqual(["", []]);
+  expect((await ls(page, "wk.plan")).rmap).toBeUndefined();
+  expect(errors).toEqual([]);
+});
