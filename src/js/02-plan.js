@@ -53,10 +53,36 @@ function planWeeks(p) {
 }
 function planNow(p = PL.get(), now = Date.now()) {
   if (!p || p.enabled === false) return null;
+  if (p.order) return planOrder(p, now);
   const ws = planWeeks(p); if (!ws.length) return null;
   if (now < ws[0].t) return { status: "pre", ws };
   const i = ws.findIndex(w => now >= w.t && now < addDays(w.t, 7));
   return i < 0 ? { status: "done", ws } : { status: "on", ws, i, w: ws[i] };
+}
+/* Plan «en orden»: cada semana del plan es una vuelta a las rutinas de su variante, en el orden de sus días.
+   No depende del calendario: hoy toca la siguiente que falte; la semana pasa cuando están todas hechas.
+   La descarga dura 7 días desde que acaba la semana anterior. Pausas y descargas añadidas: ventanas de fechas. */
+const firstDay = r => Math.min(9, ...(r.days || []).map(d => WEEK_ORDER.indexOf(d)));
+const planSeq = v => state.routines.filter(r => normVar(r.variant) === v).sort((a, b) => firstDay(a) - firstDay(b) || a.name.localeCompare(b.name));
+function planOrder(p, now = Date.now()) {
+  const base = planWeeks({ ...p, pauses: [] }); if (!base.length) return null;
+  const st = keyTime(p.start); if (now < st) return { status: "pre", ws: base.map(w => ({ ...w, t: null })) };
+  const ss = state.sessions.filter(s => s.start >= st).sort((a, b) => a.start - b.start), ws = []; let t = st, si = 0, cur = -1;
+  for (let k = 0; k < base.length; k++) {
+    const b = base[k], w = { ...b, t }, seq = b.deload ? [] : planSeq(b.variant);
+    if (!seq.length) { const end = addDays(dayStart(t), 7); w.end = end; ws.push(w); if (end > now) { cur = k; break; } t = end; continue; }
+    const names = new Set(seq.map(r => r.name)), done = new Set();
+    while (si < ss.length && done.size < names.size) { const s = ss[si++]; if (s.start >= t && names.has(s.routine) && !done.has(s.routine)) { done.add(s.routine); w.last = s.start; } }
+    Object.assign(w, { seq, done }); ws.push(w);
+    if (done.size < names.size) { cur = k; break; }
+    t = w.last + 1;
+  }
+  if (cur < 0) return { status: "done", ws };
+  const all = [...ws, ...base.slice(ws.length).map(w => ({ ...w, t: null }))];
+  let w = ws[cur];
+  const pz = planPauses(p).find(x => { const a = weekStart(keyTime(x.from)); return now >= a && now < addDays(a, 7 * x.weeks); });
+  if (pz) w = { ...w, deload: true, pause: pz.kind === "pause", added: true, base: w };
+  return { status: "on", ws: all, i: cur, w, order: true };
 }
 const weekLabel = w => w.pause ? T("Pausa") : w.deload ? T("Descarga") : T("Variante {v}", { v: w.variant });
 const planPauses = p => (Array.isArray(p?.pauses) ? p.pauses : []).filter(x => x && /^\d{4}-\d{2}-\d{2}$/.test(x.from) && +x.weeks > 0).map(x => ({ from: x.from, weeks: Math.min(8, Math.round(+x.weeks)), kind: x.kind === "deload" ? "deload" : "pause" }));
@@ -69,6 +95,8 @@ function shiftedDay(w, day) {
 }
 /* Rutinas que el plan sugiere un día: las de ese día con la variante de la semana o sin variante (en descarga, solo sin variante) */
 function suggestedFor(w, day) {
+  if (w.seq || w.base) { const nx = !w.deload && w.seq ? w.seq.find(r => !w.done.has(r.name)) : null;   // en orden: la siguiente que falta
+    return [...(nx ? [nx] : []), ...state.routines.filter(r => !normVar(r.variant) && (r.days || []).includes(day))]; }
   const vd = w.deload ? null : shiftedDay(w, day);   // las de variante, según lo aplazado; las de todas las semanas, su día
   return state.routines.filter(r => normVar(r.variant) ? (!w.deload && normVar(r.variant) === w.variant && vd !== null && (r.days || []).includes(vd)) : (r.days || []).includes(day))
     .sort((a, b) => (normVar(a.variant) ? 1 : 0) - (normVar(b.variant) ? 1 : 0));
@@ -84,6 +112,7 @@ function doneDays(w) {
 /* Rutinas de la variante de la semana que aún no se han hecho (el domingo, lo que falte pasa a saltado) */
 function pendingWeek(w) {
   if (!w || w.deload) return null;
+  if (w.seq) return { total: w.seq.length, pend: w.seq.filter(r => !w.done.has(r.name)), order: true };
   const end = addDays(w.t, 7), rs = state.routines.filter(r => normVar(r.variant) === w.variant && (r.days || []).length);
   if (!rs.length) return null;
   const done = new Set(state.sessions.filter(x => x.start >= w.t && x.start < end).map(x => x.routine));
@@ -92,8 +121,8 @@ function pendingWeek(w) {
 function pendingBlock(w) {
   const pw = pendingWeek(w); if (!pw) return "";
   if (!pw.pend.length) return `<div class="pend"><span style="color:var(--ok)">✓</span> ${T("Semana de fuerza completa")} (${pw.total}/${pw.total})</div>`;
-  const sun = new Date().getDay() === 0;
-  return `<div class="pend"><b>${T("Pendientes esta semana")}</b> <span class="muted">(${pw.total - pw.pend.length}/${pw.total})</span>
+  const sun = !pw.order && new Date().getDay() === 0;
+  return `<div class="pend"><b>${pw.order ? T("Esta semana del plan") : T("Pendientes esta semana")}</b> <span class="muted">(${pw.total - pw.pend.length}/${pw.total})</span>
     ${sun ? `<p class="muted" style="font-size:.8rem;margin:2px 0 0">${T("Hoy es el último día: lo que falte contará como saltado.")}</p>` : ""}
     ${pw.pend.map(r => `<div class="sugr">${vChip(normVar(r.variant))}<span class="sn">${esc(r.name)}</span><button class="btn small" data-start="${r.id}">${T("Empezar")}</button></div>`).join("")}</div>`;
 }
@@ -114,7 +143,7 @@ function todayCard() {
         : w.deload ? `<p class="muted" style="margin:6px 0 0">${T("Semana de descarga: solo rutinas sin variante (p. ej. Diaria).")}</p>` : ""}
       <div class="muted" style="font-size:.85rem;margin-top:10px">${T("Toca hoy:")}</div>${L}${pendingBlock(w)}
       ${planTodayActs(pn, today)}
-      ${next ? `<p class="muted" style="font-size:.8rem;margin:10px 0 0">${T("Siguiente: {x} desde el {d}", { x: weekLabel(next), d: new Date(next.t).toLocaleDateString(LOC(), { day: "numeric", month: "short" }) })}</p>` : ""}
+      ${next ? `<p class="muted" style="font-size:.8rem;margin:10px 0 0">${next.t ? T("Siguiente: {x} desde el {d}", { x: weekLabel(next), d: new Date(next.t).toLocaleDateString(LOC(), { day: "numeric", month: "short" }) }) : T("Después: {x}", { x: weekLabel(next) })}</p>` : ""}
     </div>`;
   }
   const rs = state.routines.filter(r => (r.days || []).includes(today));
@@ -126,7 +155,7 @@ function todayCard() {
 /* Acciones del plan en Hoy: aplazar lo de hoy, deshacer, descarga esta semana */
 function planTodayActs(pn, today) {
   const w = pn.w, sh = SHIFT.get(), shOn = sh && sh.week === dayKey(w.t), todayK = dayKey(Date.now());
-  const varToday = !w.deload && suggestedFor(w, today).some(r => normVar(r.variant) && !state.sessions.some(s => dayKey(s.start) === todayK && s.routine === r.name));
+  const varToday = !pn.order && !w.deload && suggestedFor(w, today).some(r => normVar(r.variant) && !state.sessions.some(s => dayKey(s.start) === todayK && s.routine === r.name));
   const acts = [varToday ? `<button class="btn small" data-act="pl-postpone">${T("Aplazar a mañana")}</button>` : "",
     !w.deload ? `<button class="btn ghost small" data-act="pl-deload">${T("Descarga esta semana")}</button>` : ""].join("");
   return `${shOn ? `<p class="muted" style="font-size:.82rem;margin:10px 0 0">${TN(sh.by, "Sesiones aplazadas {n} día desde el {d}.", "Sesiones aplazadas {n} días desde el {d}.", { d: DIAS[WEEK_ORDER[sh.from]] })} <button class="verb" data-act="pl-unshift">${T("Deshacer")}</button></p>` : ""}
@@ -153,11 +182,11 @@ function planSection() {
   const fmt = t => new Date(t).toLocaleDateString(LOC(), { day: "numeric", month: "short" });
   return `<div class="row" id="planSec"><h2 style="margin:0;flex:1">${p.name ? esc(p.name) : T("Plan")}</h2><button class="btn small" data-act="plan-edit">${T("Editar plan")}</button></div>
     ${p.enabled === false ? `<p class="muted">${T("Plan desactivado: Hoy no lo tiene en cuenta.")}</p>` : ""}
-    ${ws.length ? `<p class="sub">${fmt(ws[0].t)} → ${fmt(addDays(ws[ws.length - 1].t, 6))}${p.review ? ` · ${T("revisión desde el {d}", { d: fmt(keyTime(p.review)) })}` : ""}</p>
+    ${ws.length ? `<p class="sub">${p.order ? `${T("Desde el {d}", { d: fmt(keyTime(p.start)) })} · ${T("en orden")}` : `${fmt(ws[0].t)} → ${fmt(addDays(ws[ws.length - 1].t, 6))}`}${p.review ? ` · ${T("revisión desde el {d}", { d: fmt(keyTime(p.review)) })}` : ""}</p>
     <div class="legend" style="margin-top:6px">${vs.map(v => `<span>${vChip(v)}</span>`).join("")}<span><span class="vchip vd">${T("Descarga")}</span></span><span>${T("↑ = subir reps · barra = días de fuerza hechos")}</span></div>
-    <div class="pgrid">${ws.map((w, i) => { const pd = plannedDays(w), dd = doneDays(w), cur = pn?.status === "on" && pn.i === i, past = addDays(w.t, 7) <= now;
-      return `<button class="pwk${past ? " past" : ""}${cur ? " now" : ""}${w.deload ? " dl" : ""}${w.pause ? " pz" : ""}" style="${w.deload ? "" : `background:${varColor(w.variant, p)}`}" data-day="${dayKey(Math.min(w.t, now))}" aria-label="${T("Semana {n} de {m}", { n: w.n, m: ws.length })} · ${weekLabel(w)}">
-        <b>S${w.n} · ${w.pause ? T("Pausa") : w.deload ? T("Desc.") : esc(w.variant)}</b><span>${fmt(w.t)}</span>${w.up ? `<i class="up">↑</i>` : ""}
+    <div class="pgrid">${(p.order && pn ? pn.ws : ws).map((w, i) => { const ord = !!p.order, pd = ord ? (w.seq?.length || 0) : plannedDays(w), dd = ord ? (w.done?.size || 0) : doneDays(w), cur = pn?.status === "on" && pn.i === i, past = ord ? (pn?.status === "done" || i < (pn?.i ?? -1)) : addDays(w.t, 7) <= now;
+      return `<button class="pwk${past ? " past" : ""}${cur ? " now" : ""}${w.deload ? " dl" : ""}${w.pause ? " pz" : ""}" style="${w.deload ? "" : `background:${varColor(w.variant, p)}`}" data-day="${dayKey(Math.min(w.t ?? now, now))}" aria-label="${T("Semana {n} de {m}", { n: w.n, m: ws.length })} · ${weekLabel(w)}">
+        <b>S${w.n} · ${w.pause ? T("Pausa") : w.deload ? T("Desc.") : esc(w.variant)}</b><span>${w.t ? fmt(w.t) : "&nbsp;"}</span>${w.up ? `<i class="up">↑</i>` : ""}
         ${pd ? `<span class="pbar2"><i style="width:${Math.min(100, dd / pd * 100)}%"></i></span>` : ""}</button>`; }).join("")}</div>
     <p class="muted" style="font-size:.8rem;margin:10px 0 0">${T("Toca una semana para ver sus días en el Diario.")}</p>${planPauseBlock(p)}`
     : `<div class="empty" style="margin-top:14px">${T("El plan no tiene fases válidas. Edítalo para añadirlas.")}</div>`}
@@ -168,7 +197,7 @@ function planSection() {
 }
 function newPlanDraft() {
   const vs = [...new Set(state.routines.map(r => normVar(r.variant)).filter(Boolean))].sort();
-  return { enabled: true, start: dayKey(weekStart(Date.now())), review: "", phases: (vs.length ? vs : ["A", "B"]).map(v => ({ id: uid(), variant: v, weeks: 2 })), deload: { weeks: 1, every: 8 }, up: true };
+  return { enabled: true, order: true, start: dayKey(Date.now()), review: "", phases: (vs.length ? vs : ["A", "B"]).map(v => ({ id: uid(), variant: v, weeks: 2 })), deload: { weeks: 1, every: 8 }, up: true };
 }
 function viewPlanEdit() {
   const d = state.planDraft, ws = planWeeks(d);
@@ -178,7 +207,8 @@ function viewPlanEdit() {
       <label class="xtog swrow"><span>${T("Plan activo (se muestra en Hoy)")}</span><input type="checkbox" role="switch" id="pOn" ${d.enabled !== false ? "checked" : ""}></label>
       <div class="wrow2" style="margin-top:12px"><label class="muted" for="pStart">${T("Inicio")}</label><input type="date" id="pStart" value="${esc(d.start || "")}">
         <label class="muted" for="pReview">${T("Revisión (opcional)")}</label><input type="date" id="pReview" value="${esc(d.review || "")}"></div>
-      <p class="muted" style="font-size:.78rem;margin:6px 0 0">${T("El plan empieza el lunes de la semana de inicio. Sin revisión, dura un año.")}</p>
+      <p class="muted" style="font-size:.78rem;margin:6px 0 0">${d.order ? T("En orden, el plan empieza el mismo día de inicio.") : T("El plan empieza el lunes de la semana de inicio. Sin revisión, dura un año.")}</p>
+      <label class="xtog swrow" style="margin-top:12px"><span>${T("Sesiones en orden")}<small>${T("Hoy toca la siguiente que falte, sea el día que sea: si empiezas un domingo o fallas un día, se recupera. La semana del plan pasa al hacerlas todas.")}</small></span><input type="checkbox" role="switch" id="pOrder" ${d.order ? "checked" : ""}></label>
       <h2 style="margin:18px 0 4px;font-size:1rem">${T("Fases (se repiten en orden)")}</h2>
       ${d.phases.map((x, i) => `<div class="phr">
         <span class="muted" style="font-size:.8rem">${i + 1}</span>
@@ -234,6 +264,7 @@ function readPlan() {
   if (v("pName")) d.name = v("pName").value.trim();
   if (v("pOn")) d.enabled = v("pOn").checked;
   if (v("pStart")) d.start = v("pStart").value; if (v("pReview")) d.review = v("pReview").value;
+  if (v("pOrder")) d.order = v("pOrder").checked;
   if (v("pUp")) d.up = v("pUp").checked; if (v("pUpRule")) d.upRule = v("pUpRule").value;
   d.deload = { weeks: Math.max(0, Math.round(+v("pDlW")?.value || 0)), every: Math.max(0, Math.round(+v("pDlE")?.value || 0)) };
   d.phases.forEach((x, i) => { const a = document.querySelector(`[data-pv="${i}"]`), b = document.querySelector(`[data-pw="${i}"]`); if (a) x.variant = normVar(a.value); if (b) x.weeks = Math.max(1, Math.min(12, Math.round(+b.value || 1))); });

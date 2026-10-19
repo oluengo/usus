@@ -66,3 +66,17 @@ test("aplazar una sesión, descarga esta semana y pausa", async ({ page }) => {
   expect(labels.slice(0, 7)).toEqual(["S1 · A", "S2 · A", "S3 · Desc.", "S4 · Pausa", "S5 · Pausa", "S6 · B", "S7 · B"]);   // B se corre 3 semanas
   expect(errors).toEqual([]);
 });
+test("en orden: empezar un domingo y recuperar", async ({ page }) => {
+  const R4 = ["Lunes", "Martes", "Miércoles", "Jueves"].map((n, i) => ({ id: "r" + i, name: "A · " + n, block: "empuje", variant: "A", days: [i + 1], exercises: [{ name: "Flexión", sets: 3, reps: 10, type: "reps" }] }));
+  const P = { enabled: true, order: true, name: "Orden", start: "2026-10-18", review: "", phases: [{ id: "x1", variant: "A", weeks: 1 }, { id: "x2", variant: "B", weeks: 1 }], deload: { weeks: 0, every: 0 }, up: false };
+  const ses = n => ({ id: "s" + n, start: Date.parse(`2026-10-${18 + n}T08:00:00`), end: Date.parse(`2026-10-${18 + n}T08:30:00`), routine: "A · " + ["Lunes", "Martes", "Miércoles", "Jueves"][n], exercises: [] });
+  const errors = await openApp(page, { clock: new Date("2026-10-18T09:00:00"), data: { "wk.routines": R4, "wk.plan": P } });   // domingo
+  const next = () => page.locator(".today .sugr.pri .sn").innerText();
+  expect(await next()).toContain("A · Lunes");
+  expect(errors).toEqual([]);
+  // hechas Lunes (dom) y Martes (lun); el martes no entrena; el miércoles toca «Miércoles»
+  const p2 = await page.context().newPage(); const e2 = await openApp(p2, { clock: new Date("2026-10-21T09:00:00"), data: { "wk.routines": R4, "wk.plan": P, "wk.sessions": [ses(0), ses(1)] } });
+  expect(await p2.locator(".today .sugr.pri .sn").innerText()).toContain("A · Miércoles");
+  await expect(p2.locator(".today")).toContainText("(2/4)");
+  expect(e2).toEqual([]);
+});

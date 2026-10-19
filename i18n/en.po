@@ -1146,6 +1146,10 @@ msgstr "From"
 msgid "desde el {d}"
 msgstr "from {d}"
 
+#, python-brace-format
+msgid "Desde el {d}"
+msgstr "From {d}"
+
 msgid "Desde el inicio"
 msgstr "Since start"
 
@@ -1160,6 +1164,10 @@ msgstr "Undo"
 
 msgid "Desmarcar"
 msgstr "Clear"
+
+#, python-brace-format
+msgid "Después: {x}"
+msgstr "Then: {x}"
 
 msgid "Detalle de la experiencia y otros deportes"
 msgstr "Experience details and other sports"
@@ -1491,6 +1499,12 @@ msgstr "In the ↑ week"
 msgid "en lugar de {x}"
 msgstr "instead of {x}"
 
+msgid "en orden"
+msgstr "in order"
+
+msgid "En orden, el plan empieza el mismo día de inicio."
+msgstr "In order, the plan starts on the start day itself."
+
 msgid "En pausa"
 msgstr "Paused"
 
@@ -1588,6 +1602,9 @@ msgstr "this week"
 
 msgid "Esta semana"
 msgstr "This week"
+
+msgid "Esta semana del plan"
+msgstr "This plan week"
 
 msgid "Esta semana no"
 msgstr "Skip this week"
@@ -1782,6 +1799,9 @@ msgstr "No routine planned for today."
 
 msgid "Hoy podría bajarte la regla"
 msgstr "Your period could start today"
+
+msgid "Hoy toca la siguiente que falte, sea el día que sea: si empiezas un domingo o fallas un día, se recupera. La semana del plan pasa al hacerlas todas."
+msgstr "Today is the next one still to do, whatever the day: if you start on a Sunday or miss a day, you catch up. The plan week moves on when all are done."
 
 msgid "Hoy toca pesarte"
 msgstr "Weigh-in day"
@@ -2670,6 +2690,9 @@ msgstr "Legs · knee"
 msgid "Plan"
 msgstr "Plan"
 
+msgid "Plan «en orden» (por defecto en planes nuevos): hoy toca la siguiente sesión que falte, sea el día que sea; si empiezas un domingo o fallas un día, se recupera, y la semana del plan pasa al hacerlas todas."
+msgstr "“In order” plans (default for new plans): today is the next session still to do, whatever the day; if you start on a Sunday or miss a day you catch up, and the plan week moves on when all are done."
+
 msgid "Plan activo (se muestra en Hoy)"
 msgstr "Plan active (shown in Today)"
 
@@ -3279,6 +3302,9 @@ msgstr[1] "Sessions moved {n} days from {d}."
 #, python-brace-format
 msgid "Sesiones aplazadas {n} día desde el {d}."
 msgstr "Sessions moved {n} day from {d}."
+
+msgid "Sesiones en orden"
+msgstr "Sessions in order"
 
 msgid "Sexo"
 msgstr "Sex"

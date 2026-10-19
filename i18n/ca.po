@@ -1146,6 +1146,10 @@ msgstr "Des de"
 msgid "desde el {d}"
 msgstr "des del {d}"
 
+#, python-brace-format
+msgid "Desde el {d}"
+msgstr "Des del {d}"
+
 msgid "Desde el inicio"
 msgstr "Des de l'inici"
 
@@ -1160,6 +1164,10 @@ msgstr "Desfés"
 
 msgid "Desmarcar"
 msgstr "Desmarca"
+
+#, python-brace-format
+msgid "Después: {x}"
+msgstr "Després: {x}"
 
 msgid "Detalle de la experiencia y otros deportes"
 msgstr "Detall de l'experiència i altres esports"
@@ -1491,6 +1499,12 @@ msgstr "A la setmana ↑"
 msgid "en lugar de {x}"
 msgstr "en lloc de {x}"
 
+msgid "en orden"
+msgstr "en ordre"
+
+msgid "En orden, el plan empieza el mismo día de inicio."
+msgstr "En ordre, el pla comença el mateix dia d'inici."
+
 msgid "En pausa"
 msgstr "En pausa"
 
@@ -1588,6 +1602,9 @@ msgstr "aquesta setmana"
 
 msgid "Esta semana"
 msgstr "Aquesta setmana"
+
+msgid "Esta semana del plan"
+msgstr "Aquesta setmana del pla"
 
 msgid "Esta semana no"
 msgstr "Aquesta setmana no"
@@ -1782,6 +1799,9 @@ msgstr "Avui no hi ha cap rutina prevista."
 
 msgid "Hoy podría bajarte la regla"
 msgstr "Avui et podria baixar la regla"
+
+msgid "Hoy toca la siguiente que falte, sea el día que sea: si empiezas un domingo o fallas un día, se recupera. La semana del plan pasa al hacerlas todas."
+msgstr "Avui toca la següent que falti, sigui el dia que sigui: si comences un diumenge o falles un dia, es recupera. La setmana del pla passa en fer-les totes."
 
 msgid "Hoy toca pesarte"
 msgstr "Avui toca pesar-te"
@@ -2670,6 +2690,9 @@ msgstr "Cama · genoll"
 msgid "Plan"
 msgstr "Pla"
 
+msgid "Plan «en orden» (por defecto en planes nuevos): hoy toca la siguiente sesión que falte, sea el día que sea; si empiezas un domingo o fallas un día, se recupera, y la semana del plan pasa al hacerlas todas."
+msgstr "Pla «en ordre» (per defecte en plans nous): avui toca la següent sessió que falti, sigui el dia que sigui; si comences un diumenge o falles un dia, es recupera, i la setmana del pla passa en fer-les totes."
+
 msgid "Plan activo (se muestra en Hoy)"
 msgstr "Pla actiu (es mostra a Avui)"
 
@@ -3279,6 +3302,9 @@ msgstr[1] "Sessions ajornades {n} dies des del {d}."
 #, python-brace-format
 msgid "Sesiones aplazadas {n} día desde el {d}."
 msgstr "Sessions ajornades {n} dia des del {d}."
+
+msgid "Sesiones en orden"
+msgstr "Sessions en ordre"
 
 msgid "Sexo"
 msgstr "Sexe"

@@ -313,7 +313,7 @@ document.addEventListener("click", async ev => {
     case "pl-unshift": SHIFT.set(null); render(); break;
     case "pl-deload": { const p = PL.get(), pn = planNow(); if (!p || pn?.status !== "on") break;
       if (!confirm(T("¿Hacer descarga esta semana? Solo se sugieren las rutinas de todas las semanas, y el resto del plan se corre una semana."))) return;
-      p.pauses = [...planPauses(p), { from: dayKey(pn.w.t), weeks: 1, kind: "deload" }]; PL.save(p); SHIFT.set(null); toast(T("Semana de descarga")); render(); break; }
+      p.pauses = [...planPauses(p), { from: dayKey(pn.order ? weekStart(Date.now()) : pn.w.t), weeks: 1, kind: "deload" }]; PL.save(p); SHIFT.set(null); toast(T("Semana de descarga")); render(); break; }
     case "pl-pause": { const p = PL.get(); if (!p) break; const n = +($("#pzW")?.value || 1), f = +($("#pzF")?.value || 0), from = dayKey(addDays(weekStart(Date.now()), 7 * f));
       if (planPauses(p).some(x => x.from === from)) { toast(T("Ya hay una pausa esa semana")); return; }
       p.pauses = [...planPauses(p), { from, weeks: n, kind: "pause" }]; PL.save(p); if (!f) SHIFT.set(null); state.pauseOpen = true; toast(T("Plan en pausa")); render(); break; }
@@ -432,7 +432,7 @@ document.addEventListener("drop", ev => {
 document.addEventListener("dragend", () => { edDrag = null; document.querySelectorAll(".dropz.over").forEach(x => x.classList.remove("over")); });
 document.addEventListener("change", async ev => {
   if (state.planMode === "edit" && ev.target.dataset?.padd !== undefined) { const id = ev.target.value, m = id && planRmap(state.planDraft)[id]; if (m) { readPlan(); m.on = true; m.variant = ev.target.dataset.padd; } render(); return; }
-  if (state.planMode === "edit" && ev.target.closest?.("#app") && (/^p(On|Start|Review|DlW|DlE|Up|UpRule)$/.test(ev.target.id) || ev.target.dataset.pv !== undefined || ev.target.dataset.pw !== undefined)) { readPlan(); render(); return; }
+  if (state.planMode === "edit" && ev.target.closest?.("#app") && (/^p(On|Order|Start|Review|DlW|DlE|Up|UpRule)$/.test(ev.target.id) || ev.target.dataset.pv !== undefined || ev.target.dataset.pw !== undefined)) { readPlan(); render(); return; }
   const tg = ev.target, dk = state.day || dayKey(Date.now());
   if (tg.id === "progOn" || tg.id === "progUp" || tg.id === "progDown") { const P = PROG(); if (tg.id === "progOn") P.on = tg.checked; if (tg.id === "progUp") P.up = +tg.value; if (tg.id === "progDown") P.down = tg.value; LS.set("wk.prog", P); render(); return; }
   if (tg.id === "effPem" || tg.id === "effRir") { LS.set("wk.effort", { ...EFF(), [tg.id === "effPem" ? "pem" : "rir"]: tg.checked }); render(); return; }

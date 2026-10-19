@@ -1145,6 +1145,10 @@ msgstr ""
 msgid "desde el {d}"
 msgstr ""
 
+#, python-brace-format
+msgid "Desde el {d}"
+msgstr ""
+
 msgid "Desde el inicio"
 msgstr ""
 
@@ -1158,6 +1162,10 @@ msgid "Deshacer"
 msgstr ""
 
 msgid "Desmarcar"
+msgstr ""
+
+#, python-brace-format
+msgid "Después: {x}"
 msgstr ""
 
 msgid "Detalle de la experiencia y otros deportes"
@@ -1490,6 +1498,12 @@ msgstr ""
 msgid "en lugar de {x}"
 msgstr ""
 
+msgid "en orden"
+msgstr ""
+
+msgid "En orden, el plan empieza el mismo día de inicio."
+msgstr ""
+
 msgid "En pausa"
 msgstr ""
 
@@ -1586,6 +1600,9 @@ msgid "esta semana"
 msgstr ""
 
 msgid "Esta semana"
+msgstr ""
+
+msgid "Esta semana del plan"
 msgstr ""
 
 msgid "Esta semana no"
@@ -1780,6 +1797,9 @@ msgid "Hoy no hay ninguna rutina prevista."
 msgstr ""
 
 msgid "Hoy podría bajarte la regla"
+msgstr ""
+
+msgid "Hoy toca la siguiente que falte, sea el día que sea: si empiezas un domingo o fallas un día, se recupera. La semana del plan pasa al hacerlas todas."
 msgstr ""
 
 msgid "Hoy toca pesarte"
@@ -2669,6 +2689,9 @@ msgstr ""
 msgid "Plan"
 msgstr ""
 
+msgid "Plan «en orden» (por defecto en planes nuevos): hoy toca la siguiente sesión que falte, sea el día que sea; si empiezas un domingo o fallas un día, se recupera, y la semana del plan pasa al hacerlas todas."
+msgstr ""
+
 msgid "Plan activo (se muestra en Hoy)"
 msgstr ""
 
@@ -3277,6 +3300,9 @@ msgstr[1] ""
 
 #, python-brace-format
 msgid "Sesiones aplazadas {n} día desde el {d}."
+msgstr ""
+
+msgid "Sesiones en orden"
 msgstr ""
 
 msgid "Sexo"
