@@ -143,7 +143,7 @@ nav.tabs button[aria-current="page"]{color:var(--accent)}
 .pwk{position:relative;border:0;border-radius:10px;padding:7px 6px 8px;min-height:64px;text-align:left;color:#1A1208;font:inherit;font-size:.72rem;line-height:1.3;display:flex;flex-direction:column;gap:1px;cursor:pointer}
 .pwk b{font-size:.8rem}
 .pwk.dl{background:var(--line);color:var(--ink)}
-.pwk.past{opacity:.5}
+.pwk.past{background-image:linear-gradient(rgba(255,255,255,.5),rgba(255,255,255,.5))}
 .pwk.now{outline:2px solid var(--ink);outline-offset:2px}
 .pwk .up{position:absolute;right:6px;top:5px;font-style:normal;font-weight:700}
 .pbar2{display:block;height:4px;border-radius:99px;background:rgba(0,0,0,.25);margin-top:auto;overflow:hidden}
@@ -331,6 +331,7 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center}
 :root[data-theme="dark"]{--ext:#B994E0;--ext-soft:#2A2236}
 :root[data-theme="protector"]{--ext:#C9A2E6;--ext-soft:#2E2236}
 .aicard{border-color:var(--ext);background:var(--ext-soft)}
+.aicard .muted{color:color-mix(in srgb,var(--ink) 78%,var(--ext))}
 .aih{display:flex;align-items:center;gap:8px;font-weight:700;flex-wrap:wrap}
 .aibadge{font-size:.66rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;border-radius:999px;padding:1px 8px;background:var(--ext);color:var(--surface)}
 .aistep{font-size:.8rem;color:var(--muted);margin:2px 0 0}
