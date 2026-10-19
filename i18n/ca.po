@@ -1416,6 +1416,9 @@ msgstr "Aquesta app és una eina de registre, no un consell mèdic ni un pla d'e
 msgid "Esta app no se conecta a Internet, así que no busca versiones nuevas por su cuenta. Se publican en GitHub; al instalar una nueva encima, tus datos se mantienen."
 msgstr "Aquesta app no es connecta a Internet, així que no busca versions noves pel seu compte. Es publiquen a GitHub; en instal·lar-ne una de nova a sobre, les teves dades es mantenen."
 
+msgid "Esta copia es de una versión más nueva de Usus. Actualiza la app para importarla completa. ¿Importar igualmente lo que se pueda?"
+msgstr "Aquesta còpia és d'una versió més nova d'Usus. Actualitza l'app per importar-la completa. Vols importar igualment el que es pugui?"
+
 msgid "Esta semana"
 msgstr "Aquesta setmana"
 

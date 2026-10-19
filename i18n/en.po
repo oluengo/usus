@@ -1416,6 +1416,9 @@ msgstr "This app is a logging tool, not medical advice or a training plan. Talk 
 msgid "Esta app no se conecta a Internet, así que no busca versiones nuevas por su cuenta. Se publican en GitHub; al instalar una nueva encima, tus datos se mantienen."
 msgstr "This app doesn't connect to the Internet, so it doesn't look for new versions by itself. They're published on GitHub; installing a new one on top keeps your data."
 
+msgid "Esta copia es de una versión más nueva de Usus. Actualiza la app para importarla completa. ¿Importar igualmente lo que se pueda?"
+msgstr "This backup is from a newer version of Usus. Update the app to import it fully. Import what's possible anyway?"
+
 msgid "Esta semana"
 msgstr "This week"
 

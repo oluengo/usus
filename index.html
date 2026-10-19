@@ -4369,8 +4369,30 @@ function sessionsCSV() {
 }
 function validRoutine(r) { return r && typeof r.name === "string" && Array.isArray(r.exercises); }
 function validSession(s) { return s && typeof s.start === "number" && Array.isArray(s.exercises); }
+/* ---------- Formato de datos ----------
+   DATA_VERSION sube cuando cambia la forma de los datos guardados o de las copias. Una copia antigua pasa por DATA_MIGRATIONS
+   (de la versión n a la n+1) antes de importarse, y los datos guardados en el dispositivo, al arrancar (wk.dataVersion, por perfil).
+   Historia: 1 = Usus 1.x–2.x (las copias decían siempre «version: 1»); 2 = Usus 3.0 (rutinas normalizadas: secciones y superseries coherentes). */
+const DATA_VERSION = 2;
+const DATA_MIGRATIONS = {
+  1: j => ({ ...j, routines: (j.routines || []).filter(validRoutine).map(r => normRoutine(JSON.parse(JSON.stringify(r)))), sessions: (j.sessions || []).filter(validSession).map(s => ({ ...s, end: s.end || s.start })) })
+};
+function migrateData(j) {
+  if (Array.isArray(j)) j = { app: "usus", routines: j };
+  let v = Math.max(1, Math.round(+j.version || 1));
+  while (v < DATA_VERSION) { j = DATA_MIGRATIONS[v](j); v++; }
+  return { ...j, version: Math.max(v, +j.version || 0) };
+}
+/* Datos del dispositivo: se ponen al día una vez por perfil */
+function migrateStored() {
+  const v = +LS.get("wk.dataVersion", 1) || 1; if (v >= DATA_VERSION) return;
+  const j = migrateData({ version: v, routines: state.routines, sessions: state.sessions });
+  state.routines = j.routines; state.sessions = j.sessions; store.saveAll(); LS.set("wk.dataVersion", DATA_VERSION);
+}
 async function importJSON(text) {
   let j; try { j = JSON.parse(text); } catch { toast(T("El archivo no es un JSON válido")); return; }
+  if (j && !j.shared && +j.version > DATA_VERSION && !confirm(T("Esta copia es de una versión más nueva de Usus. Actualiza la app para importarla completa. ¿Importar igualmente lo que se pueda?"))) return;
+  if (j && !j.shared) j = migrateData(j);
   if (j && j.shared) { const inc = sanitizeShared(j); if (!inc) { toast(T("No se encontraron rutinas, sesiones ni pesos")); return; } state.incoming = inc; render(); return; }
   const rs = (Array.isArray(j) ? j : j.routines || []).filter(validRoutine);
   const ss = (j.sessions || []).filter(validSession);
@@ -4731,7 +4753,7 @@ document.addEventListener("click", async ev => {
     }
     case "exp-all": {
       const pm = curProf(), pn = multiProf() ? `-${fileSlug(profName(pm))}` : "";
-      const ok = await deliver(`usus-${T("copia")}${pn}-${stamp()}.json`, JSON.stringify({ app: "usus", version: 1, exported: new Date().toISOString(), ...(pm.sex ? { profile: { name: pm.name, sex: pm.sex, color: pm.color } } : {}), routines: state.routines, sessions: state.sessions, weights: W.list(), weightGoal: W.goal(), diary: DY.all(), cycle: { periods: CYC.list(), symptoms: CYC.syms(), settings: CYC.cfg() }, supplements: DY.supps(), activities: ACT.list(), activityTypes: ACT.types(), goals: LS.get("wk.goals", null), plan: PL.get(), plans: PLS.list(), ...(aiHasData(aiProf()) ? { aiProfile: aiProf() } : {}) }, null, 2), "application/json");
+      const ok = await deliver(`usus-${T("copia")}${pn}-${stamp()}.json`, JSON.stringify({ app: "usus", version: DATA_VERSION, exported: new Date().toISOString(), ...(pm.sex ? { profile: { name: pm.name, sex: pm.sex, color: pm.color } } : {}), routines: state.routines, sessions: state.sessions, weights: W.list(), weightGoal: W.goal(), diary: DY.all(), cycle: { periods: CYC.list(), symptoms: CYC.syms(), settings: CYC.cfg() }, supplements: DY.supps(), activities: ACT.list(), activityTypes: ACT.types(), goals: LS.get("wk.goals", null), plan: PL.get(), plans: PLS.list(), ...(aiHasData(aiProf()) ? { aiProfile: aiProf() } : {}) }, null, 2), "application/json");
       if (ok) { LS.set("wk.lastBackup", Date.now()); render(); } break;
     }
     case "w-ban": case "w-add": {
@@ -4746,7 +4768,7 @@ document.addEventListener("click", async ev => {
       const g = parseKg(v); if (g === null) { toast(T("Escribe un objetivo válido, por ejemplo {v}", { v: 70 })); return; } LS.set("wk.weightGoal", g); toast(T("Objetivo: {v}", { v: fmtW(g) })); render(); break; }
     case "bk-later": LS.set("wk.backupSnooze", Date.now() + SNOOZE_DAYS * 864e5); render(); toast(T("Te lo recuerdo en {n} días", { n: SNOOZE_DAYS })); break;
     case "exp-routines":
-      await deliver(`usus-${T("rutinas")}-${stamp()}.json`, JSON.stringify({ app: "usus", version: 1, routines: state.routines }, null, 2), "application/json"); break;
+      await deliver(`usus-${T("rutinas")}-${stamp()}.json`, JSON.stringify({ app: "usus", version: DATA_VERSION, routines: state.routines }, null, 2), "application/json"); break;
     case "exp-csv":
       if (!state.sessions.length) { toast(T("No hay sesiones para exportar")); return; }
       await deliver(`usus-${T("sesiones")}-${stamp()}.csv`, sessionsCSV(), "text/csv"); break;
@@ -5310,6 +5332,7 @@ const I18N = {
     "Espalda": "Esquena",
     "Esta app es una herramienta de registro, no un consejo médico ni un plan de entrenamiento. Consulta con un profesional antes de empezar o cambiar tu actividad física.": "Aquesta app és una eina de registre, no un consell mèdic ni un pla d'entrenament. Consulta un professional abans de començar o canviar la teva activitat física.",
     "Esta app no se conecta a Internet, así que no busca versiones nuevas por su cuenta. Se publican en GitHub; al instalar una nueva encima, tus datos se mantienen.": "Aquesta app no es connecta a Internet, així que no busca versions noves pel seu compte. Es publiquen a GitHub; en instal·lar-ne una de nova a sobre, les teves dades es mantenen.",
+    "Esta copia es de una versión más nueva de Usus. Actualiza la app para importarla completa. ¿Importar igualmente lo que se pueda?": "Aquesta còpia és d'una versió més nova d'Usus. Actualitza l'app per importar-la completa. Vols importar igualment el que es pugui?",
     "Esta semana": "Aquesta setmana",
     "Esta semana no": "Aquesta setmana no",
     "Estadísticas": "Estadístiques",
@@ -6475,6 +6498,7 @@ const I18N = {
     "Espalda": "Back",
     "Esta app es una herramienta de registro, no un consejo médico ni un plan de entrenamiento. Consulta con un profesional antes de empezar o cambiar tu actividad física.": "This app is a logging tool, not medical advice or a training plan. Talk to a professional before starting or changing your physical activity.",
     "Esta app no se conecta a Internet, así que no busca versiones nuevas por su cuenta. Se publican en GitHub; al instalar una nueva encima, tus datos se mantienen.": "This app doesn't connect to the Internet, so it doesn't look for new versions by itself. They're published on GitHub; installing a new one on top keeps your data.",
+    "Esta copia es de una versión más nueva de Usus. Actualiza la app para importarla completa. ¿Importar igualmente lo que se pueda?": "This backup is from a newer version of Usus. Update the app to import it fully. Import what's possible anyway?",
     "Esta semana": "This week",
     "Esta semana no": "Skip this week",
     "Estadísticas": "Statistics",
@@ -7202,7 +7226,7 @@ const I18N = {
   await store.init();
   const data = await store.load();
   state.routines = data.routines; state.sessions = data.sessions;
-  migrateTypes();
+  migrateStored(); migrateTypes();
   applyTheme(curTheme());
   restorePlace();
   if (LS.get("wk.welcomed", false) && LS.get("wk.seenVersion", null) !== APP_VERSION && CHANGES[0][0] === APP_VERSION) state.newsOpen = "new";

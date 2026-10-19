@@ -1415,6 +1415,9 @@ msgstr ""
 msgid "Esta app no se conecta a Internet, así que no busca versiones nuevas por su cuenta. Se publican en GitHub; al instalar una nueva encima, tus datos se mantienen."
 msgstr ""
 
+msgid "Esta copia es de una versión más nueva de Usus. Actualiza la app para importarla completa. ¿Importar igualmente lo que se pueda?"
+msgstr ""
+
 msgid "Esta semana"
 msgstr ""
 
