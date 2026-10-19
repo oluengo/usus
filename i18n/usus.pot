@@ -171,6 +171,26 @@ msgid "{n} rutina"
 msgstr ""
 
 #, python-brace-format
+msgid "{n} rutina se parece mucho a una tuya: se añade igualmente."
+msgid_plural "{n} rutinas se parecen mucho a otras tuyas: se añaden igualmente."
+msgstr[0] ""
+msgstr[1] ""
+
+#, python-brace-format
+msgid "{n} rutina se parece mucho a una tuya: se añade igualmente."
+msgstr ""
+
+#, python-brace-format
+msgid "{n} rutina ya la tienes igual: no se duplica."
+msgid_plural "{n} rutinas ya las tienes iguales: no se duplican."
+msgstr[0] ""
+msgstr[1] ""
+
+#, python-brace-format
+msgid "{n} rutina ya la tienes igual: no se duplica."
+msgstr ""
+
+#, python-brace-format
 msgid "{n} rutinas actualizadas"
 msgstr ""
 
@@ -3822,6 +3842,12 @@ msgstr ""
 
 #, python-brace-format
 msgid "Ya la tienes: «{x}»"
+msgstr ""
+
+msgid "Ya tienes esta rutina, igual."
+msgstr ""
+
+msgid "Ya tienes todas estas rutinas, iguales."
 msgstr ""
 
 msgid "Ya tienes una sesión en curso. ¿Descartarla y empezar otra?"

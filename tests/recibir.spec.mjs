@@ -16,3 +16,14 @@ test("igual: sale sin marcar; parecida: aviso y se añade como nueva", async ({ 
   expect((await ls(page, "wk.routines")).map(r => r.name)).toEqual(["B · Empuje", "Circuito core", "Core lateral", "Core lateral 2"]);
   expect(errors).toEqual([]);
 });
+test("archivo de «Solo rutinas» importado dos veces: avisa y no duplica", async ({ page }) => {
+  const errors = await openApp(page, { data: { "wk.routines": ROUTINES } });
+  await nav(page, "data"); await page.locator('[data-stab="datos"]').click();
+  const f = { name: "rutinas.json", mimeType: "application/json", buffer: Buffer.from(JSON.stringify({ app: "usus", routines: ROUTINES.slice(0, 2) })) };
+  await page.setInputFiles("#impFile", f);
+  await expect(page.locator("#inT").locator("..")).toContainText("Ya tienes todas estas rutinas");
+  await expect(page.locator('[data-act="in-yes"]')).toBeDisabled();
+  await page.locator('[data-act="in-no"]:visible').first().click();
+  expect((await ls(page, "wk.routines")).length).toBe(3);
+  expect(errors).toEqual([]);
+});

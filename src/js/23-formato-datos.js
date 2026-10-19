@@ -29,9 +29,18 @@ async function importJSON(text) {
   const nd = j.diary && typeof j.diary === "object" ? Object.keys(j.diary).length : 0;
   const na = (Array.isArray(j.activities) ? j.activities.length : 0) + (Array.isArray(j.cycle?.periods) ? j.cycle.periods.length : 0);
   const hasPlan = !!(j.plan && typeof j.plan === "object" && j.plan.start && Array.isArray(j.plan.phases));
+  // Solo rutinas (sin registros): se revisan como unas rutinas recibidas, con aviso si ya las tienes
+  if (rs.length && !ss.length && !ws.length && !nd && !na && !hasPlan) {
+    const inc = sanitizeShared({ routines: rs.map(r => ({ ...r, oid: r.oid || r.id })) }); if (!inc) { toast(T("No se encontraron rutinas, sesiones ni pesos")); return; }
+    state.incoming = inc; render(); return;
+  }
+  // Copia completa: las rutinas que ya tienes iguales (aunque vengan de otro móvil) no se duplican
+  const dupI = new Set(); let simN = 0;
+  rs.forEach((r, i) => { if (state.routines.some(x => x.id === r.id)) return; const m = routMatch(normRoutine(JSON.parse(JSON.stringify(r)))); if (m?.same) dupI.add(i); else if (m) simN++; });
+  const dupMsg = (dupI.size ? " " + TN(dupI.size, "{n} rutina ya la tienes igual: no se duplica.", "{n} rutinas ya las tienes iguales: no se duplican.") : "") + (simN ? " " + TN(simN, "{n} rutina se parece mucho a una tuya: se añade igualmente.", "{n} rutinas se parecen mucho a otras tuyas: se añaden igualmente.") : "");
   if (!rs.length && !ss.length && !ws.length && !nd && !na && !hasPlan) { toast(T("No se encontraron rutinas, sesiones ni pesos")); return; }
   if (!rs.length && !ss.length && !ws.length && !nd && !na) { if (!confirm(T("Importar el plan de progresión. Sustituirá al plan actual, si lo hay. ¿Continuar?"))) return; }
-  else if (!confirm(T("Importar {r} rutinas, {s} sesiones, {w} pesos y {d} días de diario. Se combinarán con tus datos actuales. ¿Continuar?", { r: rs.length, s: ss.length, w: ws.length, d: nd }) + (hasPlan ? " " + T("Incluye un plan, que sustituirá al actual.") : ""))) return;
+  else if (!confirm(T("Importar {r} rutinas, {s} sesiones, {w} pesos y {d} días de diario. Se combinarán con tus datos actuales. ¿Continuar?", { r: rs.length, s: ss.length, w: ws.length, d: nd }) + dupMsg + (hasPlan ? " " + T("Incluye un plan, que sustituirá al actual.") : ""))) return;
   if (ws.length) {
     const m = new Map(W.list().map(x => [dayStart(x.t), x])); ws.forEach(x => m.set(dayStart(x.t), { id: x.id || uid(), t: x.t, kg: +x.kg })); W.save([...m.values()]);
   }
@@ -50,7 +59,7 @@ async function importJSON(text) {
   if (j.aiProfile && typeof j.aiProfile === "object" && !aiHasData(aiProf())) LS.set("wk.aiProf", Object.fromEntries(["birth", "height", "level", "years", "injuries", "pains", "conditions", "meds", "goals", "other"].map(k => [k, typeof j.aiProfile[k] === "string" || typeof j.aiProfile[k] === "number" ? String(j.aiProfile[k]).slice(0, 400) : ""])));
   if (j.goals && typeof j.goals === "object") LS.set("wk.goals", { daily: +j.goals.daily || 0, strength: +j.goals.strength || 0 });
   const merge = (cur, inc) => { const m = new Map(cur.map(x => [x.id, x])); inc.forEach(x => m.set(x.id || uid(), { ...x, id: x.id || uid() })); return [...m.values()]; };
-  state.routines = merge(state.routines, rs);
+  state.routines = merge(state.routines, rs.filter((_, i) => !dupI.has(i)));
   state.sessions = merge(state.sessions, ss.map(s => ({ ...s, end: s.end || s.start })));
   store.saveAll(); migrateTypes(); toast(T("Datos importados")); render();
 }

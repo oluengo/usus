@@ -44,6 +44,7 @@ test("primera vez: sin catálogo, atrás e importar una copia", async ({ page })
   const json = JSON.stringify({ version: 2, routines: ROUTINES.slice(0, 1), sessions: [] });
   await m.locator("#wizFile").setInputFiles({ name: "copia.json", mimeType: "application/json", buffer: Buffer.from(json) });
   await expect(page.locator(".modal:has(.wzdots)")).toHaveCount(0);
+  await page.locator('[data-act="in-yes"]').click();   // solo rutinas: se revisan antes de añadir
   await expect.poll(() => page.evaluate(() => (JSON.parse(localStorage.getItem("wk.routines")) || []).length)).toBe(1);
   expect(await page.evaluate(() => JSON.parse(localStorage.getItem("wk.catalog")))).toBe(false);
 });
