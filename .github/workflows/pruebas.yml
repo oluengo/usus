@@ -1,0 +1,43 @@
+# Pruebas automáticas de la app (Playwright, Chromium en formato móvil) en cada push a beta o main y en las propuestas de cambio.
+# Si fallan, la ejecución lo marca en rojo y deja el informe en Artifacts.
+name: Pruebas
+
+on:
+  push:
+    branches: [beta, main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pruebas-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Web y www/ del APK
+        run: npm run www
+      - name: Pruebas
+        run: npx playwright test
+        env:
+          CI: "1"
+      - uses: actions/upload-artifact@v7
+        if: failure()
+        with:
+          name: informe-pruebas
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 7
