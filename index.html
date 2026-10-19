@@ -286,6 +286,11 @@ details.sess td:first-child{font-weight:500;padding-right:12px;width:40%}
 .copt{display:grid;gap:8px;margin-top:12px}
 .copt button{display:block;text-align:left;border:1px solid var(--line);background:var(--bg);border-radius:12px;padding:12px 14px}
 .copt button b{display:block}
+.copt button.on{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.wzdots{display:flex;gap:6px;margin:0 0 10px}.wzdots i{flex:1;height:4px;border-radius:2px;background:var(--line)}.wzdots i.on{background:var(--accent)}
+.wzn{font-size:.8rem;margin:0 0 10px}
+.wzbar{margin-top:16px}.wzbar .btn.primary{padding:11px 18px}
+.wzmore{margin-top:12px;border-top:1px solid var(--line);padding-top:10px}.wzmore summary{cursor:pointer;font-weight:600;margin-bottom:8px}
 .copt button small{display:block;color:var(--muted);font-size:.82rem;margin-top:2px}
 .copt button.on{border:2px solid var(--accent);padding:11px 13px}
 .ex-head .xinfo{width:26px;height:26px;font-size:13px}
@@ -3864,25 +3869,54 @@ function newsModal() {
     <div class="row" style="margin-top:14px">${all ? "" : `<button class="btn" style="flex:1" data-act="news-all">${T("Ver historial")}</button>`}<button class="btn primary" style="flex:1" data-act="news-close">${T("Entendido")}</button></div>
   </div></div>`;
 }
-/* Aviso de primer uso */
+/* Primer uso: asistente en pasos (idioma y avisos → catálogo → mi material → cómo empezar).
+   state.wiz = paso actual. El material solo se pregunta con el catálogo activado. */
+const wizSteps = () => ["hola", "cat", ...(catOn() ? ["mat"] : []), "empezar"];
 function welcomeModal() {
   if (LS.get("wk.welcomed", false)) return "";
-  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="wlT"><div class="mbox">
-    <div class="seg" style="grid-template-columns:repeat(${Object.keys(LANGS).length},minmax(0,1fr));margin-bottom:14px">${Object.entries(LANGS).map(([k, v]) => `<button data-lang-set="${k}" class="${LANG === k ? "on" : ""}" lang="${k}" style="text-align:center">${v.name}</button>`).join("")}</div>
+  const steps = wizSteps(), i = Math.min(state.wiz || 0, steps.length - 1), st = steps[i];
+  const dots = `<div class="wzdots" aria-hidden="true">${steps.map((_, k) => `<i class="${k <= i ? "on" : ""}"></i>`).join("")}</div>`;
+  const step = `<p class="muted wzn">${T("Paso {n} de {t}", { n: i + 1, t: steps.length })}</p>`;
+  const back = i ? `<button class="btn" data-act="wiz-back">${T("Atrás")}</button>` : "";
+  const next = (txt = T("Siguiente")) => `<div class="row wzbar">${back}<span class="spacer"></span><button class="btn primary" data-act="wiz-next">${txt}</button></div>`;
+  let body = "";
+  if (st === "hola") body = `
+    <div class="seg" role="group" aria-label="${T("Idioma")}" style="grid-template-columns:repeat(${Object.keys(LANGS).length},minmax(0,1fr));margin-bottom:14px">${Object.entries(LANGS).map(([k, v]) => `<button data-lang-set="${k}" class="${LANG === k ? "on" : ""}" aria-pressed="${LANG === k}" lang="${k}" style="text-align:center">${v.name}</button>`).join("")}</div>
     <h2 id="wlT" style="margin:0 0 6px">${T("Bienvenido a Usus")}</h2>
     <p class="muted" style="margin:0">${T("Antes de empezar:")}</p>
     <ul class="muted" style="padding-left:18px;margin:8px 0 0;line-height:1.5">
       <li>${T("Esta app es una herramienta de registro, no un consejo médico ni un plan de entrenamiento. Consulta con un profesional antes de empezar o cambiar tu actividad física.")}</li>
       <li>${T("Tus datos se guardan solo en este dispositivo. Haz copias desde Ajustes: si borras el navegador o desinstalas la app, se pierden.")}</li>
       <li>${T("Se ofrece tal cual, sin garantías de ningún tipo. La usas bajo tu responsabilidad.")}</li>
-    </ul>
-    <h3 class="wh">${T("Instalar en el móvil")}</h3>
-    ${installBlock()}
-    <h3 class="wh">${T("Apoyar el proyecto")}</h3>
-    ${donateBlock()}
-    <button class="btn primary" style="width:100%;margin-top:16px;padding:12px" data-act="welcome-ok">${T("Entendido")}</button>
-  </div></div>`;
+    </ul>${next(T("Entendido, empezar"))}`;
+  else if (st === "cat") { const c = LS.get("wk.catalog", null); body = `
+    <h2 id="wlT" style="margin:0 0 6px">${T("Catálogo de ejercicios")}</h2>
+    <p class="muted" style="margin:0">${T("Usus incluye un catálogo opcional de {n} ejercicios de calistenia, cada uno con su ficha: para qué sirve, cómo se hace, errores típicos, material y progresión.", { n: CAT?.exercises.length || 162 })}</p>
+    <div class="copt">
+      <button data-act="wiz-cat-yes" class="${c === true ? "on" : ""}" aria-pressed="${c === true}"><b>${T("Sí, dame toda la info")}</b><small>${T("Para elegir ejercicios al crear rutinas y saber cómo avanzar.")}</small></button>
+      <button data-act="wiz-cat-no" class="${c === false ? "on" : ""}" aria-pressed="${c === false}"><b>${T("No, solo mis ejercicios")}</b><small>${T("Si ya sabes lo que haces. Todo funciona igual, con menos información.")}</small></button>
+    </div>
+    <p class="muted" style="font-size:.8rem;margin:10px 0 0">${T("Cada perfil decide. Se puede cambiar en Ajustes → App.")}</p>
+    <div class="row wzbar">${back}</div>`; }
+  else if (st === "mat") body = `
+    <h2 id="wlT" style="margin:0 0 6px">${T("Mi material")}</h2>
+    <p class="muted" style="margin:0">${T("Marca lo que tienes. En el catálogo, lo demás se ve en naranja y se puede ocultar. Sin nada marcado, no se filtra.")}</p>
+    <div class="matsel">${Object.entries(MAT).map(([k, [n]]) => `<label><input type="checkbox" data-myeq="${k}" ${myEquip()?.includes(k) ? "checked" : ""}>${matIco(k)}${T(n)}</label>`).join("")}</div>
+    <p class="muted" style="font-size:.8rem;margin:10px 0 0">${T("Opcional. Se puede cambiar en Ajustes → Entreno.")}</p>${next()}`;
+  else body = `
+    <h2 id="wlT" style="margin:0 0 6px">${T("¿Cómo quieres empezar?")}</h2>
+    <div class="copt">
+      <button data-act="wiz-new"><b>${T("Crear mi primera rutina")}</b><small>${T("Eliges los ejercicios, las series y los descansos.")}</small></button>
+      <button data-act="wiz-imp"><b>${T("Importar una copia o rutinas")}</b><small>${T("Un archivo .json de Usus: una copia de seguridad o rutinas que te han pasado.")}</small></button>
+      <button data-act="wiz-end"><b>${T("Echar un vistazo")}</b><small>${T("Ver la app primero. Las rutinas se crean en Rutinas → Nueva rutina.")}</small></button>
+    </div>
+    <input type="file" id="wizFile" accept="application/json,.json" hidden>
+    ${isNative() ? "" : `<details class="wzmore"><summary>${T("Instalar en el móvil")}</summary>${installBlock()}</details>`}
+    <details class="wzmore"><summary>${T("Apoyar el proyecto")}</summary>${donateBlock()}</details>
+    <div class="row wzbar">${back}</div>`;
+  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="wlT"><div class="mbox">${dots}${step}${body}</div></div>`;
 }
+function wizDone() { LS.set("wk.welcomed", true); LS.set("wk.seenVersion", APP_VERSION); state.wiz = 0; state.catAsk = false; }
 /* ---------- Compartir ----------
    Sin servidor: el móvil abre su menú de compartir (o se copia/descarga si no lo hay).
    Rutinas: enlace con los datos tras «#r=» (comprimidos, nunca llegan a ningún servidor) o archivo .json. */
@@ -4673,7 +4707,14 @@ document.addEventListener("click", async ev => {
     case "suppedit": state.suppEdit = !state.suppEdit; render(); break;
     case "suppadd": { const l = DY.supps(); l.push({ id: uid(), name: "", dose: "", unit: "", when: "", created: Date.now() }); DY.saveSupps(l); state.suppEdit = true; render();
       document.querySelector(`[data-sn="${l[l.length - 1].id}"]`)?.focus(); break; }
-    case "welcome-ok": LS.set("wk.welcomed", true); LS.set("wk.seenVersion", APP_VERSION); render(); break;
+    case "welcome-ok": wizDone(); render(); break;
+    case "wiz-next": state.wiz = (state.wiz || 0) + 1; render(); $(".modal .mbox")?.scrollTo(0, 0); break;
+    case "wiz-back": state.wiz = Math.max(0, (state.wiz || 0) - 1); render(); break;
+    case "wiz-cat-yes": LS.set("wk.catalog", true); state.wiz = 2; render(); loadCatalog().then(c => { if (!c) toast(T("No se pudo cargar el catálogo. Se volverá a intentar al abrir la app.")); render(); }); break;
+    case "wiz-cat-no": LS.set("wk.catalog", false); state.wiz = 2; render(); break;
+    case "wiz-end": wizDone(); state.tab = "train"; render(); window.scrollTo(0, 0); break;
+    case "wiz-new": wizDone(); state.tab = "routines"; state.edSel = null; state.edSec = null; state.edQ = ""; state.editing = { id: uid(), isNew: true, name: "", variant: "", days: [], exercises: [{ name: "", sets: 3, reps: 10, type: "reps" }] }; render(); window.scrollTo(0, 0); break;
+    case "wiz-imp": $("#wizFile")?.click(); break;
     case "prof-pick": state.ppick = true; render(); break;
     case "prof-pick-close": state.ppick = false; render(); break;
     case "prof-add": startAddProfile(); break;
@@ -4705,7 +4746,7 @@ document.addEventListener("click", async ev => {
     case "rs-link": await shareRoutGo("link"); break;
     case "in-no": state.incoming = null; render(); break;
     case "in-yes": await incomingAdd(); break;
-    case "welcome-show": LS.set("wk.welcomed", false); render(); break;
+    case "welcome-show": LS.set("wk.welcomed", false); state.wiz = 0; render(); break;
     case "statsedit": state.statsEdit = !state.statsEdit; render(); break;
     case "testfx": { const m = fxMode(); if (m === "off") { toast(T("Avisos desactivados")); break; } unlockAudio(); beepEnd(); flash(); const v = buzz([400, 150, 400, 150, 400]);
       toast(m === "sound" ? T("¿Has oído 3 pitidos?") : !v ? T("Este navegador no permite vibrar") : m === "vib" ? T("¿Has notado la vibración?") : T("¿Has oído 3 pitidos y notado la vibración?")); } break;
@@ -4876,6 +4917,7 @@ document.addEventListener("change", async ev => {
     const dd = DY.all(); Object.values(dd).forEach(x => { if (x.cyc?.sym) x.cyc.sym = x.cyc.sym.map(z => z === old ? v : z); }); LS.set("wk.diary", dd); return; }
   if (ev.target.id === "wDay") { LS.set("wk.weighDay", +ev.target.value); toast(T("Día de pesaje: {d}", { d: DIAS[+ev.target.value] })); }
   if (ev.target.id === "statEx") { state.statEx = ev.target.value; render(); }
+  if (ev.target.id === "wizFile" && ev.target.files[0]) { const t = await ev.target.files[0].text(); wizDone(); state.tab = "routines"; render(); await importJSON(t); return; }
   if (ev.target.id === "impFile" && ev.target.files[0]) { await importJSON(await ev.target.files[0].text()); ev.target.value = ""; }
 });
 document.addEventListener("click", ev => { const n = ev.target.closest("[data-dnote]"); if (n) { state.dnote = n.dataset.dnote.split(","); render(); return; } const c = ev.target.closest("span[data-day]"); if (c) { state.day = c.dataset.day; state.tab = "diary"; render(); window.scrollTo(0, 0); } });
@@ -4888,6 +4930,7 @@ const I18N = {
   ca: {
     "¿Borrar este registro de peso?": "Vols esborrar aquest registre de pes?",
     "¿Borrar los datos para el análisis? El resto de datos no se toca.": "Esborrar les dades per a l'anàlisi? La resta de dades no es toca.",
+    "¿Cómo quieres empezar?": "Com vols començar?",
     "¿Consolidar antes?": "Consolidar abans?",
     "¿Cuántas te quedaban?": "Quantes te'n quedaven?",
     "¿Cuánto más habrías aguantado?": "Quant més hauries aguantat?",
@@ -5034,6 +5077,7 @@ const I18N = {
     "Archivo": "Fitxer",
     "Archivo guardado": "Fitxer desat",
     "Arrastrar": "Arrossega",
+    "Atrás": "Enrere",
     "Aún no has hecho ninguna copia.": "Encara no has fet cap còpia.",
     "Aún no hay objetivos. Fija los de fuerza y diaria en Ajustes, y los de distancia y pasos en Actividad → Unidad y objetivos.": "Encara no hi ha objectius. Fixa els de força i diària a Ajustos, i els de distància i passos a Activitat → Unitat i objectius.",
     "Aún no hay récords en los últimos 60 días. Aparecen solos al superar tu mejor marca.": "Encara no hi ha rècords en els últims 60 dies. Apareixen sols quan superes la teva millor marca.",
@@ -5160,6 +5204,7 @@ const I18N = {
     "Crea una rutina con sus ejercicios, series y repeticiones objetivo.": "Crea una rutina amb els seus exercicis, sèries i repeticions objectiu.",
     "Crear «{x}» como ejercicio propio": "Crea «{x}» com a exercici propi",
     "Crear ejercicio propio": "Crea un exercici propi",
+    "Crear mi primera rutina": "Crear la meva primera rutina",
     "Crear perfil": "Crear perfil",
     "Crear plan": "Crea un pla",
     "Cuándo": "Quan",
@@ -5248,6 +5293,7 @@ const I18N = {
     "Duración media del ciclo": "Durada mitjana del cicle",
     "Duración y totales": "Durada i totals",
     "Durísimo": "Duríssim",
+    "Echar un vistazo": "Fer una ullada",
     "Editar": "Edita",
     "Editar perfil": "Editar perfil",
     "Editar plan": "Edita el pla",
@@ -5286,6 +5332,7 @@ const I18N = {
     "Elegir fecha": "Tria una data",
     "Elegir otro": "Tria'n un altre",
     "Elige hombre o mujer": "Tria home o dona",
+    "Eliges los ejercicios, las series y los descansos.": "Tries els exercicis, les sèries i els descansos.",
     "Eliminar": "Elimina",
     "Eliminar plan": "Elimina el pla",
     "Eliminar sesión": "Elimina la sessió",
@@ -5312,6 +5359,7 @@ const I18N = {
     "Enlace": "Enllaç",
     "Entendido": "Entesos",
     "Entendido, activar": "Entesos, activa",
+    "Entendido, empezar": "Entesos, començar",
     "Entrenado 30 días": "Entrenat 30 dies",
     "Entreno": "Entrenament",
     "Entreno por fase": "Entrenament per fase",
@@ -5409,6 +5457,7 @@ const I18N = {
     "Importar {r} rutinas, {s} sesiones, {w} pesos y {d} días de diario. Se combinarán con tus datos actuales. ¿Continuar?": "S'importaran {r} rutines, {s} sessions, {w} pesos i {d} dies de diari, combinats amb les teves dades actuals. Vols continuar?",
     "Importar el plan de progresión. Sustituirá al plan actual, si lo hay. ¿Continuar?": "Vols importar el pla de progressió? Substituirà el pla actual, si n'hi ha.",
     "Importar JSON": "Importa JSON",
+    "Importar una copia o rutinas": "Importar una còpia o rutines",
     "Imprimir": "Imprimeix",
     "Imprimir / guardar PDF": "Imprimeix / desa en PDF",
     "Imprimir o guardar en PDF una rutina: una hoja por ejercicio (o dos por hoja) para seguir su progresión, u hoja de semanas con la rutina entera y 6 sesiones.": "Imprimir o desar en PDF una rutina: un full per exercici (o dos per full) per seguir-ne la progressió, o full de setmanes amb tota la rutina i 6 sessions.",
@@ -5607,6 +5656,7 @@ const I18N = {
     "Objetivos semanales": "Objectius setmanals",
     "Oculto": "Amagat",
     "Opcional. Ayuda a ver si una semana ha sido demasiado dura.": "Opcional. Ajuda a veure si una setmana ha estat massa dura.",
+    "Opcional. Se puede cambiar en Ajustes → Entreno.": "Opcional. Es pot canviar a Ajustos → Entrenament.",
     "Opcional. Vacío o 0 = sin objetivo. Los pasos se anotan en Diario → Pasos.": "Opcional. Buit o 0 = sense objectiu. Els passos s'anoten a Diari → Passos.",
     "Ordena con ↑ ↓ y elige qué bloques ver.": "Ordena amb ↑ ↓ i tria quins blocs vols veure.",
     "Ordenar": "Ordena",
@@ -5632,6 +5682,7 @@ const I18N = {
     "Paralelas": "Paral·leles",
     "Parar": "Atura",
     "Pared": "Paret",
+    "Paso {n} de {t}": "Pas {n} de {t}",
     "Pasos": "Passos",
     "Pasos (media)": "Passos (mitjana)",
     "Pasos borrados": "Passos esborrats",
@@ -5987,6 +6038,7 @@ const I18N = {
     "Último": "Últim",
     "Último tramo": "Últim tram",
     "Últimos {n} días": "Últims {n} dies",
+    "Un archivo .json de Usus: una copia de seguridad o rutinas que te han pasado.": "Un fitxer .json d'Usus: una còpia de seguretat o rutines que t'han passat.",
     "Un archivo .zip con una tabla por tipo de dato (sesiones, rutinas, diario, suplementos, peso, actividades y ciclo) y un archivo que explica cada columna. Para analizarlos a tu manera en una hoja de cálculo.": "Un arxiu .zip amb una taula per tipus de dada (sessions, rutines, diari, suplements, pes, activitats i cicle) i un arxiu que explica cada columna. Per analitzar-les a la teva manera en un full de càlcul.",
     "Un plan rota variantes de tus rutinas por semanas (por ejemplo A, B, C cada 2 semanas) con semanas de descarga, y Hoy te dice qué rutina toca cada día.": "Un pla fa rotar variants de les teves rutines per setmanes (per exemple A, B, C cada 2 setmanes) amb setmanes de descàrrega, i Avui et diu quina rutina toca cada dia.",
     "Una columna por sesión: apunta lo hecho (p. ej. 8·8·7·6)": "Una columna per sessió: apunta el que has fet (p. ex. 8·8·7·6)",
@@ -6020,6 +6072,7 @@ const I18N = {
     "Ver estadísticas": "Veure estadístiques",
     "Ver ficha": "Mostra la fitxa",
     "Ver historial": "Mostra l'historial",
+    "Ver la app primero. Las rutinas se crean en Rutinas → Nueva rutina.": "Veure l'app primer. Les rutines es creen a Rutines → Nova rutina.",
     "Ver licencia completa": "Mostra la llicència completa",
     "Ver notas": "Veure notes",
     "Ver versiones": "Veure versions",
@@ -6054,6 +6107,7 @@ const I18N = {
   en: {
     "¿Borrar este registro de peso?": "Delete this weight entry?",
     "¿Borrar los datos para el análisis? El resto de datos no se toca.": "Delete the analysis data? Nothing else is touched.",
+    "¿Cómo quieres empezar?": "How do you want to start?",
     "¿Consolidar antes?": "Consolidate first?",
     "¿Cuántas te quedaban?": "How many were left in the tank?",
     "¿Cuánto más habrías aguantado?": "How much longer could you have held?",
@@ -6200,6 +6254,7 @@ const I18N = {
     "Archivo": "File",
     "Archivo guardado": "File saved",
     "Arrastrar": "Drag",
+    "Atrás": "Back",
     "Aún no has hecho ninguna copia.": "You haven't made a backup yet.",
     "Aún no hay objetivos. Fija los de fuerza y diaria en Ajustes, y los de distancia y pasos en Actividad → Unidad y objetivos.": "No goals yet. Set strength and daily goals in Settings, and distance and steps in Activity → Unit and goals.",
     "Aún no hay récords en los últimos 60 días. Aparecen solos al superar tu mejor marca.": "No records in the last 60 days yet. They appear automatically when you beat your best.",
@@ -6326,6 +6381,7 @@ const I18N = {
     "Crea una rutina con sus ejercicios, series y repeticiones objetivo.": "Create a routine with its exercises, sets and target reps.",
     "Crear «{x}» como ejercicio propio": "Create “{x}” as your own exercise",
     "Crear ejercicio propio": "Create your own exercise",
+    "Crear mi primera rutina": "Create my first routine",
     "Crear perfil": "Create profile",
     "Crear plan": "Create plan",
     "Cuándo": "When",
@@ -6414,6 +6470,7 @@ const I18N = {
     "Duración media del ciclo": "Average cycle length",
     "Duración y totales": "Duration and totals",
     "Durísimo": "Extremely hard",
+    "Echar un vistazo": "Take a look around",
     "Editar": "Edit",
     "Editar perfil": "Edit profile",
     "Editar plan": "Edit plan",
@@ -6452,6 +6509,7 @@ const I18N = {
     "Elegir fecha": "Pick a date",
     "Elegir otro": "Choose another",
     "Elige hombre o mujer": "Choose man or woman",
+    "Eliges los ejercicios, las series y los descansos.": "You choose the exercises, sets and rests.",
     "Eliminar": "Delete",
     "Eliminar plan": "Delete plan",
     "Eliminar sesión": "Delete session",
@@ -6478,6 +6536,7 @@ const I18N = {
     "Enlace": "Link",
     "Entendido": "Got it",
     "Entendido, activar": "Got it, turn on",
+    "Entendido, empezar": "Got it, let's start",
     "Entrenado 30 días": "Trained, 30 days",
     "Entreno": "Workout",
     "Entreno por fase": "Training by phase",
@@ -6575,6 +6634,7 @@ const I18N = {
     "Importar {r} rutinas, {s} sesiones, {w} pesos y {d} días de diario. Se combinarán con tus datos actuales. ¿Continuar?": "Import {r} routines, {s} sessions, {w} weights and {d} diary days? They'll be merged with your current data.",
     "Importar el plan de progresión. Sustituirá al plan actual, si lo hay. ¿Continuar?": "Import the progression plan? It will replace the current plan, if any.",
     "Importar JSON": "Import JSON",
+    "Importar una copia o rutinas": "Import a backup or routines",
     "Imprimir": "Print",
     "Imprimir / guardar PDF": "Print / save PDF",
     "Imprimir o guardar en PDF una rutina: una hoja por ejercicio (o dos por hoja) para seguir su progresión, u hoja de semanas con la rutina entera y 6 sesiones.": "Print or save a routine as PDF: one sheet per exercise (or two per sheet) to track its progress, or a weekly sheet with the whole routine and 6 sessions.",
@@ -6773,6 +6833,7 @@ const I18N = {
     "Objetivos semanales": "Weekly goals",
     "Oculto": "Hidden",
     "Opcional. Ayuda a ver si una semana ha sido demasiado dura.": "Optional. Helps spot weeks that were too hard.",
+    "Opcional. Se puede cambiar en Ajustes → Entreno.": "Optional. You can change it in Settings → Workout.",
     "Opcional. Vacío o 0 = sin objetivo. Los pasos se anotan en Diario → Pasos.": "Optional. Empty or 0 = no goal. Log steps in Diary → Steps.",
     "Ordena con ↑ ↓ y elige qué bloques ver.": "Reorder with ↑ ↓ and choose which blocks to show.",
     "Ordenar": "Reorder",
@@ -6798,6 +6859,7 @@ const I18N = {
     "Paralelas": "Parallel bars",
     "Parar": "Stop",
     "Pared": "Wall",
+    "Paso {n} de {t}": "Step {n} of {t}",
     "Pasos": "Steps",
     "Pasos (media)": "Steps (average)",
     "Pasos borrados": "Steps cleared",
@@ -7153,6 +7215,7 @@ const I18N = {
     "Último": "Latest",
     "Último tramo": "Last stretch",
     "Últimos {n} días": "Last {n} days",
+    "Un archivo .json de Usus: una copia de seguridad o rutinas que te han pasado.": "A Usus .json file: a backup or routines someone sent you.",
     "Un archivo .zip con una tabla por tipo de dato (sesiones, rutinas, diario, suplementos, peso, actividades y ciclo) y un archivo que explica cada columna. Para analizarlos a tu manera en una hoja de cálculo.": "A .zip file with one table per data type (sessions, routines, diary, supplements, weight, activities and cycle) and a file explaining each column. To analyse it your way in a spreadsheet.",
     "Un plan rota variantes de tus rutinas por semanas (por ejemplo A, B, C cada 2 semanas) con semanas de descarga, y Hoy te dice qué rutina toca cada día.": "A plan rotates variants of your routines by week (for example A, B, C every 2 weeks) with deload weeks, and Today tells you which routine is due each day.",
     "Una columna por sesión: apunta lo hecho (p. ej. 8·8·7·6)": "One column per session: write what you did (e.g. 8·8·7·6)",
@@ -7186,6 +7249,7 @@ const I18N = {
     "Ver estadísticas": "View stats",
     "Ver ficha": "View card",
     "Ver historial": "View history",
+    "Ver la app primero. Las rutinas se crean en Rutinas → Nueva rutina.": "See the app first. Routines are created in Routines → New routine.",
     "Ver licencia completa": "View full license",
     "Ver notas": "See notes",
     "Ver versiones": "See versions",

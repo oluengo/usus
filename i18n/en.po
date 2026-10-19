@@ -15,6 +15,9 @@ msgstr "Delete this weight entry?"
 msgid "¿Borrar los datos para el análisis? El resto de datos no se toca."
 msgstr "Delete the analysis data? Nothing else is touched."
 
+msgid "¿Cómo quieres empezar?"
+msgstr "How do you want to start?"
+
 msgid "¿Consolidar antes?"
 msgstr "Consolidate first?"
 
@@ -487,6 +490,9 @@ msgstr "File saved"
 msgid "Arrastrar"
 msgstr "Drag"
 
+msgid "Atrás"
+msgstr "Back"
+
 msgid "Aún no has hecho ninguna copia."
 msgstr "You haven't made a backup yet."
 
@@ -876,6 +882,9 @@ msgstr "Create “{x}” as your own exercise"
 msgid "Crear ejercicio propio"
 msgstr "Create your own exercise"
 
+msgid "Crear mi primera rutina"
+msgstr "Create my first routine"
+
 msgid "Crear perfil"
 msgstr "Create profile"
 
@@ -1151,6 +1160,9 @@ msgstr "Duration and totals"
 msgid "Durísimo"
 msgstr "Extremely hard"
 
+msgid "Echar un vistazo"
+msgstr "Take a look around"
+
 msgid "Editar"
 msgstr "Edit"
 
@@ -1269,6 +1281,9 @@ msgstr "Choose another"
 msgid "Elige hombre o mujer"
 msgstr "Choose man or woman"
 
+msgid "Eliges los ejercicios, las series y los descansos."
+msgstr "You choose the exercises, sets and rests."
+
 msgid "Eliminar"
 msgstr "Delete"
 
@@ -1350,6 +1365,9 @@ msgstr "Got it"
 
 msgid "Entendido, activar"
 msgstr "Got it, turn on"
+
+msgid "Entendido, empezar"
+msgstr "Got it, let's start"
 
 msgid "Entrenado 30 días"
 msgstr "Trained, 30 days"
@@ -1646,6 +1664,9 @@ msgstr "Import the progression plan? It will replace the current plan, if any."
 
 msgid "Importar JSON"
 msgstr "Import JSON"
+
+msgid "Importar una copia o rutinas"
+msgstr "Import a backup or routines"
 
 msgid "Imprimir"
 msgstr "Print"
@@ -2258,6 +2279,9 @@ msgstr "Hidden"
 msgid "Opcional. Ayuda a ver si una semana ha sido demasiado dura."
 msgstr "Optional. Helps spot weeks that were too hard."
 
+msgid "Opcional. Se puede cambiar en Ajustes → Entreno."
+msgstr "Optional. You can change it in Settings → Workout."
+
 msgid "Opcional. Vacío o 0 = sin objetivo. Los pasos se anotan en Diario → Pasos."
 msgstr "Optional. Empty or 0 = no goal. Log steps in Diary → Steps."
 
@@ -2335,6 +2359,10 @@ msgstr "Stop"
 
 msgid "Pared"
 msgstr "Wall"
+
+#, python-brace-format
+msgid "Paso {n} de {t}"
+msgstr "Step {n} of {t}"
 
 msgid "Pasos"
 msgstr "Steps"
@@ -3453,6 +3481,9 @@ msgstr "Last stretch"
 msgid "Últimos {n} días"
 msgstr "Last {n} days"
 
+msgid "Un archivo .json de Usus: una copia de seguridad o rutinas que te han pasado."
+msgstr "A Usus .json file: a backup or routines someone sent you."
+
 msgid "Un archivo .zip con una tabla por tipo de dato (sesiones, rutinas, diario, suplementos, peso, actividades y ciclo) y un archivo que explica cada columna. Para analizarlos a tu manera en una hoja de cálculo."
 msgstr "A .zip file with one table per data type (sessions, routines, diary, supplements, weight, activities and cycle) and a file explaining each column. To analyse it your way in a spreadsheet."
 
@@ -3555,6 +3586,9 @@ msgstr "View card"
 
 msgid "Ver historial"
 msgstr "View history"
+
+msgid "Ver la app primero. Las rutinas se crean en Rutinas → Nueva rutina."
+msgstr "See the app first. Routines are created in Routines → New routine."
 
 msgid "Ver licencia completa"
 msgstr "View full license"

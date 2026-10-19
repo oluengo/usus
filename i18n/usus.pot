@@ -14,6 +14,9 @@ msgstr ""
 msgid "¿Borrar los datos para el análisis? El resto de datos no se toca."
 msgstr ""
 
+msgid "¿Cómo quieres empezar?"
+msgstr ""
+
 msgid "¿Consolidar antes?"
 msgstr ""
 
@@ -486,6 +489,9 @@ msgstr ""
 msgid "Arrastrar"
 msgstr ""
 
+msgid "Atrás"
+msgstr ""
+
 msgid "Aún no has hecho ninguna copia."
 msgstr ""
 
@@ -875,6 +881,9 @@ msgstr ""
 msgid "Crear ejercicio propio"
 msgstr ""
 
+msgid "Crear mi primera rutina"
+msgstr ""
+
 msgid "Crear perfil"
 msgstr ""
 
@@ -1150,6 +1159,9 @@ msgstr ""
 msgid "Durísimo"
 msgstr ""
 
+msgid "Echar un vistazo"
+msgstr ""
+
 msgid "Editar"
 msgstr ""
 
@@ -1268,6 +1280,9 @@ msgstr ""
 msgid "Elige hombre o mujer"
 msgstr ""
 
+msgid "Eliges los ejercicios, las series y los descansos."
+msgstr ""
+
 msgid "Eliminar"
 msgstr ""
 
@@ -1348,6 +1363,9 @@ msgid "Entendido"
 msgstr ""
 
 msgid "Entendido, activar"
+msgstr ""
+
+msgid "Entendido, empezar"
 msgstr ""
 
 msgid "Entrenado 30 días"
@@ -1644,6 +1662,9 @@ msgid "Importar el plan de progresión. Sustituirá al plan actual, si lo hay. �
 msgstr ""
 
 msgid "Importar JSON"
+msgstr ""
+
+msgid "Importar una copia o rutinas"
 msgstr ""
 
 msgid "Imprimir"
@@ -2257,6 +2278,9 @@ msgstr ""
 msgid "Opcional. Ayuda a ver si una semana ha sido demasiado dura."
 msgstr ""
 
+msgid "Opcional. Se puede cambiar en Ajustes → Entreno."
+msgstr ""
+
 msgid "Opcional. Vacío o 0 = sin objetivo. Los pasos se anotan en Diario → Pasos."
 msgstr ""
 
@@ -2333,6 +2357,10 @@ msgid "Parar"
 msgstr ""
 
 msgid "Pared"
+msgstr ""
+
+#, python-brace-format
+msgid "Paso {n} de {t}"
 msgstr ""
 
 msgid "Pasos"
@@ -3452,6 +3480,9 @@ msgstr ""
 msgid "Últimos {n} días"
 msgstr ""
 
+msgid "Un archivo .json de Usus: una copia de seguridad o rutinas que te han pasado."
+msgstr ""
+
 msgid "Un archivo .zip con una tabla por tipo de dato (sesiones, rutinas, diario, suplementos, peso, actividades y ciclo) y un archivo que explica cada columna. Para analizarlos a tu manera en una hoja de cálculo."
 msgstr ""
 
@@ -3553,6 +3584,9 @@ msgid "Ver ficha"
 msgstr ""
 
 msgid "Ver historial"
+msgstr ""
+
+msgid "Ver la app primero. Las rutinas se crean en Rutinas → Nueva rutina."
 msgstr ""
 
 msgid "Ver licencia completa"

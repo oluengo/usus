@@ -23,3 +23,11 @@ for (const theme of ["light", "dark", "protector"]) {
     expect(found, found.join("\n")).toEqual([]);
   });
 }
+test("sin fallos graves de accesibilidad · asistente de primer uso", async ({ page }) => {
+  await page.goto("./"); const m = page.locator(".modal"), found = [];
+  const check = async n => { const r = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"]).exclude(".betatag").analyze();
+    for (const v of r.violations) if (["serious", "critical"].includes(v.impact)) found.push(`paso ${n} · ${v.id}: ${v.nodes.slice(0, 3).map(x => x.target.join(" ")).join(" | ")}`); };
+  await check(1); await m.locator('[data-act="wiz-next"]').click(); await check(2);
+  await m.locator('[data-act="wiz-cat-yes"]').click(); await check(3); await m.locator('[data-act="wiz-next"]').click(); await check(4);
+  expect(found, found.join("\n")).toEqual([]);
+});

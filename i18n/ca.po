@@ -15,6 +15,9 @@ msgstr "Vols esborrar aquest registre de pes?"
 msgid "¿Borrar los datos para el análisis? El resto de datos no se toca."
 msgstr "Esborrar les dades per a l'anàlisi? La resta de dades no es toca."
 
+msgid "¿Cómo quieres empezar?"
+msgstr "Com vols començar?"
+
 msgid "¿Consolidar antes?"
 msgstr "Consolidar abans?"
 
@@ -487,6 +490,9 @@ msgstr "Fitxer desat"
 msgid "Arrastrar"
 msgstr "Arrossega"
 
+msgid "Atrás"
+msgstr "Enrere"
+
 msgid "Aún no has hecho ninguna copia."
 msgstr "Encara no has fet cap còpia."
 
@@ -876,6 +882,9 @@ msgstr "Crea «{x}» com a exercici propi"
 msgid "Crear ejercicio propio"
 msgstr "Crea un exercici propi"
 
+msgid "Crear mi primera rutina"
+msgstr "Crear la meva primera rutina"
+
 msgid "Crear perfil"
 msgstr "Crear perfil"
 
@@ -1151,6 +1160,9 @@ msgstr "Durada i totals"
 msgid "Durísimo"
 msgstr "Duríssim"
 
+msgid "Echar un vistazo"
+msgstr "Fer una ullada"
+
 msgid "Editar"
 msgstr "Edita"
 
@@ -1269,6 +1281,9 @@ msgstr "Tria'n un altre"
 msgid "Elige hombre o mujer"
 msgstr "Tria home o dona"
 
+msgid "Eliges los ejercicios, las series y los descansos."
+msgstr "Tries els exercicis, les sèries i els descansos."
+
 msgid "Eliminar"
 msgstr "Elimina"
 
@@ -1350,6 +1365,9 @@ msgstr "Entesos"
 
 msgid "Entendido, activar"
 msgstr "Entesos, activa"
+
+msgid "Entendido, empezar"
+msgstr "Entesos, començar"
 
 msgid "Entrenado 30 días"
 msgstr "Entrenat 30 dies"
@@ -1646,6 +1664,9 @@ msgstr "Vols importar el pla de progressió? Substituirà el pla actual, si n'hi
 
 msgid "Importar JSON"
 msgstr "Importa JSON"
+
+msgid "Importar una copia o rutinas"
+msgstr "Importar una còpia o rutines"
 
 msgid "Imprimir"
 msgstr "Imprimeix"
@@ -2258,6 +2279,9 @@ msgstr "Amagat"
 msgid "Opcional. Ayuda a ver si una semana ha sido demasiado dura."
 msgstr "Opcional. Ajuda a veure si una setmana ha estat massa dura."
 
+msgid "Opcional. Se puede cambiar en Ajustes → Entreno."
+msgstr "Opcional. Es pot canviar a Ajustos → Entrenament."
+
 msgid "Opcional. Vacío o 0 = sin objetivo. Los pasos se anotan en Diario → Pasos."
 msgstr "Opcional. Buit o 0 = sense objectiu. Els passos s'anoten a Diari → Passos."
 
@@ -2335,6 +2359,10 @@ msgstr "Atura"
 
 msgid "Pared"
 msgstr "Paret"
+
+#, python-brace-format
+msgid "Paso {n} de {t}"
+msgstr "Pas {n} de {t}"
 
 msgid "Pasos"
 msgstr "Passos"
@@ -3453,6 +3481,9 @@ msgstr "Últim tram"
 msgid "Últimos {n} días"
 msgstr "Últims {n} dies"
 
+msgid "Un archivo .json de Usus: una copia de seguridad o rutinas que te han pasado."
+msgstr "Un fitxer .json d'Usus: una còpia de seguretat o rutines que t'han passat."
+
 msgid "Un archivo .zip con una tabla por tipo de dato (sesiones, rutinas, diario, suplementos, peso, actividades y ciclo) y un archivo que explica cada columna. Para analizarlos a tu manera en una hoja de cálculo."
 msgstr "Un arxiu .zip amb una taula per tipus de dada (sessions, rutines, diari, suplements, pes, activitats i cicle) i un arxiu que explica cada columna. Per analitzar-les a la teva manera en un full de càlcul."
 
@@ -3555,6 +3586,9 @@ msgstr "Mostra la fitxa"
 
 msgid "Ver historial"
 msgstr "Mostra l'historial"
+
+msgid "Ver la app primero. Las rutinas se crean en Rutinas → Nueva rutina."
+msgstr "Veure l'app primer. Les rutines es creen a Rutines → Nova rutina."
 
 msgid "Ver licencia completa"
 msgstr "Mostra la llicència completa"
