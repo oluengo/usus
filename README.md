@@ -97,6 +97,10 @@ El catálogo de ejercicios es **opcional y se decide en cada perfil**. Si empiez
 
 Usus está en castellano, català e inglés. Las traducciones se hacen en Weblate (pronto: enlace al proyecto) y están en [`i18n/`](i18n/README.md), con el glosario y cómo funciona.
 
+### Código
+
+La app es una sola página (`index.html`) que se monta desde [`src/`](src/README.md) con `npm run build`: estilos y código por partes. Pruebas automáticas en [`tests/`](tests/README.md).
+
 ## English
 
 **Usus** (Latin: *practice, habit*) is a phone app to log your workouts and habits. Built with calisthenics and home training in mind, it works for any routine of sets and reps.
@@ -191,3 +195,7 @@ The exercise catalogue is **optional and chosen per profile**. If you're startin
 ### Translate
 
 Usus is available in Spanish, Catalan and English. Translations are done in Weblate (link coming soon) and live in [`i18n/`](i18n/README.md), with the glossary and how it works.
+
+### Code
+
+The app is a single page (`index.html`) built from [`src/`](src/README.md) with `npm run build`: styles and code split into parts. Automated tests in [`tests/`](tests/README.md).

@@ -1,14 +1,14 @@
-# Comprueba las traducciones (i18n/*.po) en cada push a beta o main y en las propuestas de cambio:
-# plantilla al día con index.html, huecos {n} iguales en todos los idiomas y cuántos textos faltan.
-# Si alguien cambia textos en index.html sin actualizar la plantilla, falla: ejecuta «npm run i18n» y sube los cambios.
+# Comprueba el código y las traducciones en cada push a beta o main y en las propuestas de cambio:
+# index.html montado desde src/ (npm run build), plantilla al día con el código, huecos {n} iguales en todos los idiomas y cuántos textos faltan.
+# Si falla: ejecuta «npm run i18n» (o «npm run build») y sube los cambios.
 name: Textos
 
 on:
   push:
     branches: [beta, main]
-    paths: ["index.html", "i18n/**", "scripts/i18n.mjs"]
+    paths: ["index.html", "src/**", "i18n/**", "scripts/i18n.mjs", "scripts/build.mjs"]
   pull_request:
-    paths: ["index.html", "i18n/**", "scripts/i18n.mjs"]
+    paths: ["index.html", "src/**", "i18n/**", "scripts/i18n.mjs", "scripts/build.mjs"]
   workflow_dispatch:
 
 permissions:
@@ -22,11 +22,13 @@ jobs:
       - uses: actions/setup-node@v7
         with:
           node-version: "22"
+      - name: index.html al día con src/
+        run: node scripts/build.mjs --check
       - name: Plantilla al día
         run: |
           node scripts/i18n.mjs extract
           if ! git diff --quiet -- i18n/usus.pot; then
-            echo "::error::i18n/usus.pot no está al día con index.html. Ejecuta: npm run i18n"; git diff --stat; exit 1
+            echo "::error::i18n/usus.pot no está al día con el código. Ejecuta: npm run i18n"; git diff --stat; exit 1
           fi
       - name: Traducciones
         run: node scripts/i18n.mjs check

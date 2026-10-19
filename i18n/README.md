@@ -15,8 +15,8 @@ El catálogo de ejercicios se traduce aparte, en `ejercicios.json`.
 
 1. En el código, todo texto visible va dentro de `T("…")` (o `TN(n, "singular", "plural")` si depende de un número). Los textos que se guardan en una lista y se traducen después llevan `N_("…")`.
 2. `npm run i18n` (o `node scripts/i18n.mjs all`):
-   - **extract**: lee `index.html` y actualiza `usus.pot` y los `.po`. Los textos nuevos quedan sin traducir; si un texto cambia un poco, se conserva la traducción anterior marcada como *por revisar* (fuzzy).
-   - **build**: mete en `index.html` las traducciones revisadas (las *por revisar* no se usan: se ve el castellano).
+   - **extract**: lee el código (`src/js/`) y actualiza `usus.pot` y los `.po`. Los textos nuevos quedan sin traducir; si un texto cambia un poco, se conserva la traducción anterior marcada como *por revisar* (fuzzy).
+   - **build**: genera el diccionario `src/js/90-i18n.js` con las traducciones revisadas (las *por revisar* no se usan: se ve el castellano) y vuelve a montar `index.html`.
    - **check**: cuenta lo que falta y comprueba que los huecos `{n}`, `{x}`… sean los mismos en todos los idiomas.
 3. Al publicar (web y APK) se ejecuta **build**, así que lo que se traduce en Weblate llega a la siguiente versión sin más pasos.
 4. GitHub comprueba en cada cambio que la plantilla está al día y que no hay huecos mal (flujo «Textos»).

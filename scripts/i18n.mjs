@@ -1,17 +1,19 @@
 // Traducciones de Usus con gettext (.po), el formato estándar que usa Weblate.
-// - El castellano es el idioma de origen: el texto que va en T("…") en index.html es el msgid.
+// - El castellano es el idioma de origen: el texto que va en T("…") en el código (src/js/*.js) es el msgid.
 // - i18n/usus.pot: plantilla con todos los textos (se genera, no se edita).
 // - i18n/<idioma>.po: traducciones (las edita Weblate o a mano).
-// - index.html lleva dentro el diccionario I18N generado a partir de los .po (entre las marcas I18N:start / I18N:end).
+// - src/js/90-i18n.js es el diccionario I18N generado a partir de los .po (entre las marcas I18N:start / I18N:end);
+//   al generarlo se vuelve a montar index.html (scripts/build.mjs).
 //
 // Uso:
-//   node scripts/i18n.mjs extract   lee index.html → usus.pot y actualiza los .po (nuevos vacíos; los que cambian, «fuzzy» con la traducción anterior)
-//   node scripts/i18n.mjs build     .po → diccionario I18N dentro de index.html (solo traducciones revisadas, sin «fuzzy»)
+//   node scripts/i18n.mjs extract   lee el código → usus.pot y actualiza los .po (nuevos vacíos; los que cambian, «fuzzy» con la traducción anterior)
+//   node scripts/i18n.mjs build     .po → diccionario I18N (solo traducciones revisadas, sin «fuzzy») y monta index.html
 //   node scripts/i18n.mjs check     comprueba: textos sin traducir, «fuzzy», huecos {n} distintos; sale con error si hay huecos mal
 //   node scripts/i18n.mjs all       extract + build + check
 import { readFileSync, writeFileSync, existsSync, readdirSync } from "node:fs";
+import { assemble, build } from "./build.mjs";
 
-const HTML = "index.html", DIR = "i18n", POT = `${DIR}/usus.pot`;
+const DICT = "src/js/90-i18n.js", DIR = "i18n", POT = `${DIR}/usus.pot`;
 const LANGS = { ca: { name: "Català", plural: "nplurals=2; plural=(n != 1);" }, en: { name: "English", plural: "nplurals=2; plural=(n != 1);" } };
 const START = "/* I18N:start — generado por scripts/i18n.mjs a partir de i18n/*.po: no editar a mano */", END = "/* I18N:end */";
 
@@ -65,7 +67,7 @@ const hdr = (lang) => [
   ...(lang ? [`"Language: ${lang}\\n"`, `"Plural-Forms: ${LANGS[lang].plural}\\n"`] : [`"Language: es\\n"`]),
 ].join("\n");
 
-/* ---------- Extraer textos de index.html ---------- */
+/* ---------- Extraer textos del código ---------- */
 function codeOf(html) {
   const a = html.indexOf(START), b = html.indexOf(END);
   return a >= 0 && b > a ? html.slice(0, a) + html.slice(b + END.length) : html;
@@ -91,7 +93,7 @@ function sim(a, b) {   // parecido 0–1 (distancia de Levenshtein)
   return 1 - p[m] / Math.max(n, m);
 }
 function cmdExtract() {
-  const html = readFileSync(HTML, "utf8");
+  const html = assemble();
   const pos = Object.fromEntries(Object.keys(LANGS).map(l => [l, existsSync(`${DIR}/${l}.po`) ? parsePO(readFileSync(`${DIR}/${l}.po`, "utf8")).filter(e => e.id) : []]));
   const keep = new Set(Object.values(pos).flat().map(e => e.id));
   const src = extract(html, keep).sort((a, b) => a.id.localeCompare(b.id, "es"));
@@ -112,9 +114,9 @@ function cmdExtract() {
   }
   console.log(`extract: ${tmpl.length} textos`);
 }
-/* ---------- Diccionario dentro de index.html ---------- */
+/* ---------- Diccionario (src/js/90-i18n.js) y index.html ---------- */
 function cmdBuild() {
-  let html = readFileSync(HTML, "utf8");
+  let html = readFileSync(DICT, "utf8");
   const dict = {};
   for (const l of Object.keys(LANGS)) {
     const d = {};
@@ -127,9 +129,9 @@ function cmdBuild() {
   }
   const body = `${START}\nconst I18N = {\n${Object.entries(dict).map(([l, d]) => `  ${l}: {\n${Object.entries(d).map(([k, v]) => `    ${JSON.stringify(k)}: ${JSON.stringify(v)},`).join("\n")}\n  }`).join(",\n")}\n};\n${END}`;
   const a = html.indexOf(START), b = html.indexOf(END);
-  if (a < 0 || b < a) throw new Error("index.html sin las marcas I18N:start / I18N:end");
+  if (a < 0 || b < a) throw new Error(`${DICT} sin las marcas I18N:start / I18N:end`);
   html = html.slice(0, a) + body + html.slice(b + END.length);
-  writeFileSync(HTML, html);
+  writeFileSync(DICT, html); build();
   console.log("build: " + Object.entries(dict).map(([l, d]) => `${l} ${Object.keys(d).length}`).join(" · "));
 }
 function cmdCheck() {
@@ -145,26 +147,11 @@ function cmdCheck() {
     console.log(`${l}: ${po.length - miss} de ${tmpl.length} traducidos${miss ? ` · ${miss} sin traducir` : ""}${fz ? ` · ${fz} por revisar (fuzzy)` : ""}`);
   }
   // El diccionario de index.html debe estar al día con los .po
-  const html = readFileSync(HTML, "utf8"); cmdBuild(); const now = readFileSync(HTML, "utf8");
+  const html = readFileSync("index.html", "utf8"); cmdBuild(); const now = readFileSync("index.html", "utf8");
   if (now !== html) console.log("index.html: diccionario actualizado desde los .po");
   if (bad.length) { console.error(bad.join("\n")); process.exit(1); }
 }
-/* ---------- Migración única: diccionario antiguo (claves = castellano) → .po ---------- */
-function cmdMigrate() {
-  let html = readFileSync(HTML, "utf8");
-  const a = html.indexOf("const I18N = {"), b = html.indexOf("/* ---------- Arranque", a);
-  if (html.includes(START)) throw new Error("ya migrado");
-  const blockEnd = html.lastIndexOf("};", b) + 2;
-  const I18N = new Function(html.slice(a, blockEnd).replace("const I18N =", "return"))();
-  for (const l of Object.keys(LANGS)) {
-    const entries = Object.entries(I18N[l] || {}).map(([id, str]) => ({ id, str, flags: brace(id) ? ["python-brace-format"] : [], refs: [] }));
-    writeFileSync(`${DIR}/${l}.po`, writePO(hdr(l), entries));
-  }
-  html = html.slice(0, a) + `${START}\nconst I18N = {};\n${END}` + html.slice(blockEnd);
-  writeFileSync(HTML, html);
-  console.log("migrate: " + Object.keys(LANGS).map(l => `${l} ${Object.keys(I18N[l] || {}).length}`).join(" · "));
-}
 const cmd = process.argv[2];
-const CMDS = { extract: cmdExtract, build: cmdBuild, check: cmdCheck, migrate: cmdMigrate, all: () => { cmdExtract(); cmdCheck(); } };
+const CMDS = { extract: cmdExtract, build: cmdBuild, check: cmdCheck, all: () => { cmdExtract(); cmdCheck(); } };
 if (!CMDS[cmd]) { console.error("Uso: node scripts/i18n.mjs extract|build|check|all"); process.exit(2); }
 CMDS[cmd]();

@@ -1,0 +1,26 @@
+/* Pantalla ancha: barra de secciones lateral */
+@media (min-width:1000px){
+  body{padding-left:216px}
+  nav.tabs{top:0;right:auto;width:216px;border-top:0;border-right:1px solid var(--line);padding:18px 12px;padding-bottom:18px}
+  nav.tabs .in{display:flex;flex-direction:column;gap:2px;max-width:none}
+  nav.tabs .in::before{content:"Usus";font-weight:700;font-size:1.35rem;letter-spacing:-.01em;color:var(--ink);padding:4px 12px 18px}
+  nav.tabs button{flex-direction:row;justify-content:flex-start;gap:12px;padding:10px 12px;border-radius:10px;font-size:.95rem;cursor:pointer}
+  nav.tabs button:hover{background:var(--bg);color:var(--ink)}
+  nav.tabs button[aria-current="page"]{background:var(--accent-soft);font-weight:600}
+  nav.tabs button svg{width:20px;height:20px}
+  .wrap{padding-bottom:40px}
+  body.edw .wrap,body.rtw .wrap{padding-bottom:40px}
+  .selbar{bottom:16px}
+  body.edw .edcat{max-height:calc(100vh - 100px)}
+}
+/* Entre 1000 y 1439 px: barra lateral estrecha (iconos con texto pequeño) para dejar sitio al contenido */
+@media (min-width:1000px) and (max-width:1439px){
+  body{padding-left:84px}
+  nav.tabs{width:84px;padding:14px 8px}
+  nav.tabs .in::before{content:"Usus";font-size:1rem;text-align:center;padding:4px 0 14px}
+  nav.tabs button{flex-direction:column;justify-content:center;gap:4px;padding:10px 2px;font-size:.7rem}
+}
+.betatag{position:fixed;top:calc(6px + env(safe-area-inset-top,0px));right:8px;z-index:40;font:700 .62rem/1 system-ui,sans-serif;letter-spacing:.1em;background:var(--warn);color:#fff;border-radius:6px;padding:4px 7px;pointer-events:none}
+.betatag[hidden]{display:none}
+@media (min-width:1000px){html.beta nav.tabs .in::before{content:"Usus β"}}
+@media print{.betatag{display:none!important}}
