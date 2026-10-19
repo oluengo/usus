@@ -4,6 +4,21 @@ Todas las versiones de Usus. Formato basado en [Keep a Changelog](https://keepac
 
 **Castellano** · [Català](#català) · [English](#english)
 
+## [3.0.0] — en pruebas (beta)
+
+Rediseño: estructura nueva, componentes unificados y glosario único (es/ca/en). Los datos no cambian: las copias de la 2.x se importan igual.
+
+- Nueva estructura: Hoy · Entreno · Diario · Progreso · Ajustes. Entreno reúne Rutinas, Plan y Ejercicios; Stats pasa a llamarse Progreso.
+- Hoy: lo que toca, arriba y con un único botón Empezar; accesos rápidos a otra rutina, sesión libre y actividad; los avisos, juntos en «Pendiente».
+- Rutinas agrupadas por variante. Cada rutina se abre en su propia pantalla (en PC, al lado de la lista) con Empezar, Editar, Imprimir, Compartir y Duplicar.
+- El plan de progresión pasa de Hoy a Entreno → Plan, junto a las rutinas que usa.
+- Diario: el peso se anota aquí. Solo se ven las casillas con datos; lo demás se añade con un toque (+ Sueño, + Peso, + Pasos…).
+- Ajustes en grupos, cada uno con su pantalla: Perfil, Entreno, Avisos, Apariencia e idioma, Datos y copias, y Acerca de. Interruptores para activar opciones.
+- Editor de rutina más compacto en el móvil: cada ejercicio en una fila con su resumen; los detalles se abren al tocarla.
+- Estilo unificado: un solo tipo de pestañas, botones con tamaños fijos y ventanas como hoja inferior en el móvil. El morado queda solo para la IA.
+- Primer uso guiado en pasos: idioma y avisos, catálogo, material y cómo empezar (crear la primera rutina o importar una copia).
+- Las traducciones pasan a archivos estándar (gettext) para poder traducir la app desde el navegador.
+
 ## [2.5.0] — 2026-10-17
 
 ### Modo diseño de rutinas
@@ -229,6 +244,18 @@ Primera versión pública.
 
 ## Català
 
+### [3.0.0] — en proves (beta)
+- Nova estructura: Avui · Entrenament · Diari · Progrés · Ajustos. Entrenament aplega Rutines, Pla i Exercicis; Stats passa a dir-se Progrés.
+- Avui: el que toca, a dalt i amb un sol botó Comença; accessos ràpids a una altra rutina, sessió lliure i activitat; els avisos, junts a «Pendent».
+- Rutines agrupades per variant. Cada rutina s'obre a la seva pantalla (a l'ordinador, al costat de la llista) amb Comença, Edita, Imprimeix, Comparteix i Duplica.
+- El pla de progressió passa d'Avui a Entrenament → Pla, al costat de les rutines que fa servir.
+- Diari: el pes s'anota aquí. Només es veuen les caselles amb dades; la resta s'afegeix amb un toc (+ Son, + Pes, + Passos…).
+- Ajustos en grups, cadascun amb la seva pantalla: Perfil, Entrenament, Avisos, Aparença i idioma, Dades i còpies, i Quant a. Interruptors per activar opcions.
+- Editor de rutina més compacte al mòbil: cada exercici en una fila amb el seu resum; els detalls s'obren en tocar-la.
+- Estil unificat: un sol tipus de pestanyes, botons amb mides fixes i finestres com a full inferior al mòbil. El lila queda només per a la IA.
+- Primer ús guiat en passos: idioma i avisos, catàleg, material i com començar (crear la primera rutina o importar una còpia).
+- Les traduccions passen a fitxers estàndard (gettext) per poder traduir l'app des del navegador.
+
 ### [2.5.0] — 2026-10-17
 - Mode disseny de rutines: seccions, supersèries i circuits (voltes, descans entre voltes), reordenar amb ↑ ↓ o arrossegant, durada aproximada.
 - Supersèries i circuits també en entrenar, amb la volta en curs a la vista i el compte enrere encadenat.
@@ -298,6 +325,18 @@ Primera versió pública: rutines amb sèries per repeticions o per temps, compt
 ---
 
 ## English
+
+### [3.0.0] — in testing (beta)
+- New layout: Today · Workout · Diary · Progress · Settings. Workout brings together Routines, Plan and Exercises; Stats is now called Progress.
+- Today: what's on, at the top with a single Start button; shortcuts to another routine, a free session and an activity; reminders together under “To do”.
+- Routines grouped by variant. Each routine opens on its own screen (on a computer, next to the list) with Start, Edit, Print, Share and Duplicate.
+- The progression plan moves from Today to Workout → Plan, next to the routines it uses.
+- Diary: weight is logged here. Only boxes with data are shown; add the rest with one tap (+ Sleep, + Weight, + Steps…).
+- Settings in groups, each with its own screen: Profile, Workout, Alerts, Appearance and language, Data and backups, and About. Switches to turn options on.
+- More compact routine editor on phones: one row per exercise with its summary; tap it to open the details.
+- Unified style: one kind of tabs, buttons with fixed sizes and dialogs as bottom sheets on phones. Purple is now only for AI.
+- Guided first run in steps: language and notices, catalogue, equipment and how to start (create your first routine or import a backup).
+- Translations move to standard files (gettext) so the app can be translated from the browser.
 
 ### [2.5.0] — 2026-10-17
 - Routine design mode: sections, supersets and circuits (rounds, rest between rounds), reorder with ↑ ↓ or by dragging, estimated duration.

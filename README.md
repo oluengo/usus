@@ -22,7 +22,7 @@ Gratis, sin cuentas y sin anuncios. Todo se guarda **solo en tu móvil**: nada s
 
 **¿Cuál?** En Android, mejor el **APK**: no depende del navegador, la pantalla se mantiene encendida al entrenar y el botón Atrás funciona como en cualquier app. La **PWA** es para iPhone, ordenador o para probarla sin instalar nada.
 
-- PWA y APK son la misma app, pero **cada una guarda sus datos aparte**. Para pasar de una a otra: Ajustes → Datos → exportar copia en una, importarla en la otra.
+- PWA y APK son la misma app, pero **cada una guarda sus datos aparte**. Para pasar de una a otra: Ajustes → Datos y copias → exportar copia en una, importarla en la otra.
 - El APK solo pide un permiso, **vibración** (avisos del descanso). Sin Internet: no se conecta a nada. Importar y exportar usan el selector de archivos y el menú de compartir de Android.
 - El APK va firmado; huella SHA-256 del certificado: `28:B6:FF:4A:8F:61:F6:88:D4:B4:9D:C7:E8:B7:2D:95:D5:D9:44:45:D2:A2:30:07:1A:FA:72:B1:B2:D0:3E:C8`. Más detalles en [ANDROID.md](ANDROID.md).
 
@@ -44,8 +44,8 @@ Para probar la beta con tus datos, exporta una copia en la versión normal e imp
 - **Progresión.** Al terminar una sesión, Usus te propone pasar al siguiente ejercicio cuando dominas el actual, o volver al anterior si te está costando demasiado. Siempre es una propuesta: decides tú.
 - **Hoy.** Te dice qué toca cada día. Con un plan de progresión, Usus rota las variantes de tus rutinas por semanas (A, B, C…), añade semanas de descarga y te avisa de lo pendiente. Si quieres, la subida de cada vuelta de variante se aplica sola, con aviso y opción de deshacer.
 - **Entrenar.** Un ejercicio por pantalla. Las series por tiempo y los descansos tienen cuenta atrás a pantalla completa con reglas sencillas (preparación, aviso final, cambio de lado y descansos), tres sonidos suaves (tic, inicio, fin), vibración o nada, y se pueden encadenar solas. La pantalla se mantiene encendida durante la sesión. Puedes cambiar un ejercicio sobre la marcha, anotar cada uno y valorar el esfuerzo de la sesión (y, si quieres, las repeticiones en reserva de cada serie).
-- **Diario.** Sueño, suplementos, pasos, actividad (caminar, correr, bici…), notas y peso semanal.
-- **Estadísticas.** Constancia, récords, progreso por ejercicio, equilibrio entre lados y hábitos, en bloques que puedes ordenar u ocultar. Los días con notas llevan un punto: tócalo y ves por qué (no entrenaste, molestias, un cambio de ejercicio…).
+- **Diario.** Sueño, suplementos, pasos, peso, actividad (caminar, correr, bici…) y notas. Solo se ve lo que has anotado; lo demás se añade con un toque.
+- **Progreso.** Constancia, récords, progreso por ejercicio, equilibrio entre lados y hábitos, en bloques que puedes ordenar u ocultar. Los días con notas llevan un punto: tócalo y ves por qué (no entrenaste, molestias, un cambio de ejercicio…).
 - **Análisis con IA** *(opcional, externa).* Usus prepara un texto con tus datos y las instrucciones para que la IA que prefieras haga un informe con gráficos, listo para imprimir. Usus no envía nada: lo copias o compartes tú.
 - **Perfiles.** Varias personas en el mismo móvil, cada una con sus datos, ajustes y copia de seguridad.
 - **Ciclo** *(opcional, en perfiles de mujer).* Registro de la regla con una estimación aproximada de la próxima. No es un anticonceptivo ni un diagnóstico.
@@ -117,7 +117,7 @@ Free, no accounts, no ads. Everything is stored **only on your phone**: nothing 
 
 **Which one?** On Android, the **APK** is better: it doesn't depend on the browser, keeps the screen on while you train and the Back button works like in any app. The **PWA** is for iPhone, desktop, or trying it without installing anything.
 
-- PWA and APK are the same app, but **each keeps its own data**. To move between them: Settings → Data → export a backup in one, import it in the other.
+- PWA and APK are the same app, but **each keeps its own data**. To move between them: Settings → Data and backups → export a backup in one, import it in the other.
 - The APK asks for one permission only, **vibration** (rest alerts). No Internet: it connects to nothing. Import and export use Android's file picker and share menu.
 - The APK is signed; SHA-256 certificate fingerprint: `28:B6:FF:4A:8F:61:F6:88:D4:B4:9D:C7:E8:B7:2D:95:D5:D9:44:45:D2:A2:30:07:1A:FA:72:B1:B2:D0:3E:C8`. More in [ANDROID.md](ANDROID.md#english).
 
@@ -139,8 +139,8 @@ To try the beta with your data, export a backup in the regular version and impor
 - **Progression.** After a session, Usus suggests moving on to the next exercise once you've mastered the current one, or going back to the previous one if it's too hard for now. It's always a suggestion: you decide.
 - **Today.** Shows what's on each day. With a progression plan, Usus rotates your routine variants week by week (A, B, C…), adds deload weeks and keeps track of what's pending. If you like, the increase each time a variant comes back is applied automatically, with a notice and an undo option.
 - **Train.** One exercise per screen. Timed sets and rests get a full-screen countdown with simple rules (get-ready, final warning, side switch and rests), three soft sounds (tick, start, end), vibration or nothing, and can chain automatically. The screen stays on during the session. Swap an exercise on the fly, add a note to each one and rate the session's effort (and, if you like, the reps in reserve of each set).
-- **Diary.** Sleep, supplements, steps, activity (walking, running, cycling…), notes and weekly weight.
-- **Stats.** Consistency, PRs, progress per exercise, left/right balance and habits, in blocks you can reorder or hide. Days with notes get a dot: tap it to see why (you skipped training, aches, a swapped exercise…).
+- **Diary.** Sleep, supplements, steps, weight, activity (walking, running, cycling…) and notes. Only what you logged is shown; add the rest with one tap.
+- **Progress.** Consistency, PRs, progress per exercise, left/right balance and habits, in blocks you can reorder or hide. Days with notes get a dot: tap it to see why (you skipped training, aches, a swapped exercise…).
 - **AI analysis** *(optional, external).* Usus prepares a text with your data and instructions for the AI of your choice to write a report with charts, ready to print. Usus sends nothing: you copy or share it yourself.
 - **Profiles.** Several people on the same phone, each with their own data, settings and backup.
 - **Cycle** *(optional, on women's profiles).* Period log with an approximate estimate of the next one. Not a contraceptive method or a diagnosis.

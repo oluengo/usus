@@ -157,6 +157,16 @@ msgid "{n} noches registradas en {d} días."
 msgstr ""
 
 #, python-brace-format
+msgid "{n} rutina"
+msgid_plural "{n} rutinas"
+msgstr[0] ""
+msgstr[1] ""
+
+#, python-brace-format
+msgid "{n} rutina"
+msgstr ""
+
+#, python-brace-format
 msgid "{n} rutinas actualizadas"
 msgstr ""
 
@@ -177,6 +187,16 @@ msgid "{n} semanas"
 msgstr ""
 
 #, python-brace-format
+msgid "{n} sesión"
+msgid_plural "{n} sesiones"
+msgstr[0] ""
+msgstr[1] ""
+
+#, python-brace-format
+msgid "{n} sesión"
+msgstr ""
+
+#, python-brace-format
 msgid "{n} sesiones"
 msgstr ""
 
@@ -186,10 +206,6 @@ msgstr ""
 
 #, python-brace-format
 msgid "{n} vueltas"
-msgstr ""
-
-#, python-brace-format
-msgid "{r} rutinas · {s} sesiones"
 msgstr ""
 
 #, python-brace-format
@@ -345,6 +361,9 @@ msgstr ""
 msgid "Ajustes → App → Acerca de: «Hecha con IA · probada por humanos»."
 msgstr ""
 
+msgid "Ajustes en grupos, cada uno con su pantalla: Perfil, Entreno, Avisos, Apariencia e idioma, Datos y copias, y Acerca de. Interruptores para activar opciones."
+msgstr ""
+
 msgid "Ajustes reorganizado en pestañas: Entreno, Cuerpo, App y Datos. El perfil queda arriba; para cambiar o añadir perfiles, botón «Perfiles»."
 msgstr ""
 
@@ -485,6 +504,9 @@ msgstr ""
 msgid "Apariencia"
 msgstr ""
 
+msgid "Apariencia e idioma"
+msgstr ""
+
 msgid "Apoyar el proyecto"
 msgstr ""
 
@@ -603,9 +625,6 @@ msgid "Bienvenido a Usus"
 msgstr ""
 
 msgid "Bitcoin"
-msgstr ""
-
-msgid "Bloque"
 msgstr ""
 
 msgid "Borrar datos del ciclo"
@@ -967,6 +986,9 @@ msgstr ""
 msgid "Datos para el análisis: edad, altura, experiencia, lesiones, molestias y objetivos, opcionales. Solo se guardan si quieres (Ajustes → Cuerpo)."
 msgstr ""
 
+msgid "Datos y copias"
+msgstr ""
+
 #, python-brace-format
 msgid "de ~{n}"
 msgstr ""
@@ -983,7 +1005,7 @@ msgstr ""
 msgid "Derecho"
 msgstr ""
 
-msgid "Desactivado por defecto. Al activarlo aparece en Hoy, Diario y Stats; desactivado no se ve nada."
+msgid "Desactivado por defecto. Al activarlo aparece en Hoy, Diario y Progreso; desactivado no se ve nada."
 msgstr ""
 
 msgid "Desactivado: solo tus ejercicios"
@@ -1100,6 +1122,9 @@ msgstr ""
 msgid "Diario"
 msgstr ""
 
+msgid "Diario: el peso se anota aquí. Solo se ven las casillas con datos; lo demás se añade con un toque (+ Sueño, + Peso, + Pasos…)."
+msgstr ""
+
 msgid "Diario: nota de la sesión y notas de cada ejercicio editables después de terminar."
 msgstr ""
 
@@ -1198,6 +1223,9 @@ msgstr ""
 msgid "Editar rutina"
 msgstr ""
 
+msgid "Editor de rutina más compacto en el móvil: cada ejercicio en una fila con su resumen; los detalles se abren al tocarla."
+msgstr ""
+
 msgid "Ej. 10 dominadas, perder 3 kg, dormir mejor"
 msgstr ""
 
@@ -1264,6 +1292,9 @@ msgid "El enlace no es válido o está incompleto"
 msgstr ""
 
 msgid "El pitido usa el volumen multimedia. Si no vibra, revisa No molestar y la vibración del sistema."
+msgstr ""
+
+msgid "El plan de progresión pasa de Hoy a Entreno → Plan, junto a las rutinas que usa."
 msgstr ""
 
 #, python-brace-format
@@ -1475,6 +1506,9 @@ msgstr ""
 msgid "Este perfil"
 msgstr ""
 
+msgid "Estilo unificado: un solo tipo de pestañas, botones con tamaños fijos y ventanas como hoja inferior en el móvil. El morado queda solo para la IA."
+msgstr ""
+
 msgid "Estimación aproximada a partir de tus ciclos anteriores. No sirve como anticonceptivo ni como diagnóstico."
 msgstr ""
 
@@ -1488,6 +1522,9 @@ msgid "Experiencia entrenando"
 msgstr ""
 
 msgid "Exportar"
+msgstr ""
+
+msgid "Exportar .txt"
 msgstr ""
 
 msgid "Exportar .zip"
@@ -1567,9 +1604,6 @@ msgid "Guardar"
 msgstr ""
 
 msgid "Guardar actividad"
-msgstr ""
-
-msgid "Guardar o compartir .txt"
 msgstr ""
 
 msgid "Guardar para próximas exportaciones"
@@ -1655,6 +1689,9 @@ msgid "Hoy podría bajarte la regla"
 msgstr ""
 
 msgid "Hoy toca pesarte"
+msgstr ""
+
+msgid "Hoy: lo que toca, arriba y con un único botón Empezar; accesos rápidos a otra rutina, sesión libre y actividad; los avisos, juntos en «Pendiente»."
 msgstr ""
 
 msgid "Huella SHA-256 del certificado de firma:"
@@ -1790,7 +1827,7 @@ msgstr ""
 msgid "La más larga"
 msgstr ""
 
-msgid "La misma Usus, instalada como app (APK). Sus datos van aparte: exporta una copia aquí (Ajustes → Datos) e impórtala allí."
+msgid "La misma Usus, instalada como app. Sus datos van aparte: exporta una copia aquí e impórtala allí."
 msgstr ""
 
 msgid "La noche que termina este día."
@@ -1826,7 +1863,10 @@ msgstr ""
 msgid "Las fechas son una estimación aproximada a partir de tus ciclos anteriores. Los ciclos varían por estrés, enfermedad, viajes, medicación u otras causas. No sirve como método anticonceptivo, ni para buscar un embarazo con fiabilidad, ni como diagnóstico. Ante cualquier duda o cambio importante, consulta a un profesional sanitario."
 msgstr ""
 
-msgid "Las rutinas sin días no se sugieren. Ponles días en Rutinas → Editar."
+msgid "Las rutinas sin días no se sugieren. Ponles días al editarlas."
+msgstr ""
+
+msgid "Las traducciones pasan a archivos estándar (gettext) para poder traducir la app desde el navegador."
 msgstr ""
 
 msgid "Las últimas series ya pesan."
@@ -1908,7 +1948,7 @@ msgstr ""
 msgid "Marca lo que tienes. En el catálogo, lo demás se ve en naranja y se puede ocultar. Sin nada marcado, no se filtra."
 msgstr ""
 
-msgid "Marca los días de cada rutina en Rutinas → Editar."
+msgid "Marca los días de cada rutina al editarla."
 msgstr ""
 
 msgid "Marcados"
@@ -2225,6 +2265,9 @@ msgstr ""
 msgid "Novedades de la {v}"
 msgstr ""
 
+msgid "Nueva estructura: Hoy · Entreno · Diario · Progreso · Ajustes. Entreno reúne Rutinas, Plan y Ejercicios; Stats pasa a llamarse Progreso."
+msgstr ""
+
 msgid "Nueva rutina"
 msgstr ""
 
@@ -2365,7 +2408,7 @@ msgstr ""
 msgid "Para elegir ejercicios al crear rutinas y saber cómo avanzar."
 msgstr ""
 
-msgid "Para que funcione, pon a cada rutina su Variante y sus Días en Rutinas → Editar."
+msgid "Para que funcione, pon a cada rutina su variante y sus días al editarla."
 msgstr ""
 
 msgid "Para qué lo usarías"
@@ -2620,6 +2663,9 @@ msgid "Primer día"
 msgstr ""
 
 msgid "Primer día de la regla"
+msgstr ""
+
+msgid "Primer uso guiado en pasos: idioma y avisos, catálogo, material y cómo empezar (crear la primera rutina o importar una copia)."
 msgstr ""
 
 msgid "Primera versión de la app para Android (APK), en GitHub → Releases. Es la misma app; sus datos van aparte de los de la PWA (se pasan con una copia)."
@@ -2893,6 +2939,9 @@ msgstr ""
 msgid "Rutinas"
 msgstr ""
 
+msgid "Rutinas agrupadas por variante. Cada rutina se abre en su propia pantalla (en PC, al lado de la lista) con Empezar, Editar, Imprimir, Compartir y Duplicar."
+msgstr ""
+
 msgid "Rutinas compartidas: si recibes otra vez una rutina que ya tienes (por ejemplo, una versión mejorada), puedes actualizarla en vez de duplicarla. Se cambian los ejercicios; tu nombre, días, variante y sesiones se mantienen."
 msgstr ""
 
@@ -3045,7 +3094,7 @@ msgstr ""
 msgid "Series"
 msgstr ""
 
-msgid "Series hechas por bloque en las últimas 4 semanas."
+msgid "Series hechas por tipo en las últimas 4 semanas."
 msgstr ""
 
 msgid "Ses."
@@ -3252,7 +3301,7 @@ msgstr ""
 msgid "Solo se marca la semana; tú decides qué subir."
 msgstr ""
 
-msgid "Solo se usan al preparar un análisis con IA externa (Stats → Resumen). Van en la copia de seguridad del perfil."
+msgid "Solo se usan al preparar un análisis con IA externa (Progreso → Resumen). Van en la copia de seguridad del perfil."
 msgstr ""
 
 msgid "Solo si influye en el entreno o la recuperación"
@@ -3600,7 +3649,7 @@ msgstr ""
 msgid "Ventana fértil"
 msgstr ""
 
-msgid "Ver estadísticas"
+msgid "Ver en Progreso"
 msgstr ""
 
 msgid "Ver ficha"
@@ -3609,7 +3658,7 @@ msgstr ""
 msgid "Ver historial"
 msgstr ""
 
-msgid "Ver la app primero. Las rutinas se crean en Rutinas → Nueva rutina."
+msgid "Ver la app primero. Las rutinas se crean en Entreno → Nueva rutina."
 msgstr ""
 
 msgid "Ver licencia completa"

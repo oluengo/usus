@@ -158,6 +158,16 @@ msgid "{n} noches registradas en {d} días."
 msgstr "{n} nights logged in {d} days."
 
 #, python-brace-format
+msgid "{n} rutina"
+msgid_plural "{n} rutinas"
+msgstr[0] "{n} routine"
+msgstr[1] "{n} routines"
+
+#, python-brace-format
+msgid "{n} rutina"
+msgstr "{n} routine"
+
+#, python-brace-format
 msgid "{n} rutinas actualizadas"
 msgstr "{n} routines updated"
 
@@ -178,6 +188,16 @@ msgid "{n} semanas"
 msgstr "{n} weeks"
 
 #, python-brace-format
+msgid "{n} sesión"
+msgid_plural "{n} sesiones"
+msgstr[0] "{n} session"
+msgstr[1] "{n} sessions"
+
+#, python-brace-format
+msgid "{n} sesión"
+msgstr "{n} session"
+
+#, python-brace-format
 msgid "{n} sesiones"
 msgstr "{n} sessions"
 
@@ -188,10 +208,6 @@ msgstr "{n} uses"
 #, python-brace-format
 msgid "{n} vueltas"
 msgstr "{n} rounds"
-
-#, python-brace-format
-msgid "{r} rutinas · {s} sesiones"
-msgstr "{r} routines · {s} sessions"
 
 #, python-brace-format
 msgid "{x} en lugar de {y}."
@@ -346,6 +362,9 @@ msgstr "Settings → About: source code, and report problems or suggest improvem
 msgid "Ajustes → App → Acerca de: «Hecha con IA · probada por humanos»."
 msgstr "Settings → App → About: “Built with AI · tested by humans”."
 
+msgid "Ajustes en grupos, cada uno con su pantalla: Perfil, Entreno, Avisos, Apariencia e idioma, Datos y copias, y Acerca de. Interruptores para activar opciones."
+msgstr "Settings in groups, each with its own screen: Profile, Workout, Alerts, Appearance and language, Data and backups, and About. Switches to turn options on."
+
 msgid "Ajustes reorganizado en pestañas: Entreno, Cuerpo, App y Datos. El perfil queda arriba; para cambiar o añadir perfiles, botón «Perfiles»."
 msgstr "Settings reorganised into tabs: Workout, Body, App and Data. Your profile stays on top; to switch or add profiles, use the “Profiles” button."
 
@@ -486,6 +505,9 @@ msgstr "Add supplement"
 msgid "Apariencia"
 msgstr "Appearance"
 
+msgid "Apariencia e idioma"
+msgstr "Appearance and language"
+
 msgid "Apoyar el proyecto"
 msgstr "Support the project"
 
@@ -605,9 +627,6 @@ msgstr "Welcome to Usus"
 
 msgid "Bitcoin"
 msgstr "Bitcoin"
-
-msgid "Bloque"
-msgstr "Block"
 
 msgid "Borrar datos del ciclo"
 msgstr "Delete cycle data"
@@ -968,6 +987,9 @@ msgstr "Data for AI analysis"
 msgid "Datos para el análisis: edad, altura, experiencia, lesiones, molestias y objetivos, opcionales. Solo se guardan si quieres (Ajustes → Cuerpo)."
 msgstr "Data for the analysis: age, height, experience, injuries, discomfort and goals, all optional. Only saved if you want (Settings → Body)."
 
+msgid "Datos y copias"
+msgstr "Data and backups"
+
 #, python-brace-format
 msgid "de ~{n}"
 msgstr "of ~{n}"
@@ -984,8 +1006,8 @@ msgstr "R"
 msgid "Derecho"
 msgstr "Right"
 
-msgid "Desactivado por defecto. Al activarlo aparece en Hoy, Diario y Stats; desactivado no se ve nada."
-msgstr "Off by default. When on it shows in Today, Diary and Stats; when off nothing is shown."
+msgid "Desactivado por defecto. Al activarlo aparece en Hoy, Diario y Progreso; desactivado no se ve nada."
+msgstr "Off by default. When on, it appears in Today, Diary and Progress; when off, nothing is shown."
 
 msgid "Desactivado: solo tus ejercicios"
 msgstr "Off: only your exercises"
@@ -1101,6 +1123,9 @@ msgstr "Daily / other"
 msgid "Diario"
 msgstr "Diary"
 
+msgid "Diario: el peso se anota aquí. Solo se ven las casillas con datos; lo demás se añade con un toque (+ Sueño, + Peso, + Pasos…)."
+msgstr "Diary: weight is logged here. Only boxes with data are shown; add the rest with one tap (+ Sleep, + Weight, + Steps…)."
+
 msgid "Diario: nota de la sesión y notas de cada ejercicio editables después de terminar."
 msgstr "Diary: session note and each exercise's note can be edited after finishing."
 
@@ -1199,6 +1224,9 @@ msgstr "Edit plan"
 msgid "Editar rutina"
 msgstr "Edit routine"
 
+msgid "Editor de rutina más compacto en el móvil: cada ejercicio en una fila con su resumen; los detalles se abren al tocarla."
+msgstr "More compact routine editor on phones: one row per exercise with its summary; tap it to open the details."
+
 msgid "Ej. 10 dominadas, perder 3 kg, dormir mejor"
 msgstr "E.g. 10 pull-ups, lose 3 kg, sleep better"
 
@@ -1266,6 +1294,9 @@ msgstr "The link is invalid or incomplete"
 
 msgid "El pitido usa el volumen multimedia. Si no vibra, revisa No molestar y la vibración del sistema."
 msgstr "The beep uses media volume. If it doesn't vibrate, check Do Not Disturb and system vibration."
+
+msgid "El plan de progresión pasa de Hoy a Entreno → Plan, junto a las rutinas que usa."
+msgstr "The progression plan moves from Today to Workout → Plan, next to the routines it uses."
 
 #, python-brace-format
 msgid "El plan empieza el {d}."
@@ -1476,6 +1507,9 @@ msgstr "This browser can't vibrate"
 msgid "Este perfil"
 msgstr "This profile"
 
+msgid "Estilo unificado: un solo tipo de pestañas, botones con tamaños fijos y ventanas como hoja inferior en el móvil. El morado queda solo para la IA."
+msgstr "Unified style: one kind of tabs, buttons with fixed sizes and dialogs as bottom sheets on phones. Purple is now only for AI."
+
 msgid "Estimación aproximada a partir de tus ciclos anteriores. No sirve como anticonceptivo ni como diagnóstico."
 msgstr "Approximate estimate based on your previous cycles. Not a contraceptive method or a diagnosis."
 
@@ -1490,6 +1524,9 @@ msgstr "Training experience"
 
 msgid "Exportar"
 msgstr "Export"
+
+msgid "Exportar .txt"
+msgstr "Export .txt"
 
 msgid "Exportar .zip"
 msgstr "Export .zip"
@@ -1569,9 +1606,6 @@ msgstr "Save"
 
 msgid "Guardar actividad"
 msgstr "Save activity"
-
-msgid "Guardar o compartir .txt"
-msgstr "Save or share .txt"
 
 msgid "Guardar para próximas exportaciones"
 msgstr "Save for future exports"
@@ -1657,6 +1691,9 @@ msgstr "Your period could start today"
 
 msgid "Hoy toca pesarte"
 msgstr "Weigh-in day"
+
+msgid "Hoy: lo que toca, arriba y con un único botón Empezar; accesos rápidos a otra rutina, sesión libre y actividad; los avisos, juntos en «Pendiente»."
+msgstr "Today: what's on, at the top with a single Start button; shortcuts to another routine, a free session and an activity; reminders together under “To do”."
 
 msgid "Huella SHA-256 del certificado de firma:"
 msgstr "SHA-256 fingerprint of the signing certificate:"
@@ -1791,8 +1828,8 @@ msgstr "M,T,W,T,F,S,S"
 msgid "La más larga"
 msgstr "Longest"
 
-msgid "La misma Usus, instalada como app (APK). Sus datos van aparte: exporta una copia aquí (Ajustes → Datos) e impórtala allí."
-msgstr "The same Usus, installed as an app (APK). Its data is separate: export a backup here (Settings → Data) and import it there."
+msgid "La misma Usus, instalada como app. Sus datos van aparte: exporta una copia aquí e impórtala allí."
+msgstr "The same Usus, installed as an app. Its data is separate: export a backup here and import it there."
 
 msgid "La noche que termina este día."
 msgstr "The night that ends on this day."
@@ -1827,8 +1864,11 @@ msgstr "Breastfeeding"
 msgid "Las fechas son una estimación aproximada a partir de tus ciclos anteriores. Los ciclos varían por estrés, enfermedad, viajes, medicación u otras causas. No sirve como método anticonceptivo, ni para buscar un embarazo con fiabilidad, ni como diagnóstico. Ante cualquier duda o cambio importante, consulta a un profesional sanitario."
 msgstr "Dates are an approximate estimate based on your previous cycles. Cycles vary with stress, illness, travel, medication and other causes. This is not a contraceptive method, not a reliable way to plan a pregnancy, and not a diagnosis. If you have any doubt or notice a significant change, see a healthcare professional."
 
-msgid "Las rutinas sin días no se sugieren. Ponles días en Rutinas → Editar."
-msgstr "Routines without days aren't suggested. Add days in Routines → Edit."
+msgid "Las rutinas sin días no se sugieren. Ponles días al editarlas."
+msgstr "Routines without days aren't suggested. Add days when editing them."
+
+msgid "Las traducciones pasan a archivos estándar (gettext) para poder traducir la app desde el navegador."
+msgstr "Translations move to standard files (gettext) so the app can be translated from the browser."
 
 msgid "Las últimas series ya pesan."
 msgstr "The last sets are getting heavy."
@@ -1909,8 +1949,8 @@ msgstr "Tick two or more exercises to make a superset or a circuit: they're done
 msgid "Marca lo que tienes. En el catálogo, lo demás se ve en naranja y se puede ocultar. Sin nada marcado, no se filtra."
 msgstr "Tick what you have. In the catalogue, the rest shows in orange and can be hidden. With nothing ticked, nothing is filtered."
 
-msgid "Marca los días de cada rutina en Rutinas → Editar."
-msgstr "Set each routine's days in Routines → Edit."
+msgid "Marca los días de cada rutina al editarla."
+msgstr "Set the days of each routine when editing it."
 
 msgid "Marcados"
 msgstr "Selected"
@@ -2226,6 +2266,9 @@ msgstr "What's new · version {v}"
 msgid "Novedades de la {v}"
 msgstr "What's new in {v}"
 
+msgid "Nueva estructura: Hoy · Entreno · Diario · Progreso · Ajustes. Entreno reúne Rutinas, Plan y Ejercicios; Stats pasa a llamarse Progreso."
+msgstr "New layout: Today · Workout · Diary · Progress · Settings. Workout brings together Routines, Plan and Exercises; Stats is now called Progress."
+
 msgid "Nueva rutina"
 msgstr "New routine"
 
@@ -2366,8 +2409,8 @@ msgstr "To target ({g})"
 msgid "Para elegir ejercicios al crear rutinas y saber cómo avanzar."
 msgstr "To pick exercises when building routines and know how to progress."
 
-msgid "Para que funcione, pon a cada rutina su Variante y sus Días en Rutinas → Editar."
-msgstr "For it to work, give each routine its Variant and Days in Routines → Edit."
+msgid "Para que funcione, pon a cada rutina su variante y sus días al editarla."
+msgstr "For it to work, give each routine its variant and days when editing it."
 
 msgid "Para qué lo usarías"
 msgstr "What you'd use it for"
@@ -2622,6 +2665,9 @@ msgstr "First day"
 
 msgid "Primer día de la regla"
 msgstr "First day of the period"
+
+msgid "Primer uso guiado en pasos: idioma y avisos, catálogo, material y cómo empezar (crear la primera rutina o importar una copia)."
+msgstr "Guided first run in steps: language and notices, catalogue, equipment and how to start (create your first routine or import a backup)."
 
 msgid "Primera versión de la app para Android (APK), en GitHub → Releases. Es la misma app; sus datos van aparte de los de la PWA (se pasan con una copia)."
 msgstr "First Android app release (APK), on GitHub → Releases. It's the same app; its data is kept apart from the PWA's (move it with a backup)."
@@ -2894,6 +2940,9 @@ msgstr "routines"
 msgid "Rutinas"
 msgstr "Routines"
 
+msgid "Rutinas agrupadas por variante. Cada rutina se abre en su propia pantalla (en PC, al lado de la lista) con Empezar, Editar, Imprimir, Compartir y Duplicar."
+msgstr "Routines grouped by variant. Each routine opens on its own screen (on a computer, next to the list) with Start, Edit, Print, Share and Duplicate."
+
 msgid "Rutinas compartidas: si recibes otra vez una rutina que ya tienes (por ejemplo, una versión mejorada), puedes actualizarla en vez de duplicarla. Se cambian los ejercicios; tu nombre, días, variante y sesiones se mantienen."
 msgstr "Shared routines: if you receive a routine you already have again (for example, an improved version), you can update it instead of duplicating it. The exercises change; your name, days, variant and sessions stay."
 
@@ -3046,8 +3095,8 @@ msgstr "sets"
 msgid "Series"
 msgstr "Sets"
 
-msgid "Series hechas por bloque en las últimas 4 semanas."
-msgstr "Sets done per block in the last 4 weeks."
+msgid "Series hechas por tipo en las últimas 4 semanas."
+msgstr "Sets done by type in the last 4 weeks."
 
 msgid "Ses."
 msgstr "Ses."
@@ -3253,8 +3302,8 @@ msgstr "Only what you see here is shared. Never your weight, diary or cycle."
 msgid "Solo se marca la semana; tú decides qué subir."
 msgstr "The week is only marked; you decide what to increase."
 
-msgid "Solo se usan al preparar un análisis con IA externa (Stats → Resumen). Van en la copia de seguridad del perfil."
-msgstr "Only used when preparing an external AI analysis (Stats → Summary). Included in the profile backup."
+msgid "Solo se usan al preparar un análisis con IA externa (Progreso → Resumen). Van en la copia de seguridad del perfil."
+msgstr "Only used when preparing an analysis with an external AI (Progress → Summary). Included in the profile backup."
 
 msgid "Solo si influye en el entreno o la recuperación"
 msgstr "Only if it affects training or recovery"
@@ -3601,8 +3650,8 @@ msgstr "You're about to share health data with an external service"
 msgid "Ventana fértil"
 msgstr "Fertile window"
 
-msgid "Ver estadísticas"
-msgstr "View stats"
+msgid "Ver en Progreso"
+msgstr "See in Progress"
 
 msgid "Ver ficha"
 msgstr "View card"
@@ -3610,8 +3659,8 @@ msgstr "View card"
 msgid "Ver historial"
 msgstr "View history"
 
-msgid "Ver la app primero. Las rutinas se crean en Rutinas → Nueva rutina."
-msgstr "See the app first. Routines are created in Routines → New routine."
+msgid "Ver la app primero. Las rutinas se crean en Entreno → Nueva rutina."
+msgstr "See the app first. Routines are created in Workout → New routine."
 
 msgid "Ver licencia completa"
 msgstr "View full license"
@@ -3711,6 +3760,43 @@ msgstr "Me"
 
 msgid "Zona peligrosa"
 msgstr "Danger zone"
+
+#, python-brace-format
+#~ msgid "{r} rutinas · {s} sesiones"
+#~ msgstr "{r} routines · {s} sessions"
+
+#~ msgid "Bloque"
+#~ msgstr "Block"
+
+#~ msgid "Desactivado por defecto. Al activarlo aparece en Hoy, Diario y Stats; desactivado no se ve nada."
+#~ msgstr "Off by default. When on it shows in Today, Diary and Stats; when off nothing is shown."
+
+#~ msgid "Guardar o compartir .txt"
+#~ msgstr "Save or share .txt"
+
+#~ msgid "La misma Usus, instalada como app (APK). Sus datos van aparte: exporta una copia aquí (Ajustes → Datos) e impórtala allí."
+#~ msgstr "The same Usus, installed as an app (APK). Its data is separate: export a backup here (Settings → Data) and import it there."
+
+#~ msgid "Las rutinas sin días no se sugieren. Ponles días en Rutinas → Editar."
+#~ msgstr "Routines without days aren't suggested. Add days in Routines → Edit."
+
+#~ msgid "Marca los días de cada rutina en Rutinas → Editar."
+#~ msgstr "Set each routine's days in Routines → Edit."
+
+#~ msgid "Para que funcione, pon a cada rutina su Variante y sus Días en Rutinas → Editar."
+#~ msgstr "For it to work, give each routine its Variant and Days in Routines → Edit."
+
+#~ msgid "Series hechas por bloque en las últimas 4 semanas."
+#~ msgstr "Sets done per block in the last 4 weeks."
+
+#~ msgid "Solo se usan al preparar un análisis con IA externa (Stats → Resumen). Van en la copia de seguridad del perfil."
+#~ msgstr "Only used when preparing an external AI analysis (Stats → Summary). Included in the profile backup."
+
+#~ msgid "Ver estadísticas"
+#~ msgstr "View stats"
+
+#~ msgid "Ver la app primero. Las rutinas se crean en Rutinas → Nueva rutina."
+#~ msgstr "See the app first. Routines are created in Routines → New routine."
 
 #~ msgid "Al terminar cada sesión"
 #~ msgstr "After each session"

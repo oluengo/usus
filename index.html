@@ -574,10 +574,10 @@ textarea{width:100%;font:inherit;padding:10px 12px;border:1px solid var(--line);
 .ek b,.ekey{font-weight:700;color:var(--ink);font-size:.82rem}
 .ico{border:0;background:none;color:var(--muted);font-size:1rem;padding:4px 8px;border-radius:8px;cursor:pointer}.ico:hover{background:var(--bg)}.ico:disabled{opacity:.3;cursor:default}
 .ex-edit.sel{background:var(--accent-soft);border-radius:12px;padding-left:8px;padding-right:8px}
-.egrp{border:2px solid var(--ext);background:var(--ext-soft);border-radius:14px;padding:8px 10px 2px;margin:10px 0}
-.egrp .ex-edit{border-top:1px solid color-mix(in srgb,var(--ext) 30%,transparent)}
+.egrp{border:2px solid var(--accent);background:var(--accent-soft);border-radius:14px;padding:8px 10px 2px;margin:10px 0}
+.egrp .ex-edit{border-top:1px solid color-mix(in srgb,var(--accent) 30%,transparent)}
 .egh{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px 8px;align-items:end;padding:2px 0 8px}
-.egh select[data-gkind]{grid-column:1/-1;font-weight:700;color:var(--ext);background:none;border:0;padding:4px 0;height:auto;width:auto;justify-self:start}
+.egh select[data-gkind]{grid-column:1/-1;font-weight:700;color:var(--accent);background:none;border:0;padding:4px 0;height:auto;width:auto;justify-self:start}
 .egh .btn{grid-column:1/-1;justify-self:start}
 .esec{margin-top:14px}.esec:first-of-type{margin-top:8px}
 .sech{display:flex;align-items:center;gap:4px;border-bottom:2px solid var(--ink);padding-bottom:4px}
@@ -587,13 +587,13 @@ textarea{width:100%;font:inherit;padding:10px 12px;border:1px solid var(--line);
 .selbar small{color:var(--muted)}
 .edcat{display:none}
 .rsec{font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:10px 0 2px}
-.rgrp{font-size:.8rem;font-weight:600;color:var(--ext);margin:8px 0 0}
-.rex.ing,.exrow.ing,.ex.ing{border-left:3px solid var(--ext)}.rex.ing{padding-left:8px}
-.gbar{margin-top:10px;padding:10px 12px;border:1.5px solid var(--ext);background:var(--ext-soft);border-radius:14px;font-size:.92rem}
-.gbar b{color:var(--ext)}.gbar small{color:var(--muted);font-size:.78rem}
+.rgrp{font-size:.8rem;font-weight:600;color:var(--accent);margin:8px 0 0}
+.rex.ing,.exrow.ing,.ex.ing{border-left:3px solid var(--accent)}.rex.ing{padding-left:8px}
+.gbar{margin-top:10px;padding:10px 12px;border:1.5px solid var(--accent);background:var(--accent-soft);border-radius:14px;font-size:.92rem}
+.gbar b{color:var(--accent)}.gbar small{color:var(--muted);font-size:.78rem}
 .gseq{display:flex;flex-wrap:wrap;align-items:center;gap:4px;margin:6px 0 4px}.gseq span{color:var(--muted)}
 .gseq button{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:4px 10px;font:inherit;font-size:.82rem;cursor:pointer}
-.gseq button.on{border-color:var(--ext);color:var(--ext);font-weight:700}
+.gseq button.on{border-color:var(--accent);color:var(--accent);font-weight:700}
 @media (min-width:1000px){
   .wrap,nav.tabs .in{max-width:880px}
   body.stw .wrap{max-width:1100px}
@@ -748,8 +748,8 @@ label.srow{cursor:pointer}
   .rdtab td{padding:9px 8px;border-bottom:1px solid var(--line)}
   .rdtab .k{width:44px;font-weight:700}.rdtab .n{text-align:right;white-space:nowrap;width:104px;font-variant-numeric:tabular-nums}
   .rdtab .rdsec td{font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding-top:16px;border-bottom:2px solid var(--ink)}
-  .rdtab .rdgrp td{font-size:.82rem;font-weight:600;color:var(--ext);padding-top:12px;border-bottom:0}
-  .rdtab tr.ing td:first-child{border-left:3px solid var(--ext)}
+  .rdtab .rdgrp td{font-size:.82rem;font-weight:600;color:var(--accent);padding-top:12px;border-bottom:0}
+  .rdtab tr.ing td:first-child{border-left:3px solid var(--accent)}
   .ssplit{display:grid;grid-template-columns:300px minmax(0,1fr);gap:24px;align-items:start}
   .ssplit .slist{display:block!important;position:sticky;top:12px}
   .sdet{display:block}
@@ -784,7 +784,7 @@ label.srow{cursor:pointer}
   nav.tabs .in::before{content:"Usus";font-size:1rem;text-align:center;padding:4px 0 14px}
   nav.tabs button{flex-direction:column;justify-content:center;gap:4px;padding:10px 2px;font-size:.7rem}
 }
-.betatag{position:fixed;top:calc(6px + env(safe-area-inset-top,0px));right:8px;z-index:40;font:700 .62rem/1 system-ui,sans-serif;letter-spacing:.1em;background:var(--ext);color:#fff;border-radius:6px;padding:4px 7px;pointer-events:none}
+.betatag{position:fixed;top:calc(6px + env(safe-area-inset-top,0px));right:8px;z-index:40;font:700 .62rem/1 system-ui,sans-serif;letter-spacing:.1em;background:var(--warn);color:#fff;border-radius:6px;padding:4px 7px;pointer-events:none}
 .betatag[hidden]{display:none}
 @media (min-width:1000px){html.beta nav.tabs .in::before{content:"Usus β"}}
 @media print{.betatag{display:none!important}}
@@ -798,7 +798,7 @@ label.srow{cursor:pointer}
 .page .hd{display:flex;align-items:baseline;gap:12px;border-bottom:2px solid #111;padding-bottom:6px;margin-bottom:10px}.page .hd h2{font-size:19px;margin:0;flex:1}.page .hd span{color:#555;font-size:11px}
 .page .blk{font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:#777;padding-top:12px;font-weight:700}
 .page .k{width:26px;font-weight:700}.page .n{font-weight:600}.page .n small{font-weight:400;color:#666}.page .t{white-space:nowrap;color:#333}
-.page .grp td{border-bottom:0;padding-top:8px;font-size:9.5px;color:#6B3FA0;font-weight:700}
+.page .grp td{border-bottom:0;padding-top:8px;font-size:9.5px;color:#2446C7;font-weight:700}
 .page .c{border-left:1px solid #e3e3e3;width:62px}
 .page .lg{margin-top:10px;font-size:9.5px;color:#888}
 .page .ej h3{font-size:17px;margin:0}.page .ej .sub{color:#555;margin:2px 0 10px}.page .ej+.ej{margin-top:22px;padding-top:16px;border-top:1.5px dashed #bbb}
@@ -980,7 +980,7 @@ function lastSetsFor(ref) {
   }
   return null;
 }
-const APP_VERSION = "2.5.0";
+const APP_VERSION = "3.0.0";
 const THEMES = [["protector", "Protector", "Oscuro cálido, sin azul"], ["dark", "Oscuro", "Neutro"], ["light", "Claro", "Para el día"], ["auto", "Automático", "Sigue al sistema"]];
 const curTheme = () => document.documentElement.dataset.theme || "auto";
 function applyTheme(t) {
@@ -1122,14 +1122,14 @@ function todayCard() {
   const msg = pn?.status === "pre" ? T("El plan empieza el {d}.", { d: new Date(pn.ws[0].t).toLocaleDateString(LOC(), { weekday: "long", day: "numeric", month: "long" }) })
     : pn?.status === "done" ? T("Plan terminado") + ". " + T("Toca revisar el progreso y decidir el siguiente plan.") : "";
   return `<div class="panel plan-b today"><b>${T("Toca hoy")}</b>${msg ? `<p class="muted" style="margin:4px 0 0">${msg}</p>` : ""}${list(rs)}
-    ${rs.length ? "" : `<p class="muted" style="font-size:.8rem;margin:6px 0 0">${T("Marca los días de cada rutina en Rutinas → Editar.")}</p>`}</div>`;
+    ${rs.length ? "" : `<p class="muted" style="font-size:.8rem;margin:6px 0 0">${T("Marca los días de cada rutina al editarla.")}</p>`}</div>`;
 }
 /* Bloque del plan en Hoy: calendario, rutinas por variante y Editar */
 function planSection() {
   const p = PL.get();
   if (!p) return `<div class="panel"><b>${T("Sin plan de progresión")}</b>
     <p class="muted" style="margin:4px 0 0">${T("Un plan rota variantes de tus rutinas por semanas (por ejemplo A, B, C cada 2 semanas) con semanas de descarga, y Hoy te dice qué rutina toca cada día.")}</p>
-    <p class="muted" style="font-size:.85rem;margin:6px 0 0">${T("Para que funcione, pon a cada rutina su Variante y sus Días en Rutinas → Editar.")}</p>
+    <p class="muted" style="font-size:.85rem;margin:6px 0 0">${T("Para que funcione, pon a cada rutina su variante y sus días al editarla.")}</p>
     <button class="btn primary" style="margin-top:12px" data-act="plan-create">${T("Crear plan")}</button></div>${plansBlock()}`;
   const ws = planWeeks(p), pn = planNow(p), now = Date.now(), vs = planVariants(p);
   const fmt = t => new Date(t).toLocaleDateString(LOC(), { day: "numeric", month: "short" });
@@ -1146,7 +1146,7 @@ function planSection() {
     <details class="panel" style="margin-top:12px"><summary style="cursor:pointer;font-weight:600">${T("Rutinas por variante")}</summary>
     ${[...vs, ""].map(v => { const rs = state.routines.filter(r => normVar(r.variant) === v);
       return rs.length ? `<div class="pvr"><span style="width:48px">${v ? vChip(v) : `<span class="muted" style="font-size:.78rem">${T("Sin")}</span>`}</span><span style="flex:1;min-width:0">${rs.map(r => `${esc(r.name)} <span class="muted" style="font-size:.78rem">${(r.days || []).length === 7 ? T("todos los días") : WEEK_ORDER.filter(d => (r.days || []).includes(d)).map(dayShort).join(" ")}</span>`).join("<br>")}</span></div>` : ""; }).join("")}
-    ${state.routines.some(r => !(r.days || []).length) ? `<p class="muted" style="font-size:.8rem;margin:8px 0 0">${T("Las rutinas sin días no se sugieren. Ponles días en Rutinas → Editar.")}</p>` : ""}</details>${plansBlock()}`;
+    ${state.routines.some(r => !(r.days || []).length) ? `<p class="muted" style="font-size:.8rem;margin:8px 0 0">${T("Las rutinas sin días no se sugieren. Ponles días al editarlas.")}</p>` : ""}</details>${plansBlock()}`;
 }
 function newPlanDraft() {
   const vs = [...new Set(state.routines.map(r => normVar(r.variant)).filter(Boolean))].sort();
@@ -1573,7 +1573,7 @@ function planUpCheck() {
 }
 function apkTip() {
   if (isNative() || !/android/i.test(navigator.userAgent) || LS.get("wk.apkTip", false)) return "";
-  return prow("var(--muted)", T("Hay app para Android"), T("La misma Usus, instalada como app (APK). Sus datos van aparte: exporta una copia aquí (Ajustes → Datos) e impórtala allí."),
+  return prow("var(--muted)", T("Hay app para Android"), T("La misma Usus, instalada como app. Sus datos van aparte: exporta una copia aquí e impórtala allí."),
     `<a class="btn small" href="${REL_URL}" target="_blank" rel="noopener">${T("Descargar")}</a><button class="btn ghost small" data-act="apk-tip-no">${T("No, gracias")}</button>`);
 }
 function planUpNotice() {
@@ -1870,7 +1870,7 @@ function aiModal() {
       <p class="aistep">${T("1 Datos")} → <b>${T("2 Exportar")}</b></p>
       <p class="muted" style="font-size:.85rem;margin:8px 0 6px">${T("{n} líneas · {k} KB · {w}", { n: a.txt.split("\n").length, k: kb, w: a.weeks ? T("{n} semanas", { n: a.weeks }) : T("Todo") })}</p>
       <pre class="aipre">${esc(a.txt.slice(0, 1800))}…</pre>
-      <div class="row" style="margin-top:10px"><button class="btn primary" style="flex:1" data-act="ai-copy">${T("Copiar")}</button><button class="btn" style="flex:1" data-act="ai-file">${T("Guardar o compartir .txt")}</button></div>
+      <div class="row" style="margin-top:10px"><button class="btn primary" style="flex:1" data-act="ai-copy">${T("Copiar")}</button><button class="btn" style="flex:1" data-act="ai-file">${T("Exportar .txt")}</button></div>
       <p class="muted" style="font-size:.85rem;margin:10px 0 0">${T("Pégalo en una conversación nueva de la IA que uses, o sube el archivo .txt. Si es muy largo para tu IA, prueba con menos semanas.")}</p>
       <h3 class="wh">${T("Cuando la IA responda")}</h3>
       <p class="muted" style="font-size:.85rem;margin:0 0 6px">${T("Si te propone rutinas ajustadas, copia su respuesta completa y pégala aquí. Usus solo lee el bloque de rutinas y te deja elegir cuáles actualizar.")}</p>
@@ -1902,7 +1902,7 @@ function aiCard() {
 function aiProfPanel() {
   const f = aiProf(); if (!aiHasData(f)) return "";
   return `<h2>${T("Datos para el análisis con IA")}</h2><div class="panel aiform">${aiFields(f, "ap_")}
-    <p class="muted" style="font-size:.8rem;margin:8px 0 0">${T("Solo se usan al preparar un análisis con IA externa (Stats → Resumen). Van en la copia de seguridad del perfil.")}</p>
+    <p class="muted" style="font-size:.8rem;margin:8px 0 0">${T("Solo se usan al preparar un análisis con IA externa (Progreso → Resumen). Van en la copia de seguridad del perfil.")}</p>
     <div class="row" style="margin-top:10px"><button class="btn small primary" data-act="ap-save">${T("Guardar")}</button><button class="btn small danger" data-act="ap-del">${T("Borrar estos datos")}</button></div></div>`;
 }
 /* El texto */
@@ -2633,7 +2633,7 @@ function viewRoutines() {
       <div class="panel edhead" style="margin-top:16px">
         <div class="ehf ehn"><label class="muted" for="rName" style="font-size:.85rem">${T("Nombre")}</label>
         <input type="text" id="rName" value="${esc(ed.name)}" placeholder="${T("Ej. Torso A")}"></div>
-        <div class="ehf"><label class="muted" for="rBlock" style="font-size:.85rem;display:block;margin-top:12px">${T("Bloque")}</label>
+        <div class="ehf"><label class="muted" for="rBlock" style="font-size:.85rem;display:block;margin-top:12px">${T("Tipo")}</label>
         <select id="rBlock">${CATS.map(([k, n]) => `<option value="${k}" ${(ed.block || guessBlock(ed.name)) === k ? "selected" : ""}>${T(n)}</option>`).join("")}</select></div>
         <div class="ehf"><label class="muted" for="rVariant" style="font-size:.85rem;display:block;margin-top:12px">${T("Variante del plan")}</label>
         <input type="text" id="rVariant" value="${esc(ed.variant ?? guessVariant(ed.name))}" maxlength="6" list="rVarList" placeholder="${T("Sin variante")}" style="text-transform:uppercase">
@@ -3041,7 +3041,7 @@ function sbCiclo() {
 function cycSettings() {
   const c = CYC.cfg(), sw = (id, on, l, sub) => `<label class="xtog swrow"><span>${l}${sub ? `<small>${sub}</small>` : ""}</span><input type="checkbox" role="switch" id="${id}" ${on ? "checked" : ""}></label>`;
   return `<div class="panel">
-    ${sw("cycOn", c.on, T("Seguimiento del ciclo"), T("Desactivado por defecto. Al activarlo aparece en Hoy, Diario y Stats; desactivado no se ve nada."))}
+    ${sw("cycOn", c.on, T("Seguimiento del ciclo"), T("Desactivado por defecto. Al activarlo aparece en Hoy, Diario y Progreso; desactivado no se ve nada."))}
     ${c.on ? `${sw("cycFert", c.fert, T("Mostrar ovulación y ventana fértil (estimación)"))}
       ${sw("cycPhase", c.phase, T("Mostrar la fase del ciclo"))}
       ${sw("cycWarn", c.warn, T("Aviso en Hoy antes de la regla prevista"), T("Se ve al abrir la app; no hay notificaciones con el móvil bloqueado."))}
@@ -3262,7 +3262,7 @@ function viewDiary() {
   const sh = state.dsheet && SHB[state.dsheet] ? `<div class="modal" role="dialog" aria-modal="true" aria-label="${T(SHN[state.dsheet])}"><div class="mbox dsh">
       <div class="sb-head"><h2 style="margin:0;flex:1">${T(SHN[state.dsheet])}</h2><button class="btn small" data-act="dsheet-close">${T("Hecho")}</button></div>
       ${SHB[state.dsheet]}
-      <button class="dlink" data-dgo="${state.dsheet}">${T("Ver estadísticas")} →</button></div></div>` : "";
+      <button class="dlink" data-dgo="${state.dsheet}">${T("Ver en Progreso")} →</button></div></div>` : "";
   return `
     <div class="dnav">
       <button class="mv" data-dmove="-1" aria-label="${T("Día anterior")}">‹</button>
@@ -3274,7 +3274,7 @@ function viewDiary() {
     <div class="wstrip">${strip}</div>
     ${(() => { const tl = `      ${tile("sleep", T("Sueño"), dur !== null ? fmtHM(dur) : "—", q, dur !== null)}
       ${tile("sup", T("Suplementos"), sp.length ? `${nTaken}/${sp.length}` : "—", sp.length ? T("tomados") : T("Sin suplementos"), sp.length > 0 && nTaken === sp.length, false, sp.length > 0)}
-      ${sess.length ? tile("ses", T("Entreno"), sess.length ? esc(sess[0].routine || T("Sesión libre")) : "—", sess.length ? `${Math.round(sess.reduce((p, z) => p + (z.end - z.start), 0) / 60000)} min · ${sess.reduce((p, z) => p + doneSets(z), 0)} ${T("series")}` : T("Sin entrenos este día."), sess.length > 0) : ""}
+      ${sess.length ? tile("ses", T("Entreno"), sess.length ? esc(sess[0].routine || T("Sesión libre")) : "—", sess.length ? `${Math.round(sess.reduce((p, z) => p + (z.end - z.start), 0) / 60000)} min · ${TN(sess.reduce((p, z) => p + doneSets(z), 0), "{n} serie", "{n} series")}` : T("Sin entrenos este día."), sess.length > 0) : ""}
       ${tile("steps", T("Pasos"), +e.steps > 0 ? (+e.steps).toLocaleString(LOC()) : "—", goalSt ? `${T("objetivo")} ${goalSt.toLocaleString(LOC())}` : "", +e.steps > 0 && (!goalSt || e.steps >= goalSt))}
       ${tile("peso", T("Peso"), dayW ? fmtW(dayW.kg) : "—", !dayW && lastW ? `${T("último")}: ${fmtW(lastW.kg)}` : W.goal() ? `${T("objetivo")} ${fmtW(W.goal())}` : "", !!dayW)}
       ${tile("act", T("Actividad"), acts.length ? actTxt : "—", acts.length ? "" : T("Sin actividad este día."), acts.length > 0)}
@@ -3415,13 +3415,13 @@ function sbReparto(S, now) {
   if (!keys.length) return `<div class="panel muted">${T("Sin sesiones en las últimas 4 semanas.")}</div>`;
   const mx = Math.max(...keys.map(k => c[k]));
   return `<div class="panel">${keys.map(k => `<div class="bar2"><span>${T(CAT_NAME[k])}</span><div class="pbar" style="margin:0"><i style="width:${c[k] / mx * 100}%;background:${k === "diaria" ? "var(--ok)" : "var(--accent)"}"></i></div><span style="text-align:right">${c[k]}</span></div>`).join("")}
-    <p class="muted" style="font-size:.78rem;margin:8px 0 0">${T("Series hechas por bloque en las últimas 4 semanas.")}</p></div>`;
+    <p class="muted" style="font-size:.78rem;margin:8px 0 0">${T("Series hechas por tipo en las últimas 4 semanas.")}</p></div>`;
 }
 function sbHorario(S, now) {
   const g = {}; S.filter(s => s.start >= now - 28 * 864e5).forEach(s => { const k = catOf(s), d = new Date(s.start); (g[k] = g[k] || []).push({ m: d.getHours() * 60 + d.getMinutes(), dur: Math.max(0, (s.end || s.start) - s.start) }); });
   const keys = CATS.map(z => z[0]).filter(k => g[k]);
   if (!keys.length) return `<div class="panel muted">${T("Sin sesiones en las últimas 4 semanas.")}</div>`;
-  return `<div class="panel"><div class="hz h"><span>${T("Bloque")}</span><span>${T("Inicio")}</span><span>${T("Duración")}</span><span>${T("Ses.")}</span></div>${keys.map(k => {
+  return `<div class="panel"><div class="hz h"><span>${T("Tipo")}</span><span>${T("Inicio")}</span><span>${T("Duración")}</span><span>${T("Ses.")}</span></div>${keys.map(k => {
     const a = g[k], m = median(a.map(y => y.m)), du = median(a.map(y => y.dur));
     return `<div class="hz"><span>${T(CAT_NAME[k])}</span><span>${fmtClock(m)}</span><span>${fmtDur(du)}</span><span>${a.length}</span></div>`;
   }).join("")}<p class="muted" style="font-size:.78rem;margin:8px 0 0">${T("Valores típicos (mediana) de las últimas 4 semanas: un día suelto a otra hora no los desvía.")}</p></div>`;
@@ -3829,14 +3829,14 @@ function viewData() {
   const G = SET_GROUPS.find(g => g[0] === cur);
   return `<div class="ssplit${sel ? " hasdet" : ""}"><div class="slist"><div class="phead"><h1>${T("Ajustes")}</h1></div>
     <div class="lgroup">${SET_GROUPS.map(([k, n, ic]) => `<button class="lrow${k === cur ? " cur" : ""}" data-stab="${k}" aria-current="${k === sel}"><span class="lico">${SICO[ic]}</span><span class="t"><b>${T(n)}</b><small>${setSub(k, lastBk)}</small></span><span class="chev" aria-hidden="true">›</span></button>`).join("")}</div>
-    <p class="sub" style="margin:12px 4px 0">${T("{r} rutinas · {s} sesiones", { r: state.routines.length, s: state.sessions.length })}</p></div>
+    <p class="sub" style="margin:12px 4px 0">${TN(state.routines.length, "{n} rutina", "{n} rutinas")} · ${TN(state.sessions.length, "{n} sesión", "{n} sesiones")}</p></div>
     <section class="sdet" aria-labelledby="sdT"><button class="back" data-back="set">‹ ${T("Ajustes")}</button><h2 class="sdh" id="sdT">${T(G[1])}</h2>${P[cur]}</section></div>`;
 }
 /* Filas de ajustes: número o interruptor a la derecha */
 const srowN = (id, l, v, attrs, sub) => `<div class="srow"><label class="t" for="${id}">${l}${sub ? `<small>${sub}</small>` : ""}</label><input id="${id}" type="number" inputmode="numeric" ${attrs} value="${esc(v)}"></div>`;
 const srowS = (id, l, on, sub) => `<label class="srow"><span class="t">${l}${sub ? `<small>${sub}</small>` : ""}</span><input type="checkbox" role="switch" id="${id}" ${on ? "checked" : ""}></label>`;
 /* Ajustes: grupos, cada uno con su pantalla */
-const SET_GROUPS = [["perfil", "Perfil", "user"], ["entreno", "Entreno", "train"], ["avisos", "Avisos", "bell"], ["apariencia", "Apariencia e idioma", "paint"], ["datos", "Datos y copias", "db"], ["acerca", "Acerca de", "info"]];
+const SET_GROUPS = [["perfil", N_("Perfil"), "user"], ["entreno", N_("Entreno"), "train"], ["avisos", N_("Avisos"), "bell"], ["apariencia", N_("Apariencia e idioma"), "paint"], ["datos", N_("Datos y copias"), "db"], ["acerca", N_("Acerca de"), "info"]];
 const SICO = {
   user: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>',
   train: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7v10M18 7v10M3 10v4M21 10v4M6 12h12"/></svg>',
@@ -3902,6 +3902,18 @@ function installBlock() {
 }
 /* ---------- Novedades (una vez por versión; historial al tocar la versión) ---------- */
 const CHANGES = [  // Novedades: solo en castellano; las traducciones, en i18n/*.po
+  ["3.0.0", [
+    N_("Nueva estructura: Hoy · Entreno · Diario · Progreso · Ajustes. Entreno reúne Rutinas, Plan y Ejercicios; Stats pasa a llamarse Progreso."),
+    N_("Hoy: lo que toca, arriba y con un único botón Empezar; accesos rápidos a otra rutina, sesión libre y actividad; los avisos, juntos en «Pendiente»."),
+    N_("Rutinas agrupadas por variante. Cada rutina se abre en su propia pantalla (en PC, al lado de la lista) con Empezar, Editar, Imprimir, Compartir y Duplicar."),
+    N_("El plan de progresión pasa de Hoy a Entreno → Plan, junto a las rutinas que usa."),
+    N_("Diario: el peso se anota aquí. Solo se ven las casillas con datos; lo demás se añade con un toque (+ Sueño, + Peso, + Pasos…)."),
+    N_("Ajustes en grupos, cada uno con su pantalla: Perfil, Entreno, Avisos, Apariencia e idioma, Datos y copias, y Acerca de. Interruptores para activar opciones."),
+    N_("Editor de rutina más compacto en el móvil: cada ejercicio en una fila con su resumen; los detalles se abren al tocarla."),
+    N_("Estilo unificado: un solo tipo de pestañas, botones con tamaños fijos y ventanas como hoja inferior en el móvil. El morado queda solo para la IA."),
+    N_("Primer uso guiado en pasos: idioma y avisos, catálogo, material y cómo empezar (crear la primera rutina o importar una copia)."),
+    N_("Las traducciones pasan a archivos estándar (gettext) para poder traducir la app desde el navegador.")
+  ]],
   ["2.5.0", [
     N_("Modo diseño de rutinas: secciones (calentamiento, principal, core, vuelta a la calma o las tuyas), superseries y circuitos con vueltas y descanso entre vueltas, reordenar con ↑ ↓ o arrastrando, y duración aproximada."),
     N_("Superseries y circuitos también al entrenar: A1 → A2 → descanso entre vueltas, con la vuelta en curso a la vista y la cuenta atrás encadenada."),
@@ -4031,7 +4043,7 @@ function welcomeModal() {
     <div class="copt">
       <button data-act="wiz-new"><b>${T("Crear mi primera rutina")}</b><small>${T("Eliges los ejercicios, las series y los descansos.")}</small></button>
       <button data-act="wiz-imp"><b>${T("Importar una copia o rutinas")}</b><small>${T("Un archivo .json de Usus: una copia de seguridad o rutinas que te han pasado.")}</small></button>
-      <button data-act="wiz-end"><b>${T("Echar un vistazo")}</b><small>${T("Ver la app primero. Las rutinas se crean en Rutinas → Nueva rutina.")}</small></button>
+      <button data-act="wiz-end"><b>${T("Echar un vistazo")}</b><small>${T("Ver la app primero. Las rutinas se crean en Entreno → Nueva rutina.")}</small></button>
     </div>
     <input type="file" id="wizFile" accept="application/json,.json" hidden>
     ${isNative() ? "" : `<details class="wzmore"><summary>${T("Instalar en el móvil")}</summary>${installBlock()}</details>`}
@@ -4448,7 +4460,7 @@ function profSettings() {
   const p = curProf();
   if (!multiProf() && !p.sex) return `<div class="panel"><p class="muted" style="font-size:.85rem;margin:0 0 10px">${T("Varias personas pueden usar Usus en este móvil, cada una con sus propios datos y ajustes.")}</p>
     <button class="btn small" data-act="prof-add">+ ${T("Añadir perfil")}</button></div>`;
-  return `<div class="panel"><div class="row" style="gap:12px;flex-wrap:nowrap">${profAv(p, 44)}<div style="flex:1;min-width:0"><div style="font-weight:600">${esc(profName(p))}</div><div class="muted" style="font-size:.85rem">${T(SEXN[p.sex] || "—")} · ${T("{n} sesiones", { n: state.sessions.length })}</div></div>
+  return `<div class="panel"><div class="row" style="gap:12px;flex-wrap:nowrap">${profAv(p, 44)}<div style="flex:1;min-width:0"><div style="font-weight:600">${esc(profName(p))}</div><div class="muted" style="font-size:.85rem">${T(SEXN[p.sex] || "—")} · ${TN(state.sessions.length, "{n} sesión", "{n} sesiones")}</div></div>
     <button class="btn small" data-act="prof-edit">${T("Editar")}</button><button class="btn small" data-act="prof-pick">${T("Perfiles")}</button></div></div>`;
 }
 function profDataTools() {
@@ -5096,15 +5108,18 @@ const I18N = {
     "{n} líneas · {k} KB · {w}": "{n} línies · {k} KB · {w}",
     "{n} marcados": "{n} marcats",
     "{n} noches registradas en {d} días.": "{n} nits registrades en {d} dies.",
+    "{n} rutina\u0004{n} rutinas": ["{n} rutina","{n} rutines"],
+    "{n} rutina": "{n} rutina",
     "{n} rutinas actualizadas": "{n} rutines actualitzades",
     "{n} rutinas copiadas a {x}": "{n} rutines copiades a {x}",
     "{n} s entre vueltas": "{n} s entre voltes",
     "{n} sem.": "{n} setm.",
     "{n} semanas": "{n} setmanes",
+    "{n} sesión\u0004{n} sesiones": ["{n} sessió","{n} sessions"],
+    "{n} sesión": "{n} sessió",
     "{n} sesiones": "{n} sessions",
     "{n} usos": "{n} usos",
     "{n} vueltas": "{n} voltes",
-    "{r} rutinas · {s} sesiones": "{r} rutines · {s} sessions",
     "{x} en lugar de {y}.": "{x} en lloc de {y}.",
     "{x} hecho": "{x} fet",
     "{x}: objetivo cumplido {n} sesiones seguidas.": "{x}: objectiu complert {n} sessions seguides.",
@@ -5154,6 +5169,7 @@ const I18N = {
     "Ajustes": "Ajustos",
     "Ajustes → Acerca de: código fuente e informar de problemas o proponer mejoras en GitHub.": "Ajustos → Quant a: codi font i informar de problemes o proposar millores a GitHub.",
     "Ajustes → App → Acerca de: «Hecha con IA · probada por humanos».": "Ajustos → App → Quant a: «Feta amb IA · provada per humans».",
+    "Ajustes en grupos, cada uno con su pantalla: Perfil, Entreno, Avisos, Apariencia e idioma, Datos y copias, y Acerca de. Interruptores para activar opciones.": "Ajustos en grups, cadascun amb la seva pantalla: Perfil, Entrenament, Avisos, Aparença i idioma, Dades i còpies, i Quant a. Interruptors per activar opcions.",
     "Ajustes reorganizado en pestañas: Entreno, Cuerpo, App y Datos. El perfil queda arriba; para cambiar o añadir perfiles, botón «Perfiles».": "Ajustos reorganitzat en pestanyes: Entrenament, Cos, App i Dades. El perfil queda a dalt; per canviar o afegir perfils, botó «Perfils».",
     "Al actualizar se cambian los ejercicios; el nombre, los días, la variante y tus sesiones no se tocan.": "En actualitzar canvien els exercicis; el nom, els dies, la variant i les teves sessions no es toquen.",
     "Al cambiar de perfil te quedas en la misma pantalla (por ejemplo, Ajustes) en vez de volver a Hoy.": "En canviar de perfil et quedes a la mateixa pantalla (per exemple, Ajustos) en lloc de tornar a Avui.",
@@ -5200,6 +5216,7 @@ const I18N = {
     "Añadir serie": "Afegeix sèrie",
     "Añadir suplemento": "Afegeix suplement",
     "Apariencia": "Aparença",
+    "Apariencia e idioma": "Aparença i idioma",
     "Apoyar el proyecto": "Dona suport al projecte",
     "App Android": "App Android",
     "App Android: Ajustes → App → Actualizaciones, con la versión instalada, el enlace a las versiones y cómo recibir avisos con Obtainium.": "App Android: Ajustos → App → Actualitzacions, amb la versió instal·lada, l'enllaç a les versions i com rebre avisos amb Obtainium.",
@@ -5239,7 +5256,6 @@ const I18N = {
     "Bastante duro": "Força dur",
     "Bienvenido a Usus": "Benvingut a Usus",
     "Bitcoin": "Bitcoin",
-    "Bloque": "Bloc",
     "Borrar datos del ciclo": "Esborra les dades del cicle",
     "Borrar estos datos": "Esborrar aquestes dades",
     "Borrar perfil «{x}»": "Esborrar el perfil «{x}»",
@@ -5357,12 +5373,13 @@ const I18N = {
     "Datos importados": "Dades importades",
     "Datos para el análisis con IA": "Dades per a l'anàlisi amb IA",
     "Datos para el análisis: edad, altura, experiencia, lesiones, molestias y objetivos, opcionales. Solo se guardan si quieres (Ajustes → Cuerpo).": "Dades per a l'anàlisi: edat, alçada, experiència, lesions, molèsties i objectius, opcionals. Només es desen si vols (Ajustos → Cos).",
+    "Datos y copias": "Dades i còpies",
     "de ~{n}": "de ~{n}",
     "deben estar en la misma sección": "han d'estar a la mateixa secció",
     "Dejar como propio": "Deixa'l com a propi",
     "der.": "dre.",
     "Derecho": "Dret",
-    "Desactivado por defecto. Al activarlo aparece en Hoy, Diario y Stats; desactivado no se ve nada.": "Desactivat per defecte. En activar-lo apareix a Avui, Diari i Stats; desactivat no es veu res.",
+    "Desactivado por defecto. Al activarlo aparece en Hoy, Diario y Progreso; desactivado no se ve nada.": "Desactivat per defecte. En activar-lo apareix a Avui, Diari i Progrés; desactivat no es veu res.",
     "Desactivado: solo tus ejercicios": "Desactivat: només els teus exercicis",
     "Desactivados": "Desactivats",
     "Desc.": "Desc.",
@@ -5398,6 +5415,7 @@ const I18N = {
     "Diaria": "Diària",
     "Diaria / otras": "Diària / altres",
     "Diario": "Diari",
+    "Diario: el peso se anota aquí. Solo se ven las casillas con datos; lo demás se añade con un toque (+ Sueño, + Peso, + Pasos…).": "Diari: el pes s'anota aquí. Només es veuen les caselles amb dades; la resta s'afegeix amb un toc (+ Son, + Pes, + Passos…).",
     "Diario: nota de la sesión y notas de cada ejercicio editables después de terminar.": "Diari: nota de la sessió i notes de cada exercici editables després d'acabar.",
     "días": "dies",
     "Días con Diaria": "Dies amb Diària",
@@ -5430,6 +5448,7 @@ const I18N = {
     "Editar perfil": "Editar perfil",
     "Editar plan": "Edita el pla",
     "Editar rutina": "Edita la rutina",
+    "Editor de rutina más compacto en el móvil: cada ejercicio en una fila con su resumen; los detalles se abren al tocarla.": "Editor de rutina més compacte al mòbil: cada exercici en una fila amb el seu resum; els detalls s'obren en tocar-la.",
     "Ej. 10 dominadas, perder 3 kg, dormir mejor": "P. ex. 10 dominades, perdre 3 kg, dormir millor",
     "Ej. 2 años de calistenia, antes fútbol": "P. ex. 2 anys de calistènia, abans futbol",
     "Ej. A, B, C. Vacío = se sugiere en cualquier semana, también en descarga (como la Diaria).": "Ex. A, B, C. Buit = es suggereix qualsevol setmana, també en descàrrega (com la Diària).",
@@ -5452,6 +5471,7 @@ const I18N = {
     "El archivo no es un JSON válido": "El fitxer no és un JSON vàlid",
     "El enlace no es válido o está incompleto": "L'enllaç no és vàlid o està incomplet",
     "El pitido usa el volumen multimedia. Si no vibra, revisa No molestar y la vibración del sistema.": "El xiulet fa servir el volum multimèdia. Si no vibra, revisa No molestis i la vibració del sistema.",
+    "El plan de progresión pasa de Hoy a Entreno → Plan, junto a las rutinas que usa.": "El pla de progressió passa d'Avui a Entrenament → Pla, al costat de les rutines que fa servir.",
     "El plan empieza el {d}.": "El pla comença el {d}.",
     "El plan empieza el lunes de la semana de inicio. Sin revisión, dura un año.": "El pla comença el dilluns de la setmana d'inici. Sense revisió, dura un any.",
     "El plan no tiene fases válidas. Edítalo para añadirlas.": "El pla no té fases vàlides. Edita'l per afegir-ne.",
@@ -5519,11 +5539,13 @@ const I18N = {
     "Esta semana no": "Aquesta setmana no",
     "Este navegador no permite vibrar": "Aquest navegador no permet vibrar",
     "Este perfil": "Aquest perfil",
+    "Estilo unificado: un solo tipo de pestañas, botones con tamaños fijos y ventanas como hoja inferior en el móvil. El morado queda solo para la IA.": "Estil unificat: un sol tipus de pestanyes, botons amb mides fixes i finestres com a full inferior al mòbil. El lila queda només per a la IA.",
     "Estimación aproximada a partir de tus ciclos anteriores. No sirve como anticonceptivo ni como diagnóstico.": "Estimació aproximada a partir dels teus cicles anteriors. No serveix com a anticonceptiu ni com a diagnòstic.",
     "Evolución del peso": "Evolució del pes",
     "Exigente": "Exigent",
     "Experiencia entrenando": "Experiència entrenant",
     "Exportar": "Exporta",
+    "Exportar .txt": "Exportar .txt",
     "Exportar .zip": "Exportar .zip",
     "Exportar ahora": "Exporta ara",
     "Externa": "Externa",
@@ -5550,7 +5572,6 @@ const I18N = {
     "Guardado": "Desat",
     "Guardar": "Desa",
     "Guardar actividad": "Desa l'activitat",
-    "Guardar o compartir .txt": "Desar o compartir .txt",
     "Guardar para próximas exportaciones": "Desar per a properes exportacions",
     "Guardar plan": "Desa el pla",
     "Guardar rutina": "Desa la rutina",
@@ -5579,6 +5600,7 @@ const I18N = {
     "Hoy no hay ninguna rutina prevista.": "Avui no hi ha cap rutina prevista.",
     "Hoy podría bajarte la regla": "Avui et podria baixar la regla",
     "Hoy toca pesarte": "Avui toca pesar-te",
+    "Hoy: lo que toca, arriba y con un único botón Empezar; accesos rápidos a otra rutina, sesión libre y actividad; los avisos, juntos en «Pendiente».": "Avui: el que toca, a dalt i amb un sol botó Comença; accessos ràpids a una altra rutina, sessió lliure i activitat; els avisos, junts a «Pendent».",
     "Huella SHA-256 del certificado de firma:": "Empremta SHA-256 del certificat de signatura:",
     "Icono nuevo.": "Icona nova.",
     "Ideas y peticiones": "Idees i peticions",
@@ -5623,7 +5645,7 @@ const I18N = {
     "L": "Dl",
     "L,M,X,J,V,S,D": "Dl,Dt,Dc,Dj,Dv,Ds,Dg",
     "La más larga": "La més llarga",
-    "La misma Usus, instalada como app (APK). Sus datos van aparte: exporta una copia aquí (Ajustes → Datos) e impórtala allí.": "La mateixa Usus, instal·lada com a app (APK). Les seves dades van a part: exporta una còpia aquí (Ajustos → Dades) i importa-la allà.",
+    "La misma Usus, instalada como app. Sus datos van aparte: exporta una copia aquí e impórtala allí.": "La mateixa Usus, instal·lada com a app. Les seves dades van a part: exporta una còpia aquí i importa-la allà.",
     "La noche que termina este día.": "La nit que acaba aquest dia.",
     "La pantalla se mantiene encendida durante toda la sesión, no solo en las cuentas atrás.": "La pantalla es manté encesa durant tota la sessió, no només als comptes enrere.",
     "La regla podría bajarte en {n} días": "La regla et podria baixar d'aquí a {n} dies",
@@ -5634,7 +5656,8 @@ const I18N = {
     "La última vez lo cambiaste por {x}": "L'última vegada el vas canviar per {x}",
     "Lactancia": "Lactància",
     "Las fechas son una estimación aproximada a partir de tus ciclos anteriores. Los ciclos varían por estrés, enfermedad, viajes, medicación u otras causas. No sirve como método anticonceptivo, ni para buscar un embarazo con fiabilidad, ni como diagnóstico. Ante cualquier duda o cambio importante, consulta a un profesional sanitario.": "Les dates són una estimació aproximada a partir dels teus cicles anteriors. Els cicles varien per estrès, malaltia, viatges, medicació o altres causes. No serveix com a mètode anticonceptiu, ni per buscar un embaràs amb fiabilitat, ni com a diagnòstic. Davant qualsevol dubte o canvi important, consulta un professional sanitari.",
-    "Las rutinas sin días no se sugieren. Ponles días en Rutinas → Editar.": "Les rutines sense dies no es suggereixen. Posa'ls dies a Rutines → Edita.",
+    "Las rutinas sin días no se sugieren. Ponles días al editarlas.": "Les rutines sense dies no es suggereixen. Posa'ls dies en editar-les.",
+    "Las traducciones pasan a archivos estándar (gettext) para poder traducir la app desde el navegador.": "Les traduccions passen a fitxers estàndard (gettext) per poder traduir l'app des del navegador.",
     "Las últimas series ya pesan.": "Les últimes sèries ja pesen.",
     "Lastre": "Llast",
     "lastre kg": "llast kg",
@@ -5660,7 +5683,7 @@ const I18N = {
     "Marca al menos una serie como completada": "Marca almenys una sèrie com a completada",
     "Marca dos o más ejercicios para hacer una superserie o un circuito: se hacen uno tras otro y se repite la vuelta. Para reordenar, usa ↑ ↓ o arrastra desde ⋮⋮.": "Marca dos o més exercicis per fer una supersèrie o un circuit: es fan l'un darrere l'altre i es repeteix la volta. Per reordenar, fes servir ↑ ↓ o arrossega des de ⋮⋮.",
     "Marca lo que tienes. En el catálogo, lo demás se ve en naranja y se puede ocultar. Sin nada marcado, no se filtra.": "Marca el que tens. Al catàleg, la resta es veu en taronja i es pot amagar. Sense res marcat, no es filtra.",
-    "Marca los días de cada rutina en Rutinas → Editar.": "Marca els dies de cada rutina a Rutines → Edita.",
+    "Marca los días de cada rutina al editarla.": "Marca els dies de cada rutina en editar-la.",
     "Marcados": "Marcats",
     "Marcar {x}": "Marca {x}",
     "Marcar ↑ cuando se repite una variante (recordatorio para progresar)": "Marca ↑ quan es repeteix una variant (recordatori per progressar)",
@@ -5764,6 +5787,7 @@ const I18N = {
     "Notas y etiquetas del diario": "Notes i etiquetes del diari",
     "Novedades · versión {v}": "Novetats · versió {v}",
     "Novedades de la {v}": "Novetats de la {v}",
+    "Nueva estructura: Hoy · Entreno · Diario · Progreso · Ajustes. Entreno reúne Rutinas, Plan y Ejercicios; Stats pasa a llamarse Progreso.": "Nova estructura: Avui · Entrenament · Diari · Progrés · Ajustos. Entrenament aplega Rutines, Pla i Exercicis; Stats passa a dir-se Progrés.",
     "Nueva rutina": "Nova rutina",
     "Nuevo": "Nou",
     "Nuevo perfil": "Perfil nou",
@@ -5808,7 +5832,7 @@ const I18N = {
     "Para el día": "Per al dia",
     "Para el objetivo ({g})": "Per a l'objectiu ({g})",
     "Para elegir ejercicios al crear rutinas y saber cómo avanzar.": "Per triar exercicis en crear rutines i saber com avançar.",
-    "Para que funcione, pon a cada rutina su Variante y sus Días en Rutinas → Editar.": "Perquè funcioni, posa a cada rutina la Variant i els Dies a Rutines → Edita.",
+    "Para que funcione, pon a cada rutina su variante y sus días al editarla.": "Perquè funcioni, posa a cada rutina la variant i els dies en editar-la.",
     "Para qué lo usarías": "Per a què ho faries servir",
     "Para qué sirve": "Per a què serveix",
     "Paralelas": "Paral·leles",
@@ -5891,6 +5915,7 @@ const I18N = {
     "Prevista para el {d} (± {n} d).": "Prevista per al {d} (± {n} d).",
     "Primer día": "Primer dia",
     "Primer día de la regla": "Primer dia de la regla",
+    "Primer uso guiado en pasos: idioma y avisos, catálogo, material y cómo empezar (crear la primera rutina o importar una copia).": "Primer ús guiat en passos: idioma i avisos, catàleg, material i com començar (crear la primera rutina o importar una còpia).",
     "Primera versión de la app para Android (APK), en GitHub → Releases. Es la misma app; sus datos van aparte de los de la PWA (se pasan con una copia).": "Primera versió de l'app per a Android (APK), a GitHub → Releases. És la mateixa app; les seves dades van a part de les de la PWA (es passen amb una còpia).",
     "Primera versión de Usus: rutinas, temporizadores, plan de progresión, diario, estadísticas y seguimiento opcional del ciclo (se activa en Ajustes). Todo se guarda solo en tu móvil.": "Primera versió d'Usus: rutines, temporitzadors, pla de progressió, diari, estadístiques i seguiment opcional del cicle (s'activa a Ajustos). Tot es desa només al teu mòbil.",
     "Primera vez con este ejercicio": "Primera vegada amb aquest exercici",
@@ -5977,6 +6002,7 @@ const I18N = {
     "Rutina guardada": "Rutina desada",
     "rutinas": "rutines",
     "Rutinas": "Rutines",
+    "Rutinas agrupadas por variante. Cada rutina se abre en su propia pantalla (en PC, al lado de la lista) con Empezar, Editar, Imprimir, Compartir y Duplicar.": "Rutines agrupades per variant. Cada rutina s'obre a la seva pantalla (a l'ordinador, al costat de la llista) amb Comença, Edita, Imprimeix, Comparteix i Duplica.",
     "Rutinas compartidas: si recibes otra vez una rutina que ya tienes (por ejemplo, una versión mejorada), puedes actualizarla en vez de duplicarla. Se cambian los ejercicios; tu nombre, días, variante y sesiones se mantienen.": "Rutines compartides: si tornes a rebre una rutina que ja tens (per exemple, una versió millorada), la pots actualitzar en lloc de duplicar-la. Canvien els exercicis; el teu nom, dies, variant i sessions es mantenen.",
     "Rutinas de otro perfil": "Rutines d'un altre perfil",
     "Rutinas por variante": "Rutines per variant",
@@ -6024,7 +6050,7 @@ const I18N = {
     "Serie {n} de {m} · lado {s}": "Sèrie {n} de {m} · costat {s}",
     "series": "sèries",
     "Series": "Sèries",
-    "Series hechas por bloque en las últimas 4 semanas.": "Sèries fetes per bloc en les últimes 4 setmanes.",
+    "Series hechas por tipo en las últimas 4 semanas.": "Sèries fetes per tipus en les últimes 4 setmanes.",
     "Ses.": "Ses.",
     "Sesión": "Sessió",
     "Sesión eliminada": "Sessió eliminada",
@@ -6090,7 +6116,7 @@ const I18N = {
     "Solo rutinas": "Només rutines",
     "Solo sale lo que ves aquí. Nunca tu peso, el diario ni el ciclo.": "Només surt el que veus aquí. Mai el teu pes, el diari ni el cicle.",
     "Solo se marca la semana; tú decides qué subir.": "Només es marca la setmana; tu decideixes què pujar.",
-    "Solo se usan al preparar un análisis con IA externa (Stats → Resumen). Van en la copia de seguridad del perfil.": "Només es fan servir en preparar una anàlisi amb IA externa (Stats → Resum). Van a la còpia de seguretat del perfil.",
+    "Solo se usan al preparar un análisis con IA externa (Progreso → Resumen). Van en la copia de seguridad del perfil.": "Només es fan servir en preparar una anàlisi amb IA externa (Progrés → Resum). Van a la còpia de seguretat del perfil.",
     "Solo si influye en el entreno o la recuperación": "Només si influeix en l'entrenament o la recuperació",
     "Solo sonido": "Només so",
     "Solo vibración": "Només vibració",
@@ -6201,10 +6227,10 @@ const I18N = {
     "Varios planes: el activo marca Hoy y los demás quedan guardados para activar, duplicar o borrar. Cada plan puede tener nombre.": "Diversos plans: l'actiu marca Avui i la resta queden desats per activar, duplicar o esborrar. Cada pla pot tenir nom.",
     "Vas a compartir datos de salud con un servicio externo": "Compartiràs dades de salut amb un servei extern",
     "Ventana fértil": "Finestra fèrtil",
-    "Ver estadísticas": "Veure estadístiques",
+    "Ver en Progreso": "Veure a Progrés",
     "Ver ficha": "Mostra la fitxa",
     "Ver historial": "Mostra l'historial",
-    "Ver la app primero. Las rutinas se crean en Rutinas → Nueva rutina.": "Veure l'app primer. Les rutines es creen a Rutines → Nova rutina.",
+    "Ver la app primero. Las rutinas se crean en Entreno → Nueva rutina.": "Veure l'app primer. Les rutines es creen a Entrenament → Nova rutina.",
     "Ver licencia completa": "Mostra la llicència completa",
     "Ver notas": "Veure notes",
     "Ver plan": "Mostra el pla",
@@ -6280,15 +6306,18 @@ const I18N = {
     "{n} líneas · {k} KB · {w}": "{n} lines · {k} KB · {w}",
     "{n} marcados": "{n} selected",
     "{n} noches registradas en {d} días.": "{n} nights logged in {d} days.",
+    "{n} rutina\u0004{n} rutinas": ["{n} routine","{n} routines"],
+    "{n} rutina": "{n} routine",
     "{n} rutinas actualizadas": "{n} routines updated",
     "{n} rutinas copiadas a {x}": "{n} routines copied to {x}",
     "{n} s entre vueltas": "{n} s between rounds",
     "{n} sem.": "{n} wk",
     "{n} semanas": "{n} weeks",
+    "{n} sesión\u0004{n} sesiones": ["{n} session","{n} sessions"],
+    "{n} sesión": "{n} session",
     "{n} sesiones": "{n} sessions",
     "{n} usos": "{n} uses",
     "{n} vueltas": "{n} rounds",
-    "{r} rutinas · {s} sesiones": "{r} routines · {s} sessions",
     "{x} en lugar de {y}.": "{x} instead of {y}.",
     "{x} hecho": "{x} done",
     "{x}: objetivo cumplido {n} sesiones seguidas.": "{x}: target hit {n} sessions in a row.",
@@ -6338,6 +6367,7 @@ const I18N = {
     "Ajustes": "Settings",
     "Ajustes → Acerca de: código fuente e informar de problemas o proponer mejoras en GitHub.": "Settings → About: source code, and report problems or suggest improvements on GitHub.",
     "Ajustes → App → Acerca de: «Hecha con IA · probada por humanos».": "Settings → App → About: “Built with AI · tested by humans”.",
+    "Ajustes en grupos, cada uno con su pantalla: Perfil, Entreno, Avisos, Apariencia e idioma, Datos y copias, y Acerca de. Interruptores para activar opciones.": "Settings in groups, each with its own screen: Profile, Workout, Alerts, Appearance and language, Data and backups, and About. Switches to turn options on.",
     "Ajustes reorganizado en pestañas: Entreno, Cuerpo, App y Datos. El perfil queda arriba; para cambiar o añadir perfiles, botón «Perfiles».": "Settings reorganised into tabs: Workout, Body, App and Data. Your profile stays on top; to switch or add profiles, use the “Profiles” button.",
     "Al actualizar se cambian los ejercicios; el nombre, los días, la variante y tus sesiones no se tocan.": "Updating changes the exercises; the name, days, variant and your sessions aren't touched.",
     "Al cambiar de perfil te quedas en la misma pantalla (por ejemplo, Ajustes) en vez de volver a Hoy.": "Switching profile keeps you on the same screen (for example, Settings) instead of going back to Today.",
@@ -6384,6 +6414,7 @@ const I18N = {
     "Añadir serie": "Add set",
     "Añadir suplemento": "Add supplement",
     "Apariencia": "Appearance",
+    "Apariencia e idioma": "Appearance and language",
     "Apoyar el proyecto": "Support the project",
     "App Android": "Android app",
     "App Android: Ajustes → App → Actualizaciones, con la versión instalada, el enlace a las versiones y cómo recibir avisos con Obtainium.": "Android app: Settings → App → Updates, with the installed version, a link to releases and how to get alerts with Obtainium.",
@@ -6423,7 +6454,6 @@ const I18N = {
     "Bastante duro": "Quite hard",
     "Bienvenido a Usus": "Welcome to Usus",
     "Bitcoin": "Bitcoin",
-    "Bloque": "Block",
     "Borrar datos del ciclo": "Delete cycle data",
     "Borrar estos datos": "Delete this data",
     "Borrar perfil «{x}»": "Delete profile “{x}”",
@@ -6541,12 +6571,13 @@ const I18N = {
     "Datos importados": "Data imported",
     "Datos para el análisis con IA": "Data for AI analysis",
     "Datos para el análisis: edad, altura, experiencia, lesiones, molestias y objetivos, opcionales. Solo se guardan si quieres (Ajustes → Cuerpo).": "Data for the analysis: age, height, experience, injuries, discomfort and goals, all optional. Only saved if you want (Settings → Body).",
+    "Datos y copias": "Data and backups",
     "de ~{n}": "of ~{n}",
     "deben estar en la misma sección": "they must be in the same section",
     "Dejar como propio": "Keep as my own",
     "der.": "R",
     "Derecho": "Right",
-    "Desactivado por defecto. Al activarlo aparece en Hoy, Diario y Stats; desactivado no se ve nada.": "Off by default. When on it shows in Today, Diary and Stats; when off nothing is shown.",
+    "Desactivado por defecto. Al activarlo aparece en Hoy, Diario y Progreso; desactivado no se ve nada.": "Off by default. When on, it appears in Today, Diary and Progress; when off, nothing is shown.",
     "Desactivado: solo tus ejercicios": "Off: only your exercises",
     "Desactivados": "Off",
     "Desc.": "Del.",
@@ -6582,6 +6613,7 @@ const I18N = {
     "Diaria": "Daily",
     "Diaria / otras": "Daily / other",
     "Diario": "Diary",
+    "Diario: el peso se anota aquí. Solo se ven las casillas con datos; lo demás se añade con un toque (+ Sueño, + Peso, + Pasos…).": "Diary: weight is logged here. Only boxes with data are shown; add the rest with one tap (+ Sleep, + Weight, + Steps…).",
     "Diario: nota de la sesión y notas de cada ejercicio editables después de terminar.": "Diary: session note and each exercise's note can be edited after finishing.",
     "días": "days",
     "Días con Diaria": "Days with Daily",
@@ -6614,6 +6646,7 @@ const I18N = {
     "Editar perfil": "Edit profile",
     "Editar plan": "Edit plan",
     "Editar rutina": "Edit routine",
+    "Editor de rutina más compacto en el móvil: cada ejercicio en una fila con su resumen; los detalles se abren al tocarla.": "More compact routine editor on phones: one row per exercise with its summary; tap it to open the details.",
     "Ej. 10 dominadas, perder 3 kg, dormir mejor": "E.g. 10 pull-ups, lose 3 kg, sleep better",
     "Ej. 2 años de calistenia, antes fútbol": "E.g. 2 years of calisthenics, football before",
     "Ej. A, B, C. Vacío = se sugiere en cualquier semana, también en descarga (como la Diaria).": "E.g. A, B, C. Empty = suggested in any week, including deload (like Daily).",
@@ -6636,6 +6669,7 @@ const I18N = {
     "El archivo no es un JSON válido": "The file isn't valid JSON",
     "El enlace no es válido o está incompleto": "The link is invalid or incomplete",
     "El pitido usa el volumen multimedia. Si no vibra, revisa No molestar y la vibración del sistema.": "The beep uses media volume. If it doesn't vibrate, check Do Not Disturb and system vibration.",
+    "El plan de progresión pasa de Hoy a Entreno → Plan, junto a las rutinas que usa.": "The progression plan moves from Today to Workout → Plan, next to the routines it uses.",
     "El plan empieza el {d}.": "The plan starts on {d}.",
     "El plan empieza el lunes de la semana de inicio. Sin revisión, dura un año.": "The plan starts on the Monday of the start week. Without a review date it lasts a year.",
     "El plan no tiene fases válidas. Edítalo para añadirlas.": "The plan has no valid phases. Edit it to add some.",
@@ -6703,11 +6737,13 @@ const I18N = {
     "Esta semana no": "Skip this week",
     "Este navegador no permite vibrar": "This browser can't vibrate",
     "Este perfil": "This profile",
+    "Estilo unificado: un solo tipo de pestañas, botones con tamaños fijos y ventanas como hoja inferior en el móvil. El morado queda solo para la IA.": "Unified style: one kind of tabs, buttons with fixed sizes and dialogs as bottom sheets on phones. Purple is now only for AI.",
     "Estimación aproximada a partir de tus ciclos anteriores. No sirve como anticonceptivo ni como diagnóstico.": "Approximate estimate based on your previous cycles. Not a contraceptive method or a diagnosis.",
     "Evolución del peso": "Weight trend",
     "Exigente": "Hard",
     "Experiencia entrenando": "Training experience",
     "Exportar": "Export",
+    "Exportar .txt": "Export .txt",
     "Exportar .zip": "Export .zip",
     "Exportar ahora": "Export now",
     "Externa": "External",
@@ -6734,7 +6770,6 @@ const I18N = {
     "Guardado": "Saved",
     "Guardar": "Save",
     "Guardar actividad": "Save activity",
-    "Guardar o compartir .txt": "Save or share .txt",
     "Guardar para próximas exportaciones": "Save for future exports",
     "Guardar plan": "Save plan",
     "Guardar rutina": "Save routine",
@@ -6763,6 +6798,7 @@ const I18N = {
     "Hoy no hay ninguna rutina prevista.": "No routine planned for today.",
     "Hoy podría bajarte la regla": "Your period could start today",
     "Hoy toca pesarte": "Weigh-in day",
+    "Hoy: lo que toca, arriba y con un único botón Empezar; accesos rápidos a otra rutina, sesión libre y actividad; los avisos, juntos en «Pendiente».": "Today: what's on, at the top with a single Start button; shortcuts to another routine, a free session and an activity; reminders together under “To do”.",
     "Huella SHA-256 del certificado de firma:": "SHA-256 fingerprint of the signing certificate:",
     "Icono nuevo.": "New icon.",
     "Ideas y peticiones": "Ideas and requests",
@@ -6807,7 +6843,7 @@ const I18N = {
     "L": "M",
     "L,M,X,J,V,S,D": "M,T,W,T,F,S,S",
     "La más larga": "Longest",
-    "La misma Usus, instalada como app (APK). Sus datos van aparte: exporta una copia aquí (Ajustes → Datos) e impórtala allí.": "The same Usus, installed as an app (APK). Its data is separate: export a backup here (Settings → Data) and import it there.",
+    "La misma Usus, instalada como app. Sus datos van aparte: exporta una copia aquí e impórtala allí.": "The same Usus, installed as an app. Its data is separate: export a backup here and import it there.",
     "La noche que termina este día.": "The night that ends on this day.",
     "La pantalla se mantiene encendida durante toda la sesión, no solo en las cuentas atrás.": "The screen stays on during the whole session, not just during countdowns.",
     "La regla podría bajarte en {n} días": "Your period could start in {n} days",
@@ -6818,7 +6854,8 @@ const I18N = {
     "La última vez lo cambiaste por {x}": "Last time you swapped it for {x}",
     "Lactancia": "Breastfeeding",
     "Las fechas son una estimación aproximada a partir de tus ciclos anteriores. Los ciclos varían por estrés, enfermedad, viajes, medicación u otras causas. No sirve como método anticonceptivo, ni para buscar un embarazo con fiabilidad, ni como diagnóstico. Ante cualquier duda o cambio importante, consulta a un profesional sanitario.": "Dates are an approximate estimate based on your previous cycles. Cycles vary with stress, illness, travel, medication and other causes. This is not a contraceptive method, not a reliable way to plan a pregnancy, and not a diagnosis. If you have any doubt or notice a significant change, see a healthcare professional.",
-    "Las rutinas sin días no se sugieren. Ponles días en Rutinas → Editar.": "Routines without days aren't suggested. Add days in Routines → Edit.",
+    "Las rutinas sin días no se sugieren. Ponles días al editarlas.": "Routines without days aren't suggested. Add days when editing them.",
+    "Las traducciones pasan a archivos estándar (gettext) para poder traducir la app desde el navegador.": "Translations move to standard files (gettext) so the app can be translated from the browser.",
     "Las últimas series ya pesan.": "The last sets are getting heavy.",
     "Lastre": "Weight",
     "lastre kg": "extra kg",
@@ -6844,7 +6881,7 @@ const I18N = {
     "Marca al menos una serie como completada": "Mark at least one set as done",
     "Marca dos o más ejercicios para hacer una superserie o un circuito: se hacen uno tras otro y se repite la vuelta. Para reordenar, usa ↑ ↓ o arrastra desde ⋮⋮.": "Tick two or more exercises to make a superset or a circuit: they're done one after another and the round repeats. To reorder, use ↑ ↓ or drag from ⋮⋮.",
     "Marca lo que tienes. En el catálogo, lo demás se ve en naranja y se puede ocultar. Sin nada marcado, no se filtra.": "Tick what you have. In the catalogue, the rest shows in orange and can be hidden. With nothing ticked, nothing is filtered.",
-    "Marca los días de cada rutina en Rutinas → Editar.": "Set each routine's days in Routines → Edit.",
+    "Marca los días de cada rutina al editarla.": "Set the days of each routine when editing it.",
     "Marcados": "Selected",
     "Marcar {x}": "Select {x}",
     "Marcar ↑ cuando se repite una variante (recordatorio para progresar)": "Mark ↑ when a variant repeats (reminder to progress)",
@@ -6948,6 +6985,7 @@ const I18N = {
     "Notas y etiquetas del diario": "Diary notes and tags",
     "Novedades · versión {v}": "What's new · version {v}",
     "Novedades de la {v}": "What's new in {v}",
+    "Nueva estructura: Hoy · Entreno · Diario · Progreso · Ajustes. Entreno reúne Rutinas, Plan y Ejercicios; Stats pasa a llamarse Progreso.": "New layout: Today · Workout · Diary · Progress · Settings. Workout brings together Routines, Plan and Exercises; Stats is now called Progress.",
     "Nueva rutina": "New routine",
     "Nuevo": "New",
     "Nuevo perfil": "New profile",
@@ -6992,7 +7030,7 @@ const I18N = {
     "Para el día": "For daytime",
     "Para el objetivo ({g})": "To target ({g})",
     "Para elegir ejercicios al crear rutinas y saber cómo avanzar.": "To pick exercises when building routines and know how to progress.",
-    "Para que funcione, pon a cada rutina su Variante y sus Días en Rutinas → Editar.": "For it to work, give each routine its Variant and Days in Routines → Edit.",
+    "Para que funcione, pon a cada rutina su variante y sus días al editarla.": "For it to work, give each routine its variant and days when editing it.",
     "Para qué lo usarías": "What you'd use it for",
     "Para qué sirve": "What it's for",
     "Paralelas": "Parallel bars",
@@ -7075,6 +7113,7 @@ const I18N = {
     "Prevista para el {d} (± {n} d).": "Expected on {d} (± {n} d).",
     "Primer día": "First day",
     "Primer día de la regla": "First day of the period",
+    "Primer uso guiado en pasos: idioma y avisos, catálogo, material y cómo empezar (crear la primera rutina o importar una copia).": "Guided first run in steps: language and notices, catalogue, equipment and how to start (create your first routine or import a backup).",
     "Primera versión de la app para Android (APK), en GitHub → Releases. Es la misma app; sus datos van aparte de los de la PWA (se pasan con una copia).": "First Android app release (APK), on GitHub → Releases. It's the same app; its data is kept apart from the PWA's (move it with a backup).",
     "Primera versión de Usus: rutinas, temporizadores, plan de progresión, diario, estadísticas y seguimiento opcional del ciclo (se activa en Ajustes). Todo se guarda solo en tu móvil.": "First version of Usus: routines, timers, progression plan, diary, stats and optional cycle tracking (turn it on in Settings). Everything stays on your phone.",
     "Primera vez con este ejercicio": "First time with this exercise",
@@ -7161,6 +7200,7 @@ const I18N = {
     "Rutina guardada": "Routine saved",
     "rutinas": "routines",
     "Rutinas": "Routines",
+    "Rutinas agrupadas por variante. Cada rutina se abre en su propia pantalla (en PC, al lado de la lista) con Empezar, Editar, Imprimir, Compartir y Duplicar.": "Routines grouped by variant. Each routine opens on its own screen (on a computer, next to the list) with Start, Edit, Print, Share and Duplicate.",
     "Rutinas compartidas: si recibes otra vez una rutina que ya tienes (por ejemplo, una versión mejorada), puedes actualizarla en vez de duplicarla. Se cambian los ejercicios; tu nombre, días, variante y sesiones se mantienen.": "Shared routines: if you receive a routine you already have again (for example, an improved version), you can update it instead of duplicating it. The exercises change; your name, days, variant and sessions stay.",
     "Rutinas de otro perfil": "Routines from another profile",
     "Rutinas por variante": "Routines by variant",
@@ -7208,7 +7248,7 @@ const I18N = {
     "Serie {n} de {m} · lado {s}": "Set {n} of {m} · side {s}",
     "series": "sets",
     "Series": "Sets",
-    "Series hechas por bloque en las últimas 4 semanas.": "Sets done per block in the last 4 weeks.",
+    "Series hechas por tipo en las últimas 4 semanas.": "Sets done by type in the last 4 weeks.",
     "Ses.": "Ses.",
     "Sesión": "Session",
     "Sesión eliminada": "Session deleted",
@@ -7274,7 +7314,7 @@ const I18N = {
     "Solo rutinas": "Routines only",
     "Solo sale lo que ves aquí. Nunca tu peso, el diario ni el ciclo.": "Only what you see here is shared. Never your weight, diary or cycle.",
     "Solo se marca la semana; tú decides qué subir.": "The week is only marked; you decide what to increase.",
-    "Solo se usan al preparar un análisis con IA externa (Stats → Resumen). Van en la copia de seguridad del perfil.": "Only used when preparing an external AI analysis (Stats → Summary). Included in the profile backup.",
+    "Solo se usan al preparar un análisis con IA externa (Progreso → Resumen). Van en la copia de seguridad del perfil.": "Only used when preparing an analysis with an external AI (Progress → Summary). Included in the profile backup.",
     "Solo si influye en el entreno o la recuperación": "Only if it affects training or recovery",
     "Solo sonido": "Sound only",
     "Solo vibración": "Vibration only",
@@ -7385,10 +7425,10 @@ const I18N = {
     "Varios planes: el activo marca Hoy y los demás quedan guardados para activar, duplicar o borrar. Cada plan puede tener nombre.": "Several plans: the active one drives Today and the rest stay saved to activate, duplicate or delete. Each plan can have a name.",
     "Vas a compartir datos de salud con un servicio externo": "You're about to share health data with an external service",
     "Ventana fértil": "Fertile window",
-    "Ver estadísticas": "View stats",
+    "Ver en Progreso": "See in Progress",
     "Ver ficha": "View card",
     "Ver historial": "View history",
-    "Ver la app primero. Las rutinas se crean en Rutinas → Nueva rutina.": "See the app first. Routines are created in Routines → New routine.",
+    "Ver la app primero. Las rutinas se crean en Entreno → Nueva rutina.": "See the app first. Routines are created in Workout → New routine.",
     "Ver licencia completa": "View full license",
     "Ver notas": "See notes",
     "Ver plan": "View plan",
