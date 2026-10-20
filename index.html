@@ -854,6 +854,10 @@ body:has(.sbar) .rest{bottom:calc(152px + env(safe-area-inset-bottom,0px))}
 .dadd .dic{background:none;border:1.5px dashed color-mix(in srgb,var(--muted) 45%,var(--line))}
 .dadd .dic svg{stroke:var(--accent)}
 .dplus{flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;color:var(--accent);background:var(--accent-soft);font-weight:700;font-size:1.1rem}
+/* Catálogo y ficha */
+.xrow{padding:9px 14px;min-height:56px}
+.xrow .chev{margin-left:2px}
+.xititle{margin:0;flex:1;font-size:1.5rem;line-height:1.2;letter-spacing:-.01em}
 /* Pantalla ancha: barra de secciones lateral */
 @media (min-width:1000px){
   body{padding-left:216px}
@@ -1479,7 +1483,7 @@ const xMeta = x => `<span class="xmeta">${LV(x.level)}<span>${x.type === "time" 
 const canDo = x => (x.equip || []).every(haveMat);
 const norm = s => String(s || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
 const xMatches = (x, q) => !q || [x.name.es, x.name.en, x.name.ca, ...(x.alias || [])].some(n => n && norm(n).includes(q));
-const xRow = (x, attr) => `<button class="xrow" ${attr}><span class="t"><b>${esc(xName(x))}</b>${xMeta(x)}</span>${matsOf(x.equip)}</button>`;
+const xRow = (x, attr, chev) => `<button class="xrow" ${attr}><span class="t"><b>${esc(xName(x))}</b>${xMeta(x)}</span>${matsOf(x.equip)}${chev ? `<span class="chev" aria-hidden="true">›</span>` : ""}</button>`;
 /* Propuesta del catálogo para un nombre propio. strict: solo si coincide un nombre o alias (sin tildes ni mayúsculas) */
 const STOP = new Set(["en", "de", "con", "a", "la", "el", "al", "del", "las", "los", "the", "on", "with", "of"]);
 function catMatch(name, strict) {
@@ -1506,7 +1510,7 @@ function catListHTML() {
   const l = CAT.exercises.filter(x => (!pat || x.pattern === pat) && (!only || canDo(x)) && xMatches(x, q));
   return PATS.map(([p, n]) => {
     const g = l.filter(x => x.pattern === p).sort((a, b) => a.family.localeCompare(b.family) || a.level - b.level);
-    return g.length ? `<div class="xgrp">${T(n)} · ${g.length}</div><div class="xlist">${g.map(x => xRow(x, `data-xinfo="${x.id}"`)).join("")}</div>` : "";
+    return g.length ? `<div class="xgrp">${T(n)} · ${g.length}</div><div class="xlist">${g.map(x => xRow(x, `data-xinfo="${x.id}"`, true)).join("")}</div>` : "";
   }).join("") || `<div class="empty" style="margin-top:14px">${T("Sin resultados.")}</div>`;
 }
 function viewCatalog() {
@@ -1527,21 +1531,21 @@ function exInfoModal() {
   const more = (CHAIN[x.id] || []).slice(1).map(o => o.c[o.i + 1]).filter(Boolean);
   const link = id => `<button data-xinfo="${id}">${esc(xName(CATBY[id]))}</button>`;
   return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="xiT"><div class="mbox dsh full"><button class="back" data-act="xi-close">‹ ${T("Atrás")}</button>
-    <div class="sb-head"><h2 id="xiT" style="margin:0;flex:1">${esc(xName(x))}</h2><button class="btn small" data-act="xi-close">${T("Cerrar")}</button></div>
+    <div class="sb-head"><h2 id="xiT" class="xititle">${esc(xName(x))}</h2><button class="btn small" data-act="xi-close">${T("Cerrar")}</button></div>
     <p class="muted" style="margin:2px 0 0;font-size:.85rem">${esc(LANG === "en" ? x.name.es : x.name.en)}</p>
     <div class="xmeta" style="margin-top:8px;font-size:.8rem"><span class="otag">${T(pat?.[1] || "")}</span>${LV(x.level)}<span>${x.type === "time" ? T("por tiempo") : T("repeticiones")}</span>${x.sides ? `<span class="otag">${T("por lado")}</span>` : ""}${x.impact ? `<span class="otag">${T("impacto")}</span>` : ""}</div>
-    <div class="xcard"><h4>${T("Material")}</h4>${eq.length ? `<div class="matrow">${eq.map(k => `<span>${matIco(k)}${T(MAT[k][0])}${haveMat(k) ? "" : ` <small style="color:var(--warn)">(${T("no lo tienes")})</small>`}</span>`).join("")}</div>` : `<p>${T("Ninguno: solo suelo")}</p>`}
-      ${inf.muscles?.length ? `<p class="muted" style="font-size:.85rem;margin-top:8px">${T("Músculos")}: ${esc(inf.muscles.join(", "))}</p>` : ""}</div>
-    ${onlyEs ? `<p class="muted" style="font-size:.8rem;margin:10px 2px 0">${T("Por ahora, la explicación solo está en castellano.")}</p>` : ""}
-    ${inf.why ? `<div class="xcard"><h4>${T("Para qué sirve")}</h4><p>${esc(inf.why)}</p></div>` : ""}
-    ${inf.how?.length ? `<div class="xcard"><h4>${T("Cómo se hace")}</h4><ol>${inf.how.map(h => `<li>${esc(h)}</li>`).join("")}</ol></div>` : ""}
-    ${inf.errors?.length ? `<div class="xcard"><h4>${T("Errores típicos")}</h4><ul>${inf.errors.map(h => `<li>${esc(h)}</li>`).join("")}</ul></div>` : ""}
-    ${inf.alt?.length ? `<div class="xcard"><h4>${T("Alternativas")}</h4><ul>${inf.alt.map(h => `<li>${esc(h)}</li>`).join("")}</ul></div>` : ""}
     ${main || sib.length ? `<div class="xcard"><h4>${T("Progresión")}</h4>
       ${main ? `<div class="xchain">${main.c.map(id => `<button class="${id === cur ? "cur" : ""}" data-xinfo="${id}"><i></i><span>${esc(xName(CATBY[id]))}</span>${LV(CATBY[id].level)}</button>`).join("")}</div>` : ""}
       ${base ? `<p class="muted" style="font-size:.85rem;margin-top:6px">${T("Variante de {x}: se puede alternar con él.", { x: esc(xName(CATBY[base])) })}</p>` : ""}
       ${sib.length ? `<p class="muted" style="font-size:.85rem;margin-top:8px">${base ? T("Otras opciones del mismo nivel") : T("Variantes del mismo nivel")}</p><div class="xlinks">${sib.map(link).join("")}</div>` : ""}
       ${more.length ? `<p class="muted" style="font-size:.85rem;margin-top:8px">${T("También lleva a")}</p><div class="xlinks">${more.map(link).join("")}</div>` : ""}</div>` : ""}
+    <div class="xcard"><h4>${T("Material")}</h4>${eq.length ? `<div class="matrow">${eq.map(k => `<span>${matIco(k)}${T(MAT[k][0])}${haveMat(k) ? "" : ` <small style="color:var(--warn)">(${T("no lo tienes")})</small>`}</span>`).join("")}</div>` : `<p>${T("Ninguno: solo suelo")}</p>`}</div>
+    ${inf.muscles?.length ? `<div class="xcard"><h4>${T("Músculos")}</h4><p>${esc(inf.muscles.join(", "))}</p></div>` : ""}
+    ${onlyEs ? `<p class="muted" style="font-size:.8rem;margin:10px 2px 0">${T("Por ahora, la explicación solo está en castellano.")}</p>` : ""}
+    ${inf.why ? `<div class="xcard"><h4>${T("Para qué sirve")}</h4><p>${esc(inf.why)}</p></div>` : ""}
+    ${inf.how?.length ? `<div class="xcard"><h4>${T("Cómo se hace")}</h4><ol>${inf.how.map(h => `<li>${esc(h)}</li>`).join("")}</ol></div>` : ""}
+    ${inf.errors?.length ? `<div class="xcard"><h4>${T("Errores típicos")}</h4><ul>${inf.errors.map(h => `<li>${esc(h)}</li>`).join("")}</ul></div>` : ""}
+    ${inf.alt?.length ? `<div class="xcard"><h4>${T("Alternativas")}</h4><ul>${inf.alt.map(h => `<li>${esc(h)}</li>`).join("")}</ul></div>` : ""}
     ${state.exInfoFrom === "ed" ? "" : state.exInfoAdd
       ? `<div class="xcard"><h4>${T("Añadir a una rutina")}</h4>${state.routines.length ? `<div class="xlinks">${state.routines.map(r => `<button data-xaddr="${r.id}">${esc(r.name)}</button>`).join("")}</div>` : `<p class="muted">${T("Aún no tienes rutinas.")}</p>`}</div>`
       : `<button class="btn primary" style="width:100%;margin-top:12px" data-act="xi-add">${T("Añadir a una rutina")}</button>`}
