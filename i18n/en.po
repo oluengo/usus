@@ -1432,6 +1432,9 @@ msgstr "Choose at least one day"
 msgid "Elige hombre o mujer"
 msgstr "Choose man or woman"
 
+msgid "Elige la semana pasada (o antes) para recuperar las sesiones que te saltaste: Hoy te las propone primero."
+msgstr "Choose last week (or earlier) to catch up on the sessions you skipped: Today suggests them first."
+
 msgid "Eliges los ejercicios, las series y los descansos."
 msgstr "You choose the exercises, sets and rests."
 
@@ -1587,6 +1590,9 @@ msgstr "Perceived effort for the whole session (RPE)."
 
 msgid "Espalda"
 msgstr "Back"
+
+msgid "esta"
+msgstr "this one"
 
 msgid "Esta app es una herramienta de registro, no un consejo médico ni un plan de entrenamiento. Consulta con un profesional antes de empezar o cambiar tu actividad física."
 msgstr "This app is a logging tool, not medical advice or a training plan. Talk to a professional before starting or changing your physical activity."
@@ -1953,6 +1959,9 @@ msgstr "The night that ends on this day."
 
 msgid "La pantalla se mantiene encendida durante toda la sesión, no solo en las cuentas atrás."
 msgstr "The screen stays on during the whole session, not just during countdowns."
+
+msgid "la pasada"
+msgstr "last week"
 
 #, python-brace-format
 msgid "La regla podría bajarte en {n} días"
@@ -3196,6 +3205,9 @@ msgstr "Cycle tracking off"
 msgid "Seguir aquí"
 msgstr "Stay here"
 
+msgid "Seguir en orden desde"
+msgstr "Continue in order from"
+
 msgid "Seguir intentándolo"
 msgstr "Keep trying"
 
@@ -3205,6 +3217,10 @@ msgstr "Continue later"
 #, python-brace-format
 msgid "Segundos serie {n}"
 msgstr "Seconds set {n}"
+
+#, python-brace-format
+msgid "Semana {n}"
+msgstr "Week {n}"
 
 #, python-brace-format
 msgid "Semana {n} de {m}"

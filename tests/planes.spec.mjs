@@ -80,3 +80,16 @@ test("en orden: empezar un domingo y recuperar", async ({ page }) => {
   await expect(p2.locator(".today")).toContainText("(2/4)");
   expect(e2).toEqual([]);
 });
+test("pasar a «en orden» desde la semana pasada para recuperarla", async ({ page }) => {
+  const errors = await openApp(page, { clock: new Date("2026-10-20T09:00:00"), data: { "wk.routines": R, "wk.plan": PLAN } });   // martes, semana 3 (B); la semana 2 (A) sin hacer
+  await nav(page, "routines"); await page.locator('[data-rview="plan"]').click(); await page.locator('[data-act="plan-edit"]').click();
+  await page.locator("#pOrder").check();
+  await expect(page.locator("#pOrderAt")).toHaveValue("2");                 // por defecto, esta semana
+  await page.selectOption("#pOrderAt", "1");                                 // la pasada
+  await page.locator('[data-act="plan-save"]').click();
+  const p = await ls(page, "wk.plan"); expect([p.order, p.orderAt]).toEqual([true, 1]);
+  await nav(page, "train");
+  await expect(page.locator(".today .sugr.pri .sn")).toContainText("A · Fuerza");   // primero, lo que faltó
+  await expect(page.locator(".today")).toContainText("Semana 2 de");
+  expect(errors).toEqual([]);
+});

@@ -1432,6 +1432,9 @@ msgstr "Tria almenys un dia"
 msgid "Elige hombre o mujer"
 msgstr "Tria home o dona"
 
+msgid "Elige la semana pasada (o antes) para recuperar las sesiones que te saltaste: Hoy te las propone primero."
+msgstr "Tria la setmana passada (o abans) per recuperar les sessions que et vas saltar: Avui te les proposa primer."
+
 msgid "Eliges los ejercicios, las series y los descansos."
 msgstr "Tries els exercicis, les sèries i els descansos."
 
@@ -1587,6 +1590,9 @@ msgstr "Esforç percebut de tota la sessió (PEM)."
 
 msgid "Espalda"
 msgstr "Esquena"
+
+msgid "esta"
+msgstr "aquesta"
 
 msgid "Esta app es una herramienta de registro, no un consejo médico ni un plan de entrenamiento. Consulta con un profesional antes de empezar o cambiar tu actividad física."
 msgstr "Aquesta app és una eina de registre, no un consell mèdic ni un pla d'entrenament. Consulta un professional abans de començar o canviar la teva activitat física."
@@ -1953,6 +1959,9 @@ msgstr "La nit que acaba aquest dia."
 
 msgid "La pantalla se mantiene encendida durante toda la sesión, no solo en las cuentas atrás."
 msgstr "La pantalla es manté encesa durant tota la sessió, no només als comptes enrere."
+
+msgid "la pasada"
+msgstr "la passada"
 
 #, python-brace-format
 msgid "La regla podría bajarte en {n} días"
@@ -3196,6 +3205,9 @@ msgstr "Seguiment del cicle desactivat"
 msgid "Seguir aquí"
 msgstr "Continua aquí"
 
+msgid "Seguir en orden desde"
+msgstr "Continuar en ordre des de"
+
 msgid "Seguir intentándolo"
 msgstr "Continua intentant-ho"
 
@@ -3205,6 +3217,10 @@ msgstr "Continua més tard"
 #, python-brace-format
 msgid "Segundos serie {n}"
 msgstr "Segons sèrie {n}"
+
+#, python-brace-format
+msgid "Semana {n}"
+msgstr "Setmana {n}"
 
 #, python-brace-format
 msgid "Semana {n} de {m}"

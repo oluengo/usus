@@ -1112,6 +1112,8 @@ function planNow(p = PL.get(), now = Date.now()) {
   const i = ws.findIndex(w => now >= w.t && now < addDays(w.t, 7));
   return i < 0 ? { status: "done", ws } : { status: "on", ws, i, w: ws[i] };
 }
+/* Semana del calendario en la que va un plan (para pasarlo a «en orden» sin perder el sitio) */
+const planCalIdx = d => { if (!d?.start) return -1; const pn = planNow({ ...d, order: false, enabled: true }); return pn?.status === "on" ? pn.i : pn?.status === "done" ? pn.ws.length - 1 : -1; };
 /* Plan «en orden»: cada semana del plan es una vuelta a las rutinas de su variante, en el orden de sus días.
    No depende del calendario: hoy toca la siguiente que falte; la semana pasa cuando están todas hechas.
    La descarga dura 7 días desde que acaba la semana anterior. Pausas y descargas añadidas: ventanas de fechas. */
@@ -1119,9 +1121,11 @@ const firstDay = r => Math.min(9, ...(r.days || []).map(d => WEEK_ORDER.indexOf(
 const planSeq = v => state.routines.filter(r => normVar(r.variant) === v).sort((a, b) => firstDay(a) - firstDay(b) || a.name.localeCompare(b.name));
 function planOrder(p, now = Date.now()) {
   const base = planWeeks({ ...p, pauses: [] }); if (!base.length) return null;
-  const st = keyTime(p.start); if (now < st) return { status: "pre", ws: base.map(w => ({ ...w, t: null })) };
-  const ss = state.sessions.filter(s => s.start >= st).sort((a, b) => a.start - b.start), ws = []; let t = st, si = 0, cur = -1;
-  for (let k = 0; k < base.length; k++) {
+  // Plan que pasa de calendario a «en orden»: sigue desde la semana orderAt (las anteriores quedan como estaban)
+  const k0 = Number.isInteger(p.orderAt) && p.orderAt > 0 && p.orderAt < base.length ? p.orderAt : 0;
+  const st = k0 ? base[k0].t : keyTime(p.start); if (now < st) return { status: "pre", ws: base.map(w => ({ ...w, t: null })) };
+  const ss = state.sessions.filter(s => s.start >= st).sort((a, b) => a.start - b.start), ws = base.slice(0, k0).map(w => ({ ...w, old: true })); let t = st, si = 0, cur = -1;
+  for (let k = k0; k < base.length; k++) {
     const b = base[k], w = { ...b, t }, seq = b.deload ? [] : planSeq(b.variant);
     if (!seq.length) { const end = addDays(dayStart(t), 7); w.end = end; ws.push(w); if (end > now) { cur = k; break; } t = end; continue; }
     const names = new Set(seq.map(r => r.name)), done = new Set();
@@ -1262,6 +1266,9 @@ function viewPlanEdit() {
         <label class="muted" for="pReview">${T("Revisión (opcional)")}</label><input type="date" id="pReview" value="${esc(d.review || "")}"></div>
       <p class="muted" style="font-size:.78rem;margin:6px 0 0">${d.order ? T("En orden, el plan empieza el mismo día de inicio.") : T("El plan empieza el lunes de la semana de inicio. Sin revisión, dura un año.")}</p>
       <label class="xtog swrow" style="margin-top:12px"><span>${T("Sesiones en orden")}<small>${T("Hoy toca la siguiente que falte, sea el día que sea: si empiezas un domingo o fallas un día, se recupera. La semana del plan pasa al hacerlas todas.")}</small></span><input type="checkbox" role="switch" id="pOrder" ${d.order ? "checked" : ""}></label>
+      ${(() => { const ci = planCalIdx(d); if (!d.order || ci < 1) return "";
+        return `<div class="wrow" style="margin-top:10px"><label class="muted" for="pOrderAt" style="font-size:.85rem">${T("Seguir en orden desde")}</label><select id="pOrderAt">${Array.from({ length: ci + 1 }, (_, k) => ci - k).map(k => `<option value="${k}" ${(d.orderAt ?? ci) === k ? "selected" : ""}>${T("Semana {n}", { n: k + 1 })}${k === ci ? ` · ${T("esta")}` : k === ci - 1 ? ` · ${T("la pasada")}` : ""}</option>`).join("")}</select><span></span></div>
+        <p class="muted" style="font-size:.78rem;margin:6px 0 0">${T("Elige la semana pasada (o antes) para recuperar las sesiones que te saltaste: Hoy te las propone primero.")}</p>`; })()}
       <h2 style="margin:18px 0 4px;font-size:1rem">${T("Fases (se repiten en orden)")}</h2>
       ${d.phases.map((x, i) => `<div class="phr">
         <span class="muted" style="font-size:.8rem">${i + 1}</span>
@@ -1317,7 +1324,8 @@ function readPlan() {
   if (v("pName")) d.name = v("pName").value.trim();
   if (v("pOn")) d.enabled = v("pOn").checked;
   if (v("pStart")) d.start = v("pStart").value; if (v("pReview")) d.review = v("pReview").value;
-  if (v("pOrder")) d.order = v("pOrder").checked;
+  if (v("pOrder")) { const was = !!d.order; d.order = v("pOrder").checked; if (d.order && !was && !state.planNew && d.orderAt === undefined) { const ci = planCalIdx(d); if (ci > 0) d.orderAt = ci; } }
+  if (v("pOrderAt")) d.orderAt = +v("pOrderAt").value;
   if (v("pUp")) d.up = v("pUp").checked; if (v("pUpRule")) d.upRule = v("pUpRule").value;
   d.deload = { weeks: Math.max(0, Math.round(+v("pDlW")?.value || 0)), every: Math.max(0, Math.round(+v("pDlE")?.value || 0)) };
   d.phases.forEach((x, i) => { const a = document.querySelector(`[data-pv="${i}"]`), b = document.querySelector(`[data-pw="${i}"]`); if (a) x.variant = normVar(a.value); if (b) x.weeks = Math.max(1, Math.min(12, Math.round(+b.value || 1))); });
@@ -5208,7 +5216,7 @@ document.addEventListener("drop", ev => {
 document.addEventListener("dragend", () => { edDrag = null; document.querySelectorAll(".dropz.over").forEach(x => x.classList.remove("over")); });
 document.addEventListener("change", async ev => {
   if (state.planMode === "edit" && ev.target.dataset?.padd !== undefined) { const id = ev.target.value, m = id && planRmap(state.planDraft)[id]; if (m) { readPlan(); m.on = true; m.variant = ev.target.dataset.padd; } render(); return; }
-  if (state.planMode === "edit" && ev.target.closest?.("#app") && (/^p(On|Order|Start|Review|DlW|DlE|Up|UpRule)$/.test(ev.target.id) || ev.target.dataset.pv !== undefined || ev.target.dataset.pw !== undefined)) { readPlan(); render(); return; }
+  if (state.planMode === "edit" && ev.target.closest?.("#app") && (/^p(On|Order|OrderAt|Start|Review|DlW|DlE|Up|UpRule)$/.test(ev.target.id) || ev.target.dataset.pv !== undefined || ev.target.dataset.pw !== undefined)) { readPlan(); render(); return; }
   const tg = ev.target, dk = state.day || dayKey(Date.now());
   if (tg.id === "progOn" || tg.id === "progUp" || tg.id === "progDown") { const P = PROG(); if (tg.id === "progOn") P.on = tg.checked; if (tg.id === "progUp") P.up = +tg.value; if (tg.id === "progDown") P.down = tg.value; LS.set("wk.prog", P); render(); return; }
   if (tg.id === "effPem" || tg.id === "effRir") { LS.set("wk.effort", { ...EFF(), [tg.id === "effPem" ? "pem" : "rir"]: tg.checked }); render(); return; }
@@ -5705,6 +5713,7 @@ const I18N = {
     "Elegir otro": "Tria'n un altre",
     "Elige al menos un día": "Tria almenys un dia",
     "Elige hombre o mujer": "Tria home o dona",
+    "Elige la semana pasada (o antes) para recuperar las sesiones que te saltaste: Hoy te las propone primero.": "Tria la setmana passada (o abans) per recuperar les sessions que et vas saltar: Avui te les proposa primer.",
     "Eliges los ejercicios, las series y los descansos.": "Tries els exercicis, les sèries i els descansos.",
     "Eliminar": "Elimina",
     "Eliminar plan": "Elimina el pla",
@@ -5755,6 +5764,7 @@ const I18N = {
     "Esfuerzo de la sesión (PEM)": "Esforç de la sessió (PEM)",
     "Esfuerzo percibido de toda la sesión (PEM).": "Esforç percebut de tota la sessió (PEM).",
     "Espalda": "Esquena",
+    "esta": "aquesta",
     "Esta app es una herramienta de registro, no un consejo médico ni un plan de entrenamiento. Consulta con un profesional antes de empezar o cambiar tu actividad física.": "Aquesta app és una eina de registre, no un consell mèdic ni un pla d'entrenament. Consulta un professional abans de començar o canviar la teva activitat física.",
     "Esta app no se conecta a Internet, así que no busca versiones nuevas por su cuenta. Se publican en GitHub; al instalar una nueva encima, tus datos se mantienen.": "Aquesta app no es connecta a Internet, així que no busca versions noves pel seu compte. Es publiquen a GitHub; en instal·lar-ne una de nova a sobre, les teves dades es mantenen.",
     "Esta copia es de una versión más nueva de Usus. Actualiza la app para importarla completa. ¿Importar igualmente lo que se pueda?": "Aquesta còpia és d'una versió més nova d'Usus. Actualitza l'app per importar-la completa. Vols importar igualment el que es pugui?",
@@ -5876,6 +5886,7 @@ const I18N = {
     "La misma Usus, instalada como app. Sus datos van aparte: exporta una copia aquí e impórtala allí.": "La mateixa Usus, instal·lada com a app. Les seves dades van a part: exporta una còpia aquí i importa-la allà.",
     "La noche que termina este día.": "La nit que acaba aquest dia.",
     "La pantalla se mantiene encendida durante toda la sesión, no solo en las cuentas atrás.": "La pantalla es manté encesa durant tota la sessió, no només als comptes enrere.",
+    "la pasada": "la passada",
     "La regla podría bajarte en {n} días": "La regla et podria baixar d'aquí a {n} dies",
     "La regla podría bajarte mañana": "La regla et podria baixar demà",
     "La regla se retrasa {n} días respecto a la previsión ({d}).": "La regla s'endarrereix {n} dies respecte a la previsió ({d}).",
@@ -6274,9 +6285,11 @@ const I18N = {
     "Seguimiento del ciclo activado": "Seguiment del cicle activat",
     "Seguimiento del ciclo desactivado": "Seguiment del cicle desactivat",
     "Seguir aquí": "Continua aquí",
+    "Seguir en orden desde": "Continuar en ordre des de",
     "Seguir intentándolo": "Continua intentant-ho",
     "Seguir más tarde": "Continua més tard",
     "Segundos serie {n}": "Segons sèrie {n}",
+    "Semana {n}": "Setmana {n}",
     "Semana {n} de {m}": "Setmana {n} de {m}",
     "Semana de descarga": "Setmana de descàrrega",
     "Semana de descarga: solo rutinas sin variante (p. ej. Diaria).": "Setmana de descàrrega: només rutines sense variant (p. ex. Diària).",
@@ -6958,6 +6971,7 @@ const I18N = {
     "Elegir otro": "Choose another",
     "Elige al menos un día": "Choose at least one day",
     "Elige hombre o mujer": "Choose man or woman",
+    "Elige la semana pasada (o antes) para recuperar las sesiones que te saltaste: Hoy te las propone primero.": "Choose last week (or earlier) to catch up on the sessions you skipped: Today suggests them first.",
     "Eliges los ejercicios, las series y los descansos.": "You choose the exercises, sets and rests.",
     "Eliminar": "Delete",
     "Eliminar plan": "Delete plan",
@@ -7008,6 +7022,7 @@ const I18N = {
     "Esfuerzo de la sesión (PEM)": "Session effort (RPE)",
     "Esfuerzo percibido de toda la sesión (PEM).": "Perceived effort for the whole session (RPE).",
     "Espalda": "Back",
+    "esta": "this one",
     "Esta app es una herramienta de registro, no un consejo médico ni un plan de entrenamiento. Consulta con un profesional antes de empezar o cambiar tu actividad física.": "This app is a logging tool, not medical advice or a training plan. Talk to a professional before starting or changing your physical activity.",
     "Esta app no se conecta a Internet, así que no busca versiones nuevas por su cuenta. Se publican en GitHub; al instalar una nueva encima, tus datos se mantienen.": "This app doesn't connect to the Internet, so it doesn't look for new versions by itself. They're published on GitHub; installing a new one on top keeps your data.",
     "Esta copia es de una versión más nueva de Usus. Actualiza la app para importarla completa. ¿Importar igualmente lo que se pueda?": "This backup is from a newer version of Usus. Update the app to import it fully. Import what's possible anyway?",
@@ -7129,6 +7144,7 @@ const I18N = {
     "La misma Usus, instalada como app. Sus datos van aparte: exporta una copia aquí e impórtala allí.": "The same Usus, installed as an app. Its data is separate: export a backup here and import it there.",
     "La noche que termina este día.": "The night that ends on this day.",
     "La pantalla se mantiene encendida durante toda la sesión, no solo en las cuentas atrás.": "The screen stays on during the whole session, not just during countdowns.",
+    "la pasada": "last week",
     "La regla podría bajarte en {n} días": "Your period could start in {n} days",
     "La regla podría bajarte mañana": "Your period could start tomorrow",
     "La regla se retrasa {n} días respecto a la previsión ({d}).": "Your period is {n} days later than estimated ({d}).",
@@ -7527,9 +7543,11 @@ const I18N = {
     "Seguimiento del ciclo activado": "Cycle tracking on",
     "Seguimiento del ciclo desactivado": "Cycle tracking off",
     "Seguir aquí": "Stay here",
+    "Seguir en orden desde": "Continue in order from",
     "Seguir intentándolo": "Keep trying",
     "Seguir más tarde": "Continue later",
     "Segundos serie {n}": "Seconds set {n}",
+    "Semana {n}": "Week {n}",
     "Semana {n} de {m}": "Week {n} of {m}",
     "Semana de descarga": "Deload week",
     "Semana de descarga: solo rutinas sin variante (p. ej. Diaria).": "Deload week: only routines without a variant (e.g. Daily).",

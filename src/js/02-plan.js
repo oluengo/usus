@@ -59,6 +59,8 @@ function planNow(p = PL.get(), now = Date.now()) {
   const i = ws.findIndex(w => now >= w.t && now < addDays(w.t, 7));
   return i < 0 ? { status: "done", ws } : { status: "on", ws, i, w: ws[i] };
 }
+/* Semana del calendario en la que va un plan (para pasarlo a «en orden» sin perder el sitio) */
+const planCalIdx = d => { if (!d?.start) return -1; const pn = planNow({ ...d, order: false, enabled: true }); return pn?.status === "on" ? pn.i : pn?.status === "done" ? pn.ws.length - 1 : -1; };
 /* Plan «en orden»: cada semana del plan es una vuelta a las rutinas de su variante, en el orden de sus días.
    No depende del calendario: hoy toca la siguiente que falte; la semana pasa cuando están todas hechas.
    La descarga dura 7 días desde que acaba la semana anterior. Pausas y descargas añadidas: ventanas de fechas. */
@@ -66,9 +68,11 @@ const firstDay = r => Math.min(9, ...(r.days || []).map(d => WEEK_ORDER.indexOf(
 const planSeq = v => state.routines.filter(r => normVar(r.variant) === v).sort((a, b) => firstDay(a) - firstDay(b) || a.name.localeCompare(b.name));
 function planOrder(p, now = Date.now()) {
   const base = planWeeks({ ...p, pauses: [] }); if (!base.length) return null;
-  const st = keyTime(p.start); if (now < st) return { status: "pre", ws: base.map(w => ({ ...w, t: null })) };
-  const ss = state.sessions.filter(s => s.start >= st).sort((a, b) => a.start - b.start), ws = []; let t = st, si = 0, cur = -1;
-  for (let k = 0; k < base.length; k++) {
+  // Plan que pasa de calendario a «en orden»: sigue desde la semana orderAt (las anteriores quedan como estaban)
+  const k0 = Number.isInteger(p.orderAt) && p.orderAt > 0 && p.orderAt < base.length ? p.orderAt : 0;
+  const st = k0 ? base[k0].t : keyTime(p.start); if (now < st) return { status: "pre", ws: base.map(w => ({ ...w, t: null })) };
+  const ss = state.sessions.filter(s => s.start >= st).sort((a, b) => a.start - b.start), ws = base.slice(0, k0).map(w => ({ ...w, old: true })); let t = st, si = 0, cur = -1;
+  for (let k = k0; k < base.length; k++) {
     const b = base[k], w = { ...b, t }, seq = b.deload ? [] : planSeq(b.variant);
     if (!seq.length) { const end = addDays(dayStart(t), 7); w.end = end; ws.push(w); if (end > now) { cur = k; break; } t = end; continue; }
     const names = new Set(seq.map(r => r.name)), done = new Set();
@@ -209,6 +213,9 @@ function viewPlanEdit() {
         <label class="muted" for="pReview">${T("Revisión (opcional)")}</label><input type="date" id="pReview" value="${esc(d.review || "")}"></div>
       <p class="muted" style="font-size:.78rem;margin:6px 0 0">${d.order ? T("En orden, el plan empieza el mismo día de inicio.") : T("El plan empieza el lunes de la semana de inicio. Sin revisión, dura un año.")}</p>
       <label class="xtog swrow" style="margin-top:12px"><span>${T("Sesiones en orden")}<small>${T("Hoy toca la siguiente que falte, sea el día que sea: si empiezas un domingo o fallas un día, se recupera. La semana del plan pasa al hacerlas todas.")}</small></span><input type="checkbox" role="switch" id="pOrder" ${d.order ? "checked" : ""}></label>
+      ${(() => { const ci = planCalIdx(d); if (!d.order || ci < 1) return "";
+        return `<div class="wrow" style="margin-top:10px"><label class="muted" for="pOrderAt" style="font-size:.85rem">${T("Seguir en orden desde")}</label><select id="pOrderAt">${Array.from({ length: ci + 1 }, (_, k) => ci - k).map(k => `<option value="${k}" ${(d.orderAt ?? ci) === k ? "selected" : ""}>${T("Semana {n}", { n: k + 1 })}${k === ci ? ` · ${T("esta")}` : k === ci - 1 ? ` · ${T("la pasada")}` : ""}</option>`).join("")}</select><span></span></div>
+        <p class="muted" style="font-size:.78rem;margin:6px 0 0">${T("Elige la semana pasada (o antes) para recuperar las sesiones que te saltaste: Hoy te las propone primero.")}</p>`; })()}
       <h2 style="margin:18px 0 4px;font-size:1rem">${T("Fases (se repiten en orden)")}</h2>
       ${d.phases.map((x, i) => `<div class="phr">
         <span class="muted" style="font-size:.8rem">${i + 1}</span>
@@ -264,7 +271,8 @@ function readPlan() {
   if (v("pName")) d.name = v("pName").value.trim();
   if (v("pOn")) d.enabled = v("pOn").checked;
   if (v("pStart")) d.start = v("pStart").value; if (v("pReview")) d.review = v("pReview").value;
-  if (v("pOrder")) d.order = v("pOrder").checked;
+  if (v("pOrder")) { const was = !!d.order; d.order = v("pOrder").checked; if (d.order && !was && !state.planNew && d.orderAt === undefined) { const ci = planCalIdx(d); if (ci > 0) d.orderAt = ci; } }
+  if (v("pOrderAt")) d.orderAt = +v("pOrderAt").value;
   if (v("pUp")) d.up = v("pUp").checked; if (v("pUpRule")) d.upRule = v("pUpRule").value;
   d.deload = { weeks: Math.max(0, Math.round(+v("pDlW")?.value || 0)), every: Math.max(0, Math.round(+v("pDlE")?.value || 0)) };
   d.phases.forEach((x, i) => { const a = document.querySelector(`[data-pv="${i}"]`), b = document.querySelector(`[data-pw="${i}"]`); if (a) x.variant = normVar(a.value); if (b) x.weeks = Math.max(1, Math.min(12, Math.round(+b.value || 1))); });

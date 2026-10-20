@@ -1431,6 +1431,9 @@ msgstr ""
 msgid "Elige hombre o mujer"
 msgstr ""
 
+msgid "Elige la semana pasada (o antes) para recuperar las sesiones que te saltaste: Hoy te las propone primero."
+msgstr ""
+
 msgid "Eliges los ejercicios, las series y los descansos."
 msgstr ""
 
@@ -1585,6 +1588,9 @@ msgid "Esfuerzo percibido de toda la sesión (PEM)."
 msgstr ""
 
 msgid "Espalda"
+msgstr ""
+
+msgid "esta"
 msgstr ""
 
 msgid "Esta app es una herramienta de registro, no un consejo médico ni un plan de entrenamiento. Consulta con un profesional antes de empezar o cambiar tu actividad física."
@@ -1951,6 +1957,9 @@ msgid "La noche que termina este día."
 msgstr ""
 
 msgid "La pantalla se mantiene encendida durante toda la sesión, no solo en las cuentas atrás."
+msgstr ""
+
+msgid "la pasada"
 msgstr ""
 
 #, python-brace-format
@@ -3195,6 +3204,9 @@ msgstr ""
 msgid "Seguir aquí"
 msgstr ""
 
+msgid "Seguir en orden desde"
+msgstr ""
+
 msgid "Seguir intentándolo"
 msgstr ""
 
@@ -3203,6 +3215,10 @@ msgstr ""
 
 #, python-brace-format
 msgid "Segundos serie {n}"
+msgstr ""
+
+#, python-brace-format
+msgid "Semana {n}"
 msgstr ""
 
 #, python-brace-format
