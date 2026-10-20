@@ -1218,7 +1218,7 @@ function planTodayActs(pn, today) {
   return `${shOn ? `<p class="muted" style="font-size:.82rem;margin:10px 0 0">${TN(sh.by, "Sesiones aplazadas {n} día desde el {d}.", "Sesiones aplazadas {n} días desde el {d}.", { d: DIAS[WEEK_ORDER[sh.from]] })} <button class="verb" data-act="pl-unshift">${T("Deshacer")}</button></p>` : ""}
     ${acts ? `<div class="row" style="margin-top:10px;gap:6px;flex-wrap:wrap">${acts}</div>` : ""}`;
 }
-/* Pausas en Entreno → Plan */
+/* Pausas en Biblioteca → Plan */
 function planPauseBlock(p) {
   const ps = planPauses(p), fmt = k => new Date(keyTime(k)).toLocaleDateString(LOC(), { day: "numeric", month: "short" });
   return `<details class="panel" style="margin-top:12px"${state.pauseOpen ? " open" : ""} data-pauses><summary style="cursor:pointer;font-weight:600">${T("Pausar el plan")}${ps.length ? ` · ${ps.length}` : ""}</summary>
@@ -1302,7 +1302,7 @@ function planRmap(d) {
 }
 function planRoutinesEd(d) {
   const rm = planRmap(d), R = state.routines, vs = [...new Set(d.phases.map(x => normVar(x.variant)).filter(Boolean))];
-  if (!R.length) return `<h2 style="margin:18px 0 4px;font-size:1rem">${T("Rutinas y días")}</h2><p class="muted" style="font-size:.85rem;margin:0">${T("Aún no tienes rutinas. Créalas en Entreno → Rutinas y vuelve aquí.")}</p>`;
+  if (!R.length) return `<h2 style="margin:18px 0 4px;font-size:1rem">${T("Rutinas y días")}</h2><p class="muted" style="font-size:.85rem;margin:0">${T("Aún no tienes rutinas. Créalas en Biblioteca → Rutinas y vuelve aquí.")}</p>`;
   const days = r => `<div class="pdays" role="group" aria-label="${T("Días de {x}", { x: esc(r.name) })}">${WEEK_ORDER.map(x => { const on = rm[r.id].days.includes(x); return `<button data-prd="${r.id}:${x}" class="${on ? "on" : ""}" aria-pressed="${on}" aria-label="${DIAS[x]}">${dayShort(x)}</button>`; }).join("")}</div>`;
   return `<h2 style="margin:18px 0 4px;font-size:1rem">${T("Rutinas y días")}</h2>
     <p class="muted" style="font-size:.8rem;margin:0 0 8px">${T("Qué rutinas entran en cada variante y qué días tocan. «Todas las semanas» se sugiere siempre, también en descarga (como la Diaria).")}</p>
@@ -2268,7 +2268,7 @@ function sbCarga(S, now) {
 /* ---------- Iconos ---------- */
 const ICON = {
   train: '<svg viewBox="0 0 24 24"><path d="M6 7v10M18 7v10M3 10v4M21 10v4M6 12h12"/></svg>',
-  routines: '<svg viewBox="0 0 24 24"><path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01"/></svg>',
+  routines: '<svg viewBox="0 0 24 24"><path d="M4 4h4v16H4zM10 4h4v16h-4zM15.5 5.2l3.9-1 3.6 14.5-3.9 1z"/></svg>',
   diary: '<svg viewBox="0 0 24 24"><path d="M6 3h11a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6zM6 3v18M10 8h5M10 12h5"/></svg>',
   history: '<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>',
   stats: '<svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>',
@@ -2285,7 +2285,7 @@ const CHECK = '<svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg>';
 const PLAY = '<svg viewBox="0 0 24 24"><path d="M8 5.5l10 6.5-10 6.5z"/></svg>';
 
 function renderTabs() {
-  const items = [["train",T("Hoy")],["routines",T("Entreno")],["diary",T("Diario")],["stats",T("Progreso")],["data",T("Ajustes")]];
+  const items = [["train",T("Hoy")],["routines",T("Biblioteca")],["diary",T("Diario")],["stats",T("Progreso")],["data",T("Ajustes")]];
   $("#tabs").innerHTML = items.map(([k, l]) =>
     `<button data-tab="${k}" ${state.tab === k ? 'aria-current="page"' : ""}>${ICON[k]}<span>${l}</span></button>`).join("");
 }
@@ -2805,8 +2805,8 @@ function viewRoutines() {
   const head = rv === "mine" ? `${state.routines.length ? `<button class="btn icon shbtn" data-act="rs-open" aria-label="${T("Compartir rutinas")}" title="${T("Compartir rutinas")}">${SHARE_ICO}</button>` : ""}<button class="btn primary" data-act="newroutine">+ ${T("Nueva rutina")}</button>` : "";
   const cur = routCur(), open = !!state.routOpen && !!cur;
   return `
-    <div class="rtop"><div class="phead"><h1>${T("Entreno")}</h1>${head}</div>
-    ${utabs(tabs, rv, "rview", T("Entreno"))}</div>
+    <div class="rtop"><div class="phead"><h1>${T("Biblioteca")}</h1>${head}</div>
+    ${utabs(tabs, rv, "rview", T("Biblioteca"))}</div>
     ${rv === "cat" ? viewCatalog() : rv === "plan" ? planSection() : state.routines.length ? `<div class="rsplit${open ? " hasdet" : ""}"><div class="rlist">${routGroups().map(([g, rs]) => `${g ? `<div class="glabel">${g}</div>` : ""}<div class="lgroup">${rs.map(r => routRow(r, r.id === cur?.id)).join("")}</div>`).join("")}</div>${routDetail(cur)}</div>`
       : `<div class="empty" style="margin-top:16px">${T("Crea una rutina con sus ejercicios, series y repeticiones objetivo.")}</div>`}`;
 }
@@ -4039,10 +4039,10 @@ function installBlock() {
 /* ---------- Novedades (una vez por versión; historial al tocar la versión) ---------- */
 const CHANGES = [  // Novedades: solo en castellano; las traducciones, en i18n/*.po
   ["3.0.0", [
-    N_("Nueva estructura: Hoy · Entreno · Diario · Progreso · Ajustes. Entreno reúne Rutinas, Plan y Ejercicios; Stats pasa a llamarse Progreso."),
+    N_("Nueva estructura: Hoy · Biblioteca · Diario · Progreso · Ajustes. Biblioteca reúne Rutinas, Plan y Ejercicios; Stats pasa a llamarse Progreso."),
     N_("Hoy: lo que toca, arriba y con un único botón Empezar; accesos rápidos a otra rutina, sesión libre y actividad; los avisos, juntos en «Pendiente»."),
     N_("Rutinas agrupadas por variante. Cada rutina se abre en su propia pantalla (en PC, al lado de la lista) con Empezar, Editar, Imprimir, Compartir y Duplicar."),
-    N_("El plan de progresión pasa de Hoy a Entreno → Plan, junto a las rutinas que usa."),
+    N_("El plan de progresión pasa de Hoy a Biblioteca → Plan, junto a las rutinas que usa."),
     N_("Plan flexible: aplazar a mañana las sesiones de hoy (las siguientes de la semana se corren), hacer descarga esta semana o pausar el plan 1 a 4 semanas; el resto del plan se corre. Además, «Rutinas y días» se eligen dentro del propio plan."),
     N_("Plan «en orden» (por defecto en planes nuevos): hoy toca la siguiente sesión que falte, sea el día que sea; si empiezas un domingo o fallas un día, se recupera, y la semana del plan pasa al hacerlas todas."),
     N_("Diario: el peso se anota aquí. Solo se ven las casillas con datos; lo demás se añade con un toque (+ Sueño, + Peso, + Pasos…)."),
@@ -4182,7 +4182,7 @@ function welcomeModal() {
     <div class="copt">
       <button data-act="wiz-new"><b>${T("Crear mi primera rutina")}</b><small>${T("Eliges los ejercicios, las series y los descansos.")}</small></button>
       <button data-act="wiz-imp"><b>${T("Importar una copia o rutinas")}</b><small>${T("Un archivo .json de Usus: una copia de seguridad o rutinas que te han pasado.")}</small></button>
-      <button data-act="wiz-end"><b>${T("Echar un vistazo")}</b><small>${T("Ver la app primero. Las rutinas se crean en Entreno → Nueva rutina.")}</small></button>
+      <button data-act="wiz-end"><b>${T("Echar un vistazo")}</b><small>${T("Ver la app primero. Las rutinas se crean en Biblioteca → Nueva rutina.")}</small></button>
     </div>
     <input type="file" id="wizFile" accept="application/json,.json" hidden>
     ${isNative() ? "" : `<details class="wzmore"><summary>${T("Instalar en el móvil")}</summary>${installBlock()}</details>`}
@@ -5448,7 +5448,7 @@ const I18N = {
     "Aún no hay récords en los últimos 60 días. Aparecen solos al superar tu mejor marca.": "Encara no hi ha rècords en els últims 60 dies. Apareixen sols quan superes la teva millor marca.",
     "Aún no hay sesiones con esfuerzo (PEM). Se pregunta al terminar cada sesión.": "Encara no hi ha sessions amb esforç (PEM). Es pregunta en acabar cada sessió.",
     "Aún no tienes rutinas.": "Encara no tens rutines.",
-    "Aún no tienes rutinas. Créalas en Entreno → Rutinas y vuelve aquí.": "Encara no tens rutines. Crea-les a Entrenament → Rutines i torna aquí.",
+    "Aún no tienes rutinas. Créalas en Biblioteca → Rutinas y vuelve aquí.": "Encara no tens rutines. Crea-les a Biblioteca → Rutines i torna aquí.",
     "Aún no tienes suplementos. Añádelos con Gestionar.": "Encara no tens suplements. Afegeix-los amb Gestiona.",
     "Automático": "Automàtic",
     "Avanzado (más de 5 años o competición)": "Avançat (més de 5 anys o competició)",
@@ -5472,6 +5472,7 @@ const I18N = {
     "Barras = nivel dentro de su progresión (1 fácil, 5 difícil). Iconos = material; en naranja, lo que no tienes marcado en Ajustes → Entreno.": "Barres = nivell dins la seva progressió (1 fàcil, 5 difícil). Icones = material; en taronja, el que no tens marcat a Ajustos → Entrenament.",
     "Básico (6 meses–2 años)": "Bàsic (6 mesos–2 anys)",
     "Bastante duro": "Força dur",
+    "Biblioteca": "Biblioteca",
     "Bienvenido a Usus": "Benvingut a Usus",
     "Bitcoin": "Bitcoin",
     "Borrar datos del ciclo": "Esborra les dades del cicle",
@@ -5698,7 +5699,7 @@ const I18N = {
     "El archivo no es un JSON válido": "El fitxer no és un JSON vàlid",
     "El enlace no es válido o está incompleto": "L'enllaç no és vàlid o està incomplet",
     "El pitido usa el volumen multimedia. Si no vibra, revisa No molestar y la vibración del sistema.": "El xiulet fa servir el volum multimèdia. Si no vibra, revisa No molestis i la vibració del sistema.",
-    "El plan de progresión pasa de Hoy a Entreno → Plan, junto a las rutinas que usa.": "El pla de progressió passa d'Avui a Entrenament → Pla, al costat de les rutines que fa servir.",
+    "El plan de progresión pasa de Hoy a Biblioteca → Plan, junto a las rutinas que usa.": "El pla de progressió passa d'Avui a Biblioteca → Pla, al costat de les rutines que fa servir.",
     "El plan empieza el {d}.": "El pla comença el {d}.",
     "El plan empieza el lunes de la semana de inicio. Sin revisión, dura un año.": "El pla comença el dilluns de la setmana d'inici. Sense revisió, dura un any.",
     "El plan no tiene fases válidas. Edítalo para añadirlas.": "El pla no té fases vàlides. Edita'l per afegir-ne.",
@@ -6028,7 +6029,7 @@ const I18N = {
     "Notas y etiquetas del diario": "Notes i etiquetes del diari",
     "Novedades · versión {v}": "Novetats · versió {v}",
     "Novedades de la {v}": "Novetats de la {v}",
-    "Nueva estructura: Hoy · Entreno · Diario · Progreso · Ajustes. Entreno reúne Rutinas, Plan y Ejercicios; Stats pasa a llamarse Progreso.": "Nova estructura: Avui · Entrenament · Diari · Progrés · Ajustos. Entrenament aplega Rutines, Pla i Exercicis; Stats passa a dir-se Progrés.",
+    "Nueva estructura: Hoy · Biblioteca · Diario · Progreso · Ajustes. Biblioteca reúne Rutinas, Plan y Ejercicios; Stats pasa a llamarse Progreso.": "Nova estructura: Avui · Biblioteca · Diari · Progrés · Ajustos. Biblioteca aplega Rutines, Pla i Exercicis; Stats passa a dir-se Progrés.",
     "Nueva rutina": "Nova rutina",
     "Nuevo": "Nou",
     "Nuevo perfil": "Perfil nou",
@@ -6491,7 +6492,7 @@ const I18N = {
     "Ver en Progreso": "Veure a Progrés",
     "Ver ficha": "Mostra la fitxa",
     "Ver historial": "Mostra l'historial",
-    "Ver la app primero. Las rutinas se crean en Entreno → Nueva rutina.": "Veure l'app primer. Les rutines es creen a Entrenament → Nova rutina.",
+    "Ver la app primero. Las rutinas se crean en Biblioteca → Nueva rutina.": "Veure l'app primer. Les rutines es creen a Biblioteca → Nova rutina.",
     "Ver notas": "Veure notes",
     "Ver plan": "Mostra el pla",
     "Ver versiones": "Veure versions",
@@ -6706,7 +6707,7 @@ const I18N = {
     "Aún no hay récords en los últimos 60 días. Aparecen solos al superar tu mejor marca.": "No records in the last 60 days yet. They appear automatically when you beat your best.",
     "Aún no hay sesiones con esfuerzo (PEM). Se pregunta al terminar cada sesión.": "No sessions with effort (RPE) yet. It's asked at the end of each session.",
     "Aún no tienes rutinas.": "You have no routines yet.",
-    "Aún no tienes rutinas. Créalas en Entreno → Rutinas y vuelve aquí.": "You have no routines yet. Create them in Workout → Routines and come back here.",
+    "Aún no tienes rutinas. Créalas en Biblioteca → Rutinas y vuelve aquí.": "You have no routines yet. Create them in Library → Routines and come back here.",
     "Aún no tienes suplementos. Añádelos con Gestionar.": "No supplements yet. Add them with Manage.",
     "Automático": "Automatic",
     "Avanzado (más de 5 años o competición)": "Advanced (over 5 years or competing)",
@@ -6730,6 +6731,7 @@ const I18N = {
     "Barras = nivel dentro de su progresión (1 fácil, 5 difícil). Iconos = material; en naranja, lo que no tienes marcado en Ajustes → Entreno.": "Bars = level within its progression (1 easy, 5 hard). Icons = equipment; in orange, what you haven't ticked in Settings → Workout.",
     "Básico (6 meses–2 años)": "Basic (6 months–2 years)",
     "Bastante duro": "Quite hard",
+    "Biblioteca": "Library",
     "Bienvenido a Usus": "Welcome to Usus",
     "Bitcoin": "Bitcoin",
     "Borrar datos del ciclo": "Delete cycle data",
@@ -6956,7 +6958,7 @@ const I18N = {
     "El archivo no es un JSON válido": "The file isn't valid JSON",
     "El enlace no es válido o está incompleto": "The link is invalid or incomplete",
     "El pitido usa el volumen multimedia. Si no vibra, revisa No molestar y la vibración del sistema.": "The beep uses media volume. If it doesn't vibrate, check Do Not Disturb and system vibration.",
-    "El plan de progresión pasa de Hoy a Entreno → Plan, junto a las rutinas que usa.": "The progression plan moves from Today to Workout → Plan, next to the routines it uses.",
+    "El plan de progresión pasa de Hoy a Biblioteca → Plan, junto a las rutinas que usa.": "The progression plan moves from Today to Library → Plan, next to the routines it uses.",
     "El plan empieza el {d}.": "The plan starts on {d}.",
     "El plan empieza el lunes de la semana de inicio. Sin revisión, dura un año.": "The plan starts on the Monday of the start week. Without a review date it lasts a year.",
     "El plan no tiene fases válidas. Edítalo para añadirlas.": "The plan has no valid phases. Edit it to add some.",
@@ -7286,7 +7288,7 @@ const I18N = {
     "Notas y etiquetas del diario": "Diary notes and tags",
     "Novedades · versión {v}": "What's new · version {v}",
     "Novedades de la {v}": "What's new in {v}",
-    "Nueva estructura: Hoy · Entreno · Diario · Progreso · Ajustes. Entreno reúne Rutinas, Plan y Ejercicios; Stats pasa a llamarse Progreso.": "New layout: Today · Workout · Diary · Progress · Settings. Workout brings together Routines, Plan and Exercises; Stats is now called Progress.",
+    "Nueva estructura: Hoy · Biblioteca · Diario · Progreso · Ajustes. Biblioteca reúne Rutinas, Plan y Ejercicios; Stats pasa a llamarse Progreso.": "New layout: Today · Library · Diary · Progress · Settings. Library brings together Routines, Plan and Exercises; Stats is now called Progress.",
     "Nueva rutina": "New routine",
     "Nuevo": "New",
     "Nuevo perfil": "New profile",
@@ -7749,7 +7751,7 @@ const I18N = {
     "Ver en Progreso": "See in Progress",
     "Ver ficha": "View card",
     "Ver historial": "View history",
-    "Ver la app primero. Las rutinas se crean en Entreno → Nueva rutina.": "See the app first. Routines are created in Workout → New routine.",
+    "Ver la app primero. Las rutinas se crean en Biblioteca → Nueva rutina.": "See the app first. Routines are created in Library → New routine.",
     "Ver notas": "See notes",
     "Ver plan": "View plan",
     "Ver versiones": "See versions",

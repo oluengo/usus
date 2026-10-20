@@ -1,7 +1,7 @@
 /* ---------- Iconos ---------- */
 const ICON = {
   train: '<svg viewBox="0 0 24 24"><path d="M6 7v10M18 7v10M3 10v4M21 10v4M6 12h12"/></svg>',
-  routines: '<svg viewBox="0 0 24 24"><path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01"/></svg>',
+  routines: '<svg viewBox="0 0 24 24"><path d="M4 4h4v16H4zM10 4h4v16h-4zM15.5 5.2l3.9-1 3.6 14.5-3.9 1z"/></svg>',
   diary: '<svg viewBox="0 0 24 24"><path d="M6 3h11a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6zM6 3v18M10 8h5M10 12h5"/></svg>',
   history: '<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>',
   stats: '<svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>',
@@ -18,7 +18,7 @@ const CHECK = '<svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg>';
 const PLAY = '<svg viewBox="0 0 24 24"><path d="M8 5.5l10 6.5-10 6.5z"/></svg>';
 
 function renderTabs() {
-  const items = [["train",T("Hoy")],["routines",T("Entreno")],["diary",T("Diario")],["stats",T("Progreso")],["data",T("Ajustes")]];
+  const items = [["train",T("Hoy")],["routines",T("Biblioteca")],["diary",T("Diario")],["stats",T("Progreso")],["data",T("Ajustes")]];
   $("#tabs").innerHTML = items.map(([k, l]) =>
     `<button data-tab="${k}" ${state.tab === k ? 'aria-current="page"' : ""}>${ICON[k]}<span>${l}</span></button>`).join("");
 }

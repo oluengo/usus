@@ -165,7 +165,7 @@ function planTodayActs(pn, today) {
   return `${shOn ? `<p class="muted" style="font-size:.82rem;margin:10px 0 0">${TN(sh.by, "Sesiones aplazadas {n} día desde el {d}.", "Sesiones aplazadas {n} días desde el {d}.", { d: DIAS[WEEK_ORDER[sh.from]] })} <button class="verb" data-act="pl-unshift">${T("Deshacer")}</button></p>` : ""}
     ${acts ? `<div class="row" style="margin-top:10px;gap:6px;flex-wrap:wrap">${acts}</div>` : ""}`;
 }
-/* Pausas en Entreno → Plan */
+/* Pausas en Biblioteca → Plan */
 function planPauseBlock(p) {
   const ps = planPauses(p), fmt = k => new Date(keyTime(k)).toLocaleDateString(LOC(), { day: "numeric", month: "short" });
   return `<details class="panel" style="margin-top:12px"${state.pauseOpen ? " open" : ""} data-pauses><summary style="cursor:pointer;font-weight:600">${T("Pausar el plan")}${ps.length ? ` · ${ps.length}` : ""}</summary>
@@ -249,7 +249,7 @@ function planRmap(d) {
 }
 function planRoutinesEd(d) {
   const rm = planRmap(d), R = state.routines, vs = [...new Set(d.phases.map(x => normVar(x.variant)).filter(Boolean))];
-  if (!R.length) return `<h2 style="margin:18px 0 4px;font-size:1rem">${T("Rutinas y días")}</h2><p class="muted" style="font-size:.85rem;margin:0">${T("Aún no tienes rutinas. Créalas en Entreno → Rutinas y vuelve aquí.")}</p>`;
+  if (!R.length) return `<h2 style="margin:18px 0 4px;font-size:1rem">${T("Rutinas y días")}</h2><p class="muted" style="font-size:.85rem;margin:0">${T("Aún no tienes rutinas. Créalas en Biblioteca → Rutinas y vuelve aquí.")}</p>`;
   const days = r => `<div class="pdays" role="group" aria-label="${T("Días de {x}", { x: esc(r.name) })}">${WEEK_ORDER.map(x => { const on = rm[r.id].days.includes(x); return `<button data-prd="${r.id}:${x}" class="${on ? "on" : ""}" aria-pressed="${on}" aria-label="${DIAS[x]}">${dayShort(x)}</button>`; }).join("")}</div>`;
   return `<h2 style="margin:18px 0 4px;font-size:1rem">${T("Rutinas y días")}</h2>
     <p class="muted" style="font-size:.8rem;margin:0 0 8px">${T("Qué rutinas entran en cada variante y qué días tocan. «Todas las semanas» se sugiere siempre, también en descarga (como la Diaria).")}</p>

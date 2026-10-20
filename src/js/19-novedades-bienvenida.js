@@ -1,10 +1,10 @@
 /* ---------- Novedades (una vez por versión; historial al tocar la versión) ---------- */
 const CHANGES = [  // Novedades: solo en castellano; las traducciones, en i18n/*.po
   ["3.0.0", [
-    N_("Nueva estructura: Hoy · Entreno · Diario · Progreso · Ajustes. Entreno reúne Rutinas, Plan y Ejercicios; Stats pasa a llamarse Progreso."),
+    N_("Nueva estructura: Hoy · Biblioteca · Diario · Progreso · Ajustes. Biblioteca reúne Rutinas, Plan y Ejercicios; Stats pasa a llamarse Progreso."),
     N_("Hoy: lo que toca, arriba y con un único botón Empezar; accesos rápidos a otra rutina, sesión libre y actividad; los avisos, juntos en «Pendiente»."),
     N_("Rutinas agrupadas por variante. Cada rutina se abre en su propia pantalla (en PC, al lado de la lista) con Empezar, Editar, Imprimir, Compartir y Duplicar."),
-    N_("El plan de progresión pasa de Hoy a Entreno → Plan, junto a las rutinas que usa."),
+    N_("El plan de progresión pasa de Hoy a Biblioteca → Plan, junto a las rutinas que usa."),
     N_("Plan flexible: aplazar a mañana las sesiones de hoy (las siguientes de la semana se corren), hacer descarga esta semana o pausar el plan 1 a 4 semanas; el resto del plan se corre. Además, «Rutinas y días» se eligen dentro del propio plan."),
     N_("Plan «en orden» (por defecto en planes nuevos): hoy toca la siguiente sesión que falte, sea el día que sea; si empiezas un domingo o fallas un día, se recupera, y la semana del plan pasa al hacerlas todas."),
     N_("Diario: el peso se anota aquí. Solo se ven las casillas con datos; lo demás se añade con un toque (+ Sueño, + Peso, + Pasos…)."),
@@ -144,7 +144,7 @@ function welcomeModal() {
     <div class="copt">
       <button data-act="wiz-new"><b>${T("Crear mi primera rutina")}</b><small>${T("Eliges los ejercicios, las series y los descansos.")}</small></button>
       <button data-act="wiz-imp"><b>${T("Importar una copia o rutinas")}</b><small>${T("Un archivo .json de Usus: una copia de seguridad o rutinas que te han pasado.")}</small></button>
-      <button data-act="wiz-end"><b>${T("Echar un vistazo")}</b><small>${T("Ver la app primero. Las rutinas se crean en Entreno → Nueva rutina.")}</small></button>
+      <button data-act="wiz-end"><b>${T("Echar un vistazo")}</b><small>${T("Ver la app primero. Las rutinas se crean en Biblioteca → Nueva rutina.")}</small></button>
     </div>
     <input type="file" id="wizFile" accept="application/json,.json" hidden>
     ${isNative() ? "" : `<details class="wzmore"><summary>${T("Instalar en el móvil")}</summary>${installBlock()}</details>`}

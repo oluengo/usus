@@ -604,7 +604,7 @@ msgstr ""
 msgid "Aún no tienes rutinas."
 msgstr ""
 
-msgid "Aún no tienes rutinas. Créalas en Entreno → Rutinas y vuelve aquí."
+msgid "Aún no tienes rutinas. Créalas en Biblioteca → Rutinas y vuelve aquí."
 msgstr ""
 
 msgid "Aún no tienes suplementos. Añádelos con Gestionar."
@@ -677,6 +677,9 @@ msgid "Básico (6 meses–2 años)"
 msgstr ""
 
 msgid "Bastante duro"
+msgstr ""
+
+msgid "Biblioteca"
 msgstr ""
 
 msgid "Bienvenido a Usus"
@@ -1384,7 +1387,7 @@ msgstr ""
 msgid "El pitido usa el volumen multimedia. Si no vibra, revisa No molestar y la vibración del sistema."
 msgstr ""
 
-msgid "El plan de progresión pasa de Hoy a Entreno → Plan, junto a las rutinas que usa."
+msgid "El plan de progresión pasa de Hoy a Biblioteca → Plan, junto a las rutinas que usa."
 msgstr ""
 
 #, python-brace-format
@@ -2397,7 +2400,7 @@ msgstr ""
 msgid "Novedades de la {v}"
 msgstr ""
 
-msgid "Nueva estructura: Hoy · Entreno · Diario · Progreso · Ajustes. Entreno reúne Rutinas, Plan y Ejercicios; Stats pasa a llamarse Progreso."
+msgid "Nueva estructura: Hoy · Biblioteca · Diario · Progreso · Ajustes. Biblioteca reúne Rutinas, Plan y Ejercicios; Stats pasa a llamarse Progreso."
 msgstr ""
 
 msgid "Nueva rutina"
@@ -3858,7 +3861,7 @@ msgstr ""
 msgid "Ver historial"
 msgstr ""
 
-msgid "Ver la app primero. Las rutinas se crean en Entreno → Nueva rutina."
+msgid "Ver la app primero. Las rutinas se crean en Biblioteca → Nueva rutina."
 msgstr ""
 
 msgid "Ver notas"

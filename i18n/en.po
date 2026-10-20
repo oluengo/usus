@@ -605,8 +605,8 @@ msgstr "No sessions with effort (RPE) yet. It's asked at the end of each session
 msgid "Aún no tienes rutinas."
 msgstr "You have no routines yet."
 
-msgid "Aún no tienes rutinas. Créalas en Entreno → Rutinas y vuelve aquí."
-msgstr "You have no routines yet. Create them in Workout → Routines and come back here."
+msgid "Aún no tienes rutinas. Créalas en Biblioteca → Rutinas y vuelve aquí."
+msgstr "You have no routines yet. Create them in Library → Routines and come back here."
 
 msgid "Aún no tienes suplementos. Añádelos con Gestionar."
 msgstr "No supplements yet. Add them with Manage."
@@ -679,6 +679,9 @@ msgstr "Basic (6 months–2 years)"
 
 msgid "Bastante duro"
 msgstr "Quite hard"
+
+msgid "Biblioteca"
+msgstr "Library"
 
 msgid "Bienvenido a Usus"
 msgstr "Welcome to Usus"
@@ -1385,8 +1388,8 @@ msgstr "The link is invalid or incomplete"
 msgid "El pitido usa el volumen multimedia. Si no vibra, revisa No molestar y la vibración del sistema."
 msgstr "The beep uses media volume. If it doesn't vibrate, check Do Not Disturb and system vibration."
 
-msgid "El plan de progresión pasa de Hoy a Entreno → Plan, junto a las rutinas que usa."
-msgstr "The progression plan moves from Today to Workout → Plan, next to the routines it uses."
+msgid "El plan de progresión pasa de Hoy a Biblioteca → Plan, junto a las rutinas que usa."
+msgstr "The progression plan moves from Today to Library → Plan, next to the routines it uses."
 
 #, python-brace-format
 msgid "El plan empieza el {d}."
@@ -2398,8 +2401,8 @@ msgstr "What's new · version {v}"
 msgid "Novedades de la {v}"
 msgstr "What's new in {v}"
 
-msgid "Nueva estructura: Hoy · Entreno · Diario · Progreso · Ajustes. Entreno reúne Rutinas, Plan y Ejercicios; Stats pasa a llamarse Progreso."
-msgstr "New layout: Today · Workout · Diary · Progress · Settings. Workout brings together Routines, Plan and Exercises; Stats is now called Progress."
+msgid "Nueva estructura: Hoy · Biblioteca · Diario · Progreso · Ajustes. Biblioteca reúne Rutinas, Plan y Ejercicios; Stats pasa a llamarse Progreso."
+msgstr "New layout: Today · Library · Diary · Progress · Settings. Library brings together Routines, Plan and Exercises; Stats is now called Progress."
 
 msgid "Nueva rutina"
 msgstr "New routine"
@@ -3859,8 +3862,8 @@ msgstr "View card"
 msgid "Ver historial"
 msgstr "View history"
 
-msgid "Ver la app primero. Las rutinas se crean en Entreno → Nueva rutina."
-msgstr "See the app first. Routines are created in Workout → New routine."
+msgid "Ver la app primero. Las rutinas se crean en Biblioteca → Nueva rutina."
+msgstr "See the app first. Routines are created in Library → New routine."
 
 msgid "Ver notas"
 msgstr "See notes"
@@ -3967,6 +3970,18 @@ msgstr "Me"
 
 msgid "Zona peligrosa"
 msgstr "Danger zone"
+
+#~ msgid "Aún no tienes rutinas. Créalas en Entreno → Rutinas y vuelve aquí."
+#~ msgstr "You have no routines yet. Create them in Workout → Routines and come back here."
+
+#~ msgid "El plan de progresión pasa de Hoy a Entreno → Plan, junto a las rutinas que usa."
+#~ msgstr "The progression plan moves from Today to Workout → Plan, next to the routines it uses."
+
+#~ msgid "Nueva estructura: Hoy · Entreno · Diario · Progreso · Ajustes. Entreno reúne Rutinas, Plan y Ejercicios; Stats pasa a llamarse Progreso."
+#~ msgstr "New layout: Today · Workout · Diary · Progress · Settings. Workout brings together Routines, Plan and Exercises; Stats is now called Progress."
+
+#~ msgid "Ver la app primero. Las rutinas se crean en Entreno → Nueva rutina."
+#~ msgstr "See the app first. Routines are created in Workout → New routine."
 
 #, python-brace-format
 #~ msgid "{e} ejercicios · ≈ {m} min"

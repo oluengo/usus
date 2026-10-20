@@ -605,8 +605,8 @@ msgstr "Encara no hi ha sessions amb esforç (PEM). Es pregunta en acabar cada s
 msgid "Aún no tienes rutinas."
 msgstr "Encara no tens rutines."
 
-msgid "Aún no tienes rutinas. Créalas en Entreno → Rutinas y vuelve aquí."
-msgstr "Encara no tens rutines. Crea-les a Entrenament → Rutines i torna aquí."
+msgid "Aún no tienes rutinas. Créalas en Biblioteca → Rutinas y vuelve aquí."
+msgstr "Encara no tens rutines. Crea-les a Biblioteca → Rutines i torna aquí."
 
 msgid "Aún no tienes suplementos. Añádelos con Gestionar."
 msgstr "Encara no tens suplements. Afegeix-los amb Gestiona."
@@ -679,6 +679,9 @@ msgstr "Bàsic (6 mesos–2 anys)"
 
 msgid "Bastante duro"
 msgstr "Força dur"
+
+msgid "Biblioteca"
+msgstr "Biblioteca"
 
 msgid "Bienvenido a Usus"
 msgstr "Benvingut a Usus"
@@ -1385,8 +1388,8 @@ msgstr "L'enllaç no és vàlid o està incomplet"
 msgid "El pitido usa el volumen multimedia. Si no vibra, revisa No molestar y la vibración del sistema."
 msgstr "El xiulet fa servir el volum multimèdia. Si no vibra, revisa No molestis i la vibració del sistema."
 
-msgid "El plan de progresión pasa de Hoy a Entreno → Plan, junto a las rutinas que usa."
-msgstr "El pla de progressió passa d'Avui a Entrenament → Pla, al costat de les rutines que fa servir."
+msgid "El plan de progresión pasa de Hoy a Biblioteca → Plan, junto a las rutinas que usa."
+msgstr "El pla de progressió passa d'Avui a Biblioteca → Pla, al costat de les rutines que fa servir."
 
 #, python-brace-format
 msgid "El plan empieza el {d}."
@@ -2398,8 +2401,8 @@ msgstr "Novetats · versió {v}"
 msgid "Novedades de la {v}"
 msgstr "Novetats de la {v}"
 
-msgid "Nueva estructura: Hoy · Entreno · Diario · Progreso · Ajustes. Entreno reúne Rutinas, Plan y Ejercicios; Stats pasa a llamarse Progreso."
-msgstr "Nova estructura: Avui · Entrenament · Diari · Progrés · Ajustos. Entrenament aplega Rutines, Pla i Exercicis; Stats passa a dir-se Progrés."
+msgid "Nueva estructura: Hoy · Biblioteca · Diario · Progreso · Ajustes. Biblioteca reúne Rutinas, Plan y Ejercicios; Stats pasa a llamarse Progreso."
+msgstr "Nova estructura: Avui · Biblioteca · Diari · Progrés · Ajustos. Biblioteca aplega Rutines, Pla i Exercicis; Stats passa a dir-se Progrés."
 
 msgid "Nueva rutina"
 msgstr "Nova rutina"
@@ -3859,8 +3862,8 @@ msgstr "Mostra la fitxa"
 msgid "Ver historial"
 msgstr "Mostra l'historial"
 
-msgid "Ver la app primero. Las rutinas se crean en Entreno → Nueva rutina."
-msgstr "Veure l'app primer. Les rutines es creen a Entrenament → Nova rutina."
+msgid "Ver la app primero. Las rutinas se crean en Biblioteca → Nueva rutina."
+msgstr "Veure l'app primer. Les rutines es creen a Biblioteca → Nova rutina."
 
 msgid "Ver notas"
 msgstr "Veure notes"
@@ -3967,6 +3970,18 @@ msgstr "Jo"
 
 msgid "Zona peligrosa"
 msgstr "Zona perillosa"
+
+#~ msgid "Aún no tienes rutinas. Créalas en Entreno → Rutinas y vuelve aquí."
+#~ msgstr "Encara no tens rutines. Crea-les a Entrenament → Rutines i torna aquí."
+
+#~ msgid "El plan de progresión pasa de Hoy a Entreno → Plan, junto a las rutinas que usa."
+#~ msgstr "El pla de progressió passa d'Avui a Entrenament → Pla, al costat de les rutines que fa servir."
+
+#~ msgid "Nueva estructura: Hoy · Entreno · Diario · Progreso · Ajustes. Entreno reúne Rutinas, Plan y Ejercicios; Stats pasa a llamarse Progreso."
+#~ msgstr "Nova estructura: Avui · Entrenament · Diari · Progrés · Ajustos. Entrenament aplega Rutines, Pla i Exercicis; Stats passa a dir-se Progrés."
+
+#~ msgid "Ver la app primero. Las rutinas se crean en Entreno → Nueva rutina."
+#~ msgstr "Veure l'app primer. Les rutines es creen a Entrenament → Nova rutina."
 
 #, python-brace-format
 #~ msgid "{e} ejercicios · ≈ {m} min"

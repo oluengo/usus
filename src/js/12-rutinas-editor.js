@@ -49,8 +49,8 @@ function viewRoutines() {
   const head = rv === "mine" ? `${state.routines.length ? `<button class="btn icon shbtn" data-act="rs-open" aria-label="${T("Compartir rutinas")}" title="${T("Compartir rutinas")}">${SHARE_ICO}</button>` : ""}<button class="btn primary" data-act="newroutine">+ ${T("Nueva rutina")}</button>` : "";
   const cur = routCur(), open = !!state.routOpen && !!cur;
   return `
-    <div class="rtop"><div class="phead"><h1>${T("Entreno")}</h1>${head}</div>
-    ${utabs(tabs, rv, "rview", T("Entreno"))}</div>
+    <div class="rtop"><div class="phead"><h1>${T("Biblioteca")}</h1>${head}</div>
+    ${utabs(tabs, rv, "rview", T("Biblioteca"))}</div>
     ${rv === "cat" ? viewCatalog() : rv === "plan" ? planSection() : state.routines.length ? `<div class="rsplit${open ? " hasdet" : ""}"><div class="rlist">${routGroups().map(([g, rs]) => `${g ? `<div class="glabel">${g}</div>` : ""}<div class="lgroup">${rs.map(r => routRow(r, r.id === cur?.id)).join("")}</div>`).join("")}</div>${routDetail(cur)}</div>`
       : `<div class="empty" style="margin-top:16px">${T("Crea una rutina con sus ejercicios, series y repeticiones objetivo.")}</div>`}`;
 }
