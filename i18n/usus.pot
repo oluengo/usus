@@ -949,6 +949,9 @@ msgstr ""
 msgid "Conseguido"
 msgstr ""
 
+msgid "Constancia"
+msgstr ""
+
 msgid "Constancia · 12 semanas"
 msgstr ""
 
@@ -1193,6 +1196,9 @@ msgstr ""
 msgid "Después: {x}"
 msgstr ""
 
+msgid "Detalle"
+msgstr ""
+
 msgid "Detalle de la experiencia y otros deportes"
 msgstr ""
 
@@ -1259,6 +1265,12 @@ msgid "Días de antelación"
 msgstr ""
 
 msgid "Días en que se sugiere"
+msgstr ""
+
+msgid "Días entrenados por semana"
+msgstr ""
+
+msgid "Días por semana (media)"
 msgstr ""
 
 msgid "Días registrados"
@@ -1549,6 +1561,9 @@ msgstr ""
 msgid "Entendido, empezar"
 msgstr ""
 
+msgid "Entrenado"
+msgstr ""
+
 msgid "Entrenado 30 días"
 msgstr ""
 
@@ -1618,6 +1633,9 @@ msgid "Esta app no se conecta a Internet, así que no busca versiones nuevas por
 msgstr ""
 
 msgid "Esta copia es de una versión más nueva de Usus. Actualiza la app para importarla completa. ¿Importar igualmente lo que se pueda?"
+msgstr ""
+
+msgid "esta sem."
 msgstr ""
 
 msgid "esta semana"
@@ -2886,6 +2904,9 @@ msgstr ""
 msgid "Progreso"
 msgstr ""
 
+msgid "Progreso: el Resumen queda en cuatro tarjetas (esta semana, constancia, récords y peso), cada una con un enlace a su detalle; cifras y gráficos con un mismo estilo, y las notas del periodo pasan a Hábitos."
+msgstr ""
+
 msgid "propio"
 msgstr ""
 
@@ -3306,6 +3327,9 @@ msgstr ""
 msgid "Semanas de pausa"
 msgstr ""
 
+msgid "Semanas seguidas"
+msgstr ""
+
 msgid "Sensibilidad"
 msgstr ""
 
@@ -3342,6 +3366,9 @@ msgid "Series hechas por tipo en las últimas 4 semanas."
 msgstr ""
 
 msgid "Ses."
+msgstr ""
+
+msgid "sesión"
 msgstr ""
 
 msgid "Sesión"

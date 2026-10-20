@@ -21,7 +21,7 @@ test("notas de sesión y de ejercicio en una sesión terminada", async ({ page }
   await page.locator('[data-act="snote-done"]').click();
   const s = (await ls(page, "wk.sessions"))[0];
   expect(s.note).toBe("Hoy con agujetas"); expect(s.exercises[0].note).toBe("Agarre neutro");
-  await page.locator('[data-act="dsheet-close"]').click(); await nav(page, "stats"); await page.locator('[data-scat="res"]').click(); await page.clock.runFor(300);
+  await page.locator('[data-act="dsheet-close"]').click(); await nav(page, "stats"); await page.locator('[data-scat="hab"]').click(); await page.clock.runFor(300);
   await expect(page.locator('[data-sb="notas"]')).toContainText("Hoy con agujetas");
   expect(errors).toEqual([]);
 });

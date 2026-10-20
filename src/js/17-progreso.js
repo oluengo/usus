@@ -60,10 +60,7 @@ function sbResumen(S, now) {
   let best = 0, run = 0, prev = null;
   [...dDays].sort((a, b) => a - b).forEach(d => { run = prev !== null && addDays(prev, 1) === d ? run + 1 : 1; best = Math.max(best, run); prev = d; });
   const t30 = S.filter(s => s.start >= now - 30 * 864e5).reduce((a, s) => a + Math.max(0, (s.end || s.start) - s.start), 0);
-  return `<div class="kpis2">
-    <div class="kpi"><div class="v">${cur} <span style="font-size:.9rem;font-weight:500">${cur === 1 ? T("día") : T("días")}</span></div><div class="l">${T("Racha · mejor {n}", { n: best })}</div></div>
-    <div class="kpi"><div class="v">${fmtDur(t30)}</div><div class="l">${T("Entrenado 30 días")}</div></div>
-  </div>`;
+  return `<div class="panel"><div class="kpr"><div><b>${cur} ${cur === 1 ? T("día") : T("días")}</b><span>${T("Racha · mejor {n}", { n: best })}</span></div><div><b>${fmtDur(t30)}</b><span>${T("Entrenado 30 días")}</span></div></div></div>`;
 }
 function sbConstancia(S, now) {
   const lvl = new Map(), nd = noteDays(), D = DY.all();
@@ -163,7 +160,7 @@ function sbPeso(now) {
     idx.forEach(i => { const d = new Date(l[i].t); sv += `<text x="${X(i)}" y="${H - 6}" text-anchor="${i === 0 ? "start" : i === l.length - 1 ? "end" : "middle"}" font-size="11" style="fill:var(--muted)">${d.getDate()} ${MESES[d.getMonth()]}</text>`; });
     chart = `<div class="chart" style="margin-top:12px">${sv}</svg></div><div class="legend"><span><i style="background:var(--muted);border-radius:50%"></i>${T("Pesajes")}</span><span><i style="background:var(--accent)"></i>${T("Tendencia (media de 3)")}</span>${g ? `<span><i style="background:var(--ok)"></i>${T("Objetivo")}</span>` : ""}</div>`;
   }
-  return `<div class="panel"><div class="kpis2">${kp.map(([v, t]) => `<div><div style="font-size:1.25rem;font-weight:700">${v}</div><div class="muted" style="font-size:.8rem">${t}</div></div>`).join("")}</div>${chart}</div>`;
+  return `<div class="panel"><div class="kpr">${kp.map(([v, t]) => `<div><b>${v}</b><span>${t}</span></div>`).join("")}</div>${chart}</div>`;
 }
 const statsPer = () => { const v = +LS.get("wk.statsPer", 30); return [7, 30, 90].includes(v) ? v : 30; };
 /* Objetivos de la semana: fuerza, diaria, distancia y pasos, con los objetivos que ya existen */
@@ -324,7 +321,7 @@ function sbNotas(now) {
     ${items.map(o => `<button class="noteb" data-dnote="${o.k}"><span class="muted" style="font-size:.8rem">${new Date(keyTime(o.k)).toLocaleDateString(LOC(), { weekday: "short", day: "numeric", month: "short" })}</span><span>${tagChips(o.tags)} ${esc((x => x.length > 140 ? x.slice(0, 140) + "…" : x)(noteSnip(o)))}</span></button>`).join("")}
     ${keys.length > 8 ? `<p class="muted" style="font-size:.8rem;margin:8px 0 0">${T("Y {n} días más en el Diario.", { n: keys.length - 8 })}</p>` : ""}</div>`;
 }
-const SB_CAT = { carga: "ent", ciclo: "cue", objetivos: "res", resumen: "res", records: "res", constancia: "ent", ejercicios: "ent", equilibrio: "ent", reparto: "ent", horario: "ent", peso: "cue", sueno: "hab", pasos: "hab", actividad: "hab", suplementos: "hab", notas: "*" };
+const SB_CAT = { carga: "ent", ciclo: "cue", objetivos: "ent", resumen: "ent", records: "ent", constancia: "ent", ejercicios: "ent", equilibrio: "ent", reparto: "ent", horario: "ent", peso: "cue", sueno: "hab", pasos: "hab", actividad: "hab", suplementos: "hab", notas: "hab" };
 const SB_TABS = [["res", "Resumen"], ["ent", "Entreno"], ["cue", "Cuerpo"], ["hab", "Hábitos"]];
 const SBLOCKS = {
   objetivos: ["Objetivos de la semana", (S, IX, n) => sbObjetivos(S, n)],
@@ -346,10 +343,47 @@ const SBLOCKS = {
 };
 function statsOrder() {
   const saved = LS.get("wk.statsOrder", null);
-  if (!saved) return ["objetivos", "resumen", "records", "constancia", "carga", "ejercicios", "equilibrio", "reparto", "horario", "peso", "ciclo", "sueno", "pasos", "actividad", "suplementos", "notas"];
+  if (!saved) return ["constancia", "ejercicios", "records", "objetivos", "resumen", "carga", "equilibrio", "reparto", "horario", "peso", "ciclo", "sueno", "pasos", "actividad", "suplementos", "notas"];
   const o = saved.filter(k => SBLOCKS[k]);
   Object.keys(SBLOCKS).forEach(k => { if (!o.includes(k)) o.push(k); });
   return o;
+}
+/* Resumen: cuatro tarjetas fijas (semana, constancia, récords y peso); el detalle, en sus pestañas */
+function viewResumen(S, IX, now) {
+  const card = (t, body, to, more) => `<section class="rcard"><div class="rch"><h2>${t}</h2>${to ? `<button class="lnk" data-scat="${to}">${more} ›</button>` : ""}</div>${body}</section>`;
+  const kp = l => `<div class="kpr">${l.map(([v, t]) => `<div><b>${v}</b><span>${t}</span></div>`).join("")}</div>`;
+  /* Esta semana */
+  const wk = weekStart(now), inWk = S.filter(s => s.start >= wk), tW = inWk.reduce((a, s) => a + Math.max(0, (s.end || s.start) - s.start), 0);
+  const pn = typeof planNow === "function" ? planNow() : null, pw = pn?.status === "on" && pn.w?.seq ? pn.w : null;
+  const G = LS.get("wk.goals", { daily: 0, strength: 0 }), fW = new Set(inWk.filter(isStrength).map(s => dayStart(s.start))).size, dW = new Set(inWk.filter(s => catOf(s) === "diaria").map(s => dayStart(s.start))).size;
+  const bars = [...(pw ? [[T("Plan"), pw.done?.size || 0, pw.seq.length]] : []), ...(G.strength ? [[T("Fuerza"), fW, G.strength]] : []), ...(G.daily ? [[T("Diaria"), dW, G.daily]] : [])];
+  const semana = kp([[inWk.length, (inWk.length === 1 ? T("sesión") : T("sesiones"))], [fmtDur(tW), T("Entrenado")]])
+    + bars.map(([l, v, g]) => `<div class="rowx" style="margin-top:10px"><span>${l}</span><span>${v}/${g}</span></div><div class="pbar"><i style="width:${Math.min(100, Math.round(v / g * 100))}%;background:${v >= g ? "var(--ok)" : "var(--accent)"}"></i></div>`).join("");
+  /* Constancia: racha y sesiones por semana (12 semanas) */
+  const w0 = addDays(weekStart(now), -77), per = Array.from({ length: 12 }, (_, i) => new Set(S.filter(s => s.start >= addDays(w0, i * 7) && s.start < addDays(w0, i * 7 + 7)).map(s => dayStart(s.start))).size);
+  const avg = per.slice(0, 11).reduce((a, b) => a + b, 0) / 11, mx = Math.max(1, ...per);
+  let cur = 0; for (let i = per[11] ? 11 : 10; i >= 0 && per[i]; i--) cur++;   // semanas seguidas con algún entreno
+  const VW = 320, H = 48, bw = VW / 12;
+  let sv = `<svg viewBox="0 0 ${VW} ${H + 16}" role="img" aria-label="${T("Días entrenados por semana")}">`;
+  per.forEach((v, i) => { const h = Math.max(v ? 3 : 0, v / mx * H); sv += `<rect x="${i * bw + bw * .18}" y="${H - h}" width="${bw * .64}" height="${h}" rx="3" style="fill:${i === 11 ? "var(--accent)" : "color-mix(in srgb,var(--accent) 45%,var(--surface))"}"><title>${v}</title></rect>`; if (!v) sv += `<rect x="${i * bw + bw * .18}" y="${H - 2}" width="${bw * .64}" height="2" rx="1" style="fill:var(--line)"/>`; });
+  [0, 4, 8, 11].forEach(i => { const d = new Date(addDays(w0, i * 7)); sv += `<text x="${i === 11 ? VW : i * bw + bw / 2}" y="${H + 13}" text-anchor="${i === 11 ? "end" : "middle"}" font-size="11" style="fill:var(--muted)">${i === 11 ? T("esta sem.") : d.getDate() + " " + MESES[d.getMonth()]}</text>`; });
+  sv += "</svg>";
+  const constancia = kp([[cur === 12 ? "12+" : cur, T("Semanas seguidas")], [fmtNum(avg, 1), T("Días por semana (media)")]]) + `<div class="chart" style="margin-top:10px">${sv}</div>`;
+  /* Récords */
+  const recs = []; IX.forEach(x => { let b = null; x.pts.forEach(p => { if (b !== null && p.v > b) recs.push({ t: p.t, name: x.name, v: p.v, prev: b, mode: x.mode }); if (b === null || p.v > b) b = p.v; }); });
+  const rl = recs.filter(r => r.t >= now - 60 * 864e5).sort((a, b) => b.t - a.t).slice(0, 3);
+  const records = rl.length ? rl.map(r => { const d = new Date(r.t); return `<div class="rec">${TROPHY}<span style="flex:1;min-width:0">${esc(r.name)} · <b>${fmtVal(r.mode, r.v)}</b></span><span class="muted" style="font-size:.8rem">${d.getDate()} ${MESES[d.getMonth()]}</span></div>`; }).join("")
+    : `<p class="muted" style="margin:0">${T("Aún no hay récords en los últimos 60 días. Aparecen solos al superar tu mejor marca.")}</p>`;
+  /* Peso */
+  const wl = W.list(); let peso = "";
+  if (wl.length) {
+    const last = wl[wl.length - 1], ref = [...wl].reverse().find(x => x.t <= last.t - 26 * 864e5), g = W.goal();
+    const dv = ref ? Math.round((last.kg - ref.kg) * 10) / 10 : null;
+    peso = `<div class="kpr wsp">${[[fmtW(last.kg), T("Último")], [dv === null ? "—" : `${dv > 0 ? "+" : dv < 0 ? "−" : ""}${fmtW(Math.abs(dv))}`, T("4 semanas")], ...(g ? [[last.kg > g ? fmtW(last.kg - g) : T("Conseguido"), T("Para el objetivo ({g})", { g: fmtW(g) })]] : [])].map(([v, t]) => `<div><b>${v}</b><span>${t}</span></div>`).join("")}</div>
+      ${wl.length > 1 ? `<div class="rspark">${spark(wl.slice(-12).map(x => ({ v: x.kg })), "var(--accent)").replace('width="72" height="24"', 'preserveAspectRatio="none"')}</div>` : ""}`;
+  }
+  return `<div class="rgrid">${card(T("Esta semana"), semana, "", "")}${card(T("Constancia"), constancia, "ent", T("Calendario"))}${card(T("Récords recientes"), records, "ent", T("Ejercicios"))}${peso ? card(T("Peso"), peso, "cue", T("Detalle")) : ""}</div>
+    <div class="aimini"><span>✦ ${T("Analizar con IA externa")} <span class="aibadge">${T("Externa")}</span></span><button class="btn small" data-act="ai-open">${T("Preparar análisis")}</button></div>`;
 }
 function viewStats() {
   const S = state.sessions;
@@ -357,9 +391,10 @@ function viewStats() {
   const now = Date.now(), IX = exIndex(), ed = !!state.statsEdit, hid = LS.get("wk.statsHidden", []);
   const cat = SB_TABS.some(x => x[0] === state.statsCat) ? state.statsCat : (SB_TABS.some(x => x[0] === LS.get("wk.statsCat", "res")) ? LS.get("wk.statsCat", "res") : "res"), per = statsPer();
   const ord = statsOrder().filter(k => (SB_CAT[k] === cat || SB_CAT[k] === "*") && (ed || !hid.includes(k)) && (k !== "ciclo" || cycOn()));
+  if (cat === "res") return `<div class="phead"><h1>${T("Progreso")}</h1></div>
+    ${utabs(SB_TABS.map(([k, l]) => [k, T(l)]), cat, "scat", T("Progreso"))}${viewResumen(S, IX, now)}`;
   return `<div class="phead"><h1>${T("Progreso")}</h1><button class="btn ghost small" data-act="statsedit">${ed ? T("Hecho") : T("Ordenar")}</button></div>
     ${utabs(SB_TABS.map(([k, l]) => [k, T(l)]), cat, "scat", T("Progreso"))}
-    ${cat === "res" && !ed ? aiCard() : ""}
     ${cat === "hab" ? `<div class="perrow"><span>${T("Periodo")}</span>${[7, 30, 90].map(p => `<button data-sper="${p}" aria-pressed="${per === p}">${p} ${T("d")}</button>`).join("")}</div>` : ""}
     ${ed ? `<p class="muted" style="font-size:.85rem;margin:8px 0 0">${T("Ordena con ↑ ↓ y elige qué bloques ver.")}</p>` : ""}
     ${ord.map((k, i) => `<section class="sblock${ed && hid.includes(k) ? " hidb" : ""}" data-sb="${k}"><div class="sb-head"><h2>${T(SBLOCKS[k][0])}</h2>${ed ? `

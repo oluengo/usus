@@ -950,6 +950,9 @@ msgstr "Condicions de salut rellevants"
 msgid "Conseguido"
 msgstr "Aconseguit"
 
+msgid "Constancia"
+msgstr "Constància"
+
 msgid "Constancia · 12 semanas"
 msgstr "Constància · 12 setmanes"
 
@@ -1194,6 +1197,9 @@ msgstr "Desmarca"
 msgid "Después: {x}"
 msgstr "Després: {x}"
 
+msgid "Detalle"
+msgstr "Detall"
+
 msgid "Detalle de la experiencia y otros deportes"
 msgstr "Detall de l'experiència i altres esports"
 
@@ -1261,6 +1267,12 @@ msgstr "Dies d'antelació"
 
 msgid "Días en que se sugiere"
 msgstr "Dies en què es suggereix"
+
+msgid "Días entrenados por semana"
+msgstr "Dies entrenats per setmana"
+
+msgid "Días por semana (media)"
+msgstr "Dies per setmana (mitjana)"
 
 msgid "Días registrados"
 msgstr "Dies registrats"
@@ -1550,6 +1562,9 @@ msgstr "Entesos, activa"
 msgid "Entendido, empezar"
 msgstr "Entesos, començar"
 
+msgid "Entrenado"
+msgstr "Entrenat"
+
 msgid "Entrenado 30 días"
 msgstr "Entrenat 30 dies"
 
@@ -1620,6 +1635,9 @@ msgstr "Aquesta app no es connecta a Internet, així que no busca versions noves
 
 msgid "Esta copia es de una versión más nueva de Usus. Actualiza la app para importarla completa. ¿Importar igualmente lo que se pueda?"
 msgstr "Aquesta còpia és d'una versió més nova d'Usus. Actualitza l'app per importar-la completa. Vols importar igualment el que es pugui?"
+
+msgid "esta sem."
+msgstr "aquesta"
 
 msgid "esta semana"
 msgstr "aquesta setmana"
@@ -2887,6 +2905,9 @@ msgstr "Progressió: en acabar una sessió, proposta de pujar a l'exercici segü
 msgid "Progreso"
 msgstr "Progrés"
 
+msgid "Progreso: el Resumen queda en cuatro tarjetas (esta semana, constancia, récords y peso), cada una con un enlace a su detalle; cifras y gráficos con un mismo estilo, y las notas del periodo pasan a Hábitos."
+msgstr "Progrés: el Resum queda en quatre targetes (aquesta setmana, constància, rècords i pes), cadascuna amb un enllaç al seu detall; xifres i gràfics amb un mateix estil, i les notes del període passen a Hàbits."
+
 msgid "propio"
 msgstr "propi"
 
@@ -3307,6 +3328,9 @@ msgstr "Setmanes de descàrrega"
 msgid "Semanas de pausa"
 msgstr "Setmanes de pausa"
 
+msgid "Semanas seguidas"
+msgstr "Setmanes seguides"
+
 msgid "Sensibilidad"
 msgstr "Sensibilitat"
 
@@ -3344,6 +3368,9 @@ msgstr "Sèries fetes per tipus en les últimes 4 setmanes."
 
 msgid "Ses."
 msgstr "Ses."
+
+msgid "sesión"
+msgstr "sessió"
 
 msgid "Sesión"
 msgstr "Sessió"
@@ -4043,6 +4070,12 @@ msgstr "Jo"
 msgid "Zona peligrosa"
 msgstr "Zona perillosa"
 
+#~ msgid "Racha"
+#~ msgstr "Ratxa"
+
+#~ msgid "esta"
+#~ msgstr "aquesta"
+
 #~ msgid "Plan «en orden» (por defecto en planes nuevos): hoy toca la siguiente sesión que falte, sea el día que sea; si empiezas un domingo o fallas un día, se recupera, y la semana del plan pasa al hacerlas todas."
 #~ msgstr "Pla «en ordre» (per defecte en plans nous): avui toca la següent sessió que falti, sigui el dia que sigui; si comences un diumenge o falles un dia, es recupera, i la setmana del pla passa en fer-les totes."
 
@@ -4064,9 +4097,6 @@ msgstr "Zona perillosa"
 
 #~ msgid "En orden, el plan empieza el mismo día de inicio."
 #~ msgstr "En ordre, el pla comença el mateix dia d'inici."
-
-#~ msgid "esta"
-#~ msgstr "aquesta"
 
 #~ msgid "Hoy toca la siguiente que falte, sea el día que sea: si empiezas un domingo o fallas un día, se recupera. La semana del plan pasa al hacerlas todas."
 #~ msgstr "Avui toca la següent que falti, sigui el dia que sigui: si comences un diumenge o falles un dia, es recupera. La setmana del pla passa en fer-les totes."

@@ -950,6 +950,9 @@ msgstr "Relevant health conditions"
 msgid "Conseguido"
 msgstr "Reached"
 
+msgid "Constancia"
+msgstr "Consistency"
+
 msgid "Constancia · 12 semanas"
 msgstr "Consistency · 12 weeks"
 
@@ -1194,6 +1197,9 @@ msgstr "Clear"
 msgid "Después: {x}"
 msgstr "Then: {x}"
 
+msgid "Detalle"
+msgstr "Details"
+
 msgid "Detalle de la experiencia y otros deportes"
 msgstr "Experience details and other sports"
 
@@ -1261,6 +1267,12 @@ msgstr "Days before"
 
 msgid "Días en que se sugiere"
 msgstr "Days it's suggested"
+
+msgid "Días entrenados por semana"
+msgstr "Days trained per week"
+
+msgid "Días por semana (media)"
+msgstr "Days per week (average)"
 
 msgid "Días registrados"
 msgstr "Days logged"
@@ -1550,6 +1562,9 @@ msgstr "Got it, turn on"
 msgid "Entendido, empezar"
 msgstr "Got it, let's start"
 
+msgid "Entrenado"
+msgstr "Trained"
+
 msgid "Entrenado 30 días"
 msgstr "Trained, 30 days"
 
@@ -1620,6 +1635,9 @@ msgstr "This app doesn't connect to the Internet, so it doesn't look for new ver
 
 msgid "Esta copia es de una versión más nueva de Usus. Actualiza la app para importarla completa. ¿Importar igualmente lo que se pueda?"
 msgstr "This backup is from a newer version of Usus. Update the app to import it fully. Import what's possible anyway?"
+
+msgid "esta sem."
+msgstr "this wk"
 
 msgid "esta semana"
 msgstr "this week"
@@ -2887,6 +2905,9 @@ msgstr "Progression: after a session, a suggestion to move on to the next exerci
 msgid "Progreso"
 msgstr "Progress"
 
+msgid "Progreso: el Resumen queda en cuatro tarjetas (esta semana, constancia, récords y peso), cada una con un enlace a su detalle; cifras y gráficos con un mismo estilo, y las notas del periodo pasan a Hábitos."
+msgstr "Progress: the Summary is now four cards (this week, consistency, records and weight), each linking to its details; figures and charts share one style, and period notes move to Habits."
+
 msgid "propio"
 msgstr "own"
 
@@ -3307,6 +3328,9 @@ msgstr "Deload weeks"
 msgid "Semanas de pausa"
 msgstr "Weeks of pause"
 
+msgid "Semanas seguidas"
+msgstr "Weeks in a row"
+
 msgid "Sensibilidad"
 msgstr "Tenderness"
 
@@ -3344,6 +3368,9 @@ msgstr "Sets done by type in the last 4 weeks."
 
 msgid "Ses."
 msgstr "Ses."
+
+msgid "sesión"
+msgstr "session"
 
 msgid "Sesión"
 msgstr "Session"
@@ -4043,6 +4070,12 @@ msgstr "Me"
 msgid "Zona peligrosa"
 msgstr "Danger zone"
 
+#~ msgid "Racha"
+#~ msgstr "Streak"
+
+#~ msgid "esta"
+#~ msgstr "this one"
+
 #~ msgid "Plan «en orden» (por defecto en planes nuevos): hoy toca la siguiente sesión que falte, sea el día que sea; si empiezas un domingo o fallas un día, se recupera, y la semana del plan pasa al hacerlas todas."
 #~ msgstr "“In order” plans (default for new plans): today is the next session still to do, whatever the day; if you start on a Sunday or miss a day you catch up, and the plan week moves on when all are done."
 
@@ -4064,9 +4097,6 @@ msgstr "Danger zone"
 
 #~ msgid "En orden, el plan empieza el mismo día de inicio."
 #~ msgstr "In order, the plan starts on the start day itself."
-
-#~ msgid "esta"
-#~ msgstr "this one"
 
 #~ msgid "Hoy toca la siguiente que falte, sea el día que sea: si empiezas un domingo o fallas un día, se recupera. La semana del plan pasa al hacerlas todas."
 #~ msgstr "Today is the next one still to do, whatever the day: if you start on a Sunday or miss a day, you catch up. The plan week moves on when all are done."
