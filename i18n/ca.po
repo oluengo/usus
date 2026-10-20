@@ -1068,6 +1068,9 @@ msgstr "Còpia de {x}"
 msgid "Copia de seguridad"
 msgstr "Còpia de seguretat"
 
+msgid "Copia su respuesta (entera o solo el bloque de código) y toca el botón. Usus solo lee el bloque de datos y te enseña las rutinas y el plan antes de importar nada."
+msgstr "Copia la resposta (sencera o només el bloc de codi) i toca el botó. Usus només llegeix el bloc de dades i t'ensenya les rutines i el pla abans d'importar res."
+
 msgid "Copiado"
 msgstr "Copiat"
 
@@ -2330,6 +2333,9 @@ msgstr "Línia i barres verdes: objectiu."
 msgid "Listo para subir"
 msgstr "A punt per pujar"
 
+msgid "Lo copiado no tiene rutinas de Usus. Copia la respuesta de la IA (o su bloque de código) y vuelve a probar."
+msgstr "El que has copiat no té rutines d'Usus. Copia la resposta de la IA (o el seu bloc de codi) i torna-ho a provar."
+
 msgid "Lo que pase después depende de la IA que elijas: revisa su política de privacidad. El análisis lo hace una IA, no un profesional sanitario."
 msgstr "El que passi després depèn de la IA que triïs: revisa'n la política de privacitat. L'anàlisi la fa una IA, no un professional sanitari."
 
@@ -2639,6 +2645,9 @@ msgstr "No s'envia enlloc: no hi ha comptes, servidors, publicitat ni anàlisi a
 msgid "No se envía nada hasta que tú lo revises y lo publiques en GitHub."
 msgstr "No s'envia res fins que tu ho revisis i ho publiquis a GitHub."
 
+msgid "No se ha podido leer lo copiado: pégalo aquí"
+msgstr "No s'ha pogut llegir el que has copiat: enganxa-ho aquí"
+
 msgid "No se han encontrado rutinas de Usus en la respuesta"
 msgstr "No s'han trobat rutines d'Usus a la resposta"
 
@@ -2767,6 +2776,9 @@ msgstr "Mai no inclou les teves rutines, sessions ni registres."
 
 msgid "Nunca sale al compartir rutinas o entrenos."
 msgstr "Mai no surt en compartir rutines o entrenaments."
+
+msgid "O pégala a mano"
+msgstr "O enganxa-la a mà"
 
 msgid "obj."
 msgstr "obj."
@@ -2988,14 +3000,14 @@ msgstr "Pit"
 msgid "Pega aquí la respuesta de la IA"
 msgstr "Enganxa aquí la resposta de la IA"
 
-msgid "Pega aquí su respuesta completa. Usus solo lee el bloque de datos y te enseña las rutinas y el plan antes de importar nada."
-msgstr "Enganxa aquí la seva resposta completa. Usus només llegeix el bloc de dades i et mostra les rutines i el pla abans d'importar res."
-
 msgid "Pégalas en una conversación nueva de tu IA (ChatGPT, Claude, Gemini…) o sube el archivo."
 msgstr "Enganxa-les en una conversa nova de la teva IA (ChatGPT, Claude, Gemini…) o puja el fitxer."
 
 msgid "Pégalo en una conversación nueva de la IA que uses, o sube el archivo .txt. Si es muy largo para tu IA, prueba con menos semanas."
 msgstr "Enganxa'l en una conversa nova de la IA que facis servir, o puja l'arxiu .txt. Si és massa llarg per a la teva IA, prova amb menys setmanes."
+
+msgid "Pegar respuesta de la IA"
+msgstr "Enganxa la resposta de la IA"
 
 msgid "PEM"
 msgstr "PEM"
@@ -3482,6 +3494,9 @@ msgstr "Resistència"
 msgid "Respiración marcada; aún bastante margen."
 msgstr "Respiració marcada; encara força marge."
 
+msgid "Respuesta de la IA en un toque: copia su respuesta (o solo su bloque de código) y toca «Pegar respuesta de la IA». Si la guardas como archivo, Importar datos también la lleva a la revisión."
+msgstr "Resposta de la IA en un toc: copia la resposta (o només el bloc de codi) i toca «Enganxa la resposta de la IA». Si la deses com a fitxer, Importar dades també la porta a la revisió."
+
 msgid "Resumen"
 msgstr "Resum"
 
@@ -3831,8 +3846,8 @@ msgstr "Si no en pots fer algun (no tens barra, per exemple), posa 0."
 msgid "Si no, solo hoy."
 msgstr "Si no, només avui."
 
-msgid "Si te propone rutinas ajustadas, copia su respuesta completa y pégala aquí. Usus solo lee el bloque de rutinas y te deja elegir cuáles actualizar."
-msgstr "Si et proposa rutines ajustades, copia la resposta completa i enganxa-la aquí. Usus només llegeix el bloc de rutines i et deixa triar quines actualitzar."
+msgid "Si te propone rutinas ajustadas, copia su respuesta (entera o solo el bloque de código) y toca el botón. Usus solo lee el bloque de rutinas y te deja elegir cuáles actualizar."
+msgstr "Si et proposa rutines ajustades, copia la resposta (sencera o només el bloc de codi) i toca el botó. Usus només llegeix el bloc de rutines i et deixa triar quines actualitzar."
 
 msgid "Si te resulta útil, puedes apoyar el proyecto. Toca para copiar:"
 msgstr "Si et resulta útil, pots donar suport al projecte. Toca per copiar:"
@@ -4566,6 +4581,12 @@ msgstr "Zona lumbar"
 
 msgid "Zona peligrosa"
 msgstr "Zona perillosa"
+
+#~ msgid "Pega aquí su respuesta completa. Usus solo lee el bloque de datos y te enseña las rutinas y el plan antes de importar nada."
+#~ msgstr "Enganxa aquí la seva resposta completa. Usus només llegeix el bloc de dades i et mostra les rutines i el pla abans d'importar res."
+
+#~ msgid "Si te propone rutinas ajustadas, copia su respuesta completa y pégala aquí. Usus solo lee el bloque de rutinas y te deja elegir cuáles actualizar."
+#~ msgstr "Si et proposa rutines ajustades, copia la resposta completa i enganxa-la aquí. Usus només llegeix el bloc de rutines i et deixa triar quines actualitzar."
 
 #~ msgid "Plan guiado: unas preguntas y Usus te propone rutinas del catálogo a tu nivel. Crear plan: lo montas tú con tus rutinas."
 #~ msgstr "Pla guiat: unes preguntes i Usus et proposa rutines del catàleg al teu nivell. Crea un pla: el muntes tu amb les teves rutines."

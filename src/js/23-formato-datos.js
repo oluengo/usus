@@ -19,7 +19,9 @@ function migrateStored() {
   state.routines = j.routines; state.sessions = j.sessions; store.saveAll(); LS.set("wk.dataVersion", DATA_VERSION);
 }
 async function importJSON(text) {
-  let j; try { j = JSON.parse(text); } catch { toast(T("El archivo no es un JSON válido")); return; }
+  let j; try { j = JSON.parse(text); } catch { const inc = aiParse(text); if (inc) { state.incoming = { ...inc, ai: true }; render(); return; } toast(T("El archivo no es un JSON válido")); return; }
+  // Respuesta de la IA guardada como archivo (rutinas y plan sin fecha de inicio): a la revisión, como al pegarla
+  if (j && j.app === "usus" && !j.shared && !j.exported && !Array.isArray(j.sessions) && Array.isArray(j.routines) && j.plan && !j.plan.start) { const inc = aiParse(text); if (inc) { state.incoming = { ...inc, ai: true }; render(); return; } }
   if (j && !j.shared && +j.version > DATA_VERSION && !confirm(T("Esta copia es de una versión más nueva de Usus. Actualiza la app para importarla completa. ¿Importar igualmente lo que se pueda?"))) return;
   if (j && !j.shared) j = migrateData(j);
   if (j && j.shared) { const inc = sanitizeShared(j); if (!inc) { toast(T("No se encontraron rutinas, sesiones ni pesos")); return; } state.incoming = inc; render(); return; }

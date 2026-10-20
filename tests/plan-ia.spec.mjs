@@ -6,7 +6,7 @@ const RESP = { app: "usus", routines: [
   { name: "B · Lunes · Empuje", block: "empuje", variant: "B", days: [1], exercises: [{ name: "Fondos", sets: 3, reps: 6, type: "reps" }] }],
   plan: { phases: [{ variant: "A", weeks: 2 }, { variant: "B", weeks: 2 }], deload: { weeks: 1, every: 6 }, up: true, upRule: "reps1" } };
 test("pasos, indicaciones y respuesta de la IA", async ({ page }) => {
-  await page.addInitScript(() => { window.__clip = []; Object.defineProperty(navigator, "clipboard", { value: { writeText: async t => { window.__clip.push(t); } }, configurable: true }); });
+  await page.addInitScript(() => { window.__clip = []; Object.defineProperty(navigator, "clipboard", { value: { writeText: async t => { window.__clip.push(t); }, readText: async () => window.__paste || "" }, configurable: true }); });
   const errors = await openApp(page, { data: { "wk.routines": ROUTINES.slice(2), "wk.weights": [{ id: "w1", t: Date.now() - 864e5, kg: 72.5 }] } });
   await nav(page, "routines"); await page.locator('[data-rview="plan"]').click();
   await page.locator('[data-act="aip-open"]').first().click();
@@ -21,8 +21,9 @@ test("pasos, indicaciones y respuesta de la IA", async ({ page }) => {
   const txt = await page.evaluate(() => window.__clip[0]);
   expect(txt).toContain("178 cm"); expect(txt).toContain("10 dominadas"); expect(txt).toContain('"app": "usus"'); expect(txt).toContain("ejercicios.json");
   expect((await ls(page, "wk.aiPlan")).want).toBe("10 dominadas");   // «Recordar mis respuestas»
-  await m.locator("#aipPaste").fill("Aquí tienes tu plan:\n```json\n" + JSON.stringify(RESP) + "\n```\nSuerte.");
-  await m.locator('[data-act="aip-paste"]').click();
+  // «Pegar respuesta de la IA»: lee lo copiado (aquí, solo el bloque de código, con formato)
+  await page.evaluate(t => { window.__paste = t; }, JSON.stringify(RESP, null, 2));
+  await m.locator('[data-act="aip-clip"]').click();
   await expect(page.locator("#inT")).toContainText("Propuesta de la IA");
   await page.locator('[data-act="in-yes"]').click();
   expect((await ls(page, "wk.routines")).map(r => r.name)).toContain("A · Lunes · Empuje");
@@ -36,12 +37,21 @@ test("plan de la IA con letras ya usadas: se cambian por letras libres", async (
   await page.locator('[data-act="aip-open"]').first().click();
   const m = page.locator(".mbox.aip");
   for (let i = 0; i < 3; i++) await m.locator('[data-act="aip-next"]').click();
-  await m.locator("#aipPaste").fill("```json\n" + JSON.stringify(RESP) + "\n```");
+  await m.locator(".aimanual summary").click(); await m.locator("#aipPaste").fill("Aquí tienes tu plan:\n```json\n" + JSON.stringify(RESP) + "\n```\nSuerte.");
   await m.locator('[data-act="aip-paste"]').click(); await page.locator('[data-act="in-yes"]').click();
   const R = await ls(page, "wk.routines"), P = await ls(page, "wk.plan");
   expect(R.find(r => r.id === "m1").variant).toBe("A");
   const nv = P.phases.map(x => x.variant); expect(nv).not.toContain("A");
   expect(R.filter(r => r.id !== "m1").map(r => r.variant).sort()).toEqual([...nv].sort());
   expect(R.some(r => r.name.startsWith(nv[0] + " · Lunes"))).toBe(true);
+  expect(errors).toEqual([]);
+});
+test("respuesta de la IA guardada como archivo: Importar la lleva a la revisión", async ({ page }) => {
+  const errors = await openApp(page, {});
+  await nav(page, "data"); await page.locator('[data-stab="datos"]').click();
+  await page.locator("#impFile").setInputFiles({ name: "plan.txt", mimeType: "text/plain", buffer: Buffer.from("Tu plan:\n```json\n" + JSON.stringify(RESP) + "\n```") });
+  await expect(page.locator("#inT")).toContainText("Propuesta de la IA");
+  await page.locator('[data-act="in-yes"]').click();
+  expect((await ls(page, "wk.plan")).name).toBe("Plan con IA");
   expect(errors).toEqual([]);
 });

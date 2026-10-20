@@ -185,6 +185,13 @@ document.addEventListener("click", async ev => {
     case "aip-prev": state.aip.step = Math.max(0, state.aip.step - 1); render(); document.querySelector(".mbox.aip")?.scrollTo(0, 0); break;
     case "aip-copy": { aipSave(); const ok = await copyText(aipBuild(state.aip)); toast(ok ? T("Indicaciones copiadas") : T("No se pudo copiar")); break; }
     case "aip-file": { aipSave(); const pm = curProf(), pn = multiProf() ? `-${fileSlug(profName(pm))}` : ""; await deliver(`usus-${fileSlug(T("plan con IA"))}${pn}-${stamp()}.txt`, aipBuild(state.aip), "text/plain"); break; }
+    case "aip-clip": case "ai-clip": {   // leer la respuesta del portapapeles; si no se puede, cuadro para pegar a mano
+      const st = d.act === "aip-clip" ? state.aip : state.ai; if (!st) break;
+      let t = ""; try { t = await navigator.clipboard.readText(); } catch {}
+      if (!t) { st.manual = true; render(); $(d.act === "aip-clip" ? "#aipPaste" : "#aiPaste")?.focus(); toast(T("No se ha podido leer lo copiado: pégalo aquí")); break; }
+      const inc = aiParse(t); if (!inc) { toast(T("Lo copiado no tiene rutinas de Usus. Copia la respuesta de la IA (o su bloque de código) y vuelve a probar.")); break; }
+      if (d.act === "aip-clip") { aipSave(); state.aip = null; } else state.ai = null;
+      state.incoming = { ...inc, ai: true }; render(); break; }
     case "aip-paste": { const inc = aiParse($("#aipPaste")?.value || ""); if (!inc) { toast(T("No se han encontrado rutinas de Usus en la respuesta")); return; } aipSave(); state.aip = null; state.incoming = { ...inc, ai: true }; render(); break; }
     case "ai-back": state.ai.step = 1; render(); break;
     case "ai-gen": { const a = state.ai; if (a.save && aiHasData(a.f)) LS.set("wk.aiProf", a.f); a.txt = aiBuild(a); a.step = 2; render(); document.querySelector(".mbox.dsh")?.scrollTo(0, 0); break; }

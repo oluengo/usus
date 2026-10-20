@@ -134,3 +134,5 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center}
 .aico{width:34px;height:34px;border-radius:10px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;flex:none}
 .aico svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .ainfo{margin:0;padding-left:18px;font-size:.88rem;line-height:1.5}
+.aimanual{margin-top:8px}.aimanual summary{cursor:pointer;color:var(--muted);font-size:.85rem;padding:6px 0}
+.aimanual textarea{margin-top:4px}

@@ -39,9 +39,11 @@ function aiModal() {
       <div class="row" style="margin-top:10px"><button class="btn primary" style="flex:1" data-act="ai-copy">${T("Copiar")}</button><button class="btn" style="flex:1" data-act="ai-file">${T("Exportar .txt")}</button></div>
       <p class="muted" style="font-size:.85rem;margin:10px 0 0">${T("Pégalo en una conversación nueva de la IA que uses, o sube el archivo .txt. Si es muy largo para tu IA, prueba con menos semanas.")}</p>
       <h3 class="wh">${T("Cuando la IA responda")}</h3>
-      <p class="muted" style="font-size:.85rem;margin:0 0 6px">${T("Si te propone rutinas ajustadas, copia su respuesta completa y pégala aquí. Usus solo lee el bloque de rutinas y te deja elegir cuáles actualizar.")}</p>
-      <textarea id="aiPaste" rows="3" placeholder="${T("Pega aquí la respuesta de la IA")}"></textarea>
-      <button class="btn" style="width:100%;margin-top:8px" data-act="ai-paste">${T("Revisar rutinas propuestas")}</button>
+      <p class="muted" style="font-size:.85rem;margin:0 0 6px">${T("Si te propone rutinas ajustadas, copia su respuesta (entera o solo el bloque de código) y toca el botón. Usus solo lee el bloque de rutinas y te deja elegir cuáles actualizar.")}</p>
+      <button class="btn" style="width:100%" data-act="ai-clip">${T("Pegar respuesta de la IA")}</button>
+      <details class="aimanual"${state.ai?.manual ? " open" : ""}><summary>${T("O pégala a mano")}</summary>
+        <textarea id="aiPaste" rows="3" placeholder="${T("Pega aquí la respuesta de la IA")}"></textarea>
+        <button class="btn" style="width:100%;margin-top:8px" data-act="ai-paste">${T("Revisar rutinas propuestas")}</button></details>
       <button class="btn ghost" style="width:100%;margin-top:4px" data-act="ai-back">‹ ${T("Volver a los datos")}</button>
     </div></div>`;
   }
@@ -140,7 +142,7 @@ function aiBuild(o) {
 /* Respuesta de la IA → rutinas compartidas (misma pantalla que un enlace recibido) */
 function aiParse(text) {
   const cands = [...String(text).matchAll(/```(?:json)?\s*([\s\S]*?)```/g)].map(m => m[1]);
-  const i = text.indexOf('{"app"'); if (i >= 0) cands.push(text.slice(i, text.lastIndexOf("}") + 1));
+  const i = text.indexOf("{"); if (i >= 0) cands.push(text.slice(i, text.lastIndexOf("}") + 1));   // también el JSON solo (p. ej. copiado con el botón del bloque de código)
   for (const c of cands) { try { const j = JSON.parse(c.trim()); if (j && j.app === "usus" && Array.isArray(j.routines)) { const inc = sanitizeShared({ ...j, shared: 1 }); if (inc?.routines.length) return inc; } } catch {} }
   return null;
 }
@@ -213,9 +215,11 @@ function aipModal() {
     <div class="row"><button class="btn primary" style="flex:1" data-act="aip-copy">${T("Copiar indicaciones")}</button><button class="btn" style="flex:1" data-act="aip-file">${T("Exportar a .txt")}</button></div>
     <p class="muted" style="font-size:.8rem;margin:6px 0 0">${T("Pégalas en una conversación nueva de tu IA (ChatGPT, Claude, Gemini…) o sube el archivo.")}</p>
     <h3 class="wh">${T("Cuando la IA responda")}</h3>
-    <p class="muted" style="font-size:.85rem;margin:0 0 6px">${T("Pega aquí su respuesta completa. Usus solo lee el bloque de datos y te enseña las rutinas y el plan antes de importar nada.")}</p>
-    <textarea id="aipPaste" rows="3" placeholder="${T("Pega aquí la respuesta de la IA")}"></textarea>
-    <button class="btn primary" style="width:100%;margin-top:8px" data-act="aip-paste">${T("Revisar rutinas y plan")}</button>`;
+    <p class="muted" style="font-size:.85rem;margin:0 0 6px">${T("Copia su respuesta (entera o solo el bloque de código) y toca el botón. Usus solo lee el bloque de datos y te enseña las rutinas y el plan antes de importar nada.")}</p>
+    <button class="btn primary" style="width:100%" data-act="aip-clip">${T("Pegar respuesta de la IA")}</button>
+    <details class="aimanual"${a.manual ? " open" : ""}><summary>${T("O pégala a mano")}</summary>
+      <textarea id="aipPaste" rows="3" placeholder="${T("Pega aquí la respuesta de la IA")}"></textarea>
+      <button class="btn" style="width:100%;margin-top:8px" data-act="aip-paste">${T("Revisar rutinas y plan")}</button></details>`;
   return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="aipT"><div class="mbox dsh aip full"><button class="back" data-act="aip-close">‹ ${T("Atrás")}</button>
     <div class="sb-head"><h2 id="aipT" style="margin:0;flex:1">✦ ${T("Crear plan con IA")} <span class="aibadge">${T("Externa")}</span></h2><button class="btn small" data-act="aip-close">${T("Cerrar")}</button></div>
     <div class="aipsteps">${STEPS.map((n, i) => `<button data-aipst="${i}" class="${i === st ? "on" : i < st ? "done" : ""}" ${i === st ? 'aria-current="step"' : ""}>${i + 1} ${T(n)}</button>`).join("")}</div>

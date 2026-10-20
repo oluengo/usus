@@ -3,7 +3,8 @@ const CHANGES = [  // Novedades: solo en castellano; las traducciones, en i18n/*
   ["3.3.0", [
     N_("Crear plan con IA (Biblioteca → Plan y Progreso → Resumen): en 4 pasos (sobre ti, qué buscas, tu semana y para la IA) Usus prepara unas indicaciones con tus datos, cómo debe responder la IA y el enlace al catálogo, con el rango recomendado y las articulaciones de cada ejercicio. Las copias o exportas, las pegas en tu IA y su respuesta vuelve a Usus para revisarla antes de importar."),
     N_("Avisos claros: una IA no es un entrenador ni un profesional sanitario, y vas a compartir datos de salud con un servicio externo. Usus no envía nada. «Recordar mis respuestas» deja el formulario rellenado para la próxima vez."),
-    N_("Al añadir un plan recibido o de la IA, si sus letras de variante ya las usan tus rutinas, se cambian por otras libres para no mezclar planes.")
+    N_("Al añadir un plan recibido o de la IA, si sus letras de variante ya las usan tus rutinas, se cambian por otras libres para no mezclar planes."),
+    N_("Respuesta de la IA en un toque: copia su respuesta (o solo su bloque de código) y toca «Pegar respuesta de la IA». Si la guardas como archivo, Importar datos también la lleva a la revisión.")
   ]],
   ["3.2.0", [
     N_("Plan guiado: unas preguntas (objetivo, días, minutos, material, molestias y nivel, con un test rápido o elegido) y Usus propone rutinas del catálogo a tu nivel, con calentamiento, principal, accesorios y vuelta a la calma. Revisas la propuesta, subes o bajas cada ejercicio en su escalera y se crean las rutinas (variantes A y B) y un plan en orden."),
