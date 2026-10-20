@@ -21,6 +21,7 @@ npm test
 | `datos` | Exportar la copia completa e importarla en otra instalación |
 | `beta` | La web beta guarda sus datos aparte |
 | `apk` | Puente de Android: compartir, imprimir y botón Atrás |
+| `guiado` | Plan guiado: preguntas, propuesta con molestia, ajustar y crear rutinas A/B y plan; fichas desde las rutinas |
 | `catalogo` | Fichas del catálogo completas (es/ca/en, rol, rango, articulaciones) y progresiones coherentes |
 
 Los datos de las pruebas son inventados (`tests/helpers.mjs`).

@@ -31,3 +31,13 @@ test("sin fallos graves de accesibilidad · asistente de primer uso", async ({ p
   await m.locator('[data-act="wiz-cat-yes"]').click(); await check(3); await m.locator('[data-act="wiz-next"]').click(); await check(4);
   expect(found, found.join("\n")).toEqual([]);
 });
+test("sin fallos graves de accesibilidad · plan guiado", async ({ page }) => {
+  await openApp(page, { catalog: true, data: { "wk.equip": ["barra"] } });
+  await nav(page, "routines"); await page.locator('[data-rview="plan"]').click(); await page.locator('[data-act="gp-open"]').first().click();
+  const found = [], check = async n => { const r = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"]).exclude(".betatag").analyze();
+    for (const v of r.violations) if (["serious", "critical"].includes(v.impact)) found.push(`${n} · ${v.id}: ${v.nodes.slice(0, 3).map(x => x.target.join(" ")).join(" | ")}`); };
+  const nx = () => page.locator('[data-act="gp-next"]').click();
+  await check("inicio"); await nx(); await page.locator('[data-gpgoal="forma"]').click(); await check("objetivo"); await nx(); await check("días"); await nx(); await check("material"); await nx(); await check("molestias"); await nx();
+  await check("nivel"); await page.locator('[data-gplvm="self"]').click(); await page.locator('[data-gpself="2"]').click(); await nx(); await check("propuesta");
+  expect(found, found.join("\n")).toEqual([]);
+});

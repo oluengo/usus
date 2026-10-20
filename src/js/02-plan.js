@@ -20,7 +20,7 @@ function plansBlock() {
     ${a ? `<div class="plr"><div style="flex:1;min-width:0"><b>${esc(planName(a))}</b> <span class="tagb">${T("Activo")}</span><div class="muted" style="font-size:.8rem">${planSpan(a)}</div></div></div>` : ""}
     ${l.map(p => `<div class="plr"><div style="flex:1;min-width:0"><b>${esc(planName(p))}</b><div class="muted" style="font-size:.8rem">${planSpan(p)}</div></div>
       <button class="btn small" data-pact="${p.id}">${T("Activar")}</button><button class="x" data-pdel="${p.id}" aria-label="${T("Eliminar")} ${esc(planName(p))}">×</button></div>`).join("")}
-    <div class="row" style="margin-top:10px;flex-wrap:wrap">${a ? `<button class="btn small" data-act="plan-dup">${T("Duplicar el activo")}</button>` : ""}<button class="btn small" data-act="plan-new">${T("Nuevo plan")}</button></div>
+    <div class="row" style="margin-top:10px;flex-wrap:wrap">${a ? `<button class="btn small" data-act="plan-dup">${T("Duplicar el activo")}</button>` : ""}<button class="btn small" data-act="plan-new">${T("Nuevo plan")}</button><button class="btn small" data-act="gp-open">${T("Plan guiado")}</button></div>
     <p class="muted" style="font-size:.78rem;margin:8px 0 0">${T("Solo el plan activo cuenta en Hoy. Al cambiar de plan, tus rutinas, sesiones e historial no se tocan.")}</p></details>`;
 }
 function planVariants(p) { return [...new Set((p?.phases || []).map(x => normVar(x.variant)).filter(Boolean))]; }
@@ -224,7 +224,8 @@ function planSection() {
   if (!p) return `<div class="panel"><b>${T("Sin plan de progresión")}</b>
     <p class="muted" style="margin:4px 0 0">${T("Un plan rota variantes de tus rutinas por semanas (por ejemplo A, B, C cada 2 semanas) con semanas de descarga, y Hoy te dice qué rutina toca cada día.")}</p>
     <p class="muted" style="font-size:.85rem;margin:6px 0 0">${T("Al crearlo eliges qué rutinas van en cada variante y qué días tocan.")}</p>
-    <button class="btn primary" style="margin-top:12px" data-act="plan-create">${T("Crear plan")}</button></div>${plansBlock()}`;
+    <div class="row" style="margin-top:12px;flex-wrap:wrap"><button class="btn primary" data-act="gp-open">${T("Plan guiado")}</button><button class="btn" data-act="plan-create">${T("Crear plan")}</button></div>
+    <p class="muted" style="font-size:.8rem;margin:8px 0 0">${T("Plan guiado: unas preguntas y Usus te propone rutinas del catálogo a tu nivel. Crear plan: lo montas tú con tus rutinas.")}</p></div>${plansBlock()}`;
   const ws = planWeeks(p), pn = planNow(p), now = Date.now(), vs = planVariants(p);
   const fmt = t => new Date(t).toLocaleDateString(LOC(), { day: "numeric", month: "short" });
   return `<div class="row" id="planSec"><h2 style="margin:0;flex:1">${p.name ? esc(p.name) : T("Plan")}</h2><button class="btn small" data-act="plan-edit">${T("Editar plan")}</button></div>

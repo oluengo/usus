@@ -9,6 +9,9 @@ msgstr ""
 "Language: ca\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+msgid "¿Alguna molestia?"
+msgstr "Alguna molèstia?"
+
 msgid "¿Borrar este registro de peso?"
 msgstr "Vols esborrar aquest registre de pes?"
 
@@ -26,6 +29,9 @@ msgstr "Quantes te'n quedaven?"
 
 msgid "¿Cuánto más habrías aguantado?"
 msgstr "Quant més hauries aguantat?"
+
+msgid "¿Cuánto puedes entrenar?"
+msgstr "Quant pots entrenar?"
 
 msgid "¿Cuánto te ha costado?"
 msgstr "Quant t'ha costat?"
@@ -71,6 +77,12 @@ msgstr "Li pot servir a algú? Envia-li l'enllaç."
 msgid "¿Pasar igualmente a {x}? Las series pendientes quedan sin hacer."
 msgstr "Vols passar igualment a {x}? Les sèries pendents queden sense fer."
 
+msgid "¿Qué buscas?"
+msgstr "Què busques?"
+
+msgid "¿Qué material tienes?"
+msgstr "Quin material tens?"
+
 #, python-brace-format
 msgid "¿Quitar \"{x}\" de la sesión?"
 msgstr "Vols treure \"{x}\" de la sessió?"
@@ -89,6 +101,9 @@ msgstr "Treure la secció «{x}»? Els seus exercicis passen a «{y}»."
 #, python-brace-format
 msgid "¿Terminar y guardar igualmente? Se guardan solo las series hechas ({n} pendientes en total)."
 msgstr "Vols acabar i desar igualment? Només es desen les sèries fetes ({n} pendents en total)."
+
+msgid "‹ › cambia al ejercicio anterior o siguiente de su escalera. Toca un nombre para ver su ficha. Después podrás editar las rutinas en Biblioteca."
+msgstr "‹ › canvia a l'exercici anterior o següent de la seva escala. Toca un nom per veure'n la fitxa. Després podràs editar les rutines a Biblioteca."
 
 msgid "«Añadir app» y pega el enlace:"
 msgstr "«Afegeix app» i enganxa l'enllaç:"
@@ -341,6 +356,9 @@ msgstr "Obrir GitHub"
 msgid "Abundante"
 msgstr "Abundant"
 
+msgid "Accesorios"
+msgstr "Accessoris"
+
 #, python-brace-format
 msgid "Aceptar las {n} propuestas"
 msgstr "Accepta les {n} propostes"
@@ -591,6 +609,9 @@ msgstr "App gratuïta que vigila GitHub i t'avisa o instal·la cada versió nova
 msgid "App instalada"
 msgstr "App instal·lada"
 
+msgid "Aprender habilidades"
+msgstr "Aprendre habilitats"
+
 msgid "Archivo"
 msgstr "Fitxer"
 
@@ -751,6 +772,9 @@ msgstr "Cada perfil decideix. Es pot canviar a Ajustos → App."
 msgid "Cada perfil tiene sus propios datos y ajustes."
 msgstr "Cada perfil té les seves pròpies dades i ajustos."
 
+msgid "cadera"
+msgstr "maluc"
+
 msgid "Caja / banco"
 msgstr "Caixa / banc"
 
@@ -768,6 +792,9 @@ msgstr "Qualitat"
 
 msgid "Cambia de lado"
 msgstr "Canvia de costat"
+
+msgid "Cambia el peso de cada parte de la sesión."
+msgstr "Canvia el pes de cada part de la sessió."
 
 msgid "Cambiado solo en esta sesión"
 msgstr "Canviat només en aquesta sessió"
@@ -834,6 +861,9 @@ msgstr "Quantitat"
 msgid "Cardio"
 msgstr "Cardio"
 
+msgid "Cardio final"
+msgstr "Cardio final"
+
 msgid "Cardio, nuevo tipo de movimiento en Ejercicios, y comba, nuevo material."
 msgstr "Cardio, nou tipus de moviment a Exercicis, i corda, nou material."
 
@@ -891,6 +921,12 @@ msgstr "Clar"
 
 msgid "Código fuente"
 msgstr "Codi font"
+
+msgid "Codo"
+msgstr "Colze"
+
+msgid "Coloca cada ejercicio en su escalera. Luego lo puedes subir o bajar."
+msgstr "Col·loca cada exercici a la seva escala. Després el pots pujar o baixar."
 
 msgid "Color"
 msgstr "Color"
@@ -956,6 +992,12 @@ msgstr "amb llast"
 msgid "Con nota"
 msgstr "Amb nota"
 
+msgid "Con tu molestia no hay alternativa para todo: los ejercicios marcados con ⚠ la cargan y van en su versión fácil. Hazlos con cuidado o cámbialos."
+msgstr "Amb la teva molèstia no hi ha alternativa per a tot: els exercicis marcats amb ⚠ la carreguen i van en la versió fàcil. Fes-los amb compte o canvia'ls."
+
+msgid "Con tu molestia, algunos ejercicios se cambian por otros de la misma zona."
+msgstr "Amb la teva molèstia, alguns exercicis es canvien per altres de la mateixa zona."
+
 msgid "Condiciones de salud relevantes"
 msgstr "Condicions de salut rellevants"
 
@@ -1013,6 +1055,9 @@ msgstr "Copiar rutines a un altre perfil"
 msgid "Copiar rutinas de {x}"
 msgstr "Copiar rutines de {x}"
 
+msgid "core"
+msgstr "core"
+
 msgid "Core"
 msgstr "Core"
 
@@ -1034,6 +1079,9 @@ msgstr "Crear perfil"
 
 msgid "Crear plan"
 msgstr "Crea un pla"
+
+msgid "Crear plan y rutinas"
+msgstr "Crea el pla i les rutines"
 
 msgid "Cuándo"
 msgstr "Quan"
@@ -1318,6 +1366,9 @@ msgstr "Mal de cap"
 msgid "Dolores o molestias actuales"
 msgstr "Dolors o molèsties actuals"
 
+msgid "Dominadas"
+msgstr "Dominades"
+
 msgid "Dosis"
 msgstr "Dosi"
 
@@ -1419,6 +1470,9 @@ msgstr "exercicis"
 msgid "Ejercicios"
 msgstr "Exercicis"
 
+msgid "Ejercicios principales con progresión. Lo básico de la calistenia."
+msgstr "Exercicis principals amb progressió. El bàsic de la calistènia."
+
 msgid "Ejercicios vs objetivo"
 msgstr "Exercicis vs objectiu"
 
@@ -1440,6 +1494,9 @@ msgstr "El pla de progressió passa d'Avui a Biblioteca → Pla, al costat de le
 #, python-brace-format
 msgid "El plan empieza el {d}."
 msgstr "El pla comença el {d}."
+
+msgid "El plan guiado usa el catálogo de ejercicios. ¿Activarlo en este perfil?"
+msgstr "El pla guiat fa servir el catàleg d'exercicis. Vols activar-lo en aquest perfil?"
 
 msgid "El plan no tiene fases válidas. Edítalo para añadirlas."
 msgstr "El pla no té fases vàlides. Edita'l per afegir-ne."
@@ -1471,6 +1528,9 @@ msgstr "Tria una data"
 
 msgid "Elegir otro"
 msgstr "Tria'n un altre"
+
+msgid "Elegirlo yo"
+msgstr "Triar-lo jo"
 
 msgid "Elige al menos un día"
 msgstr "Tria almenys un dia"
@@ -1515,14 +1575,32 @@ msgstr "comença sola"
 msgid "Empiezo (menos de 6 meses)"
 msgstr "Començo (menys de 6 mesos)"
 
+msgid "Empiezo de cero"
+msgstr "Començo de zero"
+
 msgid "Empuje"
 msgstr "Empenta"
+
+msgid "Empuje 1"
+msgstr "Empenta 1"
+
+msgid "Empuje 2"
+msgstr "Empenta 2"
+
+msgid "empuje horizontal"
+msgstr "empenta horitzontal"
 
 msgid "Empuje horizontal"
 msgstr "Empenta horitzontal"
 
+msgid "empuje vertical"
+msgstr "empenta vertical"
+
 msgid "Empuje vertical"
 msgstr "Empenta vertical"
+
+msgid "Empuje, tirón y pierna."
+msgstr "Empenta, estirada i cama."
 
 #, python-brace-format
 msgid "En «{x}». Las demás rutinas no cambian."
@@ -1586,6 +1664,9 @@ msgstr "Entrenant: capçalera fixa amb el temps i l'avanç, sèries més grans i
 msgid "Entreno"
 msgstr "Entrenament"
 
+msgid "Entreno con regularidad"
+msgstr "Entreno amb regularitat"
+
 msgid "Entreno por fase"
 msgstr "Entrenament per fase"
 
@@ -1606,6 +1687,9 @@ msgstr "És normal en començar un pas nou. Tornar unes setmanes a l'anterior so
 
 msgid "Es una estimación aproximada: no sirve como anticonceptivo ni como diagnóstico."
 msgstr "És una estimació aproximada: no serveix com a anticonceptiu ni com a diagnòstic."
+
+msgid "Es una propuesta general: no sustituye a un entrenador ni a un profesional sanitario."
+msgstr "És una proposta general: no substitueix un entrenador ni un professional sanitari."
 
 #, python-brace-format
 msgid "Escribe un objetivo válido, por ejemplo {v}"
@@ -1732,12 +1816,18 @@ msgstr "Fèrtil (est.)"
 msgid "Fichas del catálogo en català e English, y nombres de los ejercicios en català."
 msgstr "Fitxes del catàleg en català i English, i noms dels exercicis en català."
 
+msgid "Fichas desde cualquier sitio: toca el nombre de un ejercicio del catálogo en la rutina, antes de iniciar o en el Diario para ver cómo se hace. Si el perfil no tiene el catálogo activado, se pide activarlo."
+msgstr "Fitxes des de qualsevol lloc: toca el nom d'un exercici del catàleg a la rutina, abans d'iniciar o al Diari per veure com es fa. Si el perfil no té el catàleg activat, es demana activar-lo."
+
 #, python-brace-format
 msgid "Fin de la regla · {d}"
 msgstr "Final de la regla · {d}"
 
 msgid "Fin de la regla registrado"
 msgstr "Final de la regla registrat"
+
+msgid "Flexiones"
+msgstr "Flexions"
 
 msgid "Folicular"
 msgstr "Fol·licular"
@@ -1754,8 +1844,29 @@ msgstr "Format: separador «;» i coma decimal, per obrir-lo directament a l'Exc
 msgid "Fuerza"
 msgstr "Força"
 
+msgid "Fuerza y un bloque corto de cardio al final."
+msgstr "Força i un bloc curt de cardio al final."
+
+msgid "Fuerza y un ejercicio de habilidad al principio (pino, L-sit, equilibrios…)."
+msgstr "Força i un exercici d'habilitat al principi (pi, L-sit, equilibris…)."
+
 msgid "Full body"
 msgstr "Cos sencer"
+
+msgid "Full body 1"
+msgstr "Cos sencer 1"
+
+msgid "Full body 2"
+msgstr "Cos sencer 2"
+
+msgid "Full body 3"
+msgstr "Cos sencer 3"
+
+msgid "Full body: todo el cuerpo en cada sesión."
+msgstr "Cos sencer: tot el cos a cada sessió."
+
+msgid "Ganar fuerza"
+msgstr "Guanyar força"
 
 msgid "Generar texto"
 msgstr "Generar el text"
@@ -1787,8 +1898,17 @@ msgstr "Desa la rutina"
 msgid "Ha terminado hoy"
 msgstr "Ha acabat avui"
 
+msgid "habilidad"
+msgstr "habilitat"
+
 msgid "Hábitos"
 msgstr "Hàbits"
+
+msgid "Hago dominadas y fondos sin problema."
+msgstr "Faig dominades i fons sense problema."
+
+msgid "Hago flexiones y sentadillas; dominadas todavía no o muy pocas."
+msgstr "Faig flexions i esquats; dominades encara no o molt poques."
 
 #, python-brace-format
 msgid "Han pasado {n} días desde tu última copia."
@@ -1826,6 +1946,9 @@ msgstr "home"
 
 msgid "Hombre"
 msgstr "Home"
+
+msgid "Hombro"
+msgstr "Espatlla"
 
 msgid "Hombros"
 msgstr "Espatlles"
@@ -2152,6 +2275,12 @@ msgstr "Marca ↑ quan es repeteix una variant (recordatori per progressar)"
 msgid "Más"
 msgstr "Més"
 
+msgid "Más difícil"
+msgstr "Més difícil"
+
+msgid "Más fácil"
+msgstr "Més fàcil"
+
 msgid "Más reps en una sesión"
 msgstr "Més reps en una sessió"
 
@@ -2166,6 +2295,15 @@ msgstr "Material"
 
 msgid "Máximo"
 msgstr "Màxim"
+
+msgid "Máximo seguidas"
+msgstr "Màxim seguides"
+
+msgid "Máximo seguidas (0 si no puedes)"
+msgstr "Màxim seguides (0 si no en pots fer)"
+
+msgid "Máximo seguidas, bien hechas"
+msgstr "Màxim seguides, ben fetes"
 
 msgid "Me ha bajado hoy"
 msgstr "M'ha baixat avui"
@@ -2245,6 +2383,9 @@ msgstr "El meu material (Ajustos → Entrenament) i material als teus exercicis 
 msgid "Minutos"
 msgstr "Minuts"
 
+msgid "Minutos por sesión"
+msgstr "Minuts per sessió"
+
 msgid "Mis planes"
 msgstr "Els meus plans"
 
@@ -2286,6 +2427,9 @@ msgstr "dona"
 
 msgid "Mujer"
 msgstr "Dona"
+
+msgid "Muñeca"
+msgstr "Canell"
 
 msgid "Músculos"
 msgstr "Músculs"
@@ -2332,6 +2476,9 @@ msgstr "No he entrenat"
 
 msgid "No habrías podido hacer mucho más."
 msgstr "No hauries pogut fer gaire més."
+
+msgid "No hago ejercicio o hace mucho que lo dejé."
+msgstr "No faig exercici o fa molt que ho vaig deixar."
 
 msgid "No hay datos para exportar"
 msgstr "No hi ha dades per exportar"
@@ -2526,6 +2673,9 @@ msgstr "Objectiu setmanal ({u})"
 msgid "Objetivo y recordatorio, en tu perfil"
 msgstr "Objectiu i recordatori, al teu perfil"
 
+msgid "Objetivo, días y tiempo"
+msgstr "Objectiu, dies i temps"
+
 #, python-brace-format
 msgid "Objetivo: {v}"
 msgstr "Objectiu: {v}"
@@ -2616,6 +2766,9 @@ msgstr "Per a què serveix"
 
 msgid "Para recuperar lo que te saltaste, elige una semana anterior: Hoy te propone primero lo que falte de ella."
 msgstr "Per recuperar el que et vas saltar, tria una setmana anterior: Avui et proposa primer el que en falti."
+
+msgid "Para ver la ficha hay que activar el catálogo de ejercicios en este perfil. ¿Activarlo?"
+msgstr "Per veure la fitxa cal activar el catàleg d'exercicis en aquest perfil. Vols activar-lo?"
 
 msgid "Paralelas"
 msgstr "Paral·leles"
@@ -2766,6 +2919,9 @@ msgstr "Pes setmanal"
 msgid "Peso serie {n}"
 msgstr "Pes sèrie {n}"
 
+msgid "pierna"
+msgstr "cama"
+
 msgid "Pierna"
 msgstr "Cama"
 
@@ -2774,6 +2930,12 @@ msgstr "Cama · maluc"
 
 msgid "Pierna · rodilla"
 msgstr "Cama · genoll"
+
+msgid "Pierna 1"
+msgstr "Cama 1"
+
+msgid "Pierna 2"
+msgstr "Cama 2"
 
 msgid "Plan"
 msgstr "Pla"
@@ -2804,11 +2966,27 @@ msgstr "Pla en pausa: només rutines de totes les setmanes (p. ex. Diària). Con
 msgid "Plan guardado"
 msgstr "Pla desat"
 
+msgid "Plan guiado"
+msgstr "Pla guiat"
+
+#, python-brace-format
+msgid "Plan guiado creado: {n} rutinas"
+msgstr "Pla guiat creat: {n} rutines"
+
+msgid "Plan guiado: unas preguntas (objetivo, días, minutos, material, molestias y nivel, con un test rápido o elegido) y Usus propone rutinas del catálogo a tu nivel, con calentamiento, principal, accesorios y vuelta a la calma. Revisas la propuesta, subes o bajas cada ejercicio en su escalera y se crean las rutinas (variantes A y B) y un plan en orden."
+msgstr "Pla guiat: unes preguntes (objectiu, dies, minuts, material, molèsties i nivell, amb un test ràpid o triat) i Usus proposa rutines del catàleg al teu nivell, amb escalfament, principal, accessoris i tornada a la calma. Revises la proposta, puges o baixes cada exercici a la seva escala i es creen les rutines (variants A i B) i un pla en ordre."
+
+msgid "Plan guiado: unas preguntas y Usus te propone rutinas del catálogo a tu nivel. Crear plan: lo montas tú con tus rutinas."
+msgstr "Pla guiat: unes preguntes i Usus et proposa rutines del catàleg al teu nivell. Crea un pla: el muntes tu amb les teves rutines."
+
 msgid "Plan terminado"
 msgstr "Pla acabat"
 
 msgid "Plan: la semana ↑ puede aplicar sola la subida (+reps, +1 serie o siguiente paso), con aviso en Hoy y opción de deshacer."
 msgstr "Pla: la setmana ↑ pot aplicar sola la pujada (+reps, +1 sèrie o pas següent), amb avís a Avui i opció de desfer."
+
+msgid "Plancha"
+msgstr "Planxa"
 
 msgid "Planes en orden: hoy toca la siguiente sesión que falte, sea el día que sea; si empiezas un domingo o fallas un día, se recupera, y la semana del plan pasa al hacerlas todas. Tus planes pasan solos a este modo desde la semana en la que ibas, y al editarlos puedes volver a una semana anterior para recuperarla."
 msgstr "Plans en ordre: avui toca la següent sessió que falti, sigui el dia que sigui; si comences un diumenge o falles un dia, es recupera, i la setmana del pla passa en fer-les totes. Els teus plans passen sols a aquest mode des de la setmana on anaves, i en editar-los pots tornar a una setmana anterior per recuperar-la."
@@ -2827,6 +3005,9 @@ msgstr "Posa la data d'inici"
 
 msgid "Pon los segundos de la serie"
 msgstr "Posa els segons de la sèrie"
+
+msgid "Ponerme en forma"
+msgstr "Posar-me en forma"
 
 msgid "Ponle un nombre"
 msgstr "Posa-li un nom"
@@ -2951,6 +3132,9 @@ msgstr "Propera regla: {d} (± {n} d) · d'aquí a {m} dies"
 
 msgid "Próximas fechas"
 msgstr "Properes dates"
+
+msgid "Puedes entrenar cualquier día: el plan va en orden."
+msgstr "Pots entrenar qualsevol dia: el pla va en ordre."
 
 msgid "Qué esperabas"
 msgstr "Què esperaves"
@@ -3134,6 +3318,9 @@ msgstr "Revisar"
 msgid "Revisar rutinas propuestas"
 msgstr "Revisar les rutines proposades"
 
+msgid "Revisas y creas el plan"
+msgstr "Revises i crees el pla"
+
 msgid "Revisión (opcional)"
 msgstr "Revisió (opcional)"
 
@@ -3152,6 +3339,9 @@ msgstr "RIR per sèrie (repeticions en reserva), opcional a Ajustos → Entrenam
 
 msgid "RIR también en series por tiempo: cuánto más habrías aguantado (0, 5, 10, 15+ s)."
 msgstr "RIR també en sèries per temps: quant més hauries aguantat (0, 5, 10, 15+ s)."
+
+msgid "Rodilla"
+msgstr "Genoll"
 
 msgid "Rueda abdominal"
 msgstr "Roda abdominal"
@@ -3242,6 +3432,9 @@ msgstr "S'esborraran totes les rutines, sessions i pesos d'aquest dispositiu. Ha
 msgid "Se borrarán todos los datos de «{x}» en este dispositivo. Los demás perfiles no se tocan. ¿Has hecho una copia?"
 msgstr "S'esborraran totes les dades de «{x}» en aquest dispositiu. Els altres perfils no es toquen. Has fet una còpia?"
 
+msgid "Se evitan los ejercicios que más cargan esa zona."
+msgstr "S'eviten els exercicis que més carreguen aquesta zona."
+
 msgid "Se guarda únicamente en este móvil, dentro de este perfil."
 msgstr "Es desa únicament en aquest mòbil, dins d'aquest perfil."
 
@@ -3299,6 +3492,9 @@ msgstr "Continua intentant-ho"
 msgid "Seguir más tarde"
 msgstr "Continua més tard"
 
+msgid "Segundos aguantando"
+msgstr "Segons aguantant"
+
 #, python-brace-format
 msgid "Segundos serie {n}"
 msgstr "Segons sèrie {n}"
@@ -3345,6 +3541,9 @@ msgstr "Setmanes seguides"
 
 msgid "Sensibilidad"
 msgstr "Sensibilitat"
+
+msgid "Sentadillas"
+msgstr "Esquats"
 
 msgid "Separar"
 msgstr "Separa"
@@ -3421,6 +3620,9 @@ msgstr[1] "Sessions ajornades {n} dies des del {d}."
 msgid "Sesiones aplazadas {n} día desde el {d}."
 msgstr "Sessions ajornades {n} dia des del {d}."
 
+msgid "Sesiones por semana"
+msgstr "Sessions per setmana"
+
 msgid "Sexo"
 msgstr "Sexe"
 
@@ -3428,8 +3630,14 @@ msgstr "Sexe"
 msgid "Sexo: {x} (del perfil)."
 msgstr "Sexe: {x} (del perfil)."
 
+msgid "Si es una lesión o un dolor que no se va, consulta antes con un profesional."
+msgstr "Si és una lesió o un dolor que no se'n va, consulta abans un professional."
+
 msgid "Si la IA propone rutinas ajustadas, pega su respuesta y elige cuáles actualizar."
 msgstr "Si la IA proposa rutines ajustades, enganxa'n la resposta i tria quines actualitzar."
+
+msgid "Si no puedes hacer alguno (no tienes barra, por ejemplo), pon 0."
+msgstr "Si no en pots fer algun (no tens barra, per exemple), posa 0."
 
 msgid "Si no, solo hoy."
 msgstr "Si no, només avui."
@@ -3487,6 +3695,15 @@ msgstr "Sense"
 msgid "Sin actividad este día."
 msgstr "Sense activitat aquest dia."
 
+msgid "Sin barra ni anillas, la espalda se trabaja con banda o ejercicios escapulares. Una barra de puerta o unas anillas cambian mucho el plan."
+msgstr "Sense barra ni anelles, l'esquena es treballa amb banda o exercicis escapulars. Una barra de porta o unes anelles canvien molt el pla."
+
+msgid "Sin barra ni anillas, la espalda solo se puede trabajar con banda o ejercicios en el suelo. Una barra de puerta o unas anillas cambian mucho el plan."
+msgstr "Sense barra ni anelles, l'esquena només es pot treballar amb banda o exercicis a terra. Una barra de porta o unes anelles canvien molt el pla."
+
+msgid "Sin barra para dominadas: se usa remo en su lugar."
+msgstr "Sense barra per a dominades: es fa servir rem al seu lloc."
+
 msgid "sin copias todavía"
 msgstr "encara sense còpies"
 
@@ -3513,6 +3730,10 @@ msgstr "Sense garanties. Els autors no responen de lesions, pèrdua de dades ni 
 
 msgid "Sin notas en este periodo."
 msgstr "Sense notes en aquest període."
+
+#, python-brace-format
+msgid "Sin opción para «{x}» con tu material y molestias: se omite."
+msgstr "Sense opció per a «{x}» amb el teu material i molèsties: s'omet."
 
 msgid "Sin pitidos ni vibración: solo la cuenta atrás y el destello en pantalla."
 msgstr "Sense xiulets ni vibració: només el compte enrere i el flaix a la pantalla."
@@ -3600,6 +3821,9 @@ msgstr "Només surt el que veus aquí. Mai el teu pes, el diari ni el cicle."
 
 msgid "Solo se marca la semana; tú decides qué subir."
 msgstr "Només es marca la setmana; tu decideixes què pujar."
+
+msgid "Solo se proponen ejercicios que puedas hacer. Pared siempre hay."
+msgstr "Només es proposen exercicis que puguis fer. Paret sempre n'hi ha."
 
 msgid "Solo se usan al preparar un análisis con IA externa (Progreso → Resumen). Van en la copia de seguridad del perfil."
 msgstr "Només es fan servir en preparar una anàlisi amb IA externa (Progrés → Resum). Van a la còpia de seguretat del perfil."
@@ -3691,6 +3915,9 @@ msgstr "Tema automàtic per defecte: segueix el mode clar o fosc del mòbil. El 
 msgid "Tendencia (media de 3)"
 msgstr "Tendència (mitjana de 3)"
 
+msgid "Tengo algo de base"
+msgstr "Tinc una mica de base"
+
 msgid "Termina este día"
 msgstr "Acaba aquest dia"
 
@@ -3708,6 +3935,9 @@ msgstr "Acaba i desa"
 
 msgid "Terminas cansado; poco margen al final."
 msgstr "Acabes cansat; poc marge al final."
+
+msgid "Test rápido"
+msgstr "Test ràpid"
 
 msgid "Texto"
 msgstr "Text"
@@ -3735,6 +3965,12 @@ msgstr "Tipus de grup"
 
 msgid "Tipo de movimiento"
 msgstr "Tipus de moviment"
+
+msgid "Tirón 1"
+msgstr "Estirada 1"
+
+msgid "Tirón 2"
+msgstr "Estirada 2"
 
 msgid "Toca hoy"
 msgstr "Avui toca"
@@ -3791,6 +4027,18 @@ msgstr "Pres"
 msgid "tomados"
 msgstr "presos"
 
+msgid "Torso 1"
+msgstr "Tors 1"
+
+msgid "Torso 2"
+msgstr "Tors 2"
+
+msgid "Torso y pierna, alternando."
+msgstr "Tors i cama, alternant."
+
+msgid "tracción"
+msgstr "tracció"
+
 msgid "Tracción"
 msgstr "Tracció"
 
@@ -3806,6 +4054,15 @@ msgstr "Després del descans, la sèrie per temps següent comença sola"
 msgid "Tres sonidos: tic en los últimos segundos de cualquier cuenta atrás, inicio y fin. La vibración respeta siempre Ajustes → Avisos."
 msgstr "Tres sons: tic als últims segons de qualsevol compte enrere, inici i fi. La vibració respecta sempre Ajustos → Avisos."
 
+msgid "Tu material y molestias"
+msgstr "El teu material i molèsties"
+
+msgid "Tu nivel"
+msgstr "El teu nivell"
+
+msgid "Tu nivel: test rápido o elegido"
+msgstr "El teu nivell: test ràpid o triat"
+
 msgid "Tu nombre"
 msgstr "El teu nom"
 
@@ -3814,6 +4071,9 @@ msgstr "El teu perfil"
 
 msgid "Tu progresión"
 msgstr "La teva progressió"
+
+msgid "Tu propuesta"
+msgstr "La teva proposta"
 
 msgid "Tus datos se guardan solo en este dispositivo. Haz copias desde Ajustes: si borras el navegador o desinstalas la app, se pierden."
 msgstr "Les teves dades es desen només en aquest dispositiu. Fes còpies des d'Ajustos: si esborres el navegador o desinstal·les l'app, es perden."
@@ -3863,6 +4123,12 @@ msgstr "Una columna per sessió: apunta el que has fet (p. ex. 8·8·7·6)"
 
 msgid "Una hoja por ejercicio con muchas fechas para ver su progresión."
 msgstr "Un full per exercici amb moltes dates per veure'n la progressió."
+
+msgid "Una rutina por sesión de la semana, en orden. Se crea también una variante B con ejercicios parecidos para alternar cada 2 semanas."
+msgstr "Una rutina per sessió de la setmana, en ordre. Es crea també una variant B amb exercicis semblants per alternar cada 2 setmanes."
+
+msgid "Unas preguntas y Usus te propone rutinas y un plan con ejercicios del catálogo, a tu nivel y con tu material. Lo revisas y cambias lo que quieras antes de guardarlo."
+msgstr "Unes preguntes i Usus et proposa rutines i un pla amb exercicis del catàleg, al teu nivell i amb el teu material. El revises i canvies el que vulguis abans de desar-lo."
 
 msgid "Une tus nombres con las fichas del catálogo"
 msgstr "Uneix els teus noms amb les fitxes del catàleg"
@@ -3982,6 +4248,9 @@ msgstr "Veure l'app primer. Les rutines es creen a Biblioteca → Nova rutina."
 msgid "Ver notas"
 msgstr "Veure notes"
 
+msgid "Ver propuesta"
+msgstr "Veure la proposta"
+
 msgid "Ver versiones"
 msgstr "Veure versions"
 
@@ -4078,6 +4347,9 @@ msgstr "Ja tens una sessió en curs. La vols descartar i començar-ne una altra?
 
 msgid "Yo"
 msgstr "Jo"
+
+msgid "Zona lumbar"
+msgstr "Zona lumbar"
 
 msgid "Zona peligrosa"
 msgstr "Zona perillosa"

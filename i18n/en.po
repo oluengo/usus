@@ -9,6 +9,9 @@ msgstr ""
 "Language: en\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+msgid "¿Alguna molestia?"
+msgstr "Any aches or pains?"
+
 msgid "¿Borrar este registro de peso?"
 msgstr "Delete this weight entry?"
 
@@ -26,6 +29,9 @@ msgstr "How many were left in the tank?"
 
 msgid "¿Cuánto más habrías aguantado?"
 msgstr "How much longer could you have held?"
+
+msgid "¿Cuánto puedes entrenar?"
+msgstr "How much can you train?"
 
 msgid "¿Cuánto te ha costado?"
 msgstr "How hard was it?"
@@ -71,6 +77,12 @@ msgstr "Could it help someone? Send them the link."
 msgid "¿Pasar igualmente a {x}? Las series pendientes quedan sin hacer."
 msgstr "Move on to {x} anyway? Pending sets stay undone."
 
+msgid "¿Qué buscas?"
+msgstr "What are you after?"
+
+msgid "¿Qué material tienes?"
+msgstr "What equipment do you have?"
+
 #, python-brace-format
 msgid "¿Quitar \"{x}\" de la sesión?"
 msgstr "Remove \"{x}\" from the session?"
@@ -89,6 +101,9 @@ msgstr "Remove the section “{x}”? Its exercises move to “{y}”."
 #, python-brace-format
 msgid "¿Terminar y guardar igualmente? Se guardan solo las series hechas ({n} pendientes en total)."
 msgstr "Finish and save anyway? Only completed sets are saved ({n} pending in total)."
+
+msgid "‹ › cambia al ejercicio anterior o siguiente de su escalera. Toca un nombre para ver su ficha. Después podrás editar las rutinas en Biblioteca."
+msgstr "‹ › switches to the previous or next exercise in its progression. Tap a name to see its card. You can edit the routines later in Library."
 
 msgid "«Añadir app» y pega el enlace:"
 msgstr "“Add app” and paste the link:"
@@ -341,6 +356,9 @@ msgstr "Open GitHub"
 msgid "Abundante"
 msgstr "Heavy"
 
+msgid "Accesorios"
+msgstr "Accessories"
+
 #, python-brace-format
 msgid "Aceptar las {n} propuestas"
 msgstr "Accept the {n} suggestions"
@@ -591,6 +609,9 @@ msgstr "A free app that watches GitHub and notifies you or installs each new ver
 msgid "App instalada"
 msgstr "App installed"
 
+msgid "Aprender habilidades"
+msgstr "Learn skills"
+
 msgid "Archivo"
 msgstr "File"
 
@@ -751,6 +772,9 @@ msgstr "Each profile decides. You can change it in Settings → App."
 msgid "Cada perfil tiene sus propios datos y ajustes."
 msgstr "Each profile has its own data and settings."
 
+msgid "cadera"
+msgstr "hips"
+
 msgid "Caja / banco"
 msgstr "Box / bench"
 
@@ -768,6 +792,9 @@ msgstr "Quality"
 
 msgid "Cambia de lado"
 msgstr "Switch sides"
+
+msgid "Cambia el peso de cada parte de la sesión."
+msgstr "It changes the weight of each part of the session."
 
 msgid "Cambiado solo en esta sesión"
 msgstr "Swapped for this session only"
@@ -834,6 +861,9 @@ msgstr "Amount"
 msgid "Cardio"
 msgstr "Cardio"
 
+msgid "Cardio final"
+msgstr "Cardio finisher"
+
 msgid "Cardio, nuevo tipo de movimiento en Ejercicios, y comba, nuevo material."
 msgstr "Cardio, a new movement type in Exercises, and jump rope, a new piece of equipment."
 
@@ -891,6 +921,12 @@ msgstr "Light"
 
 msgid "Código fuente"
 msgstr "Source code"
+
+msgid "Codo"
+msgstr "Elbow"
+
+msgid "Coloca cada ejercicio en su escalera. Luego lo puedes subir o bajar."
+msgstr "It places each exercise in its progression. You can move it up or down later."
 
 msgid "Color"
 msgstr "Colour"
@@ -956,6 +992,12 @@ msgstr "weighted"
 msgid "Con nota"
 msgstr "With a note"
 
+msgid "Con tu molestia no hay alternativa para todo: los ejercicios marcados con ⚠ la cargan y van en su versión fácil. Hazlos con cuidado o cámbialos."
+msgstr "With your ache there isn't an alternative for everything: exercises marked ⚠ load it and come in their easy version. Do them carefully or swap them."
+
+msgid "Con tu molestia, algunos ejercicios se cambian por otros de la misma zona."
+msgstr "Because of your ache, some exercises are replaced by others for the same area."
+
 msgid "Condiciones de salud relevantes"
 msgstr "Relevant health conditions"
 
@@ -1013,6 +1055,9 @@ msgstr "Copy routines to another profile"
 msgid "Copiar rutinas de {x}"
 msgstr "Copy routines from {x}"
 
+msgid "core"
+msgstr "core"
+
 msgid "Core"
 msgstr "Core"
 
@@ -1034,6 +1079,9 @@ msgstr "Create profile"
 
 msgid "Crear plan"
 msgstr "Create plan"
+
+msgid "Crear plan y rutinas"
+msgstr "Create plan and routines"
 
 msgid "Cuándo"
 msgstr "When"
@@ -1318,6 +1366,9 @@ msgstr "Headache"
 msgid "Dolores o molestias actuales"
 msgstr "Current pain or discomfort"
 
+msgid "Dominadas"
+msgstr "Pull-ups"
+
 msgid "Dosis"
 msgstr "Dose"
 
@@ -1419,6 +1470,9 @@ msgstr "exercises"
 msgid "Ejercicios"
 msgstr "Exercises"
 
+msgid "Ejercicios principales con progresión. Lo básico de la calistenia."
+msgstr "Main exercises with progression. The basics of calisthenics."
+
 msgid "Ejercicios vs objetivo"
 msgstr "Exercises vs target"
 
@@ -1440,6 +1494,9 @@ msgstr "The progression plan moves from Today to Library → Plan, next to the r
 #, python-brace-format
 msgid "El plan empieza el {d}."
 msgstr "The plan starts on {d}."
+
+msgid "El plan guiado usa el catálogo de ejercicios. ¿Activarlo en este perfil?"
+msgstr "The guided plan uses the exercise catalogue. Turn it on for this profile?"
 
 msgid "El plan no tiene fases válidas. Edítalo para añadirlas."
 msgstr "The plan has no valid phases. Edit it to add some."
@@ -1471,6 +1528,9 @@ msgstr "Pick a date"
 
 msgid "Elegir otro"
 msgstr "Choose another"
+
+msgid "Elegirlo yo"
+msgstr "Choose it myself"
 
 msgid "Elige al menos un día"
 msgstr "Choose at least one day"
@@ -1515,14 +1575,32 @@ msgstr "starts on its own"
 msgid "Empiezo (menos de 6 meses)"
 msgstr "Starting out (under 6 months)"
 
+msgid "Empiezo de cero"
+msgstr "Starting from scratch"
+
 msgid "Empuje"
 msgstr "Push"
+
+msgid "Empuje 1"
+msgstr "Push 1"
+
+msgid "Empuje 2"
+msgstr "Push 2"
+
+msgid "empuje horizontal"
+msgstr "horizontal push"
 
 msgid "Empuje horizontal"
 msgstr "Horizontal push"
 
+msgid "empuje vertical"
+msgstr "vertical push"
+
 msgid "Empuje vertical"
 msgstr "Vertical push"
+
+msgid "Empuje, tirón y pierna."
+msgstr "Push, pull and legs."
 
 #, python-brace-format
 msgid "En «{x}». Las demás rutinas no cambian."
@@ -1586,6 +1664,9 @@ msgstr "Training: a fixed header with time and progress, bigger sets and a botto
 msgid "Entreno"
 msgstr "Workout"
 
+msgid "Entreno con regularidad"
+msgstr "I train regularly"
+
 msgid "Entreno por fase"
 msgstr "Training by phase"
 
@@ -1606,6 +1687,9 @@ msgstr "It's normal when starting a new step. Going back to the previous one for
 
 msgid "Es una estimación aproximada: no sirve como anticonceptivo ni como diagnóstico."
 msgstr "It's an approximate estimate: not a contraceptive method or a diagnosis."
+
+msgid "Es una propuesta general: no sustituye a un entrenador ni a un profesional sanitario."
+msgstr "It's a general suggestion: it doesn't replace a coach or a health professional."
 
 #, python-brace-format
 msgid "Escribe un objetivo válido, por ejemplo {v}"
@@ -1732,12 +1816,18 @@ msgstr "Fertile (est.)"
 msgid "Fichas del catálogo en català e English, y nombres de los ejercicios en català."
 msgstr "Catalogue cards in Català and English, and exercise names in Català."
 
+msgid "Fichas desde cualquier sitio: toca el nombre de un ejercicio del catálogo en la rutina, antes de iniciar o en el Diario para ver cómo se hace. Si el perfil no tiene el catálogo activado, se pide activarlo."
+msgstr "Cards from anywhere: tap the name of a catalogue exercise in a routine, before starting or in the Diary to see how it's done. If the profile doesn't have the catalogue turned on, you're asked to turn it on."
+
 #, python-brace-format
 msgid "Fin de la regla · {d}"
 msgstr "End of period · {d}"
 
 msgid "Fin de la regla registrado"
 msgstr "End of period logged"
+
+msgid "Flexiones"
+msgstr "Push-ups"
 
 msgid "Folicular"
 msgstr "Follicular"
@@ -1754,8 +1844,29 @@ msgstr "Format: “;” separator and decimal comma, to open directly in Excel i
 msgid "Fuerza"
 msgstr "Strength"
 
+msgid "Fuerza y un bloque corto de cardio al final."
+msgstr "Strength plus a short cardio block at the end."
+
+msgid "Fuerza y un ejercicio de habilidad al principio (pino, L-sit, equilibrios…)."
+msgstr "Strength plus a skill exercise at the start (handstand, L-sit, balances…)."
+
 msgid "Full body"
 msgstr "Full body"
+
+msgid "Full body 1"
+msgstr "Full body 1"
+
+msgid "Full body 2"
+msgstr "Full body 2"
+
+msgid "Full body 3"
+msgstr "Full body 3"
+
+msgid "Full body: todo el cuerpo en cada sesión."
+msgstr "Full body: the whole body every session."
+
+msgid "Ganar fuerza"
+msgstr "Get stronger"
 
 msgid "Generar texto"
 msgstr "Generate text"
@@ -1787,8 +1898,17 @@ msgstr "Save routine"
 msgid "Ha terminado hoy"
 msgstr "It ended today"
 
+msgid "habilidad"
+msgstr "skill"
+
 msgid "Hábitos"
 msgstr "Habits"
+
+msgid "Hago dominadas y fondos sin problema."
+msgstr "I do pull-ups and dips with no trouble."
+
+msgid "Hago flexiones y sentadillas; dominadas todavía no o muy pocas."
+msgstr "I do push-ups and squats; no pull-ups yet, or very few."
 
 #, python-brace-format
 msgid "Han pasado {n} días desde tu última copia."
@@ -1826,6 +1946,9 @@ msgstr "man"
 
 msgid "Hombre"
 msgstr "Man"
+
+msgid "Hombro"
+msgstr "Shoulder"
 
 msgid "Hombros"
 msgstr "Shoulders"
@@ -2152,6 +2275,12 @@ msgstr "Mark ↑ when a variant repeats (reminder to progress)"
 msgid "Más"
 msgstr "More"
 
+msgid "Más difícil"
+msgstr "Harder"
+
+msgid "Más fácil"
+msgstr "Easier"
+
 msgid "Más reps en una sesión"
 msgstr "Most reps in a session"
 
@@ -2166,6 +2295,15 @@ msgstr "Equipment"
 
 msgid "Máximo"
 msgstr "Maximal"
+
+msgid "Máximo seguidas"
+msgstr "Max in a row"
+
+msgid "Máximo seguidas (0 si no puedes)"
+msgstr "Max in a row (0 if you can't)"
+
+msgid "Máximo seguidas, bien hechas"
+msgstr "Max in a row, with good form"
 
 msgid "Me ha bajado hoy"
 msgstr "Started today"
@@ -2245,6 +2383,9 @@ msgstr "My equipment (Settings → Workout) and equipment for your own exercises
 msgid "Minutos"
 msgstr "Minutes"
 
+msgid "Minutos por sesión"
+msgstr "Minutes per session"
+
 msgid "Mis planes"
 msgstr "My plans"
 
@@ -2286,6 +2427,9 @@ msgstr "woman"
 
 msgid "Mujer"
 msgstr "Woman"
+
+msgid "Muñeca"
+msgstr "Wrist"
 
 msgid "Músculos"
 msgstr "Muscles"
@@ -2332,6 +2476,9 @@ msgstr "Didn't train"
 
 msgid "No habrías podido hacer mucho más."
 msgstr "You couldn't have done much more."
+
+msgid "No hago ejercicio o hace mucho que lo dejé."
+msgstr "I don't exercise, or stopped a long time ago."
 
 msgid "No hay datos para exportar"
 msgstr "No data to export"
@@ -2526,6 +2673,9 @@ msgstr "Weekly goal ({u})"
 msgid "Objetivo y recordatorio, en tu perfil"
 msgstr "Goal and reminder, in your profile"
 
+msgid "Objetivo, días y tiempo"
+msgstr "Goal, days and time"
+
 #, python-brace-format
 msgid "Objetivo: {v}"
 msgstr "Target: {v}"
@@ -2616,6 +2766,9 @@ msgstr "What it's for"
 
 msgid "Para recuperar lo que te saltaste, elige una semana anterior: Hoy te propone primero lo que falte de ella."
 msgstr "To catch up on what you skipped, choose an earlier week: Today suggests what's missing from it first."
+
+msgid "Para ver la ficha hay que activar el catálogo de ejercicios en este perfil. ¿Activarlo?"
+msgstr "To see the card you need to turn on the exercise catalogue for this profile. Turn it on?"
 
 msgid "Paralelas"
 msgstr "Parallel bars"
@@ -2766,6 +2919,9 @@ msgstr "Weekly weight"
 msgid "Peso serie {n}"
 msgstr "Weight set {n}"
 
+msgid "pierna"
+msgstr "legs"
+
 msgid "Pierna"
 msgstr "Legs"
 
@@ -2774,6 +2930,12 @@ msgstr "Legs · hip"
 
 msgid "Pierna · rodilla"
 msgstr "Legs · knee"
+
+msgid "Pierna 1"
+msgstr "Legs 1"
+
+msgid "Pierna 2"
+msgstr "Legs 2"
 
 msgid "Plan"
 msgstr "Plan"
@@ -2804,11 +2966,27 @@ msgstr "Plan paused: only every-week routines (e.g. Daily). It resumes on {d}."
 msgid "Plan guardado"
 msgstr "Plan saved"
 
+msgid "Plan guiado"
+msgstr "Guided plan"
+
+#, python-brace-format
+msgid "Plan guiado creado: {n} rutinas"
+msgstr "Guided plan created: {n} routines"
+
+msgid "Plan guiado: unas preguntas (objetivo, días, minutos, material, molestias y nivel, con un test rápido o elegido) y Usus propone rutinas del catálogo a tu nivel, con calentamiento, principal, accesorios y vuelta a la calma. Revisas la propuesta, subes o bajas cada ejercicio en su escalera y se crean las rutinas (variantes A y B) y un plan en orden."
+msgstr "Guided plan: a few questions (goal, days, minutes, equipment, aches and level, with a quick test or your own choice) and Usus suggests catalogue routines at your level, with warm-up, main work, accessories and cool-down. Review the suggestion, move each exercise up or down its progression, and the routines (variants A and B) and an in-order plan are created."
+
+msgid "Plan guiado: unas preguntas y Usus te propone rutinas del catálogo a tu nivel. Crear plan: lo montas tú con tus rutinas."
+msgstr "Guided plan: a few questions and Usus suggests catalogue routines at your level. Create plan: you build it with your own routines."
+
 msgid "Plan terminado"
 msgstr "Plan finished"
 
 msgid "Plan: la semana ↑ puede aplicar sola la subida (+reps, +1 serie o siguiente paso), con aviso en Hoy y opción de deshacer."
 msgstr "Plan: the ↑ week can apply the increase automatically (+reps, +1 set or next step), with a notice in Today and an undo option."
+
+msgid "Plancha"
+msgstr "Plank"
 
 msgid "Planes en orden: hoy toca la siguiente sesión que falte, sea el día que sea; si empiezas un domingo o fallas un día, se recupera, y la semana del plan pasa al hacerlas todas. Tus planes pasan solos a este modo desde la semana en la que ibas, y al editarlos puedes volver a una semana anterior para recuperarla."
 msgstr "In-order plans: today is the next session still to do, whatever the day; if you start on a Sunday or miss a day you catch up, and the plan week moves on when all are done. Your plans switch to this mode automatically from the week you were on, and when editing them you can go back to an earlier week to catch up."
@@ -2827,6 +3005,9 @@ msgstr "Set the start date"
 
 msgid "Pon los segundos de la serie"
 msgstr "Enter the seconds for this set"
+
+msgid "Ponerme en forma"
+msgstr "Get fit"
 
 msgid "Ponle un nombre"
 msgstr "Give it a name"
@@ -2951,6 +3132,9 @@ msgstr "Next period: {d} (± {n} d) · in {m} days"
 
 msgid "Próximas fechas"
 msgstr "Upcoming dates"
+
+msgid "Puedes entrenar cualquier día: el plan va en orden."
+msgstr "You can train any day: the plan goes in order."
 
 msgid "Qué esperabas"
 msgstr "What you expected"
@@ -3134,6 +3318,9 @@ msgstr "Go back"
 msgid "Revisar rutinas propuestas"
 msgstr "Review suggested routines"
 
+msgid "Revisas y creas el plan"
+msgstr "Review and create the plan"
+
 msgid "Revisión (opcional)"
 msgstr "Review (optional)"
 
@@ -3152,6 +3339,9 @@ msgstr "RIR per set (reps in reserve), optional in Settings → Workout."
 
 msgid "RIR también en series por tiempo: cuánto más habrías aguantado (0, 5, 10, 15+ s)."
 msgstr "RIR for timed sets too: how much longer you could have held (0, 5, 10, 15+ s)."
+
+msgid "Rodilla"
+msgstr "Knee"
 
 msgid "Rueda abdominal"
 msgstr "Ab wheel"
@@ -3242,6 +3432,9 @@ msgstr "All routines, sessions and weights on this device will be deleted. Have 
 msgid "Se borrarán todos los datos de «{x}» en este dispositivo. Los demás perfiles no se tocan. ¿Has hecho una copia?"
 msgstr "All of “{x}”'s data on this device will be deleted. Other profiles aren't touched. Have you made a backup?"
 
+msgid "Se evitan los ejercicios que más cargan esa zona."
+msgstr "Exercises that load that area most are avoided."
+
 msgid "Se guarda únicamente en este móvil, dentro de este perfil."
 msgstr "It's stored only on this phone, inside this profile."
 
@@ -3299,6 +3492,9 @@ msgstr "Keep trying"
 msgid "Seguir más tarde"
 msgstr "Continue later"
 
+msgid "Segundos aguantando"
+msgstr "Seconds held"
+
 #, python-brace-format
 msgid "Segundos serie {n}"
 msgstr "Seconds set {n}"
@@ -3345,6 +3541,9 @@ msgstr "Weeks in a row"
 
 msgid "Sensibilidad"
 msgstr "Tenderness"
+
+msgid "Sentadillas"
+msgstr "Squats"
 
 msgid "Separar"
 msgstr "Ungroup"
@@ -3421,6 +3620,9 @@ msgstr[1] "Sessions moved {n} days from {d}."
 msgid "Sesiones aplazadas {n} día desde el {d}."
 msgstr "Sessions moved {n} day from {d}."
 
+msgid "Sesiones por semana"
+msgstr "Sessions per week"
+
 msgid "Sexo"
 msgstr "Sex"
 
@@ -3428,8 +3630,14 @@ msgstr "Sex"
 msgid "Sexo: {x} (del perfil)."
 msgstr "Sex: {x} (from the profile)."
 
+msgid "Si es una lesión o un dolor que no se va, consulta antes con un profesional."
+msgstr "If it's an injury or pain that won't go away, check with a professional first."
+
 msgid "Si la IA propone rutinas ajustadas, pega su respuesta y elige cuáles actualizar."
 msgstr "If the AI suggests adjusted routines, paste its reply and choose which to update."
+
+msgid "Si no puedes hacer alguno (no tienes barra, por ejemplo), pon 0."
+msgstr "If you can't do one (no bar, for example), enter 0."
 
 msgid "Si no, solo hoy."
 msgstr "Otherwise, just today."
@@ -3487,6 +3695,15 @@ msgstr "None"
 msgid "Sin actividad este día."
 msgstr "No activity this day."
 
+msgid "Sin barra ni anillas, la espalda se trabaja con banda o ejercicios escapulares. Una barra de puerta o unas anillas cambian mucho el plan."
+msgstr "Without a bar or rings, your back is trained with a band or shoulder-blade exercises. A doorway bar or a set of rings changes the plan a lot."
+
+msgid "Sin barra ni anillas, la espalda solo se puede trabajar con banda o ejercicios en el suelo. Una barra de puerta o unas anillas cambian mucho el plan."
+msgstr "Without a bar or rings, your back can only be trained with a band or floor exercises. A doorway bar or a set of rings changes the plan a lot."
+
+msgid "Sin barra para dominadas: se usa remo en su lugar."
+msgstr "No bar for pull-ups: rows are used instead."
+
 msgid "sin copias todavía"
 msgstr "no backups yet"
 
@@ -3513,6 +3730,10 @@ msgstr "No warranty. The authors are not liable for injury, data loss or any oth
 
 msgid "Sin notas en este periodo."
 msgstr "No notes in this period."
+
+#, python-brace-format
+msgid "Sin opción para «{x}» con tu material y molestias: se omite."
+msgstr "No option for “{x}” with your equipment and aches: it's left out."
 
 msgid "Sin pitidos ni vibración: solo la cuenta atrás y el destello en pantalla."
 msgstr "No beeps or vibration: only the countdown and the screen flash."
@@ -3600,6 +3821,9 @@ msgstr "Only what you see here is shared. Never your weight, diary or cycle."
 
 msgid "Solo se marca la semana; tú decides qué subir."
 msgstr "The week is only marked; you decide what to increase."
+
+msgid "Solo se proponen ejercicios que puedas hacer. Pared siempre hay."
+msgstr "Only exercises you can do are suggested. There's always a wall."
 
 msgid "Solo se usan al preparar un análisis con IA externa (Progreso → Resumen). Van en la copia de seguridad del perfil."
 msgstr "Only used when preparing an analysis with an external AI (Progress → Summary). Included in the profile backup."
@@ -3691,6 +3915,9 @@ msgstr "Automatic theme by default: follows your phone's light or dark mode. Cha
 msgid "Tendencia (media de 3)"
 msgstr "Trend (3-point average)"
 
+msgid "Tengo algo de base"
+msgstr "I have some base"
+
 msgid "Termina este día"
 msgstr "Ends this day"
 
@@ -3708,6 +3935,9 @@ msgstr "Finish and save"
 
 msgid "Terminas cansado; poco margen al final."
 msgstr "You finish tired; little left at the end."
+
+msgid "Test rápido"
+msgstr "Quick test"
 
 msgid "Texto"
 msgstr "Text"
@@ -3735,6 +3965,12 @@ msgstr "Group type"
 
 msgid "Tipo de movimiento"
 msgstr "Movement type"
+
+msgid "Tirón 1"
+msgstr "Pull 1"
+
+msgid "Tirón 2"
+msgstr "Pull 2"
 
 msgid "Toca hoy"
 msgstr "Due today"
@@ -3791,6 +4027,18 @@ msgstr "Taken"
 msgid "tomados"
 msgstr "taken"
 
+msgid "Torso 1"
+msgstr "Upper 1"
+
+msgid "Torso 2"
+msgstr "Upper 2"
+
+msgid "Torso y pierna, alternando."
+msgstr "Upper and lower body, alternating."
+
+msgid "tracción"
+msgstr "pull"
+
 msgid "Tracción"
 msgstr "Pull"
 
@@ -3806,6 +4054,15 @@ msgstr "After the rest, the next timed set starts on its own"
 msgid "Tres sonidos: tic en los últimos segundos de cualquier cuenta atrás, inicio y fin. La vibración respeta siempre Ajustes → Avisos."
 msgstr "Three sounds: a tick in the last seconds of any countdown, start and end. Vibration always follows Settings → Alerts."
 
+msgid "Tu material y molestias"
+msgstr "Your equipment and aches"
+
+msgid "Tu nivel"
+msgstr "Your level"
+
+msgid "Tu nivel: test rápido o elegido"
+msgstr "Your level: quick test or your choice"
+
 msgid "Tu nombre"
 msgstr "Your name"
 
@@ -3814,6 +4071,9 @@ msgstr "Your profile"
 
 msgid "Tu progresión"
 msgstr "Your progression"
+
+msgid "Tu propuesta"
+msgstr "Your plan"
 
 msgid "Tus datos se guardan solo en este dispositivo. Haz copias desde Ajustes: si borras el navegador o desinstalas la app, se pierden."
 msgstr "Your data is stored only on this device. Make backups from Settings: clearing the browser or uninstalling the app deletes it."
@@ -3863,6 +4123,12 @@ msgstr "One column per session: write what you did (e.g. 8·8·7·6)"
 
 msgid "Una hoja por ejercicio con muchas fechas para ver su progresión."
 msgstr "One sheet per exercise with many dates to track its progress."
+
+msgid "Una rutina por sesión de la semana, en orden. Se crea también una variante B con ejercicios parecidos para alternar cada 2 semanas."
+msgstr "One routine per session of the week, in order. A variant B with similar exercises is also created to alternate every 2 weeks."
+
+msgid "Unas preguntas y Usus te propone rutinas y un plan con ejercicios del catálogo, a tu nivel y con tu material. Lo revisas y cambias lo que quieras antes de guardarlo."
+msgstr "A few questions and Usus suggests routines and a plan with catalogue exercises, at your level and with your equipment. Review it and change anything before saving."
 
 msgid "Une tus nombres con las fichas del catálogo"
 msgstr "Link your names to the catalogue cards"
@@ -3982,6 +4248,9 @@ msgstr "See the app first. Routines are created in Library → New routine."
 msgid "Ver notas"
 msgstr "See notes"
 
+msgid "Ver propuesta"
+msgstr "See the plan"
+
 msgid "Ver versiones"
 msgstr "See versions"
 
@@ -4078,6 +4347,9 @@ msgstr "You already have a session in progress. Discard it and start another?"
 
 msgid "Yo"
 msgstr "Me"
+
+msgid "Zona lumbar"
+msgstr "Lower back"
 
 msgid "Zona peligrosa"
 msgstr "Danger zone"

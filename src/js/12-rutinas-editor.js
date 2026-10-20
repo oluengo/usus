@@ -83,7 +83,7 @@ function routDetail(r) {
     if (g && (i === 0 || L[i - 1].grp !== e.grp)) { const gl = `${grpLabel(g)} · ${T("{n} vueltas", { n: g.rounds })}${+g.rest ? ` · ${T("{n} s entre vueltas", { n: g.rest })}` : ""}`; rows += `<tr class="rdgrp"><td colspan="${C}">${gl}</td></tr>`; items += `<div class="rgrp">${gl}</div>`; }
     rows += `<tr class="${g ? "ing" : ""}"><td class="k">${keys[i]}</td><td>${esc(exLabel(e))}${side}</td>
       <td class="n">${g ? "" : e.sets + " × "}${e.reps}${isTime(e) ? " s" : ""}</td><td class="n">${g ? (+e.rest > 0 ? e.rest + " s" : "—") : restFor(e) + " s"}</td><td class="n">${g ? "" : restXFor(e) + " s"}</td></tr>`;
-    items += `<div class="rex${g ? " ing" : ""}"><span>${many ? `<b class="ekey">${keys[i]}</b> ` : ""}${esc(exLabel(e))}${side}</span><span class="muted">${g ? "" : e.sets + " × "}${e.reps}${isTime(e) ? " s" : ""}</span></div>`;
+    items += `<div class="rex${g ? " ing" : ""}"><span>${many ? `<b class="ekey">${keys[i]}</b> ` : ""}${xLink(e, esc(exLabel(e)))}${side}</span><span class="muted">${g ? "" : e.sets + " × "}${e.reps}${isTime(e) ? " s" : ""}</span></div>`;
   });
   return `<section class="rdet" aria-label="${esc(r.name)}">
     <button class="back" data-back="rout">‹ ${T("Rutinas")}</button>

@@ -8,6 +8,9 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: es\n"
 
+msgid "¿Alguna molestia?"
+msgstr ""
+
 msgid "¿Borrar este registro de peso?"
 msgstr ""
 
@@ -24,6 +27,9 @@ msgid "¿Cuántas te quedaban?"
 msgstr ""
 
 msgid "¿Cuánto más habrías aguantado?"
+msgstr ""
+
+msgid "¿Cuánto puedes entrenar?"
 msgstr ""
 
 msgid "¿Cuánto te ha costado?"
@@ -70,6 +76,12 @@ msgstr ""
 msgid "¿Pasar igualmente a {x}? Las series pendientes quedan sin hacer."
 msgstr ""
 
+msgid "¿Qué buscas?"
+msgstr ""
+
+msgid "¿Qué material tienes?"
+msgstr ""
+
 #, python-brace-format
 msgid "¿Quitar \"{x}\" de la sesión?"
 msgstr ""
@@ -87,6 +99,9 @@ msgstr ""
 
 #, python-brace-format
 msgid "¿Terminar y guardar igualmente? Se guardan solo las series hechas ({n} pendientes en total)."
+msgstr ""
+
+msgid "‹ › cambia al ejercicio anterior o siguiente de su escalera. Toca un nombre para ver su ficha. Después podrás editar las rutinas en Biblioteca."
 msgstr ""
 
 msgid "«Añadir app» y pega el enlace:"
@@ -340,6 +355,9 @@ msgstr ""
 msgid "Abundante"
 msgstr ""
 
+msgid "Accesorios"
+msgstr ""
+
 #, python-brace-format
 msgid "Aceptar las {n} propuestas"
 msgstr ""
@@ -590,6 +608,9 @@ msgstr ""
 msgid "App instalada"
 msgstr ""
 
+msgid "Aprender habilidades"
+msgstr ""
+
 msgid "Archivo"
 msgstr ""
 
@@ -750,6 +771,9 @@ msgstr ""
 msgid "Cada perfil tiene sus propios datos y ajustes."
 msgstr ""
 
+msgid "cadera"
+msgstr ""
+
 msgid "Caja / banco"
 msgstr ""
 
@@ -766,6 +790,9 @@ msgid "Calidad"
 msgstr ""
 
 msgid "Cambia de lado"
+msgstr ""
+
+msgid "Cambia el peso de cada parte de la sesión."
 msgstr ""
 
 msgid "Cambiado solo en esta sesión"
@@ -833,6 +860,9 @@ msgstr ""
 msgid "Cardio"
 msgstr ""
 
+msgid "Cardio final"
+msgstr ""
+
 msgid "Cardio, nuevo tipo de movimiento en Ejercicios, y comba, nuevo material."
 msgstr ""
 
@@ -889,6 +919,12 @@ msgid "Claro"
 msgstr ""
 
 msgid "Código fuente"
+msgstr ""
+
+msgid "Codo"
+msgstr ""
+
+msgid "Coloca cada ejercicio en su escalera. Luego lo puedes subir o bajar."
 msgstr ""
 
 msgid "Color"
@@ -955,6 +991,12 @@ msgstr ""
 msgid "Con nota"
 msgstr ""
 
+msgid "Con tu molestia no hay alternativa para todo: los ejercicios marcados con ⚠ la cargan y van en su versión fácil. Hazlos con cuidado o cámbialos."
+msgstr ""
+
+msgid "Con tu molestia, algunos ejercicios se cambian por otros de la misma zona."
+msgstr ""
+
 msgid "Condiciones de salud relevantes"
 msgstr ""
 
@@ -1012,6 +1054,9 @@ msgstr ""
 msgid "Copiar rutinas de {x}"
 msgstr ""
 
+msgid "core"
+msgstr ""
+
 msgid "Core"
 msgstr ""
 
@@ -1032,6 +1077,9 @@ msgid "Crear perfil"
 msgstr ""
 
 msgid "Crear plan"
+msgstr ""
+
+msgid "Crear plan y rutinas"
 msgstr ""
 
 msgid "Cuándo"
@@ -1317,6 +1365,9 @@ msgstr ""
 msgid "Dolores o molestias actuales"
 msgstr ""
 
+msgid "Dominadas"
+msgstr ""
+
 msgid "Dosis"
 msgstr ""
 
@@ -1418,6 +1469,9 @@ msgstr ""
 msgid "Ejercicios"
 msgstr ""
 
+msgid "Ejercicios principales con progresión. Lo básico de la calistenia."
+msgstr ""
+
 msgid "Ejercicios vs objetivo"
 msgstr ""
 
@@ -1438,6 +1492,9 @@ msgstr ""
 
 #, python-brace-format
 msgid "El plan empieza el {d}."
+msgstr ""
+
+msgid "El plan guiado usa el catálogo de ejercicios. ¿Activarlo en este perfil?"
 msgstr ""
 
 msgid "El plan no tiene fases válidas. Edítalo para añadirlas."
@@ -1469,6 +1526,9 @@ msgid "Elegir fecha"
 msgstr ""
 
 msgid "Elegir otro"
+msgstr ""
+
+msgid "Elegirlo yo"
 msgstr ""
 
 msgid "Elige al menos un día"
@@ -1514,13 +1574,31 @@ msgstr ""
 msgid "Empiezo (menos de 6 meses)"
 msgstr ""
 
+msgid "Empiezo de cero"
+msgstr ""
+
 msgid "Empuje"
+msgstr ""
+
+msgid "Empuje 1"
+msgstr ""
+
+msgid "Empuje 2"
+msgstr ""
+
+msgid "empuje horizontal"
 msgstr ""
 
 msgid "Empuje horizontal"
 msgstr ""
 
+msgid "empuje vertical"
+msgstr ""
+
 msgid "Empuje vertical"
+msgstr ""
+
+msgid "Empuje, tirón y pierna."
 msgstr ""
 
 #, python-brace-format
@@ -1585,6 +1663,9 @@ msgstr ""
 msgid "Entreno"
 msgstr ""
 
+msgid "Entreno con regularidad"
+msgstr ""
+
 msgid "Entreno por fase"
 msgstr ""
 
@@ -1604,6 +1685,9 @@ msgid "Es normal al empezar un paso nuevo. Volver unas semanas al anterior suele
 msgstr ""
 
 msgid "Es una estimación aproximada: no sirve como anticonceptivo ni como diagnóstico."
+msgstr ""
+
+msgid "Es una propuesta general: no sustituye a un entrenador ni a un profesional sanitario."
 msgstr ""
 
 #, python-brace-format
@@ -1731,11 +1815,17 @@ msgstr ""
 msgid "Fichas del catálogo en català e English, y nombres de los ejercicios en català."
 msgstr ""
 
+msgid "Fichas desde cualquier sitio: toca el nombre de un ejercicio del catálogo en la rutina, antes de iniciar o en el Diario para ver cómo se hace. Si el perfil no tiene el catálogo activado, se pide activarlo."
+msgstr ""
+
 #, python-brace-format
 msgid "Fin de la regla · {d}"
 msgstr ""
 
 msgid "Fin de la regla registrado"
+msgstr ""
+
+msgid "Flexiones"
 msgstr ""
 
 msgid "Folicular"
@@ -1753,7 +1843,28 @@ msgstr ""
 msgid "Fuerza"
 msgstr ""
 
+msgid "Fuerza y un bloque corto de cardio al final."
+msgstr ""
+
+msgid "Fuerza y un ejercicio de habilidad al principio (pino, L-sit, equilibrios…)."
+msgstr ""
+
 msgid "Full body"
+msgstr ""
+
+msgid "Full body 1"
+msgstr ""
+
+msgid "Full body 2"
+msgstr ""
+
+msgid "Full body 3"
+msgstr ""
+
+msgid "Full body: todo el cuerpo en cada sesión."
+msgstr ""
+
+msgid "Ganar fuerza"
 msgstr ""
 
 msgid "Generar texto"
@@ -1786,7 +1897,16 @@ msgstr ""
 msgid "Ha terminado hoy"
 msgstr ""
 
+msgid "habilidad"
+msgstr ""
+
 msgid "Hábitos"
+msgstr ""
+
+msgid "Hago dominadas y fondos sin problema."
+msgstr ""
+
+msgid "Hago flexiones y sentadillas; dominadas todavía no o muy pocas."
 msgstr ""
 
 #, python-brace-format
@@ -1824,6 +1944,9 @@ msgid "hombre"
 msgstr ""
 
 msgid "Hombre"
+msgstr ""
+
+msgid "Hombro"
 msgstr ""
 
 msgid "Hombros"
@@ -2151,6 +2274,12 @@ msgstr ""
 msgid "Más"
 msgstr ""
 
+msgid "Más difícil"
+msgstr ""
+
+msgid "Más fácil"
+msgstr ""
+
 msgid "Más reps en una sesión"
 msgstr ""
 
@@ -2164,6 +2293,15 @@ msgid "Material"
 msgstr ""
 
 msgid "Máximo"
+msgstr ""
+
+msgid "Máximo seguidas"
+msgstr ""
+
+msgid "Máximo seguidas (0 si no puedes)"
+msgstr ""
+
+msgid "Máximo seguidas, bien hechas"
 msgstr ""
 
 msgid "Me ha bajado hoy"
@@ -2244,6 +2382,9 @@ msgstr ""
 msgid "Minutos"
 msgstr ""
 
+msgid "Minutos por sesión"
+msgstr ""
+
 msgid "Mis planes"
 msgstr ""
 
@@ -2284,6 +2425,9 @@ msgid "mujer"
 msgstr ""
 
 msgid "Mujer"
+msgstr ""
+
+msgid "Muñeca"
 msgstr ""
 
 msgid "Músculos"
@@ -2330,6 +2474,9 @@ msgid "No entrené"
 msgstr ""
 
 msgid "No habrías podido hacer mucho más."
+msgstr ""
+
+msgid "No hago ejercicio o hace mucho que lo dejé."
 msgstr ""
 
 msgid "No hay datos para exportar"
@@ -2525,6 +2672,9 @@ msgstr ""
 msgid "Objetivo y recordatorio, en tu perfil"
 msgstr ""
 
+msgid "Objetivo, días y tiempo"
+msgstr ""
+
 #, python-brace-format
 msgid "Objetivo: {v}"
 msgstr ""
@@ -2614,6 +2764,9 @@ msgid "Para qué sirve"
 msgstr ""
 
 msgid "Para recuperar lo que te saltaste, elige una semana anterior: Hoy te propone primero lo que falte de ella."
+msgstr ""
+
+msgid "Para ver la ficha hay que activar el catálogo de ejercicios en este perfil. ¿Activarlo?"
 msgstr ""
 
 msgid "Paralelas"
@@ -2765,6 +2918,9 @@ msgstr ""
 msgid "Peso serie {n}"
 msgstr ""
 
+msgid "pierna"
+msgstr ""
+
 msgid "Pierna"
 msgstr ""
 
@@ -2772,6 +2928,12 @@ msgid "Pierna · cadera"
 msgstr ""
 
 msgid "Pierna · rodilla"
+msgstr ""
+
+msgid "Pierna 1"
+msgstr ""
+
+msgid "Pierna 2"
 msgstr ""
 
 msgid "Plan"
@@ -2803,10 +2965,26 @@ msgstr ""
 msgid "Plan guardado"
 msgstr ""
 
+msgid "Plan guiado"
+msgstr ""
+
+#, python-brace-format
+msgid "Plan guiado creado: {n} rutinas"
+msgstr ""
+
+msgid "Plan guiado: unas preguntas (objetivo, días, minutos, material, molestias y nivel, con un test rápido o elegido) y Usus propone rutinas del catálogo a tu nivel, con calentamiento, principal, accesorios y vuelta a la calma. Revisas la propuesta, subes o bajas cada ejercicio en su escalera y se crean las rutinas (variantes A y B) y un plan en orden."
+msgstr ""
+
+msgid "Plan guiado: unas preguntas y Usus te propone rutinas del catálogo a tu nivel. Crear plan: lo montas tú con tus rutinas."
+msgstr ""
+
 msgid "Plan terminado"
 msgstr ""
 
 msgid "Plan: la semana ↑ puede aplicar sola la subida (+reps, +1 serie o siguiente paso), con aviso en Hoy y opción de deshacer."
+msgstr ""
+
+msgid "Plancha"
 msgstr ""
 
 msgid "Planes en orden: hoy toca la siguiente sesión que falte, sea el día que sea; si empiezas un domingo o fallas un día, se recupera, y la semana del plan pasa al hacerlas todas. Tus planes pasan solos a este modo desde la semana en la que ibas, y al editarlos puedes volver a una semana anterior para recuperarla."
@@ -2825,6 +3003,9 @@ msgid "Pon la fecha de inicio"
 msgstr ""
 
 msgid "Pon los segundos de la serie"
+msgstr ""
+
+msgid "Ponerme en forma"
 msgstr ""
 
 msgid "Ponle un nombre"
@@ -2949,6 +3130,9 @@ msgid "Próxima regla: {d} (± {n} d) · en {m} días"
 msgstr ""
 
 msgid "Próximas fechas"
+msgstr ""
+
+msgid "Puedes entrenar cualquier día: el plan va en orden."
 msgstr ""
 
 msgid "Qué esperabas"
@@ -3133,6 +3317,9 @@ msgstr ""
 msgid "Revisar rutinas propuestas"
 msgstr ""
 
+msgid "Revisas y creas el plan"
+msgstr ""
+
 msgid "Revisión (opcional)"
 msgstr ""
 
@@ -3150,6 +3337,9 @@ msgid "RIR por serie (repeticiones en reserva), opcional en Ajustes → Entreno.
 msgstr ""
 
 msgid "RIR también en series por tiempo: cuánto más habrías aguantado (0, 5, 10, 15+ s)."
+msgstr ""
+
+msgid "Rodilla"
 msgstr ""
 
 msgid "Rueda abdominal"
@@ -3241,6 +3431,9 @@ msgstr ""
 msgid "Se borrarán todos los datos de «{x}» en este dispositivo. Los demás perfiles no se tocan. ¿Has hecho una copia?"
 msgstr ""
 
+msgid "Se evitan los ejercicios que más cargan esa zona."
+msgstr ""
+
 msgid "Se guarda únicamente en este móvil, dentro de este perfil."
 msgstr ""
 
@@ -3298,6 +3491,9 @@ msgstr ""
 msgid "Seguir más tarde"
 msgstr ""
 
+msgid "Segundos aguantando"
+msgstr ""
+
 #, python-brace-format
 msgid "Segundos serie {n}"
 msgstr ""
@@ -3343,6 +3539,9 @@ msgid "Semanas seguidas"
 msgstr ""
 
 msgid "Sensibilidad"
+msgstr ""
+
+msgid "Sentadillas"
 msgstr ""
 
 msgid "Separar"
@@ -3420,6 +3619,9 @@ msgstr[1] ""
 msgid "Sesiones aplazadas {n} día desde el {d}."
 msgstr ""
 
+msgid "Sesiones por semana"
+msgstr ""
+
 msgid "Sexo"
 msgstr ""
 
@@ -3427,7 +3629,13 @@ msgstr ""
 msgid "Sexo: {x} (del perfil)."
 msgstr ""
 
+msgid "Si es una lesión o un dolor que no se va, consulta antes con un profesional."
+msgstr ""
+
 msgid "Si la IA propone rutinas ajustadas, pega su respuesta y elige cuáles actualizar."
+msgstr ""
+
+msgid "Si no puedes hacer alguno (no tienes barra, por ejemplo), pon 0."
 msgstr ""
 
 msgid "Si no, solo hoy."
@@ -3486,6 +3694,15 @@ msgstr ""
 msgid "Sin actividad este día."
 msgstr ""
 
+msgid "Sin barra ni anillas, la espalda se trabaja con banda o ejercicios escapulares. Una barra de puerta o unas anillas cambian mucho el plan."
+msgstr ""
+
+msgid "Sin barra ni anillas, la espalda solo se puede trabajar con banda o ejercicios en el suelo. Una barra de puerta o unas anillas cambian mucho el plan."
+msgstr ""
+
+msgid "Sin barra para dominadas: se usa remo en su lugar."
+msgstr ""
+
 msgid "sin copias todavía"
 msgstr ""
 
@@ -3511,6 +3728,10 @@ msgid "Sin garantías. Los autores no responden de lesiones, pérdida de datos n
 msgstr ""
 
 msgid "Sin notas en este periodo."
+msgstr ""
+
+#, python-brace-format
+msgid "Sin opción para «{x}» con tu material y molestias: se omite."
 msgstr ""
 
 msgid "Sin pitidos ni vibración: solo la cuenta atrás y el destello en pantalla."
@@ -3598,6 +3819,9 @@ msgid "Solo sale lo que ves aquí. Nunca tu peso, el diario ni el ciclo."
 msgstr ""
 
 msgid "Solo se marca la semana; tú decides qué subir."
+msgstr ""
+
+msgid "Solo se proponen ejercicios que puedas hacer. Pared siempre hay."
 msgstr ""
 
 msgid "Solo se usan al preparar un análisis con IA externa (Progreso → Resumen). Van en la copia de seguridad del perfil."
@@ -3690,6 +3914,9 @@ msgstr ""
 msgid "Tendencia (media de 3)"
 msgstr ""
 
+msgid "Tengo algo de base"
+msgstr ""
+
 msgid "Termina este día"
 msgstr ""
 
@@ -3706,6 +3933,9 @@ msgid "Terminar y guardar"
 msgstr ""
 
 msgid "Terminas cansado; poco margen al final."
+msgstr ""
+
+msgid "Test rápido"
 msgstr ""
 
 msgid "Texto"
@@ -3733,6 +3963,12 @@ msgid "Tipo de grupo"
 msgstr ""
 
 msgid "Tipo de movimiento"
+msgstr ""
+
+msgid "Tirón 1"
+msgstr ""
+
+msgid "Tirón 2"
 msgstr ""
 
 msgid "Toca hoy"
@@ -3790,6 +4026,18 @@ msgstr ""
 msgid "tomados"
 msgstr ""
 
+msgid "Torso 1"
+msgstr ""
+
+msgid "Torso 2"
+msgstr ""
+
+msgid "Torso y pierna, alternando."
+msgstr ""
+
+msgid "tracción"
+msgstr ""
+
 msgid "Tracción"
 msgstr ""
 
@@ -3805,6 +4053,15 @@ msgstr ""
 msgid "Tres sonidos: tic en los últimos segundos de cualquier cuenta atrás, inicio y fin. La vibración respeta siempre Ajustes → Avisos."
 msgstr ""
 
+msgid "Tu material y molestias"
+msgstr ""
+
+msgid "Tu nivel"
+msgstr ""
+
+msgid "Tu nivel: test rápido o elegido"
+msgstr ""
+
 msgid "Tu nombre"
 msgstr ""
 
@@ -3812,6 +4069,9 @@ msgid "Tu perfil"
 msgstr ""
 
 msgid "Tu progresión"
+msgstr ""
+
+msgid "Tu propuesta"
 msgstr ""
 
 msgid "Tus datos se guardan solo en este dispositivo. Haz copias desde Ajustes: si borras el navegador o desinstalas la app, se pierden."
@@ -3861,6 +4121,12 @@ msgid "Una columna por sesión: apunta lo hecho (p. ej. 8·8·7·6)"
 msgstr ""
 
 msgid "Una hoja por ejercicio con muchas fechas para ver su progresión."
+msgstr ""
+
+msgid "Una rutina por sesión de la semana, en orden. Se crea también una variante B con ejercicios parecidos para alternar cada 2 semanas."
+msgstr ""
+
+msgid "Unas preguntas y Usus te propone rutinas y un plan con ejercicios del catálogo, a tu nivel y con tu material. Lo revisas y cambias lo que quieras antes de guardarlo."
 msgstr ""
 
 msgid "Une tus nombres con las fichas del catálogo"
@@ -3981,6 +4247,9 @@ msgstr ""
 msgid "Ver notas"
 msgstr ""
 
+msgid "Ver propuesta"
+msgstr ""
+
 msgid "Ver versiones"
 msgstr ""
 
@@ -4076,6 +4345,9 @@ msgid "Ya tienes una sesión en curso. ¿Descartarla y empezar otra?"
 msgstr ""
 
 msgid "Yo"
+msgstr ""
+
+msgid "Zona lumbar"
 msgstr ""
 
 msgid "Zona peligrosa"

@@ -14,7 +14,23 @@ document.addEventListener("click", async ev => {
   }
   if (d.copy) { const ok = await copyText(d.copy); toast(ok ? T("Copiado") : T("No se pudo copiar")); return; }
   /* Catálogo */
-  if (d.xinfo) { if (state.editing) readEditor(); state.exInfo = d.xinfo; state.exInfoAdd = false; state.exInfoFrom = state.editing ? "ed" : ""; render(); document.querySelector(".mbox.dsh")?.scrollTo(0, 0); return; }
+  if (d.xinfo) {
+    if (!catOn()) { if (!confirm(T("Para ver la ficha hay que activar el catálogo de ejercicios en este perfil. ¿Activarlo?"))) return; LS.set("wk.catalog", true); }
+    if (!CAT && !(await loadCatalog())) { toast(T("No se pudo cargar el catálogo. Se volverá a intentar al abrir la app.")); render(); return; }
+    if (!CATBY[d.xinfo]) return;
+    if (state.editing) readEditor(); state.exInfo = d.xinfo; state.exInfoAdd = false; state.exInfoFrom = state.editing || state.gp ? "ed" : ""; render(); [...document.querySelectorAll(".mbox.dsh")].pop()?.scrollTo(0, 0); return; }
+  if (state.gp) {   // plan guiado
+    const g = state.gp, top = () => document.querySelector(".mbox.gp")?.scrollTo(0, 0);
+    if (d.gpgoal) { g.goal = d.gpgoal; render(); return; }
+    if (d.gpdays) { g.days = +d.gpdays; render(); return; }
+    if (d.gpmin) { g.min = +d.gpmin; render(); return; }
+    if (d.gpmat) { g.mat = g.mat.includes(d.gpmat) ? g.mat.filter(x => x !== d.gpmat) : [...g.mat, d.gpmat]; render(); return; }
+    if (d.gppain) { g.pain = g.pain.includes(d.gppain) ? g.pain.filter(x => x !== d.gppain) : [...g.pain, d.gppain]; render(); return; }
+    if (d.gplvm) { g.lvMode = d.gplvm; render(); return; }
+    if (d.gpself) { g.self = +d.gpself; render(); return; }
+    if (d.gptab) { g.tab = +d.gptab; render(); top(); return; }
+    if (d.gpmv) { const [sk, i, dir] = d.gpmv.split(":"), it = g.plan.routines[g.tab].sec[sk][+i], nb = gpNeighbors(g, it.id); if (nb[dir]) { it.id = nb[dir]; it.soft = false; } render(); return; }
+  }
   if (d.xaddr) { const r = state.routines.find(x => x.id === d.xaddr), x = CATBY[state.exInfo]; if (!r || !x) return; r.exercises.push(newFromCat(x)); await store.saveRoutines(state.routines); state.exInfoAdd = false; toast(T("Añadido a «{x}»", { x: r.name })); render(); return; }
   if (d.catpat !== undefined) { state.catPat = d.catpat || null; render(); return; }
   if (d.rview) { state.routView = d.rview; render(); window.scrollTo(0, 0); return; }
@@ -183,6 +199,10 @@ document.addEventListener("click", async ev => {
     case "pu-ok": { const L = LS.get("wk.planUpLog", null); if (L) { L.seen = true; LS.set("wk.planUpLog", L); } render(); break; }
     case "pu-undo": planUpUndo(); toast(T("Cambios deshechos")); render(); break;
     case "xi-close": state.exInfo = null; state.exInfoAdd = false; render(); break;
+    case "gp-open": await gpOpen(); break;
+    case "gp-back": { const g = state.gp; if (!g) break; if (g.step) g.step--; else state.gp = null; render(); document.querySelector(".mbox.gp")?.scrollTo(0, 0); break; }
+    case "gp-next": { const g = state.gp; if (!g) break; if (GP_STEPS[g.step] === "level") { g.plan = gpBuild(g); g.tab = 0; if (!g.plan) break; } g.step = Math.min(GP_STEPS.length - 1, g.step + 1); render(); document.querySelector(".mbox.gp")?.scrollTo(0, 0); break; }
+    case "gp-create": await gpCreate(); break;
     case "xi-add": state.exInfoAdd = true; render(); break;
     case "xpick-ed": readEditor(); state.xpick = { mode: "ed", q: "" }; render(); break;
     case "xpick-sess": state.xpick = { mode: "sess", q: ($("#newEx")?.value || "").trim() }; render(); break;
@@ -492,3 +512,9 @@ document.addEventListener("click", ev => { const n = ev.target.closest("[data-dn
 document.addEventListener("keydown", ev => {
   if ((ev.key === "Enter" || ev.key === " ") && ev.target.matches?.("span[data-day],span[data-dnote]")) { ev.preventDefault(); ev.target.click(); } if (ev.key === "Enter" && ev.target.id === "newEx") document.querySelector('[data-act="addex"]')?.click(); });
 
+/* Plan guiado: test de nivel (sin redibujar mientras se escribe) */
+document.addEventListener("input", ev => {
+  const k = ev.target.dataset?.gptest, g = state.gp; if (!k || !g) return;
+  g.test[k] = ev.target.value; const b = document.querySelector('[data-act="gp-next"]'); if (b) b.disabled = !gpLevels(g);
+  const lv = ev.target.parentElement.querySelector(".gplv"); if (lv) lv.innerHTML = g.test[k] !== "" && +g.test[k] >= 0 ? LV(GP_TEST[k](g.test[k])) : "";
+});

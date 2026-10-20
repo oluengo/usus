@@ -214,3 +214,27 @@ body:has(.sbar) .rest{bottom:calc(152px + env(safe-area-inset-bottom,0px))}
 .xrow{padding:9px 14px;min-height:56px}
 .xrow .chev{margin-left:2px}
 .xititle{margin:0;flex:1;font-size:1.5rem;line-height:1.2;letter-spacing:-.01em}
+/* Plan guiado */
+.mbox.gp{display:flex;flex-direction:column}
+.gptop{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.gpdots{flex:1;display:flex;gap:4px;justify-content:flex-end}.gpdots i{width:20px;height:4px;border-radius:9px;background:var(--line)}.gpdots i.on{background:var(--accent)}
+.gp h2{font-size:1.4rem;margin:4px 0 6px}
+.gpopt{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;background:var(--surface);border:1.5px solid var(--line);border-radius:14px;padding:14px;margin-bottom:10px;color:var(--ink);font:inherit;cursor:pointer}
+.gpopt[aria-pressed=true]{border-color:var(--accent);background:var(--accent-soft)}
+.gpopt b{display:block}.gpopt small{color:var(--muted)}.gpopt .ic{font-size:1.3rem;line-height:1.2;min-width:26px;text-align:center}
+.gp .chips button[aria-pressed=true]{border-color:var(--accent);background:var(--accent-soft);color:var(--accent)}
+.gp .chips button{padding:8px 14px;font-size:.92rem}
+.gpseg{display:grid;grid-template-columns:1fr 1fr;background:var(--line);border-radius:12px;padding:3px;margin-bottom:14px}
+.gpseg button{border:0;background:none;padding:9px;border-radius:10px;font:inherit;font-weight:600;color:var(--muted)}.gpseg button[aria-selected=true]{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.gp .srow input[type=number]{width:74px}
+.gpnum{width:26px;height:26px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-weight:700;font-size:.85rem;flex:none}
+.gpwarn{background:color-mix(in srgb,var(--warn) 12%,var(--surface));border:1px solid color-mix(in srgb,var(--warn) 45%,var(--line));border-radius:12px;padding:10px 12px;font-size:.88rem;margin:10px 0}
+.gpex .mv{width:36px;height:36px;flex:none}
+.gpfoot{position:sticky;bottom:-18px;margin:auto -18px -18px;padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px));background:var(--surface);border-top:1px solid var(--line)}
+.gpfoot .btn{width:100%;padding:14px}
+.xl{background:none;border:0;padding:0;font:inherit;color:inherit;text-align:left;cursor:pointer;text-decoration:underline;text-decoration-color:color-mix(in srgb,var(--accent) 45%,transparent);text-underline-offset:3px}
+.xl:hover{color:var(--accent)}
+.gpex .xl{font-weight:600}
+.mbox.gp>*{flex-shrink:0}
+.gpopt[aria-pressed=true] small{color:color-mix(in srgb,var(--ink) 78%,var(--accent))}
+.gpseg button{color:color-mix(in srgb,var(--ink) 80%,var(--line))}
