@@ -55,39 +55,42 @@ function viewTrain() {
       <p class="sync" style="margin-top:22px">${last ? T("Última sesión: {d}", { d: new Date(last.start).toLocaleDateString(LOC(), { weekday: "long", day: "numeric", month: "long" }) }) + " · " : ""}${T("Datos guardados solo en este dispositivo. Haz copias desde Ajustes.")}</p>`;
   }
   if (a.pre) return viewPre(a);
-  const n = a.exercises.length, cur = curEx(a);
-  return `
-    <div class="row"><span class="muted">${esc(a.routine || T("Sesión libre"))}</span><span class="spacer"></span>
-      <button class="btn ghost small danger" data-act="discard">${T("Descartar")}</button></div>
-    <div class="clockrow"><div class="clock${a.pausedAt ? " paused" : ""}" id="clock">0:00</div>
-      <button class="btn${a.pausedAt ? " primary" : ""} spause" data-act="sess-pause" aria-pressed="${!!a.pausedAt}">${a.pausedAt ? "▶ " + T("Reanudar") : "❚❚ " + T("Pausar sesión")}</button></div>
+  const n = a.exercises.length, cur = curEx(a), tot = a.exercises.reduce((t, e) => t + e.sets.length, 0), dn = doneSets(a);
+  return `<div class="sess">
+    <div class="shead">
+      <div class="shtop"><b class="sname">${esc(a.routine || T("Sesión libre"))}</b><button class="btn ghost small danger" data-act="discard">${T("Descartar")}</button></div>
+      <div class="shrow"><div class="clock${a.pausedAt ? " paused" : ""}" id="clock">0:00</div>
+        <button class="btn small${a.pausedAt ? " primary" : ""} spause" data-act="sess-pause" aria-pressed="${!!a.pausedAt}" aria-label="${a.pausedAt ? T("Reanudar") : T("Pausar sesión")}" title="${a.pausedAt ? T("Reanudar") : T("Pausar sesión")}">${a.pausedAt ? "▶" : "❚❚"}</button>
+        <span class="spacer"></span><div class="stats-inline"><span><b id="liveSets">${dn}</b>/${tot} ${T("series")}</span><span><b id="liveVol">${fmtWork(sessionWork(a))}</b></span></div></div>
+      <div class="sprog" aria-hidden="true"><i style="width:${tot ? Math.round(dn / tot * 100) : 0}%"></i></div>
+    </div>
     ${a.pausedAt ? `<div class="panel spaused"><b>${T("Sesión en pausa")}</b><span class="muted" style="font-size:.85rem">${T("El tiempo en pausa no cuenta en la duración del entreno.")}</span></div>` : ""}
-    <div class="stats-inline"><span><b id="liveSets">${doneSets(a)}</b> ${T("series")}</span><span><b id="liveVol">${fmtWork(sessionWork(a))}</b></span></div>
     ${n ? `<div class="exnav"><span class="muted">${T("Ejercicio {n} de {m}", { n: cur + 1, m: n })}</span></div>
-      ${rirAsk()}${grpBar(a, cur)}<div class="list" style="margin-top:10px">${exCard(a.exercises[cur], cur)}</div>
+      ${rirAsk()}${grpBar(a, cur)}<div class="list" style="margin-top:8px">${exCard(a.exercises[cur], cur)}</div>
       ${exFooter(a, cur, n)}`
       : sessionPanel(a, false)}
     ${state.sheet && n ? `<div class="modal" role="dialog" aria-modal="true"><div class="mbox">${sessionPanel(a, true)}</div></div>` : ""}
-`;
+  </div>`;
 }
 /* Pie del ejercicio: acción principal según el momento y navegación.
    Con series pendientes, la flecha derecha es «Saltar» y pide confirmación; con todo hecho, «Siguiente» o «Terminar y guardar». */
 function exFooter(a, cur, n) {
-  const e = a.exercises[cur], left = e.sets.filter(s => !s.done).length, last = cur >= n - 1;
+  const e = a.exercises[cur], left = e.sets.filter(s => !s.done).length, last = cur >= n - 1, si = e.sets.findIndex(s => !s.done);
   const ask = state.skipAsk === cur, pendAll = a.exercises.reduce((t, x) => t + x.sets.filter(s => !s.done).length, 0);
-  const right = left
-    ? (last ? `<button class="btn" data-act="ex-skip">${T("Terminar")}…</button>` : `<button class="btn" data-act="ex-skip">${T("Saltar")} ›</button>`)
-    : `<button class="btn" data-act="ex-next" ${last ? "disabled" : ""}>${T("Siguiente")} ›</button>`;
   const rx = !last ? restXFor(e) : 0;
-  const done = !left && e.sets.length ? `<div class="exdone" role="status"><span class="ok">✓ ${T("{x} hecho", { x: esc(exName(e)) })}</span><small>${T("{n} de {n} series", { n: e.sets.length })}${rx ? " · " + T("descanso {n} s antes del siguiente", { n: rx }) : ""}</small>
-      ${last ? `<button class="btn primary" data-act="finish">${T("Terminar y guardar")}</button>`
-        : `<button class="btn primary" data-act="ex-next">${T("Siguiente ejercicio: {x}", { x: esc(a.exercises[cur + 1].name) })} →</button>`}</div>` : "";
+  const done = !left && e.sets.length ? `<div class="exdone" role="status"><span class="ok">✓ ${T("{x} hecho", { x: esc(exName(e)) })}</span><small>${T("{n} de {n} series", { n: e.sets.length })}${rx ? " · " + T("descanso {n} s antes del siguiente", { n: rx }) : ""}</small></div>` : "";
+  const skip = left && !ask ? `<button class="btn ghost small sskip" data-act="ex-skip">${last ? T("Terminar") + "…" : T("Saltar ejercicio") + " ›"}</button>` : "";
   const confirm = ask && left ? `<div class="skipask" role="alertdialog"><div><b>${(left === 1 ? T("Queda 1 serie de {x}.", { x: esc(e.name) }) : T("Quedan {n} series de {x}.", { n: left, x: esc(e.name) }))}</b> ${last
       ? T("¿Terminar y guardar igualmente? Se guardan solo las series hechas ({n} pendientes en total).", { n: pendAll })
       : T("¿Pasar igualmente a {x}? Las series pendientes quedan sin hacer.", { x: esc(a.exercises[cur + 1].name) })}</div>
       <div class="row2"><button class="btn" data-act="skip-no">${T("Seguir aquí")}</button>${last
         ? `<button class="btn primary" data-act="finish">${T("Terminar y guardar")}</button>` : `<button class="btn primary" data-act="ex-next">${T("Saltar ejercicio")}</button>`}</div></div>` : "";
-  return `${done}${confirm}<div class="exbar"><button class="btn" data-act="ex-prev" ${cur === 0 ? "disabled" : ""}>‹ ${T("Anterior")}</button><button class="btn" data-act="sheet-open">${T("Sesión")}</button>${right}</div>`;
+  /* Acción principal: la siguiente serie pendiente; con todo hecho, el siguiente ejercicio o terminar */
+  const main = si >= 0
+    ? `<button class="btn primary smain" data-act="set-next">${isTime(e) ? PLAY + T("Serie {n}", { n: si + 1 }) : "✓ " + T("Serie {n} hecha", { n: si + 1 })}</button>`
+    : last ? `<button class="btn primary smain" data-act="finish">${T("Terminar y guardar")}</button>`
+    : `<button class="btn primary smain" data-act="ex-next"><span>${T("Siguiente ejercicio: {x}", { x: esc(exName(a.exercises[cur + 1])) })}</span> →</button>`;
+  return `${done}${skip}${confirm}<div class="sbar"><button class="btn sic" data-act="ex-prev" ${cur === 0 ? "disabled" : ""} aria-label="${T("Anterior")}" title="${T("Anterior")}">‹</button>${main}<button class="btn sic" data-act="sheet-open" aria-label="${T("Sesión")}" title="${T("Sesión")}">☰</button></div>`;
 }
 /* Superserie o circuito en curso: vuelta y orden, con salto a cada ejercicio */
 function grpBar(a, ei) {

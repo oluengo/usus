@@ -1553,6 +1553,9 @@ msgstr "Got it, let's start"
 msgid "Entrenado 30 días"
 msgstr "Trained, 30 days"
 
+msgid "Entrenando: cabecera fija con el tiempo y el avance, series más grandes y una barra abajo con la acción que toca (marcar la serie, empezar la cuenta atrás, siguiente ejercicio o terminar)."
+msgstr "Training: a fixed header with time and progress, bigger sets and a bottom bar with the next action (mark the set, start the countdown, next exercise or finish)."
+
 msgid "Entreno"
 msgstr "Workout"
 
@@ -3315,12 +3318,20 @@ msgid "serie {n}"
 msgstr "set {n}"
 
 #, python-brace-format
+msgid "Serie {n}"
+msgstr "Set {n}"
+
+#, python-brace-format
 msgid "Serie {n} de {m}"
 msgstr "Set {n} of {m}"
 
 #, python-brace-format
 msgid "Serie {n} de {m} · lado {s}"
 msgstr "Set {n} of {m} · side {s}"
+
+#, python-brace-format
+msgid "Serie {n} hecha"
+msgstr "Set {n} done"
 
 msgid "series"
 msgstr "sets"

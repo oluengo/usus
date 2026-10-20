@@ -1552,6 +1552,9 @@ msgstr ""
 msgid "Entrenado 30 días"
 msgstr ""
 
+msgid "Entrenando: cabecera fija con el tiempo y el avance, series más grandes y una barra abajo con la acción que toca (marcar la serie, empezar la cuenta atrás, siguiente ejercicio o terminar)."
+msgstr ""
+
 msgid "Entreno"
 msgstr ""
 
@@ -3314,11 +3317,19 @@ msgid "serie {n}"
 msgstr ""
 
 #, python-brace-format
+msgid "Serie {n}"
+msgstr ""
+
+#, python-brace-format
 msgid "Serie {n} de {m}"
 msgstr ""
 
 #, python-brace-format
 msgid "Serie {n} de {m} · lado {s}"
+msgstr ""
+
+#, python-brace-format
+msgid "Serie {n} hecha"
 msgstr ""
 
 msgid "series"

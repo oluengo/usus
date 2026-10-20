@@ -1553,6 +1553,9 @@ msgstr "Entesos, començar"
 msgid "Entrenado 30 días"
 msgstr "Entrenat 30 dies"
 
+msgid "Entrenando: cabecera fija con el tiempo y el avance, series más grandes y una barra abajo con la acción que toca (marcar la serie, empezar la cuenta atrás, siguiente ejercicio o terminar)."
+msgstr "Entrenant: capçalera fixa amb el temps i l'avanç, sèries més grans i una barra a baix amb l'acció que toca (marcar la sèrie, començar el compte enrere, exercici següent o acabar)."
+
 msgid "Entreno"
 msgstr "Entrenament"
 
@@ -3315,12 +3318,20 @@ msgid "serie {n}"
 msgstr "sèrie {n}"
 
 #, python-brace-format
+msgid "Serie {n}"
+msgstr "Sèrie {n}"
+
+#, python-brace-format
 msgid "Serie {n} de {m}"
 msgstr "Sèrie {n} de {m}"
 
 #, python-brace-format
 msgid "Serie {n} de {m} · lado {s}"
 msgstr "Sèrie {n} de {m} · costat {s}"
+
+#, python-brace-format
+msgid "Serie {n} hecha"
+msgstr "Sèrie {n} feta"
 
 msgid "series"
 msgstr "sèries"

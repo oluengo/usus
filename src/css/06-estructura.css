@@ -159,3 +159,29 @@ label.srow{cursor:pointer}
   .lrow:hover{background:var(--bg)}
   .lrow.cur,.lrow.cur:hover{background:var(--accent-soft)}
 }
+/* Sesión en curso: cabecera fija compacta, series grandes y barra de acción abajo */
+.shead{position:sticky;top:0;z-index:6;margin:-20px -16px 6px;padding:10px 16px 0;background:var(--bg);border-bottom:1px solid var(--line)}
+.shtop{display:flex;align-items:center;gap:8px}
+.sname{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:1rem}
+.shrow{display:flex;align-items:center;gap:10px;margin:2px 0 8px}
+.shead .clock{font-size:2.1rem;margin:0;font-variant-numeric:tabular-nums}
+.shead .spause{min-width:44px;min-height:40px;padding:6px 10px;font-size:.9rem}
+.shead .stats-inline{gap:2px 12px;font-size:.85rem;justify-content:flex-end}
+.sprog{height:3px;margin:0 -16px;background:var(--line)}
+.sprog i{display:block;height:100%;background:var(--ok);transition:width .3s}
+.sess .exnav{margin-top:10px}
+.sess .sets{gap:8px 8px;grid-template-columns:28px 1fr 1fr 52px 30px}
+.sess .sets.two{grid-template-columns:22px 1fr 1fr 1fr 52px 26px;gap:8px 6px}
+.sess .sets input{padding:12px 6px;font-size:1.1rem;text-align:center}
+.sess .check{width:52px;height:48px}
+.sskip{display:block;margin:10px auto 0;color:var(--muted)}
+.sbar{position:sticky;bottom:calc(72px + env(safe-area-inset-bottom,0px));z-index:5;display:grid;grid-template-columns:52px 1fr 52px;gap:8px;margin:14px -4px 0;padding:8px;background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:0 6px 20px rgba(0,0,0,.08)}
+.sbar .btn{padding:14px 6px;min-height:52px}
+.sbar .sic{font-size:1.4rem;line-height:1;padding:0}
+.sbar .sic:disabled{opacity:.35}
+.smain{font-size:1.05rem;display:flex;align-items:center;justify-content:center;gap:6px;min-width:0}
+.smain span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.smain svg{width:18px;height:18px;fill:currentColor;flex:none}
+body:has(.sbar) .rest{bottom:calc(152px + env(safe-area-inset-bottom,0px))}
+@media (min-width:1000px){.sbar{bottom:16px}body:has(.sbar) .rest{bottom:96px}.shead{margin-top:-20px}}
+@media (max-width:999px){.sbar{position:fixed;left:12px;right:12px;max-width:696px;margin:0 auto}body:has(.sbar) .wrap{padding-bottom:180px}}

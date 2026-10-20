@@ -244,6 +244,7 @@ document.addEventListener("click", async ev => {
     case "ex-next": state.skipAsk = null; state.exView = Math.min(a.exercises.length - 1, curEx(a) + 1); render(); window.scrollTo(0, 0); break;
     case "ex-skip": state.skipAsk = curEx(a); render(); document.querySelector(".skipask")?.scrollIntoView({ block: "center", behavior: "smooth" }); break;
     case "skip-no": state.skipAsk = null; render(); break;
+    case "set-next": { const ei = curEx(a), si = a.exercises[ei].sets.findIndex(x => !x.done); if (si >= 0) document.querySelector(`[data-done="${ei}:${si}"],[data-play="${ei}:${si}"]`)?.click(); break; }
     case "run-stop": stopRun(); break;
     case "news-all": state.newsOpen = "all"; render(); break;
     case "news-close": LS.set("wk.seenVersion", APP_VERSION); state.newsOpen = null; render(); break;

@@ -10,7 +10,7 @@ test("notas de sesión y de ejercicio en una sesión terminada", async ({ page }
   if (await page.locator(".focus").count()) { await page.locator('[data-act="run-stop"]').click(); await page.clock.runFor(300); }
   if (!(await page.locator(".exdone").count())) await page.locator('[data-act="ex-prev"]').click();
   await expect(page.locator(".exdone")).toContainText("Dominadas hecho");
-  await page.locator(".exdone .btn").click(); await page.clock.runFor(300);
+  await page.locator('.sbar [data-act="ex-next"]').click(); await page.clock.runFor(300);
   await page.locator('[data-done="1:0"]').click(); await page.clock.runFor(300);
   await page.locator('[data-act="finish"]:visible').first().click(); await page.clock.runFor(400);
   expect((await ls(page, "wk.sessions")).length).toBe(1);

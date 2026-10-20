@@ -566,9 +566,6 @@ textarea{width:100%;font:inherit;padding:10px 12px;border:1px solid var(--line);
 .hz.h{border-top:0;color:var(--muted);font-size:.75rem;padding-top:0}
 .hz span:not(:first-child){text-align:right}
 .exnav{margin-top:18px}
-.exbar{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:14px}
-.exbar .btn{padding:14px 6px}
-.exbar .btn:disabled{opacity:.4}
 /* 2.5 · Editor: secciones, grupos y catálogo al lado; modo PC; imprimible */
 .edmain .ex-edit{grid-template-columns:repeat(3,minmax(0,1fr))}.edmain .ex-edit .chk{grid-column:auto;align-self:end;padding-bottom:12px}
 .exh2{grid-column:1/-1;display:flex;align-items:center;gap:6px;margin-bottom:-2px}
@@ -813,6 +810,32 @@ label.srow{cursor:pointer}
   .lrow:hover{background:var(--bg)}
   .lrow.cur,.lrow.cur:hover{background:var(--accent-soft)}
 }
+/* Sesión en curso: cabecera fija compacta, series grandes y barra de acción abajo */
+.shead{position:sticky;top:0;z-index:6;margin:-20px -16px 6px;padding:10px 16px 0;background:var(--bg);border-bottom:1px solid var(--line)}
+.shtop{display:flex;align-items:center;gap:8px}
+.sname{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:1rem}
+.shrow{display:flex;align-items:center;gap:10px;margin:2px 0 8px}
+.shead .clock{font-size:2.1rem;margin:0;font-variant-numeric:tabular-nums}
+.shead .spause{min-width:44px;min-height:40px;padding:6px 10px;font-size:.9rem}
+.shead .stats-inline{gap:2px 12px;font-size:.85rem;justify-content:flex-end}
+.sprog{height:3px;margin:0 -16px;background:var(--line)}
+.sprog i{display:block;height:100%;background:var(--ok);transition:width .3s}
+.sess .exnav{margin-top:10px}
+.sess .sets{gap:8px 8px;grid-template-columns:28px 1fr 1fr 52px 30px}
+.sess .sets.two{grid-template-columns:22px 1fr 1fr 1fr 52px 26px;gap:8px 6px}
+.sess .sets input{padding:12px 6px;font-size:1.1rem;text-align:center}
+.sess .check{width:52px;height:48px}
+.sskip{display:block;margin:10px auto 0;color:var(--muted)}
+.sbar{position:sticky;bottom:calc(72px + env(safe-area-inset-bottom,0px));z-index:5;display:grid;grid-template-columns:52px 1fr 52px;gap:8px;margin:14px -4px 0;padding:8px;background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:0 6px 20px rgba(0,0,0,.08)}
+.sbar .btn{padding:14px 6px;min-height:52px}
+.sbar .sic{font-size:1.4rem;line-height:1;padding:0}
+.sbar .sic:disabled{opacity:.35}
+.smain{font-size:1.05rem;display:flex;align-items:center;justify-content:center;gap:6px;min-width:0}
+.smain span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.smain svg{width:18px;height:18px;fill:currentColor;flex:none}
+body:has(.sbar) .rest{bottom:calc(152px + env(safe-area-inset-bottom,0px))}
+@media (min-width:1000px){.sbar{bottom:16px}body:has(.sbar) .rest{bottom:96px}.shead{margin-top:-20px}}
+@media (max-width:999px){.sbar{position:fixed;left:12px;right:12px;max-width:696px;margin:0 auto}body:has(.sbar) .wrap{padding-bottom:180px}}
 /* Pantalla ancha: barra de secciones lateral */
 @media (min-width:1000px){
   body{padding-left:216px}
@@ -868,7 +891,7 @@ label.srow{cursor:pointer}
 .exdone{display:grid;gap:4px;margin-top:14px;padding:14px;border:2px solid var(--ok);border-radius:14px;background:color-mix(in srgb,var(--ok) 13%,var(--surface))}
 .exdone .ok{color:var(--ok);font-weight:700;font-size:1.08rem}
 .exdone small{color:var(--muted);font-size:.85rem}
-.exdone .btn{width:100%;padding:16px;font-size:1.05rem;margin-top:8px}
+
 .snoted{margin-top:10px}.snoted textarea,.snoted input{width:100%;margin-top:4px}
 .skipask{background:var(--accent-soft);border-radius:14px;padding:12px 14px;margin-top:14px;display:grid;gap:10px}
 .skipask .row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
@@ -2430,39 +2453,42 @@ function viewTrain() {
       <p class="sync" style="margin-top:22px">${last ? T("Última sesión: {d}", { d: new Date(last.start).toLocaleDateString(LOC(), { weekday: "long", day: "numeric", month: "long" }) }) + " · " : ""}${T("Datos guardados solo en este dispositivo. Haz copias desde Ajustes.")}</p>`;
   }
   if (a.pre) return viewPre(a);
-  const n = a.exercises.length, cur = curEx(a);
-  return `
-    <div class="row"><span class="muted">${esc(a.routine || T("Sesión libre"))}</span><span class="spacer"></span>
-      <button class="btn ghost small danger" data-act="discard">${T("Descartar")}</button></div>
-    <div class="clockrow"><div class="clock${a.pausedAt ? " paused" : ""}" id="clock">0:00</div>
-      <button class="btn${a.pausedAt ? " primary" : ""} spause" data-act="sess-pause" aria-pressed="${!!a.pausedAt}">${a.pausedAt ? "▶ " + T("Reanudar") : "❚❚ " + T("Pausar sesión")}</button></div>
+  const n = a.exercises.length, cur = curEx(a), tot = a.exercises.reduce((t, e) => t + e.sets.length, 0), dn = doneSets(a);
+  return `<div class="sess">
+    <div class="shead">
+      <div class="shtop"><b class="sname">${esc(a.routine || T("Sesión libre"))}</b><button class="btn ghost small danger" data-act="discard">${T("Descartar")}</button></div>
+      <div class="shrow"><div class="clock${a.pausedAt ? " paused" : ""}" id="clock">0:00</div>
+        <button class="btn small${a.pausedAt ? " primary" : ""} spause" data-act="sess-pause" aria-pressed="${!!a.pausedAt}" aria-label="${a.pausedAt ? T("Reanudar") : T("Pausar sesión")}" title="${a.pausedAt ? T("Reanudar") : T("Pausar sesión")}">${a.pausedAt ? "▶" : "❚❚"}</button>
+        <span class="spacer"></span><div class="stats-inline"><span><b id="liveSets">${dn}</b>/${tot} ${T("series")}</span><span><b id="liveVol">${fmtWork(sessionWork(a))}</b></span></div></div>
+      <div class="sprog" aria-hidden="true"><i style="width:${tot ? Math.round(dn / tot * 100) : 0}%"></i></div>
+    </div>
     ${a.pausedAt ? `<div class="panel spaused"><b>${T("Sesión en pausa")}</b><span class="muted" style="font-size:.85rem">${T("El tiempo en pausa no cuenta en la duración del entreno.")}</span></div>` : ""}
-    <div class="stats-inline"><span><b id="liveSets">${doneSets(a)}</b> ${T("series")}</span><span><b id="liveVol">${fmtWork(sessionWork(a))}</b></span></div>
     ${n ? `<div class="exnav"><span class="muted">${T("Ejercicio {n} de {m}", { n: cur + 1, m: n })}</span></div>
-      ${rirAsk()}${grpBar(a, cur)}<div class="list" style="margin-top:10px">${exCard(a.exercises[cur], cur)}</div>
+      ${rirAsk()}${grpBar(a, cur)}<div class="list" style="margin-top:8px">${exCard(a.exercises[cur], cur)}</div>
       ${exFooter(a, cur, n)}`
       : sessionPanel(a, false)}
     ${state.sheet && n ? `<div class="modal" role="dialog" aria-modal="true"><div class="mbox">${sessionPanel(a, true)}</div></div>` : ""}
-`;
+  </div>`;
 }
 /* Pie del ejercicio: acción principal según el momento y navegación.
    Con series pendientes, la flecha derecha es «Saltar» y pide confirmación; con todo hecho, «Siguiente» o «Terminar y guardar». */
 function exFooter(a, cur, n) {
-  const e = a.exercises[cur], left = e.sets.filter(s => !s.done).length, last = cur >= n - 1;
+  const e = a.exercises[cur], left = e.sets.filter(s => !s.done).length, last = cur >= n - 1, si = e.sets.findIndex(s => !s.done);
   const ask = state.skipAsk === cur, pendAll = a.exercises.reduce((t, x) => t + x.sets.filter(s => !s.done).length, 0);
-  const right = left
-    ? (last ? `<button class="btn" data-act="ex-skip">${T("Terminar")}…</button>` : `<button class="btn" data-act="ex-skip">${T("Saltar")} ›</button>`)
-    : `<button class="btn" data-act="ex-next" ${last ? "disabled" : ""}>${T("Siguiente")} ›</button>`;
   const rx = !last ? restXFor(e) : 0;
-  const done = !left && e.sets.length ? `<div class="exdone" role="status"><span class="ok">✓ ${T("{x} hecho", { x: esc(exName(e)) })}</span><small>${T("{n} de {n} series", { n: e.sets.length })}${rx ? " · " + T("descanso {n} s antes del siguiente", { n: rx }) : ""}</small>
-      ${last ? `<button class="btn primary" data-act="finish">${T("Terminar y guardar")}</button>`
-        : `<button class="btn primary" data-act="ex-next">${T("Siguiente ejercicio: {x}", { x: esc(a.exercises[cur + 1].name) })} →</button>`}</div>` : "";
+  const done = !left && e.sets.length ? `<div class="exdone" role="status"><span class="ok">✓ ${T("{x} hecho", { x: esc(exName(e)) })}</span><small>${T("{n} de {n} series", { n: e.sets.length })}${rx ? " · " + T("descanso {n} s antes del siguiente", { n: rx }) : ""}</small></div>` : "";
+  const skip = left && !ask ? `<button class="btn ghost small sskip" data-act="ex-skip">${last ? T("Terminar") + "…" : T("Saltar ejercicio") + " ›"}</button>` : "";
   const confirm = ask && left ? `<div class="skipask" role="alertdialog"><div><b>${(left === 1 ? T("Queda 1 serie de {x}.", { x: esc(e.name) }) : T("Quedan {n} series de {x}.", { n: left, x: esc(e.name) }))}</b> ${last
       ? T("¿Terminar y guardar igualmente? Se guardan solo las series hechas ({n} pendientes en total).", { n: pendAll })
       : T("¿Pasar igualmente a {x}? Las series pendientes quedan sin hacer.", { x: esc(a.exercises[cur + 1].name) })}</div>
       <div class="row2"><button class="btn" data-act="skip-no">${T("Seguir aquí")}</button>${last
         ? `<button class="btn primary" data-act="finish">${T("Terminar y guardar")}</button>` : `<button class="btn primary" data-act="ex-next">${T("Saltar ejercicio")}</button>`}</div></div>` : "";
-  return `${done}${confirm}<div class="exbar"><button class="btn" data-act="ex-prev" ${cur === 0 ? "disabled" : ""}>‹ ${T("Anterior")}</button><button class="btn" data-act="sheet-open">${T("Sesión")}</button>${right}</div>`;
+  /* Acción principal: la siguiente serie pendiente; con todo hecho, el siguiente ejercicio o terminar */
+  const main = si >= 0
+    ? `<button class="btn primary smain" data-act="set-next">${isTime(e) ? PLAY + T("Serie {n}", { n: si + 1 }) : "✓ " + T("Serie {n} hecha", { n: si + 1 })}</button>`
+    : last ? `<button class="btn primary smain" data-act="finish">${T("Terminar y guardar")}</button>`
+    : `<button class="btn primary smain" data-act="ex-next"><span>${T("Siguiente ejercicio: {x}", { x: esc(exName(a.exercises[cur + 1])) })}</span> →</button>`;
+  return `${done}${skip}${confirm}<div class="sbar"><button class="btn sic" data-act="ex-prev" ${cur === 0 ? "disabled" : ""} aria-label="${T("Anterior")}" title="${T("Anterior")}">‹</button>${main}<button class="btn sic" data-act="sheet-open" aria-label="${T("Sesión")}" title="${T("Sesión")}">☰</button></div>`;
 }
 /* Superserie o circuito en curso: vuelta y orden, con salto a cada ejercicio */
 function grpBar(a, ei) {
@@ -4126,6 +4152,7 @@ const CHANGES = [  // Novedades: solo en castellano; las traducciones, en i18n/*
     N_("El plan de progresión pasa de Hoy a Biblioteca → Plan, junto a las rutinas que usa."),
     N_("Hoy, más limpio: lo que toca, la semana del plan en una línea (toca para verla) y un menú ⋯ con descarga esta semana o pausar el plan 1 a 4 semanas. «Rutinas y días» se eligen dentro del propio plan."),
     N_("Planes en orden: hoy toca la siguiente sesión que falte, sea el día que sea; si empiezas un domingo o fallas un día, se recupera, y la semana del plan pasa al hacerlas todas. Tus planes pasan solos a este modo desde la semana en la que ibas, y al editarlos puedes volver a una semana anterior para recuperarla."),
+    N_("Entrenando: cabecera fija con el tiempo y el avance, series más grandes y una barra abajo con la acción que toca (marcar la serie, empezar la cuenta atrás, siguiente ejercicio o terminar)."),
     N_("Diario: el peso se anota aquí. Solo se ven las casillas con datos; lo demás se añade con un toque (+ Sueño, + Peso, + Pasos…)."),
     N_("Ajustes en grupos, cada uno con su pantalla: Perfil, Entreno, Avisos, Apariencia e idioma, Datos y copias, y Acerca de. Interruptores para activar opciones."),
     N_("Editor de rutina más compacto en el móvil: cada ejercicio en una fila con su resumen; los detalles se abren al tocarla."),
@@ -5109,6 +5136,7 @@ document.addEventListener("click", async ev => {
     case "ex-next": state.skipAsk = null; state.exView = Math.min(a.exercises.length - 1, curEx(a) + 1); render(); window.scrollTo(0, 0); break;
     case "ex-skip": state.skipAsk = curEx(a); render(); document.querySelector(".skipask")?.scrollIntoView({ block: "center", behavior: "smooth" }); break;
     case "skip-no": state.skipAsk = null; render(); break;
+    case "set-next": { const ei = curEx(a), si = a.exercises[ei].sets.findIndex(x => !x.done); if (si >= 0) document.querySelector(`[data-done="${ei}:${si}"],[data-play="${ei}:${si}"]`)?.click(); break; }
     case "run-stop": stopRun(); break;
     case "news-all": state.newsOpen = "all"; render(); break;
     case "news-close": LS.set("wk.seenVersion", APP_VERSION); state.newsOpen = null; render(); break;
@@ -5842,6 +5870,7 @@ const I18N = {
     "Entendido, activar": "Entesos, activa",
     "Entendido, empezar": "Entesos, començar",
     "Entrenado 30 días": "Entrenat 30 dies",
+    "Entrenando: cabecera fija con el tiempo y el avance, series más grandes y una barra abajo con la acción que toca (marcar la serie, empezar la cuenta atrás, siguiente ejercicio o terminar).": "Entrenant: capçalera fixa amb el temps i l'avanç, sèries més grans i una barra a baix amb l'acció que toca (marcar la sèrie, començar el compte enrere, exercici següent o acabar).",
     "Entreno": "Entrenament",
     "Entreno por fase": "Entrenament per fase",
     "Entrenos del día": "Entrenaments del dia",
@@ -6409,8 +6438,10 @@ const I18N = {
     "Sensibilidad": "Sensibilitat",
     "Separar": "Separa",
     "serie {n}": "sèrie {n}",
+    "Serie {n}": "Sèrie {n}",
     "Serie {n} de {m}": "Sèrie {n} de {m}",
     "Serie {n} de {m} · lado {s}": "Sèrie {n} de {m} · costat {s}",
+    "Serie {n} hecha": "Sèrie {n} feta",
     "series": "sèries",
     "Series": "Sèries",
     "Series hechas por tipo en las últimas 4 semanas.": "Sèries fetes per tipus en les últimes 4 setmanes.",
@@ -7120,6 +7151,7 @@ const I18N = {
     "Entendido, activar": "Got it, turn on",
     "Entendido, empezar": "Got it, let's start",
     "Entrenado 30 días": "Trained, 30 days",
+    "Entrenando: cabecera fija con el tiempo y el avance, series más grandes y una barra abajo con la acción que toca (marcar la serie, empezar la cuenta atrás, siguiente ejercicio o terminar).": "Training: a fixed header with time and progress, bigger sets and a bottom bar with the next action (mark the set, start the countdown, next exercise or finish).",
     "Entreno": "Workout",
     "Entreno por fase": "Training by phase",
     "Entrenos del día": "Workouts of the day",
@@ -7687,8 +7719,10 @@ const I18N = {
     "Sensibilidad": "Tenderness",
     "Separar": "Ungroup",
     "serie {n}": "set {n}",
+    "Serie {n}": "Set {n}",
     "Serie {n} de {m}": "Set {n} of {m}",
     "Serie {n} de {m} · lado {s}": "Set {n} of {m} · side {s}",
+    "Serie {n} hecha": "Set {n} done",
     "series": "sets",
     "Series": "Sets",
     "Series hechas por tipo en las últimas 4 semanas.": "Sets done by type in the last 4 weeks.",
