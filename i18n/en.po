@@ -1240,8 +1240,8 @@ msgstr "Daily / other"
 msgid "Diario"
 msgstr "Diary"
 
-msgid "Diario: el peso se anota aquí. Solo se ven las casillas con datos; lo demás se añade con un toque (+ Sueño, + Peso, + Pasos…)."
-msgstr "Diary: weight is logged here. Only boxes with data are shown; add the rest with one tap (+ Sleep, + Weight, + Steps…)."
+msgid "Diario en filas: cada dato del día en una fila con su icono, detalle y valor (entreno primero); lo que falta, en «Añadir a este día». El peso se anota aquí."
+msgstr "Diary in rows: each item of the day in a row with its icon, detail and value (training first); anything missing goes under “Add to this day”. Weight is logged here."
 
 msgid "Diario: nota de la sesión y notas de cada ejercicio editables después de terminar."
 msgstr "Diary: session note and each exercise's note can be edited after finishing."
@@ -4069,6 +4069,9 @@ msgstr "Me"
 
 msgid "Zona peligrosa"
 msgstr "Danger zone"
+
+#~ msgid "Diario: el peso se anota aquí. Solo se ven las casillas con datos; lo demás se añade con un toque (+ Sueño, + Peso, + Pasos…)."
+#~ msgstr "Diary: weight is logged here. Only boxes with data are shown; add the rest with one tap (+ Sleep, + Weight, + Steps…)."
 
 #~ msgid "Racha"
 #~ msgstr "Streak"

@@ -491,13 +491,6 @@ textarea{width:100%;font:inherit;padding:10px 12px;border:1px solid var(--line);
 .wstrip button[aria-pressed=true]{border-color:var(--accent);background:var(--accent-soft)}
 .wstrip .wd{font-size:.68rem;color:var(--muted);text-transform:uppercase}.wstrip b{font-size:.95rem}
 .wstrip .dots{display:flex;gap:2px;height:5px}.wstrip .dots i{width:4px;height:4px;border-radius:50%;background:var(--line)}.wstrip .dots i.on{background:var(--ok)}
-.dtiles{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
-.dtile{display:flex;flex-direction:column;gap:3px;text-align:left;padding:12px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:14px;min-height:92px;min-width:0}
-.dtile.wide{grid-column:1/-1;min-height:0}
-.dtile .k{display:flex;align-items:center;gap:6px;font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.03em}
-.dtile .k i{width:8px;height:8px;border-radius:50%;border:1.5px solid var(--line);margin-left:auto}.dtile .k i.on{background:var(--ok);border-color:var(--ok)}
-.dtile .v{font-size:1.2rem;font-weight:700;font-variant-numeric:tabular-nums;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.dtile .d{font-size:.8rem;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .dlink{background:none;border:0;color:var(--accent);padding:12px 0 2px;font-size:.95rem;font-weight:600}
 .stabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface);margin-top:12px}
 .stabs button{border:0;background:none;padding:10px 2px;font-size:.88rem;color:var(--muted)}
@@ -666,11 +659,6 @@ label.srow{cursor:pointer}
 .swrow{color:var(--ink);font-size:.95rem;padding:12px 0 0;align-items:center}
 .swrow small{display:block;color:var(--muted);font-size:.8rem}
 .addh{font-size:.75rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:20px 4px 8px}
-.addgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
-.addt{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:76px;padding:10px 6px;border:1.5px dashed color-mix(in srgb,var(--muted) 45%,var(--line));border-radius:14px;background:transparent;color:var(--ink);font:inherit;font-size:.85rem;font-weight:600;text-align:center}
-.addt svg{width:24px;height:24px;fill:none;stroke:var(--accent);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-.addt:hover,.addt:active{border-style:solid;border-color:var(--accent);background:var(--accent-soft)}
-@media (min-width:600px){.addgrid{grid-template-columns:repeat(auto-fill,minmax(120px,1fr))}}
 /* Pantalla completa en el móvil para lo largo (ficha, compartir, analizar con IA, recibir rutinas): Atrás arriba */
 .mbox.full>.back{display:none}
 @media (max-width:999px){
@@ -850,6 +838,22 @@ body:has(.sbar) .rest{bottom:calc(152px + env(safe-area-inset-bottom,0px))}
 .rspark svg{width:100%;height:44px}
 .rcard .rec{padding:5px 0}
 .aimini{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:space-between;margin-top:14px;padding:12px 16px;border:1px solid var(--ext);background:var(--ext-soft);border-radius:16px;font-weight:600;font-size:.92rem}
+/* Diario: un dato por fila */
+.dlist{margin-top:12px}
+.drow{width:100%;background:none;border:0;border-top:1px solid var(--line);color:var(--ink);font:inherit;text-align:left;cursor:pointer}
+.drow:first-child{border-top:0}
+.drow:hover{background:var(--bg)}
+.dic{width:36px;height:36px;flex:none;border-radius:10px;display:grid;place-items:center;background:var(--bg)}
+.dic svg{width:20px;height:20px;fill:none;stroke:var(--muted);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.drow.on .dic{background:var(--accent-soft)}
+.drow.on .dic svg{stroke:var(--accent)}
+.drow .t small{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dv{flex:none;max-width:45%;font-size:1.02rem;font-variant-numeric:tabular-nums;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.chev{color:var(--muted);font-size:1.2rem;flex:none}
+.dadd .drow{min-height:50px}
+.dadd .dic{background:none;border:1.5px dashed color-mix(in srgb,var(--muted) 45%,var(--line))}
+.dadd .dic svg{stroke:var(--accent)}
+.dplus{flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;color:var(--accent);background:var(--accent-soft);font-weight:700;font-size:1.1rem}
 /* Pantalla ancha: barra de secciones lateral */
 @media (min-width:1000px){
   body{padding-left:216px}
@@ -3441,6 +3445,7 @@ function sessionCard(s) {
 }
 /* Iconos para añadir al día */
 const DICO = {
+  ses: '<path d="M6 7v10M18 7v10M3 10v4M21 10v4M6 12h12"/>',
   sleep: '<path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/>',
   sup: '<rect x="3" y="9" width="18" height="6" rx="3" transform="rotate(-35 12 12)"/><path d="M9.5 8.5l5 7"/>',
   steps: '<path d="M7 18c-1.7 0-3-1.2-3-3s1.2-4 3-4 2.5 2 2.5 3.5S8.7 18 7 18zM16 12c-1.7 0-2.5-1.8-2.5-3.5S14.3 4 16 4s3 2.2 3 4-1.3 4-3 4zM5 21h4M14 15h4"/>',
@@ -3463,7 +3468,7 @@ function viewDiary() {
     if (cycOn()) dots.push(cycKind(kk, cr) === "per" || !!(x.cyc?.sym || []).length);
     return `<button data-dsel="${kk}" ${kk > today ? "disabled" : ""} aria-pressed="${kk === k}" aria-label="${new Date(dt).toLocaleDateString(LOC(), { weekday: "long", day: "numeric", month: "long" })}"><span class="wd">${new Date(dt).toLocaleDateString(LOC(), { weekday: "narrow" })}</span><b>${new Date(dt).getDate()}</b><span class="dots">${dots.map(v => `<i class="${v ? "on" : ""}"></i>`).join("")}</span></button>`; }).join("");
   const miss = [], tile = (key, label, v, dsc, on, wide, keep) => { if (!on && !keep) { miss.push([key, label]); return ""; }
-    return `<button class="dtile${wide ? " wide" : ""}" data-dsh="${key}" aria-label="${esc(label)}: ${esc(v)}"><span class="k">${label}<i class="${on ? "on" : ""}"></i></span><span class="v">${v}</span><span class="d">${dsc || "&nbsp;"}</span></button>`; };
+    return `<button class="srow drow${on ? " on" : ""}" data-dsh="${key}" aria-label="${esc(label)}${v ? ": " + esc(v) : ""}"><span class="dic"><svg viewBox="0 0 24 24" aria-hidden="true">${DICO[key] || DICO.note}</svg></span><span class="t">${label}${dsc ? `<small>${dsc}</small>` : ""}</span>${v ? `<b class="dv">${v}</b>` : ""}<span class="chev" aria-hidden="true">›</span></button>`; };
   const q = sl.q ? "★".repeat(sl.q) + "☆".repeat(5 - sl.q) : "";
   const actTxt = acts.map(a => esc(a.type) + (a.km ? " · " + fmtKm(a.km) : "") + (a.min ? " · " + fmtActDur(a.min) : "")).join("  ·  ");
   const SHN = { sleep: "Sueño", sup: "Suplementos", ses: "Entrenos del día", steps: "Pasos", peso: "Peso", act: "Actividad", note: "Notas del día", cyc: "Ciclo" };
@@ -3526,17 +3531,17 @@ function viewDiary() {
     </div>
     ${k !== today ? `<div style="text-align:center;margin-top:6px"><button class="btn ghost small" data-dmove="today">${T("Ir a hoy")}</button></div>` : ""}
     <div class="wstrip">${strip}</div>
-    ${(() => { const tl = `      ${tile("sleep", T("Sueño"), dur !== null ? fmtHM(dur) : "—", q, dur !== null)}
-      ${tile("sup", T("Suplementos"), sp.length ? `${nTaken}/${sp.length}` : "—", sp.length ? T("tomados") : T("Sin suplementos"), sp.length > 0 && nTaken === sp.length, false, sp.length > 0)}
-      ${sess.length ? tile("ses", T("Entreno"), sess.length ? esc(sess[0].routine || T("Sesión libre")) : "—", sess.length ? `${Math.round(sess.reduce((p, z) => p + (z.end - z.start), 0) / 60000)} min · ${TN(sess.reduce((p, z) => p + doneSets(z), 0), "{n} serie", "{n} series")}` : T("Sin entrenos este día."), sess.length > 0) : ""}
-      ${tile("steps", T("Pasos"), +e.steps > 0 ? (+e.steps).toLocaleString(LOC()) : "—", goalSt ? `${T("objetivo")} ${goalSt.toLocaleString(LOC())}` : "", +e.steps > 0 && (!goalSt || e.steps >= goalSt))}
+    ${(() => { const tl = `      ${sess.length ? tile("ses", T("Entreno"), `${Math.round(sess.reduce((p, z) => p + (z.end - z.start), 0) / 60000)} min`, `${sess.map(z => esc(z.routine || T("Sesión libre"))).join(" · ")} · ${TN(sess.reduce((p, z) => p + doneSets(z), 0), "{n} serie", "{n} series")}`, true) : ""}
+      ${tile("act", T("Actividad"), acts.length ? (acts.some(a => a.km) ? fmtKm(acts.reduce((p, a) => p + (+a.km || 0), 0)) : fmtActDur(acts.reduce((p, a) => p + (+a.min || 0), 0))) : "—", actTxt, acts.length > 0)}
       ${tile("peso", T("Peso"), dayW ? fmtW(dayW.kg) : "—", !dayW && lastW ? `${T("último")}: ${fmtW(lastW.kg)}` : W.goal() ? `${T("objetivo")} ${fmtW(W.goal())}` : "", !!dayW)}
-      ${tile("act", T("Actividad"), acts.length ? actTxt : "—", acts.length ? "" : T("Sin actividad este día."), acts.length > 0)}
+      ${tile("sleep", T("Sueño"), dur !== null ? fmtHM(dur) : "—", q, dur !== null)}
+      ${tile("steps", T("Pasos"), +e.steps > 0 ? (+e.steps).toLocaleString(LOC()) : "—", goalSt ? `${T("objetivo")} ${goalSt.toLocaleString(LOC())}` : "", +e.steps > 0 && (!goalSt || e.steps >= goalSt))}
+      ${tile("sup", T("Suplementos"), sp.length ? `${nTaken}/${sp.length}` : "—", sp.length ? T("tomados") : T("Sin suplementos"), sp.length > 0 && nTaken === sp.length, false, sp.length > 0)}
       ${cr ? (() => { const kd = cycKind(k, cr), ce = e.cyc || {}, dd = cr.last && k >= cr.last.s ? kDiff(k, cr.last.s) + 1 : null, ph = CYC.cfg().phase && cr.last && k >= cr.last.s ? cycPhase(cr, k) : null;
         return tile("cyc", T("Ciclo"), kd === "per" ? T("Regla") : dd ? T("Día {n}", { n: dd }) : "—", (ce.sym || []).length ? ce.sym.map(x => esc(T(x))).join(", ") : (ph && kd !== "per" ? ph : ""), kd === "per" || !!(ce.sym || []).length, true, true); })() : ""}
-      ${tile("note", T("Notas del día"), (e.note || "").trim() ? esc(e.note.trim().slice(0, 40)) + (e.note.trim().length > 40 ? "…" : "") : "—", (e.tags || []).length ? (e.tags || []).map(x => T((TAGS.find(z => z[0] === x) || [0, x])[1])).join(" · ") : "", !!(e.note || "").trim(), true)}`;
-      return `${tl.trim() ? `<div class="dtiles">${tl}</div>` : `<p class="muted" style="margin:14px 4px 0">${T("Nada anotado este día")}</p>`}
-      ${miss.length ? `<p class="addh">${T("Añadir a este día")}</p><div class="addgrid" role="group" aria-label="${T("Añadir a este día")}">${miss.map(([kk, l]) => `<button class="addt" data-dsh="${kk}"><svg viewBox="0 0 24 24" aria-hidden="true">${DICO[kk] || DICO.note}</svg><span>${l}</span></button>`).join("")}</div>` : ""}`; })()}
+      ${tile("note", T("Notas del día"), "", [(e.note || "").trim() ? esc(e.note.trim().slice(0, 60)) + (e.note.trim().length > 60 ? "…" : "") : "", (e.tags || []).map(x => T((TAGS.find(z => z[0] === x) || [0, x])[1])).join(" · ")].filter(Boolean).join(" · "), !!(e.note || "").trim() || !!(e.tags || []).length)}`;
+      return `${tl.trim() ? `<div class="lgroup dlist">${tl}</div>` : `<p class="muted" style="margin:14px 4px 0">${T("Nada anotado este día")}</p>`}
+      ${miss.length ? `<p class="addh">${T("Añadir a este día")}</p><div class="lgroup dlist dadd" role="group" aria-label="${T("Añadir a este día")}">${miss.map(([kk, l]) => `<button class="srow drow" data-dsh="${kk}"><span class="dic"><svg viewBox="0 0 24 24" aria-hidden="true">${DICO[kk] || DICO.note}</svg></span><span class="t">${l}</span><span class="dplus" aria-hidden="true">+</span></button>`).join("")}</div>` : ""}`; })()}
     ${sh}`;
 }
 
@@ -4203,7 +4208,7 @@ const CHANGES = [  // Novedades: solo en castellano; las traducciones, en i18n/*
     N_("Planes en orden: hoy toca la siguiente sesión que falte, sea el día que sea; si empiezas un domingo o fallas un día, se recupera, y la semana del plan pasa al hacerlas todas. Tus planes pasan solos a este modo desde la semana en la que ibas, y al editarlos puedes volver a una semana anterior para recuperarla."),
     N_("Entrenando: cabecera fija con el tiempo y el avance, series más grandes y una barra abajo con la acción que toca (marcar la serie, empezar la cuenta atrás, siguiente ejercicio o terminar)."),
     N_("Progreso: el Resumen queda en cuatro tarjetas (esta semana, constancia, récords y peso), cada una con un enlace a su detalle; cifras y gráficos con un mismo estilo, y las notas del periodo pasan a Hábitos."),
-    N_("Diario: el peso se anota aquí. Solo se ven las casillas con datos; lo demás se añade con un toque (+ Sueño, + Peso, + Pasos…)."),
+    N_("Diario en filas: cada dato del día en una fila con su icono, detalle y valor (entreno primero); lo que falta, en «Añadir a este día». El peso se anota aquí."),
     N_("Ajustes en grupos, cada uno con su pantalla: Perfil, Entreno, Avisos, Apariencia e idioma, Datos y copias, y Acerca de. Interruptores para activar opciones."),
     N_("Editor de rutina más compacto en el móvil: cada ejercicio en una fila con su resumen; los detalles se abren al tocarla."),
     N_("Estilo unificado: un solo tipo de pestañas, botones con tamaños fijos y ventanas como hoja inferior en el móvil. El morado queda solo para la IA."),
@@ -5819,7 +5824,7 @@ const I18N = {
     "Diaria": "Diària",
     "Diaria / otras": "Diària / altres",
     "Diario": "Diari",
-    "Diario: el peso se anota aquí. Solo se ven las casillas con datos; lo demás se añade con un toque (+ Sueño, + Peso, + Pasos…).": "Diari: el pes s'anota aquí. Només es veuen les caselles amb dades; la resta s'afegeix amb un toc (+ Son, + Pes, + Passos…).",
+    "Diario en filas: cada dato del día en una fila con su icono, detalle y valor (entreno primero); lo que falta, en «Añadir a este día». El peso se anota aquí.": "Diari en files: cada dada del dia en una fila amb la seva icona, detall i valor (l'entrenament primer); el que falta, a «Afegir a aquest dia». El pes s'anota aquí.",
     "Diario: nota de la sesión y notas de cada ejercicio editables después de terminar.": "Diari: nota de la sessió i notes de cada exercici editables després d'acabar.",
     "días": "dies",
     "Días con Diaria": "Dies amb Diària",
@@ -7109,7 +7114,7 @@ const I18N = {
     "Diaria": "Daily",
     "Diaria / otras": "Daily / other",
     "Diario": "Diary",
-    "Diario: el peso se anota aquí. Solo se ven las casillas con datos; lo demás se añade con un toque (+ Sueño, + Peso, + Pasos…).": "Diary: weight is logged here. Only boxes with data are shown; add the rest with one tap (+ Sleep, + Weight, + Steps…).",
+    "Diario en filas: cada dato del día en una fila con su icono, detalle y valor (entreno primero); lo que falta, en «Añadir a este día». El peso se anota aquí.": "Diary in rows: each item of the day in a row with its icon, detail and value (training first); anything missing goes under “Add to this day”. Weight is logged here.",
     "Diario: nota de la sesión y notas de cada ejercicio editables después de terminar.": "Diary: session note and each exercise's note can be edited after finishing.",
     "días": "days",
     "Días con Diaria": "Days with Daily",

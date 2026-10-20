@@ -1239,7 +1239,7 @@ msgstr ""
 msgid "Diario"
 msgstr ""
 
-msgid "Diario: el peso se anota aquí. Solo se ven las casillas con datos; lo demás se añade con un toque (+ Sueño, + Peso, + Pasos…)."
+msgid "Diario en filas: cada dato del día en una fila con su icono, detalle y valor (entreno primero); lo que falta, en «Añadir a este día». El peso se anota aquí."
 msgstr ""
 
 msgid "Diario: nota de la sesión y notas de cada ejercicio editables después de terminar."

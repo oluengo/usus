@@ -15,11 +15,6 @@ label.srow{cursor:pointer}
 .swrow{color:var(--ink);font-size:.95rem;padding:12px 0 0;align-items:center}
 .swrow small{display:block;color:var(--muted);font-size:.8rem}
 .addh{font-size:.75rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:20px 4px 8px}
-.addgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
-.addt{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:76px;padding:10px 6px;border:1.5px dashed color-mix(in srgb,var(--muted) 45%,var(--line));border-radius:14px;background:transparent;color:var(--ink);font:inherit;font-size:.85rem;font-weight:600;text-align:center}
-.addt svg{width:24px;height:24px;fill:none;stroke:var(--accent);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-.addt:hover,.addt:active{border-style:solid;border-color:var(--accent);background:var(--accent-soft)}
-@media (min-width:600px){.addgrid{grid-template-columns:repeat(auto-fill,minmax(120px,1fr))}}
 /* Pantalla completa en el móvil para lo largo (ficha, compartir, analizar con IA, recibir rutinas): Atrás arriba */
 .mbox.full>.back{display:none}
 @media (max-width:999px){
@@ -199,3 +194,19 @@ body:has(.sbar) .rest{bottom:calc(152px + env(safe-area-inset-bottom,0px))}
 .rspark svg{width:100%;height:44px}
 .rcard .rec{padding:5px 0}
 .aimini{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:space-between;margin-top:14px;padding:12px 16px;border:1px solid var(--ext);background:var(--ext-soft);border-radius:16px;font-weight:600;font-size:.92rem}
+/* Diario: un dato por fila */
+.dlist{margin-top:12px}
+.drow{width:100%;background:none;border:0;border-top:1px solid var(--line);color:var(--ink);font:inherit;text-align:left;cursor:pointer}
+.drow:first-child{border-top:0}
+.drow:hover{background:var(--bg)}
+.dic{width:36px;height:36px;flex:none;border-radius:10px;display:grid;place-items:center;background:var(--bg)}
+.dic svg{width:20px;height:20px;fill:none;stroke:var(--muted);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.drow.on .dic{background:var(--accent-soft)}
+.drow.on .dic svg{stroke:var(--accent)}
+.drow .t small{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dv{flex:none;max-width:45%;font-size:1.02rem;font-variant-numeric:tabular-nums;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.chev{color:var(--muted);font-size:1.2rem;flex:none}
+.dadd .drow{min-height:50px}
+.dadd .dic{background:none;border:1.5px dashed color-mix(in srgb,var(--muted) 45%,var(--line))}
+.dadd .dic svg{stroke:var(--accent)}
+.dplus{flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;color:var(--accent);background:var(--accent-soft);font-weight:700;font-size:1.1rem}

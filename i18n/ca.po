@@ -1240,8 +1240,8 @@ msgstr "Diària / altres"
 msgid "Diario"
 msgstr "Diari"
 
-msgid "Diario: el peso se anota aquí. Solo se ven las casillas con datos; lo demás se añade con un toque (+ Sueño, + Peso, + Pasos…)."
-msgstr "Diari: el pes s'anota aquí. Només es veuen les caselles amb dades; la resta s'afegeix amb un toc (+ Son, + Pes, + Passos…)."
+msgid "Diario en filas: cada dato del día en una fila con su icono, detalle y valor (entreno primero); lo que falta, en «Añadir a este día». El peso se anota aquí."
+msgstr "Diari en files: cada dada del dia en una fila amb la seva icona, detall i valor (l'entrenament primer); el que falta, a «Afegir a aquest dia». El pes s'anota aquí."
 
 msgid "Diario: nota de la sesión y notas de cada ejercicio editables después de terminar."
 msgstr "Diari: nota de la sessió i notes de cada exercici editables després d'acabar."
@@ -4069,6 +4069,9 @@ msgstr "Jo"
 
 msgid "Zona peligrosa"
 msgstr "Zona perillosa"
+
+#~ msgid "Diario: el peso se anota aquí. Solo se ven las casillas con datos; lo demás se añade con un toque (+ Sueño, + Peso, + Pasos…)."
+#~ msgstr "Diari: el pes s'anota aquí. Només es veuen les caselles amb dades; la resta s'afegeix amb un toc (+ Son, + Pes, + Passos…)."
 
 #~ msgid "Racha"
 #~ msgstr "Ratxa"

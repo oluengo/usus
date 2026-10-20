@@ -62,13 +62,6 @@ textarea{width:100%;font:inherit;padding:10px 12px;border:1px solid var(--line);
 .wstrip button[aria-pressed=true]{border-color:var(--accent);background:var(--accent-soft)}
 .wstrip .wd{font-size:.68rem;color:var(--muted);text-transform:uppercase}.wstrip b{font-size:.95rem}
 .wstrip .dots{display:flex;gap:2px;height:5px}.wstrip .dots i{width:4px;height:4px;border-radius:50%;background:var(--line)}.wstrip .dots i.on{background:var(--ok)}
-.dtiles{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
-.dtile{display:flex;flex-direction:column;gap:3px;text-align:left;padding:12px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:14px;min-height:92px;min-width:0}
-.dtile.wide{grid-column:1/-1;min-height:0}
-.dtile .k{display:flex;align-items:center;gap:6px;font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.03em}
-.dtile .k i{width:8px;height:8px;border-radius:50%;border:1.5px solid var(--line);margin-left:auto}.dtile .k i.on{background:var(--ok);border-color:var(--ok)}
-.dtile .v{font-size:1.2rem;font-weight:700;font-variant-numeric:tabular-nums;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.dtile .d{font-size:.8rem;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .dlink{background:none;border:0;color:var(--accent);padding:12px 0 2px;font-size:.95rem;font-weight:600}
 .stabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface);margin-top:12px}
 .stabs button{border:0;background:none;padding:10px 2px;font-size:.88rem;color:var(--muted)}

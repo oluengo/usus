@@ -130,6 +130,7 @@ function sessionCard(s) {
 }
 /* Iconos para añadir al día */
 const DICO = {
+  ses: '<path d="M6 7v10M18 7v10M3 10v4M21 10v4M6 12h12"/>',
   sleep: '<path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/>',
   sup: '<rect x="3" y="9" width="18" height="6" rx="3" transform="rotate(-35 12 12)"/><path d="M9.5 8.5l5 7"/>',
   steps: '<path d="M7 18c-1.7 0-3-1.2-3-3s1.2-4 3-4 2.5 2 2.5 3.5S8.7 18 7 18zM16 12c-1.7 0-2.5-1.8-2.5-3.5S14.3 4 16 4s3 2.2 3 4-1.3 4-3 4zM5 21h4M14 15h4"/>',
@@ -152,7 +153,7 @@ function viewDiary() {
     if (cycOn()) dots.push(cycKind(kk, cr) === "per" || !!(x.cyc?.sym || []).length);
     return `<button data-dsel="${kk}" ${kk > today ? "disabled" : ""} aria-pressed="${kk === k}" aria-label="${new Date(dt).toLocaleDateString(LOC(), { weekday: "long", day: "numeric", month: "long" })}"><span class="wd">${new Date(dt).toLocaleDateString(LOC(), { weekday: "narrow" })}</span><b>${new Date(dt).getDate()}</b><span class="dots">${dots.map(v => `<i class="${v ? "on" : ""}"></i>`).join("")}</span></button>`; }).join("");
   const miss = [], tile = (key, label, v, dsc, on, wide, keep) => { if (!on && !keep) { miss.push([key, label]); return ""; }
-    return `<button class="dtile${wide ? " wide" : ""}" data-dsh="${key}" aria-label="${esc(label)}: ${esc(v)}"><span class="k">${label}<i class="${on ? "on" : ""}"></i></span><span class="v">${v}</span><span class="d">${dsc || "&nbsp;"}</span></button>`; };
+    return `<button class="srow drow${on ? " on" : ""}" data-dsh="${key}" aria-label="${esc(label)}${v ? ": " + esc(v) : ""}"><span class="dic"><svg viewBox="0 0 24 24" aria-hidden="true">${DICO[key] || DICO.note}</svg></span><span class="t">${label}${dsc ? `<small>${dsc}</small>` : ""}</span>${v ? `<b class="dv">${v}</b>` : ""}<span class="chev" aria-hidden="true">›</span></button>`; };
   const q = sl.q ? "★".repeat(sl.q) + "☆".repeat(5 - sl.q) : "";
   const actTxt = acts.map(a => esc(a.type) + (a.km ? " · " + fmtKm(a.km) : "") + (a.min ? " · " + fmtActDur(a.min) : "")).join("  ·  ");
   const SHN = { sleep: "Sueño", sup: "Suplementos", ses: "Entrenos del día", steps: "Pasos", peso: "Peso", act: "Actividad", note: "Notas del día", cyc: "Ciclo" };
@@ -215,17 +216,17 @@ function viewDiary() {
     </div>
     ${k !== today ? `<div style="text-align:center;margin-top:6px"><button class="btn ghost small" data-dmove="today">${T("Ir a hoy")}</button></div>` : ""}
     <div class="wstrip">${strip}</div>
-    ${(() => { const tl = `      ${tile("sleep", T("Sueño"), dur !== null ? fmtHM(dur) : "—", q, dur !== null)}
-      ${tile("sup", T("Suplementos"), sp.length ? `${nTaken}/${sp.length}` : "—", sp.length ? T("tomados") : T("Sin suplementos"), sp.length > 0 && nTaken === sp.length, false, sp.length > 0)}
-      ${sess.length ? tile("ses", T("Entreno"), sess.length ? esc(sess[0].routine || T("Sesión libre")) : "—", sess.length ? `${Math.round(sess.reduce((p, z) => p + (z.end - z.start), 0) / 60000)} min · ${TN(sess.reduce((p, z) => p + doneSets(z), 0), "{n} serie", "{n} series")}` : T("Sin entrenos este día."), sess.length > 0) : ""}
-      ${tile("steps", T("Pasos"), +e.steps > 0 ? (+e.steps).toLocaleString(LOC()) : "—", goalSt ? `${T("objetivo")} ${goalSt.toLocaleString(LOC())}` : "", +e.steps > 0 && (!goalSt || e.steps >= goalSt))}
+    ${(() => { const tl = `      ${sess.length ? tile("ses", T("Entreno"), `${Math.round(sess.reduce((p, z) => p + (z.end - z.start), 0) / 60000)} min`, `${sess.map(z => esc(z.routine || T("Sesión libre"))).join(" · ")} · ${TN(sess.reduce((p, z) => p + doneSets(z), 0), "{n} serie", "{n} series")}`, true) : ""}
+      ${tile("act", T("Actividad"), acts.length ? (acts.some(a => a.km) ? fmtKm(acts.reduce((p, a) => p + (+a.km || 0), 0)) : fmtActDur(acts.reduce((p, a) => p + (+a.min || 0), 0))) : "—", actTxt, acts.length > 0)}
       ${tile("peso", T("Peso"), dayW ? fmtW(dayW.kg) : "—", !dayW && lastW ? `${T("último")}: ${fmtW(lastW.kg)}` : W.goal() ? `${T("objetivo")} ${fmtW(W.goal())}` : "", !!dayW)}
-      ${tile("act", T("Actividad"), acts.length ? actTxt : "—", acts.length ? "" : T("Sin actividad este día."), acts.length > 0)}
+      ${tile("sleep", T("Sueño"), dur !== null ? fmtHM(dur) : "—", q, dur !== null)}
+      ${tile("steps", T("Pasos"), +e.steps > 0 ? (+e.steps).toLocaleString(LOC()) : "—", goalSt ? `${T("objetivo")} ${goalSt.toLocaleString(LOC())}` : "", +e.steps > 0 && (!goalSt || e.steps >= goalSt))}
+      ${tile("sup", T("Suplementos"), sp.length ? `${nTaken}/${sp.length}` : "—", sp.length ? T("tomados") : T("Sin suplementos"), sp.length > 0 && nTaken === sp.length, false, sp.length > 0)}
       ${cr ? (() => { const kd = cycKind(k, cr), ce = e.cyc || {}, dd = cr.last && k >= cr.last.s ? kDiff(k, cr.last.s) + 1 : null, ph = CYC.cfg().phase && cr.last && k >= cr.last.s ? cycPhase(cr, k) : null;
         return tile("cyc", T("Ciclo"), kd === "per" ? T("Regla") : dd ? T("Día {n}", { n: dd }) : "—", (ce.sym || []).length ? ce.sym.map(x => esc(T(x))).join(", ") : (ph && kd !== "per" ? ph : ""), kd === "per" || !!(ce.sym || []).length, true, true); })() : ""}
-      ${tile("note", T("Notas del día"), (e.note || "").trim() ? esc(e.note.trim().slice(0, 40)) + (e.note.trim().length > 40 ? "…" : "") : "—", (e.tags || []).length ? (e.tags || []).map(x => T((TAGS.find(z => z[0] === x) || [0, x])[1])).join(" · ") : "", !!(e.note || "").trim(), true)}`;
-      return `${tl.trim() ? `<div class="dtiles">${tl}</div>` : `<p class="muted" style="margin:14px 4px 0">${T("Nada anotado este día")}</p>`}
-      ${miss.length ? `<p class="addh">${T("Añadir a este día")}</p><div class="addgrid" role="group" aria-label="${T("Añadir a este día")}">${miss.map(([kk, l]) => `<button class="addt" data-dsh="${kk}"><svg viewBox="0 0 24 24" aria-hidden="true">${DICO[kk] || DICO.note}</svg><span>${l}</span></button>`).join("")}</div>` : ""}`; })()}
+      ${tile("note", T("Notas del día"), "", [(e.note || "").trim() ? esc(e.note.trim().slice(0, 60)) + (e.note.trim().length > 60 ? "…" : "") : "", (e.tags || []).map(x => T((TAGS.find(z => z[0] === x) || [0, x])[1])).join(" · ")].filter(Boolean).join(" · "), !!(e.note || "").trim() || !!(e.tags || []).length)}`;
+      return `${tl.trim() ? `<div class="lgroup dlist">${tl}</div>` : `<p class="muted" style="margin:14px 4px 0">${T("Nada anotado este día")}</p>`}
+      ${miss.length ? `<p class="addh">${T("Añadir a este día")}</p><div class="lgroup dlist dadd" role="group" aria-label="${T("Añadir a este día")}">${miss.map(([kk, l]) => `<button class="srow drow" data-dsh="${kk}"><span class="dic"><svg viewBox="0 0 24 24" aria-hidden="true">${DICO[kk] || DICO.note}</svg></span><span class="t">${l}</span><span class="dplus" aria-hidden="true">+</span></button>`).join("")}</div>` : ""}`; })()}
     ${sh}`;
 }
 
