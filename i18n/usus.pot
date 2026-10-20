@@ -589,6 +589,9 @@ msgstr ""
 msgid "Atrás"
 msgstr ""
 
+msgid "Aún no ha empezado"
+msgstr ""
+
 msgid "Aún no has hecho ninguna copia."
 msgstr ""
 
@@ -1491,6 +1494,9 @@ msgstr ""
 msgid "En Android, la versión web avisa una vez de que existe la app."
 msgstr ""
 
+msgid "en curso"
+msgstr ""
+
 msgid "En el diálogo de impresión elige «Guardar como PDF» para tener el archivo."
 msgstr ""
 
@@ -1615,6 +1621,9 @@ msgid "Esta semana del plan"
 msgstr ""
 
 msgid "Esta semana no"
+msgstr ""
+
+msgid "Esta variante no tiene rutinas. Añádelas en «Rutinas y días» al editar el plan."
 msgstr ""
 
 msgid "Este navegador no permite vibrar"
@@ -1918,6 +1927,9 @@ msgid "iPhone / iPad (Safari): botón Compartir → «Añadir a pantalla de inic
 msgstr ""
 
 msgid "Ir a hoy"
+msgstr ""
+
+msgid "Ir a Hoy"
 msgstr ""
 
 msgid "Irritabilidad"
@@ -2307,6 +2319,9 @@ msgstr ""
 msgid "No se han encontrado rutinas de Usus en la respuesta"
 msgstr ""
 
+msgid "no se hizo"
+msgstr ""
+
 msgid "No se podrá cambiar una vez creado el perfil."
 msgstr ""
 
@@ -2593,6 +2608,9 @@ msgstr ""
 msgid "Pausa"
 msgstr ""
 
+msgid "Pausa: solo rutinas de todas las semanas."
+msgstr ""
+
 msgid "Pausar"
 msgstr ""
 
@@ -2627,6 +2645,9 @@ msgid "PEM del 1 al 10, opcional en cada sesión"
 msgstr ""
 
 msgid "PEM media · 4 semanas"
+msgstr ""
+
+msgid "pendiente"
 msgstr ""
 
 msgid "Pendiente"
@@ -3652,7 +3673,7 @@ msgstr ""
 msgid "Toca un día para abrirlo en el Diario."
 msgstr ""
 
-msgid "Toca una semana para ver sus días en el Diario."
+msgid "Toca una semana para ver sus rutinas."
 msgstr ""
 
 msgid "Todas"
@@ -3850,6 +3871,9 @@ msgid "Ventana fértil"
 msgstr ""
 
 msgid "Ver el aviso"
+msgstr ""
+
+msgid "Ver en el Diario"
 msgstr ""
 
 msgid "Ver en Progreso"

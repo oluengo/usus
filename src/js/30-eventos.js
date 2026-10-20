@@ -1,9 +1,10 @@
 /* ---------- Eventos ---------- */
+document.addEventListener("toggle", ev => { const g = ev.target; if (g?.dataset?.rg === undefined) return; const op = LS.get("wk.rgOpen", {}) || {}; if (op[g.dataset.rg] !== g.open) { op[g.dataset.rg] = g.open; LS.set("wk.rgOpen", op); } }, true);
 document.addEventListener("click", async ev => {
   const t = ev.target.closest("button"); if (!t) return;
   const d = t.dataset;
   readPlan(); readActForm(); readAiForm();
-  if (d.tab) { readEditor(); state.print = null; state.dsheet = null; state.actForm = null; state.planMode = null; state.planDraft = null; state.routOpen = null; state.setTab = null; state.tab = d.tab; render(); window.scrollTo(0, 0); return; }
+  if (d.tab) { state.pweek = null; readEditor(); state.print = null; state.dsheet = null; state.actForm = null; state.planMode = null; state.planDraft = null; state.routOpen = null; state.setTab = null; state.tab = d.tab; render(); window.scrollTo(0, 0); return; }
   if (d.start) { if (state.active && !confirm(T("Ya tienes una sesión en curso. ¿Descartarla y empezar otra?"))) return; cancelRun(); state.tab = "train"; startSession(d.start); return; }
   const a = state.active;
   if (d.mv) {
@@ -75,6 +76,7 @@ document.addEventListener("click", async ev => {
   }
   if (d.prd && state.planDraft) { const [id, x] = d.prd.split(":"), m = planRmap(state.planDraft)[id]; if (m) { const k = +x; m.days = m.days.includes(k) ? m.days.filter(z => z !== k) : [...m.days, k]; } render(); return; }
   if (d.prx && state.planDraft) { const m = planRmap(state.planDraft)[d.prx]; if (m) { m.on = false; m.variant = ""; m.days = []; } render(); return; }
+  if (d.pweek !== undefined) { state.pweek = +d.pweek; render(); return; }
   if (d.pzdel !== undefined) { const p = PL.get(); if (!p) return; const l = planPauses(p); l.splice(+d.pzdel, 1); p.pauses = l; PL.save(p); state.pauseOpen = true; render(); return; }
   if (d.prm && state.planDraft) { state.planDraft.phases.splice(+d.prm, 1); render(); return; }
   if (d.pmv && state.planDraft) { const [i, dir] = d.pmv.split(":").map(Number), ph = state.planDraft.phases, j = i + dir; if (j >= 0 && j < ph.length) [ph[i], ph[j]] = [ph[j], ph[i]]; render(); return; }
@@ -104,7 +106,7 @@ document.addEventListener("click", async ev => {
   if (d.sdel) { if (!confirm(T("¿Eliminar este suplemento? Su historial también se dejará de mostrar."))) return; DY.saveSupps(DY.supps().filter(x => x.id !== d.sdel)); render(); return; }
   if (d.sarch) { DY.saveSupps(DY.supps().map(x => x.id === d.sarch ? { ...x, archived: !x.archived } : x)); render(); return; }
   if (d.shide) { const h = new Set(LS.get("wk.statsHidden", [])); h.has(d.shide) ? h.delete(d.shide) : h.add(d.shide); LS.set("wk.statsHidden", [...h]); render(); return; }
-  if (d.day) { state.day = d.day; state.dsheet = null; state.dnote = null; state.tab = "diary"; render(); window.scrollTo(0, 0); return; }
+  if (d.day) { state.pweek = null; state.day = d.day; state.dsheet = null; state.dnote = null; state.tab = "diary"; render(); window.scrollTo(0, 0); return; }
   if (d.wdel) { if (!confirm(T("¿Borrar este registro de peso?"))) return; W.save(W.list().filter(x => x.id !== d.wdel)); render(); return; }
   if (d.statex) { state.statEx = state.statEx === d.statex ? null : d.statex; render(); return; }
   if (d.langSet) { LS.set("wk.lang", d.langSet); setLang(d.langSet); render(); return; }
@@ -310,6 +312,7 @@ document.addEventListener("click", async ev => {
     case "plan-edit": state.planNew = false; state.tab = "routines"; state.routView = "plan"; state.planDraft = JSON.parse(JSON.stringify(PL.get() || newPlanDraft())); state.planDraft.phases.forEach(x => x.id = x.id || uid()); state.planMode = "edit"; render(); window.scrollTo(0, 0); break;
     case "pl-postpone": { const pn = planNow(); if (pn?.status !== "on") break; const wk = dayKey(pn.w.t), sh = SHIFT.get(), i = (new Date().getDay() + 6) % 7;
       SHIFT.set(sh && sh.week === wk ? { ...sh, by: sh.by + 1 } : { week: wk, from: i, by: 1 }); toast(T("Aplazado a mañana")); render(); break; }
+    case "pw-close": state.pweek = null; render(); break;
     case "pl-unshift": SHIFT.set(null); render(); break;
     case "pl-deload": { const p = PL.get(), pn = planNow(); if (!p || pn?.status !== "on") break;
       if (!confirm(T("¿Hacer descarga esta semana? Solo se sugieren las rutinas de todas las semanas, y el resto del plan se corre una semana."))) return;

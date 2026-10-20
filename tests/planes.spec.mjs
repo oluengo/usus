@@ -93,3 +93,18 @@ test("pasar a «en orden» desde la semana pasada para recuperarla", async ({ pa
   await expect(page.locator(".today")).toContainText("Semana 2 de");
   expect(errors).toEqual([]);
 });
+test("semana del plan: sus rutinas y a Hoy; grupos de rutinas plegables", async ({ page }) => {
+  const errors = await openApp(page, { clock: new Date("2026-10-20T09:00:00"), data: { "wk.routines": R, "wk.plan": PLAN } });   // semana 3 (B)
+  await nav(page, "routines");
+  await expect(page.locator('details[data-rg="B"]')).toHaveAttribute("open", "");      // la de esta semana, abierta
+  await expect(page.locator('details[data-rg="A"]')).not.toHaveAttribute("open", "");
+  await page.locator('details[data-rg="A"] summary').click();
+  await expect.poll(() => ls(page, "wk.rgOpen").then(o => o?.A)).toBe(true);
+  await page.locator('[data-rview="plan"]').click(); await page.locator('[data-pweek="2"]').click();
+  await expect(page.locator("#pwT")).toContainText("Semana 3");
+  await expect(page.locator(".modal")).toContainText("B · Fuerza");
+  await page.locator('.modal [data-tab="train"]').click();
+  await expect(page.locator('#tabs [aria-current="page"]')).toHaveAttribute("data-tab", "train");
+  await expect(page.locator(".modal")).toHaveCount(0);
+  expect(errors).toEqual([]);
+});

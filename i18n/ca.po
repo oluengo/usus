@@ -590,6 +590,9 @@ msgstr "Correcció: en afegir un pla rebut es conserva la seva regla de pujada, 
 msgid "Atrás"
 msgstr "Enrere"
 
+msgid "Aún no ha empezado"
+msgstr "Encara no ha començat"
+
 msgid "Aún no has hecho ninguna copia."
 msgstr "Encara no has fet cap còpia."
 
@@ -1492,6 +1495,9 @@ msgstr "A «{x}». Les altres rutines no canvien."
 msgid "En Android, la versión web avisa una vez de que existe la app."
 msgstr "A Android, la versió web avisa un cop que existeix l'app."
 
+msgid "en curso"
+msgstr "en curs"
+
 msgid "En el diálogo de impresión elige «Guardar como PDF» para tener el archivo."
 msgstr "Al diàleg d'impressió tria «Desa com a PDF» per tenir el fitxer."
 
@@ -1617,6 +1623,9 @@ msgstr "Aquesta setmana del pla"
 
 msgid "Esta semana no"
 msgstr "Aquesta setmana no"
+
+msgid "Esta variante no tiene rutinas. Añádelas en «Rutinas y días» al editar el plan."
+msgstr "Aquesta variant no té rutines. Afegeix-les a «Rutines i dies» en editar el pla."
 
 msgid "Este navegador no permite vibrar"
 msgstr "Aquest navegador no permet vibrar"
@@ -1920,6 +1929,9 @@ msgstr "iPhone / iPad (Safari): botó Compartir → «Afegeix a la pantalla d'in
 
 msgid "Ir a hoy"
 msgstr "Vés a avui"
+
+msgid "Ir a Hoy"
+msgstr "Anar a Avui"
 
 msgid "Irritabilidad"
 msgstr "Irritabilitat"
@@ -2308,6 +2320,9 @@ msgstr "No s'envia res fins que tu ho revisis i ho publiquis a GitHub."
 msgid "No se han encontrado rutinas de Usus en la respuesta"
 msgstr "No s'han trobat rutines d'Usus a la resposta"
 
+msgid "no se hizo"
+msgstr "no es va fer"
+
 msgid "No se podrá cambiar una vez creado el perfil."
 msgstr "No es podrà canviar un cop creat el perfil."
 
@@ -2594,6 +2609,9 @@ msgstr "Passos: {n}"
 msgid "Pausa"
 msgstr "Pausa"
 
+msgid "Pausa: solo rutinas de todas las semanas."
+msgstr "Pausa: només rutines de totes les setmanes."
+
 msgid "Pausar"
 msgstr "Pausa"
 
@@ -2629,6 +2647,9 @@ msgstr "PEM de l'1 al 10, opcional a cada sessió"
 
 msgid "PEM media · 4 semanas"
 msgstr "PEM mitjana · 4 setmanes"
+
+msgid "pendiente"
+msgstr "pendent"
 
 msgid "Pendiente"
 msgstr "Pendent"
@@ -3653,8 +3674,8 @@ msgstr "Toca revisar el progrés i decidir el pla següent."
 msgid "Toca un día para abrirlo en el Diario."
 msgstr "Toca un dia per obrir-lo al Diari."
 
-msgid "Toca una semana para ver sus días en el Diario."
-msgstr "Toca una setmana per veure'n els dies al Diari."
+msgid "Toca una semana para ver sus rutinas."
+msgstr "Toca una setmana per veure'n les rutines."
 
 msgid "Todas"
 msgstr "Totes"
@@ -3853,6 +3874,9 @@ msgstr "Finestra fèrtil"
 msgid "Ver el aviso"
 msgstr "Veure l'avís"
 
+msgid "Ver en el Diario"
+msgstr "Veure al Diari"
+
 msgid "Ver en Progreso"
 msgstr "Veure a Progrés"
 
@@ -3970,6 +3994,9 @@ msgstr "Jo"
 
 msgid "Zona peligrosa"
 msgstr "Zona perillosa"
+
+#~ msgid "Toca una semana para ver sus días en el Diario."
+#~ msgstr "Toca una setmana per veure'n els dies al Diari."
 
 #~ msgid "Aún no tienes rutinas. Créalas en Entreno → Rutinas y vuelve aquí."
 #~ msgstr "Encara no tens rutines. Crea-les a Entrenament → Rutines i torna aquí."

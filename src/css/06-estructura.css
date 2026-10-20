@@ -71,6 +71,12 @@ label.srow{cursor:pointer}
 .utabs button[aria-selected=true]{color:var(--accent);border-bottom-color:var(--accent)}
 .glabel{font-size:.75rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:20px 4px 8px}
 .glabel:first-child{margin-top:4px}
+.rgrp2>summary{list-style:none;display:flex;align-items:center;gap:8px;cursor:pointer;min-height:36px}
+.rgrp2>summary::-webkit-details-marker{display:none}
+.rgrp2>summary::before{content:"›";font-size:1.1rem;transition:transform .15s;display:inline-block}
+.rgrp2[open]>summary::before{transform:rotate(90deg)}
+.rgrp2>summary .gn{margin-left:auto;font-weight:600;letter-spacing:0}
+.rgrp2:first-child>summary{margin-top:0}
 .lgroup{background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden}
 .lrow{display:flex;align-items:center;gap:12px;width:100%;min-height:56px;padding:10px 16px;border:0;border-top:1px solid var(--line);background:none;color:inherit;text-align:left;font:inherit}
 .lrow:first-child{border-top:0}

@@ -725,6 +725,12 @@ label.srow{cursor:pointer}
 .utabs button[aria-selected=true]{color:var(--accent);border-bottom-color:var(--accent)}
 .glabel{font-size:.75rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:20px 4px 8px}
 .glabel:first-child{margin-top:4px}
+.rgrp2>summary{list-style:none;display:flex;align-items:center;gap:8px;cursor:pointer;min-height:36px}
+.rgrp2>summary::-webkit-details-marker{display:none}
+.rgrp2>summary::before{content:"›";font-size:1.1rem;transition:transform .15s;display:inline-block}
+.rgrp2[open]>summary::before{transform:rotate(90deg)}
+.rgrp2>summary .gn{margin-left:auto;font-weight:600;letter-spacing:0}
+.rgrp2:first-child>summary{margin-top:0}
 .lgroup{background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden}
 .lrow{display:flex;align-items:center;gap:12px;width:100%;min-height:56px;padding:10px 16px;border:0;border-top:1px solid var(--line);background:none;color:inherit;text-align:left;font:inherit}
 .lrow:first-child{border-top:0}
@@ -1218,6 +1224,23 @@ function planTodayActs(pn, today) {
   return `${shOn ? `<p class="muted" style="font-size:.82rem;margin:10px 0 0">${TN(sh.by, "Sesiones aplazadas {n} día desde el {d}.", "Sesiones aplazadas {n} días desde el {d}.", { d: DIAS[WEEK_ORDER[sh.from]] })} <button class="verb" data-act="pl-unshift">${T("Deshacer")}</button></p>` : ""}
     ${acts ? `<div class="row" style="margin-top:10px;gap:6px;flex-wrap:wrap">${acts}</div>` : ""}`;
 }
+/* Una semana del plan (al tocarla en la rejilla): qué rutinas tiene y cuáles están hechas */
+function planWeekModal() {
+  const i = state.pweek; if (i === undefined || i === null) return "";
+  const p = PL.get(), pn = p && planNow(p), ws = p ? (p.order && pn ? pn.ws : planWeeks(p)) : [], w = ws[i]; if (!w) return "";
+  const cur = pn?.status === "on" && pn.i === i, ord = !!p.order, fmt = t => new Date(t).toLocaleDateString(LOC(), { weekday: "short", day: "numeric", month: "short" });
+  const end = ord ? (w.end || (w.last && w.done?.size === w.seq?.length ? w.last : null)) : addDays(w.t, 6);
+  const seq = w.deload ? [] : ord && w.seq ? w.seq : planSeq(w.variant);
+  const doneAt = r => { if (!w.t) return null; const hi = ord ? (w.last || Date.now()) + 1 : addDays(w.t, 7); const s = state.sessions.filter(x => x.routine === r.name && x.start >= w.t && x.start < hi).sort((a, b) => a.start - b.start)[0]; return s ? s.start : null; };
+  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="pwT"><div class="mbox">
+    <div class="sb-head"><h2 id="pwT" style="margin:0;flex:1">${T("Semana {n}", { n: w.n })} · ${weekLabel(w)}</h2><button class="btn small" data-act="pw-close">${T("Cerrar")}</button></div>
+    <p class="muted" style="margin:4px 0 10px;font-size:.88rem">${w.t ? `${fmt(w.t)}${end ? ` → ${fmt(end)}` : ` → ${cur ? T("en curso") : "…"}`}` : T("Aún no ha empezado")}${cur ? ` · <b style="color:var(--accent)">${T("esta semana")}</b>` : ""}</p>
+    ${w.pause ? `<p style="margin:0">${T("Pausa: solo rutinas de todas las semanas.")}</p>` : w.deload ? `<p style="margin:0">${T("Semana de descarga: solo rutinas sin variante (p. ej. Diaria).")}</p>`
+      : seq.length ? `<div class="lgroup">${seq.map(r => { const d = doneAt(r); return `<div class="lrow"><span class="t"><b>${esc(r.name)}</b><small>${d ? `✓ ${fmt(d)}` : w.t && !cur && (ord ? false : addDays(w.t, 7) <= Date.now()) ? T("no se hizo") : T("pendiente")}</small></span>${d ? `<span style="color:var(--ok);font-weight:700">✓</span>` : ""}</div>`; }).join("")}</div>`
+      : `<p class="muted" style="margin:0">${T("Esta variante no tiene rutinas. Añádelas en «Rutinas y días» al editar el plan.")}</p>`}
+    <div class="row" style="margin-top:14px;flex-wrap:wrap">${cur ? `<button class="btn primary" data-tab="train">${T("Ir a Hoy")}</button>` : ""}${w.t && w.t <= Date.now() ? `<button class="btn" data-day="${dayKey(w.t)}">${T("Ver en el Diario")}</button>` : ""}</div>
+  </div></div>`;
+}
 /* Pausas en Biblioteca → Plan */
 function planPauseBlock(p) {
   const ps = planPauses(p), fmt = k => new Date(keyTime(k)).toLocaleDateString(LOC(), { day: "numeric", month: "short" });
@@ -1242,10 +1265,10 @@ function planSection() {
     ${ws.length ? `<p class="sub">${p.order ? `${T("Desde el {d}", { d: fmt(keyTime(p.start)) })} · ${T("en orden")}` : `${fmt(ws[0].t)} → ${fmt(addDays(ws[ws.length - 1].t, 6))}`}${p.review ? ` · ${T("revisión desde el {d}", { d: fmt(keyTime(p.review)) })}` : ""}</p>
     <div class="legend" style="margin-top:6px">${vs.map(v => `<span>${vChip(v)}</span>`).join("")}<span><span class="vchip vd">${T("Descarga")}</span></span><span>${T("↑ = subir reps · barra = días de fuerza hechos")}</span></div>
     <div class="pgrid">${(p.order && pn ? pn.ws : ws).map((w, i) => { const ord = !!p.order, pd = ord ? (w.seq?.length || 0) : plannedDays(w), dd = ord ? (w.done?.size || 0) : doneDays(w), cur = pn?.status === "on" && pn.i === i, past = ord ? (pn?.status === "done" || i < (pn?.i ?? -1)) : addDays(w.t, 7) <= now;
-      return `<button class="pwk${past ? " past" : ""}${cur ? " now" : ""}${w.deload ? " dl" : ""}${w.pause ? " pz" : ""}" style="${w.deload ? "" : `background:${varColor(w.variant, p)}`}" data-day="${dayKey(Math.min(w.t ?? now, now))}" aria-label="${T("Semana {n} de {m}", { n: w.n, m: ws.length })} · ${weekLabel(w)}">
+      return `<button class="pwk${past ? " past" : ""}${cur ? " now" : ""}${w.deload ? " dl" : ""}${w.pause ? " pz" : ""}" style="${w.deload ? "" : `background:${varColor(w.variant, p)}`}" data-pweek="${i}" aria-label="${T("Semana {n} de {m}", { n: w.n, m: ws.length })} · ${weekLabel(w)}">
         <b>S${w.n} · ${w.pause ? T("Pausa") : w.deload ? T("Desc.") : esc(w.variant)}</b><span>${w.t ? fmt(w.t) : "&nbsp;"}</span>${w.up ? `<i class="up">↑</i>` : ""}
         ${pd ? `<span class="pbar2"><i style="width:${Math.min(100, dd / pd * 100)}%"></i></span>` : ""}</button>`; }).join("")}</div>
-    <p class="muted" style="font-size:.8rem;margin:10px 0 0">${T("Toca una semana para ver sus días en el Diario.")}</p>${planPauseBlock(p)}`
+    <p class="muted" style="font-size:.8rem;margin:10px 0 0">${T("Toca una semana para ver sus rutinas.")}</p>${planPauseBlock(p)}`
     : `<div class="empty" style="margin-top:14px">${T("El plan no tiene fases válidas. Edítalo para añadirlas.")}</div>`}
     <details class="panel" style="margin-top:12px"><summary style="cursor:pointer;font-weight:600">${T("Rutinas por variante")}</summary>
     ${[...vs, ""].map(v => { const rs = state.routines.filter(r => normVar(r.variant) === v);
@@ -2295,7 +2318,7 @@ function render() {
   if (state.tab === "history") state.tab = "diary";
   const v = state.actForm ? viewActForm : state.tab === "data" && state.link ? viewLink : { train: viewTrain, routines: viewRoutines, diary: viewDiary, stats: viewStats, data: viewData }[state.tab];
   const mb = document.querySelector(".mbox.dsh"), mbTop = mb ? mb.scrollTop : 0;
-  $("#app").innerHTML = v() + focusView() + welcomeModal() + noticeModal() + newsModal() + cycAckModal() + savedModal() + shareSessModal() + shareRoutModal() + incomingModal() + profPickModal() + profFormModal() + profEditModal() + profCopyModal() + issueModal() + exInfoModal() + xpickModal() + ownMatModal() + catAskModal() + progChangeModal() + aiModal() + csvModal() + swapModal() + dayNoteModal();
+  $("#app").innerHTML = v() + focusView() + welcomeModal() + noticeModal() + planWeekModal() + newsModal() + cycAckModal() + savedModal() + shareSessModal() + shareRoutModal() + incomingModal() + profPickModal() + profFormModal() + profEditModal() + profCopyModal() + issueModal() + exInfoModal() + xpickModal() + ownMatModal() + catAskModal() + progChangeModal() + aiModal() + csvModal() + swapModal() + dayNoteModal();
   if (mb) { const nb = document.querySelector(".mbox.dsh"); if (nb) nb.scrollTop = mbTop; }
   if (state.tab === "train" && state.active && !state.actForm) tick();
   if (state.shareSess && SHOPT().img) sessPreview();
@@ -2807,7 +2830,7 @@ function viewRoutines() {
   return `
     <div class="rtop"><div class="phead"><h1>${T("Biblioteca")}</h1>${head}</div>
     ${utabs(tabs, rv, "rview", T("Biblioteca"))}</div>
-    ${rv === "cat" ? viewCatalog() : rv === "plan" ? planSection() : state.routines.length ? `<div class="rsplit${open ? " hasdet" : ""}"><div class="rlist">${routGroups().map(([g, rs]) => `${g ? `<div class="glabel">${g}</div>` : ""}<div class="lgroup">${rs.map(r => routRow(r, r.id === cur?.id)).join("")}</div>`).join("")}</div>${routDetail(cur)}</div>`
+    ${rv === "cat" ? viewCatalog() : rv === "plan" ? planSection() : state.routines.length ? `<div class="rsplit${open ? " hasdet" : ""}"><div class="rlist">${routGroups().map(([g, rs, k, o]) => g ? `<details class="rgrp2" data-rg="${esc(k)}"${o || rs.some(r => r.id === state.routOpen) ? " open" : ""}><summary class="glabel"><span>${g}</span><span class="gn">${rs.length}</span></summary><div class="lgroup">${rs.map(r => routRow(r, r.id === cur?.id)).join("")}</div></details>` : `<div class="lgroup">${rs.map(r => routRow(r, r.id === cur?.id)).join("")}</div>`).join("")}</div>${routDetail(cur)}</div>`
       : `<div class="empty" style="margin-top:16px">${T("Crea una rutina con sus ejercicios, series y repeticiones objetivo.")}</div>`}`;
 }
 /* Pestañas subrayadas (un solo estilo en toda la app) */
@@ -2816,9 +2839,11 @@ const daysTxt = r => (r.days || []).length ? (r.days.length === 7 ? T("todos los
 /* Rutinas por variante: primero las que no tienen (Diaria, extras), luego A, B, C… La de esta semana del plan, marcada */
 function routGroups() {
   const vs = [...new Set(state.routines.map(r => normVar(r.variant)).filter(Boolean))].sort(), none = state.routines.filter(r => !normVar(r.variant));
-  if (!vs.length) return [["", state.routines]];
-  const pn = planNow(), wv = pn?.status === "on" && !pn.w.deload ? pn.w.variant : null;
-  return [...(none.length ? [[T("Sin variante"), none]] : []), ...vs.map(v => [T("Variante {v}", { v: esc(v) }) + (v === wv ? ` · ${T("esta semana")}` : ""), state.routines.filter(r => normVar(r.variant) === v)])];
+  if (!vs.length) return [["", state.routines, "", true]];
+  const pn = planNow(), wv = pn?.status === "on" && !pn.w.deload ? pn.w.variant : null, op = LS.get("wk.rgOpen", {}) || {};
+  const isOpen = (k, def) => op[k] === undefined ? def : !!op[k];
+  return [...(none.length ? [[T("Sin variante"), none, "_", isOpen("_", true)]] : []),
+    ...vs.map(v => [T("Variante {v}", { v: esc(v) }) + (v === wv ? ` · ${T("esta semana")}` : ""), state.routines.filter(r => normVar(r.variant) === v), v, isOpen(v, !wv || v === wv)])];
 }
 function routRow(r, cur) {
   const v = normVar(r.variant), d = daysTxt(r);
@@ -4783,11 +4808,12 @@ async function importJSON(text) {
 }
 
 /* ---------- Eventos ---------- */
+document.addEventListener("toggle", ev => { const g = ev.target; if (g?.dataset?.rg === undefined) return; const op = LS.get("wk.rgOpen", {}) || {}; if (op[g.dataset.rg] !== g.open) { op[g.dataset.rg] = g.open; LS.set("wk.rgOpen", op); } }, true);
 document.addEventListener("click", async ev => {
   const t = ev.target.closest("button"); if (!t) return;
   const d = t.dataset;
   readPlan(); readActForm(); readAiForm();
-  if (d.tab) { readEditor(); state.print = null; state.dsheet = null; state.actForm = null; state.planMode = null; state.planDraft = null; state.routOpen = null; state.setTab = null; state.tab = d.tab; render(); window.scrollTo(0, 0); return; }
+  if (d.tab) { state.pweek = null; readEditor(); state.print = null; state.dsheet = null; state.actForm = null; state.planMode = null; state.planDraft = null; state.routOpen = null; state.setTab = null; state.tab = d.tab; render(); window.scrollTo(0, 0); return; }
   if (d.start) { if (state.active && !confirm(T("Ya tienes una sesión en curso. ¿Descartarla y empezar otra?"))) return; cancelRun(); state.tab = "train"; startSession(d.start); return; }
   const a = state.active;
   if (d.mv) {
@@ -4859,6 +4885,7 @@ document.addEventListener("click", async ev => {
   }
   if (d.prd && state.planDraft) { const [id, x] = d.prd.split(":"), m = planRmap(state.planDraft)[id]; if (m) { const k = +x; m.days = m.days.includes(k) ? m.days.filter(z => z !== k) : [...m.days, k]; } render(); return; }
   if (d.prx && state.planDraft) { const m = planRmap(state.planDraft)[d.prx]; if (m) { m.on = false; m.variant = ""; m.days = []; } render(); return; }
+  if (d.pweek !== undefined) { state.pweek = +d.pweek; render(); return; }
   if (d.pzdel !== undefined) { const p = PL.get(); if (!p) return; const l = planPauses(p); l.splice(+d.pzdel, 1); p.pauses = l; PL.save(p); state.pauseOpen = true; render(); return; }
   if (d.prm && state.planDraft) { state.planDraft.phases.splice(+d.prm, 1); render(); return; }
   if (d.pmv && state.planDraft) { const [i, dir] = d.pmv.split(":").map(Number), ph = state.planDraft.phases, j = i + dir; if (j >= 0 && j < ph.length) [ph[i], ph[j]] = [ph[j], ph[i]]; render(); return; }
@@ -4888,7 +4915,7 @@ document.addEventListener("click", async ev => {
   if (d.sdel) { if (!confirm(T("¿Eliminar este suplemento? Su historial también se dejará de mostrar."))) return; DY.saveSupps(DY.supps().filter(x => x.id !== d.sdel)); render(); return; }
   if (d.sarch) { DY.saveSupps(DY.supps().map(x => x.id === d.sarch ? { ...x, archived: !x.archived } : x)); render(); return; }
   if (d.shide) { const h = new Set(LS.get("wk.statsHidden", [])); h.has(d.shide) ? h.delete(d.shide) : h.add(d.shide); LS.set("wk.statsHidden", [...h]); render(); return; }
-  if (d.day) { state.day = d.day; state.dsheet = null; state.dnote = null; state.tab = "diary"; render(); window.scrollTo(0, 0); return; }
+  if (d.day) { state.pweek = null; state.day = d.day; state.dsheet = null; state.dnote = null; state.tab = "diary"; render(); window.scrollTo(0, 0); return; }
   if (d.wdel) { if (!confirm(T("¿Borrar este registro de peso?"))) return; W.save(W.list().filter(x => x.id !== d.wdel)); render(); return; }
   if (d.statex) { state.statEx = state.statEx === d.statex ? null : d.statex; render(); return; }
   if (d.langSet) { LS.set("wk.lang", d.langSet); setLang(d.langSet); render(); return; }
@@ -5094,6 +5121,7 @@ document.addEventListener("click", async ev => {
     case "plan-edit": state.planNew = false; state.tab = "routines"; state.routView = "plan"; state.planDraft = JSON.parse(JSON.stringify(PL.get() || newPlanDraft())); state.planDraft.phases.forEach(x => x.id = x.id || uid()); state.planMode = "edit"; render(); window.scrollTo(0, 0); break;
     case "pl-postpone": { const pn = planNow(); if (pn?.status !== "on") break; const wk = dayKey(pn.w.t), sh = SHIFT.get(), i = (new Date().getDay() + 6) % 7;
       SHIFT.set(sh && sh.week === wk ? { ...sh, by: sh.by + 1 } : { week: wk, from: i, by: 1 }); toast(T("Aplazado a mañana")); render(); break; }
+    case "pw-close": state.pweek = null; render(); break;
     case "pl-unshift": SHIFT.set(null); render(); break;
     case "pl-deload": { const p = PL.get(), pn = planNow(); if (!p || pn?.status !== "on") break;
       if (!confirm(T("¿Hacer descarga esta semana? Solo se sugieren las rutinas de todas las semanas, y el resto del plan se corre una semana."))) return;
@@ -5443,6 +5471,7 @@ const I18N = {
     "Arrastrar": "Arrossega",
     "Arreglo: al añadir un plan recibido se conserva su regla de subida, y el plan activo anterior queda guardado en Mis planes.": "Correcció: en afegir un pla rebut es conserva la seva regla de pujada, i el pla actiu anterior queda desat a Els meus plans.",
     "Atrás": "Enrere",
+    "Aún no ha empezado": "Encara no ha començat",
     "Aún no has hecho ninguna copia.": "Encara no has fet cap còpia.",
     "Aún no hay objetivos. Fija los de fuerza y diaria en Ajustes, y los de distancia y pasos en Actividad → Unidad y objetivos.": "Encara no hi ha objectius. Fixa els de força i diària a Ajustos, i els de distància i passos a Activitat → Unitat i objectius.",
     "Aún no hay récords en los últimos 60 días. Aparecen solos al superar tu mejor marca.": "Encara no hi ha rècords en els últims 60 dies. Apareixen sols quan superes la teva millor marca.",
@@ -5732,6 +5761,7 @@ const I18N = {
     "Empuje vertical": "Empenta vertical",
     "En «{x}». Las demás rutinas no cambian.": "A «{x}». Les altres rutines no canvien.",
     "En Android, la versión web avisa una vez de que existe la app.": "A Android, la versió web avisa un cop que existeix l'app.",
+    "en curso": "en curs",
     "En el diálogo de impresión elige «Guardar como PDF» para tener el archivo.": "Al diàleg d'impressió tria «Desa com a PDF» per tenir el fitxer.",
     "En este móvil, en tu perfil. Si no, se usan solo ahora.": "En aquest mòbil, al teu perfil. Si no, només es fan servir ara.",
     "En la semana ↑": "A la setmana ↑",
@@ -5773,6 +5803,7 @@ const I18N = {
     "Esta semana": "Aquesta setmana",
     "Esta semana del plan": "Aquesta setmana del pla",
     "Esta semana no": "Aquesta setmana no",
+    "Esta variante no tiene rutinas. Añádelas en «Rutinas y días» al editar el plan.": "Aquesta variant no té rutines. Afegeix-les a «Rutines i dies» en editar el pla.",
     "Este navegador no permite vibrar": "Aquest navegador no permet vibrar",
     "Este perfil": "Aquest perfil",
     "Estilo unificado: un solo tipo de pestañas, botones con tamaños fijos y ventanas como hoja inferior en el móvil. El morado queda solo para la IA.": "Estil unificat: un sol tipus de pestanyes, botons amb mides fixes i finestres com a full inferior al mòbil. El lila queda només per a la IA.",
@@ -5873,6 +5904,7 @@ const I18N = {
     "Intermedio (2–5 años)": "Intermedi (2–5 anys)",
     "iPhone / iPad (Safari): botón Compartir → «Añadir a pantalla de inicio».": "iPhone / iPad (Safari): botó Compartir → «Afegeix a la pantalla d'inici».",
     "Ir a hoy": "Vés a avui",
+    "Ir a Hoy": "Anar a Avui",
     "Irritabilidad": "Irritabilitat",
     "isométricos": "isomètrics",
     "Isométricos y habilidades": "Isomètrics i habilitats",
@@ -5999,6 +6031,7 @@ const I18N = {
     "No se envía a ningún sitio: no hay cuentas, servidores, publicidad ni análisis con IA.": "No s'envia enlloc: no hi ha comptes, servidors, publicitat ni anàlisi amb IA.",
     "No se envía nada hasta que tú lo revises y lo publiques en GitHub.": "No s'envia res fins que tu ho revisis i ho publiquis a GitHub.",
     "No se han encontrado rutinas de Usus en la respuesta": "No s'han trobat rutines d'Usus a la resposta",
+    "no se hizo": "no es va fer",
     "No se podrá cambiar una vez creado el perfil.": "No es podrà canviar un cop creat el perfil.",
     "No se pudo cargar el catálogo. Se volverá a intentar al abrir la app.": "No s'ha pogut carregar el catàleg. Es tornarà a provar en obrir l'app.",
     "No se pudo copiar": "No s'ha pogut copiar",
@@ -6090,6 +6123,7 @@ const I18N = {
     "Pasos y actividades": "Passos i activitats",
     "Pasos: {n}": "Passos: {n}",
     "Pausa": "Pausa",
+    "Pausa: solo rutinas de todas las semanas.": "Pausa: només rutines de totes les setmanes.",
     "Pausar": "Pausa",
     "Pausar el plan": "Pausar el pla",
     "Pausar lo oculta del diario sin borrar su historial.": "Pausar-lo l'amaga del diari sense esborrar-ne l'historial.",
@@ -6102,6 +6136,7 @@ const I18N = {
     "PEM × minutos de cada sesión, sumado por semana.": "PEM × minuts de cada sessió, sumat per setmana.",
     "PEM del 1 al 10, opcional en cada sesión": "PEM de l'1 al 10, opcional a cada sessió",
     "PEM media · 4 semanas": "PEM mitjana · 4 setmanes",
+    "pendiente": "pendent",
     "Pendiente": "Pendent",
     "Pendiente desde el {d}": "Pendent des de {d}",
     "Pendientes esta semana": "Pendents aquesta setmana",
@@ -6425,7 +6460,7 @@ const I18N = {
     "Toca para añadir, o arrastra a la lista.": "Toca per afegir, o arrossega a la llista.",
     "Toca revisar el progreso y decidir el siguiente plan.": "Toca revisar el progrés i decidir el pla següent.",
     "Toca un día para abrirlo en el Diario.": "Toca un dia per obrir-lo al Diari.",
-    "Toca una semana para ver sus días en el Diario.": "Toca una setmana per veure'n els dies al Diari.",
+    "Toca una semana para ver sus rutinas.": "Toca una setmana per veure'n les rutines.",
     "Todas": "Totes",
     "Todas las semanas": "Totes les setmanes",
     "Todo": "Tot",
@@ -6489,6 +6524,7 @@ const I18N = {
     "Vas a compartir datos de salud con un servicio externo": "Compartiràs dades de salut amb un servei extern",
     "Ventana fértil": "Finestra fèrtil",
     "Ver el aviso": "Veure l'avís",
+    "Ver en el Diario": "Veure al Diari",
     "Ver en Progreso": "Veure a Progrés",
     "Ver ficha": "Mostra la fitxa",
     "Ver historial": "Mostra l'historial",
@@ -6702,6 +6738,7 @@ const I18N = {
     "Arrastrar": "Drag",
     "Arreglo: al añadir un plan recibido se conserva su regla de subida, y el plan activo anterior queda guardado en Mis planes.": "Fix: adding a received plan keeps its progression rule, and the previous active plan is saved in My plans.",
     "Atrás": "Back",
+    "Aún no ha empezado": "Not started yet",
     "Aún no has hecho ninguna copia.": "You haven't made a backup yet.",
     "Aún no hay objetivos. Fija los de fuerza y diaria en Ajustes, y los de distancia y pasos en Actividad → Unidad y objetivos.": "No goals yet. Set strength and daily goals in Settings, and distance and steps in Activity → Unit and goals.",
     "Aún no hay récords en los últimos 60 días. Aparecen solos al superar tu mejor marca.": "No records in the last 60 days yet. They appear automatically when you beat your best.",
@@ -6991,6 +7028,7 @@ const I18N = {
     "Empuje vertical": "Vertical push",
     "En «{x}». Las demás rutinas no cambian.": "In “{x}”. Other routines don't change.",
     "En Android, la versión web avisa una vez de que existe la app.": "On Android, the web version mentions the app once.",
+    "en curso": "in progress",
     "En el diálogo de impresión elige «Guardar como PDF» para tener el archivo.": "In the print dialog choose “Save as PDF” to get the file.",
     "En este móvil, en tu perfil. Si no, se usan solo ahora.": "On this phone, in your profile. Otherwise they're only used now.",
     "En la semana ↑": "In the ↑ week",
@@ -7032,6 +7070,7 @@ const I18N = {
     "Esta semana": "This week",
     "Esta semana del plan": "This plan week",
     "Esta semana no": "Skip this week",
+    "Esta variante no tiene rutinas. Añádelas en «Rutinas y días» al editar el plan.": "This variant has no routines. Add them under “Routines and days” when editing the plan.",
     "Este navegador no permite vibrar": "This browser can't vibrate",
     "Este perfil": "This profile",
     "Estilo unificado: un solo tipo de pestañas, botones con tamaños fijos y ventanas como hoja inferior en el móvil. El morado queda solo para la IA.": "Unified style: one kind of tabs, buttons with fixed sizes and dialogs as bottom sheets on phones. Purple is now only for AI.",
@@ -7132,6 +7171,7 @@ const I18N = {
     "Intermedio (2–5 años)": "Intermediate (2–5 years)",
     "iPhone / iPad (Safari): botón Compartir → «Añadir a pantalla de inicio».": "iPhone / iPad (Safari): Share button → “Add to Home Screen”.",
     "Ir a hoy": "Go to today",
+    "Ir a Hoy": "Go to Today",
     "Irritabilidad": "Irritability",
     "isométricos": "isometric",
     "Isométricos y habilidades": "Holds and skills",
@@ -7258,6 +7298,7 @@ const I18N = {
     "No se envía a ningún sitio: no hay cuentas, servidores, publicidad ni análisis con IA.": "It's never sent anywhere: no accounts, servers, ads or AI analysis.",
     "No se envía nada hasta que tú lo revises y lo publiques en GitHub.": "Nothing is sent until you review it and post it on GitHub.",
     "No se han encontrado rutinas de Usus en la respuesta": "No Usus routines found in the reply",
+    "no se hizo": "not done",
     "No se podrá cambiar una vez creado el perfil.": "Can't be changed once the profile is created.",
     "No se pudo cargar el catálogo. Se volverá a intentar al abrir la app.": "Couldn't load the catalogue. It will try again when you open the app.",
     "No se pudo copiar": "Couldn't copy",
@@ -7349,6 +7390,7 @@ const I18N = {
     "Pasos y actividades": "Steps and activities",
     "Pasos: {n}": "Steps: {n}",
     "Pausa": "Pause",
+    "Pausa: solo rutinas de todas las semanas.": "Pause: only every-week routines.",
     "Pausar": "Pause",
     "Pausar el plan": "Pause the plan",
     "Pausar lo oculta del diario sin borrar su historial.": "Pausing hides it from the diary without deleting its history.",
@@ -7361,6 +7403,7 @@ const I18N = {
     "PEM × minutos de cada sesión, sumado por semana.": "RPE × minutes of each session, summed per week.",
     "PEM del 1 al 10, opcional en cada sesión": "RPE from 1 to 10, optional each session",
     "PEM media · 4 semanas": "Average RPE · 4 weeks",
+    "pendiente": "to do",
     "Pendiente": "To do",
     "Pendiente desde el {d}": "Due since {d}",
     "Pendientes esta semana": "Pending this week",
@@ -7684,7 +7727,7 @@ const I18N = {
     "Toca para añadir, o arrastra a la lista.": "Tap to add, or drag to the list.",
     "Toca revisar el progreso y decidir el siguiente plan.": "Time to review your progress and decide the next plan.",
     "Toca un día para abrirlo en el Diario.": "Tap a day to open it in the Diary.",
-    "Toca una semana para ver sus días en el Diario.": "Tap a week to see its days in the Diary.",
+    "Toca una semana para ver sus rutinas.": "Tap a week to see its routines.",
     "Todas": "All",
     "Todas las semanas": "Every week",
     "Todo": "All",
@@ -7748,6 +7791,7 @@ const I18N = {
     "Vas a compartir datos de salud con un servicio externo": "You're about to share health data with an external service",
     "Ventana fértil": "Fertile window",
     "Ver el aviso": "View the notice",
+    "Ver en el Diario": "See in the Diary",
     "Ver en Progreso": "See in Progress",
     "Ver ficha": "View card",
     "Ver historial": "View history",

@@ -590,6 +590,9 @@ msgstr "Fix: adding a received plan keeps its progression rule, and the previous
 msgid "Atrás"
 msgstr "Back"
 
+msgid "Aún no ha empezado"
+msgstr "Not started yet"
+
 msgid "Aún no has hecho ninguna copia."
 msgstr "You haven't made a backup yet."
 
@@ -1492,6 +1495,9 @@ msgstr "In “{x}”. Other routines don't change."
 msgid "En Android, la versión web avisa una vez de que existe la app."
 msgstr "On Android, the web version mentions the app once."
 
+msgid "en curso"
+msgstr "in progress"
+
 msgid "En el diálogo de impresión elige «Guardar como PDF» para tener el archivo."
 msgstr "In the print dialog choose “Save as PDF” to get the file."
 
@@ -1617,6 +1623,9 @@ msgstr "This plan week"
 
 msgid "Esta semana no"
 msgstr "Skip this week"
+
+msgid "Esta variante no tiene rutinas. Añádelas en «Rutinas y días» al editar el plan."
+msgstr "This variant has no routines. Add them under “Routines and days” when editing the plan."
 
 msgid "Este navegador no permite vibrar"
 msgstr "This browser can't vibrate"
@@ -1920,6 +1929,9 @@ msgstr "iPhone / iPad (Safari): Share button → “Add to Home Screen”."
 
 msgid "Ir a hoy"
 msgstr "Go to today"
+
+msgid "Ir a Hoy"
+msgstr "Go to Today"
 
 msgid "Irritabilidad"
 msgstr "Irritability"
@@ -2308,6 +2320,9 @@ msgstr "Nothing is sent until you review it and post it on GitHub."
 msgid "No se han encontrado rutinas de Usus en la respuesta"
 msgstr "No Usus routines found in the reply"
 
+msgid "no se hizo"
+msgstr "not done"
+
 msgid "No se podrá cambiar una vez creado el perfil."
 msgstr "Can't be changed once the profile is created."
 
@@ -2594,6 +2609,9 @@ msgstr "Steps: {n}"
 msgid "Pausa"
 msgstr "Pause"
 
+msgid "Pausa: solo rutinas de todas las semanas."
+msgstr "Pause: only every-week routines."
+
 msgid "Pausar"
 msgstr "Pause"
 
@@ -2629,6 +2647,9 @@ msgstr "RPE from 1 to 10, optional each session"
 
 msgid "PEM media · 4 semanas"
 msgstr "Average RPE · 4 weeks"
+
+msgid "pendiente"
+msgstr "to do"
 
 msgid "Pendiente"
 msgstr "To do"
@@ -3653,8 +3674,8 @@ msgstr "Time to review your progress and decide the next plan."
 msgid "Toca un día para abrirlo en el Diario."
 msgstr "Tap a day to open it in the Diary."
 
-msgid "Toca una semana para ver sus días en el Diario."
-msgstr "Tap a week to see its days in the Diary."
+msgid "Toca una semana para ver sus rutinas."
+msgstr "Tap a week to see its routines."
 
 msgid "Todas"
 msgstr "All"
@@ -3853,6 +3874,9 @@ msgstr "Fertile window"
 msgid "Ver el aviso"
 msgstr "View the notice"
 
+msgid "Ver en el Diario"
+msgstr "See in the Diary"
+
 msgid "Ver en Progreso"
 msgstr "See in Progress"
 
@@ -3970,6 +3994,9 @@ msgstr "Me"
 
 msgid "Zona peligrosa"
 msgstr "Danger zone"
+
+#~ msgid "Toca una semana para ver sus días en el Diario."
+#~ msgstr "Tap a week to see its days in the Diary."
 
 #~ msgid "Aún no tienes rutinas. Créalas en Entreno → Rutinas y vuelve aquí."
 #~ msgstr "You have no routines yet. Create them in Workout → Routines and come back here."

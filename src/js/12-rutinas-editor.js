@@ -51,7 +51,7 @@ function viewRoutines() {
   return `
     <div class="rtop"><div class="phead"><h1>${T("Biblioteca")}</h1>${head}</div>
     ${utabs(tabs, rv, "rview", T("Biblioteca"))}</div>
-    ${rv === "cat" ? viewCatalog() : rv === "plan" ? planSection() : state.routines.length ? `<div class="rsplit${open ? " hasdet" : ""}"><div class="rlist">${routGroups().map(([g, rs]) => `${g ? `<div class="glabel">${g}</div>` : ""}<div class="lgroup">${rs.map(r => routRow(r, r.id === cur?.id)).join("")}</div>`).join("")}</div>${routDetail(cur)}</div>`
+    ${rv === "cat" ? viewCatalog() : rv === "plan" ? planSection() : state.routines.length ? `<div class="rsplit${open ? " hasdet" : ""}"><div class="rlist">${routGroups().map(([g, rs, k, o]) => g ? `<details class="rgrp2" data-rg="${esc(k)}"${o || rs.some(r => r.id === state.routOpen) ? " open" : ""}><summary class="glabel"><span>${g}</span><span class="gn">${rs.length}</span></summary><div class="lgroup">${rs.map(r => routRow(r, r.id === cur?.id)).join("")}</div></details>` : `<div class="lgroup">${rs.map(r => routRow(r, r.id === cur?.id)).join("")}</div>`).join("")}</div>${routDetail(cur)}</div>`
       : `<div class="empty" style="margin-top:16px">${T("Crea una rutina con sus ejercicios, series y repeticiones objetivo.")}</div>`}`;
 }
 /* Pestañas subrayadas (un solo estilo en toda la app) */
@@ -60,9 +60,11 @@ const daysTxt = r => (r.days || []).length ? (r.days.length === 7 ? T("todos los
 /* Rutinas por variante: primero las que no tienen (Diaria, extras), luego A, B, C… La de esta semana del plan, marcada */
 function routGroups() {
   const vs = [...new Set(state.routines.map(r => normVar(r.variant)).filter(Boolean))].sort(), none = state.routines.filter(r => !normVar(r.variant));
-  if (!vs.length) return [["", state.routines]];
-  const pn = planNow(), wv = pn?.status === "on" && !pn.w.deload ? pn.w.variant : null;
-  return [...(none.length ? [[T("Sin variante"), none]] : []), ...vs.map(v => [T("Variante {v}", { v: esc(v) }) + (v === wv ? ` · ${T("esta semana")}` : ""), state.routines.filter(r => normVar(r.variant) === v)])];
+  if (!vs.length) return [["", state.routines, "", true]];
+  const pn = planNow(), wv = pn?.status === "on" && !pn.w.deload ? pn.w.variant : null, op = LS.get("wk.rgOpen", {}) || {};
+  const isOpen = (k, def) => op[k] === undefined ? def : !!op[k];
+  return [...(none.length ? [[T("Sin variante"), none, "_", isOpen("_", true)]] : []),
+    ...vs.map(v => [T("Variante {v}", { v: esc(v) }) + (v === wv ? ` · ${T("esta semana")}` : ""), state.routines.filter(r => normVar(r.variant) === v), v, isOpen(v, !wv || v === wv)])];
 }
 function routRow(r, cur) {
   const v = normVar(r.variant), d = daysTxt(r);
