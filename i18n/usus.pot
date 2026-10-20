@@ -741,6 +741,9 @@ msgstr ""
 msgid "Cada (semanas de entreno)"
 msgstr ""
 
+msgid "Cada ficha indica su rol (principal, accesorio, movilidad, calentamiento o cardio), el rango recomendado por serie y las articulaciones que más carga. Al añadir un ejercicio del catálogo, las repeticiones o segundos salen en mitad de ese rango."
+msgstr ""
+
 msgid "Cada perfil decide. Se puede cambiar en Ajustes → App."
 msgstr ""
 
@@ -830,6 +833,9 @@ msgstr ""
 msgid "Cardio"
 msgstr ""
 
+msgid "Cardio, nuevo tipo de movimiento en Ejercicios, y comba, nuevo material."
+msgstr ""
+
 msgid "Carga semanal"
 msgstr ""
 
@@ -847,6 +853,9 @@ msgid "Catálogo"
 msgstr ""
 
 msgid "Catálogo activado"
+msgstr ""
+
+msgid "Catálogo completo: 106 ejercicios nuevos (268 en total). Escaleras sin huecos, familias que tenían un solo nivel con entrada y siguiente paso, y bloques nuevos de anillas, paralelas, agarre, pino, movilidad y estiramientos, calentamiento, equilibrio y cardio."
 msgstr ""
 
 msgid "Catálogo de ejercicios"
@@ -883,6 +892,9 @@ msgid "Código fuente"
 msgstr ""
 
 msgid "Color"
+msgstr ""
+
+msgid "Comba"
 msgstr ""
 
 msgid "Cómo ha ido, molestias, cambios…"

@@ -1,5 +1,10 @@
 /* ---------- Novedades (una vez por versión; historial al tocar la versión) ---------- */
 const CHANGES = [  // Novedades: solo en castellano; las traducciones, en i18n/*.po
+  ["3.1.0", [
+    N_("Catálogo completo: 106 ejercicios nuevos (268 en total). Escaleras sin huecos, familias que tenían un solo nivel con entrada y siguiente paso, y bloques nuevos de anillas, paralelas, agarre, pino, movilidad y estiramientos, calentamiento, equilibrio y cardio."),
+    N_("Cardio, nuevo tipo de movimiento en Ejercicios, y comba, nuevo material."),
+    N_("Cada ficha indica su rol (principal, accesorio, movilidad, calentamiento o cardio), el rango recomendado por serie y las articulaciones que más carga. Al añadir un ejercicio del catálogo, las repeticiones o segundos salen en mitad de ese rango.")
+  ]],
   ["3.0.0", [
     N_("Nueva estructura: Hoy · Biblioteca · Diario · Progreso · Ajustes. Biblioteca reúne Rutinas, Plan y Ejercicios; Stats pasa a llamarse Progreso."),
     N_("Hoy: lo que toca, arriba y con un único botón Empezar; accesos rápidos a otra rutina, sesión libre y actividad; los avisos, juntos en «Pendiente»."),

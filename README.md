@@ -74,7 +74,7 @@ Para probar la beta con tus datos, exporta una copia en la versión normal e imp
 
 ### Tanta información como quieras
 
-El catálogo de ejercicios es **opcional y se decide en cada perfil**. Si empiezas, actívalo: tendrás la explicación de cada ejercicio, el material que necesita y por dónde seguir. Si ya sabes lo que haces, prescinde de él: Usus funciona igual con tus propios ejercicios, sin información de más. Por ahora, las fichas están en castellano. Se puede cambiar en cualquier momento, y tus ejercicios se pueden vincular al catálogo para unir su historial.
+El catálogo de ejercicios es **opcional y se decide en cada perfil**. Si empiezas, actívalo: tendrás la explicación de cada ejercicio, el material que necesita y por dónde seguir. Si ya sabes lo que haces, prescinde de él: Usus funciona igual con tus propios ejercicios, sin información de más. Las fichas están en castellano, català e inglés. Se puede cambiar en cualquier momento, y tus ejercicios se pueden vincular al catálogo para unir su historial.
 
 ### Temas
 
@@ -175,7 +175,7 @@ To try the beta with your data, export a backup in the regular version and impor
 
 ### As much information as you want
 
-The exercise catalogue is **optional and chosen per profile**. If you're starting out, turn it on: you'll get an explanation of each exercise, the equipment it needs and where to go next. If you already know what you're doing, skip it: Usus works just the same with your own exercises, without the extra information. For now, the cards are in Spanish only. You can change it at any time, and link your exercises to the catalogue to merge their history.
+The exercise catalogue is **optional and chosen per profile**. If you're starting out, turn it on: you'll get an explanation of each exercise, the equipment it needs and where to go next. If you already know what you're doing, skip it: Usus works just the same with your own exercises, without the extra information. Cards are available in Spanish, Catalan and English. You can change it at any time, and link your exercises to the catalogue to merge their history.
 
 ### Themes
 

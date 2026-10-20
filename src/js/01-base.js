@@ -94,7 +94,7 @@ function lastSetsFor(ref) {
   }
   return null;
 }
-const APP_VERSION = "3.0.0";
+const APP_VERSION = "3.1.0";
 const THEMES = [["protector", "Protector", "Oscuro cálido, sin azul"], ["dark", "Oscuro", "Neutro"], ["light", "Claro", "Para el día"], ["auto", "Automático", "Sigue al sistema"]];
 const curTheme = () => document.documentElement.dataset.theme || "auto";
 function applyTheme(t) {

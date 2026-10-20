@@ -4,6 +4,12 @@ Todas las versiones de Usus. Formato basado en [Keep a Changelog](https://keepac
 
 **Castellano** · [Català](#català) · [English](#english)
 
+## [3.1.0] — en pruebas (beta)
+
+- Catálogo completo: 106 ejercicios nuevos (268 en total). Escaleras sin huecos, familias que tenían un solo nivel con entrada y siguiente paso, y bloques nuevos de anillas, paralelas, agarre, pino, movilidad y estiramientos, calentamiento, equilibrio y cardio.
+- Cardio, nuevo tipo de movimiento en Ejercicios, y comba, nuevo material.
+- Cada ficha indica su rol (principal, accesorio, movilidad, calentamiento o cardio), el rango recomendado por serie y las articulaciones que más carga. Al añadir un ejercicio del catálogo, las repeticiones o segundos salen en mitad de ese rango.
+
 ## [3.0.0] — 2026-10-20
 
 Rediseño: estructura nueva, componentes unificados y glosario único (es/ca/en). Los datos no cambian: las copias de la 2.x se importan igual.
@@ -249,6 +255,12 @@ Primera versión pública.
 
 ## Català
 
+### [3.1.0] — en proves (beta)
+
+- Catàleg complet: 106 exercicis nous (268 en total). Escales sense buits, famílies que tenien un sol nivell amb entrada i pas següent, i blocs nous d'anelles, paral·leles, presa, pi, mobilitat i estiraments, escalfament, equilibri i cardio.
+- Cardio, nou tipus de moviment a Exercicis, i corda, nou material.
+- Cada fitxa indica el seu rol (principal, accessori, mobilitat, escalfament o cardio), el rang recomanat per sèrie i les articulacions que més carrega. En afegir un exercici del catàleg, les repeticions o segons surten a la meitat d'aquest rang.
+
 ### [3.0.0] — 2026-10-20
 - Nova estructura: Avui · Biblioteca · Diari · Progrés · Ajustos. Biblioteca aplega Rutines, Pla i Exercicis; Stats passa a dir-se Progrés.
 - Avui: el que toca, a dalt i amb un sol botó Comença; accessos ràpids a una altra rutina, sessió lliure i activitat; els avisos, junts a «Pendent».
@@ -335,6 +347,12 @@ Primera versió pública: rutines amb sèries per repeticions o per temps, compt
 ---
 
 ## English
+
+### [3.1.0] — in testing (beta)
+
+- Complete catalogue: 106 new exercises (268 in total). Progressions without gaps, single-level families now with an entry and a next step, and new blocks for rings, parallel bars, grip, handstand, mobility and stretching, warm-up, balance and cardio.
+- Cardio, a new movement type in Exercises, and jump rope, a new piece of equipment.
+- Each card shows its role (main, accessory, mobility, warm-up or cardio), the recommended range per set and the joints it loads most. When you add an exercise from the catalogue, reps or seconds start in the middle of that range.
 
 ### [3.0.0] — 2026-10-20
 - New layout: Today · Library · Diary · Progress · Settings. Library brings together Routines, Plan and Exercises; Stats is now called Progress.

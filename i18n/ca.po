@@ -742,6 +742,9 @@ msgstr "Cerca al catàleg"
 msgid "Cada (semanas de entreno)"
 msgstr "Cada (setmanes d'entrenament)"
 
+msgid "Cada ficha indica su rol (principal, accesorio, movilidad, calentamiento o cardio), el rango recomendado por serie y las articulaciones que más carga. Al añadir un ejercicio del catálogo, las repeticiones o segundos salen en mitad de ese rango."
+msgstr "Cada fitxa indica el seu rol (principal, accessori, mobilitat, escalfament o cardio), el rang recomanat per sèrie i les articulacions que més carrega. En afegir un exercici del catàleg, les repeticions o segons surten a la meitat d'aquest rang."
+
 msgid "Cada perfil decide. Se puede cambiar en Ajustes → App."
 msgstr "Cada perfil decideix. Es pot canviar a Ajustos → App."
 
@@ -831,6 +834,9 @@ msgstr "Quantitat"
 msgid "Cardio"
 msgstr "Cardio"
 
+msgid "Cardio, nuevo tipo de movimiento en Ejercicios, y comba, nuevo material."
+msgstr "Cardio, nou tipus de moviment a Exercicis, i corda, nou material."
+
 msgid "Carga semanal"
 msgstr "Càrrega setmanal"
 
@@ -849,6 +855,9 @@ msgstr "Catàleg"
 
 msgid "Catálogo activado"
 msgstr "Catàleg activat"
+
+msgid "Catálogo completo: 106 ejercicios nuevos (268 en total). Escaleras sin huecos, familias que tenían un solo nivel con entrada y siguiente paso, y bloques nuevos de anillas, paralelas, agarre, pino, movilidad y estiramientos, calentamiento, equilibrio y cardio."
+msgstr "Catàleg complet: 106 exercicis nous (268 en total). Escales sense buits, famílies que tenien un sol nivell amb entrada i pas següent, i blocs nous d'anelles, paral·leles, presa, pi, mobilitat i estiraments, escalfament, equilibri i cardio."
 
 msgid "Catálogo de ejercicios"
 msgstr "Catàleg d'exercicis"
@@ -885,6 +894,9 @@ msgstr "Codi font"
 
 msgid "Color"
 msgstr "Color"
+
+msgid "Comba"
+msgstr "Corda"
 
 msgid "Cómo ha ido, molestias, cambios…"
 msgstr "Com ha anat, molèsties, canvis…"

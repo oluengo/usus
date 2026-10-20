@@ -742,6 +742,9 @@ msgstr "Search the catalogue"
 msgid "Cada (semanas de entreno)"
 msgstr "Every (training weeks)"
 
+msgid "Cada ficha indica su rol (principal, accesorio, movilidad, calentamiento o cardio), el rango recomendado por serie y las articulaciones que más carga. Al añadir un ejercicio del catálogo, las repeticiones o segundos salen en mitad de ese rango."
+msgstr "Each card shows its role (main, accessory, mobility, warm-up or cardio), the recommended range per set and the joints it loads most. When you add an exercise from the catalogue, reps or seconds start in the middle of that range."
+
 msgid "Cada perfil decide. Se puede cambiar en Ajustes → App."
 msgstr "Each profile decides. You can change it in Settings → App."
 
@@ -831,6 +834,9 @@ msgstr "Amount"
 msgid "Cardio"
 msgstr "Cardio"
 
+msgid "Cardio, nuevo tipo de movimiento en Ejercicios, y comba, nuevo material."
+msgstr "Cardio, a new movement type in Exercises, and jump rope, a new piece of equipment."
+
 msgid "Carga semanal"
 msgstr "Weekly load"
 
@@ -849,6 +855,9 @@ msgstr "Catalogue"
 
 msgid "Catálogo activado"
 msgstr "Catalogue on"
+
+msgid "Catálogo completo: 106 ejercicios nuevos (268 en total). Escaleras sin huecos, familias que tenían un solo nivel con entrada y siguiente paso, y bloques nuevos de anillas, paralelas, agarre, pino, movilidad y estiramientos, calentamiento, equilibrio y cardio."
+msgstr "Complete catalogue: 106 new exercises (268 in total). Progressions without gaps, single-level families now with an entry and a next step, and new blocks for rings, parallel bars, grip, handstand, mobility and stretching, warm-up, balance and cardio."
 
 msgid "Catálogo de ejercicios"
 msgstr "Exercise catalogue"
@@ -885,6 +894,9 @@ msgstr "Source code"
 
 msgid "Color"
 msgstr "Colour"
+
+msgid "Comba"
+msgstr "Jump rope"
 
 msgid "Cómo ha ido, molestias, cambios…"
 msgstr "How it went, aches, changes…"

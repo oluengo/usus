@@ -1076,7 +1076,7 @@ function lastSetsFor(ref) {
   }
   return null;
 }
-const APP_VERSION = "3.0.0";
+const APP_VERSION = "3.1.0";
 const THEMES = [["protector", "Protector", "Oscuro cálido, sin azul"], ["dark", "Oscuro", "Neutro"], ["light", "Claro", "Para el día"], ["auto", "Automático", "Sigue al sistema"]];
 const curTheme = () => document.documentElement.dataset.theme || "auto";
 function applyTheme(t) {
@@ -1446,13 +1446,14 @@ const MAT = {
   pared: ["Pared", '<path d="M4 4h16v16H4zM4 9h16M4 14h16M10 4v5M14 9v5M10 14v6"/>'],
   banda: ["Banda elástica", '<path d="M6 4c-3 6-3 10 0 16M18 4c3 6 3 10 0 16M6 4c4 3 8 3 12 0M6 20c4-3 8-3 12 0"/>'],
   lastre: ["Lastre", '<path d="M8 8h8l2 12H6z"/><path d="M10 8a2 2 0 1 1 4 0"/>'],
-  rueda: ["Rueda abdominal", '<circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/><path d="M2 12h4M18 12h4"/>']
+  rueda: ["Rueda abdominal", '<circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/><path d="M2 12h4M18 12h4"/>'],
+  comba: [N_("Comba"), '<path d="M5 3h2v6H5zM17 3h2v6h-2z"/><path d="M6 9c0 11 12 11 12 0"/>']
 };
 const MAT_ORDER = l => Object.keys(MAT).filter(k => l.includes(k));
 const MAT_ALWAYS = new Set(["pared"]);   // siempre hay una pared: no se pregunta ni se filtra
 const MAT_SEL = () => Object.entries(MAT).filter(([k]) => !MAT_ALWAYS.has(k));
 const PATS = [["empuje-h", "Empuje horizontal"], ["empuje-v", "Empuje vertical"], ["traccion-v", "Tracción vertical"], ["traccion-h", "Tracción horizontal"],
-  ["rodilla", "Pierna · rodilla"], ["cadera", "Pierna · cadera"], ["core", "Core"], ["habilidad", "Isométricos y habilidades"], ["movilidad", "Movilidad y calentamiento"]];
+  ["rodilla", "Pierna · rodilla"], ["cadera", "Pierna · cadera"], ["core", "Core"], ["habilidad", "Isométricos y habilidades"], ["movilidad", "Movilidad y calentamiento"], ["cardio", N_("Cardio")]];
 let CAT = null, CATBY = {}, CHAIN = {}, VARS = {}, catLoad = null;
 const catOn = () => LS.get("wk.catalog", null) === true;
 const catReady = () => catOn() && !!CAT;
@@ -1502,7 +1503,8 @@ function catMatch(name, strict) {
   }
   return best;
 }
-const newFromCat = x => ({ name: xName(x), xid: x.id, sets: 3, reps: x.type === "time" ? 30 : 10, type: x.type === "time" ? "time" : "reps", sides: !!x.sides });
+/* Al añadir del catálogo: repeticiones o segundos en mitad del rango recomendado de la ficha */
+const newFromCat = x => ({ name: xName(x), xid: x.id, sets: 3, reps: x.dose ? Math.round((x.dose[0] + x.dose[1]) / 2) : x.type === "time" ? 30 : 10, type: x.type === "time" ? "time" : "reps", sides: !!x.sides });
 
 /* Rutinas → Ejercicios: listado del catálogo */
 function catListHTML() {
@@ -4203,6 +4205,11 @@ function installBlock() {
 }
 /* ---------- Novedades (una vez por versión; historial al tocar la versión) ---------- */
 const CHANGES = [  // Novedades: solo en castellano; las traducciones, en i18n/*.po
+  ["3.1.0", [
+    N_("Catálogo completo: 106 ejercicios nuevos (268 en total). Escaleras sin huecos, familias que tenían un solo nivel con entrada y siguiente paso, y bloques nuevos de anillas, paralelas, agarre, pino, movilidad y estiramientos, calentamiento, equilibrio y cardio."),
+    N_("Cardio, nuevo tipo de movimiento en Ejercicios, y comba, nuevo material."),
+    N_("Cada ficha indica su rol (principal, accesorio, movilidad, calentamiento o cardio), el rango recomendado por serie y las articulaciones que más carga. Al añadir un ejercicio del catálogo, las repeticiones o segundos salen en mitad de ese rango.")
+  ]],
   ["3.0.0", [
     N_("Nueva estructura: Hoy · Biblioteca · Diario · Progreso · Ajustes. Biblioteca reúne Rutinas, Plan y Ejercicios; Stats pasa a llamarse Progreso."),
     N_("Hoy: lo que toca, arriba y con un único botón Empezar; accesos rápidos a otra rutina, sesión libre y actividad; los avisos, juntos en «Pendiente»."),
@@ -5669,6 +5676,7 @@ const I18N = {
     "Buscar ejercicio": "Cerca exercici",
     "Buscar en el catálogo": "Cerca al catàleg",
     "Cada (semanas de entreno)": "Cada (setmanes d'entrenament)",
+    "Cada ficha indica su rol (principal, accesorio, movilidad, calentamiento o cardio), el rango recomendado por serie y las articulaciones que más carga. Al añadir un ejercicio del catálogo, las repeticiones o segundos salen en mitad de ese rango.": "Cada fitxa indica el seu rol (principal, accessori, mobilitat, escalfament o cardio), el rang recomanat per sèrie i les articulacions que més carrega. En afegir un exercici del catàleg, les repeticions o segons surten a la meitat d'aquest rang.",
     "Cada perfil decide. Se puede cambiar en Ajustes → App.": "Cada perfil decideix. Es pot canviar a Ajustos → App.",
     "Cada perfil tiene sus propios datos y ajustes.": "Cada perfil té les seves pròpies dades i ajustos.",
     "Caja / banco": "Caixa / banc",
@@ -5698,12 +5706,14 @@ const I18N = {
     "Cansancio": "Cansament",
     "Cantidad": "Quantitat",
     "Cardio": "Cardio",
+    "Cardio, nuevo tipo de movimiento en Ejercicios, y comba, nuevo material.": "Cardio, nou tipus de moviment a Exercicis, i corda, nou material.",
     "Carga semanal": "Càrrega setmanal",
     "Carga: {m} min × {p} = {c}": "Càrrega: {m} min × {p} = {c}",
     "Cargando…": "Carregant…",
     "Casi al límite": "Gairebé al límit",
     "Catálogo": "Catàleg",
     "Catálogo activado": "Catàleg activat",
+    "Catálogo completo: 106 ejercicios nuevos (268 en total). Escaleras sin huecos, familias que tenían un solo nivel con entrada y siguiente paso, y bloques nuevos de anillas, paralelas, agarre, pino, movilidad y estiramientos, calentamiento, equilibrio y cardio.": "Catàleg complet: 106 exercicis nous (268 en total). Escales sense buits, famílies que tenien un sol nivell amb entrada i pas següent, i blocs nous d'anelles, paral·leles, presa, pi, mobilitat i estiraments, escalfament, equilibri i cardio.",
     "Catálogo de ejercicios": "Catàleg d'exercicis",
     "Catálogo de ejercicios opcional: cada perfil decide si lo usa. Fichas con para qué sirve, cómo se hace, errores, material y progresión. Rutinas → Ejercicios, y al añadir ejercicios a una rutina o a la sesión.": "Catàleg d'exercicis opcional: cada perfil decideix si el fa servir. Fitxes amb per a què serveix, com es fa, errors, material i progressió. Rutines → Exercicis, i en afegir exercicis a una rutina o a la sessió.",
     "Catálogo desactivado": "Catàleg desactivat",
@@ -5716,6 +5726,7 @@ const I18N = {
     "Claro": "Clar",
     "Código fuente": "Codi font",
     "Color": "Color",
+    "Comba": "Corda",
     "Cómo ha ido, molestias, cambios…": "Com ha anat, molèsties, canvis…",
     "Cómo ha ido, por qué no se ha podido entrenar, molestias…": "Com ha anat, per què no s'ha pogut entrenar, molèsties…",
     "Cómo se calcula": "Com es calcula",
@@ -6959,6 +6970,7 @@ const I18N = {
     "Buscar ejercicio": "Search exercise",
     "Buscar en el catálogo": "Search the catalogue",
     "Cada (semanas de entreno)": "Every (training weeks)",
+    "Cada ficha indica su rol (principal, accesorio, movilidad, calentamiento o cardio), el rango recomendado por serie y las articulaciones que más carga. Al añadir un ejercicio del catálogo, las repeticiones o segundos salen en mitad de ese rango.": "Each card shows its role (main, accessory, mobility, warm-up or cardio), the recommended range per set and the joints it loads most. When you add an exercise from the catalogue, reps or seconds start in the middle of that range.",
     "Cada perfil decide. Se puede cambiar en Ajustes → App.": "Each profile decides. You can change it in Settings → App.",
     "Cada perfil tiene sus propios datos y ajustes.": "Each profile has its own data and settings.",
     "Caja / banco": "Box / bench",
@@ -6988,12 +7000,14 @@ const I18N = {
     "Cansancio": "Tiredness",
     "Cantidad": "Amount",
     "Cardio": "Cardio",
+    "Cardio, nuevo tipo de movimiento en Ejercicios, y comba, nuevo material.": "Cardio, a new movement type in Exercises, and jump rope, a new piece of equipment.",
     "Carga semanal": "Weekly load",
     "Carga: {m} min × {p} = {c}": "Load: {m} min × {p} = {c}",
     "Cargando…": "Loading…",
     "Casi al límite": "Near maximal",
     "Catálogo": "Catalogue",
     "Catálogo activado": "Catalogue on",
+    "Catálogo completo: 106 ejercicios nuevos (268 en total). Escaleras sin huecos, familias que tenían un solo nivel con entrada y siguiente paso, y bloques nuevos de anillas, paralelas, agarre, pino, movilidad y estiramientos, calentamiento, equilibrio y cardio.": "Complete catalogue: 106 new exercises (268 in total). Progressions without gaps, single-level families now with an entry and a next step, and new blocks for rings, parallel bars, grip, handstand, mobility and stretching, warm-up, balance and cardio.",
     "Catálogo de ejercicios": "Exercise catalogue",
     "Catálogo de ejercicios opcional: cada perfil decide si lo usa. Fichas con para qué sirve, cómo se hace, errores, material y progresión. Rutinas → Ejercicios, y al añadir ejercicios a una rutina o a la sesión.": "Optional exercise catalogue: each profile decides whether to use it. Cards with what it's for, how to do it, mistakes, equipment and progression. Routines → Exercises, and when adding exercises to a routine or session.",
     "Catálogo desactivado": "Catalogue off",
@@ -7006,6 +7020,7 @@ const I18N = {
     "Claro": "Light",
     "Código fuente": "Source code",
     "Color": "Colour",
+    "Comba": "Jump rope",
     "Cómo ha ido, molestias, cambios…": "How it went, aches, changes…",
     "Cómo ha ido, por qué no se ha podido entrenar, molestias…": "How it went, why you couldn't train, aches…",
     "Cómo se calcula": "How it's calculated",

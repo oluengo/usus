@@ -11,13 +11,14 @@ const MAT = {
   pared: ["Pared", '<path d="M4 4h16v16H4zM4 9h16M4 14h16M10 4v5M14 9v5M10 14v6"/>'],
   banda: ["Banda elástica", '<path d="M6 4c-3 6-3 10 0 16M18 4c3 6 3 10 0 16M6 4c4 3 8 3 12 0M6 20c4-3 8-3 12 0"/>'],
   lastre: ["Lastre", '<path d="M8 8h8l2 12H6z"/><path d="M10 8a2 2 0 1 1 4 0"/>'],
-  rueda: ["Rueda abdominal", '<circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/><path d="M2 12h4M18 12h4"/>']
+  rueda: ["Rueda abdominal", '<circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/><path d="M2 12h4M18 12h4"/>'],
+  comba: [N_("Comba"), '<path d="M5 3h2v6H5zM17 3h2v6h-2z"/><path d="M6 9c0 11 12 11 12 0"/>']
 };
 const MAT_ORDER = l => Object.keys(MAT).filter(k => l.includes(k));
 const MAT_ALWAYS = new Set(["pared"]);   // siempre hay una pared: no se pregunta ni se filtra
 const MAT_SEL = () => Object.entries(MAT).filter(([k]) => !MAT_ALWAYS.has(k));
 const PATS = [["empuje-h", "Empuje horizontal"], ["empuje-v", "Empuje vertical"], ["traccion-v", "Tracción vertical"], ["traccion-h", "Tracción horizontal"],
-  ["rodilla", "Pierna · rodilla"], ["cadera", "Pierna · cadera"], ["core", "Core"], ["habilidad", "Isométricos y habilidades"], ["movilidad", "Movilidad y calentamiento"]];
+  ["rodilla", "Pierna · rodilla"], ["cadera", "Pierna · cadera"], ["core", "Core"], ["habilidad", "Isométricos y habilidades"], ["movilidad", "Movilidad y calentamiento"], ["cardio", N_("Cardio")]];
 let CAT = null, CATBY = {}, CHAIN = {}, VARS = {}, catLoad = null;
 const catOn = () => LS.get("wk.catalog", null) === true;
 const catReady = () => catOn() && !!CAT;
@@ -67,7 +68,8 @@ function catMatch(name, strict) {
   }
   return best;
 }
-const newFromCat = x => ({ name: xName(x), xid: x.id, sets: 3, reps: x.type === "time" ? 30 : 10, type: x.type === "time" ? "time" : "reps", sides: !!x.sides });
+/* Al añadir del catálogo: repeticiones o segundos en mitad del rango recomendado de la ficha */
+const newFromCat = x => ({ name: xName(x), xid: x.id, sets: 3, reps: x.dose ? Math.round((x.dose[0] + x.dose[1]) / 2) : x.type === "time" ? 30 : 10, type: x.type === "time" ? "time" : "reps", sides: !!x.sides });
 
 /* Rutinas → Ejercicios: listado del catálogo */
 function catListHTML() {
