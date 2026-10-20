@@ -4,7 +4,7 @@ Todas las versiones de Usus. Formato basado en [Keep a Changelog](https://keepac
 
 **Castellano** · [Català](#català) · [English](#english)
 
-## [3.1.0] — en pruebas (beta)
+## [3.1.0] — 2026-10-20
 
 - Catálogo completo: 106 ejercicios nuevos (268 en total). Escaleras sin huecos, familias que tenían un solo nivel con entrada y siguiente paso, y bloques nuevos de anillas, paralelas, agarre, pino, movilidad y estiramientos, calentamiento, equilibrio y cardio.
 - Cardio, nuevo tipo de movimiento en Ejercicios, y comba, nuevo material.
@@ -255,7 +255,7 @@ Primera versión pública.
 
 ## Català
 
-### [3.1.0] — en proves (beta)
+### [3.1.0] — 2026-10-20
 
 - Catàleg complet: 106 exercicis nous (268 en total). Escales sense buits, famílies que tenien un sol nivell amb entrada i pas següent, i blocs nous d'anelles, paral·leles, presa, pi, mobilitat i estiraments, escalfament, equilibri i cardio.
 - Cardio, nou tipus de moviment a Exercicis, i corda, nou material.
@@ -348,7 +348,7 @@ Primera versió pública: rutines amb sèries per repeticions o per temps, compt
 
 ## English
 
-### [3.1.0] — in testing (beta)
+### [3.1.0] — 2026-10-20
 
 - Complete catalogue: 106 new exercises (268 in total). Progressions without gaps, single-level families now with an entry and a next step, and new blocks for rings, parallel bars, grip, handstand, mobility and stretching, warm-up, balance and cardio.
 - Cardio, a new movement type in Exercises, and jump rope, a new piece of equipment.
