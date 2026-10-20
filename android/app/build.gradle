@@ -4,6 +4,9 @@ apply plugin: 'com.android.application'
 def ususVersion = (file('../../index.html').text =~ /const APP_VERSION = "([\d.]+)"/)[0][1]
 def ususParts = ususVersion.tokenize('.').collect { it as int } + [0, 0]
 def ususCode = ususParts[0] * 10000 + ususParts[1] * 100 + ususParts[2]
+// Beta (USUS_BETA=1): otra app (io.github.oluengo.usus.beta), versión 2.6.0-beta.N y código 20600·1000 + N.
+def ususBeta = System.getenv('USUS_BETA') == '1'
+def ususBetaN = (System.getenv('USUS_BETA_N') ?: '0') as int
 
 // Firma: desde variables de entorno (secretos de GitHub). Sin ellas, la versión release sale sin firmar.
 def ksFile = System.getenv('USUS_KEYSTORE') ?: ''
@@ -13,11 +16,11 @@ android {
     namespace = "io.github.oluengo.usus"
     compileSdk = rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "io.github.oluengo.usus"
+        applicationId ususBeta ? "io.github.oluengo.usus.beta" : "io.github.oluengo.usus"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode ususCode
-        versionName ususVersion
+        versionCode ususBeta ? ususCode * 1000 + (ususBetaN % 1000) : ususCode
+        versionName ususBeta ? "${ususVersion}-beta.${ususBetaN}" : ususVersion
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
              // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.

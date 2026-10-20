@@ -1,0 +1,4380 @@
+# Usus · English
+# Este archivo se traduce en Weblate o a mano. Licencia MIT, como la app.
+msgid ""
+msgstr ""
+"Project-Id-Version: Usus\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: en\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "¿Borrar este registro de peso?"
+msgstr "Delete this weight entry?"
+
+msgid "¿Borrar los datos para el análisis? El resto de datos no se toca."
+msgstr "Delete the analysis data? Nothing else is touched."
+
+msgid "¿Cómo quieres empezar?"
+msgstr "How do you want to start?"
+
+msgid "¿Consolidar antes?"
+msgstr "Consolidate first?"
+
+msgid "¿Cuántas te quedaban?"
+msgstr "How many were left in the tank?"
+
+msgid "¿Cuánto más habrías aguantado?"
+msgstr "How much longer could you have held?"
+
+msgid "¿Cuánto te ha costado?"
+msgstr "How hard was it?"
+
+msgid "¿Descartar la sesión en curso? Se perderán los datos."
+msgstr "Discard the current session? Its data will be lost."
+
+#, python-brace-format
+msgid "¿Eliminar el plan «{x}»? Tus rutinas y sesiones no se tocan."
+msgstr "Delete the plan “{x}”? Your routines and sessions aren't touched."
+
+msgid "¿Eliminar el plan? Tus rutinas y sesiones no se tocan."
+msgstr "Delete the plan? Your routines and sessions are not affected."
+
+msgid "¿Eliminar esta actividad?"
+msgstr "Delete this activity?"
+
+msgid "¿Eliminar esta rutina? Las sesiones registradas se conservan."
+msgstr "Delete this routine? Logged sessions are kept."
+
+msgid "¿Eliminar esta sesión? No se puede deshacer."
+msgstr "Delete this session? This can't be undone."
+
+msgid "¿Eliminar este suplemento? Su historial también se dejará de mostrar."
+msgstr "Delete this supplement? Its history will no longer be shown either."
+
+msgid "¿Hacer descarga esta semana? Hasta el domingo solo se sugieren las rutinas de todas las semanas, y el plan no avanza."
+msgstr "Make this a deload week? Until Sunday only every-week routines are suggested, and the plan doesn't move on."
+
+msgid "¿Has notado la vibración?"
+msgstr "Did you feel the vibration?"
+
+msgid "¿Has oído 3 pitidos y notado la vibración?"
+msgstr "Did you hear 3 beeps and feel the vibration?"
+
+msgid "¿Has oído 3 pitidos?"
+msgstr "Did you hear 3 beeps?"
+
+msgid "¿Le puede servir a alguien? Envíale el enlace."
+msgstr "Could it help someone? Send them the link."
+
+#, python-brace-format
+msgid "¿Pasar igualmente a {x}? Las series pendientes quedan sin hacer."
+msgstr "Move on to {x} anyway? Pending sets stay undone."
+
+#, python-brace-format
+msgid "¿Quitar \"{x}\" de la sesión?"
+msgstr "Remove \"{x}\" from the session?"
+
+msgid "¿Quitar la regla que empieza este día?"
+msgstr "Remove the period that starts on this day?"
+
+#, python-brace-format
+msgid "¿Quitar la sección «{x}»? Los ejercicios se quedan en la rutina."
+msgstr "Remove the section “{x}”? The exercises stay in the routine."
+
+#, python-brace-format
+msgid "¿Quitar la sección «{x}»? Sus ejercicios pasan a «{y}»."
+msgstr "Remove the section “{x}”? Its exercises move to “{y}”."
+
+#, python-brace-format
+msgid "¿Terminar y guardar igualmente? Se guardan solo las series hechas ({n} pendientes en total)."
+msgstr "Finish and save anyway? Only completed sets are saved ({n} pending in total)."
+
+msgid "«Añadir app» y pega el enlace:"
+msgstr "“Add app” and paste the link:"
+
+msgid "«Ejercicio hecho» bien visible, con el descanso que viene y el botón al siguiente."
+msgstr "A clearly visible “Exercise done” card with the upcoming rest and a button to the next one."
+
+msgid "«Notas del periodo» en todas las pestañas de Stats, y las notas de cada ejercicio en su historial."
+msgstr "“Notes for the period” in every Stats tab, and each exercise's notes in its history."
+
+msgid "(copia)"
+msgstr "(copy)"
+
+#, python-brace-format
+msgid "{a} de {b} revisados"
+msgstr "{a} of {b} reviewed"
+
+#, python-brace-format
+msgid "{d} · {e} ejercicios · {s} series"
+msgstr "{d} · {e} exercises · {s} sets"
+
+#, python-brace-format
+msgid "{e} ejercicios · {s} series"
+msgstr "{e} exercises · {s} sets"
+
+#, python-brace-format
+msgid "{n} año"
+msgid_plural "{n} años"
+msgstr[0] "{n} year"
+msgstr[1] "{n} years"
+
+#, python-brace-format
+msgid "{n} año"
+msgstr "{n} year"
+
+#, python-brace-format
+msgid "{n} de {m} seleccionadas"
+msgstr "{n} of {m} selected"
+
+#, python-brace-format
+msgid "{n} de {m} seleccionadas · sin tus sesiones ni registros."
+msgstr "{n} of {m} selected · without your sessions or logs."
+
+#, python-brace-format
+msgid "{n} de {n} series"
+msgstr "{n} of {n} sets"
+
+#, python-brace-format
+msgid "{n} ejercicio"
+msgid_plural "{n} ejercicios"
+msgstr[0] "{n} exercise"
+msgstr[1] "{n} exercises"
+
+#, python-brace-format
+msgid "{n} ejercicio"
+msgstr "{n} exercise"
+
+#, python-brace-format
+msgid "{n} ejercicios · ≈ {m} min"
+msgstr "{n} exercises · ≈ {m} min"
+
+#, python-brace-format
+msgid "{n} ejercicios con ficha y progresión"
+msgstr "{n} exercises with card and progression"
+
+#, python-brace-format
+msgid "{n} hojas"
+msgstr "{n} sheets"
+
+#, python-brace-format
+msgid "{n} líneas · {k} KB · {w}"
+msgstr "{n} lines · {k} KB · {w}"
+
+#, python-brace-format
+msgid "{n} marcados"
+msgstr "{n} selected"
+
+#, python-brace-format
+msgid "{n} noches registradas en {d} días."
+msgstr "{n} nights logged in {d} days."
+
+#, python-brace-format
+msgid "{n} rutina"
+msgid_plural "{n} rutinas"
+msgstr[0] "{n} routine"
+msgstr[1] "{n} routines"
+
+#, python-brace-format
+msgid "{n} rutina"
+msgstr "{n} routine"
+
+#, python-brace-format
+msgid "{n} rutina se parece mucho a una tuya: se añade igualmente."
+msgid_plural "{n} rutinas se parecen mucho a otras tuyas: se añaden igualmente."
+msgstr[0] "{n} routine is very similar to one of yours: added anyway."
+msgstr[1] "{n} routines are very similar to yours: added anyway."
+
+#, python-brace-format
+msgid "{n} rutina se parece mucho a una tuya: se añade igualmente."
+msgstr "{n} routine is very similar to one of yours: added anyway."
+
+#, python-brace-format
+msgid "{n} rutina ya la tienes igual: no se duplica."
+msgid_plural "{n} rutinas ya las tienes iguales: no se duplican."
+msgstr[0] "{n} routine you already have: not duplicated."
+msgstr[1] "{n} routines you already have: not duplicated."
+
+#, python-brace-format
+msgid "{n} rutina ya la tienes igual: no se duplica."
+msgstr "{n} routine you already have: not duplicated."
+
+#, python-brace-format
+msgid "{n} rutinas actualizadas"
+msgstr "{n} routines updated"
+
+#, python-brace-format
+msgid "{n} rutinas copiadas a {x}"
+msgstr "{n} routines copied to {x}"
+
+#, python-brace-format
+msgid "{n} s entre vueltas"
+msgstr "{n} s between rounds"
+
+#, python-brace-format
+msgid "{n} sem."
+msgstr "{n} wk"
+
+#, python-brace-format
+msgid "{n} semana"
+msgid_plural "{n} semanas"
+msgstr[0] "{n} week"
+msgstr[1] "{n} weeks"
+
+#, python-brace-format
+msgid "{n} semana"
+msgstr "{n} week"
+
+#, python-brace-format
+msgid "{n} semanas"
+msgstr "{n} weeks"
+
+#, python-brace-format
+msgid "{n} sesión"
+msgid_plural "{n} sesiones"
+msgstr[0] "{n} session"
+msgstr[1] "{n} sessions"
+
+#, python-brace-format
+msgid "{n} sesión"
+msgstr "{n} session"
+
+#, python-brace-format
+msgid "{n} sesiones"
+msgstr "{n} sessions"
+
+#, python-brace-format
+msgid "{n} usos"
+msgstr "{n} uses"
+
+#, python-brace-format
+msgid "{n} vueltas"
+msgstr "{n} rounds"
+
+#, python-brace-format
+msgid "{x} en lugar de {y}."
+msgstr "{x} instead of {y}."
+
+#, python-brace-format
+msgid "{x} hecho"
+msgstr "{x} done"
+
+#, python-brace-format
+msgid "{x}: objetivo cumplido {n} sesiones seguidas."
+msgstr "{x}: target hit {n} sessions in a row."
+
+#, python-brace-format
+msgid "{x}: por debajo del {p} % del objetivo {n} sesiones seguidas."
+msgstr "{x}: below {p}% of the target {n} sessions in a row."
+
+msgid "% = última sesión sobre el objetivo de la rutina. Flecha = respecto a la sesión anterior. Toca para ver el gráfico."
+msgstr "% = last session against the routine target. Arrow = compared with the previous session. Tap to see the chart."
+
+msgid "↑ = subir reps · barra = días de fuerza hechos"
+msgstr "↑ = add reps · bar = strength days done"
+
+msgid "+1 repetición por serie (+5 s)"
+msgstr "+1 rep per set (+5 s)"
+
+msgid "+1 serie"
+msgstr "+1 set"
+
+msgid "+2 repeticiones por serie (+10 s)"
+msgstr "+2 reps per set (+10 s)"
+
+msgid "0 = sin descarga. En descarga solo se sugieren rutinas sin variante."
+msgstr "0 = no deload. During deload only routines without a variant are suggested."
+
+msgid "1 Datos"
+msgstr "1 Data"
+
+#, python-brace-format
+msgid "1 ejercicio · ≈ {m} min"
+msgstr "1 exercise · ≈ {m} min"
+
+msgid "1 hoja"
+msgstr "1 sheet"
+
+msgid "1 rutina actualizada"
+msgstr "1 routine updated"
+
+msgid "1 uso"
+msgstr "1 use"
+
+msgid "15 s o más"
+msgstr "15 s or more"
+
+msgid "1RM estimado"
+msgstr "Estimated 1RM"
+
+msgid "1RM estimado (fórmula de Epley) por sesión"
+msgstr "Estimated 1RM (Epley formula) per session"
+
+msgid "2 ejercicios por hoja"
+msgstr "2 exercises per sheet"
+
+msgid "2 Exportar"
+msgstr "2 Export"
+
+msgid "30 días"
+msgstr "30 days"
+
+msgid "4 o más"
+msgstr "4 or more"
+
+msgid "4 semanas"
+msgstr "4 weeks"
+
+msgid "A, B… = orden. A1, A2 = superserie o circuito: se hacen seguidos y se repite la vuelta."
+msgstr "A, B… = order. A1, A2 = superset or circuit: done back to back, then the round repeats."
+
+msgid "Abrir"
+msgstr "Open"
+
+msgid "Abrir en el Diario"
+msgstr "Open in Diary"
+
+msgid "Abrir GitHub"
+msgstr "Open GitHub"
+
+msgid "Abundante"
+msgstr "Heavy"
+
+#, python-brace-format
+msgid "Aceptar las {n} propuestas"
+msgstr "Accept the {n} suggestions"
+
+msgid "Acerca de"
+msgstr "About"
+
+msgid "Acné"
+msgstr "Acne"
+
+msgid "Acostarse"
+msgstr "Bedtime"
+
+msgid "Acostarse típico"
+msgstr "Typical bedtime"
+
+msgid "Activa «Preguntar el esfuerzo al terminar» en Ajustes → Entreno."
+msgstr "Turn on “Ask for effort at the end” in Settings → Workout."
+
+msgid "Activar"
+msgstr "Activate"
+
+msgid "Actividad"
+msgstr "Activity"
+
+msgid "Actividad eliminada"
+msgstr "Activity deleted"
+
+msgid "Actividad guardada"
+msgstr "Activity saved"
+
+msgid "Actividad por semana"
+msgstr "Activity per week"
+
+msgid "Activo"
+msgstr "Active"
+
+msgid "actual"
+msgstr "current"
+
+msgid "Actualizaciones"
+msgstr "Updates"
+
+msgid "Actualizar"
+msgstr "Update"
+
+msgid "Agrupar"
+msgstr "Group"
+
+msgid "ahora"
+msgstr "now"
+
+msgid "Ahora"
+msgstr "Now"
+
+msgid "Ahora no"
+msgstr "Not now"
+
+msgid "Ajustes"
+msgstr "Settings"
+
+msgid "Ajustes → Acerca de: código fuente e informar de problemas o proponer mejoras en GitHub."
+msgstr "Settings → About: source code, and report problems or suggest improvements on GitHub."
+
+msgid "Ajustes → App → Acerca de: «Hecha con IA · probada por humanos»."
+msgstr "Settings → App → About: “Built with AI · tested by humans”."
+
+msgid "Ajustes en grupos, cada uno con su pantalla: Perfil, Entreno, Avisos, Apariencia e idioma, Datos y copias, y Acerca de. Interruptores para activar opciones."
+msgstr "Settings in groups, each with its own screen: Profile, Workout, Alerts, Appearance and language, Data and backups, and About. Switches to turn options on."
+
+msgid "Ajustes reorganizado en pestañas: Entreno, Cuerpo, App y Datos. El perfil queda arriba; para cambiar o añadir perfiles, botón «Perfiles»."
+msgstr "Settings reorganised into tabs: Workout, Body, App and Data. Your profile stays on top; to switch or add profiles, use the “Profiles” button."
+
+msgid "Al actualizar se cambian los ejercicios; el nombre, los días, la variante y tus sesiones no se tocan."
+msgstr "Updating changes the exercises; the name, days, variant and your sessions aren't touched."
+
+msgid "Al cambiar de perfil te quedas en la misma pantalla (por ejemplo, Ajustes) en vez de volver a Hoy."
+msgstr "Switching profile keeps you on the same screen (for example, Settings) instead of going back to Today."
+
+msgid "Al crearlo eliges qué rutinas van en cada variante y qué días tocan."
+msgstr "When you create it, you choose which routines go in each variant and on which days."
+
+msgid "Al terminar (s)"
+msgstr "After (s)"
+
+msgid "Al terminar cada sesión, solo en ejercicios del catálogo"
+msgstr "After each session, only for catalogue exercises"
+
+msgid "Al vincular un nombre como «Fondos (bajada 3 s)», lo que va entre paréntesis pasa a ser la técnica."
+msgstr "When linking a name like “Dips (3 s lowering)”, the part in brackets becomes the technique."
+
+msgid "Algo exigente"
+msgstr "Somewhat hard"
+
+msgid "Algo no funciona como debería"
+msgstr "Something isn't working as it should"
+
+msgid "Alternativas"
+msgstr "Alternatives"
+
+msgid "Altura (cm)"
+msgstr "Height (cm)"
+
+msgid "analisis"
+msgstr "analysis"
+
+msgid "Analizar con IA externa"
+msgstr "Analyse with external AI"
+
+msgid "Analizar con IA externa (Stats → Resumen): Usus prepara un texto con tus datos y las instrucciones para que la IA que uses (ChatGPT, Claude, Gemini…) haga un informe con gráficos, listo para imprimir en A4. Usus no envía nada."
+msgstr "Analyse with external AI (Stats → Summary): Usus prepares a text with your data and instructions for the AI you use (ChatGPT, Claude, Gemini…) to write a report with charts, ready to print on A4. Usus sends nothing."
+
+msgid "Android (Chrome): menú ⋮ → «Instalar aplicación» o «Añadir a pantalla de inicio»."
+msgstr "Android (Chrome): ⋮ menu → “Install app” or “Add to Home screen”."
+
+msgid "Android, como app (APK):"
+msgstr "Android, as an app (APK):"
+
+msgid "Anillas"
+msgstr "Rings"
+
+msgid "Ánimo bajo"
+msgstr "Low mood"
+
+msgid "Anota tus pasos en Diario → Pasos para verlos aquí."
+msgstr "Log your steps in Diary → Steps to see them here."
+
+msgid "Anotar"
+msgstr "Log"
+
+msgid "Anteayer"
+msgstr "2 days ago"
+
+msgid "Anterior"
+msgstr "Previous"
+
+msgid "antes"
+msgstr "before"
+
+msgid "Antes de añadir otro perfil, completa el tuyo. Tus datos no cambian."
+msgstr "Before adding another profile, complete yours. Your data doesn't change."
+
+msgid "Antes de empezar:"
+msgstr "Before you start:"
+
+msgid "Antes de una serie por tiempo que empiezas tú"
+msgstr "Before a timed set you start yourself"
+
+msgid "Anticonceptivo hormonal"
+msgstr "Hormonal contraception"
+
+msgid "Antojos"
+msgstr "Cravings"
+
+msgid "Añade al menos una fase con variante"
+msgstr "Add at least one phase with a variant"
+
+msgid "Añade al menos una fase con variante y semanas."
+msgstr "Add at least one phase with a variant and weeks."
+
+msgid "Añade tus suplementos en Diario → Gestionar."
+msgstr "Add your supplements in Diary → Manage."
+
+#, python-brace-format
+msgid "Añadidas {n} rutinas"
+msgstr "Added {n} routines"
+
+msgid "Añadido"
+msgstr "Added"
+
+#, python-brace-format
+msgid "Añadido a «{x}»"
+msgstr "Added to “{x}”"
+
+msgid "Añadiendo aquí"
+msgstr "Adding here"
+
+msgid "Añadir"
+msgstr "Add"
+
+msgid "Añadir a este día"
+msgstr "Add to this day"
+
+msgid "Añadir a una rutina"
+msgstr "Add to a routine"
+
+msgid "Añadir aquí"
+msgstr "Add here"
+
+msgid "Añadir como nueva"
+msgstr "Add as new"
+
+msgid "Añadir del catálogo"
+msgstr "Add from catalogue"
+
+msgid "Añadir ejercicio"
+msgstr "Add exercise"
+
+msgid "Añadir el plan de progresión"
+msgstr "Add the progression plan"
+
+msgid "Añadir fase"
+msgstr "Add phase"
+
+msgid "Añadir perfil"
+msgstr "Add profile"
+
+msgid "Añadir rutina"
+msgstr "Add routine"
+
+#, python-brace-format
+msgid "Añadir rutina a la variante {v}"
+msgstr "Add routine to variant {v}"
+
+msgid "Añadir rutina para todas las semanas"
+msgstr "Add routine for every week"
+
+msgid "Añadir serie"
+msgstr "Add set"
+
+msgid "Añadir suplemento"
+msgstr "Add supplement"
+
+msgid "Apariencia"
+msgstr "Appearance"
+
+msgid "Apariencia e idioma"
+msgstr "Appearance and language"
+
+msgid "Aplazado a mañana"
+msgstr "Moved to tomorrow"
+
+msgid "Aplazar a mañana"
+msgstr "Move to tomorrow"
+
+msgid "Apoyar el proyecto"
+msgstr "Support the project"
+
+msgid "App Android"
+msgstr "Android app"
+
+msgid "App Android: Ajustes → App → Actualizaciones, con la versión instalada, el enlace a las versiones y cómo recibir avisos con Obtainium."
+msgstr "Android app: Settings → App → Updates, with the installed version, a link to releases and how to get alerts with Obtainium."
+
+msgid "App gratuita que vigila GitHub y te avisa o instala cada versión nueva. Es opcional."
+msgstr "A free app that watches GitHub and notifies you or installs each new version. Optional."
+
+msgid "App instalada"
+msgstr "App installed"
+
+msgid "Archivo"
+msgstr "File"
+
+msgid "Archivo guardado"
+msgstr "File saved"
+
+msgid "Arrastrar"
+msgstr "Drag"
+
+msgid "Arreglo: al añadir un plan recibido se conserva su regla de subida, y el plan activo anterior queda guardado en Mis planes."
+msgstr "Fix: adding a received plan keeps its progression rule, and the previous active plan is saved in My plans."
+
+msgid "Atrás"
+msgstr "Back"
+
+msgid "Aún no ha empezado"
+msgstr "Not started yet"
+
+msgid "Aún no has hecho ninguna copia."
+msgstr "You haven't made a backup yet."
+
+msgid "Aún no hay objetivos. Fija los de fuerza y diaria en Ajustes, y los de distancia y pasos en Actividad → Unidad y objetivos."
+msgstr "No goals yet. Set strength and daily goals in Settings, and distance and steps in Activity → Unit and goals."
+
+msgid "Aún no hay récords en los últimos 60 días. Aparecen solos al superar tu mejor marca."
+msgstr "No records in the last 60 days yet. They appear automatically when you beat your best."
+
+msgid "Aún no hay sesiones con esfuerzo (PEM). Se pregunta al terminar cada sesión."
+msgstr "No sessions with effort (RPE) yet. It's asked at the end of each session."
+
+msgid "Aún no tienes rutinas."
+msgstr "You have no routines yet."
+
+msgid "Aún no tienes rutinas. Créalas en Biblioteca → Rutinas y vuelve aquí."
+msgstr "You have no routines yet. Create them in Library → Routines and come back here."
+
+msgid "Aún no tienes suplementos. Añádelos con Gestionar."
+msgstr "No supplements yet. Add them with Manage."
+
+msgid "Automático"
+msgstr "Automatic"
+
+msgid "Avanzado (más de 5 años o competición)"
+msgstr "Advanced (over 5 years or competing)"
+
+msgid "Aviso"
+msgstr "Notice"
+
+#, python-brace-format
+msgid "Aviso {n} días antes"
+msgstr "Notice {n} days before"
+
+msgid "Aviso en Hoy antes de la regla prevista"
+msgstr "Notice in Today before the expected period"
+
+msgid "Aviso en Hoy hasta que lo anotes esa semana"
+msgstr "A reminder in Today until you log it that week"
+
+msgid "Aviso final (s)"
+msgstr "Final warning (s)"
+
+#, python-brace-format
+msgid "Aviso final: {n} s"
+msgstr "Final warning: {n} s"
+
+msgid "Avisos"
+msgstr "Alerts"
+
+msgid "Avisos automáticos con Obtainium"
+msgstr "Automatic alerts with Obtainium"
+
+msgid "Avisos de sonido más suaves."
+msgstr "Softer sound alerts."
+
+msgid "Avisos desactivados"
+msgstr "Alerts are off"
+
+msgid "Avisos durante el entreno"
+msgstr "Alerts during training"
+
+msgid "Avisos durante el entreno en Ajustes → App: sonido y vibración, solo sonido, solo vibración o desactivados, con botón para probar."
+msgstr "Training alerts in Settings → App: sound and vibration, sound only, vibration only or off, with a test button."
+
+msgid "Ayer"
+msgstr "Yesterday"
+
+msgid "Bajar"
+msgstr "Move down"
+
+#, python-brace-format
+msgid "Bajar {x}"
+msgstr "Move {x} down"
+
+msgid "Bajar sección"
+msgstr "Move section down"
+
+msgid "Banda elástica"
+msgstr "Resistance band"
+
+msgid "Barra"
+msgstr "Bar"
+
+msgid "Barras = nivel dentro de su progresión (1 fácil, 5 difícil). Iconos = material; en naranja, lo que no tienes marcado en Ajustes → Entreno."
+msgstr "Bars = level within its progression (1 easy, 5 hard). Icons = equipment; in orange, what you haven't ticked in Settings → Workout."
+
+msgid "Básico (6 meses–2 años)"
+msgstr "Basic (6 months–2 years)"
+
+msgid "Bastante duro"
+msgstr "Quite hard"
+
+msgid "Biblioteca"
+msgstr "Library"
+
+msgid "Bienvenido a Usus"
+msgstr "Welcome to Usus"
+
+msgid "Bitcoin"
+msgstr "Bitcoin"
+
+msgid "Borrar datos del ciclo"
+msgstr "Delete cycle data"
+
+msgid "Borrar estos datos"
+msgstr "Delete this data"
+
+#, python-brace-format
+msgid "Borrar perfil «{x}»"
+msgstr "Delete profile “{x}”"
+
+msgid "Borrar registro"
+msgstr "Delete entry"
+
+msgid "Borrar todos los datos"
+msgstr "Delete all data"
+
+msgid "Brazos"
+msgstr "Arms"
+
+msgid "Buscar (también en inglés o por alias)"
+msgstr "Search (also in Spanish or by alias)"
+
+msgid "Buscar ejercicio"
+msgstr "Search exercise"
+
+msgid "Buscar en el catálogo"
+msgstr "Search the catalogue"
+
+msgid "Cada (semanas de entreno)"
+msgstr "Every (training weeks)"
+
+msgid "Cada perfil decide. Se puede cambiar en Ajustes → App."
+msgstr "Each profile decides. You can change it in Settings → App."
+
+msgid "Cada perfil tiene sus propios datos y ajustes."
+msgstr "Each profile has its own data and settings."
+
+msgid "Caja / banco"
+msgstr "Box / bench"
+
+msgid "Calendario"
+msgstr "Calendar"
+
+msgid "Calendario de las últimas 12 semanas"
+msgstr "Calendar of the last 12 weeks"
+
+msgid "Calentamiento"
+msgstr "Warm-up"
+
+msgid "Calidad"
+msgstr "Quality"
+
+msgid "Cambia de lado"
+msgstr "Switch sides"
+
+msgid "Cambiado solo en esta sesión"
+msgstr "Swapped for this session only"
+
+msgid "Cambiado también en la rutina"
+msgstr "Also changed in the routine"
+
+msgid "Cambiar"
+msgstr "Switch"
+
+msgid "Cambiar de perfil"
+msgstr "Switch profile"
+
+msgid "Cambiar ejercicio"
+msgstr "Swap exercise"
+
+msgid "Cambiar en la rutina"
+msgstr "Change in routine"
+
+msgid "Cambiar entre repeticiones y segundos"
+msgstr "Switch between reps and seconds"
+
+msgid "Cambiar también en la rutina"
+msgstr "Also change in the routine"
+
+msgid "Cambiar un ejercicio solo en la sesión (⇄): las series cuentan para el que haces y al terminar puedes pasarlo también a la rutina."
+msgstr "Swap an exercise for this session only (⇄): sets count for the one you do, and at the end you can also change it in the routine."
+
+#, python-brace-format
+msgid "Cambiaste {n} ejercicios"
+msgstr "You swapped {n} exercises"
+
+msgid "Cambiaste 1 ejercicio"
+msgstr "You swapped 1 exercise"
+
+msgid "Cambio de ejercicio"
+msgstr "Next exercise"
+
+msgid "Cambio de lado (s)"
+msgstr "Side switch (s)"
+
+#, python-brace-format
+msgid "Cambio de lado: {n} s"
+msgstr "Side switch: {n} s"
+
+msgid "Cambios deshechos"
+msgstr "Changes undone"
+
+msgid "Cambios deshechos. Tus rutinas están como antes."
+msgstr "Changes undone. Your routines are as before."
+
+msgid "Cancelar"
+msgstr "Cancel"
+
+msgid "Cansado"
+msgstr "Tired"
+
+msgid "Cansancio"
+msgstr "Tiredness"
+
+msgid "Cantidad"
+msgstr "Amount"
+
+msgid "Cardio"
+msgstr "Cardio"
+
+msgid "Carga semanal"
+msgstr "Weekly load"
+
+#, python-brace-format
+msgid "Carga: {m} min × {p} = {c}"
+msgstr "Load: {m} min × {p} = {c}"
+
+msgid "Cargando…"
+msgstr "Loading…"
+
+msgid "Casi al límite"
+msgstr "Near maximal"
+
+msgid "Catálogo"
+msgstr "Catalogue"
+
+msgid "Catálogo activado"
+msgstr "Catalogue on"
+
+msgid "Catálogo de ejercicios"
+msgstr "Exercise catalogue"
+
+msgid "Catálogo de ejercicios opcional: cada perfil decide si lo usa. Fichas con para qué sirve, cómo se hace, errores, material y progresión. Rutinas → Ejercicios, y al añadir ejercicios a una rutina o a la sesión."
+msgstr "Optional exercise catalogue: each profile decides whether to use it. Cards with what it's for, how to do it, mistakes, equipment and progression. Routines → Exercises, and when adding exercises to a routine or session."
+
+msgid "Catálogo desactivado"
+msgstr "Catalogue off"
+
+msgid "Cerrar"
+msgstr "Close"
+
+msgid "Ciclo"
+msgstr "Cycle"
+
+msgid "Ciclo (reglas y síntomas)"
+msgstr "Cycle (periods and symptoms)"
+
+msgid "Ciclos irregulares: la estimación es menos fiable."
+msgstr "Irregular cycles: the estimate is less reliable."
+
+msgid "Ciclos registrados"
+msgstr "Cycles logged"
+
+msgid "Circuito"
+msgstr "Circuit"
+
+msgid "Claro"
+msgstr "Light"
+
+msgid "Código fuente"
+msgstr "Source code"
+
+msgid "Color"
+msgstr "Colour"
+
+msgid "Cómo ha ido, molestias, cambios…"
+msgstr "How it went, aches, changes…"
+
+msgid "Cómo ha ido, por qué no se ha podido entrenar, molestias…"
+msgstr "How it went, why you couldn't train, aches…"
+
+msgid "Cómo se calcula"
+msgstr "How it's calculated"
+
+msgid "Cómo se hace"
+msgstr "How to do it"
+
+msgid "Cómodo de principio a fin."
+msgstr "Comfortable from start to finish."
+
+msgid "Compartir"
+msgstr "Share"
+
+msgid "Compartir entreno"
+msgstr "Share workout"
+
+msgid "Compartir rutinas"
+msgstr "Share routines"
+
+msgid "Compartir Usus"
+msgstr "Share Usus"
+
+msgid "Compartir: la app desde Ajustes, un entreno como imagen o texto (al terminar o desde el Diario) y tus rutinas o el programa entero con su plan, por enlace o archivo. Quien abre el enlace elige qué añadir. Nada pasa por ningún servidor."
+msgstr "Sharing: the app from Settings, a workout as an image or text (when you finish or from the Diary) and your routines or whole programme with its plan, by link or file. Whoever opens the link chooses what to add. Nothing goes through any server."
+
+msgid "Completa tu primera sesión para ver tu progreso."
+msgstr "Complete your first session to see your progress."
+
+msgid "completada"
+msgstr "done"
+
+#, python-brace-format
+msgid "Completar serie {n}"
+msgstr "Complete set {n}"
+
+msgid "Comprobar que el APK es original"
+msgstr "Check that the APK is genuine"
+
+msgid "Con dos reglas registradas verás aquí la duración de cada ciclo."
+msgstr "Once two periods are logged you'll see each cycle's length here."
+
+msgid "Con embarazo, lactancia, anticonceptivos hormonales o en la perimenopausia el ciclo cambia o desaparece, y una previsión basada en ciclos anteriores no sería fiable. En pausa puedes seguir anotando sangrado y síntomas."
+msgstr "With pregnancy, breastfeeding, hormonal contraception or perimenopause the cycle changes or stops, so a forecast based on previous cycles wouldn't be reliable. While paused you can still log bleeding and symptoms."
+
+msgid "Con fuerza"
+msgstr "With strength"
+
+msgid "con lastre"
+msgstr "weighted"
+
+msgid "Con nota"
+msgstr "With a note"
+
+msgid "Condiciones de salud relevantes"
+msgstr "Relevant health conditions"
+
+msgid "Conseguido"
+msgstr "Reached"
+
+msgid "Constancia"
+msgstr "Consistency"
+
+msgid "Constancia · 12 semanas"
+msgstr "Consistency · 12 weeks"
+
+msgid "Constancia marca aparte los días con «No entrené»."
+msgstr "Consistency shows “Didn't train” days separately."
+
+msgid "Continuar"
+msgstr "Continue"
+
+msgid "copia"
+msgstr "backup"
+
+msgid "Copia completa"
+msgstr "Full backup"
+
+msgid "Copia completa o solo rutinas. Se combina con lo existente; los duplicados se actualizan."
+msgstr "Full backup or routines only. Merged with existing data; duplicates are updated."
+
+#, python-brace-format
+msgid "Copia de {x}"
+msgstr "Copy of {x}"
+
+msgid "Copia de seguridad"
+msgstr "Backup"
+
+msgid "Copiado"
+msgstr "Copied"
+
+msgid "Copiado. Pégalo donde quieras."
+msgstr "Copied. Paste it wherever you like."
+
+msgid "Copiar"
+msgstr "Copy"
+
+#, python-brace-format
+msgid "Copiar dirección {x}"
+msgstr "Copy {x} address"
+
+msgid "Copiar enlace"
+msgstr "Copy link"
+
+msgid "Copiar rutinas a otro perfil"
+msgstr "Copy routines to another profile"
+
+#, python-brace-format
+msgid "Copiar rutinas de {x}"
+msgstr "Copy routines from {x}"
+
+msgid "Core"
+msgstr "Core"
+
+msgid "Crea una rutina con sus ejercicios, series y repeticiones objetivo."
+msgstr "Create a routine with its exercises, sets and target reps."
+
+#, python-brace-format
+msgid "Crear «{x}» como ejercicio propio"
+msgstr "Create “{x}” as your own exercise"
+
+msgid "Crear ejercicio propio"
+msgstr "Create your own exercise"
+
+msgid "Crear mi primera rutina"
+msgstr "Create my first routine"
+
+msgid "Crear perfil"
+msgstr "Create profile"
+
+msgid "Crear plan"
+msgstr "Create plan"
+
+msgid "Cuándo"
+msgstr "When"
+
+msgid "Cuando la IA responda"
+msgstr "When the AI replies"
+
+msgid "Cuenta atrás"
+msgstr "Countdown"
+
+msgid "Cuenta atrás rehecha desde cero con cinco tramos y una regla para cada uno: preparación, serie, cambio de lado (ahora ajustable), descanso entre series y entre ejercicios. Al acabar un descanso, si sigue una serie por tiempo con inicio automático, empieza sola sin otra cuenta atrás; si no, espera."
+msgstr "Countdown rebuilt from scratch with five stages and one rule each: get-ready, set, side switch (now adjustable), rest between sets and between exercises. When a rest ends, if a timed set with auto start follows, it starts right away with no extra countdown; otherwise it waits."
+
+msgid "Cuerpo"
+msgstr "Body"
+
+msgid "Cuesta, pero lo controlas bien."
+msgstr "It's tough, but well under control."
+
+msgid "d"
+msgstr "d"
+
+msgid "D"
+msgstr "S"
+
+msgid "datos"
+msgstr "data"
+
+msgid "Datos"
+msgstr "Data"
+
+msgid "Datos borrados"
+msgstr "Data deleted"
+
+msgid "Datos del ciclo borrados"
+msgstr "Cycle data deleted"
+
+msgid "Datos en CSV"
+msgstr "Data as CSV"
+
+msgid "Datos en CSV (Ajustes → Datos): un .zip con una tabla por tipo de dato para analizarlos en una hoja de cálculo."
+msgstr "Data as CSV (Settings → Data): a .zip with one table per data type to analyse in a spreadsheet."
+
+msgid "Datos guardados solo en este dispositivo. Haz copias desde Ajustes."
+msgstr "Data saved only on this device. Make backups from Settings."
+
+msgid "Datos importados"
+msgstr "Data imported"
+
+msgid "Datos para el análisis: edad, altura, experiencia, lesiones, molestias y objetivos, opcionales. Solo se guardan si quieres (Ajustes → Cuerpo)."
+msgstr "Data for the analysis: age, height, experience, injuries, discomfort and goals, all optional. Only saved if you want (Settings → Body)."
+
+msgid "Datos personales"
+msgstr "Personal details"
+
+msgid "Datos y copias"
+msgstr "Data and backups"
+
+#, python-brace-format
+msgid "de ~{n}"
+msgstr "of ~{n}"
+
+msgid "deben estar en la misma sección"
+msgstr "they must be in the same section"
+
+msgid "Dejar como propio"
+msgstr "Keep as my own"
+
+msgid "der."
+msgstr "R"
+
+msgid "Derecho"
+msgstr "Right"
+
+msgid "Desactivado por defecto. Al activarlo aparece en Hoy, Diario y Progreso; desactivado no se ve nada."
+msgstr "Off by default. When on, it appears in Today, Diary and Progress; when off, nothing is shown."
+
+msgid "Desactivado: solo tus ejercicios"
+msgstr "Off: only your exercises"
+
+msgid "Desactivados"
+msgstr "Off"
+
+msgid "Desc."
+msgstr "Del."
+
+msgid "Descanso (s)"
+msgstr "Rest (s)"
+
+#, python-brace-format
+msgid "descanso {n} s"
+msgstr "rest {n} s"
+
+#, python-brace-format
+msgid "descanso {n} s antes del siguiente"
+msgstr "{n} s rest before the next one"
+
+msgid "Descanso al terminar (s)"
+msgstr "Rest after (s)"
+
+msgid "Descanso entre ejercicios"
+msgstr "Rest between exercises"
+
+msgid "Descanso entre ejercicios (s)"
+msgstr "Rest between exercises (s)"
+
+#, python-brace-format
+msgid "Descanso entre ejercicios: {n} s"
+msgstr "Rest between exercises: {n} s"
+
+msgid "Descanso entre series"
+msgstr "Rest between sets"
+
+msgid "Descanso entre series (s)"
+msgstr "Rest between sets (s)"
+
+msgid "Descanso entre vueltas"
+msgstr "Rest between rounds"
+
+msgid "Descanso entre vueltas (s)"
+msgstr "Rest between rounds (s)"
+
+#, python-brace-format
+msgid "Descanso por defecto: {n} s"
+msgstr "Default rest: {n} s"
+
+msgid "Descanso tras él (s)"
+msgstr "Rest after it (s)"
+
+msgid "Descarga"
+msgstr "Deload"
+
+#, python-brace-format
+msgid "descarga {w} sem. cada {e}"
+msgstr "deload {w} wk every {e}"
+
+msgid "Descarga esta semana"
+msgstr "Deload this week"
+
+msgid "Descargar"
+msgstr "Download"
+
+msgid "Descartar"
+msgstr "Discard"
+
+msgid "Desde"
+msgstr "From"
+
+#, python-brace-format
+msgid "desde el {d}"
+msgstr "from {d}"
+
+#, python-brace-format
+msgid "Desde el {d}"
+msgstr "From {d}"
+
+msgid "Desde el inicio"
+msgstr "Since start"
+
+msgid "desde esta semana"
+msgstr "from this week"
+
+msgid "desde la próxima"
+msgstr "from next week"
+
+msgid "Deshacer"
+msgstr "Undo"
+
+msgid "Desmarcar"
+msgstr "Clear"
+
+#, python-brace-format
+msgid "Después: {x}"
+msgstr "Then: {x}"
+
+msgid "Detalle"
+msgstr "Details"
+
+msgid "Detalle de la experiencia y otros deportes"
+msgstr "Experience details and other sports"
+
+#, python-brace-format
+msgid "Detalles de {x}"
+msgstr "Details of {x}"
+
+msgid "día"
+msgstr "day"
+
+#, python-brace-format
+msgid "Día {n}"
+msgstr "Day {n}"
+
+#, python-brace-format
+msgid "Día {n} del ciclo"
+msgstr "Cycle day {n}"
+
+msgid "Día anterior"
+msgstr "Previous day"
+
+msgid "Día de pesaje"
+msgstr "Weigh-in day"
+
+#, python-brace-format
+msgid "Día de pesaje: {d}"
+msgstr "Weigh-in day: {d}"
+
+msgid "Día siguiente"
+msgstr "Next day"
+
+msgid "Diaria"
+msgstr "Daily"
+
+msgid "Diaria / otras"
+msgstr "Daily / other"
+
+msgid "Diario"
+msgstr "Diary"
+
+msgid "Diario en filas: cada dato del día en una fila con su icono, detalle y valor (entreno primero); lo que falta, en «Añadir a este día». El peso se anota aquí."
+msgstr "Diary in rows: each item of the day in a row with its icon, detail and value (training first); anything missing goes under “Add to this day”. Weight is logged here."
+
+msgid "Diario: nota de la sesión y notas de cada ejercicio editables después de terminar."
+msgstr "Diary: session note and each exercise's note can be edited after finishing."
+
+msgid "días"
+msgstr "days"
+
+msgid "Días con Diaria"
+msgstr "Days with Daily"
+
+msgid "Días con fuerza"
+msgstr "Strength days"
+
+msgid "Días con objetivo"
+msgstr "Days on target"
+
+#, python-brace-format
+msgid "Días de {x}"
+msgstr "Days for {x}"
+
+msgid "Días de antelación"
+msgstr "Days before"
+
+msgid "Días en que se sugiere"
+msgstr "Days it's suggested"
+
+msgid "Días entrenados por semana"
+msgstr "Days trained per week"
+
+msgid "Días por semana (media)"
+msgstr "Days per week (average)"
+
+msgid "Días registrados"
+msgstr "Days logged"
+
+msgid "Días tomados en el periodo (o desde que lo añadiste)."
+msgstr "Days taken in the period (or since you added it)."
+
+msgid "Distancia"
+msgstr "Distance"
+
+#, python-brace-format
+msgid "Distancia ({u})"
+msgstr "Distance ({u})"
+
+#, python-brace-format
+msgid "Distancia por semana ({u})."
+msgstr "Distance per week ({u})."
+
+msgid "Distancia y tiempo"
+msgstr "Distance and time"
+
+msgid "Dividir en secciones"
+msgstr "Split into sections"
+
+msgid "Dolor"
+msgstr "Cramps"
+
+msgid "Dolor de cabeza"
+msgstr "Headache"
+
+msgid "Dolores o molestias actuales"
+msgstr "Current pain or discomfort"
+
+msgid "Dosis"
+msgstr "Dose"
+
+msgid "Duplicar"
+msgstr "Duplicate"
+
+msgid "Duplicar el activo"
+msgstr "Duplicate the active one"
+
+msgid "duración"
+msgstr "duration"
+
+msgid "Duración"
+msgstr "Duration"
+
+msgid "Duración del ciclo: media de los últimos 6 (28 días hasta tener 2 registrados). Regla prevista: último inicio + esa media, con un margen según lo que varían tus ciclos. Ovulación aproximada: 14 días antes de la regla siguiente. Ventana fértil: de 5 días antes a 1 día después de la ovulación."
+msgstr "Cycle length: average of the last 6 (28 days until 2 are logged). Expected period: last start + that average, with a margin based on how much your cycles vary. Approx. ovulation: 14 days before the next period. Fertile window: from 5 days before to 1 day after ovulation."
+
+msgid "Duración media de la regla"
+msgstr "Average period length"
+
+msgid "Duración media del ciclo"
+msgstr "Average cycle length"
+
+msgid "Duración y totales"
+msgstr "Duration and totals"
+
+msgid "Durísimo"
+msgstr "Extremely hard"
+
+msgid "Echar un vistazo"
+msgstr "Take a look around"
+
+msgid "Editar"
+msgstr "Edit"
+
+msgid "Editar perfil"
+msgstr "Edit profile"
+
+msgid "Editar plan"
+msgstr "Edit plan"
+
+msgid "Editar rutina"
+msgstr "Edit routine"
+
+msgid "Editor de rutina más compacto en el móvil: cada ejercicio en una fila con su resumen; los detalles se abren al tocarla."
+msgstr "More compact routine editor on phones: one row per exercise with its summary; tap it to open the details."
+
+msgid "Ej. 10 dominadas, perder 3 kg, dormir mejor"
+msgstr "E.g. 10 pull-ups, lose 3 kg, sleep better"
+
+msgid "Ej. 2 años de calistenia, antes fútbol"
+msgstr "E.g. 2 years of calisthenics, football before"
+
+msgid "Ej. A, B, C. Vacío = se sugiere en cualquier semana, también en descarga (como la Diaria)."
+msgstr "E.g. A, B, C. Empty = suggested in any week, including deload (like Daily)."
+
+msgid "Ej. asma, hipertensión, embarazo…"
+msgstr "E.g. asthma, high blood pressure, pregnancy…"
+
+msgid "Ej. bajada 3 s, pausa abajo, agarre ancho"
+msgstr "E.g. 3 s lowering, pause at the bottom, wide grip"
+
+msgid "Ej. Bloque fuerza otoño"
+msgstr "E.g. Autumn strength block"
+
+msgid "Ej. Cristina"
+msgstr "E.g. Cristina"
+
+msgid "Ej. lumbar al levantarme por la mañana"
+msgstr "E.g. lower back when getting up in the morning"
+
+msgid "Ej. mochila, toalla, escalón"
+msgstr "E.g. backpack, towel, step"
+
+msgid "Ej. molestia en el codo, banda verde, agarre más abierto…"
+msgstr "E.g. elbow discomfort, green band, wider grip…"
+
+msgid "Ej. rotura de menisco izquierdo (2019)"
+msgstr "E.g. torn left meniscus (2019)"
+
+msgid "Ej. Torso A"
+msgstr "E.g. Upper A"
+
+msgid "Ejercicio"
+msgstr "Exercise"
+
+#, python-brace-format
+msgid "Ejercicio {n}"
+msgstr "Exercise {n}"
+
+#, python-brace-format
+msgid "Ejercicio {n} de {m}"
+msgstr "Exercise {n} of {m}"
+
+msgid "ejercicios"
+msgstr "exercises"
+
+msgid "Ejercicios"
+msgstr "Exercises"
+
+msgid "Ejercicios vs objetivo"
+msgstr "Exercises vs target"
+
+msgid "Ejercicios y series"
+msgstr "Exercises and sets"
+
+msgid "El archivo no es un JSON válido"
+msgstr "The file isn't valid JSON"
+
+msgid "El enlace no es válido o está incompleto"
+msgstr "The link is invalid or incomplete"
+
+msgid "El pitido usa el volumen multimedia. Si no vibra, revisa No molestar y la vibración del sistema."
+msgstr "The beep uses media volume. If it doesn't vibrate, check Do Not Disturb and system vibration."
+
+msgid "El plan de progresión pasa de Hoy a Biblioteca → Plan, junto a las rutinas que usa."
+msgstr "The progression plan moves from Today to Library → Plan, next to the routines it uses."
+
+#, python-brace-format
+msgid "El plan empieza el {d}."
+msgstr "The plan starts on {d}."
+
+msgid "El plan no tiene fases válidas. Edítalo para añadirlas."
+msgstr "The plan has no valid phases. Edit it to add some."
+
+#, python-brace-format
+msgid "El plan usa la variante {v}, que no va incluida: esas semanas quedarán sin rutina."
+msgstr "The plan uses variant {v}, which isn't included: those weeks will have no routine."
+
+msgid "El reloj y las series se activan al iniciar."
+msgstr "The clock and sets start when you begin."
+
+msgid "El sexo no se podrá cambiar después. El nombre y el color, sí."
+msgstr "Sex can't be changed later. Name and colour can."
+
+msgid "El texto legal válido es el original en inglés."
+msgstr "The legally binding text is the English original."
+
+msgid "El tiempo en pausa no cuenta en la duración del entreno."
+msgstr "Paused time doesn't count toward the workout duration."
+
+msgid "Elegir archivo"
+msgstr "Choose file"
+
+msgid "Elegir del catálogo"
+msgstr "Choose from the catalogue"
+
+msgid "Elegir fecha"
+msgstr "Pick a date"
+
+msgid "Elegir otro"
+msgstr "Choose another"
+
+msgid "Elige al menos un día"
+msgstr "Choose at least one day"
+
+msgid "Elige hombre o mujer"
+msgstr "Choose man or woman"
+
+msgid "Eliges los ejercicios, las series y los descansos."
+msgstr "You choose the exercises, sets and rests."
+
+msgid "Eliminar"
+msgstr "Delete"
+
+msgid "Eliminar plan"
+msgstr "Delete plan"
+
+msgid "Eliminar sesión"
+msgstr "Delete session"
+
+msgid "Embarazo"
+msgstr "Pregnancy"
+
+msgid "Empezar"
+msgstr "Start"
+
+msgid "Empezar con"
+msgstr "Start with"
+
+#, python-brace-format
+msgid "Empezar cuenta atrás serie {n}"
+msgstr "Start countdown set {n}"
+
+msgid "Empieza este día"
+msgstr "Starts this day"
+
+msgid "Empieza hoy."
+msgstr "It starts today."
+
+msgid "empieza sola"
+msgstr "starts on its own"
+
+msgid "Empiezo (menos de 6 meses)"
+msgstr "Starting out (under 6 months)"
+
+msgid "Empuje"
+msgstr "Push"
+
+msgid "Empuje horizontal"
+msgstr "Horizontal push"
+
+msgid "Empuje vertical"
+msgstr "Vertical push"
+
+#, python-brace-format
+msgid "En «{x}». Las demás rutinas no cambian."
+msgstr "In “{x}”. Other routines don't change."
+
+msgid "En Android, la versión web avisa una vez de que existe la app."
+msgstr "On Android, the web version mentions the app once."
+
+msgid "en curso"
+msgstr "in progress"
+
+msgid "En el diálogo de impresión elige «Guardar como PDF» para tener el archivo."
+msgstr "In the print dialog choose “Save as PDF” to get the file."
+
+msgid "En este móvil, en tu perfil. Si no, se usan solo ahora."
+msgstr "On this phone, in your profile. Otherwise they're only used now."
+
+msgid "En la semana ↑"
+msgstr "In the ↑ week"
+
+#, python-brace-format
+msgid "en lugar de {x}"
+msgstr "instead of {x}"
+
+msgid "en orden"
+msgstr "in order"
+
+msgid "En pausa"
+msgstr "Paused"
+
+msgid "En perfiles de mujer, registro de la regla opcional, solo en este móvil."
+msgstr "On women's profiles, optional period log, only on this phone."
+
+msgid "En un ordenador o una tablet en horizontal, el editor se abre en modo amplio: cada ejercicio en una fila y el catálogo al lado para tocar o arrastrar."
+msgstr "On a computer or a tablet in landscape, the editor opens in wide mode: each exercise on one row and the catalogue alongside to tap or drag."
+
+msgid "Enlace"
+msgstr "Link"
+
+msgid "Enlace copiado. Pégalo donde quieras."
+msgstr "Link copied. Paste it wherever you like."
+
+msgid "Entendido"
+msgstr "Got it"
+
+msgid "Entendido, activar"
+msgstr "Got it, turn on"
+
+msgid "Entendido, empezar"
+msgstr "Got it, let's start"
+
+msgid "Entrenado"
+msgstr "Trained"
+
+msgid "Entrenado 30 días"
+msgstr "Trained, 30 days"
+
+msgid "Entrenando: cabecera fija con el tiempo y el avance, series más grandes y una barra abajo con la acción que toca (marcar la serie, empezar la cuenta atrás, siguiente ejercicio o terminar)."
+msgstr "Training: a fixed header with time and progress, bigger sets and a bottom bar with the next action (mark the set, start the countdown, next exercise or finish)."
+
+msgid "Entreno"
+msgstr "Workout"
+
+msgid "Entreno por fase"
+msgstr "Training by phase"
+
+msgid "Entrenos del día"
+msgstr "Workouts of the day"
+
+msgid "Entrenos, rutinas y plan"
+msgstr "Workouts, routines and plan"
+
+msgid "Equilibrio izq. / der."
+msgstr "Left / right balance"
+
+msgid "Errores típicos"
+msgstr "Common mistakes"
+
+msgid "Es normal al empezar un paso nuevo. Volver unas semanas al anterior suele hacer avanzar antes."
+msgstr "It's normal when starting a new step. Going back to the previous one for a few weeks usually gets you there sooner."
+
+msgid "Es una estimación aproximada: no sirve como anticonceptivo ni como diagnóstico."
+msgstr "It's an approximate estimate: not a contraceptive method or a diagnosis."
+
+#, python-brace-format
+msgid "Escribe un objetivo válido, por ejemplo {v}"
+msgstr "Enter a valid target, e.g. {v}"
+
+#, python-brace-format
+msgid "Escribe un peso válido, por ejemplo {v}"
+msgstr "Enter a valid weight, e.g. {v}"
+
+msgid "Ese día ya está dentro de una regla registrada"
+msgstr "That day is already inside a logged period"
+
+msgid "Ese perfil no tiene rutinas."
+msgstr "That profile has no routines."
+
+msgid "Esfuerzo"
+msgstr "Effort"
+
+msgid "Esfuerzo (PEM 1–10)"
+msgstr "Effort (RPE 1–10)"
+
+msgid "Esfuerzo de la sesión (PEM, 1–10) al terminar, opcional. Con la duración da la carga semanal, nuevo bloque en Stats → Entreno con aviso si una semana sube de golpe."
+msgstr "Session effort (RPE, 1–10) at the end, optional. With the duration it gives the weekly load, a new block in Stats → Workout that warns about sudden jumps."
+
+msgid "Esfuerzo de la sesión (PEM)"
+msgstr "Session effort (RPE)"
+
+msgid "Esfuerzo percibido de toda la sesión (PEM)."
+msgstr "Perceived effort for the whole session (RPE)."
+
+msgid "Espalda"
+msgstr "Back"
+
+msgid "Esta app es una herramienta de registro, no un consejo médico ni un plan de entrenamiento. Consulta con un profesional antes de empezar o cambiar tu actividad física."
+msgstr "This app is a logging tool, not medical advice or a training plan. Talk to a professional before starting or changing your physical activity."
+
+msgid "Esta app no se conecta a Internet, así que no busca versiones nuevas por su cuenta. Se publican en GitHub; al instalar una nueva encima, tus datos se mantienen."
+msgstr "This app doesn't connect to the Internet, so it doesn't look for new versions by itself. They're published on GitHub; installing a new one on top keeps your data."
+
+msgid "Esta copia es de una versión más nueva de Usus. Actualiza la app para importarla completa. ¿Importar igualmente lo que se pueda?"
+msgstr "This backup is from a newer version of Usus. Update the app to import it fully. Import what's possible anyway?"
+
+msgid "esta sem."
+msgstr "this wk"
+
+msgid "esta semana"
+msgstr "this week"
+
+msgid "Esta semana"
+msgstr "This week"
+
+msgid "Esta semana del plan"
+msgstr "This plan week"
+
+msgid "Esta semana no"
+msgstr "Skip this week"
+
+msgid "Esta variante no tiene rutinas. Añádelas en «Rutinas y días» al editar el plan."
+msgstr "This variant has no routines. Add them under “Routines and days” when editing the plan."
+
+msgid "Este navegador no permite vibrar"
+msgstr "This browser can't vibrate"
+
+msgid "Este perfil"
+msgstr "This profile"
+
+msgid "Estilo unificado: un solo tipo de pestañas, botones con tamaños fijos y ventanas como hoja inferior en el móvil. El morado queda solo para la IA."
+msgstr "Unified style: one kind of tabs, buttons with fixed sizes and dialogs as bottom sheets on phones. Purple is now only for AI."
+
+msgid "Estimación aproximada a partir de tus ciclos anteriores. No sirve como anticonceptivo ni como diagnóstico."
+msgstr "Approximate estimate based on your previous cycles. Not a contraceptive method or a diagnosis."
+
+msgid "Evolución del peso"
+msgstr "Weight trend"
+
+msgid "Exigente"
+msgstr "Hard"
+
+msgid "Experiencia entrenando"
+msgstr "Training experience"
+
+msgid "Exporta antes una copia."
+msgstr "Export a backup first."
+
+msgid "Exportar"
+msgstr "Export"
+
+msgid "Exportar .txt"
+msgstr "Export .txt"
+
+msgid "Exportar .zip"
+msgstr "Export .zip"
+
+msgid "Exportar ahora"
+msgstr "Export now"
+
+msgid "Externa"
+msgstr "External"
+
+msgid "Fácil"
+msgstr "Easy"
+
+msgid "Fases (se repiten en orden)"
+msgstr "Phases (repeat in order)"
+
+msgid "Fases, semanas y descargas. No tu fecha de inicio ni la de revisión."
+msgstr "Phases, weeks and deloads. Not your start or review date."
+
+msgid "Fecha"
+msgstr "Date"
+
+msgid "Fecha de nacimiento"
+msgstr "Date of birth"
+
+msgid "fecha,hora,rutina,duracion_min,ejercicio,tipo,serie,kg,reps,reps_der,segundos,volumen_kg,1rm_est"
+msgstr "date,time,routine,duration_min,exercise,type,set,kg,reps,reps_right,seconds,volume_kg,est_1rm"
+
+msgid "fértil"
+msgstr "fertile"
+
+msgid "Fértil (est.)"
+msgstr "Fertile (est.)"
+
+msgid "Fichas del catálogo en català e English, y nombres de los ejercicios en català."
+msgstr "Catalogue cards in Català and English, and exercise names in Català."
+
+#, python-brace-format
+msgid "Fin de la regla · {d}"
+msgstr "End of period · {d}"
+
+msgid "Fin de la regla registrado"
+msgstr "End of period logged"
+
+msgid "Folicular"
+msgstr "Follicular"
+
+msgid "Formato"
+msgstr "Format"
+
+msgid "Formato: separador «,» y punto decimal."
+msgstr "Format: “,” separator and decimal point."
+
+msgid "Formato: separador «;» y coma decimal, para abrirlo directamente en Excel en castellano o català."
+msgstr "Format: “;” separator and decimal comma, to open directly in Excel in Spanish or Catalan."
+
+msgid "Fuerza"
+msgstr "Strength"
+
+msgid "Full body"
+msgstr "Full body"
+
+msgid "Generar texto"
+msgstr "Generate text"
+
+msgid "Gestionar"
+msgstr "Manage"
+
+msgid "Gran sesión"
+msgstr "Great session"
+
+msgid "Guardado"
+msgstr "Saved"
+
+msgid "Guardar"
+msgstr "Save"
+
+msgid "Guardar actividad"
+msgstr "Save activity"
+
+msgid "Guardar para próximas exportaciones"
+msgstr "Save for future exports"
+
+msgid "Guardar plan"
+msgstr "Save plan"
+
+msgid "Guardar rutina"
+msgstr "Save routine"
+
+msgid "Ha terminado hoy"
+msgstr "It ended today"
+
+msgid "Hábitos"
+msgstr "Habits"
+
+#, python-brace-format
+msgid "Han pasado {n} días desde tu última copia."
+msgstr "It's been {n} days since your last backup."
+
+msgid "Hay app para Android"
+msgstr "There's an Android app"
+
+msgid "Hay una sesión en curso. Termínala o descártala para cambiar de perfil."
+msgstr "There's a session in progress. Finish or discard it to switch profile."
+
+msgid "Hecha con IA · probada por humanos."
+msgstr "Built with AI · tested by humans."
+
+msgid "hecho"
+msgstr "done"
+
+msgid "Hecho"
+msgstr "Done"
+
+msgid "Hinchazón"
+msgstr "Bloating"
+
+msgid "Historial"
+msgstr "History"
+
+msgid "Historial de cambios"
+msgstr "Changelog"
+
+msgid "Hoja de semanas"
+msgstr "Weekly sheet"
+
+msgid "hombre"
+msgstr "man"
+
+msgid "Hombre"
+msgstr "Man"
+
+msgid "Hombros"
+msgstr "Shoulders"
+
+msgid "Horario por bloque"
+msgstr "Timing by block"
+
+msgid "Horas"
+msgstr "Hours"
+
+msgid "Horas de sueño"
+msgstr "Sleep hours"
+
+msgid "Horas por semana."
+msgstr "Hours per week."
+
+msgid "hoy"
+msgstr "today"
+
+msgid "Hoy"
+msgstr "Today"
+
+msgid "Hoy es el último día: lo que falte contará como saltado."
+msgstr "Today is the last day: whatever is left will count as skipped."
+
+msgid "Hoy no hay ninguna rutina prevista."
+msgstr "No routine planned for today."
+
+msgid "Hoy podría bajarte la regla"
+msgstr "Your period could start today"
+
+msgid "Hoy toca pesarte"
+msgstr "Weigh-in day"
+
+msgid "Hoy, más limpio: lo que toca, la semana del plan en una línea (toca para verla) y un menú ⋯ con descarga esta semana o pausar el plan 1 a 4 semanas. «Rutinas y días» se eligen dentro del propio plan."
+msgstr "Cleaner Today: what's on, the plan week in one line (tap to see it) and a ⋯ menu to deload this week or pause the plan for 1 to 4 weeks. “Routines and days” are chosen inside the plan itself."
+
+msgid "Hoy: lo que toca, arriba y con un único botón Empezar; accesos rápidos a otra rutina, sesión libre y actividad; los avisos, juntos en «Pendiente»."
+msgstr "Today: what's on, at the top with a single Start button; shortcuts to another routine, a free session and an activity; reminders together under “To do”."
+
+msgid "Huella SHA-256 del certificado de firma:"
+msgstr "SHA-256 fingerprint of the signing certificate:"
+
+msgid "Icono nuevo."
+msgstr "New icon."
+
+msgid "Ideas y peticiones"
+msgstr "Ideas and requests"
+
+msgid "Idioma"
+msgstr "Language"
+
+msgid "Idioma de la app"
+msgstr "App language"
+
+msgid "Imagen"
+msgstr "Image"
+
+msgid "Imagen guardada"
+msgstr "Image saved"
+
+#, python-brace-format
+msgid "IMC {x}"
+msgstr "BMI {x}"
+
+msgid "impacto"
+msgstr "impact"
+
+msgid "Importar"
+msgstr "Import"
+
+#, python-brace-format
+msgid "Importar {r} rutinas, {s} sesiones, {w} pesos y {d} días de diario. Se combinarán con tus datos actuales. ¿Continuar?"
+msgstr "Import {r} routines, {s} sessions, {w} weights and {d} diary days? They'll be merged with your current data."
+
+msgid "Importar el plan de progresión. Sustituirá al plan actual, si lo hay. ¿Continuar?"
+msgstr "Import the progression plan? It will replace the current plan, if any."
+
+msgid "Importar JSON"
+msgstr "Import JSON"
+
+msgid "Importar una copia o rutinas"
+msgstr "Import a backup or routines"
+
+msgid "Imprimir"
+msgstr "Print"
+
+msgid "Imprimir / guardar PDF"
+msgstr "Print / save PDF"
+
+msgid "Imprimir o guardar en PDF una rutina: una hoja por ejercicio (o dos por hoja) para seguir su progresión, u hoja de semanas con la rutina entera y 6 sesiones."
+msgstr "Print or save a routine as PDF: one sheet per exercise (or two per sheet) to track its progress, or a weekly sheet with the whole routine and 6 sessions."
+
+msgid "Incluir"
+msgstr "Include"
+
+msgid "Incluir calentamiento y vuelta a la calma"
+msgstr "Include warm-up and cool-down"
+
+msgid "Incluir datos técnicos"
+msgstr "Include technical details"
+
+msgid "Incluir plan de progresión"
+msgstr "Include progression plan"
+
+msgid "Incluye un plan, que sustituirá al actual."
+msgstr "Includes a plan, which will replace the current one."
+
+msgid "Informar de un problema"
+msgstr "Report a problem"
+
+msgid "Iniciar"
+msgstr "Start"
+
+msgid "Inicio"
+msgstr "Start"
+
+msgid "Inicio automático de series por tiempo"
+msgstr "Auto-start timed sets"
+
+msgid "Inicio automático: no"
+msgstr "Auto-start: off"
+
+msgid "Inicio automático: sí"
+msgstr "Auto-start: on"
+
+msgid "Insomnio"
+msgstr "Insomnia"
+
+msgid "Instala Obtainium."
+msgstr "Install Obtainium."
+
+msgid "Instalar ahora"
+msgstr "Install now"
+
+msgid "Instalar en el móvil"
+msgstr "Install on your phone"
+
+msgid "Intermedio (2–5 años)"
+msgstr "Intermediate (2–5 years)"
+
+msgid "iPhone / iPad (Safari): botón Compartir → «Añadir a pantalla de inicio»."
+msgstr "iPhone / iPad (Safari): Share button → “Add to Home Screen”."
+
+msgid "Ir a hoy"
+msgstr "Go to today"
+
+msgid "Ir a Hoy"
+msgstr "Go to Today"
+
+msgid "Irritabilidad"
+msgstr "Irritability"
+
+msgid "isométricos"
+msgstr "isometric"
+
+msgid "Isométricos y habilidades"
+msgstr "Holds and skills"
+
+msgid "izq."
+msgstr "L"
+
+msgid "izq/der"
+msgstr "L/R"
+
+msgid "Izquierdo"
+msgstr "Left"
+
+msgid "J"
+msgstr "T"
+
+msgid "JSON para compartir o pasar a otro móvil."
+msgstr "JSON to share or move to another phone."
+
+msgid "L"
+msgstr "M"
+
+msgid "L,M,X,J,V,S,D"
+msgstr "M,T,W,T,F,S,S"
+
+msgid "La más larga"
+msgstr "Longest"
+
+msgid "La misma Usus, instalada como app. Sus datos van aparte: exporta una copia aquí e impórtala allí."
+msgstr "The same Usus, installed as an app. Its data is separate: export a backup here and import it there."
+
+msgid "La noche que termina este día."
+msgstr "The night that ends on this day."
+
+msgid "La pantalla se mantiene encendida durante toda la sesión, no solo en las cuentas atrás."
+msgstr "The screen stays on during the whole session, not just during countdowns."
+
+#, python-brace-format
+msgid "La regla podría bajarte en {n} días"
+msgstr "Your period could start in {n} days"
+
+msgid "La regla podría bajarte mañana"
+msgstr "Your period could start tomorrow"
+
+#, python-brace-format
+msgid "La regla se retrasa {n} días respecto a la previsión ({d})."
+msgstr "Your period is {n} days later than estimated ({d})."
+
+msgid "La revisión debe ser posterior al inicio"
+msgstr "The review must be after the start"
+
+msgid "La rutina entera en una hoja, con 6 sesiones."
+msgstr "The whole routine on one sheet, with 6 sessions."
+
+#, python-brace-format
+msgid "La última vez lo cambiaste por {x}"
+msgstr "Last time you swapped it for {x}"
+
+msgid "Lactancia"
+msgstr "Breastfeeding"
+
+msgid "Las fechas son una estimación aproximada a partir de tus ciclos anteriores. Los ciclos varían por estrés, enfermedad, viajes, medicación u otras causas. No sirve como método anticonceptivo, ni para buscar un embarazo con fiabilidad, ni como diagnóstico. Ante cualquier duda o cambio importante, consulta a un profesional sanitario."
+msgstr "Dates are an approximate estimate based on your previous cycles. Cycles vary with stress, illness, travel, medication and other causes. This is not a contraceptive method, not a reliable way to plan a pregnancy, and not a diagnosis. If you have any doubt or notice a significant change, see a healthcare professional."
+
+msgid "Las rutinas sin días no se sugieren. Ponles días al editarlas."
+msgstr "Routines without days aren't suggested. Add days when editing them."
+
+msgid "Las sesiones van en orden: hoy toca la siguiente que falte, sea el día que sea, y la semana del plan pasa al hacerlas todas."
+msgstr "Sessions go in order: today is the next one still to do, whatever the day, and the plan week moves on when all are done."
+
+msgid "Las traducciones pasan a archivos estándar (gettext) para poder traducir la app desde el navegador."
+msgstr "Translations move to standard files (gettext) so the app can be translated from the browser."
+
+msgid "Las últimas series ya pesan."
+msgstr "The last sets are getting heavy."
+
+msgid "Lastre"
+msgstr "Weight"
+
+msgid "lastre kg"
+msgstr "extra kg"
+
+msgid "Lastre máximo"
+msgstr "Max extra weight"
+
+msgid "Lesiones o cirugías previas"
+msgstr "Past injuries or surgery"
+
+msgid "Levantarse"
+msgstr "Wake-up"
+
+msgid "Leve"
+msgstr "Light"
+
+msgid "Libre"
+msgstr "Free"
+
+msgid "Licencia MIT y garantías"
+msgstr "MIT licence and warranty"
+
+msgid "Lightning / zaps"
+msgstr "Lightning / zaps"
+
+msgid "Línea y barras verdes: objetivo."
+msgstr "Line and green bars: goal."
+
+msgid "Listo para subir"
+msgstr "Ready to step up"
+
+msgid "Lo que pase después depende de la IA que elijas: revisa su política de privacidad. El análisis lo hace una IA, no un profesional sanitario."
+msgstr "What happens next depends on the AI you choose: check its privacy policy. The analysis is done by an AI, not a health professional."
+
+msgid "Lo que quieras que la IA tenga en cuenta"
+msgstr "Anything you want the AI to take into account"
+
+msgid "Los datos del ciclo se guardan solo en este dispositivo y van en la copia de seguridad completa."
+msgstr "Cycle data is stored only on this device and is included in the full backup."
+
+msgid "Los descansos se usan en los ejercicios sin descanso propio. 0 = sin descanso."
+msgstr "Rests apply to exercises without their own rest. 0 = no rest."
+
+#, python-brace-format
+msgid "Luego: {x}"
+msgstr "Then: {x}"
+
+#, python-brace-format
+msgid "Luego: cambio de ejercicio ({n} s)"
+msgstr "Then: next exercise ({n} s)"
+
+msgid "Luego: cambio de lado"
+msgstr "Then: switch sides"
+
+#, python-brace-format
+msgid "Luego: descanso {n} s"
+msgstr "Then: rest {n} s"
+
+#, python-brace-format
+msgid "Luego: serie {n}"
+msgstr "Then: set {n}"
+
+msgid "Lútea"
+msgstr "Luteal"
+
+msgid "M"
+msgstr "T"
+
+msgid "Marca al menos una serie como completada"
+msgstr "Mark at least one set as done"
+
+msgid "Marca dos o más ejercicios para hacer una superserie o un circuito: se hacen uno tras otro y se repite la vuelta. Para reordenar, usa ↑ ↓ o arrastra desde ⋮⋮."
+msgstr "Tick two or more exercises to make a superset or a circuit: they're done one after another and the round repeats. To reorder, use ↑ ↓ or drag from ⋮⋮."
+
+msgid "Marca lo que tienes. En el catálogo, lo demás se ve en naranja y se puede ocultar. Sin nada marcado, no se filtra."
+msgstr "Tick what you have. In the catalogue, the rest shows in orange and can be hidden. With nothing ticked, nothing is filtered."
+
+msgid "Marca los días de cada rutina al editarla."
+msgstr "Set the days of each routine when editing it."
+
+msgid "Marcados"
+msgstr "Selected"
+
+#, python-brace-format
+msgid "Marcar {x}"
+msgstr "Select {x}"
+
+msgid "Marcar ↑ cuando se repite una variante (recordatorio para progresar)"
+msgstr "Mark ↑ when a variant repeats (reminder to progress)"
+
+msgid "Más"
+msgstr "More"
+
+msgid "Más reps en una sesión"
+msgstr "Most reps in a session"
+
+msgid "Más tarde"
+msgstr "Later"
+
+msgid "Más tiempo en una sesión"
+msgstr "Most time in a session"
+
+msgid "Material"
+msgstr "Equipment"
+
+msgid "Máximo"
+msgstr "Maximal"
+
+msgid "Me ha bajado hoy"
+msgstr "Started today"
+
+msgid "media"
+msgstr "avg"
+
+msgid "Media"
+msgstr "Average"
+
+msgid "Media 30 días"
+msgstr "30-day average"
+
+msgid "Media 7 días"
+msgstr "7-day average"
+
+msgid "Media de series por sesión en cada fase. Solo informativo."
+msgstr "Average sets per session in each phase. For information only."
+
+msgid "Media diaria"
+msgstr "Daily average"
+
+msgid "Media diaria de pasos por semana."
+msgstr "Daily step average per week."
+
+msgid "Medicación relevante"
+msgstr "Relevant medication"
+
+msgid "Mejor der."
+msgstr "Best R"
+
+msgid "Mejor día"
+msgstr "Best day"
+
+msgid "Mejor izq."
+msgstr "Best L"
+
+msgid "Mejor serie"
+msgstr "Best set"
+
+msgid "Mejor serie (repeticiones) por sesión"
+msgstr "Best set (reps) per session"
+
+msgid "Mejor serie (reps)"
+msgstr "Best set (reps)"
+
+msgid "Mejor serie (segundos) por sesión"
+msgstr "Best set (seconds) per session"
+
+msgid "Mejor serie por lado (reps) por sesión"
+msgstr "Best set per side (reps) per session"
+
+msgid "Mejor volumen"
+msgstr "Best volume"
+
+msgid "Menos"
+msgstr "Less"
+
+msgid "Menstruación"
+msgstr "Menstruation"
+
+msgid "Mes anterior"
+msgstr "Previous month"
+
+msgid "Mes siguiente"
+msgstr "Next month"
+
+msgid "meta"
+msgstr "goal"
+
+msgid "Mi material"
+msgstr "My equipment"
+
+msgid "Mi material (Ajustes → Entreno) y material en tus ejercicios propios."
+msgstr "My equipment (Settings → Workout) and equipment for your own exercises."
+
+msgid "Minutos"
+msgstr "Minutes"
+
+msgid "Mis planes"
+msgstr "My plans"
+
+msgid "Moderada"
+msgstr "Medium"
+
+msgid "Moderado"
+msgstr "Moderate"
+
+msgid "Modo diseño de rutinas: secciones (calentamiento, principal, core, vuelta a la calma o las tuyas), superseries y circuitos con vueltas y descanso entre vueltas, reordenar con ↑ ↓ o arrastrando, y duración aproximada."
+msgstr "Routine design mode: sections (warm-up, main, core, cool-down or your own), supersets and circuits with rounds and rest between rounds, reorder with ↑ ↓ or by dragging, and an estimated duration."
+
+msgid "Modo edición para PC o pantalla grande: al abrir el editor en un ordenador o una tablet en horizontal, cada ejercicio va en una fila, con el catálogo al lado (toca o arrastra para añadir) y Guardar siempre a la vista."
+msgstr "Edit mode for PC or large screens: open the editor on a computer or a tablet in landscape and each exercise sits on one row, with the catalogue alongside (tap or drag to add) and Save always in view."
+
+msgid "Molestia"
+msgstr "Ache"
+
+msgid "Momento"
+msgstr "Time of day"
+
+msgid "Momento (opcional)"
+msgstr "Time of day (optional)"
+
+msgid "Mostrar la fase del ciclo"
+msgstr "Show the cycle phase"
+
+msgid "Mostrar ovulación y ventana fértil (estimación)"
+msgstr "Show ovulation and fertile window (estimate)"
+
+msgid "Motivo (opcional)"
+msgstr "Reason (optional)"
+
+msgid "Movilidad y calentamiento"
+msgstr "Mobility and warm-up"
+
+msgid "mujer"
+msgstr "woman"
+
+msgid "Mujer"
+msgstr "Woman"
+
+msgid "Músculos"
+msgstr "Muscles"
+
+msgid "Muy cerca del límite en varias series."
+msgstr "Very close to failure on several sets."
+
+msgid "Muy duro"
+msgstr "Very hard"
+
+msgid "Muy fácil"
+msgstr "Very easy"
+
+msgid "Nada anotado este día"
+msgstr "Nothing logged this day"
+
+msgid "Nada marcado = solo suelo."
+msgstr "Nothing ticked = floor only."
+
+msgid "Nada que añadir"
+msgstr "Nothing to add"
+
+msgid "Necesitas una cuenta de GitHub (gratis)."
+msgstr "You need a (free) GitHub account."
+
+msgid "Neutro"
+msgstr "Neutral"
+
+msgid "Ninguna"
+msgstr "None"
+
+msgid "Ninguno"
+msgstr "None"
+
+msgid "Ninguno: solo suelo"
+msgstr "None: floor only"
+
+#, python-brace-format
+msgid "Nivel {n} de 5"
+msgstr "Level {n} of 5"
+
+msgid "No entrené"
+msgstr "Didn't train"
+
+msgid "No habrías podido hacer mucho más."
+msgstr "You couldn't have done much more."
+
+msgid "No hay datos para exportar"
+msgstr "No data to export"
+
+msgid "No hay ejercicios por vincular."
+msgstr "No exercises to link."
+
+msgid "No hay sesiones para exportar"
+msgstr "No sessions to export"
+
+msgid "No hay suplementos activos."
+msgstr "No active supplements."
+
+msgid "no lo tienes"
+msgstr "you don't have it"
+
+msgid "No proponer"
+msgstr "Don't suggest"
+
+msgid "No se encontraron rutinas, sesiones ni pesos"
+msgstr "No routines, sessions or weights found"
+
+msgid "No se envía a ningún sitio: no hay cuentas, servidores, publicidad ni análisis con IA."
+msgstr "It's never sent anywhere: no accounts, servers, ads or AI analysis."
+
+msgid "No se envía nada hasta que tú lo revises y lo publiques en GitHub."
+msgstr "Nothing is sent until you review it and post it on GitHub."
+
+msgid "No se han encontrado rutinas de Usus en la respuesta"
+msgstr "No Usus routines found in the reply"
+
+msgid "no se hizo"
+msgstr "not done"
+
+msgid "No se podrá cambiar una vez creado el perfil."
+msgstr "Can't be changed once the profile is created."
+
+msgid "No se pudo cargar el catálogo. Se volverá a intentar al abrir la app."
+msgstr "Couldn't load the catalogue. It will try again when you open the app."
+
+msgid "No se pudo copiar"
+msgstr "Couldn't copy"
+
+msgid "No se pudo guardar: almacenamiento lleno"
+msgstr "Couldn't save: storage full"
+
+msgid "No se puede cambiar"
+msgstr "Can't be changed"
+
+msgid "No se puede imprimir desde aquí"
+msgstr "Printing isn't available here"
+
+msgid "No se volverá a proponer para este ejercicio en esta rutina"
+msgstr "Won't suggest again for this exercise in this routine"
+
+msgid "No tomado"
+msgstr "Not taken"
+
+msgid "No, gracias"
+msgstr "No, thanks"
+
+msgid "No, solo mis ejercicios"
+msgstr "No, just my exercises"
+
+#, python-brace-format
+msgid "Noche antes de un día con fuerza: {a} · sin fuerza: {b}"
+msgstr "Night before a strength day: {a} · other days: {b}"
+
+msgid "Nombre"
+msgstr "Name"
+
+msgid "Nombre (p. ej. Patinaje)"
+msgstr "Name (e.g. Skating)"
+
+msgid "Nombre de ejemplo en el perfil: Cristina."
+msgstr "Example profile name: Cristina."
+
+msgid "Nombre de la sección"
+msgstr "Section name"
+
+msgid "Nombre del ejercicio"
+msgstr "Exercise name"
+
+msgid "Nota"
+msgstr "Note"
+
+msgid "Nota (opcional)"
+msgstr "Note (optional)"
+
+msgid "Nota de la sesión"
+msgstr "Session note"
+
+msgid "Nota por ejercicio (✎): la verás la próxima vez junto a «Anterior»."
+msgstr "Note per exercise (✎): you'll see it next time next to “Previous”."
+
+msgid "Notas"
+msgstr "Notes"
+
+msgid "Notas de este ejercicio"
+msgstr "Notes for this exercise"
+
+msgid "Notas de la semana"
+msgstr "Notes for the week"
+
+msgid "Notas del día"
+msgstr "Notes for the day"
+
+msgid "Notas del periodo"
+msgstr "Notes for the period"
+
+msgid "Notas el trabajo, pero sobra margen."
+msgstr "You feel the work, but there's plenty left."
+
+msgid "Notas en Stats: los días con nota llevan un punto naranja en Constancia, Carga, Peso, Sueño, Pasos y el progreso de cada ejercicio. Al tocarlo ves todo lo apuntado ese día (diario, etiquetas, notas y cambios de ejercicio, actividad, suplementos) sin salir de Stats."
+msgstr "Notes in Stats: days with a note get an orange dot in Consistency, Load, Weight, Sleep, Steps and each exercise's progress. Tap it to see everything logged that day (diary, tags, exercise notes and swaps, activity, supplements) without leaving Stats."
+
+msgid "Notas y etiquetas del diario"
+msgstr "Diary notes and tags"
+
+#, python-brace-format
+msgid "Novedades · versión {v}"
+msgstr "What's new · version {v}"
+
+#, python-brace-format
+msgid "Novedades de la {v}"
+msgstr "What's new in {v}"
+
+msgid "Nueva estructura: Hoy · Biblioteca · Diario · Progreso · Ajustes. Biblioteca reúne Rutinas, Plan y Ejercicios; Stats pasa a llamarse Progreso."
+msgstr "New layout: Today · Library · Diary · Progress · Settings. Library brings together Routines, Plan and Exercises; Stats is now called Progress."
+
+msgid "Nueva rutina"
+msgstr "New routine"
+
+msgid "Nuevo"
+msgstr "New"
+
+msgid "Nuevo perfil"
+msgstr "New profile"
+
+msgid "Nuevo plan"
+msgstr "New plan"
+
+msgid "Nuevo síntoma"
+msgstr "New symptom"
+
+msgid "Nunca"
+msgstr "Never"
+
+msgid "Nunca incluye tus rutinas, sesiones ni registros."
+msgstr "It never includes your routines, sessions or logs."
+
+msgid "Nunca sale al compartir rutinas o entrenos."
+msgstr "It's never included when sharing routines or workouts."
+
+msgid "obj."
+msgstr "target"
+
+msgid "objetivo"
+msgstr "target"
+
+msgid "Objetivo"
+msgstr "Target"
+
+#, python-brace-format
+msgid "objetivo {n}"
+msgstr "target {n}"
+
+#, python-brace-format
+msgid "Objetivo de inicio asequible para consolidar. Tu historial de {x} se conserva."
+msgstr "Reachable starting target to consolidate. Your {x} history is kept."
+
+#, python-brace-format
+msgid "Objetivo de inicio más bajo: el paso nuevo es más difícil. Tu historial de {x} se conserva."
+msgstr "Lower starting target: the new step is harder. Your {x} history is kept."
+
+msgid "Objetivo diario de pasos"
+msgstr "Daily step goal"
+
+msgid "Objetivo guardado"
+msgstr "Goal saved"
+
+msgid "Objetivo quitado"
+msgstr "Target removed"
+
+msgid "Objetivo semanal"
+msgstr "Weekly goal"
+
+#, python-brace-format
+msgid "Objetivo semanal ({u})"
+msgstr "Weekly goal ({u})"
+
+msgid "Objetivo y recordatorio, en tu perfil"
+msgstr "Goal and reminder, in your profile"
+
+#, python-brace-format
+msgid "Objetivo: {v}"
+msgstr "Target: {v}"
+
+msgid "Objetivos"
+msgstr "Goals"
+
+msgid "Objetivos de la semana"
+msgstr "Goals of the week"
+
+msgid "Objetivos semanales"
+msgstr "Weekly goals"
+
+msgid "Oculto"
+msgstr "Hidden"
+
+msgid "Opcional. Ayuda a ver si una semana ha sido demasiado dura."
+msgstr "Optional. Helps spot weeks that were too hard."
+
+msgid "Opcional. Se puede cambiar en Ajustes → Entreno."
+msgstr "Optional. You can change it in Settings → Workout."
+
+msgid "Opcional. Vacío o 0 = sin objetivo. Los pasos se anotan en Diario → Pasos."
+msgstr "Optional. Empty or 0 = no goal. Log steps in Diary → Steps."
+
+msgid "Opciones del plan"
+msgstr "Plan options"
+
+msgid "Ordena con ↑ ↓ y elige qué bloques ver."
+msgstr "Reorder with ↑ ↓ and choose which blocks to show."
+
+msgid "Ordenar"
+msgstr "Reorder"
+
+msgid "Oscuro"
+msgstr "Dark"
+
+msgid "Oscuro cálido, sin azul"
+msgstr "Warm dark, no blue"
+
+msgid "Otra rutina"
+msgstr "Another routine"
+
+msgid "Otras opciones del mismo nivel"
+msgstr "Other options at the same level"
+
+msgid "Otro"
+msgstr "Other"
+
+msgid "Otro material (sin icono)"
+msgstr "Other equipment (no icon)"
+
+msgid "Otro motivo"
+msgstr "Other reason"
+
+msgid "Otros"
+msgstr "Other"
+
+msgid "Ovulación (aprox.)"
+msgstr "Ovulation (approx.)"
+
+msgid "Ovulación aprox."
+msgstr "Approx. ovulation"
+
+#, python-brace-format
+msgid "Ovulación aprox.: {d} · ventana fértil {a} – {b}"
+msgstr "Approx. ovulation: {d} · fertile window {a} – {b}"
+
+#, python-brace-format
+msgid "Para «{x}»"
+msgstr "For “{x}”"
+
+msgid "Para el día"
+msgstr "For daytime"
+
+#, python-brace-format
+msgid "Para el objetivo ({g})"
+msgstr "To target ({g})"
+
+msgid "Para elegir ejercicios al crear rutinas y saber cómo avanzar."
+msgstr "To pick exercises when building routines and know how to progress."
+
+msgid "Para qué lo usarías"
+msgstr "What you'd use it for"
+
+msgid "Para qué sirve"
+msgstr "What it's for"
+
+msgid "Para recuperar lo que te saltaste, elige una semana anterior: Hoy te propone primero lo que falte de ella."
+msgstr "To catch up on what you skipped, choose an earlier week: Today suggests what's missing from it first."
+
+msgid "Paralelas"
+msgstr "Parallel bars"
+
+msgid "Parar"
+msgstr "Stop"
+
+msgid "Pared"
+msgstr "Wall"
+
+msgid "Pasa a ser el plan activo; el actual queda guardado en Mis planes."
+msgstr "It becomes the active plan; the current one stays saved in My plans."
+
+#, python-brace-format
+msgid "Paso {n} de {t}"
+msgstr "Step {n} of {t}"
+
+msgid "Pasos"
+msgstr "Steps"
+
+msgid "Pasos (media)"
+msgstr "Steps (average)"
+
+msgid "Pasos borrados"
+msgstr "Steps cleared"
+
+msgid "Pasos del día"
+msgstr "Steps for the day"
+
+msgid "Pasos para reproducirlo"
+msgstr "Steps to reproduce"
+
+msgid "Pasos por día."
+msgstr "Steps per day."
+
+msgid "Pasos y actividades"
+msgstr "Steps and activities"
+
+#, python-brace-format
+msgid "Pasos: {n}"
+msgstr "Steps: {n}"
+
+msgid "Pausa"
+msgstr "Pause"
+
+msgid "Pausa: solo rutinas de todas las semanas."
+msgstr "Pause: only every-week routines."
+
+msgid "Pausar"
+msgstr "Pause"
+
+msgid "Pausar el plan"
+msgstr "Pause the plan"
+
+msgid "Pausar lo oculta del diario sin borrar su historial."
+msgstr "Pausing hides it from the diary without deleting its history."
+
+msgid "Pausar predicciones"
+msgstr "Pause predictions"
+
+msgid "Pausar sesión"
+msgstr "Pause session"
+
+msgid "Pecho"
+msgstr "Chest"
+
+msgid "Pega aquí la respuesta de la IA"
+msgstr "Paste the AI's reply here"
+
+msgid "Pégalo en una conversación nueva de la IA que uses, o sube el archivo .txt. Si es muy largo para tu IA, prueba con menos semanas."
+msgstr "Paste it into a new chat with the AI you use, or upload the .txt file. If it's too long for your AI, try fewer weeks."
+
+msgid "PEM"
+msgstr "RPE"
+
+msgid "PEM × minutos de cada sesión, sumado por semana."
+msgstr "RPE × minutes of each session, summed per week."
+
+msgid "PEM del 1 al 10, opcional en cada sesión"
+msgstr "RPE from 1 to 10, optional each session"
+
+msgid "PEM media · 4 semanas"
+msgstr "Average RPE · 4 weeks"
+
+msgid "pendiente"
+msgstr "to do"
+
+msgid "Pendiente"
+msgstr "To do"
+
+#, python-brace-format
+msgid "Pendiente desde el {d}"
+msgstr "Due since {d}"
+
+msgid "Pendientes esta semana"
+msgstr "Pending this week"
+
+msgid "peor lado"
+msgstr "weaker side"
+
+msgid "Perfil"
+msgstr "Profile"
+
+msgid "Perfil guardado"
+msgstr "Profile saved"
+
+msgid "Perfiles"
+msgstr "Profiles"
+
+msgid "Perfiles y datos personales"
+msgstr "Profiles and personal data"
+
+msgid "Perfiles: varias personas en el mismo móvil, cada una con sus datos, ajustes y copia de seguridad. Se cambia desde Hoy o Ajustes. Se pueden copiar rutinas de un perfil a otro."
+msgstr "Profiles: several people on the same phone, each with their own data, settings and backup. Switch from Today or Settings. Routines can be copied between profiles."
+
+msgid "Perimenopausia o menopausia"
+msgstr "Perimenopause or menopause"
+
+msgid "Periodo"
+msgstr "Period"
+
+msgid "Período"
+msgstr "Period"
+
+msgid "Pesajes"
+msgstr "Weigh-ins"
+
+msgid "Peso"
+msgstr "Weight"
+
+msgid "Peso en kg"
+msgstr "Weight in kg"
+
+#, python-brace-format
+msgid "Peso guardado: {v}"
+msgstr "Weight saved: {v}"
+
+msgid "Peso máximo"
+msgstr "Max weight"
+
+msgid "Peso objetivo (kg)"
+msgstr "Goal weight (kg)"
+
+msgid "Peso semanal"
+msgstr "Weekly weight"
+
+#, python-brace-format
+msgid "Peso serie {n}"
+msgstr "Weight set {n}"
+
+msgid "Pierna"
+msgstr "Legs"
+
+msgid "Pierna · cadera"
+msgstr "Legs · hip"
+
+msgid "Pierna · rodilla"
+msgstr "Legs · knee"
+
+msgid "Plan"
+msgstr "Plan"
+
+msgid "Plan activo (se muestra en Hoy)"
+msgstr "Plan active (shown in Today)"
+
+#, python-brace-format
+msgid "Plan activo: {x}"
+msgstr "Active plan: {x}"
+
+msgid "plan añadido"
+msgstr "plan added"
+
+msgid "Plan desactivado: Hoy no lo tiene en cuenta."
+msgstr "Plan turned off: Today ignores it."
+
+msgid "Plan duplicado. Actívalo para editarlo."
+msgstr "Plan duplicated. Activate it to edit it."
+
+msgid "Plan en pausa"
+msgstr "Plan paused"
+
+#, python-brace-format
+msgid "Plan en pausa: solo rutinas de todas las semanas (p. ej. Diaria). Sigue el {d}."
+msgstr "Plan paused: only every-week routines (e.g. Daily). It resumes on {d}."
+
+msgid "Plan guardado"
+msgstr "Plan saved"
+
+msgid "Plan terminado"
+msgstr "Plan finished"
+
+msgid "Plan: la semana ↑ puede aplicar sola la subida (+reps, +1 serie o siguiente paso), con aviso en Hoy y opción de deshacer."
+msgstr "Plan: the ↑ week can apply the increase automatically (+reps, +1 set or next step), with a notice in Today and an undo option."
+
+msgid "Planes en orden: hoy toca la siguiente sesión que falte, sea el día que sea; si empiezas un domingo o fallas un día, se recupera, y la semana del plan pasa al hacerlas todas. Tus planes pasan solos a este modo desde la semana en la que ibas, y al editarlos puedes volver a una semana anterior para recuperarla."
+msgstr "In-order plans: today is the next session still to do, whatever the day; if you start on a Sunday or miss a day you catch up, and the plan week moves on when all are done. Your plans switch to this mode automatically from the week you were on, and when editing them you can go back to an earlier week to catch up."
+
+msgid "Podrías hablar sin esfuerzo; casi un calentamiento."
+msgstr "You could chat easily; almost a warm-up."
+
+msgid "Pon la distancia o el tiempo"
+msgstr "Enter distance or time"
+
+msgid "Pon la distancia, el tiempo o los dos."
+msgstr "Enter distance, time or both."
+
+msgid "Pon la fecha de inicio"
+msgstr "Set the start date"
+
+msgid "Pon los segundos de la serie"
+msgstr "Enter the seconds for this set"
+
+msgid "Ponle un nombre"
+msgstr "Give it a name"
+
+msgid "Ponle un nombre a la rutina"
+msgstr "Give the routine a name"
+
+msgid "Por ahora, la explicación solo está en castellano."
+msgstr "For now, the explanation is only in Spanish."
+
+msgid "Por debajo del 50 % · 3 sesiones"
+msgstr "Below 50% · 3 sessions"
+
+msgid "Por debajo del 60 % · 2 sesiones"
+msgstr "Below 60% · 2 sessions"
+
+msgid "Por ejercicio"
+msgstr "By exercise"
+
+msgid "por lado"
+msgstr "per side"
+
+msgid "Por lado"
+msgstr "Per side"
+
+msgid "por tiempo"
+msgstr "timed"
+
+msgid "Predicciones en pausa"
+msgstr "Predictions paused"
+
+msgid "Predicciones en pausa."
+msgstr "Predictions paused."
+
+msgid "Preguntar el esfuerzo al terminar"
+msgstr "Ask for effort at the end"
+
+msgid "Preparación (s)"
+msgstr "Get ready (s)"
+
+#, python-brace-format
+msgid "Preparación: {n} s"
+msgstr "Get ready: {n} s"
+
+msgid "Preparar análisis"
+msgstr "Prepare analysis"
+
+msgid "Prepárate"
+msgstr "Get ready"
+
+msgid "Prevista"
+msgstr "Expected"
+
+#, python-brace-format
+msgid "Prevista para el {d} (± {n} d)."
+msgstr "Expected on {d} (± {n} d)."
+
+msgid "Primer día"
+msgstr "First day"
+
+msgid "Primer día de la regla"
+msgstr "First day of the period"
+
+msgid "Primer uso guiado en pasos: idioma y avisos, catálogo, material y cómo empezar (crear la primera rutina o importar una copia)."
+msgstr "Guided first run in steps: language and notices, catalogue, equipment and how to start (create your first routine or import a backup)."
+
+msgid "Primera versión de la app para Android (APK), en GitHub → Releases. Es la misma app; sus datos van aparte de los de la PWA (se pasan con una copia)."
+msgstr "First Android app release (APK), on GitHub → Releases. It's the same app; its data is kept apart from the PWA's (move it with a backup)."
+
+msgid "Primera versión de Usus: rutinas, temporizadores, plan de progresión, diario, estadísticas y seguimiento opcional del ciclo (se activa en Ajustes). Todo se guarda solo en tu móvil."
+msgstr "First version of Usus: routines, timers, progression plan, diary, stats and optional cycle tracking (turn it on in Settings). Everything stays on your phone."
+
+msgid "Primera vez con este ejercicio"
+msgstr "First time with this exercise"
+
+msgid "Principal"
+msgstr "Main"
+
+msgid "Probar"
+msgstr "Test"
+
+msgid "Progresión"
+msgstr "Progression"
+
+msgid "Progresión: al terminar una sesión, propuesta de subir al siguiente ejercicio o de volver al anterior. Se ajusta en Ajustes → Entreno."
+msgstr "Progression: after a session, a suggestion to move on to the next exercise or go back to the previous one. Set it up in Settings → Workout."
+
+msgid "Progreso"
+msgstr "Progress"
+
+msgid "Progreso: el Resumen queda en cuatro tarjetas (esta semana, constancia, récords y peso), cada una con un enlace a su detalle; cifras y gráficos con un mismo estilo, y las notas del periodo pasan a Hábitos."
+msgstr "Progress: the Summary is now four cards (this week, consistency, records and weight), each linking to its details; figures and charts share one style, and period notes move to Habits."
+
+msgid "propio"
+msgstr "own"
+
+msgid "Proponer cambios de paso"
+msgstr "Suggest step changes"
+
+msgid "Proponer retroceder"
+msgstr "Suggest going back"
+
+msgid "Proponer una mejora"
+msgstr "Suggest an improvement"
+
+msgid "propuesta"
+msgstr "suggested"
+
+msgid "Propuestas aceptadas"
+msgstr "Suggestions accepted"
+
+msgid "Protector"
+msgstr "Night"
+
+#, python-brace-format
+msgid "Próxima ovulación aprox.: {d}"
+msgstr "Next approx. ovulation: {d}"
+
+#, python-brace-format
+msgid "Próxima regla: {d} (± {n} d) · en {m} días"
+msgstr "Next period: {d} (± {n} d) · in {m} days"
+
+msgid "Próximas fechas"
+msgstr "Upcoming dates"
+
+msgid "Qué esperabas"
+msgstr "What you expected"
+
+msgid "Qué ha pasado"
+msgstr "What happened"
+
+msgid "Qué hay de nuevo"
+msgstr "What's new"
+
+msgid "Qué rutinas entran en cada variante y qué días tocan. «Todas las semanas» se sugiere siempre, también en descarga (como la Diaria)."
+msgstr "Which routines go in each variant and on which days. “Every week” is always suggested, deload weeks included (like the Daily)."
+
+msgid "Qué te gustaría"
+msgstr "What you'd like"
+
+msgid "Qué trae cada versión"
+msgstr "What each version brings"
+
+#, python-brace-format
+msgid "Queda 1 serie de {x}."
+msgstr "1 set of {x} left."
+
+#, python-brace-format
+msgid "Quedan {n} series de {x}."
+msgstr "{n} sets of {x} left."
+
+msgid "Quitar"
+msgstr "Remove"
+
+#, python-brace-format
+msgid "Quitar {x}"
+msgstr "Remove {x}"
+
+msgid "Quitar ejercicio"
+msgstr "Remove exercise"
+
+msgid "Quitar fase"
+msgstr "Remove phase"
+
+msgid "Quitar sección"
+msgstr "Remove section"
+
+msgid "Quitar serie"
+msgstr "Remove set"
+
+msgid "Quitar un síntoma lo oculta de la lista; los días ya anotados lo conservan."
+msgstr "Removing a symptom hides it from the list; days already logged keep it."
+
+#, python-brace-format
+msgid "Racha · mejor {n}"
+msgstr "Streak · best {n}"
+
+msgid "Reactivar"
+msgstr "Resume"
+
+msgid "Reanudando…"
+msgstr "Resuming…"
+
+msgid "Reanudar"
+msgstr "Resume"
+
+msgid "récord"
+msgstr "PR"
+
+msgid "Recordarme pesarme"
+msgstr "Remind me to weigh in"
+
+msgid "Récords"
+msgstr "PRs"
+
+msgid "Récords recientes"
+msgstr "Recent records"
+
+msgid "Registra caminatas, carreras o bici con «Registrar actividad» en Hoy."
+msgstr "Log walks, runs or bike rides with “Log activity” in Today."
+
+msgid "Registra el primer día de tu última regla para empezar a calcular."
+msgstr "Log the first day of your last period to start the estimates."
+
+msgid "Registra este ejercicio en al menos dos sesiones para ver la evolución."
+msgstr "Log this exercise in at least two sessions to see your progress."
+
+#, python-brace-format
+msgid "Registra tu peso (aviso los {d} en Entrenar, o en Datos → Peso) para ver la evolución."
+msgstr "Log your weight (reminder on {d} in Train, or in Data → Weight) to see your progress."
+
+msgid "Registra tu sueño en el Diario para ver la evolución."
+msgstr "Log your sleep in the Diary to see your trend."
+
+msgid "Registra tus reglas en Diario → Ciclo para ver aquí la media, el historial y las próximas fechas."
+msgstr "Log your periods in Diary → Cycle to see averages, history and upcoming dates here."
+
+msgid "Registrado con Usus"
+msgstr "Logged with Usus"
+
+msgid "Registrar"
+msgstr "Log"
+
+msgid "Registrar actividad"
+msgstr "Log activity"
+
+msgid "Registro de la regla"
+msgstr "Period log"
+
+msgid "registro de la regla activado"
+msgstr "period log on"
+
+msgid "registro de la regla desactivado"
+msgstr "period log off"
+
+msgid "Registro de tomas · 14 días"
+msgstr "Intake log · 14 days"
+
+msgid "Regla"
+msgstr "Period"
+
+#, python-brace-format
+msgid "Regla · día {n}"
+msgstr "Period · day {n}"
+
+msgid "Regla registrada"
+msgstr "Period logged"
+
+#, python-brace-format
+msgid "Regla registrada · {d}"
+msgstr "Period logged · {d}"
+
+msgid "Reparto por bloque"
+msgstr "Split by block"
+
+msgid "repeticiones"
+msgstr "reps"
+
+msgid "Repeticiones en reserva al marcar cada serie"
+msgstr "Reps in reserve when you tick each set"
+
+#, python-brace-format
+msgid "Repeticiones lado derecho serie {n}"
+msgstr "Right side reps set {n}"
+
+#, python-brace-format
+msgid "Repeticiones lado izquierdo serie {n}"
+msgstr "Left side reps set {n}"
+
+#, python-brace-format
+msgid "Repeticiones serie {n}"
+msgstr "Reps set {n}"
+
+msgid "Repetir"
+msgstr "Repeat"
+
+msgid "Repetir la configuración inicial"
+msgstr "Repeat the initial setup"
+
+msgid "reps"
+msgstr "reps"
+
+msgid "reps · izq/der"
+msgstr "reps · L/R"
+
+msgid "Reps de las últimas 4 semanas. Aviso si un lado rinde más de un 10% menos."
+msgstr "Reps over the last 4 weeks. Flagged if one side does over 10% less."
+
+msgid "Respiración marcada; aún bastante margen."
+msgstr "Heavier breathing; still quite a lot left."
+
+msgid "Resumen"
+msgstr "Summary"
+
+#, python-brace-format
+msgid "retraso {n} d"
+msgstr "{n} d late"
+
+msgid "Revisa y elige qué añadir. No se borra nada de lo que ya tienes."
+msgstr "Review and choose what to add. Nothing you already have is deleted."
+
+msgid "Revisar"
+msgstr "Go back"
+
+msgid "Revisar rutinas propuestas"
+msgstr "Review suggested routines"
+
+msgid "Revisión (opcional)"
+msgstr "Review (optional)"
+
+#, python-brace-format
+msgid "revisión desde el {d}"
+msgstr "review from {d}"
+
+msgid "RIR"
+msgstr "RIR"
+
+msgid "RIR por serie"
+msgstr "RIR per set"
+
+msgid "RIR por serie (repeticiones en reserva), opcional en Ajustes → Entreno."
+msgstr "RIR per set (reps in reserve), optional in Settings → Workout."
+
+msgid "RIR también en series por tiempo: cuánto más habrías aguantado (0, 5, 10, 15+ s)."
+msgstr "RIR for timed sets too: how much longer you could have held (0, 5, 10, 15+ s)."
+
+msgid "Rueda abdominal"
+msgstr "Ab wheel"
+
+msgid "Rutina"
+msgstr "Routine"
+
+msgid "Rutina actualizada"
+msgstr "Routine updated"
+
+msgid "Rutina añadida"
+msgstr "Routine added"
+
+msgid "Rutina eliminada"
+msgstr "Routine deleted"
+
+msgid "Rutina guardada"
+msgstr "Routine saved"
+
+msgid "rutinas"
+msgstr "routines"
+
+msgid "Rutinas"
+msgstr "Routines"
+
+msgid "Rutinas agrupadas por variante. Cada rutina se abre en su propia pantalla (en PC, al lado de la lista) con Empezar, Editar, Imprimir, Compartir y Duplicar."
+msgstr "Routines grouped by variant. Each routine opens on its own screen (on a computer, next to the list) with Start, Edit, Print, Share and Duplicate."
+
+msgid "Rutinas compartidas: si recibes otra vez una rutina que ya tienes (por ejemplo, una versión mejorada), puedes actualizarla en vez de duplicarla. Se cambian los ejercicios; tu nombre, días, variante y sesiones se mantienen."
+msgstr "Shared routines: if you receive a routine you already have again (for example, an improved version), you can update it instead of duplicating it. The exercises change; your name, days, variant and sessions stay."
+
+msgid "Rutinas de otro perfil"
+msgstr "Routines from another profile"
+
+msgid "Rutinas hechas y pendientes"
+msgstr "Routines done and to do"
+
+msgid "Rutinas por variante"
+msgstr "Routines by variant"
+
+msgid "Rutinas y días"
+msgstr "Routines and days"
+
+msgid "S"
+msgstr "S"
+
+msgid "Salidas en 30 días"
+msgstr "Outings in 30 days"
+
+msgid "Saltar"
+msgstr "Skip"
+
+msgid "Saltar ejercicio"
+msgstr "Skip exercise"
+
+msgid "Salud y experiencia (para la IA)"
+msgstr "Health and experience (for the AI)"
+
+msgid "Se abrirá GitHub con el formulario preparado."
+msgstr "GitHub will open with the form ready."
+
+msgid "Se añaden a las suyas. No se borra nada ni se copia ningún registro."
+msgstr "They're added to theirs. Nothing is deleted and no logs are copied."
+
+msgid "Se aplica sola al empezar la semana a las rutinas de esa variante, con aviso en Hoy y opción de deshacer."
+msgstr "Applied automatically when the week starts to that variant's routines, with a notice in Today and an undo option."
+
+msgid "Se aplica sola al empezar la semana a las rutinas de esa variante, con aviso en Hoy y opción de deshacer. Pasa al siguiente paso del catálogo solo si la última vez llegaste al objetivo."
+msgstr "Applied automatically when the week starts to that variant's routines, with a notice in Today and an undo option. Moves to the next catalogue step only if you hit the target last time."
+
+msgid "Se borra todo lo de este dispositivo: rutinas, sesiones, plan, peso, diario y ciclo. No se puede deshacer."
+msgstr "Everything on this device is deleted: routines, sessions, plan, weight, diary and cycle. This can't be undone."
+
+msgid "Se borra todo lo de este perfil en este dispositivo: rutinas, sesiones, plan, peso, diario y ciclo. No se puede deshacer."
+msgstr "Everything in this profile on this device is deleted: routines, sessions, plan, weight, diary and cycle. This can't be undone."
+
+#, python-brace-format
+msgid "Se borrarán el perfil «{x}» y todos sus datos de este dispositivo. ¿Has exportado su copia?"
+msgstr "Profile “{x}” and all its data will be deleted from this device. Have you exported its backup?"
+
+msgid "Se borrarán las reglas, síntomas y ajustes del ciclo. El resto de datos no se toca. ¿Continuar?"
+msgstr "Periods, symptoms and cycle settings will be deleted. Nothing else is touched. Continue?"
+
+msgid "Se borrarán todas las rutinas, sesiones y pesos de este dispositivo. ¿Has hecho una copia?"
+msgstr "All routines, sessions and weights on this device will be deleted. Have you made a backup?"
+
+#, python-brace-format
+msgid "Se borrarán todos los datos de «{x}» en este dispositivo. Los demás perfiles no se tocan. ¿Has hecho una copia?"
+msgstr "All of “{x}”'s data on this device will be deleted. Other profiles aren't touched. Have you made a backup?"
+
+msgid "Se guarda únicamente en este móvil, dentro de este perfil."
+msgstr "It's stored only on this phone, inside this profile."
+
+#, python-brace-format
+msgid "Se ha aplicado la regla de tu plan: {x}."
+msgstr "Your plan's rule was applied: {x}."
+
+msgid "Se ofrece tal cual, sin garantías de ningún tipo. La usas bajo tu responsabilidad."
+msgstr "Provided as is, without warranty of any kind. Use it at your own risk."
+
+#, python-brace-format
+msgid "Se parece un {p} % a «{x}», que ya tienes"
+msgstr "{p}% similar to “{x}”, which you already have"
+
+msgid "Se queda como ejercicio propio"
+msgstr "Stays as your own exercise"
+
+msgid "Se ve al abrir la app; no hay notificaciones con el móvil bloqueado."
+msgstr "Shown when you open the app; there are no notifications while the phone is locked."
+
+msgid "Se ven en Progreso → Resumen. 0 = no mostrar."
+msgstr "Shown in Progress → Summary. 0 = don't show."
+
+msgid "Sección"
+msgstr "Section"
+
+#, python-brace-format
+msgid "Sección {n}"
+msgstr "Section {n}"
+
+msgid "Secciones"
+msgstr "Sections"
+
+msgid "seg"
+msgstr "sec"
+
+msgid "seg · 2 lados"
+msgstr "sec · 2 sides"
+
+msgid "Seguimiento del ciclo"
+msgstr "Cycle tracking"
+
+msgid "Seguimiento del ciclo activado"
+msgstr "Cycle tracking on"
+
+msgid "Seguimiento del ciclo desactivado"
+msgstr "Cycle tracking off"
+
+msgid "Seguir aquí"
+msgstr "Stay here"
+
+msgid "Seguir intentándolo"
+msgstr "Keep trying"
+
+msgid "Seguir más tarde"
+msgstr "Continue later"
+
+#, python-brace-format
+msgid "Segundos serie {n}"
+msgstr "Seconds set {n}"
+
+#, python-brace-format
+msgid "Semana {n}"
+msgstr "Week {n}"
+
+#, python-brace-format
+msgid "Semana {n} de {m}"
+msgstr "Week {n} of {m}"
+
+msgid "Semana de descarga"
+msgstr "Deload week"
+
+msgid "Semana de descarga: solo rutinas sin variante (p. ej. Diaria)."
+msgstr "Deload week: only routines without a variant (e.g. Daily)."
+
+msgid "Semana de fuerza completa"
+msgstr "Strength week complete"
+
+#, python-brace-format
+msgid "Semana de subida · variante {v}"
+msgstr "Step-up week · variant {v}"
+
+#, python-brace-format
+msgid "Semana del {d}: +{p} %"
+msgstr "Week of {d}: +{p}%"
+
+msgid "Semana en la que vas"
+msgstr "Week you're on"
+
+msgid "Semanas"
+msgstr "Weeks"
+
+msgid "Semanas de descarga"
+msgstr "Deload weeks"
+
+msgid "Semanas de pausa"
+msgstr "Weeks of pause"
+
+msgid "Semanas seguidas"
+msgstr "Weeks in a row"
+
+msgid "Sensibilidad"
+msgstr "Tenderness"
+
+msgid "Separar"
+msgstr "Ungroup"
+
+#, python-brace-format
+msgid "serie {n}"
+msgstr "set {n}"
+
+#, python-brace-format
+msgid "Serie {n}"
+msgstr "Set {n}"
+
+#, python-brace-format
+msgid "Serie {n} de {m}"
+msgstr "Set {n} of {m}"
+
+#, python-brace-format
+msgid "Serie {n} de {m} · lado {s}"
+msgstr "Set {n} of {m} · side {s}"
+
+#, python-brace-format
+msgid "Serie {n} hecha"
+msgstr "Set {n} done"
+
+msgid "series"
+msgstr "sets"
+
+msgid "Series"
+msgstr "Sets"
+
+msgid "Series hechas por tipo en las últimas 4 semanas."
+msgstr "Sets done by type in the last 4 weeks."
+
+msgid "Ses."
+msgstr "Ses."
+
+msgid "sesión"
+msgstr "session"
+
+msgid "Sesión"
+msgstr "Session"
+
+msgid "Sesión eliminada"
+msgstr "Session deleted"
+
+msgid "Sesión en pausa"
+msgstr "Session paused"
+
+msgid "Sesión guardada"
+msgstr "Session saved"
+
+msgid "Sesión libre"
+msgstr "Free session"
+
+msgid "Sesión reanudada"
+msgstr "Session resumed"
+
+msgid "Sesión sin iniciar"
+msgstr "Session not started"
+
+msgid "sesiones"
+msgstr "sessions"
+
+msgid "Sesiones"
+msgstr "Sessions"
+
+#, python-brace-format
+msgid "Sesiones aplazadas {n} día desde el {d}."
+msgid_plural "Sesiones aplazadas {n} días desde el {d}."
+msgstr[0] "Sessions moved {n} day from {d}."
+msgstr[1] "Sessions moved {n} days from {d}."
+
+#, python-brace-format
+msgid "Sesiones aplazadas {n} día desde el {d}."
+msgstr "Sessions moved {n} day from {d}."
+
+msgid "Sexo"
+msgstr "Sex"
+
+#, python-brace-format
+msgid "Sexo: {x} (del perfil)."
+msgstr "Sex: {x} (from the profile)."
+
+msgid "Si la IA propone rutinas ajustadas, pega su respuesta y elige cuáles actualizar."
+msgstr "If the AI suggests adjusted routines, paste its reply and choose which to update."
+
+msgid "Si no, solo hoy."
+msgstr "Otherwise, just today."
+
+msgid "Si te propone rutinas ajustadas, copia su respuesta completa y pégala aquí. Usus solo lee el bloque de rutinas y te deja elegir cuáles actualizar."
+msgstr "If it suggests adjusted routines, copy its full reply and paste it here. Usus only reads the routines block and lets you choose which to update."
+
+msgid "Si te resulta útil, puedes apoyar el proyecto. Toca para copiar:"
+msgstr "If you find it useful, you can support the project. Tap to copy:"
+
+msgid "Si ya sabes lo que haces. Todo funciona igual, con menos información."
+msgstr "If you already know what you're doing. Everything works the same, with less information."
+
+msgid "Si ya tienes una rutina con el mismo nombre, se añade como «(2)»."
+msgstr "If you already have a routine with the same name, it's added as “(2)”."
+
+msgid "Sí, dame toda la info"
+msgstr "Yes, give me all the info"
+
+msgid "Sigue al sistema"
+msgstr "Follows the system"
+
+msgid "siguiente"
+msgstr "next"
+
+msgid "Siguiente"
+msgstr "Next"
+
+#, python-brace-format
+msgid "Siguiente ejercicio: {x}"
+msgstr "Next exercise: {x}"
+
+msgid "Siguiente paso si llegaste al objetivo"
+msgstr "Next step if you hit the target"
+
+#, python-brace-format
+msgid "Siguiente: {x}"
+msgstr "Next: {x}"
+
+#, python-brace-format
+msgid "Siguiente: {x} desde el {d}"
+msgstr "Next: {x} from {d}"
+
+#, python-brace-format
+msgid "Siguiente: serie {n} · {x}"
+msgstr "Next: set {n} · {x}"
+
+#, python-brace-format
+msgid "Siguiente: serie {n} (empieza sola)"
+msgstr "Next: set {n} (starts automatically)"
+
+msgid "Sin"
+msgstr "None"
+
+msgid "Sin actividad este día."
+msgstr "No activity this day."
+
+msgid "sin copias todavía"
+msgstr "no backups yet"
+
+msgid "Sin descanso por defecto"
+msgstr "No default rest"
+
+msgid "Sin ejercicios"
+msgstr "No exercises"
+
+msgid "Sin ejercicios en los últimos 60 días."
+msgstr "No exercises in the last 60 days."
+
+msgid "Sin ejercicios por lado en las últimas 4 semanas."
+msgstr "No per-side exercises in the last 4 weeks."
+
+msgid "Sin entrenar"
+msgstr "No training"
+
+msgid "Sin entrenos este día."
+msgstr "No workouts this day."
+
+msgid "Sin garantías. Los autores no responden de lesiones, pérdida de datos ni ningún otro daño derivado de su uso. No sustituye el consejo de un profesional sanitario o deportivo."
+msgstr "No warranty. The authors are not liable for injury, data loss or any other damage arising from its use. It does not replace advice from a health or sports professional."
+
+msgid "Sin notas en este periodo."
+msgstr "No notes in this period."
+
+msgid "Sin pitidos ni vibración: solo la cuenta atrás y el destello en pantalla."
+msgstr "No beeps or vibration: only the countdown and the screen flash."
+
+msgid "Sin plan de progresión"
+msgstr "No progression plan"
+
+msgid "Sin propuesta en el catálogo"
+msgstr "No suggestion in the catalogue"
+
+msgid "Sin registros"
+msgstr "No entries"
+
+msgid "Sin resultados."
+msgstr "No results."
+
+msgid "Sin RIR"
+msgstr "No RIR"
+
+msgid "Sin rutinas."
+msgstr "No routines."
+
+msgid "Sin sesiones en las últimas 4 semanas."
+msgstr "No sessions in the last 4 weeks."
+
+msgid "Sin suplementos"
+msgstr "No supplements"
+
+msgid "Sin variante"
+msgstr "No variant"
+
+msgid "Síntomas"
+msgstr "Symptoms"
+
+msgid "Síntomas más frecuentes"
+msgstr "Most frequent symptoms"
+
+msgid "Sirve solo para anotar la regla y los síntomas, y ver una estimación de la próxima."
+msgstr "It's only for logging your period and symptoms and seeing an estimate of the next one."
+
+msgid "sobre la media de las 4 anteriores. Si no fue a propósito, vigila el descanso."
+msgstr "over the average of the previous 4. If it wasn't on purpose, watch your rest."
+
+msgid "Sobre ti (para interpretar los datos)"
+msgstr "About you (to interpret the data)"
+
+msgid "Software libre bajo licencia MIT: puedes usarlo, copiarlo, modificarlo y distribuirlo, también con fines comerciales, manteniendo el aviso de copyright y de licencia."
+msgstr "Free software under the MIT license: you may use, copy, modify and distribute it, including commercially, as long as the copyright and license notice is kept."
+
+#, python-brace-format
+msgid "Solo afecta a {x}."
+msgstr "Only affects {x}."
+
+msgid "Solo con mi material"
+msgstr "Only with my equipment"
+
+msgid "Solo el plan activo cuenta en Hoy. Al cambiar de plan, tus rutinas, sesiones e historial no se tocan."
+msgstr "Only the active plan counts in Today. Switching plans doesn't touch your routines, sessions or history."
+
+#, python-brace-format
+msgid "Solo en esta sesión. En lugar de {x}."
+msgstr "This session only. Instead of {x}."
+
+msgid "Solo en este dispositivo. La fecha de nacimiento y la altura se usan en el análisis y en el plan con IA."
+msgstr "Only on this device. Date of birth and height are used in the AI analysis and plan."
+
+msgid "Solo las rutinas de todas las semanas; el plan no avanza"
+msgstr "Only every-week routines; the plan doesn't move on"
+
+msgid "Solo las rutinas. Ningún registro."
+msgstr "Routines only. No logs."
+
+#, python-brace-format
+msgid "Solo los datos de {x}. Cada perfil tiene su propia copia."
+msgstr "Only {x}'s data. Each profile has its own backup."
+
+msgid "Solo recordatorio (↑)"
+msgstr "Reminder only (↑)"
+
+msgid "Solo rutinas"
+msgstr "Routines only"
+
+msgid "Solo sale lo que ves aquí. Nunca tu peso, el diario ni el ciclo."
+msgstr "Only what you see here is shared. Never your weight, diary or cycle."
+
+msgid "Solo se marca la semana; tú decides qué subir."
+msgstr "The week is only marked; you decide what to increase."
+
+msgid "Solo se usan al preparar un análisis con IA externa (Progreso → Resumen). Van en la copia de seguridad del perfil."
+msgstr "Only used when preparing an analysis with an external AI (Progress → Summary). Included in the profile backup."
+
+msgid "Solo si influye en el entreno o la recuperación"
+msgstr "Only if it affects training or recovery"
+
+msgid "Solo sonido"
+msgstr "Sound only"
+
+msgid "Solo vibración"
+msgstr "Vibration only"
+
+msgid "Sonido y vibración"
+msgstr "Sound and vibration"
+
+msgid "Subir"
+msgstr "Move up"
+
+#, python-brace-format
+msgid "Subir {x}"
+msgstr "Move {x} up"
+
+msgid "Subir de paso"
+msgstr "Step up"
+
+msgid "Subir sección"
+msgstr "Move section up"
+
+msgid "Subir tras (al objetivo)"
+msgstr "Step up after (at target)"
+
+msgid "Sueño"
+msgstr "Sleep"
+
+#, python-brace-format
+msgid "superado el {d}"
+msgstr "passed on {d}"
+
+msgid "Superserie"
+msgstr "Superset"
+
+msgid "Superseries y circuitos también al entrenar: A1 → A2 → descanso entre vueltas, con la vuelta en curso a la vista y la cuenta atrás encadenada."
+msgstr "Supersets and circuits while training too: A1 → A2 → rest between rounds, with the current round in view and the countdown chained."
+
+msgid "Suplementos"
+msgstr "Supplements"
+
+msgid "Sus datos van aparte de los de la PWA."
+msgstr "Its data is kept apart from the PWA's."
+
+msgid "También lleva a"
+msgstr "Also leads to"
+
+#, python-brace-format
+msgid "Te han compartido {n} rutinas"
+msgstr "Someone shared {n} routines with you"
+
+msgid "Te han compartido un plan"
+msgstr "Someone shared a plan with you"
+
+msgid "Te han compartido una rutina"
+msgstr "Someone shared a routine with you"
+
+#, python-brace-format
+msgid "Te lo recuerdo en {n} días"
+msgstr "I'll remind you in {n} days"
+
+#, python-brace-format
+msgid "Te paso {n} rutinas para Usus. Abre el enlace para añadirlas."
+msgstr "Here are {n} routines for Usus. Open the link to add them."
+
+#, python-brace-format
+msgid "Te paso la rutina «{x}» para Usus. Abre el enlace para añadirla."
+msgstr "Here's the routine “{x}” for Usus. Open the link to add it."
+
+msgid "Técnica (opcional)"
+msgstr "Technique (optional)"
+
+msgid "Técnica de un ejercicio (tempo, pausa, rango, agarre…): misma ficha del catálogo, pero su historial y su progresión van aparte. Se pone en el editor de rutina; en Stats, las variantes salen juntas bajo su ejercicio."
+msgstr "Exercise technique (tempo, pause, range, grip…): same catalogue card, but its own history and progression. Set it in the routine editor; in Stats, variations are grouped under their exercise."
+
+msgid "Tema"
+msgstr "Theme"
+
+msgid "Tema automático por defecto: sigue el modo claro u oscuro del móvil. Puedes cambiarlo en Ajustes → Apariencia."
+msgstr "Automatic theme by default: follows your phone's light or dark mode. Change it in Settings → Appearance."
+
+msgid "Tendencia (media de 3)"
+msgstr "Trend (3-point average)"
+
+msgid "Termina este día"
+msgstr "Ends this day"
+
+msgid "Termina o descarta antes la sesión en curso"
+msgstr "Finish or discard the current session first"
+
+msgid "Termina o para la serie en curso"
+msgstr "Finish or stop the current set"
+
+msgid "Terminar"
+msgstr "Finish"
+
+msgid "Terminar y guardar"
+msgstr "Finish and save"
+
+msgid "Terminas cansado; poco margen al final."
+msgstr "You finish tired; little left at the end."
+
+msgid "Texto"
+msgstr "Text"
+
+msgid "Tics en los últimos segundos"
+msgstr "Ticks in the last seconds"
+
+msgid "tiempo"
+msgstr "time"
+
+msgid "Tiempo"
+msgstr "Time"
+
+msgid "Tiempos"
+msgstr "Timing"
+
+msgid "Tiempos, esfuerzo, objetivos y catálogo"
+msgstr "Timers, effort, goals and catalogue"
+
+msgid "Tipo"
+msgstr "Type"
+
+msgid "Tipo de grupo"
+msgstr "Group type"
+
+msgid "Tipo de movimiento"
+msgstr "Movement type"
+
+msgid "Toca hoy"
+msgstr "Due today"
+
+msgid "Toca hoy:"
+msgstr "Due today:"
+
+#, python-brace-format
+msgid "Toca para añadir a «{x}», o arrastra a cualquier sección."
+msgstr "Tap to add to “{x}”, or drag to any section."
+
+msgid "Toca para añadir, o arrastra a la lista."
+msgstr "Tap to add, or drag to the list."
+
+msgid "Toca revisar el progreso y decidir el siguiente plan."
+msgstr "Time to review your progress and decide the next plan."
+
+msgid "Toca un día para abrirlo en el Diario."
+msgstr "Tap a day to open it in the Diary."
+
+msgid "Toca una semana para ver sus rutinas."
+msgstr "Tap a week to see its routines."
+
+msgid "Todas"
+msgstr "All"
+
+msgid "Todas las semanas"
+msgstr "Every week"
+
+msgid "Todo"
+msgstr "All"
+
+msgid "Todo en JSON: rutinas, plan, sesiones, pesos, diario, suplementos y ciclo. Sirve para restaurar."
+msgstr "Everything in JSON: routines, plan, sessions, weights, diary, supplements and cycle. Use it to restore."
+
+msgid "Todo en tablas (.zip) para analizarlo en una hoja de cálculo."
+msgstr "Everything in tables (.zip) to analyse in a spreadsheet."
+
+msgid "Todo lo que tenías."
+msgstr "Everything you had."
+
+msgid "Todo opcional, pero ayuda: no es lo mismo 5 flexiones de alguien que empieza que de alguien con dolor lumbar."
+msgstr "All optional, but it helps: 5 push-ups mean something different for a beginner than for someone with low back pain."
+
+msgid "Todos"
+msgstr "All"
+
+msgid "todos los días"
+msgstr "every day"
+
+msgid "Tomado"
+msgstr "Taken"
+
+msgid "tomados"
+msgstr "taken"
+
+msgid "Tracción"
+msgstr "Pull"
+
+msgid "Tracción horizontal"
+msgstr "Horizontal pull"
+
+msgid "Tracción vertical"
+msgstr "Vertical pull"
+
+msgid "Tras el descanso, la siguiente serie por tiempo empieza sola"
+msgstr "After the rest, the next timed set starts on its own"
+
+msgid "Tres sonidos: tic en los últimos segundos de cualquier cuenta atrás, inicio y fin. La vibración respeta siempre Ajustes → Avisos."
+msgstr "Three sounds: a tick in the last seconds of any countdown, start and end. Vibration always follows Settings → Alerts."
+
+msgid "Tu nombre"
+msgstr "Your name"
+
+msgid "Tu perfil"
+msgstr "Your profile"
+
+msgid "Tu progresión"
+msgstr "Your progression"
+
+msgid "Tus datos se guardan solo en este dispositivo. Haz copias desde Ajustes: si borras el navegador o desinstalas la app, se pierden."
+msgstr "Your data is stored only on this device. Make backups from Settings: clearing the browser or uninstalling the app deletes it."
+
+msgid "Tus datos solo están en este móvil."
+msgstr "Your data only lives on this phone."
+
+#, python-brace-format
+msgid "Última confirmación: ¿borrar «{x}»?"
+msgstr "Last confirmation: delete “{x}”?"
+
+msgid "Última confirmación: ¿borrar todo?"
+msgstr "Final confirmation: delete everything?"
+
+#, python-brace-format
+msgid "última copia {d}"
+msgstr "last backup {d}"
+
+#, python-brace-format
+msgid "Última sesión: {d}"
+msgstr "Last session: {d}"
+
+msgid "último"
+msgstr "last"
+
+msgid "Último"
+msgstr "Latest"
+
+msgid "Último tramo"
+msgstr "Last stretch"
+
+#, python-brace-format
+msgid "Últimos {n} días"
+msgstr "Last {n} days"
+
+msgid "Un archivo .json de Usus: una copia de seguridad o rutinas que te han pasado."
+msgstr "A Usus .json file: a backup or routines someone sent you."
+
+msgid "Un archivo .zip con una tabla por tipo de dato (sesiones, rutinas, diario, suplementos, peso, actividades y ciclo) y un archivo que explica cada columna. Para analizarlos a tu manera en una hoja de cálculo."
+msgstr "A .zip file with one table per data type (sessions, routines, diary, supplements, weight, activities and cycle) and a file explaining each column. To analyse it your way in a spreadsheet."
+
+msgid "Un plan rota variantes de tus rutinas por semanas (por ejemplo A, B, C cada 2 semanas) con semanas de descarga, y Hoy te dice qué rutina toca cada día."
+msgstr "A plan rotates variants of your routines by week (for example A, B, C every 2 weeks) with deload weeks, and Today tells you which routine is due each day."
+
+msgid "Una columna por sesión: apunta lo hecho (p. ej. 8·8·7·6)"
+msgstr "One column per session: write what you did (e.g. 8·8·7·6)"
+
+msgid "Una hoja por ejercicio con muchas fechas para ver su progresión."
+msgstr "One sheet per exercise with many dates to track its progress."
+
+msgid "Une tus nombres con las fichas del catálogo"
+msgstr "Link your names to the catalogue cards"
+
+msgid "Unidad"
+msgstr "Unit"
+
+msgid "Unidad de distancia"
+msgstr "Distance unit"
+
+msgid "Unidad y objetivos"
+msgstr "Unit and goals"
+
+#, python-brace-format
+msgid "Uno tras otro; descanso entre vueltas: {n} s"
+msgstr "One after another; rest between rounds: {n} s"
+
+msgid "Usar el catálogo"
+msgstr "Use the catalogue"
+
+msgid "Usus es una app web (PWA): se instala desde el navegador, sin tienda, y funciona sin conexión."
+msgstr "Usus is a web app (PWA): you install it from the browser, no app store, and it works offline."
+
+#, python-brace-format
+msgid "Usus incluye un catálogo opcional de {n} ejercicios de calistenia, cada uno con su ficha: para qué sirve, cómo se hace, errores típicos, material y progresión."
+msgstr "Usus includes an optional catalogue of {n} calisthenics exercises, each with its own card: what it's for, how to do it, common mistakes, equipment and progression."
+
+msgid "Usus prepara un texto con tus datos y las instrucciones para que una IA (ChatGPT, Claude, Gemini…) los analice. Usus no envía nada: lo copias o compartes tú."
+msgstr "Usus prepares a text with your data and instructions for an AI (ChatGPT, Claude, Gemini…) to analyse it. Usus sends nothing: you copy or share it yourself."
+
+msgid "Usus: registro de entrenos y hábitos. Gratis, sin cuentas y tus datos se quedan en tu móvil."
+msgstr "Usus: workout and habit log. Free, no accounts, and your data stays on your phone."
+
+msgid "Útil con auriculares o si entrenas con gente al lado. Si no vibra, revisa No molestar y la vibración del sistema."
+msgstr "Useful with headphones or when training next to others. If it doesn't vibrate, check Do Not Disturb and the system vibration."
+
+msgid "V"
+msgstr "F"
+
+msgid "Vacaciones, lesión, un viaje…"
+msgstr "Holidays, injury, a trip…"
+
+msgid "Vacaciones, lesión, un viaje… Las semanas de pausa solo sugieren las rutinas de todas las semanas, y el resto del plan se corre."
+msgstr "Holidays, injury, a trip… Pause weeks only suggest every-week routines, and the rest of the plan moves later."
+
+msgid "Vacía: añade o arrastra aquí ejercicios."
+msgstr "Empty: add or drag exercises here."
+
+msgid "Vacío"
+msgstr "Empty"
+
+msgid "Valores típicos (mediana) de las últimas 4 semanas: un día suelto a otra hora no los desvía."
+msgstr "Typical values (median) over the last 4 weeks: a one-off day at another time doesn't skew them."
+
+msgid "Variación entre ciclos"
+msgstr "Variation between cycles"
+
+msgid "Variante"
+msgstr "Variant"
+
+#, python-brace-format
+msgid "Variante {v}"
+msgstr "Variant {v}"
+
+#, python-brace-format
+msgid "Variante de {x}: se puede alternar con él."
+msgstr "Variation of {x}: you can alternate them."
+
+msgid "Variante del plan"
+msgstr "Plan variant"
+
+msgid "Variante repetida: sube 1-2 reps o 1 serie si hay margen."
+msgstr "Repeated variant: add 1-2 reps or 1 set if you have room."
+
+msgid "Variante repetida: subida automática según tu plan."
+msgstr "Repeated variant: automatic increase from your plan."
+
+msgid "Variantes del mismo nivel"
+msgstr "Variations at the same level"
+
+msgid "Varias personas pueden usar Usus en este móvil, cada una con sus propios datos y ajustes."
+msgstr "Several people can use Usus on this phone, each with their own data and settings."
+
+msgid "Varios planes: el activo marca Hoy y los demás quedan guardados para activar, duplicar o borrar. Cada plan puede tener nombre."
+msgstr "Several plans: the active one drives Today and the rest stay saved to activate, duplicate or delete. Each plan can have a name."
+
+msgid "Vas a compartir datos de salud con un servicio externo"
+msgstr "You're about to share health data with an external service"
+
+msgid "Ventana fértil"
+msgstr "Fertile window"
+
+msgid "Ver el aviso"
+msgstr "View the notice"
+
+msgid "Ver el plan"
+msgstr "See the plan"
+
+msgid "Ver en el Diario"
+msgstr "See in the Diary"
+
+msgid "Ver en Progreso"
+msgstr "See in Progress"
+
+msgid "Ver esta semana"
+msgstr "See this week"
+
+msgid "Ver ficha"
+msgstr "View card"
+
+msgid "Ver historial"
+msgstr "View history"
+
+msgid "Ver la app primero. Las rutinas se crean en Biblioteca → Nueva rutina."
+msgstr "See the app first. Routines are created in Library → New routine."
+
+msgid "Ver notas"
+msgstr "See notes"
+
+msgid "Ver versiones"
+msgstr "See versions"
+
+msgid "versión"
+msgstr "version"
+
+#, python-brace-format
+msgid "Versión {v}"
+msgstr "Version {v}"
+
+msgid "Vincula los ejercicios que ya usas con el catálogo para ver su ficha y unir su historial. Tu nombre se conserva y nada cambia sin tu confirmación."
+msgstr "Link the exercises you already use to the catalogue to see their card and merge their history. Your name is kept and nothing changes without your confirmation."
+
+msgid "vinculado"
+msgstr "linked"
+
+msgid "Vincular"
+msgstr "Link"
+
+msgid "Vincular ejercicios"
+msgstr "Link exercises"
+
+msgid "Vincular: une los ejercicios que ya usas con el catálogo para ver su ficha y juntar su historial. Tu nombre se conserva y se puede deshacer."
+msgstr "Link: connect the exercises you already use to the catalogue to see their card and merge their history. Your name is kept and it can be undone."
+
+msgid "Visible"
+msgstr "Visible"
+
+msgid "Vista previa"
+msgstr "Preview"
+
+#, python-brace-format
+msgid "Vista previa: {n} semanas, {d} de descarga."
+msgstr "Preview: {n} weeks, {d} deload."
+
+msgid "Volver"
+msgstr "Back"
+
+msgid "Volver a los datos"
+msgstr "Back to the data"
+
+#, python-brace-format
+msgid "Volver a proponer en todos ({n} silenciados)"
+msgstr "Suggest for all again ({n} muted)"
+
+msgid "Volver al paso anterior"
+msgstr "Go back a step"
+
+#, python-brace-format
+msgid "vuelta {n} de {m}"
+msgstr "round {n} of {m}"
+
+msgid "Vuelta a la calma"
+msgstr "Cool-down"
+
+msgid "Vueltas"
+msgstr "Rounds"
+
+msgid "Vuelve a funcionar sin conexión: desde la 1.2.1 la app no se guardaba en el móvil para usarla offline."
+msgstr "Works offline again: since 1.2.1 the app wasn't being stored on the phone for offline use."
+
+msgid "X"
+msgstr "W"
+
+#, python-brace-format
+msgid "Y {n} días más en el Diario."
+msgstr "And {n} more days in the Diary."
+
+msgid "Ya hay un perfil con ese nombre"
+msgstr "There's already a profile with that name"
+
+msgid "Ya hay una pausa esa semana"
+msgstr "There's already a pause that week"
+
+msgid "Ya la estás usando como app instalada."
+msgstr "You're already using it as an installed app."
+
+#, python-brace-format
+msgid "Ya la tienes igual: «{x}»"
+msgstr "You already have it: “{x}”"
+
+#, python-brace-format
+msgid "Ya la tienes: «{x}»"
+msgstr "You already have it: “{x}”"
+
+msgid "Ya tienes esta rutina, igual."
+msgstr "You already have this routine, identical."
+
+msgid "Ya tienes todas estas rutinas, iguales."
+msgstr "You already have all these routines, identical."
+
+msgid "Ya tienes una sesión en curso. ¿Descartarla y empezar otra?"
+msgstr "You already have a session in progress. Discard it and start another?"
+
+msgid "Yo"
+msgstr "Me"
+
+msgid "Zona peligrosa"
+msgstr "Danger zone"
+
+#~ msgid "Diario: el peso se anota aquí. Solo se ven las casillas con datos; lo demás se añade con un toque (+ Sueño, + Peso, + Pasos…)."
+#~ msgstr "Diary: weight is logged here. Only boxes with data are shown; add the rest with one tap (+ Sleep, + Weight, + Steps…)."
+
+#~ msgid "Racha"
+#~ msgstr "Streak"
+
+#~ msgid "esta"
+#~ msgstr "this one"
+
+#~ msgid "Plan «en orden» (por defecto en planes nuevos): hoy toca la siguiente sesión que falte, sea el día que sea; si empiezas un domingo o fallas un día, se recupera, y la semana del plan pasa al hacerlas todas."
+#~ msgstr "“In order” plans (default for new plans): today is the next session still to do, whatever the day; if you start on a Sunday or miss a day you catch up, and the plan week moves on when all are done."
+
+#~ msgid "Plan flexible: aplazar a mañana las sesiones de hoy (las siguientes de la semana se corren), hacer descarga esta semana o pausar el plan 1 a 4 semanas; el resto del plan se corre. Además, «Rutinas y días» se eligen dentro del propio plan."
+#~ msgstr "Flexible plan: move today's sessions to tomorrow (the rest of the week shifts), make this a deload week or pause the plan for 1 to 4 weeks; the rest of the plan moves later. Also, “Routines and days” are chosen inside the plan itself."
+
+#~ msgid "¿Hacer descarga esta semana? Solo se sugieren las rutinas de todas las semanas, y el resto del plan se corre una semana."
+#~ msgstr "Make this a deload week? Only every-week routines are suggested, and the rest of the plan moves one week later."
+
+#~ msgid "El plan empieza el lunes de la semana de inicio. Sin revisión, dura un año."
+#~ msgstr "The plan starts on the Monday of the start week. Without a review date it lasts a year."
+
+#~ msgid "Elige la semana pasada (o antes) para recuperar las sesiones que te saltaste: Hoy te las propone primero."
+#~ msgstr "Choose last week (or earlier) to catch up on the sessions you skipped: Today suggests them first."
+
+#, python-brace-format
+#~ msgid "Empieza el {d}."
+#~ msgstr "Starts {d}."
+
+#~ msgid "En orden, el plan empieza el mismo día de inicio."
+#~ msgstr "In order, the plan starts on the start day itself."
+
+#~ msgid "Hoy toca la siguiente que falte, sea el día que sea: si empiezas un domingo o fallas un día, se recupera. La semana del plan pasa al hacerlas todas."
+#~ msgstr "Today is the next one still to do, whatever the day: if you start on a Sunday or miss a day, you catch up. The plan week moves on when all are done."
+
+#~ msgid "la pasada"
+#~ msgstr "last week"
+
+#~ msgid "Seguir en orden desde"
+#~ msgstr "Continue in order from"
+
+#~ msgid "Sesiones en orden"
+#~ msgstr "Sessions in order"
+
+#~ msgid "Ver plan"
+#~ msgstr "View plan"
+
+#~ msgid "Datos para el análisis con IA"
+#~ msgstr "Data for AI analysis"
+
+#~ msgid "sin objetivo"
+#~ msgstr "no target"
+
+#~ msgid "Toca una semana para ver sus días en el Diario."
+#~ msgstr "Tap a week to see its days in the Diary."
+
+#~ msgid "Aún no tienes rutinas. Créalas en Entreno → Rutinas y vuelve aquí."
+#~ msgstr "You have no routines yet. Create them in Workout → Routines and come back here."
+
+#~ msgid "El plan de progresión pasa de Hoy a Entreno → Plan, junto a las rutinas que usa."
+#~ msgstr "The progression plan moves from Today to Workout → Plan, next to the routines it uses."
+
+#~ msgid "Nueva estructura: Hoy · Entreno · Diario · Progreso · Ajustes. Entreno reúne Rutinas, Plan y Ejercicios; Stats pasa a llamarse Progreso."
+#~ msgstr "New layout: Today · Workout · Diary · Progress · Settings. Workout brings together Routines, Plan and Exercises; Stats is now called Progress."
+
+#~ msgid "Ver la app primero. Las rutinas se crean en Entreno → Nueva rutina."
+#~ msgstr "See the app first. Routines are created in Workout → New routine."
+
+#, python-brace-format
+#~ msgid "{e} ejercicios · ≈ {m} min"
+#~ msgstr "{e} exercises · ≈ {m} min"
+
+#~ msgid "Para que funcione, pon a cada rutina su variante y sus días al editarla."
+#~ msgstr "For it to work, give each routine its variant and days when editing it."
+
+#~ msgid "Revisa la sesión. El reloj y las series se activan al iniciar."
+#~ msgstr "Review the session. The clock and sets activate when you start."
+
+#~ msgid "Ver licencia completa"
+#~ msgstr "View full license"
+
+#~ msgid "Volver a ver el aviso"
+#~ msgstr "Show the notice again"
+
+#~ msgid "Sustituirá tu plan actual."
+#~ msgstr "It will replace your current plan."
+
+#, python-brace-format
+#~ msgid "{r} rutinas · {s} sesiones"
+#~ msgstr "{r} routines · {s} sessions"
+
+#~ msgid "Bloque"
+#~ msgstr "Block"
+
+#~ msgid "Desactivado por defecto. Al activarlo aparece en Hoy, Diario y Stats; desactivado no se ve nada."
+#~ msgstr "Off by default. When on it shows in Today, Diary and Stats; when off nothing is shown."
+
+#~ msgid "Guardar o compartir .txt"
+#~ msgstr "Save or share .txt"
+
+#~ msgid "La misma Usus, instalada como app (APK). Sus datos van aparte: exporta una copia aquí (Ajustes → Datos) e impórtala allí."
+#~ msgstr "The same Usus, installed as an app (APK). Its data is separate: export a backup here (Settings → Data) and import it there."
+
+#~ msgid "Las rutinas sin días no se sugieren. Ponles días en Rutinas → Editar."
+#~ msgstr "Routines without days aren't suggested. Add days in Routines → Edit."
+
+#~ msgid "Marca los días de cada rutina en Rutinas → Editar."
+#~ msgstr "Set each routine's days in Routines → Edit."
+
+#~ msgid "Para que funcione, pon a cada rutina su Variante y sus Días en Rutinas → Editar."
+#~ msgstr "For it to work, give each routine its Variant and Days in Routines → Edit."
+
+#~ msgid "Series hechas por bloque en las últimas 4 semanas."
+#~ msgstr "Sets done per block in the last 4 weeks."
+
+#~ msgid "Solo se usan al preparar un análisis con IA externa (Stats → Resumen). Van en la copia de seguridad del perfil."
+#~ msgstr "Only used when preparing an external AI analysis (Stats → Summary). Included in the profile backup."
+
+#~ msgid "Ver estadísticas"
+#~ msgstr "View stats"
+
+#~ msgid "Ver la app primero. Las rutinas se crean en Rutinas → Nueva rutina."
+#~ msgstr "See the app first. Routines are created in Routines → New routine."
+
+#~ msgid "Al terminar cada sesión"
+#~ msgstr "After each session"
+
+#~ msgid "La PEM y la carga (PEM × minutos) se ven en el Diario y en Stats → Entreno, y van en el análisis con IA y en el CSV."
+#~ msgstr "RPE and load (RPE × minutes) show in the Diary and in Stats → Workout, and are included in the AI analysis and the CSV."
+
+#~ msgid "Para quien empieza: fichas con explicación, material y progresiones al crear rutinas. Si ya lo tienes claro, puedes prescindir; tus rutinas funcionan igual. Funciona sin conexión."
+#~ msgstr "For beginners: cards with explanations, equipment and progressions when building routines. If you already know your way around, you can skip it; your routines work the same. Works offline."
+
+#~ msgid "Preparación: cuenta atrás antes de una serie por tiempo que arrancas tú (▶) o al reanudar. Aviso final: tics en los últimos segundos de cualquier cuenta atrás. Cambio de lado: pausa entre lado 1 y lado 2. Inicio automático: al acabar el descanso, la siguiente serie por tiempo empieza sola (el final del descanso hace de preparación); las series por repeticiones nunca."
+#~ msgstr "Get ready: countdown before a timed set you start yourself (▶) or when resuming. Final warning: ticks in the last seconds of any countdown. Side switch: pause between side 1 and side 2. Auto start: when the rest ends, the next timed set starts by itself (the end of the rest is the get-ready); rep sets never do."
+
+#~ msgid "Propuestas de progresión"
+#~ msgstr "Progression suggestions"
+
+#~ msgid "Repeticiones en reserva al marcar cada serie. Para afinar la intensidad."
+#~ msgstr "Reps in reserve when you tick each set. To fine-tune intensity."
+
+#~ msgid "Se muestran en Stats → Resumen. 0 = no mostrar. Fuerza = cualquier bloque salvo Diaria, Cardio y Otro."
+#~ msgstr "Shown in Stats → Summary. 0 = hide. Strength = any block except Daily, Cardio and Other."
+
+#~ msgid "Se usan en los ejercicios sin descanso propio (Rutinas → Editar). 0 = sin descanso."
+#~ msgstr "Used for exercises without their own rest (Routines → Edit). 0 = no rest."
+
+#~ msgid "Solo para ejercicios del catálogo. El objetivo es el de cada ejercicio en tu rutina; en «por lado» cuenta el peor lado. Las rutinas con subida automática en el plan solo reciben propuestas de retroceder."
+#~ msgstr "Catalogue exercises only. The target is each exercise's target in your routine; for “per side” the weaker side counts. Routines with automatic increases in the plan only get go-back suggestions."
+
+#~ msgid "App"
+#~ msgstr "App"
+
+#~ msgid "desc."
+#~ msgstr "rest"
+
+#~ msgid "Estadísticas"
+#~ msgstr "Statistics"
+
+#~ msgid "Mis rutinas"
+#~ msgstr "My routines"
+
+#~ msgid "Otra rutina…"
+#~ msgstr "Another routine…"
+
+#, python-brace-format
+#~ msgid "Se muestran los 6 últimos de {n}."
+#~ msgstr "Showing the latest 6 of {n}."
+
+#~ msgid "Stats"
+#~ msgstr "Stats"
+
+#, python-brace-format
+#~ msgid "Todo lo de esta pantalla es solo de {x}."
+#~ msgstr "Everything on this screen belongs to {x} only."
+
+#~ msgid "tras"
+#~ msgstr "after"
+
+#, python-brace-format
+#~ msgid "{x} completado · {n} de {n} series"
+#~ msgstr "{x} done · {n} of {n} sets"
+
+#~ msgid "Aún no hay objetivos. Fija los de fuerza y diaria en Datos, y los de distancia y pasos en Actividad → Unidad y objetivos."
+#~ msgstr "No goals yet. Set strength and daily goals in Data, and distance and steps in Activity → Unit and goals."
+
+#~ msgid "Inicio: pitidos antes de cada serie por tiempo (la primera y, en series encadenadas, al final del descanso). Aviso final: pitidos en los últimos segundos de cada serie y de los demás descansos."
+#~ msgstr "Start: beeps before each timed set (the first one and, in chained sets, at the end of the rest). Final warning: beeps in the last seconds of each set and of other rests."
+
+#~ msgid "Kilómetros por semana (la barra oscura es la actual)."
+#~ msgstr "Kilometres per week (the dark bar is the current one)."
+
+#~ msgid "Horas por semana (la barra oscura es la actual)."
+#~ msgstr "Hours per week (the dark bar is the current one)."
+
+#~ msgid "Cuenta atrás de inicio: pitidos en los últimos segundos de cualquier cuenta atrás que no sea una serie (descansos, cambio de lado, preparación). Aviso final: pitidos en los últimos segundos de cada serie por tiempo. Inicio automático: tras el descanso, la siguiente serie por tiempo arranca sola (en repeticiones nunca); si no, pulsas ▶."
+#~ msgstr "Start countdown: beeps in the last seconds of any countdown that isn't a set (rests, side switch, get ready). Final warning: beeps in the last seconds of each timed set. Auto-start: after the rest, the next timed set starts on its own (never for reps); otherwise you tap ▶."
+
+#~ msgid "Cuenta atrás de inicio (s)"
+#~ msgstr "Start countdown (s)"
+
+#~ msgid "Series por tiempo: segundos para colocarte antes de la primera y pitidos en los últimos segundos de cada serie y descanso."
+#~ msgstr "Timed sets: seconds to get in position before the first one, and beeps in the last seconds of each set and rest."
+
+#, python-brace-format
+#~ msgid "Cuenta atrás de inicio: {n} s"
+#~ msgstr "Start countdown: {n} s"
+
+#, python-brace-format
+#~ msgid "Hoy toca ({d}):"
+#~ msgstr "Today ({d}):"
+
+#~ msgid "Un plan rota variantes de tus rutinas por semanas (por ejemplo A, B, C cada 2 semanas) con semanas de descarga. Entrenar te sugerirá la rutina de cada día."
+#~ msgstr "A plan rotates variants of your routines by week (for example A, B, C every 2 weeks) with deload weeks. Train will suggest each day's routine."
+
+#~ msgid "Plan desactivado: Entrenar no lo muestra."
+#~ msgstr "Plan turned off: Train doesn't show it."
+
+#~ msgid "Plan activo (se muestra en Entrenar)"
+#~ msgstr "Plan active (shown in Train)"
+
+#~ msgid "Todo en JSON: rutinas, plan, sesiones, pesos, diario y suplementos. Sirve para restaurar."
+#~ msgstr "Everything as JSON: routines, plan, sessions, weights, diary and supplements. Use it to restore."
+
+#~ msgid "Entrenar"
+#~ msgstr "Train"
+
+#~ msgid "Aún no hay sesiones registradas."
+#~ msgstr "No sessions logged yet."
+
+#~ msgid "Empezar con una rutina"
+#~ msgstr "Start a routine"
+
+#~ msgid "No tienes rutinas."
+#~ msgstr "You have no routines."
+
+#~ msgid "Crear una rutina"
+#~ msgstr "Create a routine"
+
+#~ msgid "O sin rutina"
+#~ msgstr "Or without a routine"
+
+#~ msgid "Datos guardados solo en este dispositivo. Haz copias desde Datos."
+#~ msgstr "Data saved only on this device. Make backups from Data."
+
+#, python-brace-format
+#~ msgid "Parar serie {n}"
+#~ msgstr "Stop set {n}"
+
+#~ msgid "Prepárate…"
+#~ msgstr "Get ready…"
+
+#~ msgid "descanso"
+#~ msgstr "rest"
+
+#, python-brace-format
+#~ msgid "Lado {n}"
+#~ msgstr "Side {n}"
+
+#~ msgid "Cambia de lado…"
+#~ msgstr "Switch sides…"
+
+#~ msgid "Horas de sueño, últimas 14 noches"
+#~ msgstr "Hours of sleep, last 14 nights"
+
+#~ msgid "1 noche registrada en 30 días."
+#~ msgstr "1 night logged in 30 days."
+
+#, python-brace-format
+#~ msgid "{n} noches registradas en 30 días."
+#~ msgstr "{n} nights logged in 30 days."
+
+#~ msgid "Días tomados en los últimos 30 días (o desde que lo añadiste)."
+#~ msgstr "Days taken in the last 30 days (or since you added it)."
+
+#~ msgid "Sin notas en los últimos 30 días."
+#~ msgstr "No notes in the last 30 days."
+
+#~ msgid "Todo en JSON: rutinas, sesiones, pesos, diario y suplementos. Sirve para restaurar."
+#~ msgstr "Everything as JSON: routines, sessions, weights, diary and supplements. Use it to restore."
+
+#~ msgid "Sesiones en CSV"
+#~ msgstr "Sessions as CSV"
+
+#~ msgid "Una fila por serie. Para hojas de cálculo."
+#~ msgstr "One row per set. For spreadsheets."
+
+#~ msgid "Descanso"
+#~ msgstr "Rest"
+
+#~ msgid "Por defecto (s)"
+#~ msgstr "Default (s)"
+
+#~ msgid "Se usa en los ejercicios que no tienen un descanso propio (Rutinas → Editar → Descanso). 0 = sin descanso."
+#~ msgstr "Used for exercises without their own rest (Routines → Edit → Rest). 0 = no rest."
+
+#~ msgid "Probar sonido y vibración"
+#~ msgstr "Test sound and vibration"
+
+#~ msgid "Tus datos se guardan solo en este dispositivo. Haz copias desde Datos: si borras el navegador o desinstalas la app, se pierden."
+#~ msgstr "Your data is stored only on this device. Make backups from Data: clearing the browser or uninstalling the app deletes it."
+
+#~ msgid "Notas recientes"
+#~ msgstr "Recent notes"
+
+#, python-brace-format
+#~ msgid "Añadidas {n} rutinas y el plan"
+#~ msgstr "Added {n} routines and the plan"

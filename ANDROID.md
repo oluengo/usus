@@ -60,3 +60,11 @@ npx cap open android  # o: cd android && ./gradlew assembleDebug
 ## English
 
 The Android app is the **same PWA** packaged with Capacitor, plus a small bridge (`scripts/native.js`) for native file sharing, keeping the screen on while training and the Back button. GitHub Actions builds it: tag `vX.Y.Z` (matching `APP_VERSION`) or a Release published on the web → APK attached with notes from CHANGELOG.md; push to `android` or a manual run → APK and AAB in *Artifacts*. Only one permission (vibration); no Internet or storage permission. Signing uses the repository secrets `ANDROID_KEYSTORE_BASE64`, `ANDROID_KEYSTORE_PASSWORD`, `ANDROID_KEY_ALIAS` and `ANDROID_KEY_PASSWORD` (see the `keytool` commands above). Keep the key safe: without it, no updates can be published. PWA and APK data are separate; move them with an exported backup.
+
+## Versión de pruebas (beta)
+
+Lo nuevo se prueba primero en la rama `beta`, sin tocar la versión principal (`main`):
+
+- **Web beta:** https://oluengo.github.io/usus/beta/ — guarda sus datos aparte de la web principal (para probar con tus datos, importa una copia de seguridad).
+- **App «Usus Beta»:** se instala junto a la Usus normal (otra app, `io.github.oluengo.usus.beta`, con sus propios datos). Cada push a `beta` publica la pre-release **Usus Beta** en Releases (versión `X.Y.Z-beta.N`). En Obtainium se puede añadir aparte activando «incluir pre-releases».
+- Cuando la beta está bien, se pasa a `main` y se publica la versión normal.

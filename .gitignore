@@ -6,3 +6,6 @@ android/.gradle/
 android/local.properties
 *.keystore
 *.jks
+
+playwright-report/
+test-results/

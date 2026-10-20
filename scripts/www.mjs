@@ -7,7 +7,9 @@ cpSync("fonts", "www/fonts", { recursive: true });
 cpSync("scripts/native.js", "www/native.js");
 const html = readFileSync("www/index.html", "utf8");
 if (!html.includes("</head>")) throw new Error("index.html sin </head>");
-writeFileSync("www/index.html", html.replace("</head>", '<script src="native.js"></script>\n</head>'));
+// Beta (USUS_BETA=1): app aparte «Usus Beta»; la web lo sabe por window.USUS_BETA.
+const beta = process.env.USUS_BETA === "1";
+writeFileSync("www/index.html", html.replace("<head>", beta ? '<head>\n<script>window.USUS_BETA=true</script>' : "<head>").replace("</head>", '<script src="native.js"></script>\n</head>'));
 const v = /const APP_VERSION = "([\d.]+)"/.exec(readFileSync("index.html", "utf8"))[1];
 writeFileSync("www/version.txt", v + "\n");
-console.log("www/ listo · versión", v);
+console.log("www/ listo · versión", v, beta ? "(beta)" : "");

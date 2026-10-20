@@ -4,16 +4,21 @@
   "description": "Empaquetado Android de Usus (Capacitor). La app es la misma PWA: index.html, ejercicios.json, iconos y fuentes.",
   "license": "MIT",
   "scripts": {
-    "www": "node scripts/www.mjs",
-    "sync": "npm run www && npx cap sync android"
+    "build": "node scripts/i18n.mjs build",
+    "www": "npm run build && node scripts/www.mjs",
+    "sync": "npm run www && npx cap sync android",
+    "i18n": "node scripts/i18n.mjs all",
+    "test": "playwright test"
   },
   "devDependencies": {
+    "@axe-core/playwright": "4.10.2",
     "@capacitor-community/keep-awake": "8.0.1",
     "@capacitor/android": "8.5.2",
     "@capacitor/app": "8.1.2",
     "@capacitor/cli": "8.5.2",
     "@capacitor/core": "8.5.2",
     "@capacitor/filesystem": "8.1.4",
-    "@capacitor/share": "8.0.3"
+    "@capacitor/share": "8.0.3",
+    "@playwright/test": "1.56.0"
   }
 }
