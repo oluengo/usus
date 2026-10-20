@@ -12,8 +12,8 @@ Rediseño: estructura nueva, componentes unificados y glosario único (es/ca/en)
 - Hoy: lo que toca, arriba y con un único botón Empezar; accesos rápidos a otra rutina, sesión libre y actividad; los avisos, juntos en «Pendiente».
 - Rutinas agrupadas por variante. Cada rutina se abre en su propia pantalla (en PC, al lado de la lista) con Empezar, Editar, Imprimir, Compartir y Duplicar.
 - El plan de progresión pasa de Hoy a Biblioteca → Plan, junto a las rutinas que usa.
-- Plan flexible: aplazar a mañana las sesiones de hoy (las siguientes de la semana se corren), hacer descarga esta semana o pausar el plan 1 a 4 semanas; el resto del plan se corre. Además, «Rutinas y días» se eligen dentro del propio plan.
-- Plan «en orden» (por defecto en planes nuevos): hoy toca la siguiente sesión que falte, sea el día que sea; si empiezas un domingo o fallas un día, se recupera, y la semana del plan pasa al hacerlas todas.
+- Hoy, más limpio: lo que toca, la semana del plan en una línea (toca para verla) y un menú ⋯ con descarga esta semana o pausar el plan 1 a 4 semanas. «Rutinas y días» se eligen dentro del propio plan.
+- Planes en orden: hoy toca la siguiente sesión que falte, sea el día que sea; si empiezas un domingo o fallas un día, se recupera, y la semana del plan pasa al hacerlas todas. Tus planes pasan solos a este modo desde la semana en la que ibas, y al editarlos puedes volver a una semana anterior para recuperarla.
 - Diario: el peso se anota aquí. Solo se ven las casillas con datos; lo demás se añade con un toque (+ Sueño, + Peso, + Pasos…).
 - Ajustes en grupos, cada uno con su pantalla: Perfil, Entreno, Avisos, Apariencia e idioma, Datos y copias, y Acerca de. Interruptores para activar opciones.
 - Editor de rutina más compacto en el móvil: cada ejercicio en una fila con su resumen; los detalles se abren al tocarla.
@@ -252,8 +252,8 @@ Primera versión pública.
 - Avui: el que toca, a dalt i amb un sol botó Comença; accessos ràpids a una altra rutina, sessió lliure i activitat; els avisos, junts a «Pendent».
 - Rutines agrupades per variant. Cada rutina s'obre a la seva pantalla (a l'ordinador, al costat de la llista) amb Comença, Edita, Imprimeix, Comparteix i Duplica.
 - El pla de progressió passa d'Avui a Biblioteca → Pla, al costat de les rutines que fa servir.
-- Pla flexible: ajornar a demà les sessions d'avui (les següents de la setmana es desplacen), fer descàrrega aquesta setmana o pausar el pla d'1 a 4 setmanes; la resta del pla es desplaça. A més, «Rutines i dies» es trien dins del mateix pla.
-- Pla «en ordre» (per defecte en plans nous): avui toca la següent sessió que falti, sigui el dia que sigui; si comences un diumenge o falles un dia, es recupera, i la setmana del pla passa en fer-les totes.
+- Avui, més net: el que toca, la setmana del pla en una línia (toca-la per veure-la) i un menú ⋯ amb descàrrega aquesta setmana o pausar el pla d'1 a 4 setmanes. «Rutines i dies» es trien dins del mateix pla.
+- Plans en ordre: avui toca la següent sessió que falti, sigui el dia que sigui; si comences un diumenge o falles un dia, es recupera, i la setmana del pla passa en fer-les totes. Els teus plans passen sols a aquest mode des de la setmana on anaves, i en editar-los pots tornar a una setmana anterior per recuperar-la.
 - Diari: el pes s'anota aquí. Només es veuen les caselles amb dades; la resta s'afegeix amb un toc (+ Son, + Pes, + Passos…).
 - Ajustos en grups, cadascun amb la seva pantalla: Perfil, Entrenament, Avisos, Aparença i idioma, Dades i còpies, i Quant a. Interruptors per activar opcions.
 - Editor de rutina més compacte al mòbil: cada exercici en una fila amb el seu resum; els detalls s'obren en tocar-la.
@@ -337,8 +337,8 @@ Primera versió pública: rutines amb sèries per repeticions o per temps, compt
 - Today: what's on, at the top with a single Start button; shortcuts to another routine, a free session and an activity; reminders together under “To do”.
 - Routines grouped by variant. Each routine opens on its own screen (on a computer, next to the list) with Start, Edit, Print, Share and Duplicate.
 - The progression plan moves from Today to Library → Plan, next to the routines it uses.
-- Flexible plan: move today's sessions to tomorrow (the rest of the week shifts), make this a deload week or pause the plan for 1 to 4 weeks; the rest of the plan moves later. Also, “Routines and days” are chosen inside the plan itself.
-- “In order” plans (default for new plans): today is the next session still to do, whatever the day; if you start on a Sunday or miss a day you catch up, and the plan week moves on when all are done.
+- Cleaner Today: what's on, the plan week in one line (tap to see it) and a ⋯ menu to deload this week or pause the plan for 1 to 4 weeks. “Routines and days” are chosen inside the plan itself.
+- In-order plans: today is the next session still to do, whatever the day; if you start on a Sunday or miss a day you catch up, and the plan week moves on when all are done. Your plans switch to this mode automatically from the week you were on, and when editing them you can go back to an earlier week to catch up.
 - Diary: weight is logged here. Only boxes with data are shown; add the rest with one tap (+ Sleep, + Weight, + Steps…).
 - Settings in groups, each with its own screen: Profile, Workout, Alerts, Appearance and language, Data and backups, and About. Switches to turn options on.
 - More compact routine editor on phones: one row per exercise with its summary; tap it to open the details.

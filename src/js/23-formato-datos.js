@@ -46,7 +46,7 @@ async function importJSON(text) {
   }
   if (j.weightGoal && !W.goal()) LS.set("wk.weightGoal", +j.weightGoal);
   if (j.diary && typeof j.diary === "object") { const cur = DY.all(); Object.entries(j.diary).forEach(([k, v]) => { if (/^\d{4}-\d{2}-\d{2}$/.test(k) && v && typeof v === "object") cur[k] = { ...(cur[k] || {}), ...v, supp: { ...(cur[k]?.supp || {}), ...(v.supp || {}) } }; }); LS.set("wk.diary", cur); }
-  if (j.plan && typeof j.plan === "object" && j.plan.start && Array.isArray(j.plan.phases)) PL.save(j.plan);
+  if (j.plan && typeof j.plan === "object" && j.plan.start && Array.isArray(j.plan.phases)) PL.save(planToOrder(j.plan));
   if (Array.isArray(j.plans)) PLS.save(j.plans.filter(p => p && typeof p === "object" && p.start && Array.isArray(p.phases)).map(p => ({ ...p, id: p.id || uid() })));
   if (Array.isArray(j.supplements)) { const m = new Map(DY.supps().map(x => [x.id, x])); j.supplements.filter(x => x && x.id && x.name).forEach(x => m.set(x.id, x)); DY.saveSupps([...m.values()]); }
   if (Array.isArray(j.activities)) { const m = new Map(ACT.list().map(x => [x.id, x])); j.activities.filter(x => x && x.id && /^\d{4}-\d{2}-\d{2}$/.test(x.k) && x.type && (+x.km > 0 || +x.min > 0)).forEach(x => m.set(x.id, { id: String(x.id), k: x.k, type: String(x.type).slice(0, 24), km: +x.km || 0, min: +x.min || 0, note: String(x.note || "").slice(0, 140) })); ACT.save([...m.values()]); }

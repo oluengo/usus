@@ -47,23 +47,19 @@ test("rutinas y días desde el plan", async ({ page }) => {
   expect((await ls(page, "wk.plan")).rmap).toBeUndefined();
   expect(errors).toEqual([]);
 });
-test("aplazar una sesión, descarga esta semana y pausa", async ({ page }) => {
+test("plan antiguo pasa a «en orden»; descarga esta semana y pausa", async ({ page }) => {
   const D = { id: "rd", name: "Diaria", block: "core", variant: "", days: [0, 1, 2, 3, 4, 5, 6], exercises: [{ name: "Plancha", sets: 1, reps: 30, type: "time" }] };
   const errors = await openApp(page, { clock: new Date("2026-10-19T09:00:00"), data: { "wk.routines": [...R, D], "wk.plan": PLAN } });   // lunes, semana 3 = B
-  const today = () => page.locator(".today > .sugr, .today > p").allInnerTexts().then(l => l.join(" | "));   // lo de hoy (sin «Pendientes esta semana»)
-  expect(await today()).toContain("B · Fuerza");
-  await page.locator('[data-act="pl-postpone"]').click();
+  const p0 = await ls(page, "wk.plan"); expect([p0.order, p0.orderAt]).toEqual([true, 2]);                 // migrado desde la semana en la que iba
+  const today = () => page.locator(".today > .sugr").allInnerTexts().then(l => l.join(" | "));
+  expect(await today()).toContain("B · Fuerza"); expect(await today()).toContain("Diaria");
+  await expect(page.locator(".weekline")).toContainText("0/1");
+  await page.locator('[data-act="pl-menu"]').click(); await page.locator('.modal [data-act="pl-deload"]').click();   // confirm aceptado
   expect(await today()).not.toContain("B · Fuerza"); expect(await today()).toContain("Diaria");
-  await page.clock.fastForward("24:00:00"); await page.locator('nav [data-tab="routines"]').click(); await page.locator('nav [data-tab="train"]').click();
-  expect(await today()).toContain("B · Fuerza");                                   // martes: lo del lunes
-  await page.locator('[data-act="pl-deload"]').click();                            // descarga esta semana (confirm aceptado)
-  expect(await today()).toContain("descarga"); expect(await today()).not.toContain("B · Fuerza");
-  const ws = await page.evaluate(() => JSON.parse(localStorage.getItem("wk.plan")).pauses);
-  expect(ws).toEqual([{ from: "2026-10-19", weeks: 1, kind: "deload" }]);
-  await page.locator('nav [data-tab="routines"]').click(); await page.locator('[data-rview="plan"]').click();
-  await page.locator("details[data-pauses] summary").click(); await page.selectOption("#pzW", "2"); await page.selectOption("#pzF", "1"); await page.locator('[data-act="pl-pause"]').click();
-  const labels = await page.locator(".pwk b").allInnerTexts();
-  expect(labels.slice(0, 7)).toEqual(["S1 · A", "S2 · A", "S3 · Desc.", "S4 · Pausa", "S5 · Pausa", "S6 · B", "S7 · B"]);   // B se corre 3 semanas
+  expect((await ls(page, "wk.plan")).pauses).toEqual([{ from: "2026-10-19", weeks: 1, kind: "deload" }]);
+  await page.locator('[data-act="pl-menu"]').click(); await page.locator('.modal [data-act="pl-pausego"]').click();
+  await page.selectOption("#pzW", "2"); await page.selectOption("#pzF", "1"); await page.locator('[data-act="pl-pause"]').click();
+  expect((await ls(page, "wk.plan")).pauses.at(-1)).toEqual({ from: "2026-10-26", weeks: 2, kind: "pause" });
   expect(errors).toEqual([]);
 });
 test("en orden: empezar un domingo y recuperar", async ({ page }) => {
@@ -77,19 +73,18 @@ test("en orden: empezar un domingo y recuperar", async ({ page }) => {
   // hechas Lunes (dom) y Martes (lun); el martes no entrena; el miércoles toca «Miércoles»
   const p2 = await page.context().newPage(); const e2 = await openApp(p2, { clock: new Date("2026-10-21T09:00:00"), data: { "wk.routines": R4, "wk.plan": P, "wk.sessions": [ses(0), ses(1)] } });
   expect(await p2.locator(".today .sugr.pri .sn").innerText()).toContain("A · Miércoles");
-  await expect(p2.locator(".today")).toContainText("(2/4)");
+  await expect(p2.locator(".weekline")).toContainText("2/4");
   expect(e2).toEqual([]);
 });
-test("pasar a «en orden» desde la semana pasada para recuperarla", async ({ page }) => {
-  const errors = await openApp(page, { clock: new Date("2026-10-20T09:00:00"), data: { "wk.routines": R, "wk.plan": PLAN } });   // martes, semana 3 (B); la semana 2 (A) sin hacer
+test("recuperar la semana pasada: elegir en qué semana vas", async ({ page }) => {
+  const errors = await openApp(page, { clock: new Date("2026-10-20T09:00:00"), data: { "wk.routines": R, "wk.plan": PLAN } });   // martes, semana 3 (B); la 2 (A) sin hacer
   await nav(page, "routines"); await page.locator('[data-rview="plan"]').click(); await page.locator('[data-act="plan-edit"]').click();
-  await page.locator("#pOrder").check();
-  await expect(page.locator("#pOrderAt")).toHaveValue("2");                 // por defecto, esta semana
-  await page.selectOption("#pOrderAt", "1");                                 // la pasada
+  await expect(page.locator("#pOrderAt")).toHaveValue("2");
+  await page.selectOption("#pOrderAt", "1");
   await page.locator('[data-act="plan-save"]').click();
-  const p = await ls(page, "wk.plan"); expect([p.order, p.orderAt]).toEqual([true, 1]);
+  expect((await ls(page, "wk.plan")).orderAt).toBe(1);
   await nav(page, "train");
-  await expect(page.locator(".today .sugr.pri .sn")).toContainText("A · Fuerza");   // primero, lo que faltó
+  await expect(page.locator(".today .sugr.pri .sn")).toContainText("A · Fuerza");
   await expect(page.locator(".today")).toContainText("Semana 2 de");
   expect(errors).toEqual([]);
 });

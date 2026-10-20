@@ -53,14 +53,26 @@ function planWeeks(p) {
 }
 function planNow(p = PL.get(), now = Date.now()) {
   if (!p || p.enabled === false) return null;
-  if (p.order) return planOrder(p, now);
+  return planOrder(p.order ? p : planToOrder(p, now), now);
+}
+/* Planes de antes de la 3.0 (por calendario): pasan a «en orden» desde la semana en la que iban */
+function planToOrder(p, now = Date.now()) {
+  if (!p || p.order) return p;
+  const c = planCal(p, now), k = c?.status === "on" ? c.i : c?.status === "done" ? c.ws.length - 1 : 0;
+  return { ...p, order: true, ...(k > 0 ? { orderAt: k } : {}) };
+}
+function planMigrateOrder() {
+  const a = PL.get(); if (a && !a.order) PL.save(planToOrder(a));
+  const l = PLS.list(); if (l.some(p => !p.order)) PLS.save(l.map(p => p.order ? p : { ...p, order: true }));
+}
+function planCal(p, now = Date.now()) {
   const ws = planWeeks(p); if (!ws.length) return null;
   if (now < ws[0].t) return { status: "pre", ws };
   const i = ws.findIndex(w => now >= w.t && now < addDays(w.t, 7));
   return i < 0 ? { status: "done", ws } : { status: "on", ws, i, w: ws[i] };
 }
 /* Semana del calendario en la que va un plan (para pasarlo a «en orden» sin perder el sitio) */
-const planCalIdx = d => { if (!d?.start) return -1; const pn = planNow({ ...d, order: false, enabled: true }); return pn?.status === "on" ? pn.i : pn?.status === "done" ? pn.ws.length - 1 : -1; };
+const planCalIdx = d => { if (!d?.start) return -1; const pn = planCal(d); return pn?.status === "on" ? pn.i : pn?.status === "done" ? pn.ws.length - 1 : -1; };
 /* Plan «en orden»: cada semana del plan es una vuelta a las rutinas de su variante, en el orden de sus días.
    No depende del calendario: hoy toca la siguiente que falte; la semana pasa cuando están todas hechas.
    La descarga dura 7 días desde que acaba la semana anterior. Pausas y descargas añadidas: ventanas de fechas. */
@@ -141,12 +153,12 @@ function todayCard() {
     const w = pn.w, next = pn.ws.slice(pn.i + 1).find(x => weekLabel(x) !== weekLabel(w));
     const L = list(suggestedFor(w, today));
     return `<div class="panel plan-b today" style="border-color:${w.deload ? "var(--line)" : varColor(w.variant)}">
-      <div class="row" style="gap:8px">${w.deload ? `<span class="vchip vd">${T("Desc.")}</span>` : vChip(w.variant)}<b style="flex:1">${T("Semana {n} de {m}", { n: w.n, m: pn.ws.length })} · ${weekLabel(w)}</b><button class="btn ghost small" data-act="plan-open">${T("Ver plan")}</button></div>
+      <div class="row" style="gap:8px">${w.deload ? `<span class="vchip vd">${T("Desc.")}</span>` : vChip(w.variant)}<b style="flex:1">${T("Semana {n} de {m}", { n: w.n, m: pn.ws.length })} · ${weekLabel(w)}</b><button class="btn icon ghost" data-act="pl-menu" aria-label="${T("Opciones del plan")}" title="${T("Opciones del plan")}">⋯</button></div>
       ${w.up ? `<p class="muted" style="margin:6px 0 0">↑ ${upRuleOf(PL.get()) === "mark" ? T("Variante repetida: sube 1-2 reps o 1 serie si hay margen.") : T("Variante repetida: subida automática según tu plan.")}</p>` : ""}
       ${w.pause ? `<p class="muted" style="margin:6px 0 0">${T("Plan en pausa: solo rutinas de todas las semanas (p. ej. Diaria). Sigue el {d}.", { d: new Date((pn.ws.slice(pn.i).find(x => !x.pause) || { t: addDays(w.t, 7) }).t).toLocaleDateString(LOC(), { weekday: "long", day: "numeric", month: "long" }) })}</p>`
         : w.deload ? `<p class="muted" style="margin:6px 0 0">${T("Semana de descarga: solo rutinas sin variante (p. ej. Diaria).")}</p>` : ""}
-      <div class="muted" style="font-size:.85rem;margin-top:10px">${T("Toca hoy:")}</div>${L}${pendingBlock(w)}
-      ${planTodayActs(pn, today)}
+      <div class="muted" style="font-size:.85rem;margin-top:10px">${T("Toca hoy:")}</div>${L}
+      ${w.seq && !w.deload ? `<button class="weekline" data-pweek="${pn.i}"><span>${T("Esta semana del plan")}</span><span class="wdots" aria-hidden="true">${w.seq.map(r => `<i class="${w.done.has(r.name) ? "on" : ""}"></i>`).join("")}</span><b>${w.done.size}/${w.seq.length}</b><span aria-hidden="true">›</span></button>` : ""}
       ${next ? `<p class="muted" style="font-size:.8rem;margin:10px 0 0">${next.t ? T("Siguiente: {x} desde el {d}", { x: weekLabel(next), d: new Date(next.t).toLocaleDateString(LOC(), { day: "numeric", month: "short" }) }) : T("Después: {x}", { x: weekLabel(next) })}</p>` : ""}
     </div>`;
   }
@@ -181,6 +193,20 @@ function planWeekModal() {
       : `<p class="muted" style="margin:0">${T("Esta variante no tiene rutinas. Añádelas en «Rutinas y días» al editar el plan.")}</p>`}
     <div class="row" style="margin-top:14px;flex-wrap:wrap">${cur ? `<button class="btn primary" data-tab="train">${T("Ir a Hoy")}</button>` : ""}${w.t && w.t <= Date.now() ? `<button class="btn" data-day="${dayKey(w.t)}">${T("Ver en el Diario")}</button>` : ""}</div>
   </div></div>`;
+}
+/* Menú ⋯ de la tarjeta del plan en Hoy */
+function planMenuModal() {
+  if (!state.plmenu) return ""; const pn = planNow(); if (pn?.status !== "on") return "";
+  const it = (attr, t, d) => `<button class="lrow" ${attr}><span class="t"><b>${t}</b>${d ? `<small>${d}</small>` : ""}</span><span class="chev" aria-hidden="true">›</span></button>`;
+  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="pmT"><div class="mbox">
+    <div class="sb-head"><h2 id="pmT" style="margin:0;flex:1">${esc(planName(PL.get()))}</h2><button class="btn small" data-act="plm-close">${T("Cerrar")}</button></div>
+    <div class="lgroup" style="margin-top:10px">
+      ${it(`data-pweek="${pn.i}"`, T("Ver esta semana"), T("Rutinas hechas y pendientes"))}
+      ${it('data-act="plan-open"', T("Ver el plan"), T("Todas las semanas"))}
+      ${pn.w.deload ? "" : it('data-act="pl-deload"', T("Descarga esta semana"), T("Solo las rutinas de todas las semanas; el plan no avanza"))}
+      ${it('data-act="pl-pausego"', T("Pausar el plan"), T("Vacaciones, lesión, un viaje…"))}
+      ${it('data-act="plan-edit"', T("Editar plan"), "")}
+    </div></div></div>`;
 }
 /* Pausas en Biblioteca → Plan */
 function planPauseBlock(p) {
@@ -228,11 +254,10 @@ function viewPlanEdit() {
       <label class="xtog swrow"><span>${T("Plan activo (se muestra en Hoy)")}</span><input type="checkbox" role="switch" id="pOn" ${d.enabled !== false ? "checked" : ""}></label>
       <div class="wrow2" style="margin-top:12px"><label class="muted" for="pStart">${T("Inicio")}</label><input type="date" id="pStart" value="${esc(d.start || "")}">
         <label class="muted" for="pReview">${T("Revisión (opcional)")}</label><input type="date" id="pReview" value="${esc(d.review || "")}"></div>
-      <p class="muted" style="font-size:.78rem;margin:6px 0 0">${d.order ? T("En orden, el plan empieza el mismo día de inicio.") : T("El plan empieza el lunes de la semana de inicio. Sin revisión, dura un año.")}</p>
-      <label class="xtog swrow" style="margin-top:12px"><span>${T("Sesiones en orden")}<small>${T("Hoy toca la siguiente que falte, sea el día que sea: si empiezas un domingo o fallas un día, se recupera. La semana del plan pasa al hacerlas todas.")}</small></span><input type="checkbox" role="switch" id="pOrder" ${d.order ? "checked" : ""}></label>
-      ${(() => { const ci = planCalIdx(d); if (!d.order || ci < 1) return "";
-        return `<div class="wrow" style="margin-top:10px"><label class="muted" for="pOrderAt" style="font-size:.85rem">${T("Seguir en orden desde")}</label><select id="pOrderAt">${Array.from({ length: ci + 1 }, (_, k) => ci - k).map(k => `<option value="${k}" ${(d.orderAt ?? ci) === k ? "selected" : ""}>${T("Semana {n}", { n: k + 1 })}${k === ci ? ` · ${T("esta")}` : k === ci - 1 ? ` · ${T("la pasada")}` : ""}</option>`).join("")}</select><span></span></div>
-        <p class="muted" style="font-size:.78rem;margin:6px 0 0">${T("Elige la semana pasada (o antes) para recuperar las sesiones que te saltaste: Hoy te las propone primero.")}</p>`; })()}
+      <p class="muted" style="font-size:.78rem;margin:6px 0 0">${T("Las sesiones van en orden: hoy toca la siguiente que falte, sea el día que sea, y la semana del plan pasa al hacerlas todas.")}</p>
+      ${(() => { if (state.planNew) return ""; const pn = planNow({ ...d, enabled: true }), cur = pn?.status === "on" ? pn.i : -1, mx = Math.max(planCalIdx(d), cur); if (mx < 1) return "";
+        return `<div class="wrow" style="margin-top:10px"><label class="muted" for="pOrderAt" style="font-size:.85rem">${T("Semana en la que vas")}</label><select id="pOrderAt">${Array.from({ length: mx + 1 }, (_, k) => mx - k).map(k => `<option value="${k}" ${(d.orderAt ?? cur) === k ? "selected" : ""}>${T("Semana {n}", { n: k + 1 })}${k === cur ? ` · ${T("ahora")}` : ""}</option>`).join("")}</select><span></span></div>
+        <p class="muted" style="font-size:.78rem;margin:6px 0 0">${T("Para recuperar lo que te saltaste, elige una semana anterior: Hoy te propone primero lo que falte de ella.")}</p>`; })()}
       <h2 style="margin:18px 0 4px;font-size:1rem">${T("Fases (se repiten en orden)")}</h2>
       ${d.phases.map((x, i) => `<div class="phr">
         <span class="muted" style="font-size:.8rem">${i + 1}</span>
@@ -288,7 +313,7 @@ function readPlan() {
   if (v("pName")) d.name = v("pName").value.trim();
   if (v("pOn")) d.enabled = v("pOn").checked;
   if (v("pStart")) d.start = v("pStart").value; if (v("pReview")) d.review = v("pReview").value;
-  if (v("pOrder")) { const was = !!d.order; d.order = v("pOrder").checked; if (d.order && !was && !state.planNew && d.orderAt === undefined) { const ci = planCalIdx(d); if (ci > 0) d.orderAt = ci; } }
+  d.order = true;
   if (v("pOrderAt")) d.orderAt = +v("pOrderAt").value;
   if (v("pUp")) d.up = v("pUp").checked; if (v("pUpRule")) d.upRule = v("pUpRule").value;
   d.deload = { weeks: Math.max(0, Math.round(+v("pDlW")?.value || 0)), every: Math.max(0, Math.round(+v("pDlE")?.value || 0)) };

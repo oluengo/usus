@@ -52,8 +52,8 @@ msgstr "Vols eliminar aquesta sessió? No es pot desfer."
 msgid "¿Eliminar este suplemento? Su historial también se dejará de mostrar."
 msgstr "Vols eliminar aquest suplement? El seu historial també deixarà de mostrar-se."
 
-msgid "¿Hacer descarga esta semana? Solo se sugieren las rutinas de todas las semanas, y el resto del plan se corre una semana."
-msgstr "Fer descàrrega aquesta setmana? Només se suggereixen les rutines de totes les setmanes, i la resta del pla es desplaça una setmana."
+msgid "¿Hacer descarga esta semana? Hasta el domingo solo se sugieren las rutinas de todas las semanas, y el plan no avanza."
+msgstr "Fer descàrrega aquesta setmana? Fins diumenge només se suggereixen les rutines de totes les setmanes, i el pla no avança."
 
 msgid "¿Has notado la vibración?"
 msgstr "Has notat la vibració?"
@@ -122,7 +122,7 @@ msgstr[1] "{n} anys"
 
 #, python-brace-format
 msgid "{n} año"
-msgstr ""
+msgstr "{n} any"
 
 #, python-brace-format
 msgid "{n} de {m} seleccionadas"
@@ -389,6 +389,9 @@ msgstr "Actualitzar"
 
 msgid "Agrupar"
 msgstr "Agrupa"
+
+msgid "ahora"
+msgstr "ara"
 
 msgid "Ahora"
 msgstr "Ara"
@@ -1414,9 +1417,6 @@ msgstr "El pla de progressió passa d'Avui a Biblioteca → Pla, al costat de le
 msgid "El plan empieza el {d}."
 msgstr "El pla comença el {d}."
 
-msgid "El plan empieza el lunes de la semana de inicio. Sin revisión, dura un año."
-msgstr "El pla comença el dilluns de la setmana d'inici. Sense revisió, dura un any."
-
 msgid "El plan no tiene fases válidas. Edítalo para añadirlas."
 msgstr "El pla no té fases vàlides. Edita'l per afegir-ne."
 
@@ -1454,9 +1454,6 @@ msgstr "Tria almenys un dia"
 msgid "Elige hombre o mujer"
 msgstr "Tria home o dona"
 
-msgid "Elige la semana pasada (o antes) para recuperar las sesiones que te saltaste: Hoy te las propone primero."
-msgstr "Tria la setmana passada (o abans) per recuperar les sessions que et vas saltar: Avui te les proposa primer."
-
 msgid "Eliges los ejercicios, las series y los descansos."
 msgstr "Tries els exercicis, les sèries i els descansos."
 
@@ -1482,12 +1479,11 @@ msgstr "Començar amb"
 msgid "Empezar cuenta atrás serie {n}"
 msgstr "Comença el compte enrere sèrie {n}"
 
-#, python-brace-format
-msgid "Empieza el {d}."
-msgstr "Comença el {d}."
-
 msgid "Empieza este día"
 msgstr "Comença aquest dia"
+
+msgid "Empieza hoy."
+msgstr "Comença avui."
 
 msgid "empieza sola"
 msgstr "comença sola"
@@ -1529,9 +1525,6 @@ msgstr "en lloc de {x}"
 
 msgid "en orden"
 msgstr "en ordre"
-
-msgid "En orden, el plan empieza el mismo día de inicio."
-msgstr "En ordre, el pla comença el mateix dia d'inici."
 
 msgid "En pausa"
 msgstr "En pausa"
@@ -1615,9 +1608,6 @@ msgstr "Esforç percebut de tota la sessió (PEM)."
 
 msgid "Espalda"
 msgstr "Esquena"
-
-msgid "esta"
-msgstr "aquesta"
 
 msgid "Esta app es una herramienta de registro, no un consejo médico ni un plan de entrenamiento. Consulta con un profesional antes de empezar o cambiar tu actividad física."
 msgstr "Aquesta app és una eina de registre, no un consell mèdic ni un pla d'entrenament. Consulta un professional abans de començar o canviar la teva activitat física."
@@ -1834,11 +1824,11 @@ msgstr "Avui no hi ha cap rutina prevista."
 msgid "Hoy podría bajarte la regla"
 msgstr "Avui et podria baixar la regla"
 
-msgid "Hoy toca la siguiente que falte, sea el día que sea: si empiezas un domingo o fallas un día, se recupera. La semana del plan pasa al hacerlas todas."
-msgstr "Avui toca la següent que falti, sigui el dia que sigui: si comences un diumenge o falles un dia, es recupera. La setmana del pla passa en fer-les totes."
-
 msgid "Hoy toca pesarte"
 msgstr "Avui toca pesar-te"
+
+msgid "Hoy, más limpio: lo que toca, la semana del plan en una línea (toca para verla) y un menú ⋯ con descarga esta semana o pausar el plan 1 a 4 semanas. «Rutinas y días» se eligen dentro del propio plan."
+msgstr "Avui, més net: el que toca, la setmana del pla en una línia (toca-la per veure-la) i un menú ⋯ amb descàrrega aquesta setmana o pausar el pla d'1 a 4 setmanes. «Rutines i dies» es trien dins del mateix pla."
 
 msgid "Hoy: lo que toca, arriba y con un único botón Empezar; accesos rápidos a otra rutina, sesión libre y actividad; los avisos, juntos en «Pendiente»."
 msgstr "Avui: el que toca, a dalt i amb un sol botó Comença; accessos ràpids a una altra rutina, sessió lliure i activitat; els avisos, junts a «Pendent»."
@@ -1995,9 +1985,6 @@ msgstr "La nit que acaba aquest dia."
 msgid "La pantalla se mantiene encendida durante toda la sesión, no solo en las cuentas atrás."
 msgstr "La pantalla es manté encesa durant tota la sessió, no només als comptes enrere."
 
-msgid "la pasada"
-msgstr "la passada"
-
 #, python-brace-format
 msgid "La regla podría bajarte en {n} días"
 msgstr "La regla et podria baixar d'aquí a {n} dies"
@@ -2027,6 +2014,9 @@ msgstr "Les dates són una estimació aproximada a partir dels teus cicles anter
 
 msgid "Las rutinas sin días no se sugieren. Ponles días al editarlas."
 msgstr "Les rutines sense dies no es suggereixen. Posa'ls dies en editar-les."
+
+msgid "Las sesiones van en orden: hoy toca la siguiente que falte, sea el día que sea, y la semana del plan pasa al hacerlas todas."
+msgstr "Les sessions van en ordre: avui toca la següent que falti, sigui el dia que sigui, i la setmana del pla passa en fer-les totes."
 
 msgid "Las traducciones pasan a archivos estándar (gettext) para poder traducir la app desde el navegador."
 msgstr "Les traduccions passen a fitxers estàndard (gettext) per poder traduir l'app des del navegador."
@@ -2528,6 +2518,9 @@ msgstr "Opcional. Es pot canviar a Ajustos → Entrenament."
 msgid "Opcional. Vacío o 0 = sin objetivo. Los pasos se anotan en Diario → Pasos."
 msgstr "Opcional. Buit o 0 = sense objectiu. Els passos s'anoten a Diari → Passos."
 
+msgid "Opciones del plan"
+msgstr "Opcions del pla"
+
 msgid "Ordena con ↑ ↓ y elige qué bloques ver."
 msgstr "Ordena amb ↑ ↓ i tria quins blocs vols veure."
 
@@ -2587,6 +2580,9 @@ msgstr "Per a què ho faries servir"
 
 msgid "Para qué sirve"
 msgstr "Per a què serveix"
+
+msgid "Para recuperar lo que te saltaste, elige una semana anterior: Hoy te propone primero lo que falte de ella."
+msgstr "Per recuperar el que et vas saltar, tria una setmana anterior: Avui et proposa primer el que en falti."
 
 msgid "Paralelas"
 msgstr "Paral·leles"
@@ -2749,9 +2745,6 @@ msgstr "Cama · genoll"
 msgid "Plan"
 msgstr "Pla"
 
-msgid "Plan «en orden» (por defecto en planes nuevos): hoy toca la siguiente sesión que falte, sea el día que sea; si empiezas un domingo o fallas un día, se recupera, y la semana del plan pasa al hacerlas todas."
-msgstr "Pla «en ordre» (per defecte en plans nous): avui toca la següent sessió que falti, sigui el dia que sigui; si comences un diumenge o falles un dia, es recupera, i la setmana del pla passa en fer-les totes."
-
 msgid "Plan activo (se muestra en Hoy)"
 msgstr "Pla actiu (es mostra a Avui)"
 
@@ -2775,9 +2768,6 @@ msgstr "Pla en pausa"
 msgid "Plan en pausa: solo rutinas de todas las semanas (p. ej. Diaria). Sigue el {d}."
 msgstr "Pla en pausa: només rutines de totes les setmanes (p. ex. Diària). Continua el {d}."
 
-msgid "Plan flexible: aplazar a mañana las sesiones de hoy (las siguientes de la semana se corren), hacer descarga esta semana o pausar el plan 1 a 4 semanas; el resto del plan se corre. Además, «Rutinas y días» se eligen dentro del propio plan."
-msgstr "Pla flexible: ajornar a demà les sessions d'avui (les següents de la setmana es desplacen), fer descàrrega aquesta setmana o pausar el pla d'1 a 4 setmanes; la resta del pla es desplaça. A més, «Rutines i dies» es trien dins del mateix pla."
-
 msgid "Plan guardado"
 msgstr "Pla desat"
 
@@ -2786,6 +2776,9 @@ msgstr "Pla acabat"
 
 msgid "Plan: la semana ↑ puede aplicar sola la subida (+reps, +1 serie o siguiente paso), con aviso en Hoy y opción de deshacer."
 msgstr "Pla: la setmana ↑ pot aplicar sola la pujada (+reps, +1 sèrie o pas següent), amb avís a Avui i opció de desfer."
+
+msgid "Planes en orden: hoy toca la siguiente sesión que falte, sea el día que sea; si empiezas un domingo o fallas un día, se recupera, y la semana del plan pasa al hacerlas todas. Tus planes pasan solos a este modo desde la semana en la que ibas, y al editarlos puedes volver a una semana anterior para recuperarla."
+msgstr "Plans en ordre: avui toca la següent sessió que falti, sigui el dia que sigui; si comences un diumenge o falles un dia, es recupera, i la setmana del pla passa en fer-les totes. Els teus plans passen sols a aquest mode des de la setmana on anaves, i en editar-los pots tornar a una setmana anterior per recuperar-la."
 
 msgid "Podrías hablar sin esfuerzo; casi un calentamiento."
 msgstr "Podries parlar sense esforç; gairebé un escalfament."
@@ -3157,6 +3150,9 @@ msgstr "Rutines compartides: si tornes a rebre una rutina que ja tens (per exemp
 msgid "Rutinas de otro perfil"
 msgstr "Rutines d'un altre perfil"
 
+msgid "Rutinas hechas y pendientes"
+msgstr "Rutines fetes i pendents"
+
 msgid "Rutinas por variante"
 msgstr "Rutines per variant"
 
@@ -3261,9 +3257,6 @@ msgstr "Seguiment del cicle desactivat"
 msgid "Seguir aquí"
 msgstr "Continua aquí"
 
-msgid "Seguir en orden desde"
-msgstr "Continuar en ordre des de"
-
 msgid "Seguir intentándolo"
 msgstr "Continua intentant-ho"
 
@@ -3298,6 +3291,9 @@ msgstr "Setmana de pujada · variant {v}"
 #, python-brace-format
 msgid "Semana del {d}: +{p} %"
 msgstr "Setmana del {d}: +{p} %"
+
+msgid "Semana en la que vas"
+msgstr "Setmana on vas"
 
 msgid "Semanas"
 msgstr "Setmanes"
@@ -3374,9 +3370,6 @@ msgstr[1] "Sessions ajornades {n} dies des del {d}."
 #, python-brace-format
 msgid "Sesiones aplazadas {n} día desde el {d}."
 msgstr "Sessions ajornades {n} dia des del {d}."
-
-msgid "Sesiones en orden"
-msgstr "Sessions en ordre"
 
 msgid "Sexo"
 msgstr "Sexe"
@@ -3535,6 +3528,9 @@ msgstr "Només en aquesta sessió. En lloc de {x}."
 
 msgid "Solo en este dispositivo. La fecha de nacimiento y la altura se usan en el análisis y en el plan con IA."
 msgstr "Només en aquest dispositiu. La data de naixement i l'alçada es fan servir a l'anàlisi i al pla amb IA."
+
+msgid "Solo las rutinas de todas las semanas; el plan no avanza"
+msgstr "Només les rutines de totes les setmanes; el pla no avança"
 
 msgid "Solo las rutinas. Ningún registro."
 msgstr "Només les rutines. Cap registre."
@@ -3856,6 +3852,9 @@ msgstr "Útil amb auriculars o si entrenes amb gent al costat. Si no vibra, revi
 msgid "V"
 msgstr "Dv"
 
+msgid "Vacaciones, lesión, un viaje…"
+msgstr "Vacances, lesió, un viatge…"
+
 msgid "Vacaciones, lesión, un viaje… Las semanas de pausa solo sugieren las rutinas de todas las semanas, y el resto del plan se corre."
 msgstr "Vacances, lesió, un viatge… Les setmanes de pausa només suggereixen les rutines de totes les setmanes, i la resta del pla es desplaça."
 
@@ -3909,11 +3908,17 @@ msgstr "Finestra fèrtil"
 msgid "Ver el aviso"
 msgstr "Veure l'avís"
 
+msgid "Ver el plan"
+msgstr "Veure el pla"
+
 msgid "Ver en el Diario"
 msgstr "Veure al Diari"
 
 msgid "Ver en Progreso"
 msgstr "Veure a Progrés"
+
+msgid "Ver esta semana"
+msgstr "Veure aquesta setmana"
 
 msgid "Ver ficha"
 msgstr "Mostra la fitxa"
@@ -3926,9 +3931,6 @@ msgstr "Veure l'app primer. Les rutines es creen a Biblioteca → Nova rutina."
 
 msgid "Ver notas"
 msgstr "Veure notes"
-
-msgid "Ver plan"
-msgstr "Mostra el pla"
 
 msgid "Ver versiones"
 msgstr "Veure versions"
@@ -4029,6 +4031,46 @@ msgstr "Jo"
 
 msgid "Zona peligrosa"
 msgstr "Zona perillosa"
+
+#~ msgid "Plan «en orden» (por defecto en planes nuevos): hoy toca la siguiente sesión que falte, sea el día que sea; si empiezas un domingo o fallas un día, se recupera, y la semana del plan pasa al hacerlas todas."
+#~ msgstr "Pla «en ordre» (per defecte en plans nous): avui toca la següent sessió que falti, sigui el dia que sigui; si comences un diumenge o falles un dia, es recupera, i la setmana del pla passa en fer-les totes."
+
+#~ msgid "Plan flexible: aplazar a mañana las sesiones de hoy (las siguientes de la semana se corren), hacer descarga esta semana o pausar el plan 1 a 4 semanas; el resto del plan se corre. Además, «Rutinas y días» se eligen dentro del propio plan."
+#~ msgstr "Pla flexible: ajornar a demà les sessions d'avui (les següents de la setmana es desplacen), fer descàrrega aquesta setmana o pausar el pla d'1 a 4 setmanes; la resta del pla es desplaça. A més, «Rutines i dies» es trien dins del mateix pla."
+
+#~ msgid "¿Hacer descarga esta semana? Solo se sugieren las rutinas de todas las semanas, y el resto del plan se corre una semana."
+#~ msgstr "Fer descàrrega aquesta setmana? Només se suggereixen les rutines de totes les setmanes, i la resta del pla es desplaça una setmana."
+
+#~ msgid "El plan empieza el lunes de la semana de inicio. Sin revisión, dura un año."
+#~ msgstr "El pla comença el dilluns de la setmana d'inici. Sense revisió, dura un any."
+
+#~ msgid "Elige la semana pasada (o antes) para recuperar las sesiones que te saltaste: Hoy te las propone primero."
+#~ msgstr "Tria la setmana passada (o abans) per recuperar les sessions que et vas saltar: Avui te les proposa primer."
+
+#, python-brace-format
+#~ msgid "Empieza el {d}."
+#~ msgstr "Comença el {d}."
+
+#~ msgid "En orden, el plan empieza el mismo día de inicio."
+#~ msgstr "En ordre, el pla comença el mateix dia d'inici."
+
+#~ msgid "esta"
+#~ msgstr "aquesta"
+
+#~ msgid "Hoy toca la siguiente que falte, sea el día que sea: si empiezas un domingo o fallas un día, se recupera. La semana del plan pasa al hacerlas todas."
+#~ msgstr "Avui toca la següent que falti, sigui el dia que sigui: si comences un diumenge o falles un dia, es recupera. La setmana del pla passa en fer-les totes."
+
+#~ msgid "la pasada"
+#~ msgstr "la passada"
+
+#~ msgid "Seguir en orden desde"
+#~ msgstr "Continuar en ordre des de"
+
+#~ msgid "Sesiones en orden"
+#~ msgstr "Sessions en ordre"
+
+#~ msgid "Ver plan"
+#~ msgstr "Mostra el pla"
 
 #~ msgid "Datos para el análisis con IA"
 #~ msgstr "Dades per a l'anàlisi amb IA"

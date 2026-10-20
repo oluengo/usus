@@ -46,6 +46,10 @@ label.srow{cursor:pointer}
 :root[data-theme="dark"] .pdays button.on,:root[data-theme="protector"] .pdays button.on{color:#1A1208}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .pdays button.on{color:#1A1208}}
 .pvar select{margin-top:8px}
+/* Hoy: la semana del plan en una línea */
+.weekline{display:flex;align-items:center;gap:10px;width:100%;margin-top:10px;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--bg);color:var(--ink);font:inherit;font-size:.9rem;text-align:left;min-height:44px}
+.weekline>span:first-child{flex:1}
+.wdots{display:flex;gap:4px}.wdots i{width:10px;height:10px;border-radius:50%;border:1.5px solid var(--muted)}.wdots i.on{background:var(--ok);border-color:var(--ok)}
 /* Zona peligrosa */
 .dzone{border:1.5px solid var(--danger);background:color-mix(in srgb,var(--danger) 8%,var(--surface));border-radius:16px;padding:14px 16px}
 .dzone b{color:var(--danger)}.dzone p{margin:6px 0 12px;font-size:.88rem}

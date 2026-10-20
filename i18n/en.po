@@ -52,8 +52,8 @@ msgstr "Delete this session? This can't be undone."
 msgid "¿Eliminar este suplemento? Su historial también se dejará de mostrar."
 msgstr "Delete this supplement? Its history will no longer be shown either."
 
-msgid "¿Hacer descarga esta semana? Solo se sugieren las rutinas de todas las semanas, y el resto del plan se corre una semana."
-msgstr "Make this a deload week? Only every-week routines are suggested, and the rest of the plan moves one week later."
+msgid "¿Hacer descarga esta semana? Hasta el domingo solo se sugieren las rutinas de todas las semanas, y el plan no avanza."
+msgstr "Make this a deload week? Until Sunday only every-week routines are suggested, and the plan doesn't move on."
 
 msgid "¿Has notado la vibración?"
 msgstr "Did you feel the vibration?"
@@ -122,7 +122,7 @@ msgstr[1] "{n} years"
 
 #, python-brace-format
 msgid "{n} año"
-msgstr ""
+msgstr "{n} year"
 
 #, python-brace-format
 msgid "{n} de {m} seleccionadas"
@@ -389,6 +389,9 @@ msgstr "Update"
 
 msgid "Agrupar"
 msgstr "Group"
+
+msgid "ahora"
+msgstr "now"
 
 msgid "Ahora"
 msgstr "Now"
@@ -1414,9 +1417,6 @@ msgstr "The progression plan moves from Today to Library → Plan, next to the r
 msgid "El plan empieza el {d}."
 msgstr "The plan starts on {d}."
 
-msgid "El plan empieza el lunes de la semana de inicio. Sin revisión, dura un año."
-msgstr "The plan starts on the Monday of the start week. Without a review date it lasts a year."
-
 msgid "El plan no tiene fases válidas. Edítalo para añadirlas."
 msgstr "The plan has no valid phases. Edit it to add some."
 
@@ -1454,9 +1454,6 @@ msgstr "Choose at least one day"
 msgid "Elige hombre o mujer"
 msgstr "Choose man or woman"
 
-msgid "Elige la semana pasada (o antes) para recuperar las sesiones que te saltaste: Hoy te las propone primero."
-msgstr "Choose last week (or earlier) to catch up on the sessions you skipped: Today suggests them first."
-
 msgid "Eliges los ejercicios, las series y los descansos."
 msgstr "You choose the exercises, sets and rests."
 
@@ -1482,12 +1479,11 @@ msgstr "Start with"
 msgid "Empezar cuenta atrás serie {n}"
 msgstr "Start countdown set {n}"
 
-#, python-brace-format
-msgid "Empieza el {d}."
-msgstr "Starts {d}."
-
 msgid "Empieza este día"
 msgstr "Starts this day"
+
+msgid "Empieza hoy."
+msgstr "It starts today."
 
 msgid "empieza sola"
 msgstr "starts on its own"
@@ -1529,9 +1525,6 @@ msgstr "instead of {x}"
 
 msgid "en orden"
 msgstr "in order"
-
-msgid "En orden, el plan empieza el mismo día de inicio."
-msgstr "In order, the plan starts on the start day itself."
 
 msgid "En pausa"
 msgstr "Paused"
@@ -1615,9 +1608,6 @@ msgstr "Perceived effort for the whole session (RPE)."
 
 msgid "Espalda"
 msgstr "Back"
-
-msgid "esta"
-msgstr "this one"
 
 msgid "Esta app es una herramienta de registro, no un consejo médico ni un plan de entrenamiento. Consulta con un profesional antes de empezar o cambiar tu actividad física."
 msgstr "This app is a logging tool, not medical advice or a training plan. Talk to a professional before starting or changing your physical activity."
@@ -1834,11 +1824,11 @@ msgstr "No routine planned for today."
 msgid "Hoy podría bajarte la regla"
 msgstr "Your period could start today"
 
-msgid "Hoy toca la siguiente que falte, sea el día que sea: si empiezas un domingo o fallas un día, se recupera. La semana del plan pasa al hacerlas todas."
-msgstr "Today is the next one still to do, whatever the day: if you start on a Sunday or miss a day, you catch up. The plan week moves on when all are done."
-
 msgid "Hoy toca pesarte"
 msgstr "Weigh-in day"
+
+msgid "Hoy, más limpio: lo que toca, la semana del plan en una línea (toca para verla) y un menú ⋯ con descarga esta semana o pausar el plan 1 a 4 semanas. «Rutinas y días» se eligen dentro del propio plan."
+msgstr "Cleaner Today: what's on, the plan week in one line (tap to see it) and a ⋯ menu to deload this week or pause the plan for 1 to 4 weeks. “Routines and days” are chosen inside the plan itself."
 
 msgid "Hoy: lo que toca, arriba y con un único botón Empezar; accesos rápidos a otra rutina, sesión libre y actividad; los avisos, juntos en «Pendiente»."
 msgstr "Today: what's on, at the top with a single Start button; shortcuts to another routine, a free session and an activity; reminders together under “To do”."
@@ -1995,9 +1985,6 @@ msgstr "The night that ends on this day."
 msgid "La pantalla se mantiene encendida durante toda la sesión, no solo en las cuentas atrás."
 msgstr "The screen stays on during the whole session, not just during countdowns."
 
-msgid "la pasada"
-msgstr "last week"
-
 #, python-brace-format
 msgid "La regla podría bajarte en {n} días"
 msgstr "Your period could start in {n} days"
@@ -2027,6 +2014,9 @@ msgstr "Dates are an approximate estimate based on your previous cycles. Cycles 
 
 msgid "Las rutinas sin días no se sugieren. Ponles días al editarlas."
 msgstr "Routines without days aren't suggested. Add days when editing them."
+
+msgid "Las sesiones van en orden: hoy toca la siguiente que falte, sea el día que sea, y la semana del plan pasa al hacerlas todas."
+msgstr "Sessions go in order: today is the next one still to do, whatever the day, and the plan week moves on when all are done."
 
 msgid "Las traducciones pasan a archivos estándar (gettext) para poder traducir la app desde el navegador."
 msgstr "Translations move to standard files (gettext) so the app can be translated from the browser."
@@ -2528,6 +2518,9 @@ msgstr "Optional. You can change it in Settings → Workout."
 msgid "Opcional. Vacío o 0 = sin objetivo. Los pasos se anotan en Diario → Pasos."
 msgstr "Optional. Empty or 0 = no goal. Log steps in Diary → Steps."
 
+msgid "Opciones del plan"
+msgstr "Plan options"
+
 msgid "Ordena con ↑ ↓ y elige qué bloques ver."
 msgstr "Reorder with ↑ ↓ and choose which blocks to show."
 
@@ -2587,6 +2580,9 @@ msgstr "What you'd use it for"
 
 msgid "Para qué sirve"
 msgstr "What it's for"
+
+msgid "Para recuperar lo que te saltaste, elige una semana anterior: Hoy te propone primero lo que falte de ella."
+msgstr "To catch up on what you skipped, choose an earlier week: Today suggests what's missing from it first."
 
 msgid "Paralelas"
 msgstr "Parallel bars"
@@ -2749,9 +2745,6 @@ msgstr "Legs · knee"
 msgid "Plan"
 msgstr "Plan"
 
-msgid "Plan «en orden» (por defecto en planes nuevos): hoy toca la siguiente sesión que falte, sea el día que sea; si empiezas un domingo o fallas un día, se recupera, y la semana del plan pasa al hacerlas todas."
-msgstr "“In order” plans (default for new plans): today is the next session still to do, whatever the day; if you start on a Sunday or miss a day you catch up, and the plan week moves on when all are done."
-
 msgid "Plan activo (se muestra en Hoy)"
 msgstr "Plan active (shown in Today)"
 
@@ -2775,9 +2768,6 @@ msgstr "Plan paused"
 msgid "Plan en pausa: solo rutinas de todas las semanas (p. ej. Diaria). Sigue el {d}."
 msgstr "Plan paused: only every-week routines (e.g. Daily). It resumes on {d}."
 
-msgid "Plan flexible: aplazar a mañana las sesiones de hoy (las siguientes de la semana se corren), hacer descarga esta semana o pausar el plan 1 a 4 semanas; el resto del plan se corre. Además, «Rutinas y días» se eligen dentro del propio plan."
-msgstr "Flexible plan: move today's sessions to tomorrow (the rest of the week shifts), make this a deload week or pause the plan for 1 to 4 weeks; the rest of the plan moves later. Also, “Routines and days” are chosen inside the plan itself."
-
 msgid "Plan guardado"
 msgstr "Plan saved"
 
@@ -2786,6 +2776,9 @@ msgstr "Plan finished"
 
 msgid "Plan: la semana ↑ puede aplicar sola la subida (+reps, +1 serie o siguiente paso), con aviso en Hoy y opción de deshacer."
 msgstr "Plan: the ↑ week can apply the increase automatically (+reps, +1 set or next step), with a notice in Today and an undo option."
+
+msgid "Planes en orden: hoy toca la siguiente sesión que falte, sea el día que sea; si empiezas un domingo o fallas un día, se recupera, y la semana del plan pasa al hacerlas todas. Tus planes pasan solos a este modo desde la semana en la que ibas, y al editarlos puedes volver a una semana anterior para recuperarla."
+msgstr "In-order plans: today is the next session still to do, whatever the day; if you start on a Sunday or miss a day you catch up, and the plan week moves on when all are done. Your plans switch to this mode automatically from the week you were on, and when editing them you can go back to an earlier week to catch up."
 
 msgid "Podrías hablar sin esfuerzo; casi un calentamiento."
 msgstr "You could chat easily; almost a warm-up."
@@ -3157,6 +3150,9 @@ msgstr "Shared routines: if you receive a routine you already have again (for ex
 msgid "Rutinas de otro perfil"
 msgstr "Routines from another profile"
 
+msgid "Rutinas hechas y pendientes"
+msgstr "Routines done and to do"
+
 msgid "Rutinas por variante"
 msgstr "Routines by variant"
 
@@ -3261,9 +3257,6 @@ msgstr "Cycle tracking off"
 msgid "Seguir aquí"
 msgstr "Stay here"
 
-msgid "Seguir en orden desde"
-msgstr "Continue in order from"
-
 msgid "Seguir intentándolo"
 msgstr "Keep trying"
 
@@ -3298,6 +3291,9 @@ msgstr "Step-up week · variant {v}"
 #, python-brace-format
 msgid "Semana del {d}: +{p} %"
 msgstr "Week of {d}: +{p}%"
+
+msgid "Semana en la que vas"
+msgstr "Week you're on"
 
 msgid "Semanas"
 msgstr "Weeks"
@@ -3374,9 +3370,6 @@ msgstr[1] "Sessions moved {n} days from {d}."
 #, python-brace-format
 msgid "Sesiones aplazadas {n} día desde el {d}."
 msgstr "Sessions moved {n} day from {d}."
-
-msgid "Sesiones en orden"
-msgstr "Sessions in order"
 
 msgid "Sexo"
 msgstr "Sex"
@@ -3535,6 +3528,9 @@ msgstr "This session only. Instead of {x}."
 
 msgid "Solo en este dispositivo. La fecha de nacimiento y la altura se usan en el análisis y en el plan con IA."
 msgstr "Only on this device. Date of birth and height are used in the AI analysis and plan."
+
+msgid "Solo las rutinas de todas las semanas; el plan no avanza"
+msgstr "Only every-week routines; the plan doesn't move on"
 
 msgid "Solo las rutinas. Ningún registro."
 msgstr "Routines only. No logs."
@@ -3856,6 +3852,9 @@ msgstr "Useful with headphones or when training next to others. If it doesn't vi
 msgid "V"
 msgstr "F"
 
+msgid "Vacaciones, lesión, un viaje…"
+msgstr "Holidays, injury, a trip…"
+
 msgid "Vacaciones, lesión, un viaje… Las semanas de pausa solo sugieren las rutinas de todas las semanas, y el resto del plan se corre."
 msgstr "Holidays, injury, a trip… Pause weeks only suggest every-week routines, and the rest of the plan moves later."
 
@@ -3909,11 +3908,17 @@ msgstr "Fertile window"
 msgid "Ver el aviso"
 msgstr "View the notice"
 
+msgid "Ver el plan"
+msgstr "See the plan"
+
 msgid "Ver en el Diario"
 msgstr "See in the Diary"
 
 msgid "Ver en Progreso"
 msgstr "See in Progress"
+
+msgid "Ver esta semana"
+msgstr "See this week"
 
 msgid "Ver ficha"
 msgstr "View card"
@@ -3926,9 +3931,6 @@ msgstr "See the app first. Routines are created in Library → New routine."
 
 msgid "Ver notas"
 msgstr "See notes"
-
-msgid "Ver plan"
-msgstr "View plan"
 
 msgid "Ver versiones"
 msgstr "See versions"
@@ -4029,6 +4031,46 @@ msgstr "Me"
 
 msgid "Zona peligrosa"
 msgstr "Danger zone"
+
+#~ msgid "Plan «en orden» (por defecto en planes nuevos): hoy toca la siguiente sesión que falte, sea el día que sea; si empiezas un domingo o fallas un día, se recupera, y la semana del plan pasa al hacerlas todas."
+#~ msgstr "“In order” plans (default for new plans): today is the next session still to do, whatever the day; if you start on a Sunday or miss a day you catch up, and the plan week moves on when all are done."
+
+#~ msgid "Plan flexible: aplazar a mañana las sesiones de hoy (las siguientes de la semana se corren), hacer descarga esta semana o pausar el plan 1 a 4 semanas; el resto del plan se corre. Además, «Rutinas y días» se eligen dentro del propio plan."
+#~ msgstr "Flexible plan: move today's sessions to tomorrow (the rest of the week shifts), make this a deload week or pause the plan for 1 to 4 weeks; the rest of the plan moves later. Also, “Routines and days” are chosen inside the plan itself."
+
+#~ msgid "¿Hacer descarga esta semana? Solo se sugieren las rutinas de todas las semanas, y el resto del plan se corre una semana."
+#~ msgstr "Make this a deload week? Only every-week routines are suggested, and the rest of the plan moves one week later."
+
+#~ msgid "El plan empieza el lunes de la semana de inicio. Sin revisión, dura un año."
+#~ msgstr "The plan starts on the Monday of the start week. Without a review date it lasts a year."
+
+#~ msgid "Elige la semana pasada (o antes) para recuperar las sesiones que te saltaste: Hoy te las propone primero."
+#~ msgstr "Choose last week (or earlier) to catch up on the sessions you skipped: Today suggests them first."
+
+#, python-brace-format
+#~ msgid "Empieza el {d}."
+#~ msgstr "Starts {d}."
+
+#~ msgid "En orden, el plan empieza el mismo día de inicio."
+#~ msgstr "In order, the plan starts on the start day itself."
+
+#~ msgid "esta"
+#~ msgstr "this one"
+
+#~ msgid "Hoy toca la siguiente que falte, sea el día que sea: si empiezas un domingo o fallas un día, se recupera. La semana del plan pasa al hacerlas todas."
+#~ msgstr "Today is the next one still to do, whatever the day: if you start on a Sunday or miss a day, you catch up. The plan week moves on when all are done."
+
+#~ msgid "la pasada"
+#~ msgstr "last week"
+
+#~ msgid "Seguir en orden desde"
+#~ msgstr "Continue in order from"
+
+#~ msgid "Sesiones en orden"
+#~ msgstr "Sessions in order"
+
+#~ msgid "Ver plan"
+#~ msgstr "View plan"
 
 #~ msgid "Datos para el análisis con IA"
 #~ msgstr "Data for AI analysis"

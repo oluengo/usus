@@ -700,6 +700,10 @@ label.srow{cursor:pointer}
 :root[data-theme="dark"] .pdays button.on,:root[data-theme="protector"] .pdays button.on{color:#1A1208}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .pdays button.on{color:#1A1208}}
 .pvar select{margin-top:8px}
+/* Hoy: la semana del plan en una línea */
+.weekline{display:flex;align-items:center;gap:10px;width:100%;margin-top:10px;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--bg);color:var(--ink);font:inherit;font-size:.9rem;text-align:left;min-height:44px}
+.weekline>span:first-child{flex:1}
+.wdots{display:flex;gap:4px}.wdots i{width:10px;height:10px;border-radius:50%;border:1.5px solid var(--muted)}.wdots i.on{background:var(--ok);border-color:var(--ok)}
 /* Zona peligrosa */
 .dzone{border:1.5px solid var(--danger);background:color-mix(in srgb,var(--danger) 8%,var(--surface));border-radius:16px;padding:14px 16px}
 .dzone b{color:var(--danger)}.dzone p{margin:6px 0 12px;font-size:.88rem}
@@ -1116,14 +1120,26 @@ function planWeeks(p) {
 }
 function planNow(p = PL.get(), now = Date.now()) {
   if (!p || p.enabled === false) return null;
-  if (p.order) return planOrder(p, now);
+  return planOrder(p.order ? p : planToOrder(p, now), now);
+}
+/* Planes de antes de la 3.0 (por calendario): pasan a «en orden» desde la semana en la que iban */
+function planToOrder(p, now = Date.now()) {
+  if (!p || p.order) return p;
+  const c = planCal(p, now), k = c?.status === "on" ? c.i : c?.status === "done" ? c.ws.length - 1 : 0;
+  return { ...p, order: true, ...(k > 0 ? { orderAt: k } : {}) };
+}
+function planMigrateOrder() {
+  const a = PL.get(); if (a && !a.order) PL.save(planToOrder(a));
+  const l = PLS.list(); if (l.some(p => !p.order)) PLS.save(l.map(p => p.order ? p : { ...p, order: true }));
+}
+function planCal(p, now = Date.now()) {
   const ws = planWeeks(p); if (!ws.length) return null;
   if (now < ws[0].t) return { status: "pre", ws };
   const i = ws.findIndex(w => now >= w.t && now < addDays(w.t, 7));
   return i < 0 ? { status: "done", ws } : { status: "on", ws, i, w: ws[i] };
 }
 /* Semana del calendario en la que va un plan (para pasarlo a «en orden» sin perder el sitio) */
-const planCalIdx = d => { if (!d?.start) return -1; const pn = planNow({ ...d, order: false, enabled: true }); return pn?.status === "on" ? pn.i : pn?.status === "done" ? pn.ws.length - 1 : -1; };
+const planCalIdx = d => { if (!d?.start) return -1; const pn = planCal(d); return pn?.status === "on" ? pn.i : pn?.status === "done" ? pn.ws.length - 1 : -1; };
 /* Plan «en orden»: cada semana del plan es una vuelta a las rutinas de su variante, en el orden de sus días.
    No depende del calendario: hoy toca la siguiente que falte; la semana pasa cuando están todas hechas.
    La descarga dura 7 días desde que acaba la semana anterior. Pausas y descargas añadidas: ventanas de fechas. */
@@ -1204,12 +1220,12 @@ function todayCard() {
     const w = pn.w, next = pn.ws.slice(pn.i + 1).find(x => weekLabel(x) !== weekLabel(w));
     const L = list(suggestedFor(w, today));
     return `<div class="panel plan-b today" style="border-color:${w.deload ? "var(--line)" : varColor(w.variant)}">
-      <div class="row" style="gap:8px">${w.deload ? `<span class="vchip vd">${T("Desc.")}</span>` : vChip(w.variant)}<b style="flex:1">${T("Semana {n} de {m}", { n: w.n, m: pn.ws.length })} · ${weekLabel(w)}</b><button class="btn ghost small" data-act="plan-open">${T("Ver plan")}</button></div>
+      <div class="row" style="gap:8px">${w.deload ? `<span class="vchip vd">${T("Desc.")}</span>` : vChip(w.variant)}<b style="flex:1">${T("Semana {n} de {m}", { n: w.n, m: pn.ws.length })} · ${weekLabel(w)}</b><button class="btn icon ghost" data-act="pl-menu" aria-label="${T("Opciones del plan")}" title="${T("Opciones del plan")}">⋯</button></div>
       ${w.up ? `<p class="muted" style="margin:6px 0 0">↑ ${upRuleOf(PL.get()) === "mark" ? T("Variante repetida: sube 1-2 reps o 1 serie si hay margen.") : T("Variante repetida: subida automática según tu plan.")}</p>` : ""}
       ${w.pause ? `<p class="muted" style="margin:6px 0 0">${T("Plan en pausa: solo rutinas de todas las semanas (p. ej. Diaria). Sigue el {d}.", { d: new Date((pn.ws.slice(pn.i).find(x => !x.pause) || { t: addDays(w.t, 7) }).t).toLocaleDateString(LOC(), { weekday: "long", day: "numeric", month: "long" }) })}</p>`
         : w.deload ? `<p class="muted" style="margin:6px 0 0">${T("Semana de descarga: solo rutinas sin variante (p. ej. Diaria).")}</p>` : ""}
-      <div class="muted" style="font-size:.85rem;margin-top:10px">${T("Toca hoy:")}</div>${L}${pendingBlock(w)}
-      ${planTodayActs(pn, today)}
+      <div class="muted" style="font-size:.85rem;margin-top:10px">${T("Toca hoy:")}</div>${L}
+      ${w.seq && !w.deload ? `<button class="weekline" data-pweek="${pn.i}"><span>${T("Esta semana del plan")}</span><span class="wdots" aria-hidden="true">${w.seq.map(r => `<i class="${w.done.has(r.name) ? "on" : ""}"></i>`).join("")}</span><b>${w.done.size}/${w.seq.length}</b><span aria-hidden="true">›</span></button>` : ""}
       ${next ? `<p class="muted" style="font-size:.8rem;margin:10px 0 0">${next.t ? T("Siguiente: {x} desde el {d}", { x: weekLabel(next), d: new Date(next.t).toLocaleDateString(LOC(), { day: "numeric", month: "short" }) }) : T("Después: {x}", { x: weekLabel(next) })}</p>` : ""}
     </div>`;
   }
@@ -1244,6 +1260,20 @@ function planWeekModal() {
       : `<p class="muted" style="margin:0">${T("Esta variante no tiene rutinas. Añádelas en «Rutinas y días» al editar el plan.")}</p>`}
     <div class="row" style="margin-top:14px;flex-wrap:wrap">${cur ? `<button class="btn primary" data-tab="train">${T("Ir a Hoy")}</button>` : ""}${w.t && w.t <= Date.now() ? `<button class="btn" data-day="${dayKey(w.t)}">${T("Ver en el Diario")}</button>` : ""}</div>
   </div></div>`;
+}
+/* Menú ⋯ de la tarjeta del plan en Hoy */
+function planMenuModal() {
+  if (!state.plmenu) return ""; const pn = planNow(); if (pn?.status !== "on") return "";
+  const it = (attr, t, d) => `<button class="lrow" ${attr}><span class="t"><b>${t}</b>${d ? `<small>${d}</small>` : ""}</span><span class="chev" aria-hidden="true">›</span></button>`;
+  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="pmT"><div class="mbox">
+    <div class="sb-head"><h2 id="pmT" style="margin:0;flex:1">${esc(planName(PL.get()))}</h2><button class="btn small" data-act="plm-close">${T("Cerrar")}</button></div>
+    <div class="lgroup" style="margin-top:10px">
+      ${it(`data-pweek="${pn.i}"`, T("Ver esta semana"), T("Rutinas hechas y pendientes"))}
+      ${it('data-act="plan-open"', T("Ver el plan"), T("Todas las semanas"))}
+      ${pn.w.deload ? "" : it('data-act="pl-deload"', T("Descarga esta semana"), T("Solo las rutinas de todas las semanas; el plan no avanza"))}
+      ${it('data-act="pl-pausego"', T("Pausar el plan"), T("Vacaciones, lesión, un viaje…"))}
+      ${it('data-act="plan-edit"', T("Editar plan"), "")}
+    </div></div></div>`;
 }
 /* Pausas en Biblioteca → Plan */
 function planPauseBlock(p) {
@@ -1291,11 +1321,10 @@ function viewPlanEdit() {
       <label class="xtog swrow"><span>${T("Plan activo (se muestra en Hoy)")}</span><input type="checkbox" role="switch" id="pOn" ${d.enabled !== false ? "checked" : ""}></label>
       <div class="wrow2" style="margin-top:12px"><label class="muted" for="pStart">${T("Inicio")}</label><input type="date" id="pStart" value="${esc(d.start || "")}">
         <label class="muted" for="pReview">${T("Revisión (opcional)")}</label><input type="date" id="pReview" value="${esc(d.review || "")}"></div>
-      <p class="muted" style="font-size:.78rem;margin:6px 0 0">${d.order ? T("En orden, el plan empieza el mismo día de inicio.") : T("El plan empieza el lunes de la semana de inicio. Sin revisión, dura un año.")}</p>
-      <label class="xtog swrow" style="margin-top:12px"><span>${T("Sesiones en orden")}<small>${T("Hoy toca la siguiente que falte, sea el día que sea: si empiezas un domingo o fallas un día, se recupera. La semana del plan pasa al hacerlas todas.")}</small></span><input type="checkbox" role="switch" id="pOrder" ${d.order ? "checked" : ""}></label>
-      ${(() => { const ci = planCalIdx(d); if (!d.order || ci < 1) return "";
-        return `<div class="wrow" style="margin-top:10px"><label class="muted" for="pOrderAt" style="font-size:.85rem">${T("Seguir en orden desde")}</label><select id="pOrderAt">${Array.from({ length: ci + 1 }, (_, k) => ci - k).map(k => `<option value="${k}" ${(d.orderAt ?? ci) === k ? "selected" : ""}>${T("Semana {n}", { n: k + 1 })}${k === ci ? ` · ${T("esta")}` : k === ci - 1 ? ` · ${T("la pasada")}` : ""}</option>`).join("")}</select><span></span></div>
-        <p class="muted" style="font-size:.78rem;margin:6px 0 0">${T("Elige la semana pasada (o antes) para recuperar las sesiones que te saltaste: Hoy te las propone primero.")}</p>`; })()}
+      <p class="muted" style="font-size:.78rem;margin:6px 0 0">${T("Las sesiones van en orden: hoy toca la siguiente que falte, sea el día que sea, y la semana del plan pasa al hacerlas todas.")}</p>
+      ${(() => { if (state.planNew) return ""; const pn = planNow({ ...d, enabled: true }), cur = pn?.status === "on" ? pn.i : -1, mx = Math.max(planCalIdx(d), cur); if (mx < 1) return "";
+        return `<div class="wrow" style="margin-top:10px"><label class="muted" for="pOrderAt" style="font-size:.85rem">${T("Semana en la que vas")}</label><select id="pOrderAt">${Array.from({ length: mx + 1 }, (_, k) => mx - k).map(k => `<option value="${k}" ${(d.orderAt ?? cur) === k ? "selected" : ""}>${T("Semana {n}", { n: k + 1 })}${k === cur ? ` · ${T("ahora")}` : ""}</option>`).join("")}</select><span></span></div>
+        <p class="muted" style="font-size:.78rem;margin:6px 0 0">${T("Para recuperar lo que te saltaste, elige una semana anterior: Hoy te propone primero lo que falte de ella.")}</p>`; })()}
       <h2 style="margin:18px 0 4px;font-size:1rem">${T("Fases (se repiten en orden)")}</h2>
       ${d.phases.map((x, i) => `<div class="phr">
         <span class="muted" style="font-size:.8rem">${i + 1}</span>
@@ -1351,7 +1380,7 @@ function readPlan() {
   if (v("pName")) d.name = v("pName").value.trim();
   if (v("pOn")) d.enabled = v("pOn").checked;
   if (v("pStart")) d.start = v("pStart").value; if (v("pReview")) d.review = v("pReview").value;
-  if (v("pOrder")) { const was = !!d.order; d.order = v("pOrder").checked; if (d.order && !was && !state.planNew && d.orderAt === undefined) { const ci = planCalIdx(d); if (ci > 0) d.orderAt = ci; } }
+  d.order = true;
   if (v("pOrderAt")) d.orderAt = +v("pOrderAt").value;
   if (v("pUp")) d.up = v("pUp").checked; if (v("pUpRule")) d.upRule = v("pUpRule").value;
   d.deload = { weeks: Math.max(0, Math.round(+v("pDlW")?.value || 0)), every: Math.max(0, Math.round(+v("pDlE")?.value || 0)) };
@@ -2334,7 +2363,7 @@ function render() {
   if (state.tab === "history") state.tab = "diary";
   const v = state.actForm ? viewActForm : state.tab === "data" && state.link ? viewLink : { train: viewTrain, routines: viewRoutines, diary: viewDiary, stats: viewStats, data: viewData }[state.tab];
   const mb = document.querySelector(".mbox.dsh"), mbTop = mb ? mb.scrollTop : 0;
-  $("#app").innerHTML = v() + focusView() + welcomeModal() + noticeModal() + planWeekModal() + newsModal() + cycAckModal() + savedModal() + shareSessModal() + shareRoutModal() + incomingModal() + profPickModal() + profFormModal() + profEditModal() + profCopyModal() + issueModal() + exInfoModal() + xpickModal() + ownMatModal() + catAskModal() + progChangeModal() + aiModal() + csvModal() + swapModal() + dayNoteModal();
+  $("#app").innerHTML = v() + focusView() + welcomeModal() + noticeModal() + planWeekModal() + planMenuModal() + newsModal() + cycAckModal() + savedModal() + shareSessModal() + shareRoutModal() + incomingModal() + profPickModal() + profFormModal() + profEditModal() + profCopyModal() + issueModal() + exInfoModal() + xpickModal() + ownMatModal() + catAskModal() + progChangeModal() + aiModal() + csvModal() + swapModal() + dayNoteModal();
   if (mb) { const nb = document.querySelector(".mbox.dsh"); if (nb) nb.scrollTop = mbTop; }
   if (state.tab === "train" && state.active && !state.actForm) tick();
   if (state.shareSess && SHOPT().img) sessPreview();
@@ -4095,8 +4124,8 @@ const CHANGES = [  // Novedades: solo en castellano; las traducciones, en i18n/*
     N_("Hoy: lo que toca, arriba y con un único botón Empezar; accesos rápidos a otra rutina, sesión libre y actividad; los avisos, juntos en «Pendiente»."),
     N_("Rutinas agrupadas por variante. Cada rutina se abre en su propia pantalla (en PC, al lado de la lista) con Empezar, Editar, Imprimir, Compartir y Duplicar."),
     N_("El plan de progresión pasa de Hoy a Biblioteca → Plan, junto a las rutinas que usa."),
-    N_("Plan flexible: aplazar a mañana las sesiones de hoy (las siguientes de la semana se corren), hacer descarga esta semana o pausar el plan 1 a 4 semanas; el resto del plan se corre. Además, «Rutinas y días» se eligen dentro del propio plan."),
-    N_("Plan «en orden» (por defecto en planes nuevos): hoy toca la siguiente sesión que falte, sea el día que sea; si empiezas un domingo o fallas un día, se recupera, y la semana del plan pasa al hacerlas todas."),
+    N_("Hoy, más limpio: lo que toca, la semana del plan en una línea (toca para verla) y un menú ⋯ con descarga esta semana o pausar el plan 1 a 4 semanas. «Rutinas y días» se eligen dentro del propio plan."),
+    N_("Planes en orden: hoy toca la siguiente sesión que falte, sea el día que sea; si empiezas un domingo o fallas un día, se recupera, y la semana del plan pasa al hacerlas todas. Tus planes pasan solos a este modo desde la semana en la que ibas, y al editarlos puedes volver a una semana anterior para recuperarla."),
     N_("Diario: el peso se anota aquí. Solo se ven las casillas con datos; lo demás se añade con un toque (+ Sueño, + Peso, + Pasos…)."),
     N_("Ajustes en grupos, cada uno con su pantalla: Perfil, Entreno, Avisos, Apariencia e idioma, Datos y copias, y Acerca de. Interruptores para activar opciones."),
     N_("Editor de rutina más compacto en el móvil: cada ejercicio en una fila con su resumen; los detalles se abren al tocarla."),
@@ -4465,7 +4494,7 @@ function incomingModal() {
     ${inc.routines.length ? `<div class="rsl">${inc.routines.map((r, i) => { const mm = mt[i], m = mm?.r, upd = m && inc.mode[i] !== "new";
       return `<div class="rsrow"><button class="rsr" style="padding-left:12px" data-inr="${i}" aria-pressed="${sel.has(i)}">${box(sel.has(i))}<span style="flex:1;min-width:0">${esc(r.name)}<small class="muted" style="display:block;font-size:.78rem">${T("{e} ejercicios · {s} series", { e: r.exercises.length, s: r.exercises.reduce((a, e) => a + e.sets, 0) })}</small></span></button>
         ${mm ? `<div class="rsmode"><small class="dupw">⚠ ${mm.same ? T("Ya la tienes igual: «{x}»", { x: esc(m.name) }) : mm.oid && !mm.sim ? T("Ya la tienes: «{x}»", { x: esc(m.name) }) : T("Se parece un {p} % a «{x}», que ya tienes", { p: Math.round(mm.sim * 100), x: esc(m.name) })}</small>${sel.has(i) ? `<div class="rsseg"><button data-inm="${i}:upd" class="${upd ? "on" : ""}" aria-pressed="${upd}">${T("Actualizar")}</button><button data-inm="${i}:new" class="${upd ? "" : "on"}" aria-pressed="${!upd}">${T("Añadir como nueva")}</button></div>` : ""}</div>` : ""}</div>`; }).join("")}</div>` : ""}
-    ${p ? `<label class="shopt" style="margin-top:10px"><span>${T("Añadir el plan de progresión")}<small class="muted" style="display:block;font-size:.78rem">${esc(phs)}. ${T("Empieza el {d}.", { d: kFmt(nextMonday(), { weekday: "long", day: "numeric", month: "short" }) })}${PL.get() ? " " + T("Pasa a ser el plan activo; el actual queda guardado en Mis planes.") : ""}</small></span><input type="checkbox" role="switch" id="inPlan" ${inc.withPlan ? "checked" : ""}></label>` : ""}
+    ${p ? `<label class="shopt" style="margin-top:10px"><span>${T("Añadir el plan de progresión")}<small class="muted" style="display:block;font-size:.78rem">${esc(phs)}. ${T("Empieza hoy.")}${PL.get() ? " " + T("Pasa a ser el plan activo; el actual queda guardado en Mis planes.") : ""}</small></span><input type="checkbox" role="switch" id="inPlan" ${inc.withPlan ? "checked" : ""}></label>` : ""}
     <p class="muted" style="font-size:.78rem;margin:8px 0 0">${T("Si ya tienes una rutina con el mismo nombre, se añade como «(2)».")} ${T("Al actualizar se cambian los ejercicios; el nombre, los días, la variante y tus sesiones no se tocan.")}</p>
     <div class="row" style="margin-top:12px"><button class="btn" style="flex:1" data-act="in-no">${T("Ahora no")}</button><button class="btn primary" style="flex:1" data-act="in-yes" ${sel.size || (p && inc.withPlan) ? "" : "disabled"}>${T("Añadir")}</button></div>
   </div></div>`;
@@ -4507,7 +4536,7 @@ async function incomingAdd() {
   state.routines.push(...add); await store.saveRoutines(state.routines);
   const plan = inc.plan && inc.withPlan;
   if (plan) { const old = PL.get(); if (old) PLS.save([{ ...old, id: old.id || uid() }, ...PLS.list()]);   // el activo anterior pasa a Mis planes
-    PL.save({ id: uid(), enabled: true, start: nextMonday(), review: "", phases: inc.plan.phases.map(x => ({ id: uid(), ...x })), deload: inc.plan.deload, up: inc.plan.up, upRule: inc.plan.upRule }); }
+    PL.save({ id: uid(), enabled: true, order: true, start: dayKey(Date.now()), review: "", phases: inc.plan.phases.map(x => ({ id: uid(), ...x })), deload: inc.plan.deload, up: inc.plan.up, upRule: inc.plan.upRule }); }
   state.incoming = null; state.tab = add.length || upd ? "routines" : "train"; state.editing = null;
   const msg = [add.length ? (add.length === 1 ? T("Rutina añadida") : T("Añadidas {n} rutinas", { n: add.length })) : "", upd ? (upd === 1 ? T("1 rutina actualizada") : T("{n} rutinas actualizadas", { n: upd })) : "", plan ? T("plan añadido") : ""].filter(Boolean).join(" · ");
   toast(msg || T("Nada que añadir")); render(); window.scrollTo(0, 0);
@@ -4816,7 +4845,7 @@ async function importJSON(text) {
   }
   if (j.weightGoal && !W.goal()) LS.set("wk.weightGoal", +j.weightGoal);
   if (j.diary && typeof j.diary === "object") { const cur = DY.all(); Object.entries(j.diary).forEach(([k, v]) => { if (/^\d{4}-\d{2}-\d{2}$/.test(k) && v && typeof v === "object") cur[k] = { ...(cur[k] || {}), ...v, supp: { ...(cur[k]?.supp || {}), ...(v.supp || {}) } }; }); LS.set("wk.diary", cur); }
-  if (j.plan && typeof j.plan === "object" && j.plan.start && Array.isArray(j.plan.phases)) PL.save(j.plan);
+  if (j.plan && typeof j.plan === "object" && j.plan.start && Array.isArray(j.plan.phases)) PL.save(planToOrder(j.plan));
   if (Array.isArray(j.plans)) PLS.save(j.plans.filter(p => p && typeof p === "object" && p.start && Array.isArray(p.phases)).map(p => ({ ...p, id: p.id || uid() })));
   if (Array.isArray(j.supplements)) { const m = new Map(DY.supps().map(x => [x.id, x])); j.supplements.filter(x => x && x.id && x.name).forEach(x => m.set(x.id, x)); DY.saveSupps([...m.values()]); }
   if (Array.isArray(j.activities)) { const m = new Map(ACT.list().map(x => [x.id, x])); j.activities.filter(x => x && x.id && /^\d{4}-\d{2}-\d{2}$/.test(x.k) && x.type && (+x.km > 0 || +x.min > 0)).forEach(x => m.set(x.id, { id: String(x.id), k: x.k, type: String(x.type).slice(0, 24), km: +x.km || 0, min: +x.min || 0, note: String(x.note || "").slice(0, 140) })); ACT.save([...m.values()]); }
@@ -4840,7 +4869,7 @@ document.addEventListener("click", async ev => {
   const t = ev.target.closest("button"); if (!t) return;
   const d = t.dataset;
   readPlan(); readActForm(); readAiForm();
-  if (d.tab) { state.pweek = null; readEditor(); state.print = null; state.dsheet = null; state.actForm = null; state.planMode = null; state.planDraft = null; state.routOpen = null; state.setTab = null; state.tab = d.tab; render(); window.scrollTo(0, 0); return; }
+  if (d.tab) { state.pweek = null; state.plmenu = false; readEditor(); state.print = null; state.dsheet = null; state.actForm = null; state.planMode = null; state.planDraft = null; state.routOpen = null; state.setTab = null; state.tab = d.tab; render(); window.scrollTo(0, 0); return; }
   if (d.start) { if (state.active && !confirm(T("Ya tienes una sesión en curso. ¿Descartarla y empezar otra?"))) return; cancelRun(); state.tab = "train"; startSession(d.start); return; }
   const a = state.active;
   if (d.mv) {
@@ -4912,7 +4941,7 @@ document.addEventListener("click", async ev => {
   }
   if (d.prd && state.planDraft) { const [id, x] = d.prd.split(":"), m = planRmap(state.planDraft)[id]; if (m) { const k = +x; m.days = m.days.includes(k) ? m.days.filter(z => z !== k) : [...m.days, k]; } render(); return; }
   if (d.prx && state.planDraft) { const m = planRmap(state.planDraft)[d.prx]; if (m) { m.on = false; m.variant = ""; m.days = []; } render(); return; }
-  if (d.pweek !== undefined) { state.pweek = +d.pweek; render(); return; }
+  if (d.pweek !== undefined) { state.plmenu = false; state.pweek = +d.pweek; render(); return; }
   if (d.pzdel !== undefined) { const p = PL.get(); if (!p) return; const l = planPauses(p); l.splice(+d.pzdel, 1); p.pauses = l; PL.save(p); state.pauseOpen = true; render(); return; }
   if (d.prm && state.planDraft) { state.planDraft.phases.splice(+d.prm, 1); render(); return; }
   if (d.pmv && state.planDraft) { const [i, dir] = d.pmv.split(":").map(Number), ph = state.planDraft.phases, j = i + dir; if (j >= 0 && j < ph.length) [ph[i], ph[j]] = [ph[j], ph[i]]; render(); return; }
@@ -5141,18 +5170,21 @@ document.addEventListener("click", async ev => {
     case "newroutine": state.edOpen = null; state.edSel = null; state.edSec = null; state.edQ = ""; state.editing = { id: uid(), isNew: true, name: "", variant: "", days: [], exercises: [{ name: "", sets: 3, reps: 10, type: "reps" }] }; render(); break;
     case "addre": { readEditor(); const i = edAdd({ name: "", sets: 3, reps: 10, type: "reps" }); state.edOpen = i; render();
       document.querySelector(`[data-en="${i}"]`)?.focus(); break; }
-    case "plan-open": readEditor(); state.editing = null; state.tab = "routines"; state.routView = "plan"; state.routOpen = null; state.planMode = null; render(); window.scrollTo(0, 0); break;
+    case "plan-open": state.plmenu = false; readEditor(); state.editing = null; state.tab = "routines"; state.routView = "plan"; state.routOpen = null; state.planMode = null; render(); window.scrollTo(0, 0); break;
     case "plan-new": state.tab = "routines"; state.routView = "plan"; state.planNew = true; state.planDraft = newPlanDraft(); state.planMode = "edit"; render(); window.scrollTo(0, 0); break;
     case "plan-dup": { const a = PL.get(); if (!a) break; const l = PLS.list(); l.unshift({ ...JSON.parse(JSON.stringify(a)), id: uid(), name: T("Copia de {x}", { x: planName(a) }) }); PLS.save(l); state.plansOpen = true; toast(T("Plan duplicado. Actívalo para editarlo.")); render(); break; }
     case "plan-create": state.planNew = false; state.tab = "routines"; state.routView = "plan"; state.planDraft = newPlanDraft(); state.planMode = "edit"; render(); window.scrollTo(0, 0); break;
-    case "plan-edit": state.planNew = false; state.tab = "routines"; state.routView = "plan"; state.planDraft = JSON.parse(JSON.stringify(PL.get() || newPlanDraft())); state.planDraft.phases.forEach(x => x.id = x.id || uid()); state.planMode = "edit"; render(); window.scrollTo(0, 0); break;
+    case "plan-edit": state.plmenu = false; state.planNew = false; state.tab = "routines"; state.routView = "plan"; state.planDraft = JSON.parse(JSON.stringify(PL.get() || newPlanDraft())); state.planDraft.phases.forEach(x => x.id = x.id || uid()); state.planMode = "edit"; render(); window.scrollTo(0, 0); break;
     case "pl-postpone": { const pn = planNow(); if (pn?.status !== "on") break; const wk = dayKey(pn.w.t), sh = SHIFT.get(), i = (new Date().getDay() + 6) % 7;
       SHIFT.set(sh && sh.week === wk ? { ...sh, by: sh.by + 1 } : { week: wk, from: i, by: 1 }); toast(T("Aplazado a mañana")); render(); break; }
+    case "pl-menu": state.plmenu = true; render(); break;
+    case "plm-close": state.plmenu = false; render(); break;
+    case "pl-pausego": state.plmenu = false; state.tab = "routines"; state.routView = "plan"; state.pauseOpen = true; render(); setTimeout(() => $("details[data-pauses]")?.scrollIntoView({ block: "center" }), 0); break;
     case "pw-close": state.pweek = null; render(); break;
     case "pl-unshift": SHIFT.set(null); render(); break;
-    case "pl-deload": { const p = PL.get(), pn = planNow(); if (!p || pn?.status !== "on") break;
-      if (!confirm(T("¿Hacer descarga esta semana? Solo se sugieren las rutinas de todas las semanas, y el resto del plan se corre una semana."))) return;
-      p.pauses = [...planPauses(p), { from: dayKey(pn.order ? weekStart(Date.now()) : pn.w.t), weeks: 1, kind: "deload" }]; PL.save(p); SHIFT.set(null); toast(T("Semana de descarga")); render(); break; }
+    case "pl-deload": state.plmenu = false; { const p = PL.get(), pn = planNow(); if (!p || pn?.status !== "on") break;
+      if (!confirm(T("¿Hacer descarga esta semana? Hasta el domingo solo se sugieren las rutinas de todas las semanas, y el plan no avanza."))) return;
+      p.pauses = [...planPauses(p), { from: dayKey(weekStart(Date.now())), weeks: 1, kind: "deload" }]; PL.save(p); SHIFT.set(null); toast(T("Semana de descarga")); render(); break; }
     case "pl-pause": { const p = PL.get(); if (!p) break; const n = +($("#pzW")?.value || 1), f = +($("#pzF")?.value || 0), from = dayKey(addDays(weekStart(Date.now()), 7 * f));
       if (planPauses(p).some(x => x.from === from)) { toast(T("Ya hay una pausa esa semana")); return; }
       p.pauses = [...planPauses(p), { from, weeks: n, kind: "pause" }]; PL.save(p); if (!f) SHIFT.set(null); state.pauseOpen = true; toast(T("Plan en pausa")); render(); break; }
@@ -5342,7 +5374,7 @@ const I18N = {
     "¿Eliminar esta rutina? Las sesiones registradas se conservan.": "Vols eliminar aquesta rutina? Les sessions registrades es conserven.",
     "¿Eliminar esta sesión? No se puede deshacer.": "Vols eliminar aquesta sessió? No es pot desfer.",
     "¿Eliminar este suplemento? Su historial también se dejará de mostrar.": "Vols eliminar aquest suplement? El seu historial també deixarà de mostrar-se.",
-    "¿Hacer descarga esta semana? Solo se sugieren las rutinas de todas las semanas, y el resto del plan se corre una semana.": "Fer descàrrega aquesta setmana? Només se suggereixen les rutines de totes les setmanes, i la resta del pla es desplaça una setmana.",
+    "¿Hacer descarga esta semana? Hasta el domingo solo se sugieren las rutinas de todas las semanas, y el plan no avanza.": "Fer descàrrega aquesta setmana? Fins diumenge només se suggereixen les rutines de totes les setmanes, i el pla no avança.",
     "¿Has notado la vibración?": "Has notat la vibració?",
     "¿Has oído 3 pitidos y notado la vibración?": "Has sentit 3 xiulets i notat la vibració?",
     "¿Has oído 3 pitidos?": "Has sentit 3 xiulets?",
@@ -5361,6 +5393,7 @@ const I18N = {
     "{d} · {e} ejercicios · {s} series": "{d} · {e} exercicis · {s} sèries",
     "{e} ejercicios · {s} series": "{e} exercicis · {s} sèries",
     "{n} año\u0004{n} años": ["{n} any","{n} anys"],
+    "{n} año": "{n} any",
     "{n} de {m} seleccionadas": "{n} de {m} seleccionades",
     "{n} de {m} seleccionadas · sin tus sesiones ni registros.": "{n} de {m} seleccionades · sense les teves sessions ni registres.",
     "{n} de {n} series": "{n} de {n} sèries",
@@ -5434,6 +5467,7 @@ const I18N = {
     "Actualizaciones": "Actualitzacions",
     "Actualizar": "Actualitzar",
     "Agrupar": "Agrupa",
+    "ahora": "ara",
     "Ahora": "Ara",
     "Ahora no": "Ara no",
     "Ajustes": "Ajustos",
@@ -5764,7 +5798,6 @@ const I18N = {
     "El pitido usa el volumen multimedia. Si no vibra, revisa No molestar y la vibración del sistema.": "El xiulet fa servir el volum multimèdia. Si no vibra, revisa No molestis i la vibració del sistema.",
     "El plan de progresión pasa de Hoy a Biblioteca → Plan, junto a las rutinas que usa.": "El pla de progressió passa d'Avui a Biblioteca → Pla, al costat de les rutines que fa servir.",
     "El plan empieza el {d}.": "El pla comença el {d}.",
-    "El plan empieza el lunes de la semana de inicio. Sin revisión, dura un año.": "El pla comença el dilluns de la setmana d'inici. Sense revisió, dura un any.",
     "El plan no tiene fases válidas. Edítalo para añadirlas.": "El pla no té fases vàlides. Edita'l per afegir-ne.",
     "El plan usa la variante {v}, que no va incluida: esas semanas quedarán sin rutina.": "El pla fa servir la variant {v}, que no hi va inclosa: aquelles setmanes quedaran sense rutina.",
     "El reloj y las series se activan al iniciar.": "El rellotge i les sèries s'activen en iniciar.",
@@ -5777,7 +5810,6 @@ const I18N = {
     "Elegir otro": "Tria'n un altre",
     "Elige al menos un día": "Tria almenys un dia",
     "Elige hombre o mujer": "Tria home o dona",
-    "Elige la semana pasada (o antes) para recuperar las sesiones que te saltaste: Hoy te las propone primero.": "Tria la setmana passada (o abans) per recuperar les sessions que et vas saltar: Avui te les proposa primer.",
     "Eliges los ejercicios, las series y los descansos.": "Tries els exercicis, les sèries i els descansos.",
     "Eliminar": "Elimina",
     "Eliminar plan": "Elimina el pla",
@@ -5786,8 +5818,8 @@ const I18N = {
     "Empezar": "Comença",
     "Empezar con": "Començar amb",
     "Empezar cuenta atrás serie {n}": "Comença el compte enrere sèrie {n}",
-    "Empieza el {d}.": "Comença el {d}.",
     "Empieza este día": "Comença aquest dia",
+    "Empieza hoy.": "Comença avui.",
     "empieza sola": "comença sola",
     "Empiezo (menos de 6 meses)": "Començo (menys de 6 mesos)",
     "Empuje": "Empenta",
@@ -5801,7 +5833,6 @@ const I18N = {
     "En la semana ↑": "A la setmana ↑",
     "en lugar de {x}": "en lloc de {x}",
     "en orden": "en ordre",
-    "En orden, el plan empieza el mismo día de inicio.": "En ordre, el pla comença el mateix dia d'inici.",
     "En pausa": "En pausa",
     "En perfiles de mujer, registro de la regla opcional, solo en este móvil.": "En perfils de dona, registre de la regla opcional, només en aquest mòbil.",
     "En un ordenador o una tablet en horizontal, el editor se abre en modo amplio: cada ejercicio en una fila y el catálogo al lado para tocar o arrastrar.": "En un ordinador o una tauleta en horitzontal, l'editor s'obre en mode ampli: cada exercici en una fila i el catàleg al costat per tocar o arrossegar.",
@@ -5829,7 +5860,6 @@ const I18N = {
     "Esfuerzo de la sesión (PEM)": "Esforç de la sessió (PEM)",
     "Esfuerzo percibido de toda la sesión (PEM).": "Esforç percebut de tota la sessió (PEM).",
     "Espalda": "Esquena",
-    "esta": "aquesta",
     "Esta app es una herramienta de registro, no un consejo médico ni un plan de entrenamiento. Consulta con un profesional antes de empezar o cambiar tu actividad física.": "Aquesta app és una eina de registre, no un consell mèdic ni un pla d'entrenament. Consulta un professional abans de començar o canviar la teva activitat física.",
     "Esta app no se conecta a Internet, así que no busca versiones nuevas por su cuenta. Se publican en GitHub; al instalar una nueva encima, tus datos se mantienen.": "Aquesta app no es connecta a Internet, així que no busca versions noves pel seu compte. Es publiquen a GitHub; en instal·lar-ne una de nova a sobre, les teves dades es mantenen.",
     "Esta copia es de una versión más nueva de Usus. Actualiza la app para importarla completa. ¿Importar igualmente lo que se pueda?": "Aquesta còpia és d'una versió més nova d'Usus. Actualitza l'app per importar-la completa. Vols importar igualment el que es pugui?",
@@ -5901,8 +5931,8 @@ const I18N = {
     "Hoy es el último día: lo que falte contará como saltado.": "Avui és l'últim dia: el que falti comptarà com a saltat.",
     "Hoy no hay ninguna rutina prevista.": "Avui no hi ha cap rutina prevista.",
     "Hoy podría bajarte la regla": "Avui et podria baixar la regla",
-    "Hoy toca la siguiente que falte, sea el día que sea: si empiezas un domingo o fallas un día, se recupera. La semana del plan pasa al hacerlas todas.": "Avui toca la següent que falti, sigui el dia que sigui: si comences un diumenge o falles un dia, es recupera. La setmana del pla passa en fer-les totes.",
     "Hoy toca pesarte": "Avui toca pesar-te",
+    "Hoy, más limpio: lo que toca, la semana del plan en una línea (toca para verla) y un menú ⋯ con descarga esta semana o pausar el plan 1 a 4 semanas. «Rutinas y días» se eligen dentro del propio plan.": "Avui, més net: el que toca, la setmana del pla en una línia (toca-la per veure-la) i un menú ⋯ amb descàrrega aquesta setmana o pausar el pla d'1 a 4 setmanes. «Rutines i dies» es trien dins del mateix pla.",
     "Hoy: lo que toca, arriba y con un único botón Empezar; accesos rápidos a otra rutina, sesión libre y actividad; los avisos, juntos en «Pendiente».": "Avui: el que toca, a dalt i amb un sol botó Comença; accessos ràpids a una altra rutina, sessió lliure i activitat; els avisos, junts a «Pendent».",
     "Huella SHA-256 del certificado de firma:": "Empremta SHA-256 del certificat de signatura:",
     "Icono nuevo.": "Icona nova.",
@@ -5954,7 +5984,6 @@ const I18N = {
     "La misma Usus, instalada como app. Sus datos van aparte: exporta una copia aquí e impórtala allí.": "La mateixa Usus, instal·lada com a app. Les seves dades van a part: exporta una còpia aquí i importa-la allà.",
     "La noche que termina este día.": "La nit que acaba aquest dia.",
     "La pantalla se mantiene encendida durante toda la sesión, no solo en las cuentas atrás.": "La pantalla es manté encesa durant tota la sessió, no només als comptes enrere.",
-    "la pasada": "la passada",
     "La regla podría bajarte en {n} días": "La regla et podria baixar d'aquí a {n} dies",
     "La regla podría bajarte mañana": "La regla et podria baixar demà",
     "La regla se retrasa {n} días respecto a la previsión ({d}).": "La regla s'endarrereix {n} dies respecte a la previsió ({d}).",
@@ -5964,6 +5993,7 @@ const I18N = {
     "Lactancia": "Lactància",
     "Las fechas son una estimación aproximada a partir de tus ciclos anteriores. Los ciclos varían por estrés, enfermedad, viajes, medicación u otras causas. No sirve como método anticonceptivo, ni para buscar un embarazo con fiabilidad, ni como diagnóstico. Ante cualquier duda o cambio importante, consulta a un profesional sanitario.": "Les dates són una estimació aproximada a partir dels teus cicles anteriors. Els cicles varien per estrès, malaltia, viatges, medicació o altres causes. No serveix com a mètode anticonceptiu, ni per buscar un embaràs amb fiabilitat, ni com a diagnòstic. Davant qualsevol dubte o canvi important, consulta un professional sanitari.",
     "Las rutinas sin días no se sugieren. Ponles días al editarlas.": "Les rutines sense dies no es suggereixen. Posa'ls dies en editar-les.",
+    "Las sesiones van en orden: hoy toca la siguiente que falte, sea el día que sea, y la semana del plan pasa al hacerlas todas.": "Les sessions van en ordre: avui toca la següent que falti, sigui el dia que sigui, i la setmana del pla passa en fer-les totes.",
     "Las traducciones pasan a archivos estándar (gettext) para poder traducir la app desde el navegador.": "Les traduccions passen a fitxers estàndard (gettext) per poder traduir l'app des del navegador.",
     "Las últimas series ya pesan.": "Les últimes sèries ja pesen.",
     "Lastre": "Llast",
@@ -6126,6 +6156,7 @@ const I18N = {
     "Opcional. Ayuda a ver si una semana ha sido demasiado dura.": "Opcional. Ajuda a veure si una setmana ha estat massa dura.",
     "Opcional. Se puede cambiar en Ajustes → Entreno.": "Opcional. Es pot canviar a Ajustos → Entrenament.",
     "Opcional. Vacío o 0 = sin objetivo. Los pasos se anotan en Diario → Pasos.": "Opcional. Buit o 0 = sense objectiu. Els passos s'anoten a Diari → Passos.",
+    "Opciones del plan": "Opcions del pla",
     "Ordena con ↑ ↓ y elige qué bloques ver.": "Ordena amb ↑ ↓ i tria quins blocs vols veure.",
     "Ordenar": "Ordena",
     "Oscuro": "Fosc",
@@ -6145,6 +6176,7 @@ const I18N = {
     "Para elegir ejercicios al crear rutinas y saber cómo avanzar.": "Per triar exercicis en crear rutines i saber com avançar.",
     "Para qué lo usarías": "Per a què ho faries servir",
     "Para qué sirve": "Per a què serveix",
+    "Para recuperar lo que te saltaste, elige una semana anterior: Hoy te propone primero lo que falte de ella.": "Per recuperar el que et vas saltar, tria una setmana anterior: Avui et proposa primer el que en falti.",
     "Paralelas": "Paral·leles",
     "Parar": "Atura",
     "Pared": "Paret",
@@ -6197,7 +6229,6 @@ const I18N = {
     "Pierna · cadera": "Cama · maluc",
     "Pierna · rodilla": "Cama · genoll",
     "Plan": "Pla",
-    "Plan «en orden» (por defecto en planes nuevos): hoy toca la siguiente sesión que falte, sea el día que sea; si empiezas un domingo o fallas un día, se recupera, y la semana del plan pasa al hacerlas todas.": "Pla «en ordre» (per defecte en plans nous): avui toca la següent sessió que falti, sigui el dia que sigui; si comences un diumenge o falles un dia, es recupera, i la setmana del pla passa en fer-les totes.",
     "Plan activo (se muestra en Hoy)": "Pla actiu (es mostra a Avui)",
     "Plan activo: {x}": "Pla actiu: {x}",
     "plan añadido": "pla afegit",
@@ -6205,10 +6236,10 @@ const I18N = {
     "Plan duplicado. Actívalo para editarlo.": "Pla duplicat. Activa'l per editar-lo.",
     "Plan en pausa": "Pla en pausa",
     "Plan en pausa: solo rutinas de todas las semanas (p. ej. Diaria). Sigue el {d}.": "Pla en pausa: només rutines de totes les setmanes (p. ex. Diària). Continua el {d}.",
-    "Plan flexible: aplazar a mañana las sesiones de hoy (las siguientes de la semana se corren), hacer descarga esta semana o pausar el plan 1 a 4 semanas; el resto del plan se corre. Además, «Rutinas y días» se eligen dentro del propio plan.": "Pla flexible: ajornar a demà les sessions d'avui (les següents de la setmana es desplacen), fer descàrrega aquesta setmana o pausar el pla d'1 a 4 setmanes; la resta del pla es desplaça. A més, «Rutines i dies» es trien dins del mateix pla.",
     "Plan guardado": "Pla desat",
     "Plan terminado": "Pla acabat",
     "Plan: la semana ↑ puede aplicar sola la subida (+reps, +1 serie o siguiente paso), con aviso en Hoy y opción de deshacer.": "Pla: la setmana ↑ pot aplicar sola la pujada (+reps, +1 sèrie o pas següent), amb avís a Avui i opció de desfer.",
+    "Planes en orden: hoy toca la siguiente sesión que falte, sea el día que sea; si empiezas un domingo o fallas un día, se recupera, y la semana del plan pasa al hacerlas todas. Tus planes pasan solos a este modo desde la semana en la que ibas, y al editarlos puedes volver a una semana anterior para recuperarla.": "Plans en ordre: avui toca la següent sessió que falti, sigui el dia que sigui; si comences un diumenge o falles un dia, es recupera, i la setmana del pla passa en fer-les totes. Els teus plans passen sols a aquest mode des de la setmana on anaves, i en editar-los pots tornar a una setmana anterior per recuperar-la.",
     "Podrías hablar sin esfuerzo; casi un calentamiento.": "Podries parlar sense esforç; gairebé un escalfament.",
     "Pon la distancia o el tiempo": "Posa la distància o el temps",
     "Pon la distancia, el tiempo o los dos.": "Posa la distància, el temps o tots dos.",
@@ -6327,6 +6358,7 @@ const I18N = {
     "Rutinas agrupadas por variante. Cada rutina se abre en su propia pantalla (en PC, al lado de la lista) con Empezar, Editar, Imprimir, Compartir y Duplicar.": "Rutines agrupades per variant. Cada rutina s'obre a la seva pantalla (a l'ordinador, al costat de la llista) amb Comença, Edita, Imprimeix, Comparteix i Duplica.",
     "Rutinas compartidas: si recibes otra vez una rutina que ya tienes (por ejemplo, una versión mejorada), puedes actualizarla en vez de duplicarla. Se cambian los ejercicios; tu nombre, días, variante y sesiones se mantienen.": "Rutines compartides: si tornes a rebre una rutina que ja tens (per exemple, una versió millorada), la pots actualitzar en lloc de duplicar-la. Canvien els exercicis; el teu nom, dies, variant i sessions es mantenen.",
     "Rutinas de otro perfil": "Rutines d'un altre perfil",
+    "Rutinas hechas y pendientes": "Rutines fetes i pendents",
     "Rutinas por variante": "Rutines per variant",
     "Rutinas y días": "Rutines i dies",
     "S": "Ds",
@@ -6360,7 +6392,6 @@ const I18N = {
     "Seguimiento del ciclo activado": "Seguiment del cicle activat",
     "Seguimiento del ciclo desactivado": "Seguiment del cicle desactivat",
     "Seguir aquí": "Continua aquí",
-    "Seguir en orden desde": "Continuar en ordre des de",
     "Seguir intentándolo": "Continua intentant-ho",
     "Seguir más tarde": "Continua més tard",
     "Segundos serie {n}": "Segons sèrie {n}",
@@ -6371,6 +6402,7 @@ const I18N = {
     "Semana de fuerza completa": "Setmana de força completa",
     "Semana de subida · variante {v}": "Setmana de pujada · variant {v}",
     "Semana del {d}: +{p} %": "Setmana del {d}: +{p} %",
+    "Semana en la que vas": "Setmana on vas",
     "Semanas": "Setmanes",
     "Semanas de descarga": "Setmanes de descàrrega",
     "Semanas de pausa": "Setmanes de pausa",
@@ -6394,7 +6426,6 @@ const I18N = {
     "Sesiones": "Sessions",
     "Sesiones aplazadas {n} día desde el {d}.\u0004Sesiones aplazadas {n} días desde el {d}.": ["Sessions ajornades {n} dia des del {d}.","Sessions ajornades {n} dies des del {d}."],
     "Sesiones aplazadas {n} día desde el {d}.": "Sessions ajornades {n} dia des del {d}.",
-    "Sesiones en orden": "Sessions en ordre",
     "Sexo": "Sexe",
     "Sexo: {x} (del perfil).": "Sexe: {x} (del perfil).",
     "Si la IA propone rutinas ajustadas, pega su respuesta y elige cuáles actualizar.": "Si la IA proposa rutines ajustades, enganxa'n la resposta i tria quines actualitzar.",
@@ -6445,6 +6476,7 @@ const I18N = {
     "Solo el plan activo cuenta en Hoy. Al cambiar de plan, tus rutinas, sesiones e historial no se tocan.": "Només el pla actiu compta a Avui. En canviar de pla, les teves rutines, sessions i historial no es toquen.",
     "Solo en esta sesión. En lugar de {x}.": "Només en aquesta sessió. En lloc de {x}.",
     "Solo en este dispositivo. La fecha de nacimiento y la altura se usan en el análisis y en el plan con IA.": "Només en aquest dispositiu. La data de naixement i l'alçada es fan servir a l'anàlisi i al pla amb IA.",
+    "Solo las rutinas de todas las semanas; el plan no avanza": "Només les rutines de totes les setmanes; el pla no avança",
     "Solo las rutinas. Ningún registro.": "Només les rutines. Cap registre.",
     "Solo los datos de {x}. Cada perfil tiene su propia copia.": "Només les dades de {x}. Cada perfil té la seva còpia.",
     "Solo recordatorio (↑)": "Només recordatori (↑)",
@@ -6547,6 +6579,7 @@ const I18N = {
     "Usus: registro de entrenos y hábitos. Gratis, sin cuentas y tus datos se quedan en tu móvil.": "Usus: registre d'entrenaments i hàbits. Gratis, sense comptes i les teves dades es queden al teu mòbil.",
     "Útil con auriculares o si entrenas con gente al lado. Si no vibra, revisa No molestar y la vibración del sistema.": "Útil amb auriculars o si entrenes amb gent al costat. Si no vibra, revisa No molestis i la vibració del sistema.",
     "V": "Dv",
+    "Vacaciones, lesión, un viaje…": "Vacances, lesió, un viatge…",
     "Vacaciones, lesión, un viaje… Las semanas de pausa solo sugieren las rutinas de todas las semanas, y el resto del plan se corre.": "Vacances, lesió, un viatge… Les setmanes de pausa només suggereixen les rutines de totes les setmanes, i la resta del pla es desplaça.",
     "Vacía: añade o arrastra aquí ejercicios.": "Buida: afegeix o arrossega aquí exercicis.",
     "Vacío": "Buit",
@@ -6564,13 +6597,14 @@ const I18N = {
     "Vas a compartir datos de salud con un servicio externo": "Compartiràs dades de salut amb un servei extern",
     "Ventana fértil": "Finestra fèrtil",
     "Ver el aviso": "Veure l'avís",
+    "Ver el plan": "Veure el pla",
     "Ver en el Diario": "Veure al Diari",
     "Ver en Progreso": "Veure a Progrés",
+    "Ver esta semana": "Veure aquesta setmana",
     "Ver ficha": "Mostra la fitxa",
     "Ver historial": "Mostra l'historial",
     "Ver la app primero. Las rutinas se crean en Biblioteca → Nueva rutina.": "Veure l'app primer. Les rutines es creen a Biblioteca → Nova rutina.",
     "Ver notas": "Veure notes",
-    "Ver plan": "Mostra el pla",
     "Ver versiones": "Veure versions",
     "versión": "versió",
     "Versión {v}": "Versió {v}",
@@ -6618,7 +6652,7 @@ const I18N = {
     "¿Eliminar esta rutina? Las sesiones registradas se conservan.": "Delete this routine? Logged sessions are kept.",
     "¿Eliminar esta sesión? No se puede deshacer.": "Delete this session? This can't be undone.",
     "¿Eliminar este suplemento? Su historial también se dejará de mostrar.": "Delete this supplement? Its history will no longer be shown either.",
-    "¿Hacer descarga esta semana? Solo se sugieren las rutinas de todas las semanas, y el resto del plan se corre una semana.": "Make this a deload week? Only every-week routines are suggested, and the rest of the plan moves one week later.",
+    "¿Hacer descarga esta semana? Hasta el domingo solo se sugieren las rutinas de todas las semanas, y el plan no avanza.": "Make this a deload week? Until Sunday only every-week routines are suggested, and the plan doesn't move on.",
     "¿Has notado la vibración?": "Did you feel the vibration?",
     "¿Has oído 3 pitidos y notado la vibración?": "Did you hear 3 beeps and feel the vibration?",
     "¿Has oído 3 pitidos?": "Did you hear 3 beeps?",
@@ -6637,6 +6671,7 @@ const I18N = {
     "{d} · {e} ejercicios · {s} series": "{d} · {e} exercises · {s} sets",
     "{e} ejercicios · {s} series": "{e} exercises · {s} sets",
     "{n} año\u0004{n} años": ["{n} year","{n} years"],
+    "{n} año": "{n} year",
     "{n} de {m} seleccionadas": "{n} of {m} selected",
     "{n} de {m} seleccionadas · sin tus sesiones ni registros.": "{n} of {m} selected · without your sessions or logs.",
     "{n} de {n} series": "{n} of {n} sets",
@@ -6710,6 +6745,7 @@ const I18N = {
     "Actualizaciones": "Updates",
     "Actualizar": "Update",
     "Agrupar": "Group",
+    "ahora": "now",
     "Ahora": "Now",
     "Ahora no": "Not now",
     "Ajustes": "Settings",
@@ -7040,7 +7076,6 @@ const I18N = {
     "El pitido usa el volumen multimedia. Si no vibra, revisa No molestar y la vibración del sistema.": "The beep uses media volume. If it doesn't vibrate, check Do Not Disturb and system vibration.",
     "El plan de progresión pasa de Hoy a Biblioteca → Plan, junto a las rutinas que usa.": "The progression plan moves from Today to Library → Plan, next to the routines it uses.",
     "El plan empieza el {d}.": "The plan starts on {d}.",
-    "El plan empieza el lunes de la semana de inicio. Sin revisión, dura un año.": "The plan starts on the Monday of the start week. Without a review date it lasts a year.",
     "El plan no tiene fases válidas. Edítalo para añadirlas.": "The plan has no valid phases. Edit it to add some.",
     "El plan usa la variante {v}, que no va incluida: esas semanas quedarán sin rutina.": "The plan uses variant {v}, which isn't included: those weeks will have no routine.",
     "El reloj y las series se activan al iniciar.": "The clock and sets start when you begin.",
@@ -7053,7 +7088,6 @@ const I18N = {
     "Elegir otro": "Choose another",
     "Elige al menos un día": "Choose at least one day",
     "Elige hombre o mujer": "Choose man or woman",
-    "Elige la semana pasada (o antes) para recuperar las sesiones que te saltaste: Hoy te las propone primero.": "Choose last week (or earlier) to catch up on the sessions you skipped: Today suggests them first.",
     "Eliges los ejercicios, las series y los descansos.": "You choose the exercises, sets and rests.",
     "Eliminar": "Delete",
     "Eliminar plan": "Delete plan",
@@ -7062,8 +7096,8 @@ const I18N = {
     "Empezar": "Start",
     "Empezar con": "Start with",
     "Empezar cuenta atrás serie {n}": "Start countdown set {n}",
-    "Empieza el {d}.": "Starts {d}.",
     "Empieza este día": "Starts this day",
+    "Empieza hoy.": "It starts today.",
     "empieza sola": "starts on its own",
     "Empiezo (menos de 6 meses)": "Starting out (under 6 months)",
     "Empuje": "Push",
@@ -7077,7 +7111,6 @@ const I18N = {
     "En la semana ↑": "In the ↑ week",
     "en lugar de {x}": "instead of {x}",
     "en orden": "in order",
-    "En orden, el plan empieza el mismo día de inicio.": "In order, the plan starts on the start day itself.",
     "En pausa": "Paused",
     "En perfiles de mujer, registro de la regla opcional, solo en este móvil.": "On women's profiles, optional period log, only on this phone.",
     "En un ordenador o una tablet en horizontal, el editor se abre en modo amplio: cada ejercicio en una fila y el catálogo al lado para tocar o arrastrar.": "On a computer or a tablet in landscape, the editor opens in wide mode: each exercise on one row and the catalogue alongside to tap or drag.",
@@ -7105,7 +7138,6 @@ const I18N = {
     "Esfuerzo de la sesión (PEM)": "Session effort (RPE)",
     "Esfuerzo percibido de toda la sesión (PEM).": "Perceived effort for the whole session (RPE).",
     "Espalda": "Back",
-    "esta": "this one",
     "Esta app es una herramienta de registro, no un consejo médico ni un plan de entrenamiento. Consulta con un profesional antes de empezar o cambiar tu actividad física.": "This app is a logging tool, not medical advice or a training plan. Talk to a professional before starting or changing your physical activity.",
     "Esta app no se conecta a Internet, así que no busca versiones nuevas por su cuenta. Se publican en GitHub; al instalar una nueva encima, tus datos se mantienen.": "This app doesn't connect to the Internet, so it doesn't look for new versions by itself. They're published on GitHub; installing a new one on top keeps your data.",
     "Esta copia es de una versión más nueva de Usus. Actualiza la app para importarla completa. ¿Importar igualmente lo que se pueda?": "This backup is from a newer version of Usus. Update the app to import it fully. Import what's possible anyway?",
@@ -7177,8 +7209,8 @@ const I18N = {
     "Hoy es el último día: lo que falte contará como saltado.": "Today is the last day: whatever is left will count as skipped.",
     "Hoy no hay ninguna rutina prevista.": "No routine planned for today.",
     "Hoy podría bajarte la regla": "Your period could start today",
-    "Hoy toca la siguiente que falte, sea el día que sea: si empiezas un domingo o fallas un día, se recupera. La semana del plan pasa al hacerlas todas.": "Today is the next one still to do, whatever the day: if you start on a Sunday or miss a day, you catch up. The plan week moves on when all are done.",
     "Hoy toca pesarte": "Weigh-in day",
+    "Hoy, más limpio: lo que toca, la semana del plan en una línea (toca para verla) y un menú ⋯ con descarga esta semana o pausar el plan 1 a 4 semanas. «Rutinas y días» se eligen dentro del propio plan.": "Cleaner Today: what's on, the plan week in one line (tap to see it) and a ⋯ menu to deload this week or pause the plan for 1 to 4 weeks. “Routines and days” are chosen inside the plan itself.",
     "Hoy: lo que toca, arriba y con un único botón Empezar; accesos rápidos a otra rutina, sesión libre y actividad; los avisos, juntos en «Pendiente».": "Today: what's on, at the top with a single Start button; shortcuts to another routine, a free session and an activity; reminders together under “To do”.",
     "Huella SHA-256 del certificado de firma:": "SHA-256 fingerprint of the signing certificate:",
     "Icono nuevo.": "New icon.",
@@ -7230,7 +7262,6 @@ const I18N = {
     "La misma Usus, instalada como app. Sus datos van aparte: exporta una copia aquí e impórtala allí.": "The same Usus, installed as an app. Its data is separate: export a backup here and import it there.",
     "La noche que termina este día.": "The night that ends on this day.",
     "La pantalla se mantiene encendida durante toda la sesión, no solo en las cuentas atrás.": "The screen stays on during the whole session, not just during countdowns.",
-    "la pasada": "last week",
     "La regla podría bajarte en {n} días": "Your period could start in {n} days",
     "La regla podría bajarte mañana": "Your period could start tomorrow",
     "La regla se retrasa {n} días respecto a la previsión ({d}).": "Your period is {n} days later than estimated ({d}).",
@@ -7240,6 +7271,7 @@ const I18N = {
     "Lactancia": "Breastfeeding",
     "Las fechas son una estimación aproximada a partir de tus ciclos anteriores. Los ciclos varían por estrés, enfermedad, viajes, medicación u otras causas. No sirve como método anticonceptivo, ni para buscar un embarazo con fiabilidad, ni como diagnóstico. Ante cualquier duda o cambio importante, consulta a un profesional sanitario.": "Dates are an approximate estimate based on your previous cycles. Cycles vary with stress, illness, travel, medication and other causes. This is not a contraceptive method, not a reliable way to plan a pregnancy, and not a diagnosis. If you have any doubt or notice a significant change, see a healthcare professional.",
     "Las rutinas sin días no se sugieren. Ponles días al editarlas.": "Routines without days aren't suggested. Add days when editing them.",
+    "Las sesiones van en orden: hoy toca la siguiente que falte, sea el día que sea, y la semana del plan pasa al hacerlas todas.": "Sessions go in order: today is the next one still to do, whatever the day, and the plan week moves on when all are done.",
     "Las traducciones pasan a archivos estándar (gettext) para poder traducir la app desde el navegador.": "Translations move to standard files (gettext) so the app can be translated from the browser.",
     "Las últimas series ya pesan.": "The last sets are getting heavy.",
     "Lastre": "Weight",
@@ -7402,6 +7434,7 @@ const I18N = {
     "Opcional. Ayuda a ver si una semana ha sido demasiado dura.": "Optional. Helps spot weeks that were too hard.",
     "Opcional. Se puede cambiar en Ajustes → Entreno.": "Optional. You can change it in Settings → Workout.",
     "Opcional. Vacío o 0 = sin objetivo. Los pasos se anotan en Diario → Pasos.": "Optional. Empty or 0 = no goal. Log steps in Diary → Steps.",
+    "Opciones del plan": "Plan options",
     "Ordena con ↑ ↓ y elige qué bloques ver.": "Reorder with ↑ ↓ and choose which blocks to show.",
     "Ordenar": "Reorder",
     "Oscuro": "Dark",
@@ -7421,6 +7454,7 @@ const I18N = {
     "Para elegir ejercicios al crear rutinas y saber cómo avanzar.": "To pick exercises when building routines and know how to progress.",
     "Para qué lo usarías": "What you'd use it for",
     "Para qué sirve": "What it's for",
+    "Para recuperar lo que te saltaste, elige una semana anterior: Hoy te propone primero lo que falte de ella.": "To catch up on what you skipped, choose an earlier week: Today suggests what's missing from it first.",
     "Paralelas": "Parallel bars",
     "Parar": "Stop",
     "Pared": "Wall",
@@ -7473,7 +7507,6 @@ const I18N = {
     "Pierna · cadera": "Legs · hip",
     "Pierna · rodilla": "Legs · knee",
     "Plan": "Plan",
-    "Plan «en orden» (por defecto en planes nuevos): hoy toca la siguiente sesión que falte, sea el día que sea; si empiezas un domingo o fallas un día, se recupera, y la semana del plan pasa al hacerlas todas.": "“In order” plans (default for new plans): today is the next session still to do, whatever the day; if you start on a Sunday or miss a day you catch up, and the plan week moves on when all are done.",
     "Plan activo (se muestra en Hoy)": "Plan active (shown in Today)",
     "Plan activo: {x}": "Active plan: {x}",
     "plan añadido": "plan added",
@@ -7481,10 +7514,10 @@ const I18N = {
     "Plan duplicado. Actívalo para editarlo.": "Plan duplicated. Activate it to edit it.",
     "Plan en pausa": "Plan paused",
     "Plan en pausa: solo rutinas de todas las semanas (p. ej. Diaria). Sigue el {d}.": "Plan paused: only every-week routines (e.g. Daily). It resumes on {d}.",
-    "Plan flexible: aplazar a mañana las sesiones de hoy (las siguientes de la semana se corren), hacer descarga esta semana o pausar el plan 1 a 4 semanas; el resto del plan se corre. Además, «Rutinas y días» se eligen dentro del propio plan.": "Flexible plan: move today's sessions to tomorrow (the rest of the week shifts), make this a deload week or pause the plan for 1 to 4 weeks; the rest of the plan moves later. Also, “Routines and days” are chosen inside the plan itself.",
     "Plan guardado": "Plan saved",
     "Plan terminado": "Plan finished",
     "Plan: la semana ↑ puede aplicar sola la subida (+reps, +1 serie o siguiente paso), con aviso en Hoy y opción de deshacer.": "Plan: the ↑ week can apply the increase automatically (+reps, +1 set or next step), with a notice in Today and an undo option.",
+    "Planes en orden: hoy toca la siguiente sesión que falte, sea el día que sea; si empiezas un domingo o fallas un día, se recupera, y la semana del plan pasa al hacerlas todas. Tus planes pasan solos a este modo desde la semana en la que ibas, y al editarlos puedes volver a una semana anterior para recuperarla.": "In-order plans: today is the next session still to do, whatever the day; if you start on a Sunday or miss a day you catch up, and the plan week moves on when all are done. Your plans switch to this mode automatically from the week you were on, and when editing them you can go back to an earlier week to catch up.",
     "Podrías hablar sin esfuerzo; casi un calentamiento.": "You could chat easily; almost a warm-up.",
     "Pon la distancia o el tiempo": "Enter distance or time",
     "Pon la distancia, el tiempo o los dos.": "Enter distance, time or both.",
@@ -7603,6 +7636,7 @@ const I18N = {
     "Rutinas agrupadas por variante. Cada rutina se abre en su propia pantalla (en PC, al lado de la lista) con Empezar, Editar, Imprimir, Compartir y Duplicar.": "Routines grouped by variant. Each routine opens on its own screen (on a computer, next to the list) with Start, Edit, Print, Share and Duplicate.",
     "Rutinas compartidas: si recibes otra vez una rutina que ya tienes (por ejemplo, una versión mejorada), puedes actualizarla en vez de duplicarla. Se cambian los ejercicios; tu nombre, días, variante y sesiones se mantienen.": "Shared routines: if you receive a routine you already have again (for example, an improved version), you can update it instead of duplicating it. The exercises change; your name, days, variant and sessions stay.",
     "Rutinas de otro perfil": "Routines from another profile",
+    "Rutinas hechas y pendientes": "Routines done and to do",
     "Rutinas por variante": "Routines by variant",
     "Rutinas y días": "Routines and days",
     "S": "S",
@@ -7636,7 +7670,6 @@ const I18N = {
     "Seguimiento del ciclo activado": "Cycle tracking on",
     "Seguimiento del ciclo desactivado": "Cycle tracking off",
     "Seguir aquí": "Stay here",
-    "Seguir en orden desde": "Continue in order from",
     "Seguir intentándolo": "Keep trying",
     "Seguir más tarde": "Continue later",
     "Segundos serie {n}": "Seconds set {n}",
@@ -7647,6 +7680,7 @@ const I18N = {
     "Semana de fuerza completa": "Strength week complete",
     "Semana de subida · variante {v}": "Step-up week · variant {v}",
     "Semana del {d}: +{p} %": "Week of {d}: +{p}%",
+    "Semana en la que vas": "Week you're on",
     "Semanas": "Weeks",
     "Semanas de descarga": "Deload weeks",
     "Semanas de pausa": "Weeks of pause",
@@ -7670,7 +7704,6 @@ const I18N = {
     "Sesiones": "Sessions",
     "Sesiones aplazadas {n} día desde el {d}.\u0004Sesiones aplazadas {n} días desde el {d}.": ["Sessions moved {n} day from {d}.","Sessions moved {n} days from {d}."],
     "Sesiones aplazadas {n} día desde el {d}.": "Sessions moved {n} day from {d}.",
-    "Sesiones en orden": "Sessions in order",
     "Sexo": "Sex",
     "Sexo: {x} (del perfil).": "Sex: {x} (from the profile).",
     "Si la IA propone rutinas ajustadas, pega su respuesta y elige cuáles actualizar.": "If the AI suggests adjusted routines, paste its reply and choose which to update.",
@@ -7721,6 +7754,7 @@ const I18N = {
     "Solo el plan activo cuenta en Hoy. Al cambiar de plan, tus rutinas, sesiones e historial no se tocan.": "Only the active plan counts in Today. Switching plans doesn't touch your routines, sessions or history.",
     "Solo en esta sesión. En lugar de {x}.": "This session only. Instead of {x}.",
     "Solo en este dispositivo. La fecha de nacimiento y la altura se usan en el análisis y en el plan con IA.": "Only on this device. Date of birth and height are used in the AI analysis and plan.",
+    "Solo las rutinas de todas las semanas; el plan no avanza": "Only every-week routines; the plan doesn't move on",
     "Solo las rutinas. Ningún registro.": "Routines only. No logs.",
     "Solo los datos de {x}. Cada perfil tiene su propia copia.": "Only {x}'s data. Each profile has its own backup.",
     "Solo recordatorio (↑)": "Reminder only (↑)",
@@ -7823,6 +7857,7 @@ const I18N = {
     "Usus: registro de entrenos y hábitos. Gratis, sin cuentas y tus datos se quedan en tu móvil.": "Usus: workout and habit log. Free, no accounts, and your data stays on your phone.",
     "Útil con auriculares o si entrenas con gente al lado. Si no vibra, revisa No molestar y la vibración del sistema.": "Useful with headphones or when training next to others. If it doesn't vibrate, check Do Not Disturb and the system vibration.",
     "V": "F",
+    "Vacaciones, lesión, un viaje…": "Holidays, injury, a trip…",
     "Vacaciones, lesión, un viaje… Las semanas de pausa solo sugieren las rutinas de todas las semanas, y el resto del plan se corre.": "Holidays, injury, a trip… Pause weeks only suggest every-week routines, and the rest of the plan moves later.",
     "Vacía: añade o arrastra aquí ejercicios.": "Empty: add or drag exercises here.",
     "Vacío": "Empty",
@@ -7840,13 +7875,14 @@ const I18N = {
     "Vas a compartir datos de salud con un servicio externo": "You're about to share health data with an external service",
     "Ventana fértil": "Fertile window",
     "Ver el aviso": "View the notice",
+    "Ver el plan": "See the plan",
     "Ver en el Diario": "See in the Diary",
     "Ver en Progreso": "See in Progress",
+    "Ver esta semana": "See this week",
     "Ver ficha": "View card",
     "Ver historial": "View history",
     "Ver la app primero. Las rutinas se crean en Biblioteca → Nueva rutina.": "See the app first. Routines are created in Library → New routine.",
     "Ver notas": "See notes",
-    "Ver plan": "View plan",
     "Ver versiones": "See versions",
     "versión": "version",
     "Versión {v}": "Version {v}",
@@ -7889,7 +7925,7 @@ const I18N = {
   await store.init();
   const data = await store.load();
   state.routines = data.routines; state.sessions = data.sessions;
-  migrateStored(); migrateTypes();
+  migrateStored(); migrateTypes(); planMigrateOrder();
   applyTheme(curTheme());
   restorePlace();
   if (LS.get("wk.welcomed", false) && LS.get("wk.seenVersion", null) !== APP_VERSION && CHANGES[0][0] === APP_VERSION) state.newsOpen = "new";

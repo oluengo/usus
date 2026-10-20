@@ -5,7 +5,7 @@
   await store.init();
   const data = await store.load();
   state.routines = data.routines; state.sessions = data.sessions;
-  migrateStored(); migrateTypes();
+  migrateStored(); migrateTypes(); planMigrateOrder();
   applyTheme(curTheme());
   restorePlace();
   if (LS.get("wk.welcomed", false) && LS.get("wk.seenVersion", null) !== APP_VERSION && CHANGES[0][0] === APP_VERSION) state.newsOpen = "new";

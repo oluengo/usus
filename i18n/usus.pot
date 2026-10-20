@@ -51,7 +51,7 @@ msgstr ""
 msgid "¿Eliminar este suplemento? Su historial también se dejará de mostrar."
 msgstr ""
 
-msgid "¿Hacer descarga esta semana? Solo se sugieren las rutinas de todas las semanas, y el resto del plan se corre una semana."
+msgid "¿Hacer descarga esta semana? Hasta el domingo solo se sugieren las rutinas de todas las semanas, y el plan no avanza."
 msgstr ""
 
 msgid "¿Has notado la vibración?"
@@ -387,6 +387,9 @@ msgid "Actualizar"
 msgstr ""
 
 msgid "Agrupar"
+msgstr ""
+
+msgid "ahora"
 msgstr ""
 
 msgid "Ahora"
@@ -1413,9 +1416,6 @@ msgstr ""
 msgid "El plan empieza el {d}."
 msgstr ""
 
-msgid "El plan empieza el lunes de la semana de inicio. Sin revisión, dura un año."
-msgstr ""
-
 msgid "El plan no tiene fases válidas. Edítalo para añadirlas."
 msgstr ""
 
@@ -1453,9 +1453,6 @@ msgstr ""
 msgid "Elige hombre o mujer"
 msgstr ""
 
-msgid "Elige la semana pasada (o antes) para recuperar las sesiones que te saltaste: Hoy te las propone primero."
-msgstr ""
-
 msgid "Eliges los ejercicios, las series y los descansos."
 msgstr ""
 
@@ -1481,11 +1478,10 @@ msgstr ""
 msgid "Empezar cuenta atrás serie {n}"
 msgstr ""
 
-#, python-brace-format
-msgid "Empieza el {d}."
+msgid "Empieza este día"
 msgstr ""
 
-msgid "Empieza este día"
+msgid "Empieza hoy."
 msgstr ""
 
 msgid "empieza sola"
@@ -1527,9 +1523,6 @@ msgid "en lugar de {x}"
 msgstr ""
 
 msgid "en orden"
-msgstr ""
-
-msgid "En orden, el plan empieza el mismo día de inicio."
 msgstr ""
 
 msgid "En pausa"
@@ -1613,9 +1606,6 @@ msgid "Esfuerzo percibido de toda la sesión (PEM)."
 msgstr ""
 
 msgid "Espalda"
-msgstr ""
-
-msgid "esta"
 msgstr ""
 
 msgid "Esta app es una herramienta de registro, no un consejo médico ni un plan de entrenamiento. Consulta con un profesional antes de empezar o cambiar tu actividad física."
@@ -1833,10 +1823,10 @@ msgstr ""
 msgid "Hoy podría bajarte la regla"
 msgstr ""
 
-msgid "Hoy toca la siguiente que falte, sea el día que sea: si empiezas un domingo o fallas un día, se recupera. La semana del plan pasa al hacerlas todas."
+msgid "Hoy toca pesarte"
 msgstr ""
 
-msgid "Hoy toca pesarte"
+msgid "Hoy, más limpio: lo que toca, la semana del plan en una línea (toca para verla) y un menú ⋯ con descarga esta semana o pausar el plan 1 a 4 semanas. «Rutinas y días» se eligen dentro del propio plan."
 msgstr ""
 
 msgid "Hoy: lo que toca, arriba y con un único botón Empezar; accesos rápidos a otra rutina, sesión libre y actividad; los avisos, juntos en «Pendiente»."
@@ -1994,9 +1984,6 @@ msgstr ""
 msgid "La pantalla se mantiene encendida durante toda la sesión, no solo en las cuentas atrás."
 msgstr ""
 
-msgid "la pasada"
-msgstr ""
-
 #, python-brace-format
 msgid "La regla podría bajarte en {n} días"
 msgstr ""
@@ -2025,6 +2012,9 @@ msgid "Las fechas son una estimación aproximada a partir de tus ciclos anterior
 msgstr ""
 
 msgid "Las rutinas sin días no se sugieren. Ponles días al editarlas."
+msgstr ""
+
+msgid "Las sesiones van en orden: hoy toca la siguiente que falte, sea el día que sea, y la semana del plan pasa al hacerlas todas."
 msgstr ""
 
 msgid "Las traducciones pasan a archivos estándar (gettext) para poder traducir la app desde el navegador."
@@ -2527,6 +2517,9 @@ msgstr ""
 msgid "Opcional. Vacío o 0 = sin objetivo. Los pasos se anotan en Diario → Pasos."
 msgstr ""
 
+msgid "Opciones del plan"
+msgstr ""
+
 msgid "Ordena con ↑ ↓ y elige qué bloques ver."
 msgstr ""
 
@@ -2585,6 +2578,9 @@ msgid "Para qué lo usarías"
 msgstr ""
 
 msgid "Para qué sirve"
+msgstr ""
+
+msgid "Para recuperar lo que te saltaste, elige una semana anterior: Hoy te propone primero lo que falte de ella."
 msgstr ""
 
 msgid "Paralelas"
@@ -2748,9 +2744,6 @@ msgstr ""
 msgid "Plan"
 msgstr ""
 
-msgid "Plan «en orden» (por defecto en planes nuevos): hoy toca la siguiente sesión que falte, sea el día que sea; si empiezas un domingo o fallas un día, se recupera, y la semana del plan pasa al hacerlas todas."
-msgstr ""
-
 msgid "Plan activo (se muestra en Hoy)"
 msgstr ""
 
@@ -2774,9 +2767,6 @@ msgstr ""
 msgid "Plan en pausa: solo rutinas de todas las semanas (p. ej. Diaria). Sigue el {d}."
 msgstr ""
 
-msgid "Plan flexible: aplazar a mañana las sesiones de hoy (las siguientes de la semana se corren), hacer descarga esta semana o pausar el plan 1 a 4 semanas; el resto del plan se corre. Además, «Rutinas y días» se eligen dentro del propio plan."
-msgstr ""
-
 msgid "Plan guardado"
 msgstr ""
 
@@ -2784,6 +2774,9 @@ msgid "Plan terminado"
 msgstr ""
 
 msgid "Plan: la semana ↑ puede aplicar sola la subida (+reps, +1 serie o siguiente paso), con aviso en Hoy y opción de deshacer."
+msgstr ""
+
+msgid "Planes en orden: hoy toca la siguiente sesión que falte, sea el día que sea; si empiezas un domingo o fallas un día, se recupera, y la semana del plan pasa al hacerlas todas. Tus planes pasan solos a este modo desde la semana en la que ibas, y al editarlos puedes volver a una semana anterior para recuperarla."
 msgstr ""
 
 msgid "Podrías hablar sin esfuerzo; casi un calentamiento."
@@ -3156,6 +3149,9 @@ msgstr ""
 msgid "Rutinas de otro perfil"
 msgstr ""
 
+msgid "Rutinas hechas y pendientes"
+msgstr ""
+
 msgid "Rutinas por variante"
 msgstr ""
 
@@ -3260,9 +3256,6 @@ msgstr ""
 msgid "Seguir aquí"
 msgstr ""
 
-msgid "Seguir en orden desde"
-msgstr ""
-
 msgid "Seguir intentándolo"
 msgstr ""
 
@@ -3296,6 +3289,9 @@ msgstr ""
 
 #, python-brace-format
 msgid "Semana del {d}: +{p} %"
+msgstr ""
+
+msgid "Semana en la que vas"
 msgstr ""
 
 msgid "Semanas"
@@ -3372,9 +3368,6 @@ msgstr[1] ""
 
 #, python-brace-format
 msgid "Sesiones aplazadas {n} día desde el {d}."
-msgstr ""
-
-msgid "Sesiones en orden"
 msgstr ""
 
 msgid "Sexo"
@@ -3533,6 +3526,9 @@ msgid "Solo en esta sesión. En lugar de {x}."
 msgstr ""
 
 msgid "Solo en este dispositivo. La fecha de nacimiento y la altura se usan en el análisis y en el plan con IA."
+msgstr ""
+
+msgid "Solo las rutinas de todas las semanas; el plan no avanza"
 msgstr ""
 
 msgid "Solo las rutinas. Ningún registro."
@@ -3855,6 +3851,9 @@ msgstr ""
 msgid "V"
 msgstr ""
 
+msgid "Vacaciones, lesión, un viaje…"
+msgstr ""
+
 msgid "Vacaciones, lesión, un viaje… Las semanas de pausa solo sugieren las rutinas de todas las semanas, y el resto del plan se corre."
 msgstr ""
 
@@ -3908,10 +3907,16 @@ msgstr ""
 msgid "Ver el aviso"
 msgstr ""
 
+msgid "Ver el plan"
+msgstr ""
+
 msgid "Ver en el Diario"
 msgstr ""
 
 msgid "Ver en Progreso"
+msgstr ""
+
+msgid "Ver esta semana"
 msgstr ""
 
 msgid "Ver ficha"
@@ -3924,9 +3929,6 @@ msgid "Ver la app primero. Las rutinas se crean en Biblioteca → Nueva rutina."
 msgstr ""
 
 msgid "Ver notas"
-msgstr ""
-
-msgid "Ver plan"
 msgstr ""
 
 msgid "Ver versiones"
