@@ -4,7 +4,7 @@ Todas las versiones de Usus. Formato basado en [Keep a Changelog](https://keepac
 
 **Castellano** · [Català](#català) · [English](#english)
 
-## [3.2.0] — en pruebas (beta)
+## [3.2.0] — 2026-10-20
 
 - Plan guiado: unas preguntas (objetivo, días, minutos, material, molestias y nivel, con un test rápido o elegido) y Usus propone rutinas del catálogo a tu nivel, con calentamiento, principal, accesorios y vuelta a la calma. Revisas la propuesta, subes o bajas cada ejercicio en su escalera y se crean las rutinas (variantes A y B) y un plan en orden.
 - Fichas desde cualquier sitio: toca el nombre de un ejercicio del catálogo en la rutina, antes de iniciar o en el Diario para ver cómo se hace. Si el perfil no tiene el catálogo activado, se pide activarlo.
@@ -260,7 +260,7 @@ Primera versión pública.
 
 ## Català
 
-### [3.2.0] — en proves (beta)
+### [3.2.0] — 2026-10-20
 
 - Pla guiat: unes preguntes (objectiu, dies, minuts, material, molèsties i nivell, amb un test ràpid o triat) i Usus proposa rutines del catàleg al teu nivell, amb escalfament, principal, accessoris i tornada a la calma. Revises la proposta, puges o baixes cada exercici a la seva escala i es creen les rutines (variants A i B) i un pla en ordre.
 - Fitxes des de qualsevol lloc: toca el nom d'un exercici del catàleg a la rutina, abans d'iniciar o al Diari per veure com es fa. Si el perfil no té el catàleg activat, es demana activar-lo.
@@ -358,7 +358,7 @@ Primera versió pública: rutines amb sèries per repeticions o per temps, compt
 
 ## English
 
-### [3.2.0] — in testing (beta)
+### [3.2.0] — 2026-10-20
 
 - Guided plan: a few questions (goal, days, minutes, equipment, aches and level, with a quick test or your own choice) and Usus suggests catalogue routines at your level, with warm-up, main work, accessories and cool-down. Review the suggestion, move each exercise up or down its progression, and the routines (variants A and B) and an in-order plan are created.
 - Cards from anywhere: tap the name of a catalogue exercise in a routine, before starting or in the Diary to see how it's done. If the profile doesn't have the catalogue turned on, you're asked to turn it on.
