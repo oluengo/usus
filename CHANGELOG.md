@@ -256,7 +256,9 @@ Primera versión pública.
 - El pla de progressió passa d'Avui a Biblioteca → Pla, al costat de les rutines que fa servir.
 - Avui, més net: el que toca, la setmana del pla en una línia (toca-la per veure-la) i un menú ⋯ amb descàrrega aquesta setmana o pausar el pla d'1 a 4 setmanes. «Rutines i dies» es trien dins del mateix pla.
 - Plans en ordre: avui toca la següent sessió que falti, sigui el dia que sigui; si comences un diumenge o falles un dia, es recupera, i la setmana del pla passa en fer-les totes. Els teus plans passen sols a aquest mode des de la setmana on anaves, i en editar-los pots tornar a una setmana anterior per recuperar-la.
-- Diari: el pes s'anota aquí. Només es veuen les caselles amb dades; la resta s'afegeix amb un toc (+ Son, + Pes, + Passos…).
+- Entrenant: capçalera fixa amb el temps i l'avanç, sèries més grans i una barra a baix amb l'acció que toca (marcar la sèrie, començar el compte enrere, exercici següent o acabar).
+- Progrés: el Resum queda en quatre targetes (aquesta setmana, constància, rècords i pes), cadascuna amb un enllaç al seu detall; xifres i gràfics amb un mateix estil, i les notes del període passen a Hàbits.
+- Diari en files: cada dada del dia en una fila amb la seva icona, detall i valor (l'entrenament primer); el que falta, a «Afegir a aquest dia». El pes s'anota aquí.
 - Ajustos en grups, cadascun amb la seva pantalla: Perfil, Entrenament, Avisos, Aparença i idioma, Dades i còpies, i Quant a. Interruptors per activar opcions.
 - Editor de rutina més compacte al mòbil: cada exercici en una fila amb el seu resum; els detalls s'obren en tocar-la.
 - Estil unificat: un sol tipus de pestanyes, botons amb mides fixes i finestres com a full inferior al mòbil. El lila queda només per a la IA.
@@ -341,7 +343,9 @@ Primera versió pública: rutines amb sèries per repeticions o per temps, compt
 - The progression plan moves from Today to Library → Plan, next to the routines it uses.
 - Cleaner Today: what's on, the plan week in one line (tap to see it) and a ⋯ menu to deload this week or pause the plan for 1 to 4 weeks. “Routines and days” are chosen inside the plan itself.
 - In-order plans: today is the next session still to do, whatever the day; if you start on a Sunday or miss a day you catch up, and the plan week moves on when all are done. Your plans switch to this mode automatically from the week you were on, and when editing them you can go back to an earlier week to catch up.
-- Diary: weight is logged here. Only boxes with data are shown; add the rest with one tap (+ Sleep, + Weight, + Steps…).
+- Training: a fixed header with time and progress, bigger sets and a bottom bar with the next action (mark the set, start the countdown, next exercise or finish).
+- Progress: the Summary is now four cards (this week, consistency, records and weight), each linking to its details; figures and charts share one style, and period notes move to Habits.
+- Diary in rows: each item of the day in a row with its icon, detail and value (training first); anything missing goes under “Add to this day”. Weight is logged here.
 - Settings in groups, each with its own screen: Profile, Workout, Alerts, Appearance and language, Data and backups, and About. Switches to turn options on.
 - More compact routine editor on phones: one row per exercise with its summary; tap it to open the details.
 - Unified style: one kind of tabs, buttons with fixed sizes and dialogs as bottom sheets on phones. Purple is now only for AI.
