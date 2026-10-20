@@ -135,7 +135,7 @@ function exCard(e, ei) {
 /* Lista de ejercicios, añadir ejercicio y terminar (hoja «Sesión») */
 function sessionPanel(a, sheet) {
   const cur = curEx(a);
-  return `${sheet ? `<div class="row"><h2 style="margin:0;flex:1">${T("Sesión")}</h2><button class="btn small" data-act="sheet-close">${T("Cerrar")}</button></div>` : ""}
+  return `${sheet ? mHead("seT", T("Sesión"), "sheet-close") : ""}
     <div class="list" style="margin-top:12px">${a.exercises.map((e, ei, all) => { const d = e.sets.filter(x => x.done).length, ks = a.groups ? exKeys(all) : null;
       return `<button class="btn exrow${ei === cur ? " now" : ""}${grpOf(e) ? " ing" : ""}" data-goex="${ei}"><span style="flex:1;text-align:left;min-width:0">${ks ? `<b class="ekey">${ks[ei]}</b> ` : ""}${esc(exLabel(e))}</span><span class="muted">${d}/${e.sets.length}${d && d === e.sets.length ? " ✓" : ""}</span></button>`; }).join("")}</div>
     <div class="row" style="margin-top:14px">

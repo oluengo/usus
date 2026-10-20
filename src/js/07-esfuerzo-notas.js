@@ -63,7 +63,7 @@ function swapModal() {
   const w = state.swap; if (!w || !state.active) return "";
   const e = state.active.exercises[w.ei]; if (!e) return "";
   return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="swT"><div class="mbox">
-    <h2 id="swT" style="margin:0 0 4px">${T("Cambiar ejercicio")}</h2>
+    ${mHead("swT", T("Cambiar ejercicio"), "sw-cancel")}
     <p class="muted" style="margin:0;font-size:.85rem">${T("Solo en esta sesión. En lugar de {x}.", { x: `<b style="color:var(--ink)">${esc(exName(e.from || e))}</b>` })}</p>
     <input type="text" id="swName" list="swNames" style="width:100%;margin-top:12px" placeholder="${T("Nombre del ejercicio")}">
     <datalist id="swNames">${allExerciseNames().map(n => `<option value="${esc(n)}">`).join("")}</datalist>

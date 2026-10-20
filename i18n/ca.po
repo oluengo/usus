@@ -36,6 +36,9 @@ msgstr "Quant pots entrenar?"
 msgid "¿Cuánto te ha costado?"
 msgstr "Quant t'ha costat?"
 
+msgid "¿Descartar la propuesta de la IA? No se añadirá nada."
+msgstr "Vols descartar la proposta de la IA? No s'afegirà res."
+
 msgid "¿Descartar la sesión en curso? Se perderán los datos."
 msgstr "Vols descartar la sessió en curs? Es perdran les dades."
 
@@ -100,6 +103,18 @@ msgstr "Treure la secció «{x}»? Els exercicis es queden a la rutina."
 #, python-brace-format
 msgid "¿Quitar la sección «{x}»? Sus ejercicios pasan a «{y}»."
 msgstr "Treure la secció «{x}»? Els seus exercicis passen a «{y}»."
+
+msgid "¿Salir del plan guiado? Se perderán tus respuestas."
+msgstr "Vols sortir del pla guiat? Es perdran les teves respostes."
+
+msgid "¿Salir sin añadir nada?"
+msgstr "Vols sortir sense afegir res?"
+
+msgid "¿Salir sin crear el perfil?"
+msgstr "Vols sortir sense crear el perfil?"
+
+msgid "¿Salir sin guardar tus respuestas?"
+msgstr "Vols sortir sense desar les teves respostes?"
 
 #, python-brace-format
 msgid "¿Terminar y guardar igualmente? Se guardan solo las series hechas ({n} pendientes en total)."
@@ -304,9 +319,6 @@ msgstr "+2 repeticions per sèrie (+10 s)"
 msgid "0 = sin descarga. En descarga solo se sugieren rutinas sin variante."
 msgstr "0 = sense descàrrega. En descàrrega només es suggereixen rutines sense variant."
 
-msgid "1 Datos"
-msgstr "1 Dades"
-
 #, python-brace-format
 msgid "1 ejercicio · ≈ {m} min"
 msgstr "1 exercici · ≈ {m} min"
@@ -331,9 +343,6 @@ msgstr "1RM estimat (fórmula d'Epley) per sessió"
 
 msgid "2 ejercicios por hoja"
 msgstr "2 exercicis per full"
-
-msgid "2 Exportar"
-msgstr "2 Exportar"
 
 msgid "30 días"
 msgstr "30 dies"
@@ -1204,9 +1213,6 @@ msgstr "Deixa'l com a propi"
 msgid "del diario"
 msgstr "del diari"
 
-msgid "del perfil"
-msgstr "del perfil"
-
 msgid "del registro"
 msgstr "del registre"
 
@@ -1405,6 +1411,9 @@ msgstr "Dies registrats"
 
 msgid "Días tomados en el periodo (o desde que lo añadiste)."
 msgstr "Dies pres en el període (o des que el vas afegir)."
+
+msgid "Días y tiempo"
+msgstr "Dies i temps"
 
 msgid "Distancia"
 msgstr "Distància"
@@ -2539,6 +2548,9 @@ msgstr "Mode edició per a PC o pantalla gran: en obrir l'editor en un ordinador
 msgid "Molestia"
 msgstr "Molèstia"
 
+msgid "Molestias"
+msgstr "Molèsties"
+
 msgid "Momento"
 msgstr "Moment"
 
@@ -2604,6 +2616,9 @@ msgstr "Cap"
 
 msgid "Ninguno: solo suelo"
 msgstr "Cap: només terra"
+
+msgid "Nivel"
+msgstr "Nivell"
 
 #, python-brace-format
 msgid "Nivel {n} de 5"
@@ -2943,6 +2958,10 @@ msgstr "Parc / a l'aire lliure"
 
 msgid "Pasa a ser el plan activo; el actual queda guardado en Mis planes."
 msgstr "Passa a ser el pla actiu; l'actual queda desat a Els meus plans."
+
+#, python-brace-format
+msgid "Paso {n} de {m}"
+msgstr "Pas {n} de {m}"
 
 #, python-brace-format
 msgid "Paso {n} de {t}"
@@ -3296,6 +3315,9 @@ msgstr "Proposar una millora"
 msgid "propuesta"
 msgstr "proposta"
 
+msgid "Propuesta"
+msgstr "Proposta"
+
 msgid "Propuesta de la IA"
 msgstr "Proposta de la IA"
 
@@ -3496,6 +3518,9 @@ msgstr "Respiració marcada; encara força marge."
 
 msgid "Respuesta de la IA en un toque: copia su respuesta (o solo su bloque de código) y toca «Pegar respuesta de la IA». Si la guardas como archivo, Importar datos también la lleva a la revisión."
 msgstr "Resposta de la IA en un toc: copia la resposta (o només el bloc de codi) i toca «Enganxa la resposta de la IA». Si la deses com a fitxer, Importar dades també la porta a la revisió."
+
+msgid "Respuestas guardadas para la próxima vez"
+msgstr "Respostes desades per a la propera vegada"
 
 msgid "Resumen"
 msgstr "Resum"
@@ -4449,6 +4474,9 @@ msgstr "Compartiràs dades de salut amb un servei extern"
 msgid "Ventana fértil"
 msgstr "Finestra fèrtil"
 
+msgid "Ventanas con un mismo diseño: título arriba con ✕ para cerrar siempre en el mismo sitio, pasos con barra de progreso y Atrás/Siguiente abajo. Al cerrar un proceso a medias, Usus avisa de si se pierde o se guarda lo hecho. En Crear plan con IA ya se puede elegir el sexo."
+msgstr "Finestres amb un mateix disseny: títol a dalt amb ✕ per tancar sempre al mateix lloc, passos amb barra de progrés i Enrere/Següent a baix. En tancar un procés a mitges, Usus avisa de si es perd o es desa el que s'ha fet. A Crea un pla amb IA ja es pot triar el sexe."
+
 msgid "Ver el aviso"
 msgstr "Veure l'avís"
 
@@ -4517,9 +4545,6 @@ msgstr "Previsualització: {n} setmanes, {d} de descàrrega."
 msgid "Volver"
 msgstr "Torna"
 
-msgid "Volver a los datos"
-msgstr "Tornar a les dades"
-
 #, python-brace-format
 msgid "Volver a proponer en todos ({n} silenciados)"
 msgstr "Torna a proposar a tots ({n} silenciats)"
@@ -4581,6 +4606,18 @@ msgstr "Zona lumbar"
 
 msgid "Zona peligrosa"
 msgstr "Zona perillosa"
+
+#~ msgid "1 Datos"
+#~ msgstr "1 Dades"
+
+#~ msgid "2 Exportar"
+#~ msgstr "2 Exportar"
+
+#~ msgid "del perfil"
+#~ msgstr "del perfil"
+
+#~ msgid "Volver a los datos"
+#~ msgstr "Tornar a les dades"
 
 #~ msgid "Pega aquí su respuesta completa. Usus solo lee el bloque de datos y te enseña las rutinas y el plan antes de importar nada."
 #~ msgstr "Enganxa aquí la seva resposta completa. Usus només llegeix el bloc de dades i et mostra les rutines i el pla abans d'importar res."

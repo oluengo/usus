@@ -35,6 +35,9 @@ msgstr ""
 msgid "¿Cuánto te ha costado?"
 msgstr ""
 
+msgid "¿Descartar la propuesta de la IA? No se añadirá nada."
+msgstr ""
+
 msgid "¿Descartar la sesión en curso? Se perderán los datos."
 msgstr ""
 
@@ -98,6 +101,18 @@ msgstr ""
 
 #, python-brace-format
 msgid "¿Quitar la sección «{x}»? Sus ejercicios pasan a «{y}»."
+msgstr ""
+
+msgid "¿Salir del plan guiado? Se perderán tus respuestas."
+msgstr ""
+
+msgid "¿Salir sin añadir nada?"
+msgstr ""
+
+msgid "¿Salir sin crear el perfil?"
+msgstr ""
+
+msgid "¿Salir sin guardar tus respuestas?"
 msgstr ""
 
 #, python-brace-format
@@ -303,9 +318,6 @@ msgstr ""
 msgid "0 = sin descarga. En descarga solo se sugieren rutinas sin variante."
 msgstr ""
 
-msgid "1 Datos"
-msgstr ""
-
 #, python-brace-format
 msgid "1 ejercicio · ≈ {m} min"
 msgstr ""
@@ -329,9 +341,6 @@ msgid "1RM estimado (fórmula de Epley) por sesión"
 msgstr ""
 
 msgid "2 ejercicios por hoja"
-msgstr ""
-
-msgid "2 Exportar"
 msgstr ""
 
 msgid "30 días"
@@ -1203,9 +1212,6 @@ msgstr ""
 msgid "del diario"
 msgstr ""
 
-msgid "del perfil"
-msgstr ""
-
 msgid "del registro"
 msgstr ""
 
@@ -1403,6 +1409,9 @@ msgid "Días registrados"
 msgstr ""
 
 msgid "Días tomados en el periodo (o desde que lo añadiste)."
+msgstr ""
+
+msgid "Días y tiempo"
 msgstr ""
 
 msgid "Distancia"
@@ -2538,6 +2547,9 @@ msgstr ""
 msgid "Molestia"
 msgstr ""
 
+msgid "Molestias"
+msgstr ""
+
 msgid "Momento"
 msgstr ""
 
@@ -2602,6 +2614,9 @@ msgid "Ninguno"
 msgstr ""
 
 msgid "Ninguno: solo suelo"
+msgstr ""
+
+msgid "Nivel"
 msgstr ""
 
 #, python-brace-format
@@ -2941,6 +2956,10 @@ msgid "Parque / al aire libre"
 msgstr ""
 
 msgid "Pasa a ser el plan activo; el actual queda guardado en Mis planes."
+msgstr ""
+
+#, python-brace-format
+msgid "Paso {n} de {m}"
 msgstr ""
 
 #, python-brace-format
@@ -3295,6 +3314,9 @@ msgstr ""
 msgid "propuesta"
 msgstr ""
 
+msgid "Propuesta"
+msgstr ""
+
 msgid "Propuesta de la IA"
 msgstr ""
 
@@ -3494,6 +3516,9 @@ msgid "Respiración marcada; aún bastante margen."
 msgstr ""
 
 msgid "Respuesta de la IA en un toque: copia su respuesta (o solo su bloque de código) y toca «Pegar respuesta de la IA». Si la guardas como archivo, Importar datos también la lleva a la revisión."
+msgstr ""
+
+msgid "Respuestas guardadas para la próxima vez"
 msgstr ""
 
 msgid "Resumen"
@@ -4448,6 +4473,9 @@ msgstr ""
 msgid "Ventana fértil"
 msgstr ""
 
+msgid "Ventanas con un mismo diseño: título arriba con ✕ para cerrar siempre en el mismo sitio, pasos con barra de progreso y Atrás/Siguiente abajo. Al cerrar un proceso a medias, Usus avisa de si se pierde o se guarda lo hecho. En Crear plan con IA ya se puede elegir el sexo."
+msgstr ""
+
 msgid "Ver el aviso"
 msgstr ""
 
@@ -4514,9 +4542,6 @@ msgid "Vista previa: {n} semanas, {d} de descarga."
 msgstr ""
 
 msgid "Volver"
-msgstr ""
-
-msgid "Volver a los datos"
 msgstr ""
 
 #, python-brace-format

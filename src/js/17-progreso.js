@@ -299,7 +299,7 @@ function dayNoteModal() {
   const fmt = k => new Date(keyTime(k)).toLocaleDateString(LOC(), { weekday: "long", day: "numeric", month: "long" });
   const one = days.length === 1;
   return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="dnT"><div class="mbox dsh">
-    <h2 id="dnT" style="margin:0 0 6px">${one ? fmt(days[0].k) : T("Notas de la semana")}</h2>
+    ${mHead("dnT", one ? fmt(days[0].k) : T("Notas de la semana"), "dnote-close")}
     ${days.length ? days.map(o => `<div class="dnd">${one ? "" : `<b>${fmt(o.k)}</b>`}<div>${tagChips(o.tags)}</div>
       ${o.day ? `<div class="dnsrc">${T("Diario")}</div><div>${esc(o.day)}</div>` : ""}
       ${o.ses.length ? `<div class="dnsrc">${T("Sesión")}</div>${o.ses.map(x => `<div>${esc(x.n)} · ${x.min} min${x.pem ? ` · ${T("PEM")} ${x.pem}` : ""}${x.note ? `<div>✎ ${esc(x.note)}</div>` : ""}</div>`).join("")}` : ""}

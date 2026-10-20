@@ -21,7 +21,7 @@ test("archivo de «Solo rutinas» importado dos veces: avisa y no duplica", asyn
   await nav(page, "data"); await page.locator('[data-stab="datos"]').click();
   const f = { name: "rutinas.json", mimeType: "application/json", buffer: Buffer.from(JSON.stringify({ app: "usus", routines: ROUTINES.slice(0, 2) })) };
   await page.setInputFiles("#impFile", f);
-  await expect(page.locator("#inT").locator("..")).toContainText("Ya tienes todas estas rutinas");
+  await expect(page.locator(".mbox:has(#inT)")).toContainText("Ya tienes todas estas rutinas");
   await expect(page.locator('[data-act="in-yes"]')).toBeDisabled();
   await page.locator('[data-act="in-no"]:visible').first().click();
   expect((await ls(page, "wk.routines")).length).toBe(3);

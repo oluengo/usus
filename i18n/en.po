@@ -36,6 +36,9 @@ msgstr "How much can you train?"
 msgid "¿Cuánto te ha costado?"
 msgstr "How hard was it?"
 
+msgid "¿Descartar la propuesta de la IA? No se añadirá nada."
+msgstr "Discard the AI's suggestion? Nothing will be added."
+
 msgid "¿Descartar la sesión en curso? Se perderán los datos."
 msgstr "Discard the current session? Its data will be lost."
 
@@ -100,6 +103,18 @@ msgstr "Remove the section “{x}”? The exercises stay in the routine."
 #, python-brace-format
 msgid "¿Quitar la sección «{x}»? Sus ejercicios pasan a «{y}»."
 msgstr "Remove the section “{x}”? Its exercises move to “{y}”."
+
+msgid "¿Salir del plan guiado? Se perderán tus respuestas."
+msgstr "Leave the guided plan? Your answers will be lost."
+
+msgid "¿Salir sin añadir nada?"
+msgstr "Leave without adding anything?"
+
+msgid "¿Salir sin crear el perfil?"
+msgstr "Leave without creating the profile?"
+
+msgid "¿Salir sin guardar tus respuestas?"
+msgstr "Leave without saving your answers?"
 
 #, python-brace-format
 msgid "¿Terminar y guardar igualmente? Se guardan solo las series hechas ({n} pendientes en total)."
@@ -304,9 +319,6 @@ msgstr "+2 reps per set (+10 s)"
 msgid "0 = sin descarga. En descarga solo se sugieren rutinas sin variante."
 msgstr "0 = no deload. During deload only routines without a variant are suggested."
 
-msgid "1 Datos"
-msgstr "1 Data"
-
 #, python-brace-format
 msgid "1 ejercicio · ≈ {m} min"
 msgstr "1 exercise · ≈ {m} min"
@@ -331,9 +343,6 @@ msgstr "Estimated 1RM (Epley formula) per session"
 
 msgid "2 ejercicios por hoja"
 msgstr "2 exercises per sheet"
-
-msgid "2 Exportar"
-msgstr "2 Export"
 
 msgid "30 días"
 msgstr "30 days"
@@ -1204,9 +1213,6 @@ msgstr "Keep as my own"
 msgid "del diario"
 msgstr "from diary"
 
-msgid "del perfil"
-msgstr "from profile"
-
 msgid "del registro"
 msgstr "from log"
 
@@ -1405,6 +1411,9 @@ msgstr "Days logged"
 
 msgid "Días tomados en el periodo (o desde que lo añadiste)."
 msgstr "Days taken in the period (or since you added it)."
+
+msgid "Días y tiempo"
+msgstr "Days and time"
 
 msgid "Distancia"
 msgstr "Distance"
@@ -2539,6 +2548,9 @@ msgstr "Edit mode for PC or large screens: open the editor on a computer or a ta
 msgid "Molestia"
 msgstr "Ache"
 
+msgid "Molestias"
+msgstr "Aches"
+
 msgid "Momento"
 msgstr "Time of day"
 
@@ -2604,6 +2616,9 @@ msgstr "None"
 
 msgid "Ninguno: solo suelo"
 msgstr "None: floor only"
+
+msgid "Nivel"
+msgstr "Level"
 
 #, python-brace-format
 msgid "Nivel {n} de 5"
@@ -2943,6 +2958,10 @@ msgstr "Park / outdoors"
 
 msgid "Pasa a ser el plan activo; el actual queda guardado en Mis planes."
 msgstr "It becomes the active plan; the current one stays saved in My plans."
+
+#, python-brace-format
+msgid "Paso {n} de {m}"
+msgstr "Step {n} of {m}"
 
 #, python-brace-format
 msgid "Paso {n} de {t}"
@@ -3296,6 +3315,9 @@ msgstr "Suggest an improvement"
 msgid "propuesta"
 msgstr "suggested"
 
+msgid "Propuesta"
+msgstr "Suggestion"
+
 msgid "Propuesta de la IA"
 msgstr "AI proposal"
 
@@ -3496,6 +3518,9 @@ msgstr "Heavier breathing; still quite a lot left."
 
 msgid "Respuesta de la IA en un toque: copia su respuesta (o solo su bloque de código) y toca «Pegar respuesta de la IA». Si la guardas como archivo, Importar datos también la lleva a la revisión."
 msgstr "AI reply in one tap: copy its reply (or just its code block) and tap “Paste the AI's reply”. If you save it as a file, Import data also takes it to the review."
+
+msgid "Respuestas guardadas para la próxima vez"
+msgstr "Answers saved for next time"
 
 msgid "Resumen"
 msgstr "Summary"
@@ -4449,6 +4474,9 @@ msgstr "You're about to share health data with an external service"
 msgid "Ventana fértil"
 msgstr "Fertile window"
 
+msgid "Ventanas con un mismo diseño: título arriba con ✕ para cerrar siempre en el mismo sitio, pasos con barra de progreso y Atrás/Siguiente abajo. Al cerrar un proceso a medias, Usus avisa de si se pierde o se guarda lo hecho. En Crear plan con IA ya se puede elegir el sexo."
+msgstr "Windows with one design: title at the top with ✕ to close, always in the same place; steps with a progress bar and Back/Next at the bottom. When you close a half-finished process, Usus tells you whether it's lost or saved. In Create plan with AI you can now choose your sex."
+
 msgid "Ver el aviso"
 msgstr "View the notice"
 
@@ -4517,9 +4545,6 @@ msgstr "Preview: {n} weeks, {d} deload."
 msgid "Volver"
 msgstr "Back"
 
-msgid "Volver a los datos"
-msgstr "Back to the data"
-
 #, python-brace-format
 msgid "Volver a proponer en todos ({n} silenciados)"
 msgstr "Suggest for all again ({n} muted)"
@@ -4581,6 +4606,18 @@ msgstr "Lower back"
 
 msgid "Zona peligrosa"
 msgstr "Danger zone"
+
+#~ msgid "1 Datos"
+#~ msgstr "1 Data"
+
+#~ msgid "2 Exportar"
+#~ msgstr "2 Export"
+
+#~ msgid "del perfil"
+#~ msgstr "from profile"
+
+#~ msgid "Volver a los datos"
+#~ msgstr "Back to the data"
 
 #~ msgid "Pega aquí su respuesta completa. Usus solo lee el bloque de datos y te enseña las rutinas y el plan antes de importar nada."
 #~ msgstr "Paste its full answer here. Usus only reads the data block and shows you the routines and plan before importing anything."

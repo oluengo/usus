@@ -194,7 +194,7 @@ function cycSettings() {
 function cycAckModal() {
   if (!state.cycAsk) return "";
   return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="cyT"><div class="mbox">
-    <h2 id="cyT" style="margin:0 0 8px">${T("Seguimiento del ciclo")}</h2>
+    ${mHead("cyT", T("Seguimiento del ciclo"), "cyc-ack-no")}
     <p class="muted" style="margin:0">${cycDisclaimer(false)}</p>
     <div class="pcyc" style="margin-top:10px">${CYC_INFO()}</div>
     <p class="muted" style="margin:10px 0 0">${T("Los datos del ciclo se guardan solo en este dispositivo y van en la copia de seguridad completa.")}</p>

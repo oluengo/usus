@@ -48,7 +48,7 @@
   const CLOSE = '[data-act$="-close"],[data-act$="-cancel"],[data-act$="-back"],[data-act$="-no"]';
   if (P.App) P.App.addListener("backButton", () => {
     const modals = document.querySelectorAll(".modal");
-    if (modals.length) { const b = modals[modals.length - 1].querySelector(CLOSE); if (b) b.click(); return; }
+    if (modals.length) { const m = modals[modals.length - 1], b = m.querySelector('.mfoot [data-act$="-back"]') || m.querySelector(CLOSE); if (b) b.click(); return; }   // en un proceso por pasos, Atrás vuelve al paso anterior
     const bk = [...document.querySelectorAll("#app [data-back]")].find(e => e.offsetParent);
     if (bk) { bk.click(); return; }
     const hoy = document.querySelector('#tabs [data-tab="train"]');

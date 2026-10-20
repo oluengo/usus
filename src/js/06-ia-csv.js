@@ -31,9 +31,8 @@ function aiModal() {
   const fem = curProf().sex !== "m";
   if (a.step === 2) {
     const kb = (new Blob([a.txt]).size / 1024).toLocaleString(LOC(), { maximumFractionDigits: 1 });
-    return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="aiT"><div class="mbox dsh full"><button class="back" data-act="ai-close">‹ ${T("Atrás")}</button>
-      <div class="sb-head"><h2 id="aiT" style="margin:0;flex:1">${T("Analizar con IA externa")}</h2><button class="btn small" data-act="ai-close">${T("Cerrar")}</button></div>
-      <p class="aistep">${T("1 Datos")} → <b>${T("2 Exportar")}</b></p>
+    return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="aiT"><div class="mbox dsh full">${mHead("aiT", `✦ ${T("Analizar con IA externa")} <span class="aibadge">${T("Externa")}</span>`, "ai-close")}
+      ${mSteps([T("Datos"), T("Exportar")], 1)}
       <p class="muted" style="font-size:.85rem;margin:8px 0 6px">${T("{n} líneas · {k} KB · {w}", { n: a.txt.split("\n").length, k: kb, w: a.weeks ? T("{n} semanas", { n: a.weeks }) : T("Todo") })}</p>
       <pre class="aipre">${esc(a.txt.slice(0, 1800))}…</pre>
       <div class="row" style="margin-top:10px"><button class="btn primary" style="flex:1" data-act="ai-copy">${T("Copiar")}</button><button class="btn" style="flex:1" data-act="ai-file">${T("Exportar .txt")}</button></div>
@@ -44,12 +43,11 @@ function aiModal() {
       <details class="aimanual"${state.ai?.manual ? " open" : ""}><summary>${T("O pégala a mano")}</summary>
         <textarea id="aiPaste" rows="3" placeholder="${T("Pega aquí la respuesta de la IA")}"></textarea>
         <button class="btn" style="width:100%;margin-top:8px" data-act="ai-paste">${T("Revisar rutinas propuestas")}</button></details>
-      <button class="btn ghost" style="width:100%;margin-top:4px" data-act="ai-back">‹ ${T("Volver a los datos")}</button>
+      <div class="mfoot"><button class="btn" data-act="ai-back">‹ ${T("Atrás")}</button></div>
     </div></div>`;
   }
-  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="aiT"><div class="mbox dsh full"><button class="back" data-act="ai-close">‹ ${T("Atrás")}</button>
-    <div class="sb-head"><h2 id="aiT" style="margin:0;flex:1">${T("Analizar con IA externa")}</h2><button class="btn small" data-act="ai-close">${T("Cerrar")}</button></div>
-    <p class="aistep"><b>${T("1 Datos")}</b> → ${T("2 Exportar")}</p>
+  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="aiT"><div class="mbox dsh full">${mHead("aiT", `✦ ${T("Analizar con IA externa")} <span class="aibadge">${T("Externa")}</span>`, "ai-close")}
+    ${mSteps([T("Datos"), T("Exportar")], 0)}
     <h3 class="wh">${T("Período")}</h3>
     <div class="chips">${[4, 8, 12, 26, 0].map(w => `<button data-aiw="${w}" class="${a.weeks === w ? "on" : ""}" aria-pressed="${a.weeks === w}">${w ? T("{n} semanas", { n: w }) : T("Todo")}</button>`).join("")}</div>
     <h3 class="wh">${T("Incluir")}</h3>
@@ -59,7 +57,7 @@ function aiModal() {
     <div class="aiform">${aiFields(a.f, "ai_")}</div>
     <label class="chk aichk" style="margin-top:10px"><input type="checkbox" id="aiSave" ${a.save ? "checked" : ""}> <span>${T("Guardar para próximas exportaciones")}<small class="muted" style="display:block;font-size:.78rem">${T("En este móvil, en tu perfil. Si no, se usan solo ahora.")}</small></span></label>
     <div class="aiwarn"><b>${T("Vas a compartir datos de salud con un servicio externo")}</b>${T("Lo que pase después depende de la IA que elijas: revisa su política de privacidad. El análisis lo hace una IA, no un profesional sanitario.")}</div>
-    <button class="btn primary" style="width:100%;padding:12px" data-act="ai-gen">${T("Generar texto")}</button>
+    <div class="mfoot"><button class="btn primary" data-act="ai-gen">${T("Generar texto")} ›</button></div>
   </div></div>`;
 }
 function aiCard() {
@@ -156,9 +154,9 @@ const AIP_GOALS = [["fuerza", N_("Fuerza")], ["musculo", N_("Ganar músculo")], 
 const AIP_PLACES = [["casa", N_("Casa")], ["parque", N_("Parque / al aire libre")], ["gym", N_("Gimnasio")], ["varios", N_("Varios sitios")]];
 const AIP_ACT = [["", "—"], ["sed", N_("Sedentaria (oficina, coche)")], ["mod", N_("Moderada (de pie, caminar)")], ["act", N_("Activa (trabajo físico)")]];
 const AIP_EN = [["bajo", N_("Cansado o con mucho estrés")], ["normal", N_("Normal")], ["alto", N_("Con energía")]];
-const AIP_H = ["birth", "height", "level", "years", "injuries", "pains", "conditions", "meds"];
-const AIP_P = ["goals", "want", "avoid", "weeks", "style", "days", "mins", "when", "place", "mat", "activity", "other", "energy", "diet", "extra"];
-const aipDef = () => ({ goals: [], want: "", avoid: "", weeks: 8, style: "var", days: [1, 3, 5], mins: 45, when: "", place: "casa", mat: myEquip() || [], activity: "", other: "", energy: "normal", diet: "", extra: "" });
+const AIP_H = ["birth", "height", "level", "years", "injuries", "pains", "conditions", "meds"];   // del perfil para la IA (wk.aiProf); el sexo, del perfil salvo que se cambie aquí
+const AIP_P = ["goals", "want", "avoid", "weeks", "style", "days", "mins", "when", "place", "mat", "activity", "other", "energy", "diet", "extra", "sex"];
+const aipDef = () => ({ goals: [], want: "", avoid: "", weeks: 8, style: "var", days: [1, 3, 5], mins: 45, when: "", place: "casa", mat: myEquip() || [], activity: "", other: "", energy: "normal", diet: "", extra: "", sex: "" });
 const lastKg = () => { const l = W.list(); if (!l.length) return ""; const x = l.reduce((a, b) => (b.t > a.t ? b : a)); return +x.kg ? String(x.kg) : ""; };
 function sleepAvg() {
   const D = DY.all(), from = dayKey(Date.now() - 30 * 864e5), h = Object.keys(D).filter(k => k >= from).map(k => sleepHours(D[k].sleep?.bed, D[k].sleep?.wake)).filter(x => x && x < 16);
@@ -167,13 +165,13 @@ function sleepAvg() {
 function aipOpen() {
   const sv = LS.get("wk.aiPlan", null) || {}, hp = aiProf() || {};
   state.aip = { step: 0, keep: true, inc: { hist: state.sessions.length > 0, mine: state.routines.length > 0 },
-    f: { ...aipDef(), ...Object.fromEntries(AIP_P.filter(k => sv[k] !== undefined).map(k => [k, sv[k]])), ...Object.fromEntries(AIP_H.map(k => [k, hp[k] || ""])), weight: lastKg(), sleep: sleepAvg() } };
+    f: { ...aipDef(), ...Object.fromEntries(AIP_P.filter(k => sv[k] !== undefined).map(k => [k, sv[k]])), ...Object.fromEntries(AIP_H.map(k => [k, hp[k] || ""])), sex: sv.sex || curProf().sex || "", weight: lastKg(), sleep: sleepAvg() } };
   render();
 }
 function readAip() {
   const a = state.aip; if (!a) return; const g = id => document.getElementById("aip_" + id);
   ["birth", "height", "weight", "years", "injuries", "pains", "conditions", "meds", "want", "avoid", "mins", "when", "other", "sleep", "diet", "extra"].forEach(k => { const el = g(k); if (el) a.f[k] = el.value.trim(); });
-  ["level", "place", "activity", "energy"].forEach(k => { const el = g(k); if (el) a.f[k] = el.value; });
+  ["sex", "level", "place", "activity", "energy"].forEach(k => { const el = g(k); if (el) a.f[k] = el.value; });
   const k = $("#aipKeep"); if (k) a.keep = k.checked; ["hist", "mine"].forEach(x => { const c = $(`#aipInc_${x}`); if (c) a.inc[x] = c.checked; });
 }
 function aipModal() {
@@ -187,7 +185,7 @@ function aipModal() {
   let body = "";
   if (st === 0) body = `<div class="aiwarn"><b>${T("Antes de empezar")}</b>${T("Una IA no es un entrenador ni un profesional sanitario. Si tienes lesiones, dolor, una condición de salud, estás embarazada o hace tiempo que no entrenas, consulta antes con un profesional. Todo es opcional.")}</div>
     <div class="aitwo"><div>${inp("birth", N_("Fecha de nacimiento"), "", "date")}</div><div>${inp("height", N_("Altura (cm)"), "", "number")}</div></div>
-    <div class="aitwo"><div>${inp("weight", N_("Peso (kg)"), "", "text", lastKg() && f.weight === lastKg() ? N_("del registro") : "")}</div><div><label class="muted" for="aip_sex">${T("Sexo")}</label><input type="text" id="aip_sex" value="${curProf().sex === "m" ? T("Hombre") + ` (${T("del perfil")})` : curProf().sex === "f" ? T("Mujer") + ` (${T("del perfil")})` : "—"}" disabled></div></div>
+    <div class="aitwo"><div>${inp("weight", N_("Peso (kg)"), "", "text", lastKg() && f.weight === lastKg() ? N_("del registro") : "")}</div><div>${sel("sex", N_("Sexo"), [["", "—"], ["m", N_("Hombre")], ["f", N_("Mujer")]])}</div></div>
     ${sel("level", N_("Experiencia entrenando"), [["", "—"], ...AI_LEVELS])}
     ${inp("years", N_("Detalle de la experiencia y otros deportes"), N_("Ej. 2 años de calistenia, antes fútbol"))}
     ${ta("injuries", N_("Lesiones o cirugías previas"), N_("Ej. rotura de menisco izquierdo (2019)"))}${ta("pains", N_("Dolores o molestias actuales"), N_("Ej. lumbar al levantarme por la mañana"))}
@@ -220,11 +218,10 @@ function aipModal() {
     <details class="aimanual"${a.manual ? " open" : ""}><summary>${T("O pégala a mano")}</summary>
       <textarea id="aipPaste" rows="3" placeholder="${T("Pega aquí la respuesta de la IA")}"></textarea>
       <button class="btn" style="width:100%;margin-top:8px" data-act="aip-paste">${T("Revisar rutinas y plan")}</button></details>`;
-  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="aipT"><div class="mbox dsh aip full"><button class="back" data-act="aip-close">‹ ${T("Atrás")}</button>
-    <div class="sb-head"><h2 id="aipT" style="margin:0;flex:1">✦ ${T("Crear plan con IA")} <span class="aibadge">${T("Externa")}</span></h2><button class="btn small" data-act="aip-close">${T("Cerrar")}</button></div>
-    <div class="aipsteps">${STEPS.map((n, i) => `<button data-aipst="${i}" class="${i === st ? "on" : i < st ? "done" : ""}" ${i === st ? 'aria-current="step"' : ""}>${i + 1} ${T(n)}</button>`).join("")}</div>
+  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="aipT"><div class="mbox dsh aip full">${mHead("aipT", `✦ ${T("Crear plan con IA")} <span class="aibadge">${T("Externa")}</span>`, "aip-close")}
+    ${mSteps(STEPS.map(n => T(n)), st)}
     <div class="aiform">${body}</div>
-    <div class="row" style="margin-top:14px">${st ? `<button class="btn" style="flex:1" data-act="aip-prev">‹ ${T("Atrás")}</button>` : ""}${st < 3 ? `<button class="btn primary" style="flex:1" data-act="aip-next">${T("Siguiente")} ›</button>` : ""}</div>
+    <div class="mfoot">${st ? `<button class="btn" data-act="aip-back">‹ ${T("Atrás")}</button>` : ""}${st < 3 ? `<button class="btn primary" data-act="aip-next">${T("Siguiente")} ›</button>` : ""}</div>
   </div></div>`;
 }
 /* Mejores series por ejercicio en las últimas 8 semanas */
@@ -268,7 +265,7 @@ const PX = {
     cat: ["Full list (id, name in es/ca/en, pattern, level 1–5, type, equipment, progressions; and on each card: role = main, accessory, mobility, warmup or cardio; dose = recommended range per set, in reps or seconds; joints = joints it loads most). Use dose for the sets and avoid exercises whose joints match my aches:", "If you can't open the link, use clear, common exercise names and leave out \"xid\": Usus lets me link them to the catalogue later."] }
 };
 function aipBuild(a) {
-  const X = PX[LANG] || PX.es, f = a.f, L = [], sex = curProf().sex, age = ageOf(f.birth), lv = Object.fromEntries(AI_LEVELS);
+  const X = PX[LANG] || PX.es, f = a.f, L = [], sex = f.sex || curProf().sex, age = ageOf(f.birth), lv = Object.fromEntries(AI_LEVELS);
   const c = X.c, cm = (code, k) => `${code}${" ".repeat(Math.max(1, 46 - code.length))}// ${c[k]}`;
   L.push(`# ${X.title}`, "", X.intro, "", `## ${X.rulesH}`, ...X.rules.map((r, i) => `${i + 1}. ${r}`), "", `## ${X.fmtH}`, "```",
     "{", '  "app": "usus",', '  "routines": [{', cm('    "name": "A · …",', "name"), cm('    "block": "empuje",', "block"), cm('    "variant": "A",', "variant"), cm('    "days": [1],', "days"),
@@ -351,7 +348,7 @@ function makeZip(files) {
 function csvModal() {
   const c = state.csvx; if (!c) return "";
   return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="cxT"><div class="mbox">
-    <h2 id="cxT" style="margin:0 0 4px">${T("Datos en CSV")}</h2>
+    ${mHead("cxT", T("Datos en CSV"), "cx-close")}
     <p class="muted" style="margin:0;font-size:.88rem">${T("Un archivo .zip con una tabla por tipo de dato (sesiones, rutinas, diario, suplementos, peso, actividades y ciclo) y un archivo que explica cada columna. Para analizarlos a tu manera en una hoja de cálculo.")}</p>
     <h3 class="wh">${T("Período")}</h3>
     <div class="chips">${[0, 4, 8, 12, 26].map(w => `<button data-cxw="${w}" class="${c.weeks === w ? "on" : ""}" aria-pressed="${c.weeks === w}">${w ? T("{n} semanas", { n: w }) : T("Todo")}</button>`).join("")}</div>

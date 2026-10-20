@@ -22,7 +22,7 @@ function issueModal() {
   const k = state.issue; if (!k) return "";
   const bug = k === "bug";
   return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="isT"><div class="mbox">
-    <h2 id="isT" style="margin:0 0 4px">${bug ? T("Informar de un problema") : T("Proponer una mejora")}</h2>
+    ${mHead("isT", bug ? T("Informar de un problema") : T("Proponer una mejora"), "issue-close")}
     <p class="muted" style="font-size:.85rem;margin:0 0 10px">${T("Se abrirá GitHub con el formulario preparado.")}</p>
     <ul class="ainfo"><li>${T("Necesitas una cuenta de GitHub (gratis).")}</li><li>${T("No se envía nada hasta que tú lo revises y lo publiques en GitHub.")}</li><li>${T("Nunca incluye tus rutinas, sesiones ni registros.")}</li></ul>
     ${bug ? `<label class="shopt"><span>${T("Incluir datos técnicos")}</span><input type="checkbox" role="switch" id="isTech" ${state.issueTech !== false ? "checked" : ""}></label>${state.issueTech !== false ? `<pre class="shtxt" style="margin-top:8px">${esc(techInfo())}</pre>` : ""}` : ""}

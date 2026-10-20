@@ -204,7 +204,7 @@ function viewDiary() {
     </div>`
   };
   const sh = state.dsheet && SHB[state.dsheet] ? `<div class="modal" role="dialog" aria-modal="true" aria-label="${T(SHN[state.dsheet])}"><div class="mbox dsh">
-      <div class="sb-head"><h2 style="margin:0;flex:1">${T(SHN[state.dsheet])}</h2><button class="btn small" data-act="dsheet-close">${T("Hecho")}</button></div>
+      ${mHead("dshT", T(SHN[state.dsheet]), "dsheet-close")}
       ${SHB[state.dsheet]}
       <button class="dlink" data-dgo="${state.dsheet}">${T("Ver en Progreso")} →</button></div></div>` : "";
   return `

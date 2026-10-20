@@ -38,3 +38,10 @@ function render() {
   if (state.print) fitPrint();
 }
 
+/* Cabecera estándar de las ventanas: [‹ atrás (pasos)] título [✕ cerrar]. Fija arriba al desplazar. */
+const XI = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>', LI = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>';
+function mHead(id, title, close, o = {}) {
+  return `<div class="mhead">${o.back ? `<button class="mic" data-act="${o.back}" aria-label="${T("Atrás")}">${LI}</button>` : ""}<h2 id="${id}">${title}</h2>${close ? `<button class="mic" data-act="${close}" aria-label="${T("Cerrar")}">${XI}</button>` : ""}</div>${o.sub ? `<p class="msub">${o.sub}</p>` : ""}`;
+}
+/* Pasos de un proceso: barra por segmentos y «Paso n de m · nombre» */
+const mSteps = (names, cur) => `<div class="msteps" aria-label="${T("Paso {n} de {m}", { n: cur + 1, m: names.length })}"><div class="msegs">${names.map((_, i) => `<i class="${i < cur ? "done" : i === cur ? "on" : ""}"></i>`).join("")}</div><small>${T("Paso {n} de {m}", { n: cur + 1, m: names.length })} · ${names[cur]}</small></div>`;

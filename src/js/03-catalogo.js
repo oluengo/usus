@@ -97,8 +97,7 @@ function exInfoModal() {
   const sib = base ? [base, ...(VARS[base] || []).filter(v => v !== x.id)] : (VARS[x.id] || []);
   const more = (CHAIN[x.id] || []).slice(1).map(o => o.c[o.i + 1]).filter(Boolean);
   const link = id => `<button data-xinfo="${id}">${esc(xName(CATBY[id]))}</button>`;
-  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="xiT"><div class="mbox dsh full"><button class="back" data-act="xi-close">‹ ${T("Atrás")}</button>
-    <div class="sb-head"><h2 id="xiT" class="xititle">${esc(xName(x))}</h2><button class="btn small" data-act="xi-close">${T("Cerrar")}</button></div>
+  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="xiT"><div class="mbox dsh full">${mHead("xiT", esc(xName(x)), "xi-close")}
     <p class="muted" style="margin:2px 0 0;font-size:.85rem">${esc(LANG === "en" ? x.name.es : x.name.en)}</p>
     <div class="xmeta" style="margin-top:8px;font-size:.8rem"><span class="otag">${T(pat?.[1] || "")}</span>${LV(x.level)}<span>${x.type === "time" ? T("por tiempo") : T("repeticiones")}</span>${x.sides ? `<span class="otag">${T("por lado")}</span>` : ""}${x.impact ? `<span class="otag">${T("impacto")}</span>` : ""}</div>
     ${main || sib.length ? `<div class="xcard"><h4>${T("Progresión")}</h4>
@@ -131,7 +130,7 @@ function xpickModal() {
   const p = state.xpick; if (!p || !CAT) return "";
   const own = p.mode !== "link";
   return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="xpT"><div class="mbox dsh">
-    <div class="sb-head"><h2 id="xpT" style="margin:0;flex:1">${p.mode === "link" ? T("Elegir del catálogo") : p.mode === "swap" ? T("Cambiar ejercicio") : T("Añadir ejercicio")}</h2><button class="btn small" data-act="xp-close">${T("Cerrar")}</button></div>
+    ${mHead("xpT", p.mode === "link" ? T("Elegir del catálogo") : p.mode === "swap" ? T("Cambiar ejercicio") : T("Añadir ejercicio"), "xp-close")}
     ${p.mode === "link" ? `<p class="muted" style="margin:4px 0 0;font-size:.85rem">${T("Para «{x}»", { x: esc(p.name || "") })}</p>` : ""}
     ${p.mode === "swap" && state.active?.exercises[p.ei] ? `<p class="muted" style="margin:4px 0 0;font-size:.85rem">${T("Solo en esta sesión. En lugar de {x}.", { x: `<b style="color:var(--ink)">${esc(exName(state.active.exercises[p.ei].from || state.active.exercises[p.ei]))}</b>` })}</p>` : ""}
     <input type="search" id="xpQ" class="xsearch" placeholder="${T("Buscar en el catálogo")}" value="${esc(p.q || "")}" aria-label="${T("Buscar ejercicio")}">
@@ -145,7 +144,7 @@ const xpOwnLabel = () => { const q = (state.xpick?.q || "").trim(); return "+ " 
 function ownMatModal() {
   const o = state.ownMat; if (!o) return "";
   return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="omT"><div class="mbox">
-    <h2 id="omT" style="margin:0 0 4px">${T("Material")}</h2>
+    ${mHead("omT", T("Material"), "om-cancel")}
     <p class="muted" style="margin:0;font-size:.85rem">${esc(state.editing?.exercises[o.i]?.name || "")}</p>
     <div class="matsel">${(state.ownMat ? Object.entries(MAT) : MAT_SEL()).map(([k, [n]]) => `<label><input type="checkbox" data-omat="${k}" ${o.equip.includes(k) ? "checked" : ""}>${matIco(k)}${T(n)}</label>`).join("")}</div>
     <label class="muted" for="omOther" style="font-size:.85rem;display:block;margin-top:12px">${T("Otro material (sin icono)")}</label>
@@ -159,7 +158,7 @@ function ownMatModal() {
 function catAskModal() {
   if (!state.catAsk || !LS.get("wk.welcomed", false) || state.newsOpen || state.incoming || run || state.pform) return "";
   return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="caT"><div class="mbox">
-    <h2 id="caT" style="margin:0 0 6px">${T("Catálogo de ejercicios")}</h2>
+    ${mHead("caT", T("Catálogo de ejercicios"), "cat-no")}
     <p class="muted" style="margin:0">${T("Usus incluye un catálogo opcional de {n} ejercicios de calistenia, cada uno con su ficha: para qué sirve, cómo se hace, errores típicos, material y progresión.", { n: CAT?.exercises.length || 162 })}</p>
     <div class="copt">
       <button data-act="cat-yes"><b>${T("Sí, dame toda la info")}</b><small>${T("Para elegir ejercicios al crear rutinas y saber cómo avanzar.")}</small></button>

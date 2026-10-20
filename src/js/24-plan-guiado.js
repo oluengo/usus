@@ -136,12 +136,12 @@ function gpModal() {
   const opt = (attr, val, cur, ic, t, d) => `<button class="gpopt" data-${attr}="${val}" aria-pressed="${cur === val}"><span class="ic" aria-hidden="true">${ic}</span><span><b>${t}</b><small>${d}</small></span></button>`;
   let h = "", f = "", nextOk = true;
   if (st === "intro") {
-    h = `<h2>${T("Plan guiado")}</h2><p class="sub">${T("Unas preguntas y Usus te propone rutinas y un plan con ejercicios del catálogo, a tu nivel y con tu material. Lo revisas y cambias lo que quieras antes de guardarlo.")}</p>
+    h = `<h3 class="gpq">${T("Plan guiado")}</h3><p class="sub">${T("Unas preguntas y Usus te propone rutinas y un plan con ejercicios del catálogo, a tu nivel y con tu material. Lo revisas y cambias lo que quieras antes de guardarlo.")}</p>
       <div class="lgroup">${[T("Objetivo, días y tiempo"), T("Tu material y molestias"), T("Tu nivel: test rápido o elegido"), T("Revisas y creas el plan")].map((t, i) => `<div class="srow"><span class="gpnum">${i + 1}</span><span class="t">${t}</span></div>`).join("")}</div>
       <p class="note">${T("Es una propuesta general: no sustituye a un entrenador ni a un profesional sanitario.")}</p>`;
   }
   if (st === "goal") {
-    h = `<h2>${T("¿Qué buscas?")}</h2><p class="sub">${T("Cambia el peso de cada parte de la sesión.")}</p>
+    h = `<h3 class="gpq">${T("¿Qué buscas?")}</h3><p class="sub">${T("Cambia el peso de cada parte de la sesión.")}</p>
       ${opt("gpgoal", "fuerza", g.goal, "💪", T("Ganar fuerza"), T("Ejercicios principales con progresión. Lo básico de la calistenia."))}
       ${opt("gpgoal", "forma", g.goal, "🏃", T("Ponerme en forma"), T("Fuerza y un bloque corto de cardio al final."))}
       ${opt("gpgoal", "habil", g.goal, "🤸", T("Aprender habilidades"), T("Fuerza y un ejercicio de habilidad al principio (pino, L-sit, equilibrios…)."))}`;
@@ -149,23 +149,23 @@ function gpModal() {
   }
   if (st === "days") {
     const sp = { full: T("Full body: todo el cuerpo en cada sesión."), ul: T("Torso y pierna, alternando."), ppl: T("Empuje, tirón y pierna.") }[gpSplit(g.days)];
-    h = `<h2>${T("¿Cuánto puedes entrenar?")}</h2><p class="sub">${T("Puedes entrenar cualquier día: el plan va en orden.")}</p>
+    h = `<h3 class="gpq">${T("¿Cuánto puedes entrenar?")}</h3><p class="sub">${T("Puedes entrenar cualquier día: el plan va en orden.")}</p>
       <p class="addh">${T("Sesiones por semana")}</p><div class="chips">${[2, 3, 4, 5, 6].map(d => `<button data-gpdays="${d}" ${on(g.days, d)}>${d}</button>`).join("")}</div><p class="note">${sp}</p>
       <p class="addh">${T("Minutos por sesión")}</p><div class="chips">${[20, 30, 45, 60].map(d => `<button data-gpmin="${d}" ${on(g.min, d)}>${d} min</button>`).join("")}</div>`;
   }
   if (st === "mat") {
-    h = `<h2>${T("¿Qué material tienes?")}</h2><p class="sub">${T("Solo se proponen ejercicios que puedas hacer. Pared siempre hay.")}</p>
+    h = `<h3 class="gpq">${T("¿Qué material tienes?")}</h3><p class="sub">${T("Solo se proponen ejercicios que puedas hacer. Pared siempre hay.")}</p>
       <div class="chips">${MAT_SEL().map(([k, [n]]) => `<button data-gpmat="${k}" ${on(g.mat.includes(k), true)}>${T(n)}</button>`).join("")}</div>
       ${!g.mat.includes("barra") && !g.mat.includes("anillas") ? `<div class="gpwarn">${T("Sin barra ni anillas, la espalda solo se puede trabajar con banda o ejercicios en el suelo. Una barra de puerta o unas anillas cambian mucho el plan.")}</div>` : ""}`;
   }
   if (st === "pain") {
-    h = `<h2>${T("¿Alguna molestia?")}</h2><p class="sub">${T("Se evitan los ejercicios que más cargan esa zona.")}</p>
+    h = `<h3 class="gpq">${T("¿Alguna molestia?")}</h3><p class="sub">${T("Se evitan los ejercicios que más cargan esa zona.")}</p>
       <div class="chips">${GP_JOINTS.map(([k, n]) => `<button data-gppain="${k}" ${on(g.pain.includes(k), true)}>${T(n)}</button>`).join("")}</div>
       <p class="note">${T("Si es una lesión o un dolor que no se va, consulta antes con un profesional.")}</p>`;
   }
   if (st === "level") {
     const row = (k, n, d) => `<label class="srow"><span class="t">${n}<small>${d}</small></span><span class="gplv">${g.test[k] !== "" && +g.test[k] >= 0 ? LV(GP_TEST[k](g.test[k])) : ""}</span><input type="number" inputmode="numeric" min="0" data-gptest="${k}" value="${esc(g.test[k])}" placeholder="—" aria-label="${n}"></label>`;
-    h = `<h2>${T("Tu nivel")}</h2><p class="sub">${T("Coloca cada ejercicio en su escalera. Luego lo puedes subir o bajar.")}</p>
+    h = `<h3 class="gpq">${T("Tu nivel")}</h3><p class="sub">${T("Coloca cada ejercicio en su escalera. Luego lo puedes subir o bajar.")}</p>
       <div class="gpseg" role="tablist"><button role="tab" data-gplvm="test" aria-selected="${g.lvMode === "test"}">${T("Test rápido")}</button><button role="tab" data-gplvm="self" aria-selected="${g.lvMode === "self"}">${T("Elegirlo yo")}</button></div>
       ${g.lvMode === "test" ? `<div class="lgroup">${row("push", T("Flexiones"), T("Máximo seguidas, bien hechas"))}${row("pull", T("Dominadas"), T("Máximo seguidas (0 si no puedes)"))}${row("squat", T("Sentadillas"), T("Máximo seguidas"))}${row("plank", T("Plancha"), T("Segundos aguantando"))}</div><p class="note">${T("Si no puedes hacer alguno (no tienes barra, por ejemplo), pon 0.")}</p>`
         : opt("gpself", 1, g.self, LV(1), T("Empiezo de cero"), T("No hago ejercicio o hace mucho que lo dejé.")) + opt("gpself", 2, g.self, LV(3), T("Tengo algo de base"), T("Hago flexiones y sentadillas; dominadas todavía no o muy pocas.")) + opt("gpself", 3, g.self, LV(4), T("Entreno con regularidad"), T("Hago dominadas y fondos sin problema."))}`;
@@ -173,20 +173,20 @@ function gpModal() {
   }
   if (st === "review") {
     const P = g.plan, r = P.routines[g.tab] || P.routines[0];
-    h = `<h2>${T("Tu propuesta")}</h2><p class="sub">${T("Una rutina por sesión de la semana, en orden. Se crea también una variante B con ejercicios parecidos para alternar cada 2 semanas.")}</p>
+    h = `<h3 class="gpq">${T("Tu propuesta")}</h3><p class="sub">${T("Una rutina por sesión de la semana, en orden. Se crea también una variante B con ejercicios parecidos para alternar cada 2 semanas.")}</p>
       ${P.warns.map(w => `<div class="gpwarn">${esc(w)}</div>`).join("")}
       <div class="chips" style="margin:12px 0">${P.routines.map((x, i) => `<button data-gptab="${i}" ${on(g.tab, i)}>${esc(T(x.name))}</button>`).join("")}</div>
       <p class="note" style="margin-top:0">≈ ${gpMins(P, r)} min · ${TN(GP_SECS.reduce((a, [sk]) => a + r.sec[sk].length, 0), "{n} ejercicio", "{n} ejercicios")}</p>
       ${GP_SECS.filter(([sk]) => r.sec[sk].length).map(([sk, n]) => `<p class="addh">${T(n)}</p><div class="lgroup">${r.sec[sk].map((it, i) => { const x = CATBY[it.id], nb = sk === "m" ? gpNeighbors(g, it.id) : null, d = gpReps(P, sk, x);
         return `<div class="srow gpex"><span class="t"><button class="xl" data-xinfo="${x.id}">${it.soft ? "⚠ " : ""}${esc(xName(x))}</button><small>${LV(x.level)} ${it.sets} × ${d}${x.type === "time" ? " s" : ""}${x.sides ? " · " + T("por lado") : ""}</small></span>${nb ? `<button class="mv" data-gpmv="${sk}:${i}:prev" aria-label="${T("Más fácil")}" ${nb.prev ? "" : "disabled"}>‹</button><button class="mv" data-gpmv="${sk}:${i}:next" aria-label="${T("Más difícil")}" ${nb.next ? "" : "disabled"}>›</button>` : ""}</div>`; }).join("")}</div>`).join("")}
       <p class="note">${T("‹ › cambia al ejercicio anterior o siguiente de su escalera. Toca un nombre para ver su ficha. Después podrás editar las rutinas en Biblioteca.")}</p>`;
-    f = `<button class="btn primary gpnext" data-act="gp-create">${T("Crear plan y rutinas")}</button>`;
+    f = `<button class="btn primary" data-act="gp-create">${T("Crear plan y rutinas")}</button>`;
   }
-  if (!f) f = `<button class="btn primary gpnext" data-act="gp-next" ${nextOk ? "" : "disabled"}>${st === "intro" ? T("Empezar") : st === "level" ? T("Ver propuesta") : T("Siguiente")}</button>`;
-  const dots = g.step ? `<div class="gpdots" aria-hidden="true">${GP_STEPS.slice(1).map((_, i) => `<i class="${i < g.step ? "on" : ""}"></i>`).join("")}</div>` : "";
-  return `<div class="modal" role="dialog" aria-modal="true" aria-label="${T("Plan guiado")}"><div class="mbox dsh full gp">
-    <div class="gptop"><button class="back" style="display:inline-flex" data-act="gp-back">‹ ${g.step ? T("Atrás") : T("Cerrar")}</button>${dots}</div>
-    ${h}<div class="gpfoot">${f}</div></div></div>`;
+  if (!f) f = `<button class="btn primary" data-act="gp-next" ${nextOk ? "" : "disabled"}>${st === "intro" ? T("Empezar") : st === "level" ? T("Ver propuesta") : T("Siguiente") + " ›"}</button>`;
+  const names = [T("Objetivo"), T("Días y tiempo"), T("Material"), T("Molestias"), T("Nivel"), T("Propuesta")];
+  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="gpT"><div class="mbox dsh full gp">
+    ${mHead("gpT", T("Plan guiado"), "gp-close")}${g.step ? mSteps(names, g.step - 1) : ""}
+    ${h}<div class="mfoot">${g.step ? `<button class="btn" data-act="gp-back">‹ ${T("Atrás")}</button>` : ""}${f}</div></div></div>`;
 }
 /* Nombre de un ejercicio que abre su ficha (si está vinculado al catálogo) */
 const xLink = (e, label) => e?.xid ? `<button class="xl" data-xinfo="${esc(e.xid)}">${label}</button>` : label;

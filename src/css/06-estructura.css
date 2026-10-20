@@ -215,10 +215,7 @@ body:has(.sbar) .rest{bottom:calc(152px + env(safe-area-inset-bottom,0px))}
 .xrow .chev{margin-left:2px}
 .xititle{margin:0;flex:1;font-size:1.5rem;line-height:1.2;letter-spacing:-.01em}
 /* Plan guiado */
-.mbox.gp{display:flex;flex-direction:column}
-.gptop{display:flex;align-items:center;gap:10px;margin-bottom:8px}
-.gpdots{flex:1;display:flex;gap:4px;justify-content:flex-end}.gpdots i{width:20px;height:4px;border-radius:9px;background:var(--line)}.gpdots i.on{background:var(--accent)}
-.gp h2{font-size:1.4rem;margin:4px 0 6px}
+
 .gpopt{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;background:var(--surface);border:1.5px solid var(--line);border-radius:14px;padding:14px;margin-bottom:10px;color:var(--ink);font:inherit;cursor:pointer}
 .gpopt[aria-pressed=true]{border-color:var(--accent);background:var(--accent-soft)}
 .gpopt b{display:block}.gpopt small{color:var(--muted)}.gpopt .ic{font-size:1.3rem;line-height:1.2;min-width:26px;text-align:center}
@@ -230,11 +227,36 @@ body:has(.sbar) .rest{bottom:calc(152px + env(safe-area-inset-bottom,0px))}
 .gpnum{width:26px;height:26px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-weight:700;font-size:.85rem;flex:none}
 .gpwarn{background:color-mix(in srgb,var(--warn) 12%,var(--surface));border:1px solid color-mix(in srgb,var(--warn) 45%,var(--line));border-radius:12px;padding:10px 12px;font-size:.88rem;margin:10px 0}
 .gpex .mv{width:36px;height:36px;flex:none}
-.gpfoot{position:sticky;bottom:-18px;margin:auto -18px -18px;padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px));background:var(--surface);border-top:1px solid var(--line)}
-.gpfoot .btn{width:100%;padding:14px}
 .xl{background:none;border:0;padding:0;font:inherit;color:inherit;text-align:left;cursor:pointer;text-decoration:underline;text-decoration-color:color-mix(in srgb,var(--accent) 45%,transparent);text-underline-offset:3px}
 .xl:hover{color:var(--accent)}
 .gpex .xl{font-weight:600}
-.mbox.gp>*{flex-shrink:0}
+
 .gpopt[aria-pressed=true] small{color:color-mix(in srgb,var(--ink) 78%,var(--accent))}
 .gpseg button{color:color-mix(in srgb,var(--ink) 80%,var(--line))}
+/* Ventanas: cabecera, pasos y pie estándar */
+.mhead{position:sticky;top:0;z-index:3;display:flex;align-items:center;gap:6px;margin:-18px -18px 12px;padding:10px 10px 10px 18px;background:var(--surface);border-bottom:1px solid var(--line);border-radius:18px 18px 0 0}
+.mhead h2{flex:1;min-width:0;margin:0;font-size:1.12rem;line-height:1.25}
+.mhead .mic:first-child{margin-left:-8px}
+.mic{flex:none;width:40px;height:40px;border-radius:50%;border:0;background:none;color:var(--ink);display:grid;place-items:center;cursor:pointer}
+.mic:hover,.mic:focus-visible{background:var(--bg)}
+.mic svg{width:20px;height:20px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.msub{color:var(--muted);font-size:.88rem;margin:-4px 0 12px}
+.msteps{margin:-4px 0 14px}.msegs{display:flex;gap:4px}.msegs i{flex:1;height:4px;border-radius:9px;background:var(--line)}.msegs i.done{background:color-mix(in srgb,var(--accent) 45%,var(--line))}.msegs i.on{background:var(--accent)}
+.msteps small{display:block;color:var(--muted);font-size:.78rem;margin-top:6px}
+.mfoot{position:sticky;bottom:-18px;z-index:3;display:flex;gap:8px;margin:16px -18px -18px;padding:12px 18px calc(12px + env(safe-area-inset-bottom,0px));background:var(--surface);border-top:1px solid var(--line)}
+.mfoot .btn{flex:1;padding:13px}
+.mfoot .btn.primary{flex:2}
+@media (max-width:999px){
+  .mbox .mhead{margin-top:0;border-radius:0}
+  .mbox:not(.full)::before{margin-bottom:4px}
+  .mbox.full .mhead{margin-top:calc(-4px - env(safe-area-inset-top,0px));padding-top:calc(10px + env(safe-area-inset-top,0px))}
+  .mbox:not(.full) .mfoot{bottom:calc(-18px - env(safe-area-inset-bottom,0px));margin-bottom:calc(-18px - env(safe-area-inset-bottom,0px))}
+}
+.gpq{font-size:1.3rem;margin:2px 0 6px;letter-spacing:-.01em}
+.gp .sub{font-size:.95rem}
+.gp .chips{gap:10px}.gp .chips button{padding:10px 18px;font-size:1rem;min-height:44px}
+.gpopt{padding:16px}.gpopt b{font-size:1.02rem}
+.gp .lgroup .srow{min-height:60px}
+.mbox.full{display:flex;flex-direction:column}.mbox.full>*{flex-shrink:0}
+.mbox.full>.mfoot{margin-top:auto}
+.mbox.full>.mfoot::before{content:"";position:absolute;left:0;right:0;top:-16px;height:16px;pointer-events:none}

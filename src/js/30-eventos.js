@@ -180,9 +180,11 @@ document.addEventListener("click", async ev => {
     case "ai-open": { const f = aiProf(); state.ai = { step: 1, weeks: 8, inc: Object.fromEntries(AI_INC.map(([k]) => [k, true])), f: { ...(f || {}) }, save: true, txt: "" }; render(); break; }
     case "ai-close": state.ai = null; render(); break;
     case "aip-open": aipOpen(); break;
-    case "aip-close": state.aip = null; render(); break;
+    case "aip-close": { const a = state.aip; if (!a) break;   // cerrar: con «Recordar mis respuestas», se guardan; si no, se avisa
+      if (a.keep) { aipSave(); if (a.step) toast(T("Respuestas guardadas para la próxima vez")); } else if (a.step && !confirm(T("¿Salir sin guardar tus respuestas?"))) break;
+      state.aip = null; render(); break; }
     case "aip-next": state.aip.step = Math.min(3, state.aip.step + 1); render(); document.querySelector(".mbox.aip")?.scrollTo(0, 0); break;
-    case "aip-prev": state.aip.step = Math.max(0, state.aip.step - 1); render(); document.querySelector(".mbox.aip")?.scrollTo(0, 0); break;
+    case "aip-back": state.aip.step = Math.max(0, state.aip.step - 1); render(); document.querySelector(".mbox.aip")?.scrollTo(0, 0); break;
     case "aip-copy": { aipSave(); const ok = await copyText(aipBuild(state.aip)); toast(ok ? T("Indicaciones copiadas") : T("No se pudo copiar")); break; }
     case "aip-file": { aipSave(); const pm = curProf(), pn = multiProf() ? `-${fileSlug(profName(pm))}` : ""; await deliver(`usus-${fileSlug(T("plan con IA"))}${pn}-${stamp()}.txt`, aipBuild(state.aip), "text/plain"); break; }
     case "aip-clip": case "ai-clip": {   // leer la respuesta del portapapeles; si no se puede, cuadro para pegar a mano
@@ -218,6 +220,7 @@ document.addEventListener("click", async ev => {
     case "xi-close": state.exInfo = null; state.exInfoAdd = false; render(); break;
     case "gp-open": await gpOpen(); break;
     case "gp-back": { const g = state.gp; if (!g) break; if (g.step) g.step--; else state.gp = null; render(); document.querySelector(".mbox.gp")?.scrollTo(0, 0); break; }
+    case "gp-close": if (state.gp?.step && !confirm(T("¿Salir del plan guiado? Se perderán tus respuestas."))) break; state.gp = null; render(); break;
     case "gp-next": { const g = state.gp; if (!g) break; if (GP_STEPS[g.step] === "level") { g.plan = gpBuild(g); g.tab = 0; if (!g.plan) break; } g.step = Math.min(GP_STEPS.length - 1, g.step + 1); render(); document.querySelector(".mbox.gp")?.scrollTo(0, 0); break; }
     case "gp-create": await gpCreate(); break;
     case "xi-add": state.exInfoAdd = true; render(); break;
@@ -302,6 +305,7 @@ document.addEventListener("click", async ev => {
     case "prof-pick-close": state.ppick = false; render(); break;
     case "prof-add": startAddProfile(); break;
     case "pf-cancel": state.pform = null; render(); break;
+    case "pf-close": { const f = state.pform; if (f && (f.step === "confirm" || ($("#pfName")?.value || f.name || "").trim()) && !confirm(T("¿Salir sin crear el perfil?"))) break; state.pform = null; render(); break; }
     case "pf-next": profFormNext(); break;
     case "pf-back": state.pform.step = "form"; render(); break;
     case "pf-ok": profFormOk(); break;
@@ -328,6 +332,7 @@ document.addEventListener("click", async ev => {
     case "rs-file": await shareRoutGo("file"); break;
     case "rs-link": await shareRoutGo("link"); break;
     case "in-no": state.incoming = null; render(); break;
+    case "in-close": if (!confirm(state.incoming?.ai ? T("¿Descartar la propuesta de la IA? No se añadirá nada.") : T("¿Salir sin añadir nada?"))) break; state.incoming = null; render(); break;
     case "in-yes": await incomingAdd(); break;
     case "notice-open": state.notice = true; render(); break;
     case "notice-close": state.notice = false; render(); break;

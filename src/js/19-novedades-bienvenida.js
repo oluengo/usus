@@ -4,7 +4,8 @@ const CHANGES = [  // Novedades: solo en castellano; las traducciones, en i18n/*
     N_("Crear plan con IA (Biblioteca → Plan y Progreso → Resumen): en 4 pasos (sobre ti, qué buscas, tu semana y para la IA) Usus prepara unas indicaciones con tus datos, cómo debe responder la IA y el enlace al catálogo, con el rango recomendado y las articulaciones de cada ejercicio. Las copias o exportas, las pegas en tu IA y su respuesta vuelve a Usus para revisarla antes de importar."),
     N_("Avisos claros: una IA no es un entrenador ni un profesional sanitario, y vas a compartir datos de salud con un servicio externo. Usus no envía nada. «Recordar mis respuestas» deja el formulario rellenado para la próxima vez."),
     N_("Al añadir un plan recibido o de la IA, si sus letras de variante ya las usan tus rutinas, se cambian por otras libres para no mezclar planes."),
-    N_("Respuesta de la IA en un toque: copia su respuesta (o solo su bloque de código) y toca «Pegar respuesta de la IA». Si la guardas como archivo, Importar datos también la lleva a la revisión.")
+    N_("Respuesta de la IA en un toque: copia su respuesta (o solo su bloque de código) y toca «Pegar respuesta de la IA». Si la guardas como archivo, Importar datos también la lleva a la revisión."),
+    N_("Ventanas con un mismo diseño: título arriba con ✕ para cerrar siempre en el mismo sitio, pasos con barra de progreso y Atrás/Siguiente abajo. Al cerrar un proceso a medias, Usus avisa de si se pierde o se guarda lo hecho. En Crear plan con IA ya se puede elegir el sexo.")
   ]],
   ["3.2.0", [
     N_("Plan guiado: unas preguntas (objetivo, días, minutos, material, molestias y nivel, con un test rápido o elegido) y Usus propone rutinas del catálogo a tu nivel, con calentamiento, principal, accesorios y vuelta a la calma. Revisas la propuesta, subes o bajas cada ejercicio en su escalera y se crean las rutinas (variantes A y B) y un plan en orden."),
@@ -116,8 +117,7 @@ function newsModal() {
   if (!state.newsOpen || !LS.get("wk.welcomed", false) || run || state.incoming) return "";
   const all = state.newsOpen === "all", list = all ? CHANGES : CHANGES.slice(0, 1);
   return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="nwT"><div class="mbox">
-    <p class="muted" style="margin:0;font-size:.85rem">${all ? T("Historial de cambios") : T("Novedades · versión {v}", { v: APP_VERSION })}</p>
-    <h2 id="nwT" style="margin:4px 0 8px">${T("Qué hay de nuevo")}</h2>
+    ${mHead("nwT", T("Qué hay de nuevo"), "news-close", { sub: all ? T("Historial de cambios") : T("Novedades · versión {v}", { v: APP_VERSION }) })}
     ${list.map(([v, c]) => `${all ? `<h3 class="wh">${T("Versión {v}", { v })}</h3>` : ""}<ul class="nwl">${chItems(c).map(x => `<li>${esc(x)}</li>`).join("")}</ul>`).join("")}
     <div class="row" style="margin-top:14px">${all ? "" : `<button class="btn" style="flex:1" data-act="news-all">${T("Ver historial")}</button>`}<button class="btn primary" style="flex:1" data-act="news-close">${T("Entendido")}</button></div>
   </div></div>`;
@@ -177,7 +177,7 @@ const NOTICE = () => `<ul class="muted" style="padding-left:18px;margin:8px 0 0;
     </ul>`;
 function noticeModal() {
   if (!state.notice) return "";
-  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="ntT"><div class="mbox"><h2 id="ntT" style="margin:0 0 4px">${T("Aviso")}</h2>${NOTICE()}
+  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="ntT"><div class="mbox">${mHead("ntT", T("Aviso"), "notice-close")}${NOTICE()}
     <button class="btn primary" style="width:100%;margin-top:16px" data-act="notice-close">${T("Entendido")}</button></div></div>`;
 }
 function wizDone() { LS.set("wk.welcomed", true); LS.set("wk.seenVersion", APP_VERSION); state.wiz = 0; state.catAsk = false; }

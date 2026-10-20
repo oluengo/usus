@@ -67,7 +67,7 @@ function progChangeModal() {
   const r = state.routines.find(x => x.id === p.rid), re = r?.exercises[p.i]; if (!re) return "";
   const fx = CATBY[p.xid], tx = CATBY[p.to], up = p.dir === "up", tu = tx.type === "time" ? " s" : "";
   return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="pcT"><div class="mbox">
-    <h2 id="pcT" style="margin:0 0 4px">${up ? T("Subir de paso") : T("Volver al paso anterior")}</h2>
+    ${mHead("pcT", up ? T("Subir de paso") : T("Volver al paso anterior"), "pg-cancel")}
     <p class="muted" style="margin:0;font-size:.85rem">${T("En «{x}». Las demás rutinas no cambian.", { x: esc(r.name) })}</p>
     <div class="pcg"><div class="pcc"><small>${T("Ahora")}</small><b>${esc(xName(fx))}</b>${LV(fx.level)}<span class="muted">${re.sets} × ${re.reps}${isTime(re) ? " s" : ""}${re.sides ? " " + T("por lado") : ""}</span></div>
       <span class="pca">→</span>

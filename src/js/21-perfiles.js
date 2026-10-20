@@ -34,7 +34,7 @@ function switchProfile(id) {
 function profPickModal() {
   if (!state.ppick) return "";
   return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="ppT"><div class="mbox">
-    <div class="sb-head"><h2 id="ppT" style="margin:0;flex:1">${T("Perfiles")}</h2><button class="btn small" data-act="prof-pick-close">${T("Cerrar")}</button></div>
+    ${mHead("ppT", T("Perfiles"), "prof-pick-close")}
     <p class="muted" style="font-size:.85rem;margin:4px 0 10px">${T("Cada perfil tiene sus propios datos y ajustes.")}</p>
     ${state.active ? `<div class="panel" style="border-color:var(--danger);margin-bottom:10px;font-size:.9rem">${T("Hay una sesión en curso. Termínala o descártala para cambiar de perfil.")}</div>` : ""}
     <div class="plist">${PROFS().map(p => `<button class="pitem${p.id === PROF ? " on" : ""}" data-pswitch="${p.id}">${profAv(p, 40)}<span style="flex:1;min-width:0"><b>${esc(profName(p))}</b><small>${T("{n} sesiones", { n: profSessions(p.id) })}</small></span>${p.id === PROF ? `<span class="ptick">${CHECK}</span>` : ""}</button>`).join("")}</div>
@@ -60,15 +60,15 @@ const CYC_INFO = () => `<ul class="pcycl">
   <p class="muted" style="font-size:.78rem;margin:6px 0 0">${T("Es una estimación aproximada: no sirve como anticonceptivo ni como diagnóstico.")}</p>`;
 function profFormModal() {
   const f = state.pform; if (!f) return "";
-  if (f.step === "confirm") return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="pcT"><div class="mbox">
-    <div class="row" style="gap:12px;flex-wrap:nowrap">${profAv({ name: f.name, sex: f.sex, color: f.color }, 52)}<div><h2 id="pcT" style="margin:0">${esc(f.name.trim())}</h2><p class="muted" style="margin:0;font-size:.85rem">${T(SEXN[f.sex])}${f.sex === "f" ? " · " + (f.cyc ? T("registro de la regla activado") : T("registro de la regla desactivado")) : ""}</p></div></div>
+  if (f.step === "confirm") return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="pcT"><div class="mbox">${mHead("pcT", f.forMain ? T("Tu perfil") : T("Nuevo perfil"), "pf-close", { back: "pf-back" })}
+    <div class="row" style="gap:12px;flex-wrap:nowrap">${profAv({ name: f.name, sex: f.sex, color: f.color }, 52)}<div><b style="font-size:1.15rem">${esc(f.name.trim())}</b><p class="muted" style="margin:0;font-size:.85rem">${T(SEXN[f.sex])}${f.sex === "f" ? " · " + (f.cyc ? T("registro de la regla activado") : T("registro de la regla desactivado")) : ""}</p></div></div>
     <div class="panel" style="margin-top:12px;font-size:.9rem">${T("El sexo no se podrá cambiar después. El nombre y el color, sí.")}</div>
     <div class="row" style="margin-top:14px"><button class="btn" style="flex:1" data-act="pf-back">${T("Revisar")}</button><button class="btn primary" style="flex:1" data-act="pf-ok">${f.forMain ? T("Guardar") : T("Crear perfil")}</button></div>
   </div></div>`;
   const src = PROFS().find(p => p.id === f.src) || curProf(), srcR = f.src === PROF ? state.routines : (rawGet(PK("wk.routines", f.src), []) || []);
   const sel = new Set(f.sel || srcR.map(r => r.id)), box = on => `<i class="cbx${on ? " on" : ""}">${on ? CHECK : ""}</i>`;
   return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="pfT"><div class="mbox dsh">
-    <div class="sb-head"><h2 id="pfT" style="margin:0;flex:1">${f.forMain ? T("Tu perfil") : T("Nuevo perfil")}</h2><button class="btn small" data-act="pf-cancel">${T("Cancelar")}</button></div>
+    ${mHead("pfT", f.forMain ? T("Tu perfil") : T("Nuevo perfil"), "pf-close")}
     ${f.forMain ? `<p class="muted" style="font-size:.85rem;margin:6px 0 0">${T("Antes de añadir otro perfil, completa el tuyo. Tus datos no cambian.")}</p>` : ""}
     <label class="muted" for="pfName" style="font-size:.85rem;display:block;margin-top:12px">${T("Nombre")}</label>
     <input type="text" id="pfName" maxlength="20" value="${esc(f.name)}" placeholder="${T("Ej. Cristina")}">
@@ -116,7 +116,7 @@ function profEditModal() {
   if (!state.pedit) return "";
   const p = curProf(), col = state.pedit.color || p.color;
   return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="peT"><div class="mbox">
-    <h2 id="peT" style="margin:0 0 8px">${T("Editar perfil")}</h2>
+    ${mHead("peT", T("Editar perfil"), "pe-cancel")}
     <label class="muted" for="peName" style="font-size:.85rem">${T("Nombre")}</label><input type="text" id="peName" maxlength="20" value="${esc(p.name || "")}">
     <span class="muted" style="font-size:.85rem;display:block;margin-top:12px">${T("Sexo")}</span>
     <div class="panel row" style="padding:8px 12px;gap:10px;flex-wrap:nowrap">${profAv({ ...p, color: col }, 28)}<span style="flex:1">${T(SEXN[p.sex] || "—")}</span><span class="muted" style="font-size:.78rem">${T("No se puede cambiar")}</span></div>
@@ -136,7 +136,7 @@ function profCopyModal() {
   const c = state.pcopy; if (!c) return "";
   const others = PROFS().filter(p => p.id !== PROF), sel = new Set(c.sel), box = on => `<i class="cbx${on ? " on" : ""}">${on ? CHECK : ""}</i>`;
   return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="pkT"><div class="mbox dsh">
-    <h2 id="pkT" style="margin:0 0 4px">${T("Copiar rutinas a otro perfil")}</h2>
+    ${mHead("pkT", T("Copiar rutinas a otro perfil"), "pk-cancel")}
     <p class="muted" style="font-size:.85rem;margin:0 0 10px">${T("Se añaden a las suyas. No se borra nada ni se copia ningún registro.")}</p>
     <div class="row" style="margin-bottom:10px">${others.map(p => `<button class="btn small pchip2${c.to === p.id ? " on" : ""}" data-pkto="${p.id}">${profAv(p, 20)} ${esc(profName(p))}</button>`).join("")}</div>
     <div class="rsl">${state.routines.map(r => `<button class="rsr" style="padding-left:12px" data-pkr="${r.id}">${box(sel.has(r.id))}<span>${esc(r.name)}</span></button>`).join("")}</div>

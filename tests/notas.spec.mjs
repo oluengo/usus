@@ -14,7 +14,7 @@ test("notas de sesión y de ejercicio en una sesión terminada", async ({ page }
   await page.locator('[data-done="1:0"]').click(); await page.clock.runFor(300);
   await page.locator('[data-act="finish"]:visible').first().click(); await page.clock.runFor(400);
   expect((await ls(page, "wk.sessions")).length).toBe(1);
-  if (await page.locator('[data-act="saved-close"]').count()) await page.locator('[data-act="saved-close"]').click();
+  if (await page.locator('[data-act="saved-close"]').count()) await page.locator('[data-act="saved-close"]').first().click();
   await nav(page, "diary"); await page.clock.runFor(300); await page.locator('[data-dsh="ses"]').click(); await page.clock.runFor(300);
   await page.locator("details.sess summary").first().click(); await page.locator("[data-snote]").click();
   await page.fill("[data-ssnote]", "Hoy con agujetas"); await page.locator('[data-sxnote$=":0"]').fill("Agarre neutro");

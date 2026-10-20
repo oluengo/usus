@@ -186,7 +186,7 @@ function planWeekModal() {
   const seq = w.deload ? [] : ord && w.seq ? w.seq : planSeq(w.variant);
   const doneAt = r => { if (!w.t) return null; const hi = ord ? (w.last || Date.now()) + 1 : addDays(w.t, 7); const s = state.sessions.filter(x => x.routine === r.name && x.start >= w.t && x.start < hi).sort((a, b) => a.start - b.start)[0]; return s ? s.start : null; };
   return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="pwT"><div class="mbox">
-    <div class="sb-head"><h2 id="pwT" style="margin:0;flex:1">${T("Semana {n}", { n: w.n })} · ${weekLabel(w)}</h2><button class="btn small" data-act="pw-close">${T("Cerrar")}</button></div>
+    ${mHead("pwT", `${T("Semana {n}", { n: w.n })} · ${weekLabel(w)}`, "pw-close")}
     <p class="muted" style="margin:4px 0 10px;font-size:.88rem">${w.t ? `${fmt(w.t)}${end ? ` → ${fmt(end)}` : ` → ${cur ? T("en curso") : "…"}`}` : T("Aún no ha empezado")}${cur ? ` · <b style="color:var(--accent)">${T("esta semana")}</b>` : ""}</p>
     ${w.pause ? `<p style="margin:0">${T("Pausa: solo rutinas de todas las semanas.")}</p>` : w.deload ? `<p style="margin:0">${T("Semana de descarga: solo rutinas sin variante (p. ej. Diaria).")}</p>`
       : seq.length ? `<div class="lgroup">${seq.map(r => { const d = doneAt(r); return `<div class="lrow"><span class="t"><b>${esc(r.name)}</b><small>${d ? `✓ ${fmt(d)}` : w.t && !cur && (ord ? false : addDays(w.t, 7) <= Date.now()) ? T("no se hizo") : T("pendiente")}</small></span>${d ? `<span style="color:var(--ok);font-weight:700">✓</span>` : ""}</div>`; }).join("")}</div>`
@@ -199,7 +199,7 @@ function planMenuModal() {
   if (!state.plmenu) return ""; const pn = planNow(); if (pn?.status !== "on") return "";
   const it = (attr, t, d) => `<button class="lrow" ${attr}><span class="t"><b>${t}</b>${d ? `<small>${d}</small>` : ""}</span><span class="chev" aria-hidden="true">›</span></button>`;
   return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="pmT"><div class="mbox">
-    <div class="sb-head"><h2 id="pmT" style="margin:0;flex:1">${esc(planName(PL.get()))}</h2><button class="btn small" data-act="plm-close">${T("Cerrar")}</button></div>
+    ${mHead("pmT", esc(planName(PL.get())), "plm-close")}
     <div class="lgroup" style="margin-top:10px">
       ${it(`data-pweek="${pn.i}"`, T("Ver esta semana"), T("Rutinas hechas y pendientes"))}
       ${it('data-act="plan-open"', T("Ver el plan"), T("Todas las semanas"))}

@@ -868,10 +868,7 @@ body:has(.sbar) .rest{bottom:calc(152px + env(safe-area-inset-bottom,0px))}
 .xrow .chev{margin-left:2px}
 .xititle{margin:0;flex:1;font-size:1.5rem;line-height:1.2;letter-spacing:-.01em}
 /* Plan guiado */
-.mbox.gp{display:flex;flex-direction:column}
-.gptop{display:flex;align-items:center;gap:10px;margin-bottom:8px}
-.gpdots{flex:1;display:flex;gap:4px;justify-content:flex-end}.gpdots i{width:20px;height:4px;border-radius:9px;background:var(--line)}.gpdots i.on{background:var(--accent)}
-.gp h2{font-size:1.4rem;margin:4px 0 6px}
+
 .gpopt{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;background:var(--surface);border:1.5px solid var(--line);border-radius:14px;padding:14px;margin-bottom:10px;color:var(--ink);font:inherit;cursor:pointer}
 .gpopt[aria-pressed=true]{border-color:var(--accent);background:var(--accent-soft)}
 .gpopt b{display:block}.gpopt small{color:var(--muted)}.gpopt .ic{font-size:1.3rem;line-height:1.2;min-width:26px;text-align:center}
@@ -883,14 +880,39 @@ body:has(.sbar) .rest{bottom:calc(152px + env(safe-area-inset-bottom,0px))}
 .gpnum{width:26px;height:26px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-weight:700;font-size:.85rem;flex:none}
 .gpwarn{background:color-mix(in srgb,var(--warn) 12%,var(--surface));border:1px solid color-mix(in srgb,var(--warn) 45%,var(--line));border-radius:12px;padding:10px 12px;font-size:.88rem;margin:10px 0}
 .gpex .mv{width:36px;height:36px;flex:none}
-.gpfoot{position:sticky;bottom:-18px;margin:auto -18px -18px;padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px));background:var(--surface);border-top:1px solid var(--line)}
-.gpfoot .btn{width:100%;padding:14px}
 .xl{background:none;border:0;padding:0;font:inherit;color:inherit;text-align:left;cursor:pointer;text-decoration:underline;text-decoration-color:color-mix(in srgb,var(--accent) 45%,transparent);text-underline-offset:3px}
 .xl:hover{color:var(--accent)}
 .gpex .xl{font-weight:600}
-.mbox.gp>*{flex-shrink:0}
+
 .gpopt[aria-pressed=true] small{color:color-mix(in srgb,var(--ink) 78%,var(--accent))}
 .gpseg button{color:color-mix(in srgb,var(--ink) 80%,var(--line))}
+/* Ventanas: cabecera, pasos y pie estándar */
+.mhead{position:sticky;top:0;z-index:3;display:flex;align-items:center;gap:6px;margin:-18px -18px 12px;padding:10px 10px 10px 18px;background:var(--surface);border-bottom:1px solid var(--line);border-radius:18px 18px 0 0}
+.mhead h2{flex:1;min-width:0;margin:0;font-size:1.12rem;line-height:1.25}
+.mhead .mic:first-child{margin-left:-8px}
+.mic{flex:none;width:40px;height:40px;border-radius:50%;border:0;background:none;color:var(--ink);display:grid;place-items:center;cursor:pointer}
+.mic:hover,.mic:focus-visible{background:var(--bg)}
+.mic svg{width:20px;height:20px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.msub{color:var(--muted);font-size:.88rem;margin:-4px 0 12px}
+.msteps{margin:-4px 0 14px}.msegs{display:flex;gap:4px}.msegs i{flex:1;height:4px;border-radius:9px;background:var(--line)}.msegs i.done{background:color-mix(in srgb,var(--accent) 45%,var(--line))}.msegs i.on{background:var(--accent)}
+.msteps small{display:block;color:var(--muted);font-size:.78rem;margin-top:6px}
+.mfoot{position:sticky;bottom:-18px;z-index:3;display:flex;gap:8px;margin:16px -18px -18px;padding:12px 18px calc(12px + env(safe-area-inset-bottom,0px));background:var(--surface);border-top:1px solid var(--line)}
+.mfoot .btn{flex:1;padding:13px}
+.mfoot .btn.primary{flex:2}
+@media (max-width:999px){
+  .mbox .mhead{margin-top:0;border-radius:0}
+  .mbox:not(.full)::before{margin-bottom:4px}
+  .mbox.full .mhead{margin-top:calc(-4px - env(safe-area-inset-top,0px));padding-top:calc(10px + env(safe-area-inset-top,0px))}
+  .mbox:not(.full) .mfoot{bottom:calc(-18px - env(safe-area-inset-bottom,0px));margin-bottom:calc(-18px - env(safe-area-inset-bottom,0px))}
+}
+.gpq{font-size:1.3rem;margin:2px 0 6px;letter-spacing:-.01em}
+.gp .sub{font-size:.95rem}
+.gp .chips{gap:10px}.gp .chips button{padding:10px 18px;font-size:1rem;min-height:44px}
+.gpopt{padding:16px}.gpopt b{font-size:1.02rem}
+.gp .lgroup .srow{min-height:60px}
+.mbox.full{display:flex;flex-direction:column}.mbox.full>*{flex-shrink:0}
+.mbox.full>.mfoot{margin-top:auto}
+.mbox.full>.mfoot::before{content:"";position:absolute;left:0;right:0;top:-16px;height:16px;pointer-events:none}
 /* Pantalla ancha: barra de secciones lateral */
 @media (min-width:1000px){
   body{padding-left:216px}
@@ -1331,7 +1353,7 @@ function planWeekModal() {
   const seq = w.deload ? [] : ord && w.seq ? w.seq : planSeq(w.variant);
   const doneAt = r => { if (!w.t) return null; const hi = ord ? (w.last || Date.now()) + 1 : addDays(w.t, 7); const s = state.sessions.filter(x => x.routine === r.name && x.start >= w.t && x.start < hi).sort((a, b) => a.start - b.start)[0]; return s ? s.start : null; };
   return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="pwT"><div class="mbox">
-    <div class="sb-head"><h2 id="pwT" style="margin:0;flex:1">${T("Semana {n}", { n: w.n })} · ${weekLabel(w)}</h2><button class="btn small" data-act="pw-close">${T("Cerrar")}</button></div>
+    ${mHead("pwT", `${T("Semana {n}", { n: w.n })} · ${weekLabel(w)}`, "pw-close")}
     <p class="muted" style="margin:4px 0 10px;font-size:.88rem">${w.t ? `${fmt(w.t)}${end ? ` → ${fmt(end)}` : ` → ${cur ? T("en curso") : "…"}`}` : T("Aún no ha empezado")}${cur ? ` · <b style="color:var(--accent)">${T("esta semana")}</b>` : ""}</p>
     ${w.pause ? `<p style="margin:0">${T("Pausa: solo rutinas de todas las semanas.")}</p>` : w.deload ? `<p style="margin:0">${T("Semana de descarga: solo rutinas sin variante (p. ej. Diaria).")}</p>`
       : seq.length ? `<div class="lgroup">${seq.map(r => { const d = doneAt(r); return `<div class="lrow"><span class="t"><b>${esc(r.name)}</b><small>${d ? `✓ ${fmt(d)}` : w.t && !cur && (ord ? false : addDays(w.t, 7) <= Date.now()) ? T("no se hizo") : T("pendiente")}</small></span>${d ? `<span style="color:var(--ok);font-weight:700">✓</span>` : ""}</div>`; }).join("")}</div>`
@@ -1344,7 +1366,7 @@ function planMenuModal() {
   if (!state.plmenu) return ""; const pn = planNow(); if (pn?.status !== "on") return "";
   const it = (attr, t, d) => `<button class="lrow" ${attr}><span class="t"><b>${t}</b>${d ? `<small>${d}</small>` : ""}</span><span class="chev" aria-hidden="true">›</span></button>`;
   return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="pmT"><div class="mbox">
-    <div class="sb-head"><h2 id="pmT" style="margin:0;flex:1">${esc(planName(PL.get()))}</h2><button class="btn small" data-act="plm-close">${T("Cerrar")}</button></div>
+    ${mHead("pmT", esc(planName(PL.get())), "plm-close")}
     <div class="lgroup" style="margin-top:10px">
       ${it(`data-pweek="${pn.i}"`, T("Ver esta semana"), T("Rutinas hechas y pendientes"))}
       ${it('data-act="plan-open"', T("Ver el plan"), T("Todas las semanas"))}
@@ -1566,8 +1588,7 @@ function exInfoModal() {
   const sib = base ? [base, ...(VARS[base] || []).filter(v => v !== x.id)] : (VARS[x.id] || []);
   const more = (CHAIN[x.id] || []).slice(1).map(o => o.c[o.i + 1]).filter(Boolean);
   const link = id => `<button data-xinfo="${id}">${esc(xName(CATBY[id]))}</button>`;
-  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="xiT"><div class="mbox dsh full"><button class="back" data-act="xi-close">‹ ${T("Atrás")}</button>
-    <div class="sb-head"><h2 id="xiT" class="xititle">${esc(xName(x))}</h2><button class="btn small" data-act="xi-close">${T("Cerrar")}</button></div>
+  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="xiT"><div class="mbox dsh full">${mHead("xiT", esc(xName(x)), "xi-close")}
     <p class="muted" style="margin:2px 0 0;font-size:.85rem">${esc(LANG === "en" ? x.name.es : x.name.en)}</p>
     <div class="xmeta" style="margin-top:8px;font-size:.8rem"><span class="otag">${T(pat?.[1] || "")}</span>${LV(x.level)}<span>${x.type === "time" ? T("por tiempo") : T("repeticiones")}</span>${x.sides ? `<span class="otag">${T("por lado")}</span>` : ""}${x.impact ? `<span class="otag">${T("impacto")}</span>` : ""}</div>
     ${main || sib.length ? `<div class="xcard"><h4>${T("Progresión")}</h4>
@@ -1600,7 +1621,7 @@ function xpickModal() {
   const p = state.xpick; if (!p || !CAT) return "";
   const own = p.mode !== "link";
   return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="xpT"><div class="mbox dsh">
-    <div class="sb-head"><h2 id="xpT" style="margin:0;flex:1">${p.mode === "link" ? T("Elegir del catálogo") : p.mode === "swap" ? T("Cambiar ejercicio") : T("Añadir ejercicio")}</h2><button class="btn small" data-act="xp-close">${T("Cerrar")}</button></div>
+    ${mHead("xpT", p.mode === "link" ? T("Elegir del catálogo") : p.mode === "swap" ? T("Cambiar ejercicio") : T("Añadir ejercicio"), "xp-close")}
     ${p.mode === "link" ? `<p class="muted" style="margin:4px 0 0;font-size:.85rem">${T("Para «{x}»", { x: esc(p.name || "") })}</p>` : ""}
     ${p.mode === "swap" && state.active?.exercises[p.ei] ? `<p class="muted" style="margin:4px 0 0;font-size:.85rem">${T("Solo en esta sesión. En lugar de {x}.", { x: `<b style="color:var(--ink)">${esc(exName(state.active.exercises[p.ei].from || state.active.exercises[p.ei]))}</b>` })}</p>` : ""}
     <input type="search" id="xpQ" class="xsearch" placeholder="${T("Buscar en el catálogo")}" value="${esc(p.q || "")}" aria-label="${T("Buscar ejercicio")}">
@@ -1614,7 +1635,7 @@ const xpOwnLabel = () => { const q = (state.xpick?.q || "").trim(); return "+ " 
 function ownMatModal() {
   const o = state.ownMat; if (!o) return "";
   return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="omT"><div class="mbox">
-    <h2 id="omT" style="margin:0 0 4px">${T("Material")}</h2>
+    ${mHead("omT", T("Material"), "om-cancel")}
     <p class="muted" style="margin:0;font-size:.85rem">${esc(state.editing?.exercises[o.i]?.name || "")}</p>
     <div class="matsel">${(state.ownMat ? Object.entries(MAT) : MAT_SEL()).map(([k, [n]]) => `<label><input type="checkbox" data-omat="${k}" ${o.equip.includes(k) ? "checked" : ""}>${matIco(k)}${T(n)}</label>`).join("")}</div>
     <label class="muted" for="omOther" style="font-size:.85rem;display:block;margin-top:12px">${T("Otro material (sin icono)")}</label>
@@ -1628,7 +1649,7 @@ function ownMatModal() {
 function catAskModal() {
   if (!state.catAsk || !LS.get("wk.welcomed", false) || state.newsOpen || state.incoming || run || state.pform) return "";
   return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="caT"><div class="mbox">
-    <h2 id="caT" style="margin:0 0 6px">${T("Catálogo de ejercicios")}</h2>
+    ${mHead("caT", T("Catálogo de ejercicios"), "cat-no")}
     <p class="muted" style="margin:0">${T("Usus incluye un catálogo opcional de {n} ejercicios de calistenia, cada uno con su ficha: para qué sirve, cómo se hace, errores típicos, material y progresión.", { n: CAT?.exercises.length || 162 })}</p>
     <div class="copt">
       <button data-act="cat-yes"><b>${T("Sí, dame toda la info")}</b><small>${T("Para elegir ejercicios al crear rutinas y saber cómo avanzar.")}</small></button>
@@ -1801,7 +1822,7 @@ function progChangeModal() {
   const r = state.routines.find(x => x.id === p.rid), re = r?.exercises[p.i]; if (!re) return "";
   const fx = CATBY[p.xid], tx = CATBY[p.to], up = p.dir === "up", tu = tx.type === "time" ? " s" : "";
   return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="pcT"><div class="mbox">
-    <h2 id="pcT" style="margin:0 0 4px">${up ? T("Subir de paso") : T("Volver al paso anterior")}</h2>
+    ${mHead("pcT", up ? T("Subir de paso") : T("Volver al paso anterior"), "pg-cancel")}
     <p class="muted" style="margin:0;font-size:.85rem">${T("En «{x}». Las demás rutinas no cambian.", { x: esc(r.name) })}</p>
     <div class="pcg"><div class="pcc"><small>${T("Ahora")}</small><b>${esc(xName(fx))}</b>${LV(fx.level)}<span class="muted">${re.sets} × ${re.reps}${isTime(re) ? " s" : ""}${re.sides ? " " + T("por lado") : ""}</span></div>
       <span class="pca">→</span>
@@ -2137,9 +2158,8 @@ function aiModal() {
   const fem = curProf().sex !== "m";
   if (a.step === 2) {
     const kb = (new Blob([a.txt]).size / 1024).toLocaleString(LOC(), { maximumFractionDigits: 1 });
-    return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="aiT"><div class="mbox dsh full"><button class="back" data-act="ai-close">‹ ${T("Atrás")}</button>
-      <div class="sb-head"><h2 id="aiT" style="margin:0;flex:1">${T("Analizar con IA externa")}</h2><button class="btn small" data-act="ai-close">${T("Cerrar")}</button></div>
-      <p class="aistep">${T("1 Datos")} → <b>${T("2 Exportar")}</b></p>
+    return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="aiT"><div class="mbox dsh full">${mHead("aiT", `✦ ${T("Analizar con IA externa")} <span class="aibadge">${T("Externa")}</span>`, "ai-close")}
+      ${mSteps([T("Datos"), T("Exportar")], 1)}
       <p class="muted" style="font-size:.85rem;margin:8px 0 6px">${T("{n} líneas · {k} KB · {w}", { n: a.txt.split("\n").length, k: kb, w: a.weeks ? T("{n} semanas", { n: a.weeks }) : T("Todo") })}</p>
       <pre class="aipre">${esc(a.txt.slice(0, 1800))}…</pre>
       <div class="row" style="margin-top:10px"><button class="btn primary" style="flex:1" data-act="ai-copy">${T("Copiar")}</button><button class="btn" style="flex:1" data-act="ai-file">${T("Exportar .txt")}</button></div>
@@ -2150,12 +2170,11 @@ function aiModal() {
       <details class="aimanual"${state.ai?.manual ? " open" : ""}><summary>${T("O pégala a mano")}</summary>
         <textarea id="aiPaste" rows="3" placeholder="${T("Pega aquí la respuesta de la IA")}"></textarea>
         <button class="btn" style="width:100%;margin-top:8px" data-act="ai-paste">${T("Revisar rutinas propuestas")}</button></details>
-      <button class="btn ghost" style="width:100%;margin-top:4px" data-act="ai-back">‹ ${T("Volver a los datos")}</button>
+      <div class="mfoot"><button class="btn" data-act="ai-back">‹ ${T("Atrás")}</button></div>
     </div></div>`;
   }
-  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="aiT"><div class="mbox dsh full"><button class="back" data-act="ai-close">‹ ${T("Atrás")}</button>
-    <div class="sb-head"><h2 id="aiT" style="margin:0;flex:1">${T("Analizar con IA externa")}</h2><button class="btn small" data-act="ai-close">${T("Cerrar")}</button></div>
-    <p class="aistep"><b>${T("1 Datos")}</b> → ${T("2 Exportar")}</p>
+  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="aiT"><div class="mbox dsh full">${mHead("aiT", `✦ ${T("Analizar con IA externa")} <span class="aibadge">${T("Externa")}</span>`, "ai-close")}
+    ${mSteps([T("Datos"), T("Exportar")], 0)}
     <h3 class="wh">${T("Período")}</h3>
     <div class="chips">${[4, 8, 12, 26, 0].map(w => `<button data-aiw="${w}" class="${a.weeks === w ? "on" : ""}" aria-pressed="${a.weeks === w}">${w ? T("{n} semanas", { n: w }) : T("Todo")}</button>`).join("")}</div>
     <h3 class="wh">${T("Incluir")}</h3>
@@ -2165,7 +2184,7 @@ function aiModal() {
     <div class="aiform">${aiFields(a.f, "ai_")}</div>
     <label class="chk aichk" style="margin-top:10px"><input type="checkbox" id="aiSave" ${a.save ? "checked" : ""}> <span>${T("Guardar para próximas exportaciones")}<small class="muted" style="display:block;font-size:.78rem">${T("En este móvil, en tu perfil. Si no, se usan solo ahora.")}</small></span></label>
     <div class="aiwarn"><b>${T("Vas a compartir datos de salud con un servicio externo")}</b>${T("Lo que pase después depende de la IA que elijas: revisa su política de privacidad. El análisis lo hace una IA, no un profesional sanitario.")}</div>
-    <button class="btn primary" style="width:100%;padding:12px" data-act="ai-gen">${T("Generar texto")}</button>
+    <div class="mfoot"><button class="btn primary" data-act="ai-gen">${T("Generar texto")} ›</button></div>
   </div></div>`;
 }
 function aiCard() {
@@ -2262,9 +2281,9 @@ const AIP_GOALS = [["fuerza", N_("Fuerza")], ["musculo", N_("Ganar músculo")], 
 const AIP_PLACES = [["casa", N_("Casa")], ["parque", N_("Parque / al aire libre")], ["gym", N_("Gimnasio")], ["varios", N_("Varios sitios")]];
 const AIP_ACT = [["", "—"], ["sed", N_("Sedentaria (oficina, coche)")], ["mod", N_("Moderada (de pie, caminar)")], ["act", N_("Activa (trabajo físico)")]];
 const AIP_EN = [["bajo", N_("Cansado o con mucho estrés")], ["normal", N_("Normal")], ["alto", N_("Con energía")]];
-const AIP_H = ["birth", "height", "level", "years", "injuries", "pains", "conditions", "meds"];
-const AIP_P = ["goals", "want", "avoid", "weeks", "style", "days", "mins", "when", "place", "mat", "activity", "other", "energy", "diet", "extra"];
-const aipDef = () => ({ goals: [], want: "", avoid: "", weeks: 8, style: "var", days: [1, 3, 5], mins: 45, when: "", place: "casa", mat: myEquip() || [], activity: "", other: "", energy: "normal", diet: "", extra: "" });
+const AIP_H = ["birth", "height", "level", "years", "injuries", "pains", "conditions", "meds"];   // del perfil para la IA (wk.aiProf); el sexo, del perfil salvo que se cambie aquí
+const AIP_P = ["goals", "want", "avoid", "weeks", "style", "days", "mins", "when", "place", "mat", "activity", "other", "energy", "diet", "extra", "sex"];
+const aipDef = () => ({ goals: [], want: "", avoid: "", weeks: 8, style: "var", days: [1, 3, 5], mins: 45, when: "", place: "casa", mat: myEquip() || [], activity: "", other: "", energy: "normal", diet: "", extra: "", sex: "" });
 const lastKg = () => { const l = W.list(); if (!l.length) return ""; const x = l.reduce((a, b) => (b.t > a.t ? b : a)); return +x.kg ? String(x.kg) : ""; };
 function sleepAvg() {
   const D = DY.all(), from = dayKey(Date.now() - 30 * 864e5), h = Object.keys(D).filter(k => k >= from).map(k => sleepHours(D[k].sleep?.bed, D[k].sleep?.wake)).filter(x => x && x < 16);
@@ -2273,13 +2292,13 @@ function sleepAvg() {
 function aipOpen() {
   const sv = LS.get("wk.aiPlan", null) || {}, hp = aiProf() || {};
   state.aip = { step: 0, keep: true, inc: { hist: state.sessions.length > 0, mine: state.routines.length > 0 },
-    f: { ...aipDef(), ...Object.fromEntries(AIP_P.filter(k => sv[k] !== undefined).map(k => [k, sv[k]])), ...Object.fromEntries(AIP_H.map(k => [k, hp[k] || ""])), weight: lastKg(), sleep: sleepAvg() } };
+    f: { ...aipDef(), ...Object.fromEntries(AIP_P.filter(k => sv[k] !== undefined).map(k => [k, sv[k]])), ...Object.fromEntries(AIP_H.map(k => [k, hp[k] || ""])), sex: sv.sex || curProf().sex || "", weight: lastKg(), sleep: sleepAvg() } };
   render();
 }
 function readAip() {
   const a = state.aip; if (!a) return; const g = id => document.getElementById("aip_" + id);
   ["birth", "height", "weight", "years", "injuries", "pains", "conditions", "meds", "want", "avoid", "mins", "when", "other", "sleep", "diet", "extra"].forEach(k => { const el = g(k); if (el) a.f[k] = el.value.trim(); });
-  ["level", "place", "activity", "energy"].forEach(k => { const el = g(k); if (el) a.f[k] = el.value; });
+  ["sex", "level", "place", "activity", "energy"].forEach(k => { const el = g(k); if (el) a.f[k] = el.value; });
   const k = $("#aipKeep"); if (k) a.keep = k.checked; ["hist", "mine"].forEach(x => { const c = $(`#aipInc_${x}`); if (c) a.inc[x] = c.checked; });
 }
 function aipModal() {
@@ -2293,7 +2312,7 @@ function aipModal() {
   let body = "";
   if (st === 0) body = `<div class="aiwarn"><b>${T("Antes de empezar")}</b>${T("Una IA no es un entrenador ni un profesional sanitario. Si tienes lesiones, dolor, una condición de salud, estás embarazada o hace tiempo que no entrenas, consulta antes con un profesional. Todo es opcional.")}</div>
     <div class="aitwo"><div>${inp("birth", N_("Fecha de nacimiento"), "", "date")}</div><div>${inp("height", N_("Altura (cm)"), "", "number")}</div></div>
-    <div class="aitwo"><div>${inp("weight", N_("Peso (kg)"), "", "text", lastKg() && f.weight === lastKg() ? N_("del registro") : "")}</div><div><label class="muted" for="aip_sex">${T("Sexo")}</label><input type="text" id="aip_sex" value="${curProf().sex === "m" ? T("Hombre") + ` (${T("del perfil")})` : curProf().sex === "f" ? T("Mujer") + ` (${T("del perfil")})` : "—"}" disabled></div></div>
+    <div class="aitwo"><div>${inp("weight", N_("Peso (kg)"), "", "text", lastKg() && f.weight === lastKg() ? N_("del registro") : "")}</div><div>${sel("sex", N_("Sexo"), [["", "—"], ["m", N_("Hombre")], ["f", N_("Mujer")]])}</div></div>
     ${sel("level", N_("Experiencia entrenando"), [["", "—"], ...AI_LEVELS])}
     ${inp("years", N_("Detalle de la experiencia y otros deportes"), N_("Ej. 2 años de calistenia, antes fútbol"))}
     ${ta("injuries", N_("Lesiones o cirugías previas"), N_("Ej. rotura de menisco izquierdo (2019)"))}${ta("pains", N_("Dolores o molestias actuales"), N_("Ej. lumbar al levantarme por la mañana"))}
@@ -2326,11 +2345,10 @@ function aipModal() {
     <details class="aimanual"${a.manual ? " open" : ""}><summary>${T("O pégala a mano")}</summary>
       <textarea id="aipPaste" rows="3" placeholder="${T("Pega aquí la respuesta de la IA")}"></textarea>
       <button class="btn" style="width:100%;margin-top:8px" data-act="aip-paste">${T("Revisar rutinas y plan")}</button></details>`;
-  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="aipT"><div class="mbox dsh aip full"><button class="back" data-act="aip-close">‹ ${T("Atrás")}</button>
-    <div class="sb-head"><h2 id="aipT" style="margin:0;flex:1">✦ ${T("Crear plan con IA")} <span class="aibadge">${T("Externa")}</span></h2><button class="btn small" data-act="aip-close">${T("Cerrar")}</button></div>
-    <div class="aipsteps">${STEPS.map((n, i) => `<button data-aipst="${i}" class="${i === st ? "on" : i < st ? "done" : ""}" ${i === st ? 'aria-current="step"' : ""}>${i + 1} ${T(n)}</button>`).join("")}</div>
+  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="aipT"><div class="mbox dsh aip full">${mHead("aipT", `✦ ${T("Crear plan con IA")} <span class="aibadge">${T("Externa")}</span>`, "aip-close")}
+    ${mSteps(STEPS.map(n => T(n)), st)}
     <div class="aiform">${body}</div>
-    <div class="row" style="margin-top:14px">${st ? `<button class="btn" style="flex:1" data-act="aip-prev">‹ ${T("Atrás")}</button>` : ""}${st < 3 ? `<button class="btn primary" style="flex:1" data-act="aip-next">${T("Siguiente")} ›</button>` : ""}</div>
+    <div class="mfoot">${st ? `<button class="btn" data-act="aip-back">‹ ${T("Atrás")}</button>` : ""}${st < 3 ? `<button class="btn primary" data-act="aip-next">${T("Siguiente")} ›</button>` : ""}</div>
   </div></div>`;
 }
 /* Mejores series por ejercicio en las últimas 8 semanas */
@@ -2374,7 +2392,7 @@ const PX = {
     cat: ["Full list (id, name in es/ca/en, pattern, level 1–5, type, equipment, progressions; and on each card: role = main, accessory, mobility, warmup or cardio; dose = recommended range per set, in reps or seconds; joints = joints it loads most). Use dose for the sets and avoid exercises whose joints match my aches:", "If you can't open the link, use clear, common exercise names and leave out \"xid\": Usus lets me link them to the catalogue later."] }
 };
 function aipBuild(a) {
-  const X = PX[LANG] || PX.es, f = a.f, L = [], sex = curProf().sex, age = ageOf(f.birth), lv = Object.fromEntries(AI_LEVELS);
+  const X = PX[LANG] || PX.es, f = a.f, L = [], sex = f.sex || curProf().sex, age = ageOf(f.birth), lv = Object.fromEntries(AI_LEVELS);
   const c = X.c, cm = (code, k) => `${code}${" ".repeat(Math.max(1, 46 - code.length))}// ${c[k]}`;
   L.push(`# ${X.title}`, "", X.intro, "", `## ${X.rulesH}`, ...X.rules.map((r, i) => `${i + 1}. ${r}`), "", `## ${X.fmtH}`, "```",
     "{", '  "app": "usus",', '  "routines": [{', cm('    "name": "A · …",', "name"), cm('    "block": "empuje",', "block"), cm('    "variant": "A",', "variant"), cm('    "days": [1],', "days"),
@@ -2457,7 +2475,7 @@ function makeZip(files) {
 function csvModal() {
   const c = state.csvx; if (!c) return "";
   return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="cxT"><div class="mbox">
-    <h2 id="cxT" style="margin:0 0 4px">${T("Datos en CSV")}</h2>
+    ${mHead("cxT", T("Datos en CSV"), "cx-close")}
     <p class="muted" style="margin:0;font-size:.88rem">${T("Un archivo .zip con una tabla por tipo de dato (sesiones, rutinas, diario, suplementos, peso, actividades y ciclo) y un archivo que explica cada columna. Para analizarlos a tu manera en una hoja de cálculo.")}</p>
     <h3 class="wh">${T("Período")}</h3>
     <div class="chips">${[0, 4, 8, 12, 26].map(w => `<button data-cxw="${w}" class="${c.weeks === w ? "on" : ""}" aria-pressed="${c.weeks === w}">${w ? T("{n} semanas", { n: w }) : T("Todo")}</button>`).join("")}</div>
@@ -2530,7 +2548,7 @@ function swapModal() {
   const w = state.swap; if (!w || !state.active) return "";
   const e = state.active.exercises[w.ei]; if (!e) return "";
   return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="swT"><div class="mbox">
-    <h2 id="swT" style="margin:0 0 4px">${T("Cambiar ejercicio")}</h2>
+    ${mHead("swT", T("Cambiar ejercicio"), "sw-cancel")}
     <p class="muted" style="margin:0;font-size:.85rem">${T("Solo en esta sesión. En lugar de {x}.", { x: `<b style="color:var(--ink)">${esc(exName(e.from || e))}</b>` })}</p>
     <input type="text" id="swName" list="swNames" style="width:100%;margin-top:12px" placeholder="${T("Nombre del ejercicio")}">
     <datalist id="swNames">${allExerciseNames().map(n => `<option value="${esc(n)}">`).join("")}</datalist>
@@ -2608,6 +2626,13 @@ function render() {
   if (state.print) fitPrint();
 }
 
+/* Cabecera estándar de las ventanas: [‹ atrás (pasos)] título [✕ cerrar]. Fija arriba al desplazar. */
+const XI = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>', LI = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>';
+function mHead(id, title, close, o = {}) {
+  return `<div class="mhead">${o.back ? `<button class="mic" data-act="${o.back}" aria-label="${T("Atrás")}">${LI}</button>` : ""}<h2 id="${id}">${title}</h2>${close ? `<button class="mic" data-act="${close}" aria-label="${T("Cerrar")}">${XI}</button>` : ""}</div>${o.sub ? `<p class="msub">${o.sub}</p>` : ""}`;
+}
+/* Pasos de un proceso: barra por segmentos y «Paso n de m · nombre» */
+const mSteps = (names, cur) => `<div class="msteps" aria-label="${T("Paso {n} de {m}", { n: cur + 1, m: names.length })}"><div class="msegs">${names.map((_, i) => `<i class="${i < cur ? "done" : i === cur ? "on" : ""}"></i>`).join("")}</div><small>${T("Paso {n} de {m}", { n: cur + 1, m: names.length })} · ${names[cur]}</small></div>`;
 /* ---------- Vista: Entrenar ---------- */
 /* ---------- Peso semanal ---------- */
 const W = {
@@ -2745,7 +2770,7 @@ function exCard(e, ei) {
 /* Lista de ejercicios, añadir ejercicio y terminar (hoja «Sesión») */
 function sessionPanel(a, sheet) {
   const cur = curEx(a);
-  return `${sheet ? `<div class="row"><h2 style="margin:0;flex:1">${T("Sesión")}</h2><button class="btn small" data-act="sheet-close">${T("Cerrar")}</button></div>` : ""}
+  return `${sheet ? mHead("seT", T("Sesión"), "sheet-close") : ""}
     <div class="list" style="margin-top:12px">${a.exercises.map((e, ei, all) => { const d = e.sets.filter(x => x.done).length, ks = a.groups ? exKeys(all) : null;
       return `<button class="btn exrow${ei === cur ? " now" : ""}${grpOf(e) ? " ing" : ""}" data-goex="${ei}"><span style="flex:1;text-align:left;min-width:0">${ks ? `<b class="ekey">${ks[ei]}</b> ` : ""}${esc(exLabel(e))}</span><span class="muted">${d}/${e.sets.length}${d && d === e.sets.length ? " ✓" : ""}</span></button>`; }).join("")}</div>
     <div class="row" style="margin-top:14px">
@@ -3500,7 +3525,7 @@ function cycSettings() {
 function cycAckModal() {
   if (!state.cycAsk) return "";
   return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="cyT"><div class="mbox">
-    <h2 id="cyT" style="margin:0 0 8px">${T("Seguimiento del ciclo")}</h2>
+    ${mHead("cyT", T("Seguimiento del ciclo"), "cyc-ack-no")}
     <p class="muted" style="margin:0">${cycDisclaimer(false)}</p>
     <div class="pcyc" style="margin-top:10px">${CYC_INFO()}</div>
     <p class="muted" style="margin:10px 0 0">${T("Los datos del ciclo se guardan solo en este dispositivo y van en la copia de seguridad completa.")}</p>
@@ -3713,7 +3738,7 @@ function viewDiary() {
     </div>`
   };
   const sh = state.dsheet && SHB[state.dsheet] ? `<div class="modal" role="dialog" aria-modal="true" aria-label="${T(SHN[state.dsheet])}"><div class="mbox dsh">
-      <div class="sb-head"><h2 style="margin:0;flex:1">${T(SHN[state.dsheet])}</h2><button class="btn small" data-act="dsheet-close">${T("Hecho")}</button></div>
+      ${mHead("dshT", T(SHN[state.dsheet]), "dsheet-close")}
       ${SHB[state.dsheet]}
       <button class="dlink" data-dgo="${state.dsheet}">${T("Ver en Progreso")} →</button></div></div>` : "";
   return `
@@ -4040,7 +4065,7 @@ function dayNoteModal() {
   const fmt = k => new Date(keyTime(k)).toLocaleDateString(LOC(), { weekday: "long", day: "numeric", month: "long" });
   const one = days.length === 1;
   return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="dnT"><div class="mbox dsh">
-    <h2 id="dnT" style="margin:0 0 6px">${one ? fmt(days[0].k) : T("Notas de la semana")}</h2>
+    ${mHead("dnT", one ? fmt(days[0].k) : T("Notas de la semana"), "dnote-close")}
     ${days.length ? days.map(o => `<div class="dnd">${one ? "" : `<b>${fmt(o.k)}</b>`}<div>${tagChips(o.tags)}</div>
       ${o.day ? `<div class="dnsrc">${T("Diario")}</div><div>${esc(o.day)}</div>` : ""}
       ${o.ses.length ? `<div class="dnsrc">${T("Sesión")}</div>${o.ses.map(x => `<div>${esc(x.n)} · ${x.min} min${x.pem ? ` · ${T("PEM")} ${x.pem}` : ""}${x.note ? `<div>✎ ${esc(x.note)}</div>` : ""}</div>`).join("")}` : ""}
@@ -4397,7 +4422,8 @@ const CHANGES = [  // Novedades: solo en castellano; las traducciones, en i18n/*
     N_("Crear plan con IA (Biblioteca → Plan y Progreso → Resumen): en 4 pasos (sobre ti, qué buscas, tu semana y para la IA) Usus prepara unas indicaciones con tus datos, cómo debe responder la IA y el enlace al catálogo, con el rango recomendado y las articulaciones de cada ejercicio. Las copias o exportas, las pegas en tu IA y su respuesta vuelve a Usus para revisarla antes de importar."),
     N_("Avisos claros: una IA no es un entrenador ni un profesional sanitario, y vas a compartir datos de salud con un servicio externo. Usus no envía nada. «Recordar mis respuestas» deja el formulario rellenado para la próxima vez."),
     N_("Al añadir un plan recibido o de la IA, si sus letras de variante ya las usan tus rutinas, se cambian por otras libres para no mezclar planes."),
-    N_("Respuesta de la IA en un toque: copia su respuesta (o solo su bloque de código) y toca «Pegar respuesta de la IA». Si la guardas como archivo, Importar datos también la lleva a la revisión.")
+    N_("Respuesta de la IA en un toque: copia su respuesta (o solo su bloque de código) y toca «Pegar respuesta de la IA». Si la guardas como archivo, Importar datos también la lleva a la revisión."),
+    N_("Ventanas con un mismo diseño: título arriba con ✕ para cerrar siempre en el mismo sitio, pasos con barra de progreso y Atrás/Siguiente abajo. Al cerrar un proceso a medias, Usus avisa de si se pierde o se guarda lo hecho. En Crear plan con IA ya se puede elegir el sexo.")
   ]],
   ["3.2.0", [
     N_("Plan guiado: unas preguntas (objetivo, días, minutos, material, molestias y nivel, con un test rápido o elegido) y Usus propone rutinas del catálogo a tu nivel, con calentamiento, principal, accesorios y vuelta a la calma. Revisas la propuesta, subes o bajas cada ejercicio en su escalera y se crean las rutinas (variantes A y B) y un plan en orden."),
@@ -4509,8 +4535,7 @@ function newsModal() {
   if (!state.newsOpen || !LS.get("wk.welcomed", false) || run || state.incoming) return "";
   const all = state.newsOpen === "all", list = all ? CHANGES : CHANGES.slice(0, 1);
   return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="nwT"><div class="mbox">
-    <p class="muted" style="margin:0;font-size:.85rem">${all ? T("Historial de cambios") : T("Novedades · versión {v}", { v: APP_VERSION })}</p>
-    <h2 id="nwT" style="margin:4px 0 8px">${T("Qué hay de nuevo")}</h2>
+    ${mHead("nwT", T("Qué hay de nuevo"), "news-close", { sub: all ? T("Historial de cambios") : T("Novedades · versión {v}", { v: APP_VERSION }) })}
     ${list.map(([v, c]) => `${all ? `<h3 class="wh">${T("Versión {v}", { v })}</h3>` : ""}<ul class="nwl">${chItems(c).map(x => `<li>${esc(x)}</li>`).join("")}</ul>`).join("")}
     <div class="row" style="margin-top:14px">${all ? "" : `<button class="btn" style="flex:1" data-act="news-all">${T("Ver historial")}</button>`}<button class="btn primary" style="flex:1" data-act="news-close">${T("Entendido")}</button></div>
   </div></div>`;
@@ -4570,7 +4595,7 @@ const NOTICE = () => `<ul class="muted" style="padding-left:18px;margin:8px 0 0;
     </ul>`;
 function noticeModal() {
   if (!state.notice) return "";
-  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="ntT"><div class="mbox"><h2 id="ntT" style="margin:0 0 4px">${T("Aviso")}</h2>${NOTICE()}
+  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="ntT"><div class="mbox">${mHead("ntT", T("Aviso"), "notice-close")}${NOTICE()}
     <button class="btn primary" style="width:100%;margin-top:16px" data-act="notice-close">${T("Entendido")}</button></div></div>`;
 }
 function wizDone() { LS.set("wk.welcomed", true); LS.set("wk.seenVersion", APP_VERSION); state.wiz = 0; state.catAsk = false; }
@@ -4683,10 +4708,9 @@ async function sessShareGo(how) {
 }
 function savedModal() {
   const s = state.savedSess && state.sessions.find(x => x.id === state.savedSess); if (!s || state.shareSess) return "";
-  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="svT"><div class="mbox" style="text-align:center">
+  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="svT"><div class="mbox">${mHead("svT", T("Sesión guardada"), "saved-close")}<div style="text-align:center">
     <div class="svok">${CHECK}</div>
-    <h2 id="svT" style="margin:0">${T("Sesión guardada")}</h2>
-    <p class="muted" style="margin:2px 0 0">${esc(s.routine || T("Sesión libre"))}</p>
+    <p class="muted" style="margin:2px 0 0">${esc(s.routine || T("Sesión libre"))}</p></div>
     <div class="svst"><div><b>${fmtDur(s.end - s.start)}</b><small>${T("duración")}</small></div><div><b>${s.exercises.length}</b><small>${T("ejercicios")}</small></div><div><b>${doneSets(s)}</b><small>${T("series")}</small></div></div>
     ${pemBlock(s)}${swapAskBlock(s)}${progCards()}
     <div class="row"><button class="btn" style="flex:1" data-act="saved-close">${T("Hecho")}</button><button class="btn primary shbtn" style="flex:1" data-shsess="${s.id}">${SHARE_ICO}${T("Compartir")}</button></div>
@@ -4695,8 +4719,7 @@ function savedModal() {
 function shareSessModal() {
   const s = state.shareSess && state.sessions.find(x => x.id === state.shareSess); if (!s) return "";
   const o = SHOPT(), ck = (id, k, l) => `<label class="shopt"><span>${l}</span><input type="checkbox" role="switch" id="${id}" ${o[k] ? "checked" : ""}></label>`;
-  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="shT"><div class="mbox dsh full"><button class="back" data-act="shsess-close">‹ ${T("Atrás")}</button>
-    <div class="sb-head"><h2 id="shT" style="margin:0;flex:1">${T("Compartir entreno")}</h2><button class="btn small" data-act="shsess-close">${T("Cerrar")}</button></div>
+  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="shT"><div class="mbox dsh full">${mHead("shT", T("Compartir entreno"), "shsess-close")}
     <div class="seg" style="margin:10px 0 12px" role="group" aria-label="${T("Formato")}"><button data-shimg="1" class="${o.img ? "on" : ""}" aria-pressed="${o.img}" style="text-align:center">${T("Imagen")}</button><button data-shimg="0" class="${o.img ? "" : "on"}" aria-pressed="${!o.img}" style="text-align:center">${T("Texto")}</button></div>
     ${o.img ? `<img id="shPrev" class="shprev" alt="${T("Vista previa")}">` : `<pre class="shtxt">${esc(sessText(s))}</pre>`}
     ${ck("shoEx", "ex", T("Ejercicios y series"))}${ck("shoDur", "dur", T("Duración y totales"))}${ck("shoPr", "pr", T("Récords"))}
@@ -4731,8 +4754,7 @@ function shareRoutModal() {
   const sh = state.rshare; if (!sh) return "";
   const sel = new Set(sh.sel), p = PL.get(), box = on => `<i class="cbx${on ? " on" : ""}">${on ? CHECK : ""}</i>`;
   const miss = sh.plan && p ? planVariants(p).filter(v => !state.routines.some(r => sel.has(r.id) && normVar(r.variant) === v)) : [];
-  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="rsT"><div class="mbox dsh full"><button class="back" data-act="rs-close">‹ ${T("Atrás")}</button>
-    <div class="sb-head"><h2 id="rsT" style="margin:0;flex:1">${T("Compartir rutinas")}</h2><button class="btn small" data-act="rs-close">${T("Cerrar")}</button></div>
+  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="rsT"><div class="mbox dsh full">${mHead("rsT", T("Compartir rutinas"), "rs-close")}
     <p class="muted" style="font-size:.85rem;margin:6px 0 10px">${T("{n} de {m} seleccionadas · sin tus sesiones ni registros.", { n: sel.size, m: state.routines.length })}</p>
     <div class="rsl">${rGroups().map(([v, rs]) => { const k = rs.filter(r => sel.has(r.id)).length;
       return `<button class="rsg" data-rsg="${esc(v)}" aria-pressed="${k === rs.length}">${box(k === rs.length)}<b>${esc(gName(v))}</b><small>${k}/${rs.length}</small></button>`
@@ -4778,8 +4800,7 @@ function incomingModal() {
   const inc = state.incoming; if (!inc || !LS.get("wk.welcomed", false) || run) return "";
   const mt = incMatch(inc), sel = new Set(inc.sel), box = on => `<i class="cbx${on ? " on" : ""}">${on ? CHECK : ""}</i>`, p = inc.plan;
   const phs = p ? p.phases.map(x => `${x.variant} ${T("{n} sem.", { n: x.weeks })}`).join(" → ") + (p.deload.weeks ? " · " + T("descarga {w} sem. cada {e}", { w: p.deload.weeks, e: p.deload.every }) : "") : "";
-  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="inT"><div class="mbox dsh full"><button class="back" data-act="in-no">‹ ${T("Atrás")}</button>
-    <h2 id="inT" style="margin:0 0 4px">${inc.ai ? `✦ ${T("Propuesta de la IA")}` : inc.routines.length === 1 ? T("Te han compartido una rutina") : inc.routines.length ? T("Te han compartido {n} rutinas", { n: inc.routines.length }) : T("Te han compartido un plan")}</h2>
+  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="inT"><div class="mbox dsh full">${mHead("inT", inc.ai ? `✦ ${T("Propuesta de la IA")}` : inc.routines.length === 1 ? T("Te han compartido una rutina") : inc.routines.length ? T("Te han compartido {n} rutinas", { n: inc.routines.length }) : T("Te han compartido un plan"), "in-close")}
     <p class="muted" style="font-size:.85rem;margin:0 0 10px">${T("Revisa y elige qué añadir. No se borra nada de lo que ya tienes.")}</p>
     ${inc.routines.length && mt.every(m => m?.same) ? `<p class="dupw" role="alert" style="font-size:.9rem;margin:0 0 10px">⚠ ${inc.routines.length === 1 ? T("Ya tienes esta rutina, igual.") : T("Ya tienes todas estas rutinas, iguales.")}</p>` : ""}
     ${inc.routines.length ? `<div class="rsl">${inc.routines.map((r, i) => { const mm = mt[i], m = mm?.r, upd = m && inc.mode[i] !== "new";
@@ -4882,7 +4903,7 @@ function switchProfile(id) {
 function profPickModal() {
   if (!state.ppick) return "";
   return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="ppT"><div class="mbox">
-    <div class="sb-head"><h2 id="ppT" style="margin:0;flex:1">${T("Perfiles")}</h2><button class="btn small" data-act="prof-pick-close">${T("Cerrar")}</button></div>
+    ${mHead("ppT", T("Perfiles"), "prof-pick-close")}
     <p class="muted" style="font-size:.85rem;margin:4px 0 10px">${T("Cada perfil tiene sus propios datos y ajustes.")}</p>
     ${state.active ? `<div class="panel" style="border-color:var(--danger);margin-bottom:10px;font-size:.9rem">${T("Hay una sesión en curso. Termínala o descártala para cambiar de perfil.")}</div>` : ""}
     <div class="plist">${PROFS().map(p => `<button class="pitem${p.id === PROF ? " on" : ""}" data-pswitch="${p.id}">${profAv(p, 40)}<span style="flex:1;min-width:0"><b>${esc(profName(p))}</b><small>${T("{n} sesiones", { n: profSessions(p.id) })}</small></span>${p.id === PROF ? `<span class="ptick">${CHECK}</span>` : ""}</button>`).join("")}</div>
@@ -4908,15 +4929,15 @@ const CYC_INFO = () => `<ul class="pcycl">
   <p class="muted" style="font-size:.78rem;margin:6px 0 0">${T("Es una estimación aproximada: no sirve como anticonceptivo ni como diagnóstico.")}</p>`;
 function profFormModal() {
   const f = state.pform; if (!f) return "";
-  if (f.step === "confirm") return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="pcT"><div class="mbox">
-    <div class="row" style="gap:12px;flex-wrap:nowrap">${profAv({ name: f.name, sex: f.sex, color: f.color }, 52)}<div><h2 id="pcT" style="margin:0">${esc(f.name.trim())}</h2><p class="muted" style="margin:0;font-size:.85rem">${T(SEXN[f.sex])}${f.sex === "f" ? " · " + (f.cyc ? T("registro de la regla activado") : T("registro de la regla desactivado")) : ""}</p></div></div>
+  if (f.step === "confirm") return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="pcT"><div class="mbox">${mHead("pcT", f.forMain ? T("Tu perfil") : T("Nuevo perfil"), "pf-close", { back: "pf-back" })}
+    <div class="row" style="gap:12px;flex-wrap:nowrap">${profAv({ name: f.name, sex: f.sex, color: f.color }, 52)}<div><b style="font-size:1.15rem">${esc(f.name.trim())}</b><p class="muted" style="margin:0;font-size:.85rem">${T(SEXN[f.sex])}${f.sex === "f" ? " · " + (f.cyc ? T("registro de la regla activado") : T("registro de la regla desactivado")) : ""}</p></div></div>
     <div class="panel" style="margin-top:12px;font-size:.9rem">${T("El sexo no se podrá cambiar después. El nombre y el color, sí.")}</div>
     <div class="row" style="margin-top:14px"><button class="btn" style="flex:1" data-act="pf-back">${T("Revisar")}</button><button class="btn primary" style="flex:1" data-act="pf-ok">${f.forMain ? T("Guardar") : T("Crear perfil")}</button></div>
   </div></div>`;
   const src = PROFS().find(p => p.id === f.src) || curProf(), srcR = f.src === PROF ? state.routines : (rawGet(PK("wk.routines", f.src), []) || []);
   const sel = new Set(f.sel || srcR.map(r => r.id)), box = on => `<i class="cbx${on ? " on" : ""}">${on ? CHECK : ""}</i>`;
   return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="pfT"><div class="mbox dsh">
-    <div class="sb-head"><h2 id="pfT" style="margin:0;flex:1">${f.forMain ? T("Tu perfil") : T("Nuevo perfil")}</h2><button class="btn small" data-act="pf-cancel">${T("Cancelar")}</button></div>
+    ${mHead("pfT", f.forMain ? T("Tu perfil") : T("Nuevo perfil"), "pf-close")}
     ${f.forMain ? `<p class="muted" style="font-size:.85rem;margin:6px 0 0">${T("Antes de añadir otro perfil, completa el tuyo. Tus datos no cambian.")}</p>` : ""}
     <label class="muted" for="pfName" style="font-size:.85rem;display:block;margin-top:12px">${T("Nombre")}</label>
     <input type="text" id="pfName" maxlength="20" value="${esc(f.name)}" placeholder="${T("Ej. Cristina")}">
@@ -4964,7 +4985,7 @@ function profEditModal() {
   if (!state.pedit) return "";
   const p = curProf(), col = state.pedit.color || p.color;
   return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="peT"><div class="mbox">
-    <h2 id="peT" style="margin:0 0 8px">${T("Editar perfil")}</h2>
+    ${mHead("peT", T("Editar perfil"), "pe-cancel")}
     <label class="muted" for="peName" style="font-size:.85rem">${T("Nombre")}</label><input type="text" id="peName" maxlength="20" value="${esc(p.name || "")}">
     <span class="muted" style="font-size:.85rem;display:block;margin-top:12px">${T("Sexo")}</span>
     <div class="panel row" style="padding:8px 12px;gap:10px;flex-wrap:nowrap">${profAv({ ...p, color: col }, 28)}<span style="flex:1">${T(SEXN[p.sex] || "—")}</span><span class="muted" style="font-size:.78rem">${T("No se puede cambiar")}</span></div>
@@ -4984,7 +5005,7 @@ function profCopyModal() {
   const c = state.pcopy; if (!c) return "";
   const others = PROFS().filter(p => p.id !== PROF), sel = new Set(c.sel), box = on => `<i class="cbx${on ? " on" : ""}">${on ? CHECK : ""}</i>`;
   return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="pkT"><div class="mbox dsh">
-    <h2 id="pkT" style="margin:0 0 4px">${T("Copiar rutinas a otro perfil")}</h2>
+    ${mHead("pkT", T("Copiar rutinas a otro perfil"), "pk-cancel")}
     <p class="muted" style="font-size:.85rem;margin:0 0 10px">${T("Se añaden a las suyas. No se borra nada ni se copia ningún registro.")}</p>
     <div class="row" style="margin-bottom:10px">${others.map(p => `<button class="btn small pchip2${c.to === p.id ? " on" : ""}" data-pkto="${p.id}">${profAv(p, 20)} ${esc(profName(p))}</button>`).join("")}</div>
     <div class="rsl">${state.routines.map(r => `<button class="rsr" style="padding-left:12px" data-pkr="${r.id}">${box(sel.has(r.id))}<span>${esc(r.name)}</span></button>`).join("")}</div>
@@ -5049,7 +5070,7 @@ function issueModal() {
   const k = state.issue; if (!k) return "";
   const bug = k === "bug";
   return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="isT"><div class="mbox">
-    <h2 id="isT" style="margin:0 0 4px">${bug ? T("Informar de un problema") : T("Proponer una mejora")}</h2>
+    ${mHead("isT", bug ? T("Informar de un problema") : T("Proponer una mejora"), "issue-close")}
     <p class="muted" style="font-size:.85rem;margin:0 0 10px">${T("Se abrirá GitHub con el formulario preparado.")}</p>
     <ul class="ainfo"><li>${T("Necesitas una cuenta de GitHub (gratis).")}</li><li>${T("No se envía nada hasta que tú lo revises y lo publiques en GitHub.")}</li><li>${T("Nunca incluye tus rutinas, sesiones ni registros.")}</li></ul>
     ${bug ? `<label class="shopt"><span>${T("Incluir datos técnicos")}</span><input type="checkbox" role="switch" id="isTech" ${state.issueTech !== false ? "checked" : ""}></label>${state.issueTech !== false ? `<pre class="shtxt" style="margin-top:8px">${esc(techInfo())}</pre>` : ""}` : ""}
@@ -5301,12 +5322,12 @@ function gpModal() {
   const opt = (attr, val, cur, ic, t, d) => `<button class="gpopt" data-${attr}="${val}" aria-pressed="${cur === val}"><span class="ic" aria-hidden="true">${ic}</span><span><b>${t}</b><small>${d}</small></span></button>`;
   let h = "", f = "", nextOk = true;
   if (st === "intro") {
-    h = `<h2>${T("Plan guiado")}</h2><p class="sub">${T("Unas preguntas y Usus te propone rutinas y un plan con ejercicios del catálogo, a tu nivel y con tu material. Lo revisas y cambias lo que quieras antes de guardarlo.")}</p>
+    h = `<h3 class="gpq">${T("Plan guiado")}</h3><p class="sub">${T("Unas preguntas y Usus te propone rutinas y un plan con ejercicios del catálogo, a tu nivel y con tu material. Lo revisas y cambias lo que quieras antes de guardarlo.")}</p>
       <div class="lgroup">${[T("Objetivo, días y tiempo"), T("Tu material y molestias"), T("Tu nivel: test rápido o elegido"), T("Revisas y creas el plan")].map((t, i) => `<div class="srow"><span class="gpnum">${i + 1}</span><span class="t">${t}</span></div>`).join("")}</div>
       <p class="note">${T("Es una propuesta general: no sustituye a un entrenador ni a un profesional sanitario.")}</p>`;
   }
   if (st === "goal") {
-    h = `<h2>${T("¿Qué buscas?")}</h2><p class="sub">${T("Cambia el peso de cada parte de la sesión.")}</p>
+    h = `<h3 class="gpq">${T("¿Qué buscas?")}</h3><p class="sub">${T("Cambia el peso de cada parte de la sesión.")}</p>
       ${opt("gpgoal", "fuerza", g.goal, "💪", T("Ganar fuerza"), T("Ejercicios principales con progresión. Lo básico de la calistenia."))}
       ${opt("gpgoal", "forma", g.goal, "🏃", T("Ponerme en forma"), T("Fuerza y un bloque corto de cardio al final."))}
       ${opt("gpgoal", "habil", g.goal, "🤸", T("Aprender habilidades"), T("Fuerza y un ejercicio de habilidad al principio (pino, L-sit, equilibrios…)."))}`;
@@ -5314,23 +5335,23 @@ function gpModal() {
   }
   if (st === "days") {
     const sp = { full: T("Full body: todo el cuerpo en cada sesión."), ul: T("Torso y pierna, alternando."), ppl: T("Empuje, tirón y pierna.") }[gpSplit(g.days)];
-    h = `<h2>${T("¿Cuánto puedes entrenar?")}</h2><p class="sub">${T("Puedes entrenar cualquier día: el plan va en orden.")}</p>
+    h = `<h3 class="gpq">${T("¿Cuánto puedes entrenar?")}</h3><p class="sub">${T("Puedes entrenar cualquier día: el plan va en orden.")}</p>
       <p class="addh">${T("Sesiones por semana")}</p><div class="chips">${[2, 3, 4, 5, 6].map(d => `<button data-gpdays="${d}" ${on(g.days, d)}>${d}</button>`).join("")}</div><p class="note">${sp}</p>
       <p class="addh">${T("Minutos por sesión")}</p><div class="chips">${[20, 30, 45, 60].map(d => `<button data-gpmin="${d}" ${on(g.min, d)}>${d} min</button>`).join("")}</div>`;
   }
   if (st === "mat") {
-    h = `<h2>${T("¿Qué material tienes?")}</h2><p class="sub">${T("Solo se proponen ejercicios que puedas hacer. Pared siempre hay.")}</p>
+    h = `<h3 class="gpq">${T("¿Qué material tienes?")}</h3><p class="sub">${T("Solo se proponen ejercicios que puedas hacer. Pared siempre hay.")}</p>
       <div class="chips">${MAT_SEL().map(([k, [n]]) => `<button data-gpmat="${k}" ${on(g.mat.includes(k), true)}>${T(n)}</button>`).join("")}</div>
       ${!g.mat.includes("barra") && !g.mat.includes("anillas") ? `<div class="gpwarn">${T("Sin barra ni anillas, la espalda solo se puede trabajar con banda o ejercicios en el suelo. Una barra de puerta o unas anillas cambian mucho el plan.")}</div>` : ""}`;
   }
   if (st === "pain") {
-    h = `<h2>${T("¿Alguna molestia?")}</h2><p class="sub">${T("Se evitan los ejercicios que más cargan esa zona.")}</p>
+    h = `<h3 class="gpq">${T("¿Alguna molestia?")}</h3><p class="sub">${T("Se evitan los ejercicios que más cargan esa zona.")}</p>
       <div class="chips">${GP_JOINTS.map(([k, n]) => `<button data-gppain="${k}" ${on(g.pain.includes(k), true)}>${T(n)}</button>`).join("")}</div>
       <p class="note">${T("Si es una lesión o un dolor que no se va, consulta antes con un profesional.")}</p>`;
   }
   if (st === "level") {
     const row = (k, n, d) => `<label class="srow"><span class="t">${n}<small>${d}</small></span><span class="gplv">${g.test[k] !== "" && +g.test[k] >= 0 ? LV(GP_TEST[k](g.test[k])) : ""}</span><input type="number" inputmode="numeric" min="0" data-gptest="${k}" value="${esc(g.test[k])}" placeholder="—" aria-label="${n}"></label>`;
-    h = `<h2>${T("Tu nivel")}</h2><p class="sub">${T("Coloca cada ejercicio en su escalera. Luego lo puedes subir o bajar.")}</p>
+    h = `<h3 class="gpq">${T("Tu nivel")}</h3><p class="sub">${T("Coloca cada ejercicio en su escalera. Luego lo puedes subir o bajar.")}</p>
       <div class="gpseg" role="tablist"><button role="tab" data-gplvm="test" aria-selected="${g.lvMode === "test"}">${T("Test rápido")}</button><button role="tab" data-gplvm="self" aria-selected="${g.lvMode === "self"}">${T("Elegirlo yo")}</button></div>
       ${g.lvMode === "test" ? `<div class="lgroup">${row("push", T("Flexiones"), T("Máximo seguidas, bien hechas"))}${row("pull", T("Dominadas"), T("Máximo seguidas (0 si no puedes)"))}${row("squat", T("Sentadillas"), T("Máximo seguidas"))}${row("plank", T("Plancha"), T("Segundos aguantando"))}</div><p class="note">${T("Si no puedes hacer alguno (no tienes barra, por ejemplo), pon 0.")}</p>`
         : opt("gpself", 1, g.self, LV(1), T("Empiezo de cero"), T("No hago ejercicio o hace mucho que lo dejé.")) + opt("gpself", 2, g.self, LV(3), T("Tengo algo de base"), T("Hago flexiones y sentadillas; dominadas todavía no o muy pocas.")) + opt("gpself", 3, g.self, LV(4), T("Entreno con regularidad"), T("Hago dominadas y fondos sin problema."))}`;
@@ -5338,20 +5359,20 @@ function gpModal() {
   }
   if (st === "review") {
     const P = g.plan, r = P.routines[g.tab] || P.routines[0];
-    h = `<h2>${T("Tu propuesta")}</h2><p class="sub">${T("Una rutina por sesión de la semana, en orden. Se crea también una variante B con ejercicios parecidos para alternar cada 2 semanas.")}</p>
+    h = `<h3 class="gpq">${T("Tu propuesta")}</h3><p class="sub">${T("Una rutina por sesión de la semana, en orden. Se crea también una variante B con ejercicios parecidos para alternar cada 2 semanas.")}</p>
       ${P.warns.map(w => `<div class="gpwarn">${esc(w)}</div>`).join("")}
       <div class="chips" style="margin:12px 0">${P.routines.map((x, i) => `<button data-gptab="${i}" ${on(g.tab, i)}>${esc(T(x.name))}</button>`).join("")}</div>
       <p class="note" style="margin-top:0">≈ ${gpMins(P, r)} min · ${TN(GP_SECS.reduce((a, [sk]) => a + r.sec[sk].length, 0), "{n} ejercicio", "{n} ejercicios")}</p>
       ${GP_SECS.filter(([sk]) => r.sec[sk].length).map(([sk, n]) => `<p class="addh">${T(n)}</p><div class="lgroup">${r.sec[sk].map((it, i) => { const x = CATBY[it.id], nb = sk === "m" ? gpNeighbors(g, it.id) : null, d = gpReps(P, sk, x);
         return `<div class="srow gpex"><span class="t"><button class="xl" data-xinfo="${x.id}">${it.soft ? "⚠ " : ""}${esc(xName(x))}</button><small>${LV(x.level)} ${it.sets} × ${d}${x.type === "time" ? " s" : ""}${x.sides ? " · " + T("por lado") : ""}</small></span>${nb ? `<button class="mv" data-gpmv="${sk}:${i}:prev" aria-label="${T("Más fácil")}" ${nb.prev ? "" : "disabled"}>‹</button><button class="mv" data-gpmv="${sk}:${i}:next" aria-label="${T("Más difícil")}" ${nb.next ? "" : "disabled"}>›</button>` : ""}</div>`; }).join("")}</div>`).join("")}
       <p class="note">${T("‹ › cambia al ejercicio anterior o siguiente de su escalera. Toca un nombre para ver su ficha. Después podrás editar las rutinas en Biblioteca.")}</p>`;
-    f = `<button class="btn primary gpnext" data-act="gp-create">${T("Crear plan y rutinas")}</button>`;
+    f = `<button class="btn primary" data-act="gp-create">${T("Crear plan y rutinas")}</button>`;
   }
-  if (!f) f = `<button class="btn primary gpnext" data-act="gp-next" ${nextOk ? "" : "disabled"}>${st === "intro" ? T("Empezar") : st === "level" ? T("Ver propuesta") : T("Siguiente")}</button>`;
-  const dots = g.step ? `<div class="gpdots" aria-hidden="true">${GP_STEPS.slice(1).map((_, i) => `<i class="${i < g.step ? "on" : ""}"></i>`).join("")}</div>` : "";
-  return `<div class="modal" role="dialog" aria-modal="true" aria-label="${T("Plan guiado")}"><div class="mbox dsh full gp">
-    <div class="gptop"><button class="back" style="display:inline-flex" data-act="gp-back">‹ ${g.step ? T("Atrás") : T("Cerrar")}</button>${dots}</div>
-    ${h}<div class="gpfoot">${f}</div></div></div>`;
+  if (!f) f = `<button class="btn primary" data-act="gp-next" ${nextOk ? "" : "disabled"}>${st === "intro" ? T("Empezar") : st === "level" ? T("Ver propuesta") : T("Siguiente") + " ›"}</button>`;
+  const names = [T("Objetivo"), T("Días y tiempo"), T("Material"), T("Molestias"), T("Nivel"), T("Propuesta")];
+  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="gpT"><div class="mbox dsh full gp">
+    ${mHead("gpT", T("Plan guiado"), "gp-close")}${g.step ? mSteps(names, g.step - 1) : ""}
+    ${h}<div class="mfoot">${g.step ? `<button class="btn" data-act="gp-back">‹ ${T("Atrás")}</button>` : ""}${f}</div></div></div>`;
 }
 /* Nombre de un ejercicio que abre su ficha (si está vinculado al catálogo) */
 const xLink = (e, label) => e?.xid ? `<button class="xl" data-xinfo="${esc(e.xid)}">${label}</button>` : label;
@@ -5537,9 +5558,11 @@ document.addEventListener("click", async ev => {
     case "ai-open": { const f = aiProf(); state.ai = { step: 1, weeks: 8, inc: Object.fromEntries(AI_INC.map(([k]) => [k, true])), f: { ...(f || {}) }, save: true, txt: "" }; render(); break; }
     case "ai-close": state.ai = null; render(); break;
     case "aip-open": aipOpen(); break;
-    case "aip-close": state.aip = null; render(); break;
+    case "aip-close": { const a = state.aip; if (!a) break;   // cerrar: con «Recordar mis respuestas», se guardan; si no, se avisa
+      if (a.keep) { aipSave(); if (a.step) toast(T("Respuestas guardadas para la próxima vez")); } else if (a.step && !confirm(T("¿Salir sin guardar tus respuestas?"))) break;
+      state.aip = null; render(); break; }
     case "aip-next": state.aip.step = Math.min(3, state.aip.step + 1); render(); document.querySelector(".mbox.aip")?.scrollTo(0, 0); break;
-    case "aip-prev": state.aip.step = Math.max(0, state.aip.step - 1); render(); document.querySelector(".mbox.aip")?.scrollTo(0, 0); break;
+    case "aip-back": state.aip.step = Math.max(0, state.aip.step - 1); render(); document.querySelector(".mbox.aip")?.scrollTo(0, 0); break;
     case "aip-copy": { aipSave(); const ok = await copyText(aipBuild(state.aip)); toast(ok ? T("Indicaciones copiadas") : T("No se pudo copiar")); break; }
     case "aip-file": { aipSave(); const pm = curProf(), pn = multiProf() ? `-${fileSlug(profName(pm))}` : ""; await deliver(`usus-${fileSlug(T("plan con IA"))}${pn}-${stamp()}.txt`, aipBuild(state.aip), "text/plain"); break; }
     case "aip-clip": case "ai-clip": {   // leer la respuesta del portapapeles; si no se puede, cuadro para pegar a mano
@@ -5575,6 +5598,7 @@ document.addEventListener("click", async ev => {
     case "xi-close": state.exInfo = null; state.exInfoAdd = false; render(); break;
     case "gp-open": await gpOpen(); break;
     case "gp-back": { const g = state.gp; if (!g) break; if (g.step) g.step--; else state.gp = null; render(); document.querySelector(".mbox.gp")?.scrollTo(0, 0); break; }
+    case "gp-close": if (state.gp?.step && !confirm(T("¿Salir del plan guiado? Se perderán tus respuestas."))) break; state.gp = null; render(); break;
     case "gp-next": { const g = state.gp; if (!g) break; if (GP_STEPS[g.step] === "level") { g.plan = gpBuild(g); g.tab = 0; if (!g.plan) break; } g.step = Math.min(GP_STEPS.length - 1, g.step + 1); render(); document.querySelector(".mbox.gp")?.scrollTo(0, 0); break; }
     case "gp-create": await gpCreate(); break;
     case "xi-add": state.exInfoAdd = true; render(); break;
@@ -5659,6 +5683,7 @@ document.addEventListener("click", async ev => {
     case "prof-pick-close": state.ppick = false; render(); break;
     case "prof-add": startAddProfile(); break;
     case "pf-cancel": state.pform = null; render(); break;
+    case "pf-close": { const f = state.pform; if (f && (f.step === "confirm" || ($("#pfName")?.value || f.name || "").trim()) && !confirm(T("¿Salir sin crear el perfil?"))) break; state.pform = null; render(); break; }
     case "pf-next": profFormNext(); break;
     case "pf-back": state.pform.step = "form"; render(); break;
     case "pf-ok": profFormOk(); break;
@@ -5685,6 +5710,7 @@ document.addEventListener("click", async ev => {
     case "rs-file": await shareRoutGo("file"); break;
     case "rs-link": await shareRoutGo("link"); break;
     case "in-no": state.incoming = null; render(); break;
+    case "in-close": if (!confirm(state.incoming?.ai ? T("¿Descartar la propuesta de la IA? No se añadirá nada.") : T("¿Salir sin añadir nada?"))) break; state.incoming = null; render(); break;
     case "in-yes": await incomingAdd(); break;
     case "notice-open": state.notice = true; render(); break;
     case "notice-close": state.notice = false; render(); break;
@@ -5905,6 +5931,7 @@ const I18N = {
     "¿Cuánto más habrías aguantado?": "Quant més hauries aguantat?",
     "¿Cuánto puedes entrenar?": "Quant pots entrenar?",
     "¿Cuánto te ha costado?": "Quant t'ha costat?",
+    "¿Descartar la propuesta de la IA? No se añadirá nada.": "Vols descartar la proposta de la IA? No s'afegirà res.",
     "¿Descartar la sesión en curso? Se perderán los datos.": "Vols descartar la sessió en curs? Es perdran les dades.",
     "¿Eliminar el plan «{x}»? Tus rutinas y sesiones no se tocan.": "Eliminar el pla «{x}»? Les teves rutines i sessions no es toquen.",
     "¿Eliminar el plan? Tus rutinas y sesiones no se tocan.": "Vols eliminar el pla? Les rutines i sessions no es toquen.",
@@ -5925,6 +5952,10 @@ const I18N = {
     "¿Quitar la regla que empieza este día?": "Vols treure la regla que comença aquest dia?",
     "¿Quitar la sección «{x}»? Los ejercicios se quedan en la rutina.": "Treure la secció «{x}»? Els exercicis es queden a la rutina.",
     "¿Quitar la sección «{x}»? Sus ejercicios pasan a «{y}».": "Treure la secció «{x}»? Els seus exercicis passen a «{y}».",
+    "¿Salir del plan guiado? Se perderán tus respuestas.": "Vols sortir del pla guiat? Es perdran les teves respostes.",
+    "¿Salir sin añadir nada?": "Vols sortir sense afegir res?",
+    "¿Salir sin crear el perfil?": "Vols sortir sense crear el perfil?",
+    "¿Salir sin guardar tus respuestas?": "Vols sortir sense desar les teves respostes?",
     "¿Terminar y guardar igualmente? Se guardan solo las series hechas ({n} pendientes en total).": "Vols acabar i desar igualment? Només es desen les sèries fetes ({n} pendents en total).",
     "‹ › cambia al ejercicio anterior o siguiente de su escalera. Toca un nombre para ver su ficha. Después podrás editar las rutinas en Biblioteca.": "‹ › canvia a l'exercici anterior o següent de la seva escala. Toca un nom per veure'n la fitxa. Després podràs editar les rutines a Biblioteca.",
     "«Añadir app» y pega el enlace:": "«Afegeix app» i enganxa l'enllaç:",
@@ -5975,7 +6006,6 @@ const I18N = {
     "+1 serie": "+1 sèrie",
     "+2 repeticiones por serie (+10 s)": "+2 repeticions per sèrie (+10 s)",
     "0 = sin descarga. En descarga solo se sugieren rutinas sin variante.": "0 = sense descàrrega. En descàrrega només es suggereixen rutines sense variant.",
-    "1 Datos": "1 Dades",
     "1 ejercicio · ≈ {m} min": "1 exercici · ≈ {m} min",
     "1 hoja": "1 full",
     "1 rutina actualizada": "1 rutina actualitzada",
@@ -5984,7 +6014,6 @@ const I18N = {
     "1RM estimado": "1RM estimat",
     "1RM estimado (fórmula de Epley) por sesión": "1RM estimat (fórmula d'Epley) per sessió",
     "2 ejercicios por hoja": "2 exercicis per full",
-    "2 Exportar": "2 Exportar",
     "30 días": "30 dies",
     "4 o más": "4 o més",
     "4 semanas": "4 setmanes",
@@ -6269,7 +6298,6 @@ const I18N = {
     "deben estar en la misma sección": "han d'estar a la mateixa secció",
     "Dejar como propio": "Deixa'l com a propi",
     "del diario": "del diari",
-    "del perfil": "del perfil",
     "del registro": "del registre",
     "der.": "dre.",
     "Derecho": "Dret",
@@ -6332,6 +6360,7 @@ const I18N = {
     "Días que puedes entrenar": "Dies que pots entrenar",
     "Días registrados": "Dies registrats",
     "Días tomados en el periodo (o desde que lo añadiste).": "Dies pres en el període (o des que el vas afegir).",
+    "Días y tiempo": "Dies i temps",
     "Distancia": "Distància",
     "Distancia ({u})": "Distància ({u})",
     "Distancia por semana ({u}).": "Distància per setmana ({u}).",
@@ -6702,6 +6731,7 @@ const I18N = {
     "Modo diseño de rutinas: secciones (calentamiento, principal, core, vuelta a la calma o las tuyas), superseries y circuitos con vueltas y descanso entre vueltas, reordenar con ↑ ↓ o arrastrando, y duración aproximada.": "Mode disseny de rutines: seccions (escalfament, principal, core, tornada a la calma o les teves), supersèries i circuits amb voltes i descans entre voltes, reordenar amb ↑ ↓ o arrossegant, i durada aproximada.",
     "Modo edición para PC o pantalla grande: al abrir el editor en un ordenador o una tablet en horizontal, cada ejercicio va en una fila, con el catálogo al lado (toca o arrastra para añadir) y Guardar siempre a la vista.": "Mode edició per a PC o pantalla gran: en obrir l'editor en un ordinador o una tauleta en horitzontal, cada exercici va en una fila, amb el catàleg al costat (toca o arrossega per afegir) i Desa sempre a la vista.",
     "Molestia": "Molèstia",
+    "Molestias": "Molèsties",
     "Momento": "Moment",
     "Momento (opcional)": "Moment (opcional)",
     "Momento del día": "Moment del dia",
@@ -6724,6 +6754,7 @@ const I18N = {
     "Ninguna": "Cap",
     "Ninguno": "Cap",
     "Ninguno: solo suelo": "Cap: només terra",
+    "Nivel": "Nivell",
     "Nivel {n} de 5": "Nivell {n} de 5",
     "No entrené": "No he entrenat",
     "No habrías podido hacer mucho más.": "No hauries pogut fer gaire més.",
@@ -6833,6 +6864,7 @@ const I18N = {
     "Pared": "Paret",
     "Parque / al aire libre": "Parc / a l'aire lliure",
     "Pasa a ser el plan activo; el actual queda guardado en Mis planes.": "Passa a ser el pla actiu; l'actual queda desat a Els meus plans.",
+    "Paso {n} de {m}": "Pas {n} de {m}",
     "Paso {n} de {t}": "Pas {n} de {t}",
     "Pasos": "Passos",
     "Pasos (media)": "Passos (mitjana)",
@@ -6947,6 +6979,7 @@ const I18N = {
     "Proponer retroceder": "Proposa retrocedir",
     "Proponer una mejora": "Proposar una millora",
     "propuesta": "proposta",
+    "Propuesta": "Proposta",
     "Propuesta de la IA": "Proposta de la IA",
     "Propuestas aceptadas": "Propostes acceptades",
     "Protector": "Protector",
@@ -7010,6 +7043,7 @@ const I18N = {
     "Resistencia": "Resistència",
     "Respiración marcada; aún bastante margen.": "Respiració marcada; encara força marge.",
     "Respuesta de la IA en un toque: copia su respuesta (o solo su bloque de código) y toca «Pegar respuesta de la IA». Si la guardas como archivo, Importar datos también la lleva a la revisión.": "Resposta de la IA en un toc: copia la resposta (o només el bloc de codi) i toca «Enganxa la resposta de la IA». Si la deses com a fitxer, Importar dades també la porta a la revisió.",
+    "Respuestas guardadas para la próxima vez": "Respostes desades per a la propera vegada",
     "Resumen": "Resum",
     "retraso {n} d": "retard {n} d",
     "Revisa y elige qué añadir. No se borra nada de lo que ya tienes.": "Revisa i tria què vols afegir. No s'esborra res del que ja tens.",
@@ -7312,6 +7346,7 @@ const I18N = {
     "Varios sitios": "Diversos llocs",
     "Vas a compartir datos de salud con un servicio externo": "Compartiràs dades de salut amb un servei extern",
     "Ventana fértil": "Finestra fèrtil",
+    "Ventanas con un mismo diseño: título arriba con ✕ para cerrar siempre en el mismo sitio, pasos con barra de progreso y Atrás/Siguiente abajo. Al cerrar un proceso a medias, Usus avisa de si se pierde o se guarda lo hecho. En Crear plan con IA ya se puede elegir el sexo.": "Finestres amb un mateix disseny: títol a dalt amb ✕ per tancar sempre al mateix lloc, passos amb barra de progrés i Enrere/Següent a baix. En tancar un procés a mitges, Usus avisa de si es perd o es desa el que s'ha fet. A Crea un pla amb IA ja es pot triar el sexe.",
     "Ver el aviso": "Veure l'avís",
     "Ver el plan": "Veure el pla",
     "Ver en el Diario": "Veure al Diari",
@@ -7334,7 +7369,6 @@ const I18N = {
     "Vista previa": "Previsualització",
     "Vista previa: {n} semanas, {d} de descarga.": "Previsualització: {n} setmanes, {d} de descàrrega.",
     "Volver": "Torna",
-    "Volver a los datos": "Tornar a les dades",
     "Volver a proponer en todos ({n} silenciados)": "Torna a proposar a tots ({n} silenciats)",
     "Volver al paso anterior": "Tornar al pas anterior",
     "vuelta {n} de {m}": "volta {n} de {m}",
@@ -7365,6 +7399,7 @@ const I18N = {
     "¿Cuánto más habrías aguantado?": "How much longer could you have held?",
     "¿Cuánto puedes entrenar?": "How much can you train?",
     "¿Cuánto te ha costado?": "How hard was it?",
+    "¿Descartar la propuesta de la IA? No se añadirá nada.": "Discard the AI's suggestion? Nothing will be added.",
     "¿Descartar la sesión en curso? Se perderán los datos.": "Discard the current session? Its data will be lost.",
     "¿Eliminar el plan «{x}»? Tus rutinas y sesiones no se tocan.": "Delete the plan “{x}”? Your routines and sessions aren't touched.",
     "¿Eliminar el plan? Tus rutinas y sesiones no se tocan.": "Delete the plan? Your routines and sessions are not affected.",
@@ -7385,6 +7420,10 @@ const I18N = {
     "¿Quitar la regla que empieza este día?": "Remove the period that starts on this day?",
     "¿Quitar la sección «{x}»? Los ejercicios se quedan en la rutina.": "Remove the section “{x}”? The exercises stay in the routine.",
     "¿Quitar la sección «{x}»? Sus ejercicios pasan a «{y}».": "Remove the section “{x}”? Its exercises move to “{y}”.",
+    "¿Salir del plan guiado? Se perderán tus respuestas.": "Leave the guided plan? Your answers will be lost.",
+    "¿Salir sin añadir nada?": "Leave without adding anything?",
+    "¿Salir sin crear el perfil?": "Leave without creating the profile?",
+    "¿Salir sin guardar tus respuestas?": "Leave without saving your answers?",
     "¿Terminar y guardar igualmente? Se guardan solo las series hechas ({n} pendientes en total).": "Finish and save anyway? Only completed sets are saved ({n} pending in total).",
     "‹ › cambia al ejercicio anterior o siguiente de su escalera. Toca un nombre para ver su ficha. Después podrás editar las rutinas en Biblioteca.": "‹ › switches to the previous or next exercise in its progression. Tap a name to see its card. You can edit the routines later in Library.",
     "«Añadir app» y pega el enlace:": "“Add app” and paste the link:",
@@ -7435,7 +7474,6 @@ const I18N = {
     "+1 serie": "+1 set",
     "+2 repeticiones por serie (+10 s)": "+2 reps per set (+10 s)",
     "0 = sin descarga. En descarga solo se sugieren rutinas sin variante.": "0 = no deload. During deload only routines without a variant are suggested.",
-    "1 Datos": "1 Data",
     "1 ejercicio · ≈ {m} min": "1 exercise · ≈ {m} min",
     "1 hoja": "1 sheet",
     "1 rutina actualizada": "1 routine updated",
@@ -7444,7 +7482,6 @@ const I18N = {
     "1RM estimado": "Estimated 1RM",
     "1RM estimado (fórmula de Epley) por sesión": "Estimated 1RM (Epley formula) per session",
     "2 ejercicios por hoja": "2 exercises per sheet",
-    "2 Exportar": "2 Export",
     "30 días": "30 days",
     "4 o más": "4 or more",
     "4 semanas": "4 weeks",
@@ -7729,7 +7766,6 @@ const I18N = {
     "deben estar en la misma sección": "they must be in the same section",
     "Dejar como propio": "Keep as my own",
     "del diario": "from diary",
-    "del perfil": "from profile",
     "del registro": "from log",
     "der.": "R",
     "Derecho": "Right",
@@ -7792,6 +7828,7 @@ const I18N = {
     "Días que puedes entrenar": "Days you can train",
     "Días registrados": "Days logged",
     "Días tomados en el periodo (o desde que lo añadiste).": "Days taken in the period (or since you added it).",
+    "Días y tiempo": "Days and time",
     "Distancia": "Distance",
     "Distancia ({u})": "Distance ({u})",
     "Distancia por semana ({u}).": "Distance per week ({u}).",
@@ -8162,6 +8199,7 @@ const I18N = {
     "Modo diseño de rutinas: secciones (calentamiento, principal, core, vuelta a la calma o las tuyas), superseries y circuitos con vueltas y descanso entre vueltas, reordenar con ↑ ↓ o arrastrando, y duración aproximada.": "Routine design mode: sections (warm-up, main, core, cool-down or your own), supersets and circuits with rounds and rest between rounds, reorder with ↑ ↓ or by dragging, and an estimated duration.",
     "Modo edición para PC o pantalla grande: al abrir el editor en un ordenador o una tablet en horizontal, cada ejercicio va en una fila, con el catálogo al lado (toca o arrastra para añadir) y Guardar siempre a la vista.": "Edit mode for PC or large screens: open the editor on a computer or a tablet in landscape and each exercise sits on one row, with the catalogue alongside (tap or drag to add) and Save always in view.",
     "Molestia": "Ache",
+    "Molestias": "Aches",
     "Momento": "Time of day",
     "Momento (opcional)": "Time of day (optional)",
     "Momento del día": "Time of day",
@@ -8184,6 +8222,7 @@ const I18N = {
     "Ninguna": "None",
     "Ninguno": "None",
     "Ninguno: solo suelo": "None: floor only",
+    "Nivel": "Level",
     "Nivel {n} de 5": "Level {n} of 5",
     "No entrené": "Didn't train",
     "No habrías podido hacer mucho más.": "You couldn't have done much more.",
@@ -8293,6 +8332,7 @@ const I18N = {
     "Pared": "Wall",
     "Parque / al aire libre": "Park / outdoors",
     "Pasa a ser el plan activo; el actual queda guardado en Mis planes.": "It becomes the active plan; the current one stays saved in My plans.",
+    "Paso {n} de {m}": "Step {n} of {m}",
     "Paso {n} de {t}": "Step {n} of {t}",
     "Pasos": "Steps",
     "Pasos (media)": "Steps (average)",
@@ -8407,6 +8447,7 @@ const I18N = {
     "Proponer retroceder": "Suggest going back",
     "Proponer una mejora": "Suggest an improvement",
     "propuesta": "suggested",
+    "Propuesta": "Suggestion",
     "Propuesta de la IA": "AI proposal",
     "Propuestas aceptadas": "Suggestions accepted",
     "Protector": "Night",
@@ -8470,6 +8511,7 @@ const I18N = {
     "Resistencia": "Endurance",
     "Respiración marcada; aún bastante margen.": "Heavier breathing; still quite a lot left.",
     "Respuesta de la IA en un toque: copia su respuesta (o solo su bloque de código) y toca «Pegar respuesta de la IA». Si la guardas como archivo, Importar datos también la lleva a la revisión.": "AI reply in one tap: copy its reply (or just its code block) and tap “Paste the AI's reply”. If you save it as a file, Import data also takes it to the review.",
+    "Respuestas guardadas para la próxima vez": "Answers saved for next time",
     "Resumen": "Summary",
     "retraso {n} d": "{n} d late",
     "Revisa y elige qué añadir. No se borra nada de lo que ya tienes.": "Review and choose what to add. Nothing you already have is deleted.",
@@ -8772,6 +8814,7 @@ const I18N = {
     "Varios sitios": "Several places",
     "Vas a compartir datos de salud con un servicio externo": "You're about to share health data with an external service",
     "Ventana fértil": "Fertile window",
+    "Ventanas con un mismo diseño: título arriba con ✕ para cerrar siempre en el mismo sitio, pasos con barra de progreso y Atrás/Siguiente abajo. Al cerrar un proceso a medias, Usus avisa de si se pierde o se guarda lo hecho. En Crear plan con IA ya se puede elegir el sexo.": "Windows with one design: title at the top with ✕ to close, always in the same place; steps with a progress bar and Back/Next at the bottom. When you close a half-finished process, Usus tells you whether it's lost or saved. In Create plan with AI you can now choose your sex.",
     "Ver el aviso": "View the notice",
     "Ver el plan": "See the plan",
     "Ver en el Diario": "See in the Diary",
@@ -8794,7 +8837,6 @@ const I18N = {
     "Vista previa": "Preview",
     "Vista previa: {n} semanas, {d} de descarga.": "Preview: {n} weeks, {d} deload.",
     "Volver": "Back",
-    "Volver a los datos": "Back to the data",
     "Volver a proponer en todos ({n} silenciados)": "Suggest for all again ({n} muted)",
     "Volver al paso anterior": "Go back a step",
     "vuelta {n} de {m}": "round {n} of {m}",

@@ -13,7 +13,7 @@ for (const theme of ["light", "dark", "protector"]) {
     const minor = [];
     const found = [];
     for (const [tab, ...extra] of SCREENS) {
-      if (await page.locator('[data-act="cancelroutine"]:visible, [data-act="plan-cancel"]:visible, [data-act="dsheet-close"]:visible, .modal .back[data-act="aip-close"]:visible').count()) await page.locator('[data-act="cancelroutine"]:visible, [data-act="plan-cancel"]:visible, [data-act="dsheet-close"]:visible, .modal .back[data-act="aip-close"]:visible').first().click();
+      if (await page.locator('[data-act="cancelroutine"]:visible, [data-act="plan-cancel"]:visible, [data-act="dsheet-close"]:visible, .modal .mhead [data-act="aip-close"]:visible').count()) await page.locator('[data-act="cancelroutine"]:visible, [data-act="plan-cancel"]:visible, [data-act="dsheet-close"]:visible, .modal .mhead [data-act="aip-close"]:visible').first().click();
       await nav(page, tab); for (const x of extra) { if (await page.locator(x).count()) await page.locator(x).first().click(); } await page.waitForTimeout(150);
       const r = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"]).exclude(".betatag").analyze();
       for (const v of r.violations) if (!["serious", "critical"].includes(v.impact)) minor.push(`${tab} · ${v.id} [${v.impact}] (${v.nodes.length})`);
