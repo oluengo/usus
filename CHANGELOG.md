@@ -4,7 +4,7 @@ Todas las versiones de Usus. Formato basado en [Keep a Changelog](https://keepac
 
 **Castellano** · [Català](#català) · [English](#english)
 
-## [3.0.0] — en pruebas (beta)
+## [3.0.0] — 2026-10-20
 
 Rediseño: estructura nueva, componentes unificados y glosario único (es/ca/en). Los datos no cambian: las copias de la 2.x se importan igual.
 
@@ -249,7 +249,7 @@ Primera versión pública.
 
 ## Català
 
-### [3.0.0] — en proves (beta)
+### [3.0.0] — 2026-10-20
 - Nova estructura: Avui · Biblioteca · Diari · Progrés · Ajustos. Biblioteca aplega Rutines, Pla i Exercicis; Stats passa a dir-se Progrés.
 - Avui: el que toca, a dalt i amb un sol botó Comença; accessos ràpids a una altra rutina, sessió lliure i activitat; els avisos, junts a «Pendent».
 - Rutines agrupades per variant. Cada rutina s'obre a la seva pantalla (a l'ordinador, al costat de la llista) amb Comença, Edita, Imprimeix, Comparteix i Duplica.
@@ -334,7 +334,7 @@ Primera versió pública: rutines amb sèries per repeticions o per temps, compt
 
 ## English
 
-### [3.0.0] — in testing (beta)
+### [3.0.0] — 2026-10-20
 - New layout: Today · Library · Diary · Progress · Settings. Library brings together Routines, Plan and Exercises; Stats is now called Progress.
 - Today: what's on, at the top with a single Start button; shortcuts to another routine, a free session and an activity; reminders together under “To do”.
 - Routines grouped by variant. Each routine opens on its own screen (on a computer, next to the list) with Start, Edit, Print, Share and Duplicate.

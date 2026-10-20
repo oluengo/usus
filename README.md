@@ -2,7 +2,7 @@
 
 **Castellano** · [English](#english)
 
-<p align="center"><img src="capturas/portada.jpg" alt="Usus: Hoy, cuenta atrás, Diario y Estadísticas" width="100%"></p>
+<p align="center"><img src="capturas/portada.jpg" alt="Usus: Hoy, cuenta atrás, Diario y Progreso" width="100%"></p>
 
 **Usus** (latín: *práctica, hábito*) es una app para registrar tus entrenamientos y tus hábitos desde el móvil. Pensada para calistenia y entrenamiento en casa, sirve para cualquier rutina de series y repeticiones.
 
@@ -39,13 +39,13 @@ Para probar la beta con tus datos, exporta una copia en la versión normal e imp
 
 ## Cómo funciona
 
-- **Rutinas.** Creas tus rutinas con sus ejercicios, series y repeticiones o tiempo. Puedes marcar ejercicios «por lado», poner lastre y un descanso propio a cada uno. Si quieres, las ordenas por secciones (calentamiento, principal, core, vuelta a la calma) y agrupas ejercicios en superseries o circuitos. En el ordenador o la tablet hay un **modo edición para pantalla grande**: cada ejercicio en una fila y el catálogo al lado. Cada rutina se puede imprimir o guardar en PDF: una hoja por ejercicio para seguir su progresión, o la rutina entera con varias sesiones.
+- **Biblioteca: rutinas.** Creas tus rutinas con sus ejercicios, series y repeticiones o tiempo. Puedes marcar ejercicios «por lado», poner lastre y un descanso propio a cada uno. Si quieres, las ordenas por secciones (calentamiento, principal, core, vuelta a la calma) y agrupas ejercicios en superseries o circuitos. En el ordenador o la tablet hay un **modo edición para pantalla grande**: cada ejercicio en una fila y el catálogo al lado. Cada rutina se puede imprimir o guardar en PDF: una hoja por ejercicio para seguir su progresión, o la rutina entera con varias sesiones.
 - **Ejercicios** *(opcional).* Un catálogo de ejercicios de calistenia, cada uno con su ficha: para qué sirve, cómo se hace, errores típicos, material necesario y progresión, del más fácil al más difícil. Se elige ejercicio al crear la rutina y se ve la ficha en cualquier momento, también entrenando.
 - **Progresión.** Al terminar una sesión, Usus te propone pasar al siguiente ejercicio cuando dominas el actual, o volver al anterior si te está costando demasiado. Siempre es una propuesta: decides tú.
-- **Hoy.** Te dice qué toca cada día. Con un plan de progresión, Usus rota las variantes de tus rutinas por semanas (A, B, C…), añade semanas de descarga y te avisa de lo pendiente. Si quieres, la subida de cada vuelta de variante se aplica sola, con aviso y opción de deshacer.
-- **Entrenar.** Un ejercicio por pantalla. Las series por tiempo y los descansos tienen cuenta atrás a pantalla completa con reglas sencillas (preparación, aviso final, cambio de lado y descansos), tres sonidos suaves (tic, inicio, fin), vibración o nada, y se pueden encadenar solas. La pantalla se mantiene encendida durante la sesión. Puedes cambiar un ejercicio sobre la marcha, anotar cada uno y valorar el esfuerzo de la sesión (y, si quieres, las repeticiones en reserva de cada serie).
-- **Diario.** Sueño, suplementos, pasos, peso, actividad (caminar, correr, bici…) y notas. Solo se ve lo que has anotado; lo demás se añade con un toque.
-- **Progreso.** Constancia, récords, progreso por ejercicio, equilibrio entre lados y hábitos, en bloques que puedes ordenar u ocultar. Los días con notas llevan un punto: tócalo y ves por qué (no entrenaste, molestias, un cambio de ejercicio…).
+- **Hoy.** Te dice qué toca. Con un plan de progresión (Biblioteca → Plan), Usus rota las variantes de tus rutinas (A, B, C…) **en orden**: toca la siguiente sesión que falte, sea el día que sea, así que si empiezas un domingo o te saltas un día, se recupera. Añade semanas de descarga, se puede pausar una o varias semanas y, si quieres, la subida de cada vuelta de variante se aplica sola, con aviso y opción de deshacer.
+- **Entrenar.** Un ejercicio por pantalla, con el tiempo y el avance siempre arriba y un botón abajo con lo que toca: marcar la serie, empezar la cuenta atrás, pasar al siguiente ejercicio o terminar. Las series por tiempo y los descansos tienen cuenta atrás a pantalla completa con reglas sencillas (preparación, aviso final, cambio de lado y descansos), tres sonidos suaves (tic, inicio, fin), vibración o nada, y se pueden encadenar solas. La pantalla se mantiene encendida durante la sesión. Puedes cambiar un ejercicio sobre la marcha, anotar cada uno y valorar el esfuerzo de la sesión (y, si quieres, las repeticiones en reserva de cada serie).
+- **Diario.** Sueño, suplementos, pasos, peso, actividad (caminar, correr, bici…) y notas, un dato por fila. Solo se ve lo que has anotado; lo demás se añade con un toque.
+- **Progreso.** Un resumen con la semana, la constancia, los récords y el peso; y en detalle, progreso por ejercicio, equilibrio entre lados, cuerpo y hábitos, en bloques que puedes ordenar u ocultar. Los días con notas llevan un punto: tócalo y ves por qué (no entrenaste, molestias, un cambio de ejercicio…).
 - **Análisis con IA** *(opcional, externa).* Usus prepara un texto con tus datos y las instrucciones para que la IA que prefieras haga un informe con gráficos, listo para imprimir. Usus no envía nada: lo copias o compartes tú.
 - **Perfiles.** Varias personas en el mismo móvil, cada una con sus datos, ajustes y copia de seguridad.
 - **Ciclo** *(opcional, en perfiles de mujer).* Registro de la regla con una estimación aproximada de la próxima. No es un anticonceptivo ni un diagnóstico.
@@ -53,22 +53,22 @@ Para probar la beta con tus datos, exporta una copia en la versión normal e imp
 
 <table>
 <tr>
-<td align="center" width="25%"><img src="capturas/02-rutinas.jpg" alt="Rutinas"><br><sub>Rutinas</sub></td>
-<td align="center" width="25%"><img src="capturas/03-sesion.jpg" alt="Sesión"><br><sub>Sesión</sub></td>
-<td align="center" width="25%"><img src="capturas/07-stats-entreno.jpg" alt="Constancia y progreso"><br><sub>Constancia y progreso</sub></td>
-<td align="center" width="25%"><img src="capturas/08-stats-habitos.jpg" alt="Hábitos"><br><sub>Hábitos</sub></td>
+<td align="center" width="25%"><img src="capturas/02-rutinas.jpg" alt="Biblioteca"><br><sub>Biblioteca</sub></td>
+<td align="center" width="25%"><img src="capturas/04-plan.jpg" alt="Plan en orden"><br><sub>Plan en orden</sub></td>
+<td align="center" width="25%"><img src="capturas/03-sesion.jpg" alt="Entrenando"><br><sub>Entrenando</sub></td>
+<td align="center" width="25%"><img src="capturas/14-cuenta-atras.jpg" alt="Cuenta atrás"><br><sub>Cuenta atrás</sub></td>
 </tr>
 <tr>
-<td align="center"><img src="capturas/09-compartir.jpg" alt="Compartir un entreno"><br><sub>Compartir un entreno</sub></td>
-<td align="center"><img src="capturas/10-perfiles.jpg" alt="Perfiles"><br><sub>Perfiles</sub></td>
-<td align="center"><img src="capturas/11-ciclo-hoy.jpg" alt="Ciclo"><br><sub>Ciclo (opcional)</sub></td>
+<td align="center"><img src="capturas/06-progreso.jpg" alt="Progreso"><br><sub>Progreso</sub></td>
+<td align="center"><img src="capturas/07-stats-entreno.jpg" alt="Constancia y ejercicios"><br><sub>Constancia y ejercicios</sub></td>
+<td align="center"><img src="capturas/08-stats-habitos.jpg" alt="Hábitos"><br><sub>Hábitos</sub></td>
 <td align="center"><img src="capturas/05-diario.jpg" alt="Diario"><br><sub>Diario</sub></td>
 </tr>
 <tr>
-<td align="center"><img src="capturas/12-ejercicios.jpg" alt="Catálogo de ejercicios"><br><sub>Ejercicios (opcional)</sub></td>
+<td align="center"><img src="capturas/12-ejercicios.jpg" alt="Ejercicios (opcional)"><br><sub>Ejercicios (opcional)</sub></td>
 <td align="center"><img src="capturas/13-ficha.jpg" alt="Ficha y progresión"><br><sub>Ficha y progresión</sub></td>
-<td align="center"><img src="capturas/14-progresion.jpg" alt="Propuesta al terminar"><br><sub>Propuesta al terminar</sub></td>
-<td align="center"><img src="capturas/15-vincular.jpg" alt="Vincular tus ejercicios"><br><sub>Vincular tus ejercicios</sub></td>
+<td align="center"><img src="capturas/11-ciclo-hoy.jpg" alt="Ciclo (opcional)"><br><sub>Ciclo (opcional)</sub></td>
+<td align="center"><img src="capturas/10-ajustes.jpg" alt="Ajustes"><br><sub>Ajustes</sub></td>
 </tr>
 </table>
 
@@ -138,13 +138,13 @@ To try the beta with your data, export a backup in the regular version and impor
 
 ### How it works
 
-- **Routines.** Build routines with exercises, sets and reps or time. Mark exercises as “per side”, add weight and set a rest time for each one. If you like, split them into sections (warm-up, main, core, cool-down) and group exercises into supersets or circuits. On a computer or tablet there's an **edit mode for large screens**: one row per exercise and the catalogue alongside. Any routine can be printed or saved as PDF: one sheet per exercise to track its progress, or the whole routine across several sessions.
+- **Library: routines.** Build routines with exercises, sets and reps or time. Mark exercises as “per side”, add weight and set a rest time for each one. If you like, split them into sections (warm-up, main, core, cool-down) and group exercises into supersets or circuits. On a computer or tablet there's an **edit mode for large screens**: one row per exercise and the catalogue alongside. Any routine can be printed or saved as PDF: one sheet per exercise to track its progress, or the whole routine across several sessions.
 - **Exercises** *(optional).* A catalogue of calisthenics exercises, each with its own card: what it's for, how to do it, common mistakes, equipment needed and progression, from easiest to hardest. Pick exercises when building a routine and check the card at any time, even mid-workout.
 - **Progression.** After a session, Usus suggests moving on to the next exercise once you've mastered the current one, or going back to the previous one if it's too hard for now. It's always a suggestion: you decide.
-- **Today.** Shows what's on each day. With a progression plan, Usus rotates your routine variants week by week (A, B, C…), adds deload weeks and keeps track of what's pending. If you like, the increase each time a variant comes back is applied automatically, with a notice and an undo option.
-- **Train.** One exercise per screen. Timed sets and rests get a full-screen countdown with simple rules (get-ready, final warning, side switch and rests), three soft sounds (tick, start, end), vibration or nothing, and can chain automatically. The screen stays on during the session. Swap an exercise on the fly, add a note to each one and rate the session's effort (and, if you like, the reps in reserve of each set).
-- **Diary.** Sleep, supplements, steps, weight, activity (walking, running, cycling…) and notes. Only what you logged is shown; add the rest with one tap.
-- **Progress.** Consistency, PRs, progress per exercise, left/right balance and habits, in blocks you can reorder or hide. Days with notes get a dot: tap it to see why (you skipped training, aches, a swapped exercise…).
+- **Today.** Shows what’s next. With a progression plan (Library → Plan), Usus rotates your routine variants (A, B, C…) **in order**: the next missing session is up, whatever the day, so starting on a Sunday or skipping a day is fine. It adds deload weeks, can be paused for one or more weeks and, if you like, the increase each time a variant comes back is applied automatically, with a notice and an undo option.
+- **Train.** One exercise per screen, with time and progress always at the top and a button at the bottom for what’s next: mark the set, start the countdown, move to the next exercise or finish. Timed sets and rests get a full-screen countdown with simple rules (get-ready, final warning, side switch and rests), three soft sounds (tick, start, end), vibration or nothing, and can chain automatically. The screen stays on during the session. Swap an exercise on the fly, add a note to each one and rate the session's effort (and, if you like, the reps in reserve of each set).
+- **Diary.** Sleep, supplements, steps, weight, activity (walking, running, cycling…) and notes, one item per row. Only what you logged is shown; add the rest with one tap.
+- **Progress.** A summary with the week, consistency, PRs and weight; and in detail, progress per exercise, left/right balance, body and habits, in blocks you can reorder or hide. Days with notes get a dot: tap it to see why (you skipped training, aches, a swapped exercise…).
 - **AI analysis** *(optional, external).* Usus prepares a text with your data and instructions for the AI of your choice to write a report with charts, ready to print. Usus sends nothing: you copy or share it yourself.
 - **Profiles.** Several people on the same phone, each with their own data, settings and backup.
 - **Cycle** *(optional, on women's profiles).* Period log with an approximate estimate of the next one. Not a contraceptive method or a diagnosis.
@@ -152,22 +152,22 @@ To try the beta with your data, export a backup in the regular version and impor
 
 <table>
 <tr>
-<td align="center" width="25%"><img src="capturas/02-rutinas.jpg" alt="Routines"><br><sub>Routines</sub></td>
-<td align="center" width="25%"><img src="capturas/03-sesion.jpg" alt="Session"><br><sub>Session</sub></td>
-<td align="center" width="25%"><img src="capturas/07-stats-entreno.jpg" alt="Consistency and progress"><br><sub>Consistency and progress</sub></td>
-<td align="center" width="25%"><img src="capturas/08-stats-habitos.jpg" alt="Habits"><br><sub>Habits</sub></td>
+<td align="center" width="25%"><img src="capturas/02-rutinas.jpg" alt="Library"><br><sub>Library</sub></td>
+<td align="center" width="25%"><img src="capturas/04-plan.jpg" alt="Plan in order"><br><sub>Plan in order</sub></td>
+<td align="center" width="25%"><img src="capturas/03-sesion.jpg" alt="Training"><br><sub>Training</sub></td>
+<td align="center" width="25%"><img src="capturas/14-cuenta-atras.jpg" alt="Countdown"><br><sub>Countdown</sub></td>
 </tr>
 <tr>
-<td align="center"><img src="capturas/09-compartir.jpg" alt="Share a workout"><br><sub>Share a workout</sub></td>
-<td align="center"><img src="capturas/10-perfiles.jpg" alt="Profiles"><br><sub>Profiles</sub></td>
-<td align="center"><img src="capturas/11-ciclo-hoy.jpg" alt="Cycle"><br><sub>Cycle (optional)</sub></td>
+<td align="center"><img src="capturas/06-progreso.jpg" alt="Progress"><br><sub>Progress</sub></td>
+<td align="center"><img src="capturas/07-stats-entreno.jpg" alt="Consistency and exercises"><br><sub>Consistency and exercises</sub></td>
+<td align="center"><img src="capturas/08-stats-habitos.jpg" alt="Habits"><br><sub>Habits</sub></td>
 <td align="center"><img src="capturas/05-diario.jpg" alt="Diary"><br><sub>Diary</sub></td>
 </tr>
 <tr>
-<td align="center"><img src="capturas/12-ejercicios.jpg" alt="Exercise catalogue"><br><sub>Exercises (optional)</sub></td>
+<td align="center"><img src="capturas/12-ejercicios.jpg" alt="Exercises (optional)"><br><sub>Exercises (optional)</sub></td>
 <td align="center"><img src="capturas/13-ficha.jpg" alt="Card and progression"><br><sub>Card and progression</sub></td>
-<td align="center"><img src="capturas/14-progresion.jpg" alt="Suggestion after a session"><br><sub>Suggestion after a session</sub></td>
-<td align="center"><img src="capturas/15-vincular.jpg" alt="Link your exercises"><br><sub>Link your exercises</sub></td>
+<td align="center"><img src="capturas/11-ciclo-hoy.jpg" alt="Cycle (optional)"><br><sub>Cycle (optional)</sub></td>
+<td align="center"><img src="capturas/10-ajustes.jpg" alt="Settings"><br><sub>Settings</sub></td>
 </tr>
 </table>
 
