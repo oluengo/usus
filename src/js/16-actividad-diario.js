@@ -128,6 +128,16 @@ function sessionCard(s) {
       <div class="row" style="margin-top:10px">${ed ? "" : `<button class="btn small" data-snote="${s.id}">✎ ${T("Notas")}</button>`}<button class="btn small shbtn" data-shsess="${s.id}">${SHARE_ICO}${T("Compartir")}</button><span class="spacer"></span><button class="btn small danger" data-delsess="${s.id}">${T("Eliminar sesión")}</button></div>
     </div></details>`;
 }
+/* Iconos para añadir al día */
+const DICO = {
+  sleep: '<path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/>',
+  sup: '<rect x="3" y="9" width="18" height="6" rx="3" transform="rotate(-35 12 12)"/><path d="M9.5 8.5l5 7"/>',
+  steps: '<path d="M7 18c-1.7 0-3-1.2-3-3s1.2-4 3-4 2.5 2 2.5 3.5S8.7 18 7 18zM16 12c-1.7 0-2.5-1.8-2.5-3.5S14.3 4 16 4s3 2.2 3 4-1.3 4-3 4zM5 21h4M14 15h4"/>',
+  peso: '<rect x="3" y="4" width="18" height="16" rx="3"/><path d="M8 9a4 4 0 0 1 8 0zM12 9l1.5-2"/>',
+  act: '<circle cx="13" cy="4.5" r="1.8"/><path d="M7 21l3-6 3 2v5M10 15l1-5-3 1-2 3M11 10l3 2 3-1"/>',
+  note: '<path d="M4 20h4L19 9l-4-4L4 16zM13.5 6.5l4 4"/>',
+  cyc: '<path d="M12 3c3 4 6 7.5 6 11a6 6 0 0 1-12 0c0-3.5 3-7 6-11z"/>'
+};
 function viewDiary() {
   const k = state.day || dayKey(Date.now()), t = keyTime(k), today = dayKey(Date.now());
   const e = DY.get(k), sl = e.sleep || {}, dur = sleepMin(sl), sp = DY.supps().filter(x => !x.archived), taken = e.supp || {};
@@ -184,9 +194,8 @@ function viewDiary() {
       <input type="hidden" id="wDate" value="${k}">
       <div class="wrow"><label class="muted" for="wKg" style="font-size:.85rem">${T("Peso en kg")}</label><input id="wKg" type="text" inputmode="decimal" value="${dayW ? fmtNum(dayW.kg) : ""}" placeholder="${lastW ? fmtNum(lastW.kg) : "kg"}"><button class="btn primary small" data-act="w-add">${T("Guardar")}</button></div>
       ${dayW ? `<button class="btn ghost small danger" style="margin-top:8px" data-wdel="${dayW.id}">${T("Borrar registro")}</button>` : ""}
-      <div class="wrow" style="margin-top:14px"><label class="muted" for="wGoal" style="font-size:.85rem">${T("Objetivo")}</label><input id="wGoal" type="text" inputmode="decimal" placeholder="${T("sin objetivo")}" value="${W.goal() ? fmtNum(W.goal()) : ""}"><button class="btn small" data-act="w-goal">${T("Guardar")}</button></div>
-      <div class="wrow" style="margin-top:12px"><label class="muted" for="wDay" style="font-size:.85rem">${T("Día de pesaje")}</label><select id="wDay">${[1, 2, 3, 4, 5, 6, 0].map(i => `<option value="${i}" ${W.day() === i ? "selected" : ""}>${DIAS[i]}</option>`).join("")}</select><span></span></div>
-      ${W.list().length ? `<div style="margin-top:12px">${W.list().slice(-6).reverse().map(x => `<div class="rowx" style="padding:6px 0;border-top:1px solid var(--line);align-items:center"><span>${new Date(x.t).toLocaleDateString(LOC(), { day: "numeric", month: "short", year: "numeric" })} · <b>${fmtW(x.kg)}</b></span><button class="x" data-wdel="${x.id}" aria-label="${T("Borrar registro")}">×</button></div>`).join("")}</div>` : ""}
+      <p class="muted" style="font-size:.8rem;margin:12px 0 0">${W.goal() ? `${T("Objetivo")}: ${fmtW(W.goal())} · ` : ""}<button class="verb" data-act="go-perfil">${T("Objetivo y recordatorio, en tu perfil")}</button></p>
+            ${W.list().length ? `<div style="margin-top:12px">${W.list().slice(-6).reverse().map(x => `<div class="rowx" style="padding:6px 0;border-top:1px solid var(--line);align-items:center"><span>${new Date(x.t).toLocaleDateString(LOC(), { day: "numeric", month: "short", year: "numeric" })} · <b>${fmtW(x.kg)}</b></span><button class="x" data-wdel="${x.id}" aria-label="${T("Borrar registro")}">×</button></div>`).join("")}</div>` : ""}
     </div>`,
     note: `    <div class="panel">
       <textarea id="dNote" rows="3" placeholder="${T("Cómo ha ido, por qué no se ha podido entrenar, molestias…")}">${esc(e.note || "")}</textarea>
@@ -215,8 +224,8 @@ function viewDiary() {
       ${cr ? (() => { const kd = cycKind(k, cr), ce = e.cyc || {}, dd = cr.last && k >= cr.last.s ? kDiff(k, cr.last.s) + 1 : null, ph = CYC.cfg().phase && cr.last && k >= cr.last.s ? cycPhase(cr, k) : null;
         return tile("cyc", T("Ciclo"), kd === "per" ? T("Regla") : dd ? T("Día {n}", { n: dd }) : "—", (ce.sym || []).length ? ce.sym.map(x => esc(T(x))).join(", ") : (ph && kd !== "per" ? ph : ""), kd === "per" || !!(ce.sym || []).length, true, true); })() : ""}
       ${tile("note", T("Notas del día"), (e.note || "").trim() ? esc(e.note.trim().slice(0, 40)) + (e.note.trim().length > 40 ? "…" : "") : "—", (e.tags || []).length ? (e.tags || []).map(x => T((TAGS.find(z => z[0] === x) || [0, x])[1])).join(" · ") : "", !!(e.note || "").trim(), true)}`;
-      return `${tl.trim() ? `<div class="dtiles">${tl}</div>` : `<div class="empty" style="margin-top:12px">${T("Nada anotado este día")}</div>`}
-      ${miss.length ? `<div class="addchips" role="group" aria-label="${T("Añadir")}">${miss.map(([kk, l]) => `<button class="chip" data-dsh="${kk}">+ ${l}</button>`).join("")}</div>` : ""}`; })()}
+      return `${tl.trim() ? `<div class="dtiles">${tl}</div>` : `<p class="muted" style="margin:14px 4px 0">${T("Nada anotado este día")}</p>`}
+      ${miss.length ? `<p class="addh">${T("Añadir a este día")}</p><div class="addgrid" role="group" aria-label="${T("Añadir a este día")}">${miss.map(([kk, l]) => `<button class="addt" data-dsh="${kk}"><svg viewBox="0 0 24 24" aria-hidden="true">${DICO[kk] || DICO.note}</svg><span>${l}</span></button>`).join("")}</div>` : ""}`; })()}
     ${sh}`;
 }
 

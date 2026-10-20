@@ -18,7 +18,8 @@ const prow = (col, t, d, acts) => `<div class="prow"><span class="dot" style="ba
 function weightBanner() {
   const now = Date.now(), wd = W.day(), today = new Date(now).getDay();
   const wk = weekStart(now), dueIdx = (wd + 6) % 7, todayIdx = (today + 6) % 7;
-  if (!state.sessions.length && !W.list().length) return "";   // usuario nuevo: sin avisos hasta que empiece
+  if (LS.get("wk.weighOn", true) === false) return "";
+  if (!state.sessions.length && !W.list().length && LS.get("wk.weighOn", null) === null) return "";   // usuario nuevo: sin avisos hasta que empiece o lo active
   if (todayIdx < dueIdx || LS.get("wk.weightSkip", 0) === wk) return "";
   if (W.list().some(x => x.t >= addDays(wk, dueIdx))) return "";
   const last = W.list().slice(-1)[0];

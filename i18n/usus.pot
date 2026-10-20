@@ -114,6 +114,16 @@ msgid "{e} ejercicios · {s} series"
 msgstr ""
 
 #, python-brace-format
+msgid "{n} año"
+msgid_plural "{n} años"
+msgstr[0] ""
+msgstr[1] ""
+
+#, python-brace-format
+msgid "{n} año"
+msgstr ""
+
+#, python-brace-format
 msgid "{n} de {m} seleccionadas"
 msgstr ""
 
@@ -507,6 +517,9 @@ msgstr ""
 msgid "Añadir"
 msgstr ""
 
+msgid "Añadir a este día"
+msgstr ""
+
 msgid "Añadir a una rutina"
 msgstr ""
 
@@ -627,6 +640,9 @@ msgid "Aviso {n} días antes"
 msgstr ""
 
 msgid "Aviso en Hoy antes de la regla prevista"
+msgstr ""
+
+msgid "Aviso en Hoy hasta que lo anotes esa semana"
 msgstr ""
 
 msgid "Aviso final (s)"
@@ -1048,10 +1064,10 @@ msgstr ""
 msgid "Datos importados"
 msgstr ""
 
-msgid "Datos para el análisis con IA"
+msgid "Datos para el análisis: edad, altura, experiencia, lesiones, molestias y objetivos, opcionales. Solo se guardan si quieres (Ajustes → Cuerpo)."
 msgstr ""
 
-msgid "Datos para el análisis: edad, altura, experiencia, lesiones, molestias y objetivos, opcionales. Solo se guardan si quieres (Ajustes → Cuerpo)."
+msgid "Datos personales"
 msgstr ""
 
 msgid "Datos y copias"
@@ -1847,6 +1863,10 @@ msgstr ""
 msgid "Imagen guardada"
 msgstr ""
 
+#, python-brace-format
+msgid "IMC {x}"
+msgstr ""
+
 msgid "impacto"
 msgstr ""
 
@@ -2479,6 +2499,9 @@ msgstr ""
 msgid "Objetivo semanal ({u})"
 msgstr ""
 
+msgid "Objetivo y recordatorio, en tu perfil"
+msgstr ""
+
 #, python-brace-format
 msgid "Objetivo: {v}"
 msgstr ""
@@ -2701,6 +2724,9 @@ msgid "Peso guardado: {v}"
 msgstr ""
 
 msgid "Peso máximo"
+msgstr ""
+
+msgid "Peso objetivo (kg)"
 msgstr ""
 
 msgid "Peso semanal"
@@ -2960,6 +2986,9 @@ msgstr ""
 msgid "récord"
 msgstr ""
 
+msgid "Recordarme pesarme"
+msgstr ""
+
 msgid "Récords"
 msgstr ""
 
@@ -3143,6 +3172,9 @@ msgid "Saltar"
 msgstr ""
 
 msgid "Saltar ejercicio"
+msgstr ""
+
+msgid "Salud y experiencia (para la IA)"
 msgstr ""
 
 msgid "Se abrirá GitHub con el formulario preparado."
@@ -3438,9 +3470,6 @@ msgstr ""
 msgid "Sin notas en este periodo."
 msgstr ""
 
-msgid "sin objetivo"
-msgstr ""
-
 msgid "Sin pitidos ni vibración: solo la cuenta atrás y el destello en pantalla."
 msgstr ""
 
@@ -3448,6 +3477,9 @@ msgid "Sin plan de progresión"
 msgstr ""
 
 msgid "Sin propuesta en el catálogo"
+msgstr ""
+
+msgid "Sin registros"
 msgstr ""
 
 msgid "Sin resultados."
@@ -3498,6 +3530,9 @@ msgstr ""
 
 #, python-brace-format
 msgid "Solo en esta sesión. En lugar de {x}."
+msgstr ""
+
+msgid "Solo en este dispositivo. La fecha de nacimiento y la altura se usan en el análisis y en el plan con IA."
 msgstr ""
 
 msgid "Solo las rutinas. Ningún registro."

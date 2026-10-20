@@ -14,8 +14,12 @@ label.srow{cursor:pointer}
 .note{color:var(--muted);font-size:.8rem;margin:8px 4px 0}
 .swrow{color:var(--ink);font-size:.95rem;padding:12px 0 0;align-items:center}
 .swrow small{display:block;color:var(--muted);font-size:.8rem}
-.addchips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
-.addchips .chip{min-height:36px;font-weight:500}
+.addh{font-size:.75rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:20px 4px 8px}
+.addgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.addt{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:76px;padding:10px 6px;border:1.5px dashed color-mix(in srgb,var(--muted) 45%,var(--line));border-radius:14px;background:transparent;color:var(--ink);font:inherit;font-size:.85rem;font-weight:600;text-align:center}
+.addt svg{width:24px;height:24px;fill:none;stroke:var(--accent);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.addt:hover,.addt:active{border-style:solid;border-color:var(--accent);background:var(--accent-soft)}
+@media (min-width:600px){.addgrid{grid-template-columns:repeat(auto-fill,minmax(120px,1fr))}}
 /* Pantalla completa en el móvil para lo largo (ficha, compartir, analizar con IA, recibir rutinas): Atrás arriba */
 .mbox.full>.back{display:none}
 @media (max-width:999px){

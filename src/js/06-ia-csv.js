@@ -11,10 +11,10 @@ const aiProf = () => LS.get("wk.aiProf", null);
 const ageOf = b => { if (!/^\d{4}-\d{2}-\d{2}$/.test(b || "")) return null; const d = new Date(b), n = new Date(); let a = n.getFullYear() - d.getFullYear(); if (n.getMonth() < d.getMonth() || (n.getMonth() === d.getMonth() && n.getDate() < d.getDate())) a--; return a > 0 && a < 120 ? a : null; };
 const hmOf = t => { const d = new Date(t); return `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`; };
 const cycAvail = () => curProf().sex !== "m" && CYC.list().length > 0;
-function aiFields(f, pre) {
+function aiFields(f, pre, noBasic) {
   const v = k => esc(f[k] || "");
-  return `<div class="aitwo"><div><label class="muted" for="${pre}birth">${T("Fecha de nacimiento")}</label><input type="date" id="${pre}birth" value="${v("birth")}"></div>
-      <div><label class="muted" for="${pre}height">${T("Altura (cm)")}</label><input type="number" id="${pre}height" min="80" max="250" inputmode="numeric" value="${v("height")}"></div></div>
+  return `${noBasic ? "" : `<div class="aitwo"><div><label class="muted" for="${pre}birth">${T("Fecha de nacimiento")}</label><input type="date" id="${pre}birth" value="${v("birth")}"></div>
+      <div><label class="muted" for="${pre}height">${T("Altura (cm)")}</label><input type="number" id="${pre}height" min="80" max="250" inputmode="numeric" value="${v("height")}"></div></div>`}
     <label class="muted" for="${pre}level">${T("Experiencia entrenando")}</label><select id="${pre}level"><option value="">—</option>${AI_LEVELS.map(([k, n]) => `<option value="${k}" ${f.level === k ? "selected" : ""}>${T(n)}</option>`).join("")}</select>
     ${AI_F.map(([k, n, ph, big]) => `<label class="muted" for="${pre}${k}">${T(n)}</label>${big ? `<textarea id="${pre}${k}" rows="2" maxlength="400" placeholder="${T(ph)}">${v(k)}</textarea>` : `<input type="text" id="${pre}${k}" maxlength="200" placeholder="${T(ph)}" value="${v(k)}">`}`).join("")}`;
 }
@@ -65,11 +65,23 @@ function aiCard() {
     <p class="muted" style="font-size:.88rem;margin:6px 0 0">${T("Usus prepara un texto con tus datos y las instrucciones para que una IA (ChatGPT, Claude, Gemini…) los analice. Usus no envía nada: lo copias o compartes tú.")}</p>
     <button class="btn" style="margin-top:10px" data-act="ai-open">${T("Preparar análisis")}</button></div>`;
 }
+/* Perfil: datos personales (también para la IA) y peso */
+function persPanel() {
+  const f = aiProf() || {}, last = W.list().slice(-1)[0], age = ageOf(f.birth), h = +f.height, bmi = last && h ? last.kg / ((h / 100) ** 2) : 0, on = LS.get("wk.weighOn", true) !== false;
+  return `<h2>${T("Datos personales")}</h2><div class="lgroup">
+    <div class="srow"><label class="t" for="ap_birth">${T("Fecha de nacimiento")}${age ? `<small>${TN(age, "{n} año", "{n} años")}</small>` : ""}</label><input type="date" id="ap_birth" value="${esc(f.birth || "")}" style="width:auto;max-width:55%"></div>
+    <div class="srow"><label class="t" for="ap_height">${T("Altura (cm)")}</label><input type="number" id="ap_height" min="80" max="250" inputmode="numeric" value="${esc(f.height || "")}"></div>
+    <div class="srow"><span class="t">${T("Peso")}<small>${last ? `${fmtW(last.kg)} · ${new Date(last.t).toLocaleDateString(LOC(), { day: "numeric", month: "short" })}${bmi ? ` · ${T("IMC {x}", { x: fmtNum(bmi) })}` : ""}` : T("Sin registros")}</small></span><button class="btn small" data-act="w-open">${T("Anotar")}</button></div>
+    <div class="srow"><label class="t" for="wGoal">${T("Peso objetivo (kg)")}</label><input id="wGoal" type="text" inputmode="decimal" placeholder="—" value="${W.goal() ? fmtNum(W.goal()) : ""}" style="width:84px;text-align:center"></div>
+    ${srowS("weighOn", T("Recordarme pesarme"), on, T("Aviso en Hoy hasta que lo anotes esa semana"))}
+    ${on ? `<div class="srow"><label class="t" for="wDay">${T("Día de pesaje")}</label><select id="wDay">${[1, 2, 3, 4, 5, 6, 0].map(i => `<option value="${i}" ${W.day() === i ? "selected" : ""}>${DIAS[i]}</option>`).join("")}</select></div>` : ""}
+  </div><p class="note">${T("Solo en este dispositivo. La fecha de nacimiento y la altura se usan en el análisis y en el plan con IA.")}</p>`;
+}
 function aiProfPanel() {
-  const f = aiProf(); if (!aiHasData(f)) return "";
-  return `<h2>${T("Datos para el análisis con IA")}</h2><div class="panel aiform">${aiFields(f, "ap_")}
+  const f = aiProf() || {};
+  return `<details class="panel" style="margin-top:16px"${aiHasData({ ...f, birth: "", height: "" }) ? "" : ""}><summary style="cursor:pointer;font-weight:600">${T("Salud y experiencia (para la IA)")}</summary><div class="aiform" style="margin-top:8px">${aiFields(f, "ap_", true)}
     <p class="muted" style="font-size:.8rem;margin:8px 0 0">${T("Solo se usan al preparar un análisis con IA externa (Progreso → Resumen). Van en la copia de seguridad del perfil.")}</p>
-    <div class="row" style="margin-top:10px"><button class="btn small primary" data-act="ap-save">${T("Guardar")}</button><button class="btn small danger" data-act="ap-del">${T("Borrar estos datos")}</button></div></div>`;
+    <div class="row" style="margin-top:10px"><button class="btn small primary" data-act="ap-save">${T("Guardar")}</button><button class="btn small danger" data-act="ap-del">${T("Borrar estos datos")}</button></div></div></details>`;
 }
 /* El texto */
 function aiBuild(o) {

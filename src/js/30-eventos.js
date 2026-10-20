@@ -363,6 +363,7 @@ document.addEventListener("click", async ev => {
       addWeight(t, kg); toast(T("Peso guardado: {v}", { v: fmtW(kg) })); render(); break;
     }
     case "w-open": state.tab = "diary"; state.day = dayKey(Date.now()); state.dsheet = "peso"; render(); setTimeout(() => $("#wKg")?.focus(), 0); break;
+    case "go-perfil": state.dsheet = null; state.tab = "data"; state.setTab = "perfil"; render(); window.scrollTo(0, 0); break;
     case "w-skip": LS.set("wk.weightSkip", weekStart(Date.now())); render(); break;
     case "w-goal": { const v = $("#wGoal")?.value.trim(); if (!v) { LS.set("wk.weightGoal", null); toast(T("Objetivo quitado")); render(); break; }
       const g = parseKg(v); if (g === null) { toast(T("Escribe un objetivo válido, por ejemplo {v}", { v: 70 })); return; } LS.set("wk.weightGoal", g); toast(T("Objetivo: {v}", { v: fmtW(g) })); render(); break; }
@@ -441,6 +442,9 @@ document.addEventListener("change", async ev => {
   if (tg.id === "effPem" || tg.id === "effRir") { LS.set("wk.effort", { ...EFF(), [tg.id === "effPem" ? "pem" : "rir"]: tg.checked }); render(); return; }
   if (tg.id === "catOnly") { state.catOnly = tg.checked; const l = $("#catList"); if (l) l.innerHTML = catListHTML(); return; }
   if (tg.dataset.omat && state.ownMat) { const k = tg.dataset.omat, l = state.ownMat.equip.filter(z => z !== k); if (tg.checked) l.push(k); state.ownMat.equip = l; return; }
+  if (tg.id === "ap_birth" || tg.id === "ap_height") { const f = { ...(aiProf() || {}) }; if (tg.id === "ap_birth") f.birth = tg.value; else f.height = Math.round(+tg.value) || ""; LS.set("wk.aiProf", aiHasData(f) ? f : null); render(); return; }
+  if (tg.id === "weighOn") { LS.set("wk.weighOn", tg.checked); render(); return; }
+  if (tg.id === "wGoal") { const v = tg.value.trim(); if (!v) { LS.set("wk.weightGoal", null); render(); return; } const g = parseKg(v); if (g === null) { toast(T("Escribe un objetivo válido, por ejemplo {v}", { v: 70 })); return; } LS.set("wk.weightGoal", g); toast(T("Objetivo: {v}", { v: fmtW(g) })); render(); return; }
   if (tg.id === "langSel") { LS.set("wk.lang", tg.value); setLang(tg.value); render(); return; }
   if (tg.dataset.myeq) { const k = tg.dataset.myeq, l = (myEquip() || []).filter(z => z !== k); if (tg.checked) l.push(k); LS.set("wk.equip", l.length ? MAT_ORDER(l) : null); render(); return; }
   if (tg.id === "catChk") { LS.set("wk.catalog", tg.checked); state.routView = null; if (tg.checked) { toast(T("Catálogo activado")); render(); const c = await loadCatalog(); if (!c) toast(T("No se pudo cargar el catálogo. Se volverá a intentar al abrir la app.")); } else toast(T("Catálogo desactivado")); render(); return; }

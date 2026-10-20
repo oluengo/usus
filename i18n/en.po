@@ -115,6 +115,16 @@ msgid "{e} ejercicios · {s} series"
 msgstr "{e} exercises · {s} sets"
 
 #, python-brace-format
+msgid "{n} año"
+msgid_plural "{n} años"
+msgstr[0] "{n} year"
+msgstr[1] "{n} years"
+
+#, python-brace-format
+msgid "{n} año"
+msgstr ""
+
+#, python-brace-format
 msgid "{n} de {m} seleccionadas"
 msgstr "{n} of {m} selected"
 
@@ -508,6 +518,9 @@ msgstr "Adding here"
 msgid "Añadir"
 msgstr "Add"
 
+msgid "Añadir a este día"
+msgstr "Add to this day"
+
 msgid "Añadir a una rutina"
 msgstr "Add to a routine"
 
@@ -629,6 +642,9 @@ msgstr "Notice {n} days before"
 
 msgid "Aviso en Hoy antes de la regla prevista"
 msgstr "Notice in Today before the expected period"
+
+msgid "Aviso en Hoy hasta que lo anotes esa semana"
+msgstr "A reminder in Today until you log it that week"
 
 msgid "Aviso final (s)"
 msgstr "Final warning (s)"
@@ -1049,11 +1065,11 @@ msgstr "Data saved only on this device. Make backups from Settings."
 msgid "Datos importados"
 msgstr "Data imported"
 
-msgid "Datos para el análisis con IA"
-msgstr "Data for AI analysis"
-
 msgid "Datos para el análisis: edad, altura, experiencia, lesiones, molestias y objetivos, opcionales. Solo se guardan si quieres (Ajustes → Cuerpo)."
 msgstr "Data for the analysis: age, height, experience, injuries, discomfort and goals, all optional. Only saved if you want (Settings → Body)."
+
+msgid "Datos personales"
+msgstr "Personal details"
 
 msgid "Datos y copias"
 msgstr "Data and backups"
@@ -1848,6 +1864,10 @@ msgstr "Image"
 msgid "Imagen guardada"
 msgstr "Image saved"
 
+#, python-brace-format
+msgid "IMC {x}"
+msgstr "BMI {x}"
+
 msgid "impacto"
 msgstr "impact"
 
@@ -2480,6 +2500,9 @@ msgstr "Weekly goal"
 msgid "Objetivo semanal ({u})"
 msgstr "Weekly goal ({u})"
 
+msgid "Objetivo y recordatorio, en tu perfil"
+msgstr "Goal and reminder, in your profile"
+
 #, python-brace-format
 msgid "Objetivo: {v}"
 msgstr "Target: {v}"
@@ -2703,6 +2726,9 @@ msgstr "Weight saved: {v}"
 
 msgid "Peso máximo"
 msgstr "Max weight"
+
+msgid "Peso objetivo (kg)"
+msgstr "Goal weight (kg)"
 
 msgid "Peso semanal"
 msgstr "Weekly weight"
@@ -2961,6 +2987,9 @@ msgstr "Resume"
 msgid "récord"
 msgstr "PR"
 
+msgid "Recordarme pesarme"
+msgstr "Remind me to weigh in"
+
 msgid "Récords"
 msgstr "PRs"
 
@@ -3145,6 +3174,9 @@ msgstr "Skip"
 
 msgid "Saltar ejercicio"
 msgstr "Skip exercise"
+
+msgid "Salud y experiencia (para la IA)"
+msgstr "Health and experience (for the AI)"
 
 msgid "Se abrirá GitHub con el formulario preparado."
 msgstr "GitHub will open with the form ready."
@@ -3439,9 +3471,6 @@ msgstr "No warranty. The authors are not liable for injury, data loss or any oth
 msgid "Sin notas en este periodo."
 msgstr "No notes in this period."
 
-msgid "sin objetivo"
-msgstr "no target"
-
 msgid "Sin pitidos ni vibración: solo la cuenta atrás y el destello en pantalla."
 msgstr "No beeps or vibration: only the countdown and the screen flash."
 
@@ -3450,6 +3479,9 @@ msgstr "No progression plan"
 
 msgid "Sin propuesta en el catálogo"
 msgstr "No suggestion in the catalogue"
+
+msgid "Sin registros"
+msgstr "No entries"
 
 msgid "Sin resultados."
 msgstr "No results."
@@ -3500,6 +3532,9 @@ msgstr "Only the active plan counts in Today. Switching plans doesn't touch your
 #, python-brace-format
 msgid "Solo en esta sesión. En lugar de {x}."
 msgstr "This session only. Instead of {x}."
+
+msgid "Solo en este dispositivo. La fecha de nacimiento y la altura se usan en el análisis y en el plan con IA."
+msgstr "Only on this device. Date of birth and height are used in the AI analysis and plan."
 
 msgid "Solo las rutinas. Ningún registro."
 msgstr "Routines only. No logs."
@@ -3994,6 +4029,12 @@ msgstr "Me"
 
 msgid "Zona peligrosa"
 msgstr "Danger zone"
+
+#~ msgid "Datos para el análisis con IA"
+#~ msgstr "Data for AI analysis"
+
+#~ msgid "sin objetivo"
+#~ msgstr "no target"
 
 #~ msgid "Toca una semana para ver sus días en el Diario."
 #~ msgstr "Tap a week to see its days in the Diary."

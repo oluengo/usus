@@ -115,6 +115,16 @@ msgid "{e} ejercicios · {s} series"
 msgstr "{e} exercicis · {s} sèries"
 
 #, python-brace-format
+msgid "{n} año"
+msgid_plural "{n} años"
+msgstr[0] "{n} any"
+msgstr[1] "{n} anys"
+
+#, python-brace-format
+msgid "{n} año"
+msgstr ""
+
+#, python-brace-format
 msgid "{n} de {m} seleccionadas"
 msgstr "{n} de {m} seleccionades"
 
@@ -508,6 +518,9 @@ msgstr "Afegint aquí"
 msgid "Añadir"
 msgstr "Afegeix"
 
+msgid "Añadir a este día"
+msgstr "Afegir a aquest dia"
+
 msgid "Añadir a una rutina"
 msgstr "Afegeix a una rutina"
 
@@ -629,6 +642,9 @@ msgstr "Avís {n} dies abans"
 
 msgid "Aviso en Hoy antes de la regla prevista"
 msgstr "Avís a Avui abans de la regla prevista"
+
+msgid "Aviso en Hoy hasta que lo anotes esa semana"
+msgstr "Avís a Avui fins que l'anotis aquella setmana"
 
 msgid "Aviso final (s)"
 msgstr "Avís final (s)"
@@ -1049,11 +1065,11 @@ msgstr "Dades desades només en aquest dispositiu. Fes còpies des d'Ajustos."
 msgid "Datos importados"
 msgstr "Dades importades"
 
-msgid "Datos para el análisis con IA"
-msgstr "Dades per a l'anàlisi amb IA"
-
 msgid "Datos para el análisis: edad, altura, experiencia, lesiones, molestias y objetivos, opcionales. Solo se guardan si quieres (Ajustes → Cuerpo)."
 msgstr "Dades per a l'anàlisi: edat, alçada, experiència, lesions, molèsties i objectius, opcionals. Només es desen si vols (Ajustos → Cos)."
+
+msgid "Datos personales"
+msgstr "Dades personals"
 
 msgid "Datos y copias"
 msgstr "Dades i còpies"
@@ -1848,6 +1864,10 @@ msgstr "Imatge"
 msgid "Imagen guardada"
 msgstr "Imatge desada"
 
+#, python-brace-format
+msgid "IMC {x}"
+msgstr "IMC {x}"
+
 msgid "impacto"
 msgstr "impacte"
 
@@ -2480,6 +2500,9 @@ msgstr "Objectiu setmanal"
 msgid "Objetivo semanal ({u})"
 msgstr "Objectiu setmanal ({u})"
 
+msgid "Objetivo y recordatorio, en tu perfil"
+msgstr "Objectiu i recordatori, al teu perfil"
+
 #, python-brace-format
 msgid "Objetivo: {v}"
 msgstr "Objectiu: {v}"
@@ -2703,6 +2726,9 @@ msgstr "Pes desat: {v}"
 
 msgid "Peso máximo"
 msgstr "Pes màxim"
+
+msgid "Peso objetivo (kg)"
+msgstr "Pes objectiu (kg)"
 
 msgid "Peso semanal"
 msgstr "Pes setmanal"
@@ -2961,6 +2987,9 @@ msgstr "Reprèn"
 msgid "récord"
 msgstr "rècord"
 
+msgid "Recordarme pesarme"
+msgstr "Recorda'm que em pesi"
+
 msgid "Récords"
 msgstr "Rècords"
 
@@ -3145,6 +3174,9 @@ msgstr "Salta"
 
 msgid "Saltar ejercicio"
 msgstr "Salta l'exercici"
+
+msgid "Salud y experiencia (para la IA)"
+msgstr "Salut i experiència (per a la IA)"
 
 msgid "Se abrirá GitHub con el formulario preparado."
 msgstr "S'obrirà GitHub amb el formulari preparat."
@@ -3439,9 +3471,6 @@ msgstr "Sense garanties. Els autors no responen de lesions, pèrdua de dades ni 
 msgid "Sin notas en este periodo."
 msgstr "Sense notes en aquest període."
 
-msgid "sin objetivo"
-msgstr "sense objectiu"
-
 msgid "Sin pitidos ni vibración: solo la cuenta atrás y el destello en pantalla."
 msgstr "Sense xiulets ni vibració: només el compte enrere i el flaix a la pantalla."
 
@@ -3450,6 +3479,9 @@ msgstr "Sense pla de progressió"
 
 msgid "Sin propuesta en el catálogo"
 msgstr "Sense proposta al catàleg"
+
+msgid "Sin registros"
+msgstr "Sense registres"
 
 msgid "Sin resultados."
 msgstr "Sense resultats."
@@ -3500,6 +3532,9 @@ msgstr "Només el pla actiu compta a Avui. En canviar de pla, les teves rutines,
 #, python-brace-format
 msgid "Solo en esta sesión. En lugar de {x}."
 msgstr "Només en aquesta sessió. En lloc de {x}."
+
+msgid "Solo en este dispositivo. La fecha de nacimiento y la altura se usan en el análisis y en el plan con IA."
+msgstr "Només en aquest dispositiu. La data de naixement i l'alçada es fan servir a l'anàlisi i al pla amb IA."
 
 msgid "Solo las rutinas. Ningún registro."
 msgstr "Només les rutines. Cap registre."
@@ -3994,6 +4029,12 @@ msgstr "Jo"
 
 msgid "Zona peligrosa"
 msgstr "Zona perillosa"
+
+#~ msgid "Datos para el análisis con IA"
+#~ msgstr "Dades per a l'anàlisi amb IA"
+
+#~ msgid "sin objetivo"
+#~ msgstr "sense objectiu"
 
 #~ msgid "Toca una semana para ver sus días en el Diario."
 #~ msgstr "Toca una setmana per veure'n els dies al Diari."

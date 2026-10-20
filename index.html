@@ -668,8 +668,12 @@ label.srow{cursor:pointer}
 .note{color:var(--muted);font-size:.8rem;margin:8px 4px 0}
 .swrow{color:var(--ink);font-size:.95rem;padding:12px 0 0;align-items:center}
 .swrow small{display:block;color:var(--muted);font-size:.8rem}
-.addchips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
-.addchips .chip{min-height:36px;font-weight:500}
+.addh{font-size:.75rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:20px 4px 8px}
+.addgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.addt{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:76px;padding:10px 6px;border:1.5px dashed color-mix(in srgb,var(--muted) 45%,var(--line));border-radius:14px;background:transparent;color:var(--ink);font:inherit;font-size:.85rem;font-weight:600;text-align:center}
+.addt svg{width:24px;height:24px;fill:none;stroke:var(--accent);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.addt:hover,.addt:active{border-style:solid;border-color:var(--accent);background:var(--accent-soft)}
+@media (min-width:600px){.addgrid{grid-template-columns:repeat(auto-fill,minmax(120px,1fr))}}
 /* Pantalla completa en el móvil para lo largo (ficha, compartir, analizar con IA, recibir rutinas): Atrás arriba */
 .mbox.full>.back{display:none}
 @media (max-width:999px){
@@ -2003,10 +2007,10 @@ const aiProf = () => LS.get("wk.aiProf", null);
 const ageOf = b => { if (!/^\d{4}-\d{2}-\d{2}$/.test(b || "")) return null; const d = new Date(b), n = new Date(); let a = n.getFullYear() - d.getFullYear(); if (n.getMonth() < d.getMonth() || (n.getMonth() === d.getMonth() && n.getDate() < d.getDate())) a--; return a > 0 && a < 120 ? a : null; };
 const hmOf = t => { const d = new Date(t); return `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`; };
 const cycAvail = () => curProf().sex !== "m" && CYC.list().length > 0;
-function aiFields(f, pre) {
+function aiFields(f, pre, noBasic) {
   const v = k => esc(f[k] || "");
-  return `<div class="aitwo"><div><label class="muted" for="${pre}birth">${T("Fecha de nacimiento")}</label><input type="date" id="${pre}birth" value="${v("birth")}"></div>
-      <div><label class="muted" for="${pre}height">${T("Altura (cm)")}</label><input type="number" id="${pre}height" min="80" max="250" inputmode="numeric" value="${v("height")}"></div></div>
+  return `${noBasic ? "" : `<div class="aitwo"><div><label class="muted" for="${pre}birth">${T("Fecha de nacimiento")}</label><input type="date" id="${pre}birth" value="${v("birth")}"></div>
+      <div><label class="muted" for="${pre}height">${T("Altura (cm)")}</label><input type="number" id="${pre}height" min="80" max="250" inputmode="numeric" value="${v("height")}"></div></div>`}
     <label class="muted" for="${pre}level">${T("Experiencia entrenando")}</label><select id="${pre}level"><option value="">—</option>${AI_LEVELS.map(([k, n]) => `<option value="${k}" ${f.level === k ? "selected" : ""}>${T(n)}</option>`).join("")}</select>
     ${AI_F.map(([k, n, ph, big]) => `<label class="muted" for="${pre}${k}">${T(n)}</label>${big ? `<textarea id="${pre}${k}" rows="2" maxlength="400" placeholder="${T(ph)}">${v(k)}</textarea>` : `<input type="text" id="${pre}${k}" maxlength="200" placeholder="${T(ph)}" value="${v(k)}">`}`).join("")}`;
 }
@@ -2057,11 +2061,23 @@ function aiCard() {
     <p class="muted" style="font-size:.88rem;margin:6px 0 0">${T("Usus prepara un texto con tus datos y las instrucciones para que una IA (ChatGPT, Claude, Gemini…) los analice. Usus no envía nada: lo copias o compartes tú.")}</p>
     <button class="btn" style="margin-top:10px" data-act="ai-open">${T("Preparar análisis")}</button></div>`;
 }
+/* Perfil: datos personales (también para la IA) y peso */
+function persPanel() {
+  const f = aiProf() || {}, last = W.list().slice(-1)[0], age = ageOf(f.birth), h = +f.height, bmi = last && h ? last.kg / ((h / 100) ** 2) : 0, on = LS.get("wk.weighOn", true) !== false;
+  return `<h2>${T("Datos personales")}</h2><div class="lgroup">
+    <div class="srow"><label class="t" for="ap_birth">${T("Fecha de nacimiento")}${age ? `<small>${TN(age, "{n} año", "{n} años")}</small>` : ""}</label><input type="date" id="ap_birth" value="${esc(f.birth || "")}" style="width:auto;max-width:55%"></div>
+    <div class="srow"><label class="t" for="ap_height">${T("Altura (cm)")}</label><input type="number" id="ap_height" min="80" max="250" inputmode="numeric" value="${esc(f.height || "")}"></div>
+    <div class="srow"><span class="t">${T("Peso")}<small>${last ? `${fmtW(last.kg)} · ${new Date(last.t).toLocaleDateString(LOC(), { day: "numeric", month: "short" })}${bmi ? ` · ${T("IMC {x}", { x: fmtNum(bmi) })}` : ""}` : T("Sin registros")}</small></span><button class="btn small" data-act="w-open">${T("Anotar")}</button></div>
+    <div class="srow"><label class="t" for="wGoal">${T("Peso objetivo (kg)")}</label><input id="wGoal" type="text" inputmode="decimal" placeholder="—" value="${W.goal() ? fmtNum(W.goal()) : ""}" style="width:84px;text-align:center"></div>
+    ${srowS("weighOn", T("Recordarme pesarme"), on, T("Aviso en Hoy hasta que lo anotes esa semana"))}
+    ${on ? `<div class="srow"><label class="t" for="wDay">${T("Día de pesaje")}</label><select id="wDay">${[1, 2, 3, 4, 5, 6, 0].map(i => `<option value="${i}" ${W.day() === i ? "selected" : ""}>${DIAS[i]}</option>`).join("")}</select></div>` : ""}
+  </div><p class="note">${T("Solo en este dispositivo. La fecha de nacimiento y la altura se usan en el análisis y en el plan con IA.")}</p>`;
+}
 function aiProfPanel() {
-  const f = aiProf(); if (!aiHasData(f)) return "";
-  return `<h2>${T("Datos para el análisis con IA")}</h2><div class="panel aiform">${aiFields(f, "ap_")}
+  const f = aiProf() || {};
+  return `<details class="panel" style="margin-top:16px"${aiHasData({ ...f, birth: "", height: "" }) ? "" : ""}><summary style="cursor:pointer;font-weight:600">${T("Salud y experiencia (para la IA)")}</summary><div class="aiform" style="margin-top:8px">${aiFields(f, "ap_", true)}
     <p class="muted" style="font-size:.8rem;margin:8px 0 0">${T("Solo se usan al preparar un análisis con IA externa (Progreso → Resumen). Van en la copia de seguridad del perfil.")}</p>
-    <div class="row" style="margin-top:10px"><button class="btn small primary" data-act="ap-save">${T("Guardar")}</button><button class="btn small danger" data-act="ap-del">${T("Borrar estos datos")}</button></div></div>`;
+    <div class="row" style="margin-top:10px"><button class="btn small primary" data-act="ap-save">${T("Guardar")}</button><button class="btn small danger" data-act="ap-del">${T("Borrar estos datos")}</button></div></div></details>`;
 }
 /* El texto */
 function aiBuild(o) {
@@ -2348,7 +2364,8 @@ const prow = (col, t, d, acts) => `<div class="prow"><span class="dot" style="ba
 function weightBanner() {
   const now = Date.now(), wd = W.day(), today = new Date(now).getDay();
   const wk = weekStart(now), dueIdx = (wd + 6) % 7, todayIdx = (today + 6) % 7;
-  if (!state.sessions.length && !W.list().length) return "";   // usuario nuevo: sin avisos hasta que empiece
+  if (LS.get("wk.weighOn", true) === false) return "";
+  if (!state.sessions.length && !W.list().length && LS.get("wk.weighOn", null) === null) return "";   // usuario nuevo: sin avisos hasta que empiece o lo active
   if (todayIdx < dueIdx || LS.get("wk.weightSkip", 0) === wk) return "";
   if (W.list().some(x => x.t >= addDays(wk, dueIdx))) return "";
   const last = W.list().slice(-1)[0];
@@ -3353,6 +3370,16 @@ function sessionCard(s) {
       <div class="row" style="margin-top:10px">${ed ? "" : `<button class="btn small" data-snote="${s.id}">✎ ${T("Notas")}</button>`}<button class="btn small shbtn" data-shsess="${s.id}">${SHARE_ICO}${T("Compartir")}</button><span class="spacer"></span><button class="btn small danger" data-delsess="${s.id}">${T("Eliminar sesión")}</button></div>
     </div></details>`;
 }
+/* Iconos para añadir al día */
+const DICO = {
+  sleep: '<path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/>',
+  sup: '<rect x="3" y="9" width="18" height="6" rx="3" transform="rotate(-35 12 12)"/><path d="M9.5 8.5l5 7"/>',
+  steps: '<path d="M7 18c-1.7 0-3-1.2-3-3s1.2-4 3-4 2.5 2 2.5 3.5S8.7 18 7 18zM16 12c-1.7 0-2.5-1.8-2.5-3.5S14.3 4 16 4s3 2.2 3 4-1.3 4-3 4zM5 21h4M14 15h4"/>',
+  peso: '<rect x="3" y="4" width="18" height="16" rx="3"/><path d="M8 9a4 4 0 0 1 8 0zM12 9l1.5-2"/>',
+  act: '<circle cx="13" cy="4.5" r="1.8"/><path d="M7 21l3-6 3 2v5M10 15l1-5-3 1-2 3M11 10l3 2 3-1"/>',
+  note: '<path d="M4 20h4L19 9l-4-4L4 16zM13.5 6.5l4 4"/>',
+  cyc: '<path d="M12 3c3 4 6 7.5 6 11a6 6 0 0 1-12 0c0-3.5 3-7 6-11z"/>'
+};
 function viewDiary() {
   const k = state.day || dayKey(Date.now()), t = keyTime(k), today = dayKey(Date.now());
   const e = DY.get(k), sl = e.sleep || {}, dur = sleepMin(sl), sp = DY.supps().filter(x => !x.archived), taken = e.supp || {};
@@ -3409,9 +3436,8 @@ function viewDiary() {
       <input type="hidden" id="wDate" value="${k}">
       <div class="wrow"><label class="muted" for="wKg" style="font-size:.85rem">${T("Peso en kg")}</label><input id="wKg" type="text" inputmode="decimal" value="${dayW ? fmtNum(dayW.kg) : ""}" placeholder="${lastW ? fmtNum(lastW.kg) : "kg"}"><button class="btn primary small" data-act="w-add">${T("Guardar")}</button></div>
       ${dayW ? `<button class="btn ghost small danger" style="margin-top:8px" data-wdel="${dayW.id}">${T("Borrar registro")}</button>` : ""}
-      <div class="wrow" style="margin-top:14px"><label class="muted" for="wGoal" style="font-size:.85rem">${T("Objetivo")}</label><input id="wGoal" type="text" inputmode="decimal" placeholder="${T("sin objetivo")}" value="${W.goal() ? fmtNum(W.goal()) : ""}"><button class="btn small" data-act="w-goal">${T("Guardar")}</button></div>
-      <div class="wrow" style="margin-top:12px"><label class="muted" for="wDay" style="font-size:.85rem">${T("Día de pesaje")}</label><select id="wDay">${[1, 2, 3, 4, 5, 6, 0].map(i => `<option value="${i}" ${W.day() === i ? "selected" : ""}>${DIAS[i]}</option>`).join("")}</select><span></span></div>
-      ${W.list().length ? `<div style="margin-top:12px">${W.list().slice(-6).reverse().map(x => `<div class="rowx" style="padding:6px 0;border-top:1px solid var(--line);align-items:center"><span>${new Date(x.t).toLocaleDateString(LOC(), { day: "numeric", month: "short", year: "numeric" })} · <b>${fmtW(x.kg)}</b></span><button class="x" data-wdel="${x.id}" aria-label="${T("Borrar registro")}">×</button></div>`).join("")}</div>` : ""}
+      <p class="muted" style="font-size:.8rem;margin:12px 0 0">${W.goal() ? `${T("Objetivo")}: ${fmtW(W.goal())} · ` : ""}<button class="verb" data-act="go-perfil">${T("Objetivo y recordatorio, en tu perfil")}</button></p>
+            ${W.list().length ? `<div style="margin-top:12px">${W.list().slice(-6).reverse().map(x => `<div class="rowx" style="padding:6px 0;border-top:1px solid var(--line);align-items:center"><span>${new Date(x.t).toLocaleDateString(LOC(), { day: "numeric", month: "short", year: "numeric" })} · <b>${fmtW(x.kg)}</b></span><button class="x" data-wdel="${x.id}" aria-label="${T("Borrar registro")}">×</button></div>`).join("")}</div>` : ""}
     </div>`,
     note: `    <div class="panel">
       <textarea id="dNote" rows="3" placeholder="${T("Cómo ha ido, por qué no se ha podido entrenar, molestias…")}">${esc(e.note || "")}</textarea>
@@ -3440,8 +3466,8 @@ function viewDiary() {
       ${cr ? (() => { const kd = cycKind(k, cr), ce = e.cyc || {}, dd = cr.last && k >= cr.last.s ? kDiff(k, cr.last.s) + 1 : null, ph = CYC.cfg().phase && cr.last && k >= cr.last.s ? cycPhase(cr, k) : null;
         return tile("cyc", T("Ciclo"), kd === "per" ? T("Regla") : dd ? T("Día {n}", { n: dd }) : "—", (ce.sym || []).length ? ce.sym.map(x => esc(T(x))).join(", ") : (ph && kd !== "per" ? ph : ""), kd === "per" || !!(ce.sym || []).length, true, true); })() : ""}
       ${tile("note", T("Notas del día"), (e.note || "").trim() ? esc(e.note.trim().slice(0, 40)) + (e.note.trim().length > 40 ? "…" : "") : "—", (e.tags || []).length ? (e.tags || []).map(x => T((TAGS.find(z => z[0] === x) || [0, x])[1])).join(" · ") : "", !!(e.note || "").trim(), true)}`;
-      return `${tl.trim() ? `<div class="dtiles">${tl}</div>` : `<div class="empty" style="margin-top:12px">${T("Nada anotado este día")}</div>`}
-      ${miss.length ? `<div class="addchips" role="group" aria-label="${T("Añadir")}">${miss.map(([kk, l]) => `<button class="chip" data-dsh="${kk}">+ ${l}</button>`).join("")}</div>` : ""}`; })()}
+      return `${tl.trim() ? `<div class="dtiles">${tl}</div>` : `<p class="muted" style="margin:14px 4px 0">${T("Nada anotado este día")}</p>`}
+      ${miss.length ? `<p class="addh">${T("Añadir a este día")}</p><div class="addgrid" role="group" aria-label="${T("Añadir a este día")}">${miss.map(([kk, l]) => `<button class="addt" data-dsh="${kk}"><svg viewBox="0 0 24 24" aria-hidden="true">${DICO[kk] || DICO.note}</svg><span>${l}</span></button>`).join("")}</div>` : ""}`; })()}
     ${sh}`;
 }
 
@@ -3937,6 +3963,7 @@ function viewData() {
 `,
     perfil: `
     ${profSettings()}
+    ${persPanel()}
     ${curProf().sex === "m" ? "" : `<h2>${T("Ciclo")}</h2>
     ${cycSettings()}`}
     ${aiProfPanel()}
@@ -5172,6 +5199,7 @@ document.addEventListener("click", async ev => {
       addWeight(t, kg); toast(T("Peso guardado: {v}", { v: fmtW(kg) })); render(); break;
     }
     case "w-open": state.tab = "diary"; state.day = dayKey(Date.now()); state.dsheet = "peso"; render(); setTimeout(() => $("#wKg")?.focus(), 0); break;
+    case "go-perfil": state.dsheet = null; state.tab = "data"; state.setTab = "perfil"; render(); window.scrollTo(0, 0); break;
     case "w-skip": LS.set("wk.weightSkip", weekStart(Date.now())); render(); break;
     case "w-goal": { const v = $("#wGoal")?.value.trim(); if (!v) { LS.set("wk.weightGoal", null); toast(T("Objetivo quitado")); render(); break; }
       const g = parseKg(v); if (g === null) { toast(T("Escribe un objetivo válido, por ejemplo {v}", { v: 70 })); return; } LS.set("wk.weightGoal", g); toast(T("Objetivo: {v}", { v: fmtW(g) })); render(); break; }
@@ -5250,6 +5278,9 @@ document.addEventListener("change", async ev => {
   if (tg.id === "effPem" || tg.id === "effRir") { LS.set("wk.effort", { ...EFF(), [tg.id === "effPem" ? "pem" : "rir"]: tg.checked }); render(); return; }
   if (tg.id === "catOnly") { state.catOnly = tg.checked; const l = $("#catList"); if (l) l.innerHTML = catListHTML(); return; }
   if (tg.dataset.omat && state.ownMat) { const k = tg.dataset.omat, l = state.ownMat.equip.filter(z => z !== k); if (tg.checked) l.push(k); state.ownMat.equip = l; return; }
+  if (tg.id === "ap_birth" || tg.id === "ap_height") { const f = { ...(aiProf() || {}) }; if (tg.id === "ap_birth") f.birth = tg.value; else f.height = Math.round(+tg.value) || ""; LS.set("wk.aiProf", aiHasData(f) ? f : null); render(); return; }
+  if (tg.id === "weighOn") { LS.set("wk.weighOn", tg.checked); render(); return; }
+  if (tg.id === "wGoal") { const v = tg.value.trim(); if (!v) { LS.set("wk.weightGoal", null); render(); return; } const g = parseKg(v); if (g === null) { toast(T("Escribe un objetivo válido, por ejemplo {v}", { v: 70 })); return; } LS.set("wk.weightGoal", g); toast(T("Objetivo: {v}", { v: fmtW(g) })); render(); return; }
   if (tg.id === "langSel") { LS.set("wk.lang", tg.value); setLang(tg.value); render(); return; }
   if (tg.dataset.myeq) { const k = tg.dataset.myeq, l = (myEquip() || []).filter(z => z !== k); if (tg.checked) l.push(k); LS.set("wk.equip", l.length ? MAT_ORDER(l) : null); render(); return; }
   if (tg.id === "catChk") { LS.set("wk.catalog", tg.checked); state.routView = null; if (tg.checked) { toast(T("Catálogo activado")); render(); const c = await loadCatalog(); if (!c) toast(T("No se pudo cargar el catálogo. Se volverá a intentar al abrir la app.")); } else toast(T("Catálogo desactivado")); render(); return; }
@@ -5329,6 +5360,7 @@ const I18N = {
     "{a} de {b} revisados": "{a} de {b} revisats",
     "{d} · {e} ejercicios · {s} series": "{d} · {e} exercicis · {s} sèries",
     "{e} ejercicios · {s} series": "{e} exercicis · {s} sèries",
+    "{n} año\u0004{n} años": ["{n} any","{n} anys"],
     "{n} de {m} seleccionadas": "{n} de {m} seleccionades",
     "{n} de {m} seleccionadas · sin tus sesiones ni registros.": "{n} de {m} seleccionades · sense les teves sessions ni registres.",
     "{n} de {n} series": "{n} de {n} sèries",
@@ -5444,6 +5476,7 @@ const I18N = {
     "Añadido a «{x}»": "Afegit a «{x}»",
     "Añadiendo aquí": "Afegint aquí",
     "Añadir": "Afegeix",
+    "Añadir a este día": "Afegir a aquest dia",
     "Añadir a una rutina": "Afegeix a una rutina",
     "Añadir aquí": "Afegeix aquí",
     "Añadir como nueva": "Afegir com a nova",
@@ -5484,6 +5517,7 @@ const I18N = {
     "Aviso": "Avís",
     "Aviso {n} días antes": "Avís {n} dies abans",
     "Aviso en Hoy antes de la regla prevista": "Avís a Avui abans de la regla prevista",
+    "Aviso en Hoy hasta que lo anotes esa semana": "Avís a Avui fins que l'anotis aquella setmana",
     "Aviso final (s)": "Avís final (s)",
     "Aviso final: {n} s": "Avís final: {n} s",
     "Avisos": "Avisos",
@@ -5620,8 +5654,8 @@ const I18N = {
     "Datos en CSV (Ajustes → Datos): un .zip con una tabla por tipo de dato para analizarlos en una hoja de cálculo.": "Dades en CSV (Ajustos → Dades): un .zip amb una taula per tipus de dada per analitzar-les en un full de càlcul.",
     "Datos guardados solo en este dispositivo. Haz copias desde Ajustes.": "Dades desades només en aquest dispositiu. Fes còpies des d'Ajustos.",
     "Datos importados": "Dades importades",
-    "Datos para el análisis con IA": "Dades per a l'anàlisi amb IA",
     "Datos para el análisis: edad, altura, experiencia, lesiones, molestias y objetivos, opcionales. Solo se guardan si quieres (Ajustes → Cuerpo).": "Dades per a l'anàlisi: edat, alçada, experiència, lesions, molèsties i objectius, opcionals. Només es desen si vols (Ajustos → Cos).",
+    "Datos personales": "Dades personals",
     "Datos y copias": "Dades i còpies",
     "de ~{n}": "de ~{n}",
     "deben estar en la misma sección": "han d'estar a la mateixa secció",
@@ -5877,6 +5911,7 @@ const I18N = {
     "Idioma de la app": "Idioma de l'app",
     "Imagen": "Imatge",
     "Imagen guardada": "Imatge desada",
+    "IMC {x}": "IMC {x}",
     "impacto": "impacte",
     "Importar": "Importa",
     "Importar {r} rutinas, {s} sesiones, {w} pesos y {d} días de diario. Se combinarán con tus datos actuales. ¿Continuar?": "S'importaran {r} rutines, {s} sessions, {w} pesos i {d} dies de diari, combinats amb les teves dades actuals. Vols continuar?",
@@ -6082,6 +6117,7 @@ const I18N = {
     "Objetivo quitado": "Objectiu eliminat",
     "Objetivo semanal": "Objectiu setmanal",
     "Objetivo semanal ({u})": "Objectiu setmanal ({u})",
+    "Objetivo y recordatorio, en tu perfil": "Objectiu i recordatori, al teu perfil",
     "Objetivo: {v}": "Objectiu: {v}",
     "Objetivos": "Objectius",
     "Objetivos de la semana": "Objectius de la setmana",
@@ -6154,6 +6190,7 @@ const I18N = {
     "Peso en kg": "Pes en kg",
     "Peso guardado: {v}": "Pes desat: {v}",
     "Peso máximo": "Pes màxim",
+    "Peso objetivo (kg)": "Pes objectiu (kg)",
     "Peso semanal": "Pes setmanal",
     "Peso serie {n}": "Pes sèrie {n}",
     "Pierna": "Cama",
@@ -6236,6 +6273,7 @@ const I18N = {
     "Reanudando…": "Reprenent…",
     "Reanudar": "Reprèn",
     "récord": "rècord",
+    "Recordarme pesarme": "Recorda'm que em pesi",
     "Récords": "Rècords",
     "Récords recientes": "Rècords recents",
     "Registra caminatas, carreras o bici con «Registrar actividad» en Hoy.": "Registra caminades, curses o bici amb «Registrar activitat» a Avui.",
@@ -6295,6 +6333,7 @@ const I18N = {
     "Salidas en 30 días": "Sortides en 30 dies",
     "Saltar": "Salta",
     "Saltar ejercicio": "Salta l'exercici",
+    "Salud y experiencia (para la IA)": "Salut i experiència (per a la IA)",
     "Se abrirá GitHub con el formulario preparado.": "S'obrirà GitHub amb el formulari preparat.",
     "Se añaden a las suyas. No se borra nada ni se copia ningún registro.": "S'afegeixen a les seves. No s'esborra res ni es copia cap registre.",
     "Se aplica sola al empezar la semana a las rutinas de esa variante, con aviso en Hoy y opción de deshacer.": "S'aplica sola en començar la setmana a les rutines d'aquesta variant, amb avís a Avui i opció de desfer.",
@@ -6385,10 +6424,10 @@ const I18N = {
     "Sin entrenos este día.": "Sense entrenaments aquest dia.",
     "Sin garantías. Los autores no responden de lesiones, pérdida de datos ni ningún otro daño derivado de su uso. No sustituye el consejo de un profesional sanitario o deportivo.": "Sense garanties. Els autors no responen de lesions, pèrdua de dades ni cap altre dany derivat del seu ús. No substitueix el consell d'un professional sanitari o esportiu.",
     "Sin notas en este periodo.": "Sense notes en aquest període.",
-    "sin objetivo": "sense objectiu",
     "Sin pitidos ni vibración: solo la cuenta atrás y el destello en pantalla.": "Sense xiulets ni vibració: només el compte enrere i el flaix a la pantalla.",
     "Sin plan de progresión": "Sense pla de progressió",
     "Sin propuesta en el catálogo": "Sense proposta al catàleg",
+    "Sin registros": "Sense registres",
     "Sin resultados.": "Sense resultats.",
     "Sin RIR": "Sense RIR",
     "Sin rutinas.": "Sense rutines.",
@@ -6405,6 +6444,7 @@ const I18N = {
     "Solo con mi material": "Només amb el meu material",
     "Solo el plan activo cuenta en Hoy. Al cambiar de plan, tus rutinas, sesiones e historial no se tocan.": "Només el pla actiu compta a Avui. En canviar de pla, les teves rutines, sessions i historial no es toquen.",
     "Solo en esta sesión. En lugar de {x}.": "Només en aquesta sessió. En lloc de {x}.",
+    "Solo en este dispositivo. La fecha de nacimiento y la altura se usan en el análisis y en el plan con IA.": "Només en aquest dispositiu. La data de naixement i l'alçada es fan servir a l'anàlisi i al pla amb IA.",
     "Solo las rutinas. Ningún registro.": "Només les rutines. Cap registre.",
     "Solo los datos de {x}. Cada perfil tiene su propia copia.": "Només les dades de {x}. Cada perfil té la seva còpia.",
     "Solo recordatorio (↑)": "Només recordatori (↑)",
@@ -6596,6 +6636,7 @@ const I18N = {
     "{a} de {b} revisados": "{a} of {b} reviewed",
     "{d} · {e} ejercicios · {s} series": "{d} · {e} exercises · {s} sets",
     "{e} ejercicios · {s} series": "{e} exercises · {s} sets",
+    "{n} año\u0004{n} años": ["{n} year","{n} years"],
     "{n} de {m} seleccionadas": "{n} of {m} selected",
     "{n} de {m} seleccionadas · sin tus sesiones ni registros.": "{n} of {m} selected · without your sessions or logs.",
     "{n} de {n} series": "{n} of {n} sets",
@@ -6711,6 +6752,7 @@ const I18N = {
     "Añadido a «{x}»": "Added to “{x}”",
     "Añadiendo aquí": "Adding here",
     "Añadir": "Add",
+    "Añadir a este día": "Add to this day",
     "Añadir a una rutina": "Add to a routine",
     "Añadir aquí": "Add here",
     "Añadir como nueva": "Add as new",
@@ -6751,6 +6793,7 @@ const I18N = {
     "Aviso": "Notice",
     "Aviso {n} días antes": "Notice {n} days before",
     "Aviso en Hoy antes de la regla prevista": "Notice in Today before the expected period",
+    "Aviso en Hoy hasta que lo anotes esa semana": "A reminder in Today until you log it that week",
     "Aviso final (s)": "Final warning (s)",
     "Aviso final: {n} s": "Final warning: {n} s",
     "Avisos": "Alerts",
@@ -6887,8 +6930,8 @@ const I18N = {
     "Datos en CSV (Ajustes → Datos): un .zip con una tabla por tipo de dato para analizarlos en una hoja de cálculo.": "Data as CSV (Settings → Data): a .zip with one table per data type to analyse in a spreadsheet.",
     "Datos guardados solo en este dispositivo. Haz copias desde Ajustes.": "Data saved only on this device. Make backups from Settings.",
     "Datos importados": "Data imported",
-    "Datos para el análisis con IA": "Data for AI analysis",
     "Datos para el análisis: edad, altura, experiencia, lesiones, molestias y objetivos, opcionales. Solo se guardan si quieres (Ajustes → Cuerpo).": "Data for the analysis: age, height, experience, injuries, discomfort and goals, all optional. Only saved if you want (Settings → Body).",
+    "Datos personales": "Personal details",
     "Datos y copias": "Data and backups",
     "de ~{n}": "of ~{n}",
     "deben estar en la misma sección": "they must be in the same section",
@@ -7144,6 +7187,7 @@ const I18N = {
     "Idioma de la app": "App language",
     "Imagen": "Image",
     "Imagen guardada": "Image saved",
+    "IMC {x}": "BMI {x}",
     "impacto": "impact",
     "Importar": "Import",
     "Importar {r} rutinas, {s} sesiones, {w} pesos y {d} días de diario. Se combinarán con tus datos actuales. ¿Continuar?": "Import {r} routines, {s} sessions, {w} weights and {d} diary days? They'll be merged with your current data.",
@@ -7349,6 +7393,7 @@ const I18N = {
     "Objetivo quitado": "Target removed",
     "Objetivo semanal": "Weekly goal",
     "Objetivo semanal ({u})": "Weekly goal ({u})",
+    "Objetivo y recordatorio, en tu perfil": "Goal and reminder, in your profile",
     "Objetivo: {v}": "Target: {v}",
     "Objetivos": "Goals",
     "Objetivos de la semana": "Goals of the week",
@@ -7421,6 +7466,7 @@ const I18N = {
     "Peso en kg": "Weight in kg",
     "Peso guardado: {v}": "Weight saved: {v}",
     "Peso máximo": "Max weight",
+    "Peso objetivo (kg)": "Goal weight (kg)",
     "Peso semanal": "Weekly weight",
     "Peso serie {n}": "Weight set {n}",
     "Pierna": "Legs",
@@ -7503,6 +7549,7 @@ const I18N = {
     "Reanudando…": "Resuming…",
     "Reanudar": "Resume",
     "récord": "PR",
+    "Recordarme pesarme": "Remind me to weigh in",
     "Récords": "PRs",
     "Récords recientes": "Recent records",
     "Registra caminatas, carreras o bici con «Registrar actividad» en Hoy.": "Log walks, runs or bike rides with “Log activity” in Today.",
@@ -7562,6 +7609,7 @@ const I18N = {
     "Salidas en 30 días": "Outings in 30 days",
     "Saltar": "Skip",
     "Saltar ejercicio": "Skip exercise",
+    "Salud y experiencia (para la IA)": "Health and experience (for the AI)",
     "Se abrirá GitHub con el formulario preparado.": "GitHub will open with the form ready.",
     "Se añaden a las suyas. No se borra nada ni se copia ningún registro.": "They're added to theirs. Nothing is deleted and no logs are copied.",
     "Se aplica sola al empezar la semana a las rutinas de esa variante, con aviso en Hoy y opción de deshacer.": "Applied automatically when the week starts to that variant's routines, with a notice in Today and an undo option.",
@@ -7652,10 +7700,10 @@ const I18N = {
     "Sin entrenos este día.": "No workouts this day.",
     "Sin garantías. Los autores no responden de lesiones, pérdida de datos ni ningún otro daño derivado de su uso. No sustituye el consejo de un profesional sanitario o deportivo.": "No warranty. The authors are not liable for injury, data loss or any other damage arising from its use. It does not replace advice from a health or sports professional.",
     "Sin notas en este periodo.": "No notes in this period.",
-    "sin objetivo": "no target",
     "Sin pitidos ni vibración: solo la cuenta atrás y el destello en pantalla.": "No beeps or vibration: only the countdown and the screen flash.",
     "Sin plan de progresión": "No progression plan",
     "Sin propuesta en el catálogo": "No suggestion in the catalogue",
+    "Sin registros": "No entries",
     "Sin resultados.": "No results.",
     "Sin RIR": "No RIR",
     "Sin rutinas.": "No routines.",
@@ -7672,6 +7720,7 @@ const I18N = {
     "Solo con mi material": "Only with my equipment",
     "Solo el plan activo cuenta en Hoy. Al cambiar de plan, tus rutinas, sesiones e historial no se tocan.": "Only the active plan counts in Today. Switching plans doesn't touch your routines, sessions or history.",
     "Solo en esta sesión. En lugar de {x}.": "This session only. Instead of {x}.",
+    "Solo en este dispositivo. La fecha de nacimiento y la altura se usan en el análisis y en el plan con IA.": "Only on this device. Date of birth and height are used in the AI analysis and plan.",
     "Solo las rutinas. Ningún registro.": "Routines only. No logs.",
     "Solo los datos de {x}. Cada perfil tiene su propia copia.": "Only {x}'s data. Each profile has its own backup.",
     "Solo recordatorio (↑)": "Reminder only (↑)",
