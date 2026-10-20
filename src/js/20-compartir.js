@@ -203,7 +203,7 @@ function incomingModal() {
   const mt = incMatch(inc), sel = new Set(inc.sel), box = on => `<i class="cbx${on ? " on" : ""}">${on ? CHECK : ""}</i>`, p = inc.plan;
   const phs = p ? p.phases.map(x => `${x.variant} ${T("{n} sem.", { n: x.weeks })}`).join(" → ") + (p.deload.weeks ? " · " + T("descarga {w} sem. cada {e}", { w: p.deload.weeks, e: p.deload.every }) : "") : "";
   return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="inT"><div class="mbox dsh full"><button class="back" data-act="in-no">‹ ${T("Atrás")}</button>
-    <h2 id="inT" style="margin:0 0 4px">${inc.routines.length === 1 ? T("Te han compartido una rutina") : inc.routines.length ? T("Te han compartido {n} rutinas", { n: inc.routines.length }) : T("Te han compartido un plan")}</h2>
+    <h2 id="inT" style="margin:0 0 4px">${inc.ai ? `✦ ${T("Propuesta de la IA")}` : inc.routines.length === 1 ? T("Te han compartido una rutina") : inc.routines.length ? T("Te han compartido {n} rutinas", { n: inc.routines.length }) : T("Te han compartido un plan")}</h2>
     <p class="muted" style="font-size:.85rem;margin:0 0 10px">${T("Revisa y elige qué añadir. No se borra nada de lo que ya tienes.")}</p>
     ${inc.routines.length && mt.every(m => m?.same) ? `<p class="dupw" role="alert" style="font-size:.9rem;margin:0 0 10px">⚠ ${inc.routines.length === 1 ? T("Ya tienes esta rutina, igual.") : T("Ya tienes todas estas rutinas, iguales.")}</p>` : ""}
     ${inc.routines.length ? `<div class="rsl">${inc.routines.map((r, i) => { const mm = mt[i], m = mm?.r, upd = m && inc.mode[i] !== "new";
@@ -241,17 +241,22 @@ function incMatch(inc) {
 async function incomingAdd() {
   const inc = state.incoming; if (!inc) return;
   const names = new Set(state.routines.map(r => r.name.trim().toLowerCase())), add = []; let upd = 0;
+  // Si el plan trae letras de variante que ya usan tus rutinas, se cambian por letras libres (para no mezclar planes)
+  const vmap = {}, plan0 = inc.plan && inc.withPlan;
+  if (plan0) { const used = new Set(state.routines.map(r => normVar(r.variant)).filter(Boolean)), iv = [...new Set(inc.plan.phases.map(x => normVar(x.variant)))];
+    if (iv.some(v => used.has(v))) { const free = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").filter(c => !used.has(c)); iv.forEach((v, i) => { vmap[v] = free[i] || v; }); } }
+  const reVar = r => { const v = normVar(r.variant), nv = vmap[v]; if (!nv || nv === v) return r; return { ...r, variant: nv, name: r.name.replace(new RegExp(`^${v}(\\s*[·.-])`), `${nv}$1`) }; };
   inc.routines.forEach((r, i) => {
     if (!inc.sel.includes(i)) return;
     const m = (inc.match ? inc.match[i] : routMatch(r))?.r;
     if (m && inc.mode[i] !== "new") { m.exercises = JSON.parse(JSON.stringify(r.exercises)); m.block = r.block; m.oid = m.oid || r.oid; upd++; return; }
-    let n = r.name, k = 2; while (names.has(n.toLowerCase())) n = `${r.name} (${k++})`; names.add(n.toLowerCase());
-    const { oid, ...rest } = r; add.push({ ...rest, name: n, id: uid(), ...(oid ? { oid } : {}) });
+    const r2 = reVar(r); let n = r2.name, k = 2; while (names.has(n.toLowerCase())) n = `${r2.name} (${k++})`; names.add(n.toLowerCase());
+    const { oid, ...rest } = r2; add.push({ ...rest, name: n, id: uid(), ...(oid ? { oid } : {}) });
   });
   state.routines.push(...add); await store.saveRoutines(state.routines);
   const plan = inc.plan && inc.withPlan;
   if (plan) { const old = PL.get(); if (old) PLS.save([{ ...old, id: old.id || uid() }, ...PLS.list()]);   // el activo anterior pasa a Mis planes
-    PL.save({ id: uid(), enabled: true, order: true, start: dayKey(Date.now()), review: "", phases: inc.plan.phases.map(x => ({ id: uid(), ...x })), deload: inc.plan.deload, up: inc.plan.up, upRule: inc.plan.upRule }); }
+    PL.save({ id: uid(), enabled: true, order: true, start: dayKey(Date.now()), review: "", ...(inc.ai ? { name: T("Plan con IA") } : {}), phases: inc.plan.phases.map(x => ({ id: uid(), ...x, variant: vmap[normVar(x.variant)] || x.variant })), deload: inc.plan.deload, up: inc.plan.up, upRule: inc.plan.upRule }); }
   state.incoming = null; state.tab = add.length || upd ? "routines" : "train"; state.editing = null;
   const msg = [add.length ? (add.length === 1 ? T("Rutina añadida") : T("Añadidas {n} rutinas", { n: add.length })) : "", upd ? (upd === 1 ? T("1 rutina actualizada") : T("{n} rutinas actualizadas", { n: upd })) : "", plan ? T("plan añadido") : ""].filter(Boolean).join(" · ");
   toast(msg || T("Nada que añadir")); render(); window.scrollTo(0, 0);

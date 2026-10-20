@@ -56,6 +56,8 @@ async function importJSON(text) {
     if (Array.isArray(j.cycle.symptoms)) CYC.saveSyms([...new Set([...CYC.syms(), ...j.cycle.symptoms.filter(x => typeof x === "string" && x.trim()).map(x => x.trim().slice(0, 28))])]);
     if (j.cycle.settings && typeof j.cycle.settings === "object" && !LS.get("wk.cyc", null)) LS.set("wk.cyc", j.cycle.settings);
   }
+  if (j.aiPlan && typeof j.aiPlan === "object" && !LS.get("wk.aiPlan", null)) { const d = aipDef(), p = j.aiPlan;
+    LS.set("wk.aiPlan", Object.fromEntries(AIP_P.map(k => [k, Array.isArray(d[k]) ? (Array.isArray(p[k]) ? p[k].filter(x => typeof x === "string" || Number.isInteger(x)).slice(0, 12) : d[k]) : typeof d[k] === "number" ? (isFinite(+p[k]) ? +p[k] : d[k]) : typeof p[k] === "string" ? p[k].slice(0, 400) : d[k]]))); }
   if (j.aiProfile && typeof j.aiProfile === "object" && !aiHasData(aiProf())) LS.set("wk.aiProf", Object.fromEntries(["birth", "height", "level", "years", "injuries", "pains", "conditions", "meds", "goals", "other"].map(k => [k, typeof j.aiProfile[k] === "string" || typeof j.aiProfile[k] === "number" ? String(j.aiProfile[k]).slice(0, 400) : ""])));
   if (j.goals && typeof j.goals === "object") LS.set("wk.goals", { daily: +j.goals.daily || 0, strength: +j.goals.strength || 0 });
   const merge = (cur, inc) => { const m = new Map(cur.map(x => [x.id, x])); inc.forEach(x => m.set(x.id || uid(), { ...x, id: x.id || uid() })); return [...m.values()]; };

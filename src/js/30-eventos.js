@@ -3,10 +3,13 @@ document.addEventListener("toggle", ev => { const g = ev.target; if (g?.dataset?
 document.addEventListener("click", async ev => {
   const t = ev.target.closest("button"); if (!t) return;
   const d = t.dataset;
-  readPlan(); readActForm(); readAiForm();
+  readPlan(); readActForm(); readAiForm(); readAip();
   if (d.tab) { state.pweek = null; state.plmenu = false; readEditor(); state.print = null; state.dsheet = null; state.actForm = null; state.planMode = null; state.planDraft = null; state.routOpen = null; state.setTab = null; state.tab = d.tab; render(); window.scrollTo(0, 0); return; }
   if (d.start) { if (state.active && !confirm(T("Ya tienes una sesión en curso. ¿Descartarla y empezar otra?"))) return; cancelRun(); state.tab = "train"; startSession(d.start); return; }
   const a = state.active;
+  if (d.aipst !== undefined && state.aip) { state.aip.step = +d.aipst; render(); return; }
+  if (d.aipc && state.aip) { const f = state.aip.f, k = d.aipc, v = isNaN(+d.v) || d.v === "" ? d.v : +d.v;
+    if (Array.isArray(f[k])) { const i = f[k].indexOf(v); if (i >= 0) f[k].splice(i, 1); else if (k !== "goals" || f[k].length < 2) f[k].push(v); } else f[k] = v; render(); return; }
   if (d.mv) {
     const [k, dir] = d.mv.split(":"), o = statsOrder(), i = o.indexOf(k), j = i + +dir;
     if (j >= 0 && j < o.length) { [o[i], o[j]] = [o[j], o[i]]; LS.set("wk.statsOrder", o); render(); }
@@ -176,11 +179,18 @@ document.addEventListener("click", async ev => {
     case "prog-unmute": LS.set("wk.progMute", []); toast(T("Hecho")); render(); break;
     case "ai-open": { const f = aiProf(); state.ai = { step: 1, weeks: 8, inc: Object.fromEntries(AI_INC.map(([k]) => [k, true])), f: { ...(f || {}) }, save: true, txt: "" }; render(); break; }
     case "ai-close": state.ai = null; render(); break;
+    case "aip-open": aipOpen(); break;
+    case "aip-close": state.aip = null; render(); break;
+    case "aip-next": state.aip.step = Math.min(3, state.aip.step + 1); render(); document.querySelector(".mbox.aip")?.scrollTo(0, 0); break;
+    case "aip-prev": state.aip.step = Math.max(0, state.aip.step - 1); render(); document.querySelector(".mbox.aip")?.scrollTo(0, 0); break;
+    case "aip-copy": { aipSave(); const ok = await copyText(aipBuild(state.aip)); toast(ok ? T("Indicaciones copiadas") : T("No se pudo copiar")); break; }
+    case "aip-file": { aipSave(); const pm = curProf(), pn = multiProf() ? `-${fileSlug(profName(pm))}` : ""; await deliver(`usus-${fileSlug(T("plan con IA"))}${pn}-${stamp()}.txt`, aipBuild(state.aip), "text/plain"); break; }
+    case "aip-paste": { const inc = aiParse($("#aipPaste")?.value || ""); if (!inc) { toast(T("No se han encontrado rutinas de Usus en la respuesta")); return; } aipSave(); state.aip = null; state.incoming = { ...inc, ai: true }; render(); break; }
     case "ai-back": state.ai.step = 1; render(); break;
     case "ai-gen": { const a = state.ai; if (a.save && aiHasData(a.f)) LS.set("wk.aiProf", a.f); a.txt = aiBuild(a); a.step = 2; render(); document.querySelector(".mbox.dsh")?.scrollTo(0, 0); break; }
     case "ai-copy": { const ok = await copyText(state.ai.txt); toast(ok ? T("Copiado") : T("No se pudo copiar")); break; }
     case "ai-file": { const pm = curProf(), pn = multiProf() ? `-${fileSlug(profName(pm))}` : ""; await deliver(`usus-${fileSlug(T("analisis"))}${pn}-${stamp()}.txt`, state.ai.txt, "text/plain"); break; }
-    case "ai-paste": { const inc = aiParse($("#aiPaste")?.value || ""); if (!inc) { toast(T("No se han encontrado rutinas de Usus en la respuesta")); return; } state.ai = null; state.incoming = inc; render(); break; }
+    case "ai-paste": { const inc = aiParse($("#aiPaste")?.value || ""); if (!inc) { toast(T("No se han encontrado rutinas de Usus en la respuesta")); return; } state.ai = null; state.incoming = { ...inc, ai: true }; render(); break; }
     case "ap-save": { const f = readAiFields("ap_"); LS.set("wk.aiProf", aiHasData(f) ? f : null); toast(T("Guardado")); render(); break; }
     case "ap-del": if (!confirm(T("¿Borrar los datos para el análisis? El resto de datos no se toca."))) return; LS.set("wk.aiProf", null); toast(T("Datos borrados")); render(); break;
     case "cx-open": state.csvx = { weeks: 0 }; render(); break;
@@ -376,7 +386,7 @@ document.addEventListener("click", async ev => {
     }
     case "exp-all": {
       const pm = curProf(), pn = multiProf() ? `-${fileSlug(profName(pm))}` : "";
-      const ok = await deliver(`usus-${T("copia")}${pn}-${stamp()}.json`, JSON.stringify({ app: "usus", version: DATA_VERSION, exported: new Date().toISOString(), ...(pm.sex ? { profile: { name: pm.name, sex: pm.sex, color: pm.color } } : {}), routines: state.routines, sessions: state.sessions, weights: W.list(), weightGoal: W.goal(), diary: DY.all(), cycle: { periods: CYC.list(), symptoms: CYC.syms(), settings: CYC.cfg() }, supplements: DY.supps(), activities: ACT.list(), activityTypes: ACT.types(), goals: LS.get("wk.goals", null), plan: PL.get(), plans: PLS.list(), ...(aiHasData(aiProf()) ? { aiProfile: aiProf() } : {}) }, null, 2), "application/json");
+      const ok = await deliver(`usus-${T("copia")}${pn}-${stamp()}.json`, JSON.stringify({ app: "usus", version: DATA_VERSION, exported: new Date().toISOString(), ...(pm.sex ? { profile: { name: pm.name, sex: pm.sex, color: pm.color } } : {}), routines: state.routines, sessions: state.sessions, weights: W.list(), weightGoal: W.goal(), diary: DY.all(), cycle: { periods: CYC.list(), symptoms: CYC.syms(), settings: CYC.cfg() }, supplements: DY.supps(), activities: ACT.list(), activityTypes: ACT.types(), goals: LS.get("wk.goals", null), plan: PL.get(), plans: PLS.list(), ...(aiHasData(aiProf()) ? { aiProfile: aiProf() } : {}), ...(LS.get("wk.aiPlan", null) ? { aiPlan: LS.get("wk.aiPlan", null) } : {}) }, null, 2), "application/json");
       if (ok) { LS.set("wk.lastBackup", Date.now()); render(); } break;
     }
     case "w-add": {

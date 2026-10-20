@@ -82,6 +82,9 @@ msgstr ""
 msgid "¿Qué material tienes?"
 msgstr ""
 
+msgid "¿Qué quieres conseguir? Cuanto más concreto, mejor"
+msgstr ""
+
 #, python-brace-format
 msgid "¿Quitar \"{x}\" de la sesión?"
 msgstr ""
@@ -377,6 +380,9 @@ msgstr ""
 msgid "Activa «Preguntar el esfuerzo al terminar» en Ajustes → Entreno."
 msgstr ""
 
+msgid "Activa (trabajo físico)"
+msgstr ""
+
 msgid "Activar"
 msgstr ""
 
@@ -384,6 +390,9 @@ msgid "Actividad"
 msgstr ""
 
 msgid "Actividad eliminada"
+msgstr ""
+
+msgid "Actividad fuera del entreno"
 msgstr ""
 
 msgid "Actividad guardada"
@@ -434,6 +443,9 @@ msgstr ""
 msgid "Al actualizar se cambian los ejercicios; el nombre, los días, la variante y tus sesiones no se tocan."
 msgstr ""
 
+msgid "Al añadir un plan recibido o de la IA, si sus letras de variante ya las usan tus rutinas, se cambian por otras libres para no mezclar planes."
+msgstr ""
+
 msgid "Al cambiar de perfil te quedas en la misma pantalla (por ejemplo, Ajustes) en vez de volver a Hoy."
 msgstr ""
 
@@ -452,7 +464,13 @@ msgstr ""
 msgid "Algo exigente"
 msgstr ""
 
+msgid "Algo más"
+msgstr ""
+
 msgid "Algo no funciona como debería"
+msgstr ""
+
+msgid "Alimentación"
 msgstr ""
 
 msgid "Alternativas"
@@ -498,6 +516,9 @@ msgid "antes"
 msgstr ""
 
 msgid "Antes de añadir otro perfil, completa el tuyo. Tus datos no cambian."
+msgstr ""
+
+msgid "Antes de empezar"
 msgstr ""
 
 msgid "Antes de empezar:"
@@ -682,6 +703,9 @@ msgstr ""
 msgid "Avisos automáticos con Obtainium"
 msgstr ""
 
+msgid "Avisos claros: una IA no es un entrenador ni un profesional sanitario, y vas a compartir datos de salud con un servicio externo. Usus no envía nada. «Recordar mis respuestas» deja el formulario rellenado para la próxima vez."
+msgstr ""
+
 msgid "Avisos de sonido más suaves."
 msgstr ""
 
@@ -851,6 +875,9 @@ msgstr ""
 msgid "Cansado"
 msgstr ""
 
+msgid "Cansado o con mucho estrés"
+msgstr ""
+
 msgid "Cansancio"
 msgstr ""
 
@@ -874,6 +901,9 @@ msgid "Carga: {m} min × {p} = {c}"
 msgstr ""
 
 msgid "Cargando…"
+msgstr ""
+
+msgid "Casa"
 msgstr ""
 
 msgid "Casi al límite"
@@ -982,6 +1012,9 @@ msgstr ""
 msgid "Con embarazo, lactancia, anticonceptivos hormonales o en la perimenopausia el ciclo cambia o desaparece, y una previsión basada en ciclos anteriores no sería fiable. En pausa puedes seguir anotando sangrado y síntomas."
 msgstr ""
 
+msgid "Con energía"
+msgstr ""
+
 msgid "Con fuerza"
 msgstr ""
 
@@ -995,6 +1028,9 @@ msgid "Con tu molestia no hay alternativa para todo: los ejercicios marcados con
 msgstr ""
 
 msgid "Con tu molestia, algunos ejercicios se cambian por otros de la misma zona."
+msgstr ""
+
+msgid "Con variantes, Usus usa su plan de progresión: Hoy te dice qué toca cada semana."
 msgstr ""
 
 msgid "Condiciones de salud relevantes"
@@ -1047,6 +1083,9 @@ msgstr ""
 msgid "Copiar enlace"
 msgstr ""
 
+msgid "Copiar indicaciones"
+msgstr ""
+
 msgid "Copiar rutinas a otro perfil"
 msgstr ""
 
@@ -1077,6 +1116,12 @@ msgid "Crear perfil"
 msgstr ""
 
 msgid "Crear plan"
+msgstr ""
+
+msgid "Crear plan con IA"
+msgstr ""
+
+msgid "Crear plan con IA (Biblioteca → Plan y Progreso → Resumen): en 4 pasos (sobre ti, qué buscas, tu semana y para la IA) Usus prepara unas indicaciones con tus datos, cómo debe responder la IA y el enlace al catálogo, con el rango recomendado y las articulaciones de cada ejercicio. Las copias o exportas, las pegas en tu IA y su respuesta vuelve a Usus para revisarla antes de importar."
 msgstr ""
 
 msgid "Crear plan y rutinas"
@@ -1143,10 +1188,22 @@ msgstr ""
 msgid "de ~{n}"
 msgstr ""
 
+msgid "de Mi material"
+msgstr ""
+
 msgid "deben estar en la misma sección"
 msgstr ""
 
 msgid "Dejar como propio"
+msgstr ""
+
+msgid "del diario"
+msgstr ""
+
+msgid "del perfil"
+msgstr ""
+
+msgid "del registro"
 msgstr ""
 
 msgid "der."
@@ -1277,6 +1334,9 @@ msgstr ""
 msgid "Día {n} del ciclo"
 msgstr ""
 
+msgid "Día a día"
+msgstr ""
+
 msgid "Día anterior"
 msgstr ""
 
@@ -1333,6 +1393,9 @@ msgstr ""
 msgid "Días por semana (media)"
 msgstr ""
 
+msgid "Días que puedes entrenar"
+msgstr ""
+
 msgid "Días registrados"
 msgstr ""
 
@@ -1368,6 +1431,9 @@ msgstr ""
 msgid "Dominadas"
 msgstr ""
 
+msgid "Dónde entrenas"
+msgstr ""
+
 msgid "Dosis"
 msgstr ""
 
@@ -1384,6 +1450,9 @@ msgid "Duración"
 msgstr ""
 
 msgid "Duración del ciclo: media de los últimos 6 (28 días hasta tener 2 registrados). Regla prevista: último inicio + esa media, con un margen según lo que varían tus ciclos. Ovulación aproximada: 14 días antes de la regla siguiente. Ventana fértil: de 5 días antes a 1 día después de la ovulación."
+msgstr ""
+
+msgid "Duración del plan"
 msgstr ""
 
 msgid "Duración media de la regla"
@@ -1419,7 +1488,13 @@ msgstr ""
 msgid "Ej. 10 dominadas, perder 3 kg, dormir mejor"
 msgstr ""
 
+msgid "Ej. 10 dominadas, primer pino contra la pared, bajar 4 kg"
+msgstr ""
+
 msgid "Ej. 2 años de calistenia, antes fútbol"
+msgstr ""
+
+msgid "Ej. 7 h"
 msgstr ""
 
 msgid "Ej. A, B, C. Vacío = se sugiere en cualquier semana, también en descarga (como la Diaria)."
@@ -1440,16 +1515,28 @@ msgstr ""
 msgid "Ej. lumbar al levantarme por la mañana"
 msgstr ""
 
+msgid "Ej. mañana, al salir del trabajo"
+msgstr ""
+
 msgid "Ej. mochila, toalla, escalón"
 msgstr ""
 
 msgid "Ej. molestia en el codo, banda verde, agarre más abierto…"
 msgstr ""
 
+msgid "Ej. pádel los sábados"
+msgstr ""
+
 msgid "Ej. rotura de menisco izquierdo (2019)"
 msgstr ""
 
+msgid "Ej. saltos, carrera, nada de rodillas en el suelo"
+msgstr ""
+
 msgid "Ej. Torso A"
+msgstr ""
+
+msgid "Ej. vegetariana, en déficit, 2 comidas al día"
 msgstr ""
 
 msgid "Ejercicio"
@@ -1472,6 +1559,9 @@ msgstr ""
 msgid "Ejercicios principales con progresión. Lo básico de la calistenia."
 msgstr ""
 
+msgid "Ejercicios que no puedes o no quieres hacer"
+msgstr ""
+
 msgid "Ejercicios vs objetivo"
 msgstr ""
 
@@ -1479,6 +1569,9 @@ msgid "Ejercicios y series"
 msgstr ""
 
 msgid "El archivo no es un JSON válido"
+msgstr ""
+
+msgid "El catálogo de ejercicios no se copia: las indicaciones llevan el enlace para que la IA lo consulte."
 msgstr ""
 
 msgid "El enlace no es válido o está incompleto"
@@ -1636,6 +1729,9 @@ msgstr ""
 msgid "En un ordenador o una tablet en horizontal, el editor se abre en modo amplio: cada ejercicio en una fila y el catálogo al lado para tocar o arrastrar."
 msgstr ""
 
+msgid "Energía y estrés"
+msgstr ""
+
 msgid "Enlace"
 msgstr ""
 
@@ -1782,6 +1878,9 @@ msgstr ""
 msgid "Exportar .zip"
 msgstr ""
 
+msgid "Exportar a .txt"
+msgstr ""
+
 msgid "Exportar ahora"
 msgstr ""
 
@@ -1867,10 +1966,16 @@ msgstr ""
 msgid "Ganar fuerza"
 msgstr ""
 
+msgid "Ganar músculo"
+msgstr ""
+
 msgid "Generar texto"
 msgstr ""
 
 msgid "Gestionar"
+msgstr ""
+
+msgid "Gimnasio"
 msgstr ""
 
 msgid "Gran sesión"
@@ -1898,6 +2003,9 @@ msgid "Ha terminado hoy"
 msgstr ""
 
 msgid "habilidad"
+msgstr ""
+
+msgid "Habilidades (dominadas, pino, muscle-up…)"
 msgstr ""
 
 msgid "Hábitos"
@@ -2050,10 +2158,16 @@ msgstr ""
 msgid "Incluir datos técnicos"
 msgstr ""
 
+msgid "Incluir en las indicaciones"
+msgstr ""
+
 msgid "Incluir plan de progresión"
 msgstr ""
 
 msgid "Incluye un plan, que sustituirá al actual."
+msgstr ""
+
+msgid "Indicaciones copiadas"
 msgstr ""
 
 msgid "Informar de un problema"
@@ -2138,6 +2252,9 @@ msgid "La noche que termina este día."
 msgstr ""
 
 msgid "La pantalla se mantiene encendida durante toda la sesión, no solo en las cuentas atrás."
+msgstr ""
+
+msgid "La próxima vez el formulario sale ya rellenado. Se guardan solo en este dispositivo, en tu perfil, y van en la copia completa."
 msgstr ""
 
 #, python-brace-format
@@ -2358,6 +2475,9 @@ msgstr ""
 msgid "Mejor volumen"
 msgstr ""
 
+msgid "Mejores series de las últimas 8 semanas, para partir de tu nivel real."
+msgstr ""
+
 msgid "Menos"
 msgstr ""
 
@@ -2385,10 +2505,19 @@ msgstr ""
 msgid "Minutos por sesión"
 msgstr ""
 
+msgid "Mis marcas recientes"
+msgstr ""
+
 msgid "Mis planes"
 msgstr ""
 
+msgid "Mis rutinas actuales"
+msgstr ""
+
 msgid "Moderada"
+msgstr ""
+
+msgid "Moderada (de pie, caminar)"
 msgstr ""
 
 msgid "Moderado"
@@ -2407,6 +2536,9 @@ msgid "Momento"
 msgstr ""
 
 msgid "Momento (opcional)"
+msgstr ""
+
+msgid "Momento del día"
 msgstr ""
 
 msgid "Mostrar la fase del ciclo"
@@ -2561,6 +2693,9 @@ msgstr ""
 msgid "Nombre del ejercicio"
 msgstr ""
 
+msgid "Normal"
+msgstr ""
+
 msgid "Nota"
 msgstr ""
 
@@ -2659,6 +2794,9 @@ msgstr ""
 msgid "Objetivo guardado"
 msgstr ""
 
+msgid "Objetivo principal (hasta 2)"
+msgstr ""
+
 msgid "Objetivo quitado"
 msgstr ""
 
@@ -2733,6 +2871,9 @@ msgstr ""
 msgid "Otros"
 msgstr ""
 
+msgid "Otros deportes o actividades"
+msgstr ""
+
 msgid "Ovulación (aprox.)"
 msgstr ""
 
@@ -2757,6 +2898,12 @@ msgstr ""
 msgid "Para elegir ejercicios al crear rutinas y saber cómo avanzar."
 msgstr ""
 
+msgid "Para la IA"
+msgstr ""
+
+msgid "Para que las mejore o las respete (p. ej. una rutina diaria)."
+msgstr ""
+
 msgid "Para qué lo usarías"
 msgstr ""
 
@@ -2776,6 +2923,9 @@ msgid "Parar"
 msgstr ""
 
 msgid "Pared"
+msgstr ""
+
+msgid "Parque / al aire libre"
 msgstr ""
 
 msgid "Pasa a ser el plan activo; el actual queda guardado en Mis planes."
@@ -2837,6 +2987,12 @@ msgstr ""
 msgid "Pega aquí la respuesta de la IA"
 msgstr ""
 
+msgid "Pega aquí su respuesta completa. Usus solo lee el bloque de datos y te enseña las rutinas y el plan antes de importar nada."
+msgstr ""
+
+msgid "Pégalas en una conversación nueva de tu IA (ChatGPT, Claude, Gemini…) o sube el archivo."
+msgstr ""
+
 msgid "Pégalo en una conversación nueva de la IA que uses, o sube el archivo .txt. Si es muy largo para tu IA, prueba con menos semanas."
 msgstr ""
 
@@ -2868,6 +3024,9 @@ msgstr ""
 msgid "peor lado"
 msgstr ""
 
+msgid "Perder grasa"
+msgstr ""
+
 msgid "Perfil"
 msgstr ""
 
@@ -2896,6 +3055,9 @@ msgid "Pesajes"
 msgstr ""
 
 msgid "Peso"
+msgstr ""
+
+msgid "Peso (kg)"
 msgstr ""
 
 msgid "Peso en kg"
@@ -2949,6 +3111,12 @@ msgstr ""
 msgid "plan añadido"
 msgstr ""
 
+msgid "plan con IA"
+msgstr ""
+
+msgid "Plan con IA"
+msgstr ""
+
 msgid "Plan desactivado: Hoy no lo tiene en cuenta."
 msgstr ""
 
@@ -2975,7 +3143,7 @@ msgstr ""
 msgid "Plan guiado: unas preguntas (objetivo, días, minutos, material, molestias y nivel, con un test rápido o elegido) y Usus propone rutinas del catálogo a tu nivel, con calentamiento, principal, accesorios y vuelta a la calma. Revisas la propuesta, subes o bajas cada ejercicio en su escalera y se crean las rutinas (variantes A y B) y un plan en orden."
 msgstr ""
 
-msgid "Plan guiado: unas preguntas y Usus te propone rutinas del catálogo a tu nivel. Crear plan: lo montas tú con tus rutinas."
+msgid "Plan guiado: unas preguntas y Usus te propone rutinas del catálogo a tu nivel. Crear plan: lo montas tú con tus rutinas. Con IA: una IA externa te propone el plan con más datos sobre ti."
 msgstr ""
 
 msgid "Plan terminado"
@@ -3115,6 +3283,9 @@ msgstr ""
 msgid "propuesta"
 msgstr ""
 
+msgid "Propuesta de la IA"
+msgstr ""
+
 msgid "Propuestas aceptadas"
 msgstr ""
 
@@ -3133,6 +3304,9 @@ msgid "Próximas fechas"
 msgstr ""
 
 msgid "Puedes entrenar cualquier día: el plan va en orden."
+msgstr ""
+
+msgid "Qué buscas"
 msgstr ""
 
 msgid "Qué esperabas"
@@ -3197,6 +3371,9 @@ msgid "Reanudar"
 msgstr ""
 
 msgid "récord"
+msgstr ""
+
+msgid "Recordar mis respuestas"
 msgstr ""
 
 msgid "Recordarme pesarme"
@@ -3298,6 +3475,9 @@ msgstr ""
 msgid "Reps de las últimas 4 semanas. Aviso si un lado rinde más de un 10% menos."
 msgstr ""
 
+msgid "Resistencia"
+msgstr ""
+
 msgid "Respiración marcada; aún bastante margen."
 msgstr ""
 
@@ -3315,6 +3495,9 @@ msgid "Revisar"
 msgstr ""
 
 msgid "Revisar rutinas propuestas"
+msgstr ""
+
+msgid "Revisar rutinas y plan"
 msgstr ""
 
 msgid "Revisas y creas el plan"
@@ -3399,6 +3582,9 @@ msgstr ""
 msgid "Salud y experiencia (para la IA)"
 msgstr ""
 
+msgid "Salud y movilidad"
+msgstr ""
+
 msgid "Se abrirá GitHub con el formulario preparado."
 msgstr ""
 
@@ -3465,6 +3651,9 @@ msgid "Sección {n}"
 msgstr ""
 
 msgid "Secciones"
+msgstr ""
+
+msgid "Sedentaria (oficina, coche)"
 msgstr ""
 
 msgid "seg"
@@ -3776,6 +3965,9 @@ msgstr ""
 msgid "sobre la media de las 4 anteriores. Si no fue a propósito, vigila el descanso."
 msgstr ""
 
+msgid "Sobre ti"
+msgstr ""
+
 msgid "Sobre ti (para interpretar los datos)"
 msgstr ""
 
@@ -3965,6 +4157,9 @@ msgstr ""
 msgid "Tipo de movimiento"
 msgstr ""
 
+msgid "Tipo de plan"
+msgstr ""
+
 msgid "Tirón 1"
 msgstr ""
 
@@ -4074,6 +4269,9 @@ msgstr ""
 msgid "Tu propuesta"
 msgstr ""
 
+msgid "Tu semana"
+msgstr ""
+
 msgid "Tus datos se guardan solo en este dispositivo. Haz copias desde Ajustes: si borras el navegador o desinstalas la app, se pierden."
 msgstr ""
 
@@ -4123,6 +4321,12 @@ msgstr ""
 msgid "Una hoja por ejercicio con muchas fechas para ver su progresión."
 msgstr ""
 
+msgid "Una IA no es un entrenador ni un profesional sanitario. Si tienes lesiones, dolor, una condición de salud, estás embarazada o hace tiempo que no entrenas, consulta antes con un profesional. Todo es opcional."
+msgstr ""
+
+msgid "Una rutina por día, siempre igual"
+msgstr ""
+
 msgid "Una rutina por sesión de la semana, en orden. Se crea también una variante B con ejercicios parecidos para alternar cada 2 semanas."
 msgstr ""
 
@@ -4153,6 +4357,9 @@ msgstr ""
 
 #, python-brace-format
 msgid "Usus incluye un catálogo opcional de {n} ejercicios de calistenia, cada uno con su ficha: para qué sirve, cómo se hace, errores típicos, material y progresión."
+msgstr ""
+
+msgid "Usus no envía nada: lo copias o compartes tú. Lo que pase después depende de la IA que elijas; revisa su política de privacidad. El plan lo hace una IA, no un entrenador ni un profesional sanitario: revísalo y escucha a tu cuerpo."
 msgstr ""
 
 msgid "Usus prepara un texto con tus datos y las instrucciones para que una IA (ChatGPT, Claude, Gemini…) los analice. Usus no envía nada: lo copias o compartes tú."
@@ -4208,10 +4415,16 @@ msgstr ""
 msgid "Variantes del mismo nivel"
 msgstr ""
 
+msgid "Variantes que rotan (A, B, C) con descarga"
+msgstr ""
+
 msgid "Varias personas pueden usar Usus en este móvil, cada una con sus propios datos y ajustes."
 msgstr ""
 
 msgid "Varios planes: el activo marca Hoy y los demás quedan guardados para activar, duplicar o borrar. Cada plan puede tener nombre."
+msgstr ""
+
+msgid "Varios sitios"
 msgstr ""
 
 msgid "Vas a compartir datos de salud con un servicio externo"

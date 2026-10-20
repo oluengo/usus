@@ -63,7 +63,7 @@ function aiModal() {
 function aiCard() {
   return `<div class="panel aicard"><div class="aih">✦ ${T("Analizar con IA externa")} <span class="aibadge">${T("Externa")}</span></div>
     <p class="muted" style="font-size:.88rem;margin:6px 0 0">${T("Usus prepara un texto con tus datos y las instrucciones para que una IA (ChatGPT, Claude, Gemini…) los analice. Usus no envía nada: lo copias o compartes tú.")}</p>
-    <button class="btn" style="margin-top:10px" data-act="ai-open">${T("Preparar análisis")}</button></div>`;
+    <div class="row" style="margin-top:10px"><button class="btn" data-act="ai-open">${T("Preparar análisis")}</button><button class="btn aibtn" data-act="aip-open">✦ ${T("Crear plan con IA")}</button></div></div>`;
 }
 /* Perfil: datos personales (también para la IA) y peso */
 function persPanel() {
@@ -143,6 +143,156 @@ function aiParse(text) {
   const i = text.indexOf('{"app"'); if (i >= 0) cands.push(text.slice(i, text.lastIndexOf("}") + 1));
   for (const c of cands) { try { const j = JSON.parse(c.trim()); if (j && j.app === "usus" && Array.isArray(j.routines)) { const inc = sanitizeShared({ ...j, shared: 1 }); if (inc?.routines.length) return inc; } } catch {} }
   return null;
+}
+
+/* ---------- Crear plan con IA externa (3.1) ----------
+   Recoge datos en 4 pasos (salud: los mismos que wk.aiProf; plan: wk.aiPlan si se marca «Recordar mis respuestas»),
+   prepara unas indicaciones que no se muestran (se copian o se exportan) con el formato JSON de Usus y el enlace al catálogo.
+   La respuesta de la IA se pega y pasa por la misma revisión que las rutinas recibidas (rutinas y plan). */
+const CAT_URL = "https://raw.githubusercontent.com/oluengo/usus/main/ejercicios.json";
+const AIP_GOALS = [["fuerza", N_("Fuerza")], ["musculo", N_("Ganar músculo")], ["habilidad", N_("Habilidades (dominadas, pino, muscle-up…)")], ["grasa", N_("Perder grasa")], ["salud", N_("Salud y movilidad")], ["resist", N_("Resistencia")]];
+const AIP_PLACES = [["casa", N_("Casa")], ["parque", N_("Parque / al aire libre")], ["gym", N_("Gimnasio")], ["varios", N_("Varios sitios")]];
+const AIP_ACT = [["", "—"], ["sed", N_("Sedentaria (oficina, coche)")], ["mod", N_("Moderada (de pie, caminar)")], ["act", N_("Activa (trabajo físico)")]];
+const AIP_EN = [["bajo", N_("Cansado o con mucho estrés")], ["normal", N_("Normal")], ["alto", N_("Con energía")]];
+const AIP_H = ["birth", "height", "level", "years", "injuries", "pains", "conditions", "meds"];
+const AIP_P = ["goals", "want", "avoid", "weeks", "style", "days", "mins", "when", "place", "mat", "activity", "other", "energy", "diet", "extra"];
+const aipDef = () => ({ goals: [], want: "", avoid: "", weeks: 8, style: "var", days: [1, 3, 5], mins: 45, when: "", place: "casa", mat: myEquip() || [], activity: "", other: "", energy: "normal", diet: "", extra: "" });
+const lastKg = () => { const l = W.list(); if (!l.length) return ""; const x = l.reduce((a, b) => (b.t > a.t ? b : a)); return +x.kg ? String(x.kg) : ""; };
+function sleepAvg() {
+  const D = DY.all(), from = dayKey(Date.now() - 30 * 864e5), h = Object.keys(D).filter(k => k >= from).map(k => sleepHours(D[k].sleep?.bed, D[k].sleep?.wake)).filter(x => x && x < 16);
+  if (h.length < 3) return ""; const m = h.reduce((a, b) => a + b, 0) / h.length; return `${Math.floor(m)} h ${String(Math.round((m % 1) * 60)).padStart(2, "0")} min`;
+}
+function aipOpen() {
+  const sv = LS.get("wk.aiPlan", null) || {}, hp = aiProf() || {};
+  state.aip = { step: 0, keep: true, inc: { hist: state.sessions.length > 0, mine: state.routines.length > 0 },
+    f: { ...aipDef(), ...Object.fromEntries(AIP_P.filter(k => sv[k] !== undefined).map(k => [k, sv[k]])), ...Object.fromEntries(AIP_H.map(k => [k, hp[k] || ""])), weight: lastKg(), sleep: sleepAvg() } };
+  render();
+}
+function readAip() {
+  const a = state.aip; if (!a) return; const g = id => document.getElementById("aip_" + id);
+  ["birth", "height", "weight", "years", "injuries", "pains", "conditions", "meds", "want", "avoid", "mins", "when", "other", "sleep", "diet", "extra"].forEach(k => { const el = g(k); if (el) a.f[k] = el.value.trim(); });
+  ["level", "place", "activity", "energy"].forEach(k => { const el = g(k); if (el) a.f[k] = el.value; });
+  const k = $("#aipKeep"); if (k) a.keep = k.checked; ["hist", "mine"].forEach(x => { const c = $(`#aipInc_${x}`); if (c) a.inc[x] = c.checked; });
+}
+function aipModal() {
+  const a = state.aip; if (!a) return "";
+  const f = a.f, st = a.step, v = k => esc(f[k] ?? ""), fem = curProf().sex !== "m";
+  const inp = (k, lab, ph = "", t = "text", tag = "") => `<label class="muted" for="aip_${k}">${T(lab)}${tag ? ` <span class="aitag">${T(tag)}</span>` : ""}</label><input type="${t}" id="aip_${k}" value="${v(k)}" ${ph ? `placeholder="${T(ph)}"` : ""} ${t === "number" ? 'inputmode="numeric"' : ""} maxlength="200">`;
+  const ta = (k, lab, ph = "") => `<label class="muted" for="aip_${k}">${T(lab)}</label><textarea id="aip_${k}" rows="2" maxlength="400" ${ph ? `placeholder="${T(ph)}"` : ""}>${v(k)}</textarea>`;
+  const sel = (k, lab, opts) => `<label class="muted" for="aip_${k}">${T(lab)}</label><select id="aip_${k}">${opts.map(([o, n]) => `<option value="${o}" ${String(f[k]) === String(o) ? "selected" : ""}>${T(n)}</option>`).join("")}</select>`;
+  const ch = (k, opts, multi) => `<div class="chips">${opts.map(([o, n]) => { const on = multi ? (f[k] || []).includes(o) : f[k] === o; return `<button data-aipc="${k}" data-v="${o}" class="${on ? "on" : ""}" aria-pressed="${on}">${n}</button>`; }).join("")}</div>`;
+  const STEPS = [N_("Sobre ti"), N_("Qué buscas"), N_("Tu semana"), N_("Para la IA")];
+  let body = "";
+  if (st === 0) body = `<div class="aiwarn"><b>${T("Antes de empezar")}</b>${T("Una IA no es un entrenador ni un profesional sanitario. Si tienes lesiones, dolor, una condición de salud, estás embarazada o hace tiempo que no entrenas, consulta antes con un profesional. Todo es opcional.")}</div>
+    <div class="aitwo"><div>${inp("birth", N_("Fecha de nacimiento"), "", "date")}</div><div>${inp("height", N_("Altura (cm)"), "", "number")}</div></div>
+    <div class="aitwo"><div>${inp("weight", N_("Peso (kg)"), "", "text", lastKg() && f.weight === lastKg() ? N_("del registro") : "")}</div><div><label class="muted" for="aip_sex">${T("Sexo")}</label><input type="text" id="aip_sex" value="${curProf().sex === "m" ? T("Hombre") + ` (${T("del perfil")})` : curProf().sex === "f" ? T("Mujer") + ` (${T("del perfil")})` : "—"}" disabled></div></div>
+    ${sel("level", N_("Experiencia entrenando"), [["", "—"], ...AI_LEVELS])}
+    ${inp("years", N_("Detalle de la experiencia y otros deportes"), N_("Ej. 2 años de calistenia, antes fútbol"))}
+    ${ta("injuries", N_("Lesiones o cirugías previas"), N_("Ej. rotura de menisco izquierdo (2019)"))}${ta("pains", N_("Dolores o molestias actuales"), N_("Ej. lumbar al levantarme por la mañana"))}
+    ${ta("conditions", N_("Condiciones de salud relevantes"), N_("Ej. asma, hipertensión, embarazo…"))}${inp("meds", N_("Medicación relevante"), N_("Solo si influye en el entreno o la recuperación"))}`;
+  else if (st === 1) body = `<h3 class="wh">${T("Objetivo principal (hasta 2)")}</h3>${ch("goals", AIP_GOALS.map(([k, n]) => [k, T(n)]), true)}
+    ${ta("want", N_("¿Qué quieres conseguir? Cuanto más concreto, mejor"), N_("Ej. 10 dominadas, primer pino contra la pared, bajar 4 kg"))}
+    ${ta("avoid", N_("Ejercicios que no puedes o no quieres hacer"), N_("Ej. saltos, carrera, nada de rodillas en el suelo"))}
+    <h3 class="wh">${T("Duración del plan")}</h3>${ch("weeks", [4, 8, 12].map(w => [w, T("{n} semanas", { n: w })]), false)}
+    <h3 class="wh">${T("Tipo de plan")}</h3>${ch("style", [["var", T("Variantes que rotan (A, B, C) con descarga")], ["fix", T("Una rutina por día, siempre igual")]], false)}
+    <p class="muted" style="font-size:.8rem;margin:6px 0 0">${T("Con variantes, Usus usa su plan de progresión: Hoy te dice qué toca cada semana.")}</p>`;
+  else if (st === 2) body = `<h3 class="wh">${T("Días que puedes entrenar")}</h3>${ch("days", WEEK_ORDER.map(d => [d, dayShort(d)]), true)}
+    <div class="aitwo"><div>${inp("mins", N_("Minutos por sesión"), "", "number")}</div><div>${inp("when", N_("Momento del día"), N_("Ej. mañana, al salir del trabajo"))}</div></div>
+    ${sel("place", N_("Dónde entrenas"), AIP_PLACES)}
+    <h3 class="wh">${T("Material")}${myEquip() ? ` <span class="aitag">${T("de Mi material")}</span>` : ""}</h3>${ch("mat", MAT_SEL().map(([k, [n]]) => [k, T(n)]), true)}
+    <h3 class="wh">${T("Día a día")}</h3>${sel("activity", N_("Actividad fuera del entreno"), AIP_ACT)}
+    ${inp("other", N_("Otros deportes o actividades"), N_("Ej. pádel los sábados"))}
+    <div class="aitwo"><div>${inp("sleep", N_("Sueño"), N_("Ej. 7 h"), "text", f.sleep && f.sleep === sleepAvg() ? N_("del diario") : "")}</div><div>${sel("energy", N_("Energía y estrés"), AIP_EN)}</div></div>
+    ${ta("diet", N_("Alimentación"), N_("Ej. vegetariana, en déficit, 2 comidas al día"))}${ta("extra", N_("Algo más"), N_("Lo que quieras que la IA tenga en cuenta"))}`;
+  else body = `<h3 class="wh">${T("Incluir en las indicaciones")}</h3>
+    <label class="chk aichk"><input type="checkbox" id="aipInc_hist" ${a.inc.hist ? "checked" : ""} ${state.sessions.length ? "" : "disabled"}> <span>${T("Mis marcas recientes")}<small class="muted" style="display:block;font-size:.78rem">${T("Mejores series de las últimas 8 semanas, para partir de tu nivel real.")}</small></span></label>
+    <label class="chk aichk"><input type="checkbox" id="aipInc_mine" ${a.inc.mine ? "checked" : ""} ${state.routines.length ? "" : "disabled"}> <span>${T("Mis rutinas actuales")}<small class="muted" style="display:block;font-size:.78rem">${T("Para que las mejore o las respete (p. ej. una rutina diaria).")}</small></span></label>
+    <label class="chk aichk"><input type="checkbox" id="aipKeep" ${a.keep ? "checked" : ""}> <span>${T("Recordar mis respuestas")}<small class="muted" style="display:block;font-size:.78rem">${T("La próxima vez el formulario sale ya rellenado. Se guardan solo en este dispositivo, en tu perfil, y van en la copia completa.")}</small></span></label>
+    <p class="muted" style="font-size:.8rem;margin:6px 0 0">${T("El catálogo de ejercicios no se copia: las indicaciones llevan el enlace para que la IA lo consulte.")}</p>
+    <div class="aiwarn"><b>${T("Vas a compartir datos de salud con un servicio externo")}</b>${T("Usus no envía nada: lo copias o compartes tú. Lo que pase después depende de la IA que elijas; revisa su política de privacidad. El plan lo hace una IA, no un entrenador ni un profesional sanitario: revísalo y escucha a tu cuerpo.")}</div>
+    <div class="row"><button class="btn primary" style="flex:1" data-act="aip-copy">${T("Copiar indicaciones")}</button><button class="btn" style="flex:1" data-act="aip-file">${T("Exportar a .txt")}</button></div>
+    <p class="muted" style="font-size:.8rem;margin:6px 0 0">${T("Pégalas en una conversación nueva de tu IA (ChatGPT, Claude, Gemini…) o sube el archivo.")}</p>
+    <h3 class="wh">${T("Cuando la IA responda")}</h3>
+    <p class="muted" style="font-size:.85rem;margin:0 0 6px">${T("Pega aquí su respuesta completa. Usus solo lee el bloque de datos y te enseña las rutinas y el plan antes de importar nada.")}</p>
+    <textarea id="aipPaste" rows="3" placeholder="${T("Pega aquí la respuesta de la IA")}"></textarea>
+    <button class="btn primary" style="width:100%;margin-top:8px" data-act="aip-paste">${T("Revisar rutinas y plan")}</button>`;
+  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="aipT"><div class="mbox dsh aip full"><button class="back" data-act="aip-close">‹ ${T("Atrás")}</button>
+    <div class="sb-head"><h2 id="aipT" style="margin:0;flex:1">✦ ${T("Crear plan con IA")} <span class="aibadge">${T("Externa")}</span></h2><button class="btn small" data-act="aip-close">${T("Cerrar")}</button></div>
+    <div class="aipsteps">${STEPS.map((n, i) => `<button data-aipst="${i}" class="${i === st ? "on" : i < st ? "done" : ""}" ${i === st ? 'aria-current="step"' : ""}>${i + 1} ${T(n)}</button>`).join("")}</div>
+    <div class="aiform">${body}</div>
+    <div class="row" style="margin-top:14px">${st ? `<button class="btn" style="flex:1" data-act="aip-prev">‹ ${T("Atrás")}</button>` : ""}${st < 3 ? `<button class="btn primary" style="flex:1" data-act="aip-next">${T("Siguiente")} ›</button>` : ""}</div>
+  </div></div>`;
+}
+/* Mejores series por ejercicio en las últimas 8 semanas */
+function aipMarks() {
+  const from = Date.now() - 56 * 864e5, M = new Map(), pem = [];
+  state.sessions.filter(s => s.start >= from).forEach(s => {
+    if (+s.pem) pem.push(+s.pem);
+    s.exercises.forEach(e => { const k = exKey(e), m = M.get(k) || { e, v: 0, w: 0, n: 0 }; m.n++;
+      e.sets.forEach(x => { const v = sideReps(e) ? Math.min(+x.r || 0, +R2(x) || 0) : +x.r || 0, w = +x.w || 0; if (v > m.v || (v === m.v && w > m.w)) { m.v = v; m.w = w; } });
+      M.set(k, m); });
+  });
+  return { list: [...M.values()].filter(m => m.v > 0).sort((a, b) => b.n - a.n).slice(0, 25), pem: pem.length ? Math.round(pem.reduce((a, b) => a + b, 0) / pem.length * 10) / 10 : 0 };
+}
+const PX = {
+  es: { title: "Usus · Crear un plan de entrenamiento", intro: "Actúa como un entrenador de calistenia y fuerza con peso corporal, prudente y basado en la evidencia. Con mis datos, diseña rutinas y un plan para la app Usus.",
+    rulesH: "Instrucciones", rules: ["Lee todos mis datos. Si falta algo importante para hacer un plan seguro, pregúntamelo antes. Si ves señales de alarma (dolor agudo o que empeora, mareos, condiciones de riesgo, embarazo…), dímelo y recomiéndame consultar a un profesional antes de seguir.", "Respeta: días disponibles, minutos por sesión, material, ejercicios a evitar, lesiones y molestias. Ante la duda, más fácil: es mejor subir que lesionarse.", "Parte de mi nivel real (marcas recientes), no de lo que me gustaría hacer.", "Usa ejercicios del catálogo de Usus (enlace al final) con su id en \"xid\". Si necesitas uno que no está, ponle nombre y omite \"xid\".", "Si te paso rutinas actuales que quiero mantener, no las cambies: no las repitas en el JSON.", "El plan de Usus va en orden: cada semana se hace una vez cada rutina de la variante que toca, el día que se pueda; \"days\" solo fija el orden. Pon una rutina por sesión de la semana (p. ej. 3 sesiones = 3 rutinas distintas por variante).", "Responde en español y en este orden: a) resumen del plan y por qué está montado así (breve); b) cómo progresar semana a semana y cuándo bajar la carga; c) avisos y señales para parar; d) UN ÚNICO bloque ```json con las rutinas y el plan en el formato de abajo."],
+    fmtH: "Formato del bloque JSON (obligatorio)", fmtNote: "Los comentarios // solo explican cada campo: no los pongas en tu respuesta. Usa nombres de rutina cortos, empezando por la variante (p. ej. «A · Lunes · Empuje»).",
+    c: { name: "corto y claro", block: "diaria | empuje | traccion | pierna | full | core | cardio | otro", variant: "letra de la variante del plan, o \"\" si se repite siempre", days: "1=lunes … 6=sábado, 0=domingo", secs: "opcional: secciones", groups: "opcional: sup = superserie, cir = circuito; rounds = vueltas; rest = descanso entre vueltas (s)", type: "reps | time (con time, reps = segundos)", sides: "true si se hace por lado", rest: "descanso entre series y al terminar (s)", tech: "opcional: tempo, pausa, agarre…", sg: "opcional: sección y grupo", plan: "omítelo si son rutinas fijas", deload: "semana de descarga cada N semanas", up: "al volver una variante: mark (solo aviso) | reps1 | reps2 | set (+1 serie) | step (siguiente ejercicio)" },
+    meH: "Mis datos", sex: { m: "hombre", f: "mujer" }, sexL: "Sexo", ageL: "Edad", hL: "Altura", wL: "Peso", expL: "Experiencia", inj: "Lesiones o cirugías", pain: "Dolores o molestias actuales", cond: "Condiciones de salud", meds: "Medicación",
+    wantH: "Lo que busco", goalL: "Objetivo", wantL: "En concreto", avoidL: "Evitar", durL: "Duración", wk: n => `${n} semanas`, styleL: "Tipo", style: { var: "variantes que rotan (A, B, C…) con semana de descarga", fix: "una rutina por día, siempre igual" },
+    weekH: "Mi semana", daysL: "Días", minL: "min por sesión", placeL: "Lugar", matL: "Material", noMat: "ninguno (solo peso corporal)", actL: "Actividad diaria", sleepL: "Sueño (media)", enL: "Energía/estrés", dietL: "Alimentación", extraL: "Además",
+    marksH: "Marcas recientes (últimas 8 semanas)", ses: n => (n === 1 ? "1 sesión" : `${n} sesiones`), pemL: "Esfuerzo medio de las sesiones (PEM 1–10)", mineH: "Mis rutinas actuales", catH: "Catálogo de ejercicios de Usus",
+    cat: ["Lista completa (id, nombre en es/ca/en, patrón, nivel 1–5, tipo, material, progresiones; y en cada ficha: role = principal, accesorio, movilidad, calentamiento o cardio; dose = rango recomendado por serie, en reps o segundos; joints = articulaciones que más carga). Usa dose para las series y evita los ejercicios cuyos joints coincidan con mis molestias:", "Si no puedes abrir el enlace, usa nombres de ejercicio claros y habituales y omite \"xid\": Usus permite vincularlos al catálogo después."] },
+  ca: { title: "Usus · Crear un pla d'entrenament", intro: "Actua com un entrenador de calistènia i força amb el pes corporal, prudent i basat en l'evidència. Amb les meves dades, dissenya rutines i un pla per a l'app Usus.",
+    rulesH: "Instruccions", rules: ["Llegeix totes les meves dades. Si falta alguna cosa important per fer un pla segur, pregunta-m'ho abans. Si veus senyals d'alarma (dolor agut o que empitjora, marejos, condicions de risc, embaràs…), digues-m'ho i recomana'm consultar un professional abans de continuar.", "Respecta: dies disponibles, minuts per sessió, material, exercicis a evitar, lesions i molèsties. En cas de dubte, més fàcil: és millor pujar que lesionar-se.", "Parteix del meu nivell real (marques recents), no del que m'agradaria fer.", "Fes servir exercicis del catàleg d'Usus (enllaç al final) amb el seu id a \"xid\". Si en necessites un que no hi és, posa-li nom i omet \"xid\".", "Si et passo rutines actuals que vull mantenir, no les canviïs: no les repeteixis al JSON.", "El pla d'Usus va en ordre: cada setmana es fa una vegada cada rutina de la variant que toca, el dia que es pugui; \"days\" només fixa l'ordre. Posa una rutina per sessió de la setmana (p. ex. 3 sessions = 3 rutines diferents per variant).", "Respon en català i en aquest ordre: a) resum del pla i per què està muntat així (breu); b) com progressar setmana a setmana i quan baixar la càrrega; c) avisos i senyals per parar; d) UN ÚNIC bloc ```json amb les rutines i el pla en el format de sota."],
+    fmtH: "Format del bloc JSON (obligatori)", fmtNote: "Els comentaris // només expliquen cada camp: no els posis a la resposta. Fes servir noms de rutina curts, començant per la variant (p. ex. «A · Dilluns · Empenta»).",
+    c: { name: "curt i clar", block: "diaria | empuje | traccion | pierna | full | core | cardio | otro", variant: "lletra de la variant del pla, o \"\" si es repeteix sempre", days: "1=dilluns … 6=dissabte, 0=diumenge", secs: "opcional: seccions", groups: "opcional: sup = supersèrie, cir = circuit; rounds = voltes; rest = descans entre voltes (s)", type: "reps | time (amb time, reps = segons)", sides: "true si es fa per costat", rest: "descans entre sèries i en acabar (s)", tech: "opcional: tempo, pausa, presa…", sg: "opcional: secció i grup", plan: "omet-lo si són rutines fixes", deload: "setmana de descàrrega cada N setmanes", up: "en tornar una variant: mark (només avís) | reps1 | reps2 | set (+1 sèrie) | step (exercici següent)" },
+    meH: "Les meves dades", sex: { m: "home", f: "dona" }, sexL: "Sexe", ageL: "Edat", hL: "Alçada", wL: "Pes", expL: "Experiència", inj: "Lesions o cirurgies", pain: "Dolors o molèsties actuals", cond: "Condicions de salut", meds: "Medicació",
+    wantH: "El que busco", goalL: "Objectiu", wantL: "En concret", avoidL: "Evitar", durL: "Durada", wk: n => `${n} setmanes`, styleL: "Tipus", style: { var: "variants que roten (A, B, C…) amb setmana de descàrrega", fix: "una rutina per dia, sempre igual" },
+    weekH: "La meva setmana", daysL: "Dies", minL: "min per sessió", placeL: "Lloc", matL: "Material", noMat: "cap (només pes corporal)", actL: "Activitat diària", sleepL: "Son (mitjana)", enL: "Energia/estrès", dietL: "Alimentació", extraL: "A més",
+    marksH: "Marques recents (últimes 8 setmanes)", ses: n => (n === 1 ? "1 sessió" : `${n} sessions`), pemL: "Esforç mitjà de les sessions (PEM 1–10)", mineH: "Les meves rutines actuals", catH: "Catàleg d'exercicis d'Usus",
+    cat: ["Llista completa (id, nom en es/ca/en, patró, nivell 1–5, tipus, material, progressions; i a cada fitxa: role = principal, accessori, mobilitat, escalfament o cardio; dose = rang recomanat per sèrie, en reps o segons; joints = articulacions que més carrega). Fes servir dose per a les sèries i evita els exercicis amb joints que coincideixin amb les meves molèsties:", "Si no pots obrir l'enllaç, fes servir noms d'exercici clars i habituals i omet \"xid\": Usus permet vincular-los al catàleg després."] },
+  en: { title: "Usus · Create a training plan", intro: "Act as a cautious, evidence-based calisthenics and bodyweight strength coach. Using my data, design routines and a plan for the Usus app.",
+    rulesH: "Instructions", rules: ["Read all my data. If something important for a safe plan is missing, ask me first. If you see red flags (sharp or worsening pain, dizziness, risk conditions, pregnancy…), tell me and recommend I see a professional before going on.", "Respect: available days, minutes per session, equipment, exercises to avoid, injuries and aches. When in doubt, go easier: better to progress than to get hurt.", "Start from my real level (recent bests), not from what I'd like to do.", "Use exercises from the Usus catalogue (link at the end) with their id in \"xid\". If you need one that isn't there, name it and leave out \"xid\".", "If I send current routines I want to keep, don't change them: don't repeat them in the JSON.", "Usus plans go in order: each week every routine of the current variant is done once, on whatever day suits; \"days\" only sets the order. Use one routine per session of the week (e.g. 3 sessions = 3 different routines per variant).", "Answer in English, in this order: a) plan summary and why it's built this way (short); b) how to progress week by week and when to back off; c) warnings and signs to stop; d) ONE SINGLE ```json block with the routines and plan in the format below."],
+    fmtH: "JSON block format (required)", fmtNote: "The // comments only explain each field: don't include them in your answer. Use short routine names starting with the variant (e.g. “A · Monday · Push”).",
+    c: { name: "short and clear", block: "diaria | empuje | traccion | pierna | full | core | cardio | otro", variant: "plan variant letter, or \"\" if it always repeats", days: "1=Monday … 6=Saturday, 0=Sunday", secs: "optional: sections", groups: "optional: sup = superset, cir = circuit; rounds; rest = rest between rounds (s)", type: "reps | time (with time, reps = seconds)", sides: "true if done per side", rest: "rest between sets and after the exercise (s)", tech: "optional: tempo, pause, grip…", sg: "optional: section and group", plan: "leave out for fixed routines", deload: "deload week every N weeks", up: "when a variant comes back: mark (reminder only) | reps1 | reps2 | set (+1 set) | step (next exercise)" },
+    meH: "About me", sex: { m: "male", f: "female" }, sexL: "Sex", ageL: "Age", hL: "Height", wL: "Weight", expL: "Experience", inj: "Injuries or surgery", pain: "Current pain or aches", cond: "Health conditions", meds: "Medication",
+    wantH: "What I'm after", goalL: "Goal", wantL: "Specifically", avoidL: "Avoid", durL: "Length", wk: n => `${n} weeks`, styleL: "Type", style: { var: "rotating variants (A, B, C…) with a deload week", fix: "one routine per day, always the same" },
+    weekH: "My week", daysL: "Days", minL: "min per session", placeL: "Place", matL: "Equipment", noMat: "none (bodyweight only)", actL: "Daily activity", sleepL: "Sleep (average)", enL: "Energy/stress", dietL: "Diet", extraL: "Also",
+    marksH: "Recent bests (last 8 weeks)", ses: n => (n === 1 ? "1 session" : `${n} sessions`), pemL: "Average session effort (RPE 1–10)", mineH: "My current routines", catH: "Usus exercise catalogue",
+    cat: ["Full list (id, name in es/ca/en, pattern, level 1–5, type, equipment, progressions; and on each card: role = main, accessory, mobility, warmup or cardio; dose = recommended range per set, in reps or seconds; joints = joints it loads most). Use dose for the sets and avoid exercises whose joints match my aches:", "If you can't open the link, use clear, common exercise names and leave out \"xid\": Usus lets me link them to the catalogue later."] }
+};
+function aipBuild(a) {
+  const X = PX[LANG] || PX.es, f = a.f, L = [], sex = curProf().sex, age = ageOf(f.birth), lv = Object.fromEntries(AI_LEVELS);
+  const c = X.c, cm = (code, k) => `${code}${" ".repeat(Math.max(1, 46 - code.length))}// ${c[k]}`;
+  L.push(`# ${X.title}`, "", X.intro, "", `## ${X.rulesH}`, ...X.rules.map((r, i) => `${i + 1}. ${r}`), "", `## ${X.fmtH}`, "```",
+    "{", '  "app": "usus",', '  "routines": [{', cm('    "name": "A · …",', "name"), cm('    "block": "empuje",', "block"), cm('    "variant": "A",', "variant"), cm('    "days": [1],', "days"),
+    cm('    "secs": [{"id": "s1", "name": "…"}],', "secs"), cm('    "groups": {"g1": {"kind": "sup", "rounds": 3, "rest": 90, "restAfter": 120}},', "groups"),
+    '    "exercises": [{', '      "name": "Flexión diamante", "xid": "flexion-diamante",', cm('      "sets": 3, "reps": 8, "type": "reps",', "type"), cm('      "sides": false,', "sides"),
+    cm('      "rest": 90, "restAfter": 120,', "rest"), cm('      "tech": "…",', "tech"), cm('      "sec": "s1", "grp": "g1"', "sg"), "    }]", "  }],",
+    cm('  "plan": {', "plan"), '    "phases": [{"variant": "A", "weeks": 2}, {"variant": "B", "weeks": 2}],', cm('    "deload": {"weeks": 1, "every": 6},', "deload"), cm('    "up": true, "upRule": "reps1"', "up"), "  }", "}", "```", X.fmtNote, "");
+  L.push(`## ${X.meH}`, [sex === "m" || sex === "f" ? `${X.sexL}: ${X.sex[sex]}` : "", age ? `${X.ageL}: ${age}` : "", f.height ? `${X.hL}: ${f.height} cm` : "", f.weight ? `${X.wL}: ${f.weight} kg` : ""].filter(Boolean).join(" · ") || "—");
+  if (f.level || f.years) L.push(`${X.expL}: ${[f.level ? T(lv[f.level]) : "", f.years].filter(Boolean).join(" · ")}`);
+  [["injuries", "inj"], ["pains", "pain"], ["conditions", "cond"], ["meds", "meds"]].forEach(([k, n]) => { if (f[k]) L.push(`${X[n]}: ${f[k]}`); });
+  const gl = (f.goals || []).map(g => T(AIP_GOALS.find(x => x[0] === g)?.[1] || g)).join(", ");
+  const o = (c, t) => (c ? t : null);
+  L.push("", `## ${X.wantH}`, o(gl, `${X.goalL}: ${gl}`), o(f.want, `${X.wantL}: ${f.want}`), o(f.avoid, `${X.avoidL}: ${f.avoid}`), `${X.durL}: ${X.wk(f.weeks)} · ${X.styleL}: ${X.style[f.style] || X.style.var}`);
+  L.push("", `## ${X.weekH}`, `${X.daysL}: ${WEEK_ORDER.filter(d => (f.days || []).includes(d)).map(dayShort).join(" ") || "—"}${f.mins ? ` · ${f.mins} ${X.minL}` : ""}${f.when ? ` · ${f.when}` : ""} · ${X.placeL}: ${T(AIP_PLACES.find(x => x[0] === f.place)?.[1] || f.place)}`,
+    `${X.matL}: ${(f.mat || []).filter(k => MAT[k]).map(k => T(MAT[k][0])).join(", ") || X.noMat}`,
+    o(f.activity || f.other, `${X.actL}: ${[f.activity ? T(AIP_ACT.find(x => x[0] === f.activity)?.[1]) : "", f.other].filter(Boolean).join(" · ")}`),
+    `${f.sleep ? `${X.sleepL}: ${f.sleep} · ` : ""}${X.enL}: ${T(AIP_EN.find(x => x[0] === f.energy)?.[1] || "Normal")}`, o(f.diet, `${X.dietL}: ${f.diet}`), o(f.extra, `${X.extraL}: ${f.extra}`));
+  if (a.inc.hist && state.sessions.length) { const m = aipMarks();
+    if (m.list.length) { L.push("", `## ${X.marksH}`, ...m.list.map(x => `- ${exLabel(x.e)}${x.e.xid ? ` (${x.e.xid})` : ""}: ${x.v}${isTime(x.e) ? " s" : " reps"}${sideReps(x.e) || (isTime(x.e) && x.e.sides) ? " ×2" : ""}${x.w ? ` @ ${x.w} kg` : ""} · ${X.ses(x.n)}`)); if (m.pem) L.push(`- ${X.pemL}: ${m.pem}`); } }
+  if (a.inc.mine && state.routines.length) { L.push("", `## ${X.mineH}`);
+    state.routines.forEach(r => L.push(`- ${r.name}${normVar(r.variant) ? ` [${normVar(r.variant)}]` : ""}${(r.days || []).length ? ` · ${r.days.length === 7 ? "L–D" : WEEK_ORDER.filter(d => r.days.includes(d)).map(dayShort).join(" ")}` : ""}: ${r.exercises.map(e => `${exLabel(e)}${e.xid ? ` (${e.xid})` : ""} ${e.sets}×${e.reps}${isTime(e) ? " s" : ""}`).join(" · ")}`)); }
+  L.push("", `## ${X.catH}`, X.cat[0], CAT_URL, X.cat[1]);
+  return L.filter(x => x !== false && x !== undefined && x !== null).join("\n");
+}
+function aipSave() {
+  const a = state.aip; if (!a?.keep) return;
+  LS.set("wk.aiPlan", Object.fromEntries(AIP_P.map(k => [k, a.f[k]])));
+  const h = Object.fromEntries(AIP_H.map(k => [k, a.f[k] || ""])); if (aiHasData(h)) LS.set("wk.aiProf", { ...(aiProf() || {}), ...h });
 }
 
 /* Datos en CSV: un .zip con una tabla por tipo de dato */

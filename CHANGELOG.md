@@ -4,6 +4,12 @@ Todas las versiones de Usus. Formato basado en [Keep a Changelog](https://keepac
 
 **Castellano** · [Català](#català) · [English](#english)
 
+## [3.3.0] — en pruebas (beta)
+
+- Crear plan con IA (Biblioteca → Plan y Progreso → Resumen): en 4 pasos (sobre ti, qué buscas, tu semana y para la IA) Usus prepara unas indicaciones con tus datos, cómo debe responder la IA y el enlace al catálogo, con el rango recomendado y las articulaciones de cada ejercicio. Las copias o exportas, las pegas en tu IA y su respuesta vuelve a Usus para revisarla antes de importar.
+- Avisos claros: una IA no es un entrenador ni un profesional sanitario, y vas a compartir datos de salud con un servicio externo. Usus no envía nada. «Recordar mis respuestas» deja el formulario rellenado para la próxima vez.
+- Al añadir un plan recibido o de la IA, si sus letras de variante ya las usan tus rutinas, se cambian por otras libres para no mezclar planes.
+
 ## [3.2.0] — 2026-10-20
 
 - Plan guiado: unas preguntas (objetivo, días, minutos, material, molestias y nivel, con un test rápido o elegido) y Usus propone rutinas del catálogo a tu nivel, con calentamiento, principal, accesorios y vuelta a la calma. Revisas la propuesta, subes o bajas cada ejercicio en su escalera y se crean las rutinas (variantes A y B) y un plan en orden.
@@ -260,6 +266,12 @@ Primera versión pública.
 
 ## Català
 
+### [3.3.0] — en proves (beta)
+
+- Crea un pla amb IA (Biblioteca → Pla i Progrés → Resum): en 4 passos (sobre tu, què busques, la teva setmana i per a la IA) Usus prepara unes indicacions amb les teves dades, com ha de respondre la IA i l'enllaç al catàleg, amb el rang recomanat i les articulacions de cada exercici. Les copies o exportes, les enganxes a la teva IA i la resposta torna a Usus per revisar-la abans d'importar.
+- Avisos clars: una IA no és un entrenador ni un professional sanitari, i compartiràs dades de salut amb un servei extern. Usus no envia res. «Recorda les meves respostes» deixa el formulari omplert per a la propera vegada.
+- En afegir un pla rebut o de la IA, si les seves lletres de variant ja les fan servir les teves rutines, es canvien per altres de lliures per no barrejar plans.
+
 ### [3.2.0] — 2026-10-20
 
 - Pla guiat: unes preguntes (objectiu, dies, minuts, material, molèsties i nivell, amb un test ràpid o triat) i Usus proposa rutines del catàleg al teu nivell, amb escalfament, principal, accessoris i tornada a la calma. Revises la proposta, puges o baixes cada exercici a la seva escala i es creen les rutines (variants A i B) i un pla en ordre.
@@ -357,6 +369,12 @@ Primera versió pública: rutines amb sèries per repeticions o per temps, compt
 ---
 
 ## English
+
+### [3.3.0] — in testing (beta)
+
+- Create plan with AI (Library → Plan and Progress → Summary): in 4 steps (about you, what you're after, your week and for the AI) Usus prepares instructions with your data, how the AI should reply and the catalogue link, with each exercise's recommended range and joints. Copy or export them, paste them into your AI and its reply comes back to Usus to review before importing.
+- Clear warnings: an AI isn't a coach or a health professional, and you'll be sharing health data with an external service. Usus sends nothing. “Remember my answers” keeps the form filled in for next time.
+- When adding a received or AI plan, if its variant letters are already used by your routines, they're changed to free ones so plans don't get mixed.
 
 ### [3.2.0] — 2026-10-20
 

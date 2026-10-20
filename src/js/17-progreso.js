@@ -383,7 +383,7 @@ function viewResumen(S, IX, now) {
       ${wl.length > 1 ? `<div class="rspark">${spark(wl.slice(-12).map(x => ({ v: x.kg })), "var(--accent)").replace('width="72" height="24"', 'preserveAspectRatio="none"')}</div>` : ""}`;
   }
   return `<div class="rgrid">${card(T("Esta semana"), semana, "", "")}${card(T("Constancia"), constancia, "ent", T("Calendario"))}${card(T("Récords recientes"), records, "ent", T("Ejercicios"))}${peso ? card(T("Peso"), peso, "cue", T("Detalle")) : ""}</div>
-    <div class="aimini"><span>✦ ${T("Analizar con IA externa")} <span class="aibadge">${T("Externa")}</span></span><button class="btn small" data-act="ai-open">${T("Preparar análisis")}</button></div>`;
+    <div class="aimini"><span>✦ ${T("Analizar con IA externa")} <span class="aibadge">${T("Externa")}</span></span><span class="row" style="gap:6px;flex-wrap:wrap"><button class="btn small" data-act="ai-open">${T("Preparar análisis")}</button><button class="btn small aibtn" data-act="aip-open">✦ ${T("Crear plan con IA")}</button></span></div>`;
 }
 function viewStats() {
   const S = state.sessions;
