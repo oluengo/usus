@@ -1,5 +1,9 @@
 /* ---------- Novedades (una vez por versión; historial al tocar la versión) ---------- */
 const CHANGES = [  // Novedades: solo en castellano; las traducciones, en i18n/*.po
+  ["3.5.0", [
+    N_("Reiniciar el plan: en el menú ⋯ del plan en Hoy o en Biblioteca → Plan, vuelve a la semana 1 desde hoy, sin semana elegida ni pausas. Tus rutinas, sesiones e historial no se tocan. Al terminar un plan, Hoy lo ofrece."),
+    N_("Nuevo perfil: el catálogo de ejercicios se elige en el mismo formulario. Al crearlo, Usus entra en él sin más preguntas y avisa de que ya estás en el nuevo perfil. Con una sesión en curso, pide terminarla antes.")
+  ]],
   ["3.4.0", [
     N_("Descanso entre ejercicios: debajo de «Siguiente», el próximo ejercicio del catálogo con su ficha resumida plegada; al abrirla, para qué sirve y cómo se hace (con tu nota si la tiene) y un enlace a la ficha completa."),
     N_("Primer uso: «Saltar la intro» en el asistente de bienvenida. Acepta el aviso, deja el catálogo activado y va directo a la app.")

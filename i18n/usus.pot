@@ -103,6 +103,10 @@ msgstr ""
 msgid "¿Quitar la sección «{x}»? Sus ejercicios pasan a «{y}»."
 msgstr ""
 
+#, python-brace-format
+msgid "¿Reiniciar «{x}» desde la semana 1? Empieza hoy; tus rutinas, sesiones e historial no se tocan."
+msgstr ""
+
 msgid "¿Salir del plan guiado? Se perderán tus respuestas."
 msgstr ""
 
@@ -1318,6 +1322,9 @@ msgstr ""
 msgid "desde la próxima"
 msgstr ""
 
+msgid "Desde la semana 1, hoy. Tu historial no se toca"
+msgstr ""
+
 msgid "Deshacer"
 msgstr ""
 
@@ -1933,6 +1940,9 @@ msgid "Fichas del catálogo en català e English, y nombres de los ejercicios en
 msgstr ""
 
 msgid "Fichas desde cualquier sitio: toca el nombre de un ejercicio del catálogo en la rutina, antes de iniciar o en el Diario para ver cómo se hace. Si el perfil no tiene el catálogo activado, se pide activarlo."
+msgstr ""
+
+msgid "Fichas, progresiones y Plan guiado. Se puede cambiar en Ajustes → App."
 msgstr ""
 
 #, python-brace-format
@@ -2782,6 +2792,9 @@ msgstr ""
 msgid "Nuevo perfil"
 msgstr ""
 
+msgid "Nuevo perfil: el catálogo de ejercicios se elige en el mismo formulario. Al crearlo, Usus entra en él sin más preguntas y avisa de que ya estás en el nuevo perfil. Con una sesión en curso, pide terminarla antes."
+msgstr ""
+
 msgid "Nuevo plan"
 msgstr ""
 
@@ -3067,6 +3080,10 @@ msgstr ""
 msgid "Perfil"
 msgstr ""
 
+#, python-brace-format
+msgid "Perfil «{x}» creado. Ya estás en él."
+msgstr ""
+
 msgid "Perfil guardado"
 msgstr ""
 
@@ -3181,6 +3198,9 @@ msgid "Plan guiado: unas preguntas (objetivo, días, minutos, material, molestia
 msgstr ""
 
 msgid "Plan guiado: unas preguntas y Usus te propone rutinas del catálogo a tu nivel. Crear plan: lo montas tú con tus rutinas. Con IA: una IA externa te propone el plan con más datos sobre ti."
+msgstr ""
+
+msgid "Plan reiniciado: semana 1"
 msgstr ""
 
 msgid "Plan terminado"
@@ -3483,6 +3503,15 @@ msgstr ""
 
 #, python-brace-format
 msgid "Regla registrada · {d}"
+msgstr ""
+
+msgid "Reiniciar"
+msgstr ""
+
+msgid "Reiniciar el plan"
+msgstr ""
+
+msgid "Reiniciar el plan: en el menú ⋯ del plan en Hoy o en Biblioteca → Plan, vuelve a la semana 1 desde hoy, sin semana elegida ni pausas. Tus rutinas, sesiones e historial no se tocan. Al terminar un plan, Hoy lo ofrece."
 msgstr ""
 
 msgid "Reparto por bloque"
@@ -4516,6 +4545,9 @@ msgid "Ver la app primero. Las rutinas se crean en Biblioteca → Nueva rutina."
 msgstr ""
 
 msgid "Ver la ficha completa"
+msgstr ""
+
+msgid "Ver mis planes"
 msgstr ""
 
 msgid "Ver notas"

@@ -82,7 +82,8 @@ function planOrder(p, now = Date.now()) {
   const base = planWeeks({ ...p, pauses: [] }); if (!base.length) return null;
   // Plan que pasa de calendario a «en orden»: sigue desde la semana orderAt (las anteriores quedan como estaban)
   const k0 = Number.isInteger(p.orderAt) && p.orderAt > 0 && p.orderAt < base.length ? p.orderAt : 0;
-  const st = k0 ? base[k0].t : keyTime(p.start); if (now < st) return { status: "pre", ws: base.map(w => ({ ...w, t: null })) };
+  // Reiniciado hoy (restartAt): solo cuentan las sesiones desde ese momento, no las de antes del mismo día
+  const st = k0 ? base[k0].t : p.restartAt && dayKey(p.restartAt) === p.start ? p.restartAt : keyTime(p.start); if (now < st) return { status: "pre", ws: base.map(w => ({ ...w, t: null })) };
   const ss = state.sessions.filter(s => s.start >= st).sort((a, b) => a.start - b.start), ws = base.slice(0, k0).map(w => ({ ...w, old: true })); let t = st, si = 0, cur = -1;
   for (let k = k0; k < base.length; k++) {
     const b = base[k], w = { ...b, t }, seq = b.deload ? [] : planSeq(b.variant);
@@ -165,7 +166,7 @@ function todayCard() {
   const rs = state.routines.filter(r => (r.days || []).includes(today));
   const msg = pn?.status === "pre" ? T("El plan empieza el {d}.", { d: new Date(pn.ws[0].t).toLocaleDateString(LOC(), { weekday: "long", day: "numeric", month: "long" }) })
     : pn?.status === "done" ? T("Plan terminado") + ". " + T("Toca revisar el progreso y decidir el siguiente plan.") : "";
-  return `<div class="panel plan-b today"><b>${T("Toca hoy")}</b>${msg ? `<p class="muted" style="margin:4px 0 0">${msg}</p>` : ""}${list(rs)}
+  return `<div class="panel plan-b today"><b>${T("Toca hoy")}</b>${msg ? `<p class="muted" style="margin:4px 0 0">${msg}</p>` : ""}${pn?.status === "done" ? `<div class="row" style="margin-top:8px;gap:6px;flex-wrap:wrap"><button class="btn small" data-act="plan-restart">${T("Reiniciar el plan")}</button><button class="btn ghost small" data-act="plan-open">${T("Ver mis planes")}</button></div>` : ""}${list(rs)}
     ${rs.length ? "" : `<p class="muted" style="font-size:.8rem;margin:6px 0 0">${T("Marca los días de cada rutina al editarla.")}</p>`}</div>`;
 }
 /* Acciones del plan en Hoy: aplazar lo de hoy, deshacer, descarga esta semana */
@@ -205,6 +206,7 @@ function planMenuModal() {
       ${it('data-act="plan-open"', T("Ver el plan"), T("Todas las semanas"))}
       ${pn.w.deload ? "" : it('data-act="pl-deload"', T("Descarga esta semana"), T("Solo las rutinas de todas las semanas; el plan no avanza"))}
       ${it('data-act="pl-pausego"', T("Pausar el plan"), T("Vacaciones, lesión, un viaje…"))}
+      ${it('data-act="plan-restart"', T("Reiniciar el plan"), T("Desde la semana 1, hoy. Tu historial no se toca"))}
       ${it('data-act="plan-edit"', T("Editar plan"), "")}
     </div></div></div>`;
 }
@@ -228,7 +230,7 @@ function planSection() {
     <p class="muted" style="font-size:.8rem;margin:8px 0 0">${T("Plan guiado: unas preguntas y Usus te propone rutinas del catálogo a tu nivel. Crear plan: lo montas tú con tus rutinas. Con IA: una IA externa te propone el plan con más datos sobre ti.")}</p></div>${plansBlock()}`;
   const ws = planWeeks(p), pn = planNow(p), now = Date.now(), vs = planVariants(p);
   const fmt = t => new Date(t).toLocaleDateString(LOC(), { day: "numeric", month: "short" });
-  return `<div class="row" id="planSec"><h2 style="margin:0;flex:1">${p.name ? esc(p.name) : T("Plan")}</h2><button class="btn small" data-act="plan-edit">${T("Editar plan")}</button></div>
+  return `<div class="row" id="planSec"><h2 style="margin:0;flex:1">${p.name ? esc(p.name) : T("Plan")}</h2>${ws.length ? `<button class="btn small" data-act="plan-restart">${T("Reiniciar")}</button>` : ""}<button class="btn small" data-act="plan-edit">${T("Editar plan")}</button></div>
     ${p.enabled === false ? `<p class="muted">${T("Plan desactivado: Hoy no lo tiene en cuenta.")}</p>` : ""}
     ${ws.length ? `<p class="sub">${p.order ? `${T("Desde el {d}", { d: fmt(keyTime(p.start)) })} · ${T("en orden")}` : `${fmt(ws[0].t)} → ${fmt(addDays(ws[ws.length - 1].t, 6))}`}${p.review ? ` · ${T("revisión desde el {d}", { d: fmt(keyTime(p.review)) })}` : ""}</p>
     <div class="legend" style="margin-top:6px">${vs.map(v => `<span>${vChip(v)}</span>`).join("")}<span><span class="vchip vd">${T("Descarga")}</span></span><span>${T("↑ = subir reps · barra = días de fuerza hechos")}</span></div>
@@ -242,6 +244,15 @@ function planSection() {
     ${[...vs, ""].map(v => { const rs = state.routines.filter(r => normVar(r.variant) === v);
       return rs.length ? `<div class="pvr"><span style="width:48px">${v ? vChip(v) : `<span class="muted" style="font-size:.78rem">${T("Sin")}</span>`}</span><span style="flex:1;min-width:0">${rs.map(r => `${esc(r.name)} <span class="muted" style="font-size:.78rem">${(r.days || []).length === 7 ? T("todos los días") : WEEK_ORDER.filter(d => (r.days || []).includes(d)).map(dayShort).join(" ")}</span>`).join("<br>")}</span></div>` : ""; }).join("")}
     ${state.routines.some(r => !(r.days || []).length) ? `<p class="muted" style="font-size:.8rem;margin:8px 0 0">${T("Las rutinas sin días no se sugieren. Ponles días al editarlas.")}</p>` : ""}</details>${plansBlock()}`;
+}
+/* Reiniciar: el plan vuelve a la semana 1 desde hoy (inicio hoy, sin semana elegida ni pausas). La revisión se corre lo mismo */
+function planRestart() {
+  const p = PL.get(); if (!p) return;
+  if (!confirm(T("¿Reiniciar «{x}» desde la semana 1? Empieza hoy; tus rutinas, sesiones e historial no se tocan.", { x: planName(p) }))) return;
+  const today = dayKey(Date.now()), shift = p.start ? Math.round((keyTime(today) - keyTime(p.start)) / 864e5) : 0;
+  const q = { ...p, order: true, start: today, restartAt: Date.now(), pauses: [] }; delete q.orderAt;
+  if (q.review && shift > 0) q.review = dayKey(addDays(keyTime(q.review), shift));
+  PL.save(q); SHIFT.set(null); state.plmenu = false; toast(T("Plan reiniciado: semana 1")); render();
 }
 function newPlanDraft() {
   const vs = [...new Set(state.routines.map(r => normVar(r.variant)).filter(Boolean))].sort();

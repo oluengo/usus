@@ -104,6 +104,10 @@ msgstr "Remove the section “{x}”? The exercises stay in the routine."
 msgid "¿Quitar la sección «{x}»? Sus ejercicios pasan a «{y}»."
 msgstr "Remove the section “{x}”? Its exercises move to “{y}”."
 
+#, python-brace-format
+msgid "¿Reiniciar «{x}» desde la semana 1? Empieza hoy; tus rutinas, sesiones e historial no se tocan."
+msgstr "Restart “{x}” from week 1? It starts today; your routines, sessions and history are not touched."
+
 msgid "¿Salir del plan guiado? Se perderán tus respuestas."
 msgstr "Leave the guided plan? Your answers will be lost."
 
@@ -1262,7 +1266,7 @@ msgid "Descanso entre ejercicios: {n} s"
 msgstr "Rest between exercises: {n} s"
 
 msgid "Descanso entre ejercicios: debajo de «Siguiente», el próximo ejercicio del catálogo con su ficha resumida plegada; al abrirla, para qué sirve y cómo se hace (con tu nota si la tiene) y un enlace a la ficha completa."
-msgstr "Rest between exercises: below «Next», the upcoming catalogue exercise with its short card folded; open it to see what it's for and how to do it (with your note if it has one) and a link to the full card."
+msgstr "Rest between exercises: below “Next”, the upcoming catalogue exercise with its short card folded; open it to see what it's for and how to do it (with your note if it has one) and a link to the full card."
 
 msgid "Descanso entre series"
 msgstr "Rest between sets"
@@ -1318,6 +1322,9 @@ msgstr "from this week"
 
 msgid "desde la próxima"
 msgstr "from next week"
+
+msgid "Desde la semana 1, hoy. Tu historial no se toca"
+msgstr "From week 1, today. Your history is not touched"
 
 msgid "Deshacer"
 msgstr "Undo"
@@ -1935,6 +1942,9 @@ msgstr "Catalogue cards in Català and English, and exercise names in Català."
 
 msgid "Fichas desde cualquier sitio: toca el nombre de un ejercicio del catálogo en la rutina, antes de iniciar o en el Diario para ver cómo se hace. Si el perfil no tiene el catálogo activado, se pide activarlo."
 msgstr "Cards from anywhere: tap the name of a catalogue exercise in a routine, before starting or in the Diary to see how it's done. If the profile doesn't have the catalogue turned on, you're asked to turn it on."
+
+msgid "Fichas, progresiones y Plan guiado. Se puede cambiar en Ajustes → App."
+msgstr "Cards, progressions and Guided plan. You can change it in Settings → App."
 
 #, python-brace-format
 msgid "Fin de la regla · {d}"
@@ -2783,6 +2793,9 @@ msgstr "New"
 msgid "Nuevo perfil"
 msgstr "New profile"
 
+msgid "Nuevo perfil: el catálogo de ejercicios se elige en el mismo formulario. Al crearlo, Usus entra en él sin más preguntas y avisa de que ya estás en el nuevo perfil. Con una sesión en curso, pide terminarla antes."
+msgstr "New profile: the exercise catalogue is chosen in the same form. Once created, Usus switches to it with no more questions and tells you you're now on the new profile. With a session in progress, it asks you to finish it first."
+
 msgid "Nuevo plan"
 msgstr "New plan"
 
@@ -3068,6 +3081,10 @@ msgstr "Lose fat"
 msgid "Perfil"
 msgstr "Profile"
 
+#, python-brace-format
+msgid "Perfil «{x}» creado. Ya estás en él."
+msgstr "Profile “{x}” created. You're now using it."
+
 msgid "Perfil guardado"
 msgstr "Profile saved"
 
@@ -3184,6 +3201,9 @@ msgstr "Guided plan: a few questions (goal, days, minutes, equipment, aches and 
 msgid "Plan guiado: unas preguntas y Usus te propone rutinas del catálogo a tu nivel. Crear plan: lo montas tú con tus rutinas. Con IA: una IA externa te propone el plan con más datos sobre ti."
 msgstr "Guided plan: a few questions and Usus suggests catalogue routines at your level. Create plan: you build it with your own routines. With AI: an external AI suggests the plan using more data about you."
 
+msgid "Plan reiniciado: semana 1"
+msgstr "Plan restarted: week 1"
+
 msgid "Plan terminado"
 msgstr "Plan finished"
 
@@ -3280,7 +3300,7 @@ msgid "Primer uso guiado en pasos: idioma y avisos, catálogo, material y cómo 
 msgstr "Guided first run in steps: language and notices, catalogue, equipment and how to start (create your first routine or import a backup)."
 
 msgid "Primer uso: «Saltar la intro» en el asistente de bienvenida. Acepta el aviso, deja el catálogo activado y va directo a la app."
-msgstr "First use: «Skip the intro» in the welcome wizard. It accepts the notice, leaves the catalogue on and goes straight to the app."
+msgstr "First use: “Skip the intro” in the welcome wizard. It accepts the notice, leaves the catalogue on and goes straight to the app."
 
 msgid "Primera versión de la app para Android (APK), en GitHub → Releases. Es la misma app; sus datos van aparte de los de la PWA (se pasan con una copia)."
 msgstr "First Android app release (APK), on GitHub → Releases. It's the same app; its data is kept apart from the PWA's (move it with a backup)."
@@ -3485,6 +3505,15 @@ msgstr "Period logged"
 #, python-brace-format
 msgid "Regla registrada · {d}"
 msgstr "Period logged · {d}"
+
+msgid "Reiniciar"
+msgstr "Restart"
+
+msgid "Reiniciar el plan"
+msgstr "Restart the plan"
+
+msgid "Reiniciar el plan: en el menú ⋯ del plan en Hoy o en Biblioteca → Plan, vuelve a la semana 1 desde hoy, sin semana elegida ni pausas. Tus rutinas, sesiones e historial no se tocan. Al terminar un plan, Hoy lo ofrece."
+msgstr "Restart the plan: from the plan's ⋯ menu in Today or in Library → Plan, it goes back to week 1 from today, with no chosen week or pauses. Your routines, sessions and history are not touched. When a plan ends, Today offers it."
 
 msgid "Reparto por bloque"
 msgstr "Split by block"
@@ -4518,6 +4547,9 @@ msgstr "See the app first. Routines are created in Library → New routine."
 
 msgid "Ver la ficha completa"
 msgstr "See the full card"
+
+msgid "Ver mis planes"
+msgstr "See my plans"
 
 msgid "Ver notas"
 msgstr "See notes"

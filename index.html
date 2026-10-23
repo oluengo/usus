@@ -437,6 +437,7 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center}
 .ainfo{margin:0;padding-left:18px;font-size:.88rem;line-height:1.5}
 .aimanual{margin-top:8px}.aimanual summary{cursor:pointer;color:var(--muted);font-size:.85rem;padding:6px 0}
 .aimanual textarea{margin-top:4px}
+.pcat{border:1px solid var(--line);background:var(--surface);border-radius:14px;padding:12px;margin-top:12px;cursor:pointer}.pcat input{width:22px;height:22px;flex-shrink:0;accent-color:var(--accent)}
 /* Compartir */
 .shbtn{display:inline-flex;align-items:center;justify-content:center;gap:6px}
 .shbtn svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
@@ -1139,7 +1140,7 @@ function lastSetsFor(ref) {
   }
   return null;
 }
-const APP_VERSION = "3.4.0";
+const APP_VERSION = "3.5.0";
 const THEMES = [["protector", "Protector", "Oscuro cálido, sin azul"], ["dark", "Oscuro", "Neutro"], ["light", "Claro", "Para el día"], ["auto", "Automático", "Sigue al sistema"]];
 const curTheme = () => document.documentElement.dataset.theme || "auto";
 function applyTheme(t) {
@@ -1257,7 +1258,8 @@ function planOrder(p, now = Date.now()) {
   const base = planWeeks({ ...p, pauses: [] }); if (!base.length) return null;
   // Plan que pasa de calendario a «en orden»: sigue desde la semana orderAt (las anteriores quedan como estaban)
   const k0 = Number.isInteger(p.orderAt) && p.orderAt > 0 && p.orderAt < base.length ? p.orderAt : 0;
-  const st = k0 ? base[k0].t : keyTime(p.start); if (now < st) return { status: "pre", ws: base.map(w => ({ ...w, t: null })) };
+  // Reiniciado hoy (restartAt): solo cuentan las sesiones desde ese momento, no las de antes del mismo día
+  const st = k0 ? base[k0].t : p.restartAt && dayKey(p.restartAt) === p.start ? p.restartAt : keyTime(p.start); if (now < st) return { status: "pre", ws: base.map(w => ({ ...w, t: null })) };
   const ss = state.sessions.filter(s => s.start >= st).sort((a, b) => a.start - b.start), ws = base.slice(0, k0).map(w => ({ ...w, old: true })); let t = st, si = 0, cur = -1;
   for (let k = k0; k < base.length; k++) {
     const b = base[k], w = { ...b, t }, seq = b.deload ? [] : planSeq(b.variant);
@@ -1340,7 +1342,7 @@ function todayCard() {
   const rs = state.routines.filter(r => (r.days || []).includes(today));
   const msg = pn?.status === "pre" ? T("El plan empieza el {d}.", { d: new Date(pn.ws[0].t).toLocaleDateString(LOC(), { weekday: "long", day: "numeric", month: "long" }) })
     : pn?.status === "done" ? T("Plan terminado") + ". " + T("Toca revisar el progreso y decidir el siguiente plan.") : "";
-  return `<div class="panel plan-b today"><b>${T("Toca hoy")}</b>${msg ? `<p class="muted" style="margin:4px 0 0">${msg}</p>` : ""}${list(rs)}
+  return `<div class="panel plan-b today"><b>${T("Toca hoy")}</b>${msg ? `<p class="muted" style="margin:4px 0 0">${msg}</p>` : ""}${pn?.status === "done" ? `<div class="row" style="margin-top:8px;gap:6px;flex-wrap:wrap"><button class="btn small" data-act="plan-restart">${T("Reiniciar el plan")}</button><button class="btn ghost small" data-act="plan-open">${T("Ver mis planes")}</button></div>` : ""}${list(rs)}
     ${rs.length ? "" : `<p class="muted" style="font-size:.8rem;margin:6px 0 0">${T("Marca los días de cada rutina al editarla.")}</p>`}</div>`;
 }
 /* Acciones del plan en Hoy: aplazar lo de hoy, deshacer, descarga esta semana */
@@ -1380,6 +1382,7 @@ function planMenuModal() {
       ${it('data-act="plan-open"', T("Ver el plan"), T("Todas las semanas"))}
       ${pn.w.deload ? "" : it('data-act="pl-deload"', T("Descarga esta semana"), T("Solo las rutinas de todas las semanas; el plan no avanza"))}
       ${it('data-act="pl-pausego"', T("Pausar el plan"), T("Vacaciones, lesión, un viaje…"))}
+      ${it('data-act="plan-restart"', T("Reiniciar el plan"), T("Desde la semana 1, hoy. Tu historial no se toca"))}
       ${it('data-act="plan-edit"', T("Editar plan"), "")}
     </div></div></div>`;
 }
@@ -1403,7 +1406,7 @@ function planSection() {
     <p class="muted" style="font-size:.8rem;margin:8px 0 0">${T("Plan guiado: unas preguntas y Usus te propone rutinas del catálogo a tu nivel. Crear plan: lo montas tú con tus rutinas. Con IA: una IA externa te propone el plan con más datos sobre ti.")}</p></div>${plansBlock()}`;
   const ws = planWeeks(p), pn = planNow(p), now = Date.now(), vs = planVariants(p);
   const fmt = t => new Date(t).toLocaleDateString(LOC(), { day: "numeric", month: "short" });
-  return `<div class="row" id="planSec"><h2 style="margin:0;flex:1">${p.name ? esc(p.name) : T("Plan")}</h2><button class="btn small" data-act="plan-edit">${T("Editar plan")}</button></div>
+  return `<div class="row" id="planSec"><h2 style="margin:0;flex:1">${p.name ? esc(p.name) : T("Plan")}</h2>${ws.length ? `<button class="btn small" data-act="plan-restart">${T("Reiniciar")}</button>` : ""}<button class="btn small" data-act="plan-edit">${T("Editar plan")}</button></div>
     ${p.enabled === false ? `<p class="muted">${T("Plan desactivado: Hoy no lo tiene en cuenta.")}</p>` : ""}
     ${ws.length ? `<p class="sub">${p.order ? `${T("Desde el {d}", { d: fmt(keyTime(p.start)) })} · ${T("en orden")}` : `${fmt(ws[0].t)} → ${fmt(addDays(ws[ws.length - 1].t, 6))}`}${p.review ? ` · ${T("revisión desde el {d}", { d: fmt(keyTime(p.review)) })}` : ""}</p>
     <div class="legend" style="margin-top:6px">${vs.map(v => `<span>${vChip(v)}</span>`).join("")}<span><span class="vchip vd">${T("Descarga")}</span></span><span>${T("↑ = subir reps · barra = días de fuerza hechos")}</span></div>
@@ -1417,6 +1420,15 @@ function planSection() {
     ${[...vs, ""].map(v => { const rs = state.routines.filter(r => normVar(r.variant) === v);
       return rs.length ? `<div class="pvr"><span style="width:48px">${v ? vChip(v) : `<span class="muted" style="font-size:.78rem">${T("Sin")}</span>`}</span><span style="flex:1;min-width:0">${rs.map(r => `${esc(r.name)} <span class="muted" style="font-size:.78rem">${(r.days || []).length === 7 ? T("todos los días") : WEEK_ORDER.filter(d => (r.days || []).includes(d)).map(dayShort).join(" ")}</span>`).join("<br>")}</span></div>` : ""; }).join("")}
     ${state.routines.some(r => !(r.days || []).length) ? `<p class="muted" style="font-size:.8rem;margin:8px 0 0">${T("Las rutinas sin días no se sugieren. Ponles días al editarlas.")}</p>` : ""}</details>${plansBlock()}`;
+}
+/* Reiniciar: el plan vuelve a la semana 1 desde hoy (inicio hoy, sin semana elegida ni pausas). La revisión se corre lo mismo */
+function planRestart() {
+  const p = PL.get(); if (!p) return;
+  if (!confirm(T("¿Reiniciar «{x}» desde la semana 1? Empieza hoy; tus rutinas, sesiones e historial no se tocan.", { x: planName(p) }))) return;
+  const today = dayKey(Date.now()), shift = p.start ? Math.round((keyTime(today) - keyTime(p.start)) / 864e5) : 0;
+  const q = { ...p, order: true, start: today, restartAt: Date.now(), pauses: [] }; delete q.orderAt;
+  if (q.review && shift > 0) q.review = dayKey(addDays(keyTime(q.review), shift));
+  PL.save(q); SHIFT.set(null); state.plmenu = false; toast(T("Plan reiniciado: semana 1")); render();
 }
 function newPlanDraft() {
   const vs = [...new Set(state.routines.map(r => normVar(r.variant)).filter(Boolean))].sort();
@@ -4436,6 +4448,10 @@ function installBlock() {
 }
 /* ---------- Novedades (una vez por versión; historial al tocar la versión) ---------- */
 const CHANGES = [  // Novedades: solo en castellano; las traducciones, en i18n/*.po
+  ["3.5.0", [
+    N_("Reiniciar el plan: en el menú ⋯ del plan en Hoy o en Biblioteca → Plan, vuelve a la semana 1 desde hoy, sin semana elegida ni pausas. Tus rutinas, sesiones e historial no se tocan. Al terminar un plan, Hoy lo ofrece."),
+    N_("Nuevo perfil: el catálogo de ejercicios se elige en el mismo formulario. Al crearlo, Usus entra en él sin más preguntas y avisa de que ya estás en el nuevo perfil. Con una sesión en curso, pide terminarla antes.")
+  ]],
   ["3.4.0", [
     N_("Descanso entre ejercicios: debajo de «Siguiente», el próximo ejercicio del catálogo con su ficha resumida plegada; al abrirla, para qué sirve y cómo se hace (con tu nota si la tiene) y un enlace a la ficha completa."),
     N_("Primer uso: «Saltar la intro» en el asistente de bienvenida. Acepta el aviso, deja el catálogo activado y va directo a la app.")
@@ -4910,18 +4926,19 @@ function profAv(p, px, sexOver, colOver) {
 }
 const profChip = () => multiProf() ? `<button class="pchip" data-act="prof-pick" aria-label="${T("Cambiar de perfil")}">${profAv(curProf(), 26)}<span>${esc(profName(curProf()))}</span></button>` : "";
 /* Al cambiar de perfil se recarga la app: se recuerda dónde estabas (pantalla y pestaña de Ajustes) */
-const keepPlace = () => { try { sessionStorage.setItem("usus.place", JSON.stringify({ tab: state.tab, setTab: state.setTab })); } catch {} };
+const keepPlace = msg => { try { sessionStorage.setItem("usus.place", JSON.stringify({ tab: state.tab, setTab: state.setTab, ...(msg ? { msg } : {}) })); } catch {} };
 function restorePlace() {
   try { const p = JSON.parse(sessionStorage.getItem("usus.place") || "null"); sessionStorage.removeItem("usus.place");
     if (p && ["train", "routines", "diary", "stats", "data"].includes(p.tab)) state.tab = p.tab;
-    if (p && SET_GROUPS.some(t => t[0] === p.setTab)) state.setTab = p.setTab; } catch {}
+    if (p && SET_GROUPS.some(t => t[0] === p.setTab)) state.setTab = p.setTab;
+    if (p?.msg) setTimeout(() => toast(p.msg), 400); } catch {}
 }
 const profSessions = id => (rawGet(PK("wk.sessions", id), []) || []).length;
-function switchProfile(id) {
+function switchProfile(id, msg) {
   if (id === PROF) { state.ppick = false; render(); return; }
   if (state.active) { toast(T("Termina o descarta antes la sesión en curso")); return; }
   try { localStorage.setItem("wk.profile", JSON.stringify(id)); } catch {}
-  keepPlace(); location.reload();
+  keepPlace(msg); location.reload();
 }
 function profPickModal() {
   if (!state.ppick) return "";
@@ -4937,7 +4954,7 @@ function profPickModal() {
 function newProfForm(forMain) {
   const used = new Set(PROFS().map(p => p.color)), me = curProf();
   return forMain ? { forMain: true, step: "form", name: me.name || "", sex: me.sex || (CYC.cfg().on ? "f" : null), color: me.color || PCOLORS[0], cyc: CYC.cfg().on }
-    : { step: "form", name: "", sex: null, color: PCOLORS.find(c => !used.has(c)) || PCOLORS[2], cyc: false, from: state.routines.length ? "copy" : "empty", src: PROF, sel: null };
+    : { step: "form", name: "", sex: null, color: PCOLORS.find(c => !used.has(c)) || PCOLORS[2], cyc: false, cat: catOn(), from: state.routines.length ? "copy" : "empty", src: PROF, sel: null };
 }
 function startAddProfile() {
   state.ppick = false;
@@ -4970,7 +4987,8 @@ function profFormModal() {
     <span class="muted" style="font-size:.85rem;display:block;margin-top:12px">${T("Color")}</span>
     <div class="pcols">${PCOLORS.map(c => `<button data-pfcol="${c}" style="background:${c}" aria-pressed="${f.color === c}" aria-label="${T("Color")}"></button>`).join("")}</div>
     ${f.sex === "f" ? `<div class="pcyc"><label class="pcyh"><b>${T("Registro de la regla")}</b><input type="checkbox" role="switch" id="pfCyc" ${f.cyc ? "checked" : ""}></label>${CYC_INFO()}</div>` : ""}
-    ${f.forMain ? "" : `<h3 class="wh">${T("Empezar con")}</h3>
+    ${f.forMain ? "" : `<label class="pcat pcyh"><span><b>${T("Catálogo de ejercicios")}</b><small class="muted" style="display:block;font-size:.8rem">${T("Fichas, progresiones y Plan guiado. Se puede cambiar en Ajustes → App.")}</small></span><input type="checkbox" role="switch" id="pfCat" ${f.cat ? "checked" : ""}></label>
+      <h3 class="wh">${T("Empezar con")}</h3>
       <button class="popt${f.from === "empty" ? " on" : ""}" data-pffrom="empty"><i></i><span><b>${T("Vacío")}</b><small>${T("Sin rutinas.")}</small></span></button>
       <button class="popt${f.from === "copy" ? " on" : ""}" data-pffrom="copy"><i></i><span><b>${PROFS().length > 1 ? T("Rutinas de otro perfil") : T("Copiar rutinas de {x}", { x: esc(profName(curProf())) })}</b><small>${T("Solo las rutinas. Ningún registro.")}</small></span></button>
       ${f.from === "copy" ? `${PROFS().length > 1 ? `<div class="row" style="margin:4px 0 8px">${PROFS().map(p => `<button class="btn small pchip2${f.src === p.id ? " on" : ""}" data-pfsrc="${p.id}">${profAv(p, 20)} ${esc(profName(p))}</button>`).join("")}</div>` : ""}
@@ -4979,13 +4997,14 @@ function profFormModal() {
     <button class="btn primary" style="width:100%;margin-top:14px" data-act="pf-next">${f.forMain ? T("Continuar") : T("Crear perfil")}</button>
   </div></div>`;
 }
-function readProfForm() { const f = state.pform, n = document.getElementById("pfName"), c = document.getElementById("pfCyc"); if (!f) return; if (n) f.name = n.value; if (c) f.cyc = c.checked; }
+function readProfForm() { const f = state.pform, n = document.getElementById("pfName"), c = document.getElementById("pfCyc"), k = document.getElementById("pfCat"); if (!f) return; if (n) f.name = n.value; if (c) f.cyc = c.checked; if (k) f.cat = k.checked; }
 function profFormNext() {
   const f = state.pform; readProfForm();
   const n = f.name.trim();
   if (!n) { toast(T("Ponle un nombre")); document.getElementById("pfName")?.focus(); return; }
   if (PROFS().some(p => p.id !== (f.forMain ? PROF : "") && (p.name || "").toLowerCase() === n.toLowerCase())) { toast(T("Ya hay un perfil con ese nombre")); return; }
   if (!f.sex) { toast(T("Elige hombre o mujer")); return; }
+  if (!f.forMain && state.active) { toast(T("Termina o descarta antes la sesión en curso")); return; }   // si no, se crearía sin poder cambiar a él
   profFormOk();   // sin paso de confirmación: el aviso de que el sexo no se cambia ya está en el formulario
 }
 function profFormOk() {
@@ -4998,10 +5017,10 @@ function profFormOk() {
   const id = "p" + uid(), srcR = f.src === PROF ? state.routines : (rawGet(PK("wk.routines", f.src), []) || []);
   const sel = new Set(f.sel || srcR.map(r => r.id)), routines = f.from === "copy" ? srcR.filter(r => sel.has(r.id)).map(r => ({ ...JSON.parse(JSON.stringify(r)), id: uid(), oid: r.oid || r.id })) : [];
   const put = (k, v) => { try { localStorage.setItem(PK(k, id), JSON.stringify(v)); } catch {} };
-  put("wk.routines", routines); put("wk.sessions", []); put("wk.lang", LANG);
+  put("wk.routines", routines); put("wk.sessions", []); put("wk.lang", LANG); put("wk.catalog", !!f.cat);   // el catálogo se decide aquí: no se vuelve a preguntar al entrar
   if (f.sex === "f" && f.cyc) put("wk.cyc", { on: true, ack: true });
   saveProfs([...PROFS(), { id, name: n, sex: f.sex, color: f.color }]);
-  state.pform = null; switchProfile(id);
+  state.pform = null; render(); switchProfile(id, T("Perfil «{x}» creado. Ya estás en él.", { x: n }));
 }
 /* Editar (nombre y color; el sexo no se cambia) */
 function profEditModal() {
@@ -5760,6 +5779,7 @@ document.addEventListener("click", async ev => {
       SHIFT.set(sh && sh.week === wk ? { ...sh, by: sh.by + 1 } : { week: wk, from: i, by: 1 }); toast(T("Aplazado a mañana")); render(); break; }
     case "pl-menu": state.plmenu = true; render(); break;
     case "plm-close": state.plmenu = false; render(); break;
+    case "plan-restart": planRestart(); break;
     case "pl-pausego": state.plmenu = false; state.tab = "routines"; state.routView = "plan"; state.pauseOpen = true; render(); setTimeout(() => $("details[data-pauses]")?.scrollIntoView({ block: "center" }), 0); break;
     case "pw-close": state.pweek = null; render(); break;
     case "pl-unshift": SHIFT.set(null); render(); break;
@@ -5898,7 +5918,7 @@ document.addEventListener("change", async ev => {
   if (tg.dataset.myeq) { const k = tg.dataset.myeq, l = (myEquip() || []).filter(z => z !== k); if (tg.checked) l.push(k); LS.set("wk.equip", l.length ? MAT_ORDER(l) : null); render(); return; }
   if (tg.id === "catChk") { LS.set("wk.catalog", tg.checked); state.routView = null; if (tg.checked) { toast(T("Catálogo activado")); render(); const c = await loadCatalog(); if (!c) toast(T("No se pudo cargar el catálogo. Se volverá a intentar al abrir la app.")); } else toast(T("Catálogo desactivado")); render(); return; }
   if (tg.id === "isTech") { state.issueTech = tg.checked; render(); return; }
-  if (tg.id === "pfCyc" && state.pform) { readProfForm(); return; }
+  if ((tg.id === "pfCyc" || tg.id === "pfCat") && state.pform) { readProfForm(); return; }
   if (/^sho(Ex|Dur|Pr)$/.test(tg.id)) { LS.set("wk.shareOpt", { ...SHOPT(), [{ shoEx: "ex", shoDur: "dur", shoPr: "pr" }[tg.id]]: tg.checked }); render(); return; }
   if (tg.id === "rsPlan" && state.rshare) { state.rshare.plan = tg.checked; render(); return; }
   if (tg.id === "inPlan" && state.incoming) { state.incoming.withPlan = tg.checked; render(); return; }
@@ -5977,6 +5997,7 @@ const I18N = {
     "¿Quitar la regla que empieza este día?": "Vols treure la regla que comença aquest dia?",
     "¿Quitar la sección «{x}»? Los ejercicios se quedan en la rutina.": "Treure la secció «{x}»? Els exercicis es queden a la rutina.",
     "¿Quitar la sección «{x}»? Sus ejercicios pasan a «{y}».": "Treure la secció «{x}»? Els seus exercicis passen a «{y}».",
+    "¿Reiniciar «{x}» desde la semana 1? Empieza hoy; tus rutinas, sesiones e historial no se tocan.": "Vols reiniciar «{x}» des de la setmana 1? Comença avui; les teves rutines, sessions i historial no es toquen.",
     "¿Salir del plan guiado? Se perderán tus respuestas.": "Vols sortir del pla guiat? Es perdran les teves respostes.",
     "¿Salir sin añadir nada?": "Vols sortir sense afegir res?",
     "¿Salir sin crear el perfil?": "Vols sortir sense crear el perfil?",
@@ -6356,6 +6377,7 @@ const I18N = {
     "Desde el inicio": "Des de l'inici",
     "desde esta semana": "des d'aquesta setmana",
     "desde la próxima": "des de la propera",
+    "Desde la semana 1, hoy. Tu historial no se toca": "Des de la setmana 1, avui. El teu historial no es toca",
     "Deshacer": "Desfés",
     "Desmarcar": "Desmarca",
     "Después: {x}": "Després: {x}",
@@ -6556,6 +6578,7 @@ const I18N = {
     "Fértil (est.)": "Fèrtil (est.)",
     "Fichas del catálogo en català e English, y nombres de los ejercicios en català.": "Fitxes del catàleg en català i English, i noms dels exercicis en català.",
     "Fichas desde cualquier sitio: toca el nombre de un ejercicio del catálogo en la rutina, antes de iniciar o en el Diario para ver cómo se hace. Si el perfil no tiene el catálogo activado, se pide activarlo.": "Fitxes des de qualsevol lloc: toca el nom d'un exercici del catàleg a la rutina, abans d'iniciar o al Diari per veure com es fa. Si el perfil no té el catàleg activat, es demana activar-lo.",
+    "Fichas, progresiones y Plan guiado. Se puede cambiar en Ajustes → App.": "Fitxes, progressions i Pla guiat. Es pot canviar a Ajustos → App.",
     "Fin de la regla · {d}": "Final de la regla · {d}",
     "Fin de la regla registrado": "Final de la regla registrat",
     "Flexiones": "Flexions",
@@ -6833,6 +6856,7 @@ const I18N = {
     "Nueva rutina": "Nova rutina",
     "Nuevo": "Nou",
     "Nuevo perfil": "Perfil nou",
+    "Nuevo perfil: el catálogo de ejercicios se elige en el mismo formulario. Al crearlo, Usus entra en él sin más preguntas y avisa de que ya estás en el nuevo perfil. Con una sesión en curso, pide terminarla antes.": "Perfil nou: el catàleg d'exercicis es tria al mateix formulari. En crear-lo, Usus hi entra sense més preguntes i avisa que ja ets al perfil nou. Amb una sessió en curs, demana acabar-la abans.",
     "Nuevo plan": "Pla nou",
     "Nuevo síntoma": "Símptoma nou",
     "Nunca": "Mai",
@@ -6924,6 +6948,7 @@ const I18N = {
     "peor lado": "pitjor costat",
     "Perder grasa": "Perdre greix",
     "Perfil": "Perfil",
+    "Perfil «{x}» creado. Ya estás en él.": "Perfil «{x}» creat. Ja hi ets.",
     "Perfil guardado": "Perfil desat",
     "Perfiles": "Perfils",
     "Perfiles y datos personales": "Perfils i dades personals",
@@ -6961,6 +6986,7 @@ const I18N = {
     "Plan guiado creado: {n} rutinas": "Pla guiat creat: {n} rutines",
     "Plan guiado: unas preguntas (objetivo, días, minutos, material, molestias y nivel, con un test rápido o elegido) y Usus propone rutinas del catálogo a tu nivel, con calentamiento, principal, accesorios y vuelta a la calma. Revisas la propuesta, subes o bajas cada ejercicio en su escalera y se crean las rutinas (variantes A y B) y un plan en orden.": "Pla guiat: unes preguntes (objectiu, dies, minuts, material, molèsties i nivell, amb un test ràpid o triat) i Usus proposa rutines del catàleg al teu nivell, amb escalfament, principal, accessoris i tornada a la calma. Revises la proposta, puges o baixes cada exercici a la seva escala i es creen les rutines (variants A i B) i un pla en ordre.",
     "Plan guiado: unas preguntas y Usus te propone rutinas del catálogo a tu nivel. Crear plan: lo montas tú con tus rutinas. Con IA: una IA externa te propone el plan con más datos sobre ti.": "Pla guiat: unes preguntes i Usus et proposa rutines del catàleg al teu nivell. Crea un pla: el muntes tu amb les teves rutines. Amb IA: una IA externa et proposa el pla amb més dades sobre tu.",
+    "Plan reiniciado: semana 1": "Pla reiniciat: setmana 1",
     "Plan terminado": "Pla acabat",
     "Plan: la semana ↑ puede aplicar sola la subida (+reps, +1 serie o siguiente paso), con aviso en Hoy y opción de deshacer.": "Pla: la setmana ↑ pot aplicar sola la pujada (+reps, +1 sèrie o pas següent), amb avís a Avui i opció de desfer.",
     "Plancha": "Planxa",
@@ -7058,6 +7084,9 @@ const I18N = {
     "Regla · día {n}": "Regla · dia {n}",
     "Regla registrada": "Regla registrada",
     "Regla registrada · {d}": "Regla registrada · {d}",
+    "Reiniciar": "Reiniciar",
+    "Reiniciar el plan": "Reiniciar el pla",
+    "Reiniciar el plan: en el menú ⋯ del plan en Hoy o en Biblioteca → Plan, vuelve a la semana 1 desde hoy, sin semana elegida ni pausas. Tus rutinas, sesiones e historial no se tocan. Al terminar un plan, Hoy lo ofrece.": "Reiniciar el pla: al menú ⋯ del pla a Avui o a Biblioteca → Pla, torna a la setmana 1 des d'avui, sense setmana triada ni pauses. Les teves rutines, sessions i historial no es toquen. En acabar un pla, Avui ho ofereix.",
     "Reparto por bloque": "Repartiment per bloc",
     "repeticiones": "repeticions",
     "Repeticiones en reserva al marcar cada serie": "Repeticions en reserva en marcar cada sèrie",
@@ -7386,6 +7415,7 @@ const I18N = {
     "Ver historial": "Mostra l'historial",
     "Ver la app primero. Las rutinas se crean en Biblioteca → Nueva rutina.": "Veure l'app primer. Les rutines es creen a Biblioteca → Nova rutina.",
     "Ver la ficha completa": "Veure la fitxa completa",
+    "Ver mis planes": "Veure els meus plans",
     "Ver notas": "Veure notes",
     "Ver propuesta": "Veure la proposta",
     "Ver versiones": "Veure versions",
@@ -7451,6 +7481,7 @@ const I18N = {
     "¿Quitar la regla que empieza este día?": "Remove the period that starts on this day?",
     "¿Quitar la sección «{x}»? Los ejercicios se quedan en la rutina.": "Remove the section “{x}”? The exercises stay in the routine.",
     "¿Quitar la sección «{x}»? Sus ejercicios pasan a «{y}».": "Remove the section “{x}”? Its exercises move to “{y}”.",
+    "¿Reiniciar «{x}» desde la semana 1? Empieza hoy; tus rutinas, sesiones e historial no se tocan.": "Restart “{x}” from week 1? It starts today; your routines, sessions and history are not touched.",
     "¿Salir del plan guiado? Se perderán tus respuestas.": "Leave the guided plan? Your answers will be lost.",
     "¿Salir sin añadir nada?": "Leave without adding anything?",
     "¿Salir sin crear el perfil?": "Leave without creating the profile?",
@@ -7812,7 +7843,7 @@ const I18N = {
     "Descanso entre ejercicios": "Rest between exercises",
     "Descanso entre ejercicios (s)": "Rest between exercises (s)",
     "Descanso entre ejercicios: {n} s": "Rest between exercises: {n} s",
-    "Descanso entre ejercicios: debajo de «Siguiente», el próximo ejercicio del catálogo con su ficha resumida plegada; al abrirla, para qué sirve y cómo se hace (con tu nota si la tiene) y un enlace a la ficha completa.": "Rest between exercises: below «Next», the upcoming catalogue exercise with its short card folded; open it to see what it's for and how to do it (with your note if it has one) and a link to the full card.",
+    "Descanso entre ejercicios: debajo de «Siguiente», el próximo ejercicio del catálogo con su ficha resumida plegada; al abrirla, para qué sirve y cómo se hace (con tu nota si la tiene) y un enlace a la ficha completa.": "Rest between exercises: below “Next”, the upcoming catalogue exercise with its short card folded; open it to see what it's for and how to do it (with your note if it has one) and a link to the full card.",
     "Descanso entre series": "Rest between sets",
     "Descanso entre series (s)": "Rest between sets (s)",
     "Descanso entre vueltas": "Rest between rounds",
@@ -7830,6 +7861,7 @@ const I18N = {
     "Desde el inicio": "Since start",
     "desde esta semana": "from this week",
     "desde la próxima": "from next week",
+    "Desde la semana 1, hoy. Tu historial no se toca": "From week 1, today. Your history is not touched",
     "Deshacer": "Undo",
     "Desmarcar": "Clear",
     "Después: {x}": "Then: {x}",
@@ -8030,6 +8062,7 @@ const I18N = {
     "Fértil (est.)": "Fertile (est.)",
     "Fichas del catálogo en català e English, y nombres de los ejercicios en català.": "Catalogue cards in Català and English, and exercise names in Català.",
     "Fichas desde cualquier sitio: toca el nombre de un ejercicio del catálogo en la rutina, antes de iniciar o en el Diario para ver cómo se hace. Si el perfil no tiene el catálogo activado, se pide activarlo.": "Cards from anywhere: tap the name of a catalogue exercise in a routine, before starting or in the Diary to see how it's done. If the profile doesn't have the catalogue turned on, you're asked to turn it on.",
+    "Fichas, progresiones y Plan guiado. Se puede cambiar en Ajustes → App.": "Cards, progressions and Guided plan. You can change it in Settings → App.",
     "Fin de la regla · {d}": "End of period · {d}",
     "Fin de la regla registrado": "End of period logged",
     "Flexiones": "Push-ups",
@@ -8307,6 +8340,7 @@ const I18N = {
     "Nueva rutina": "New routine",
     "Nuevo": "New",
     "Nuevo perfil": "New profile",
+    "Nuevo perfil: el catálogo de ejercicios se elige en el mismo formulario. Al crearlo, Usus entra en él sin más preguntas y avisa de que ya estás en el nuevo perfil. Con una sesión en curso, pide terminarla antes.": "New profile: the exercise catalogue is chosen in the same form. Once created, Usus switches to it with no more questions and tells you you're now on the new profile. With a session in progress, it asks you to finish it first.",
     "Nuevo plan": "New plan",
     "Nuevo síntoma": "New symptom",
     "Nunca": "Never",
@@ -8398,6 +8432,7 @@ const I18N = {
     "peor lado": "weaker side",
     "Perder grasa": "Lose fat",
     "Perfil": "Profile",
+    "Perfil «{x}» creado. Ya estás en él.": "Profile “{x}” created. You're now using it.",
     "Perfil guardado": "Profile saved",
     "Perfiles": "Profiles",
     "Perfiles y datos personales": "Profiles and personal data",
@@ -8435,6 +8470,7 @@ const I18N = {
     "Plan guiado creado: {n} rutinas": "Guided plan created: {n} routines",
     "Plan guiado: unas preguntas (objetivo, días, minutos, material, molestias y nivel, con un test rápido o elegido) y Usus propone rutinas del catálogo a tu nivel, con calentamiento, principal, accesorios y vuelta a la calma. Revisas la propuesta, subes o bajas cada ejercicio en su escalera y se crean las rutinas (variantes A y B) y un plan en orden.": "Guided plan: a few questions (goal, days, minutes, equipment, aches and level, with a quick test or your own choice) and Usus suggests catalogue routines at your level, with warm-up, main work, accessories and cool-down. Review the suggestion, move each exercise up or down its progression, and the routines (variants A and B) and an in-order plan are created.",
     "Plan guiado: unas preguntas y Usus te propone rutinas del catálogo a tu nivel. Crear plan: lo montas tú con tus rutinas. Con IA: una IA externa te propone el plan con más datos sobre ti.": "Guided plan: a few questions and Usus suggests catalogue routines at your level. Create plan: you build it with your own routines. With AI: an external AI suggests the plan using more data about you.",
+    "Plan reiniciado: semana 1": "Plan restarted: week 1",
     "Plan terminado": "Plan finished",
     "Plan: la semana ↑ puede aplicar sola la subida (+reps, +1 serie o siguiente paso), con aviso en Hoy y opción de deshacer.": "Plan: the ↑ week can apply the increase automatically (+reps, +1 set or next step), with a notice in Today and an undo option.",
     "Plancha": "Plank",
@@ -8466,7 +8502,7 @@ const I18N = {
     "Primer día": "First day",
     "Primer día de la regla": "First day of the period",
     "Primer uso guiado en pasos: idioma y avisos, catálogo, material y cómo empezar (crear la primera rutina o importar una copia).": "Guided first run in steps: language and notices, catalogue, equipment and how to start (create your first routine or import a backup).",
-    "Primer uso: «Saltar la intro» en el asistente de bienvenida. Acepta el aviso, deja el catálogo activado y va directo a la app.": "First use: «Skip the intro» in the welcome wizard. It accepts the notice, leaves the catalogue on and goes straight to the app.",
+    "Primer uso: «Saltar la intro» en el asistente de bienvenida. Acepta el aviso, deja el catálogo activado y va directo a la app.": "First use: “Skip the intro” in the welcome wizard. It accepts the notice, leaves the catalogue on and goes straight to the app.",
     "Primera versión de la app para Android (APK), en GitHub → Releases. Es la misma app; sus datos van aparte de los de la PWA (se pasan con una copia).": "First Android app release (APK), on GitHub → Releases. It's the same app; its data is kept apart from the PWA's (move it with a backup).",
     "Primera versión de Usus: rutinas, temporizadores, plan de progresión, diario, estadísticas y seguimiento opcional del ciclo (se activa en Ajustes). Todo se guarda solo en tu móvil.": "First version of Usus: routines, timers, progression plan, diary, stats and optional cycle tracking (turn it on in Settings). Everything stays on your phone.",
     "Primera vez con este ejercicio": "First time with this exercise",
@@ -8532,6 +8568,9 @@ const I18N = {
     "Regla · día {n}": "Period · day {n}",
     "Regla registrada": "Period logged",
     "Regla registrada · {d}": "Period logged · {d}",
+    "Reiniciar": "Restart",
+    "Reiniciar el plan": "Restart the plan",
+    "Reiniciar el plan: en el menú ⋯ del plan en Hoy o en Biblioteca → Plan, vuelve a la semana 1 desde hoy, sin semana elegida ni pausas. Tus rutinas, sesiones e historial no se tocan. Al terminar un plan, Hoy lo ofrece.": "Restart the plan: from the plan's ⋯ menu in Today or in Library → Plan, it goes back to week 1 from today, with no chosen week or pauses. Your routines, sessions and history are not touched. When a plan ends, Today offers it.",
     "Reparto por bloque": "Split by block",
     "repeticiones": "reps",
     "Repeticiones en reserva al marcar cada serie": "Reps in reserve when you tick each set",
@@ -8860,6 +8899,7 @@ const I18N = {
     "Ver historial": "View history",
     "Ver la app primero. Las rutinas se crean en Biblioteca → Nueva rutina.": "See the app first. Routines are created in Library → New routine.",
     "Ver la ficha completa": "See the full card",
+    "Ver mis planes": "See my plans",
     "Ver notas": "See notes",
     "Ver propuesta": "See the plan",
     "Ver versiones": "See versions",

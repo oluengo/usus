@@ -103,3 +103,18 @@ test("semana del plan: sus rutinas y a Hoy; grupos de rutinas plegables", async 
   await expect(page.locator(".modal")).toHaveCount(0);
   expect(errors).toEqual([]);
 });
+test("reiniciar el plan: semana 1 desde hoy, sin contar lo de antes", async ({ page }) => {
+  const R2 = ["Lunes", "Martes"].map((n, i) => ({ id: "r" + i, name: "A · " + n, block: "empuje", variant: "A", days: [i + 1], exercises: [{ name: "Flexión", sets: 3, reps: 10, type: "reps" }] }));
+  const P = { enabled: true, order: true, name: "Orden", start: "2026-09-07", orderAt: 2, review: "2026-12-07", phases: [{ id: "x1", variant: "A", weeks: 1 }], deload: { weeks: 0, every: 0 }, up: false,
+    pauses: [{ from: "2026-09-21", weeks: 1, kind: "pause" }] };
+  const ses = (d, r) => ({ id: "s" + d, start: Date.parse(`2026-10-${d}T08:00:00`), end: Date.parse(`2026-10-${d}T08:30:00`), routine: "A · " + r, exercises: [] });
+  const errors = await openApp(page, { clock: new Date("2026-10-16T09:00:00"), data: { "wk.routines": R2, "wk.plan": P, "wk.sessions": [ses(15, "Lunes"), ses(16, "Lunes")] } });
+  await page.locator('[data-act="pl-menu"]').click(); await page.locator('.modal [data-act="plan-restart"]').click();
+  await expect(page.locator(".today")).toContainText("Semana 1 de");
+  await expect(page.locator(".weekline")).toContainText("0/2");   // la sesión de esta mañana es de antes de reiniciar
+  const p = await ls(page, "wk.plan");
+  expect([p.start, p.orderAt, p.pauses, p.review]).toEqual(["2026-10-16", undefined, [], "2027-01-15"]);
+  await nav(page, "routines"); await page.locator('[data-rview="plan"]').click();
+  await expect(page.locator('#planSec [data-act="plan-restart"]')).toBeVisible();
+  expect(errors).toEqual([]);
+});

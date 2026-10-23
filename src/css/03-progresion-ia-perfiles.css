@@ -136,3 +136,4 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center}
 .ainfo{margin:0;padding-left:18px;font-size:.88rem;line-height:1.5}
 .aimanual{margin-top:8px}.aimanual summary{cursor:pointer;color:var(--muted);font-size:.85rem;padding:6px 0}
 .aimanual textarea{margin-top:4px}
+.pcat{border:1px solid var(--line);background:var(--surface);border-radius:14px;padding:12px;margin-top:12px;cursor:pointer}.pcat input{width:22px;height:22px;flex-shrink:0;accent-color:var(--accent)}

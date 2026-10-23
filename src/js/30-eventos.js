@@ -359,6 +359,7 @@ document.addEventListener("click", async ev => {
       SHIFT.set(sh && sh.week === wk ? { ...sh, by: sh.by + 1 } : { week: wk, from: i, by: 1 }); toast(T("Aplazado a mañana")); render(); break; }
     case "pl-menu": state.plmenu = true; render(); break;
     case "plm-close": state.plmenu = false; render(); break;
+    case "plan-restart": planRestart(); break;
     case "pl-pausego": state.plmenu = false; state.tab = "routines"; state.routView = "plan"; state.pauseOpen = true; render(); setTimeout(() => $("details[data-pauses]")?.scrollIntoView({ block: "center" }), 0); break;
     case "pw-close": state.pweek = null; render(); break;
     case "pl-unshift": SHIFT.set(null); render(); break;
@@ -497,7 +498,7 @@ document.addEventListener("change", async ev => {
   if (tg.dataset.myeq) { const k = tg.dataset.myeq, l = (myEquip() || []).filter(z => z !== k); if (tg.checked) l.push(k); LS.set("wk.equip", l.length ? MAT_ORDER(l) : null); render(); return; }
   if (tg.id === "catChk") { LS.set("wk.catalog", tg.checked); state.routView = null; if (tg.checked) { toast(T("Catálogo activado")); render(); const c = await loadCatalog(); if (!c) toast(T("No se pudo cargar el catálogo. Se volverá a intentar al abrir la app.")); } else toast(T("Catálogo desactivado")); render(); return; }
   if (tg.id === "isTech") { state.issueTech = tg.checked; render(); return; }
-  if (tg.id === "pfCyc" && state.pform) { readProfForm(); return; }
+  if ((tg.id === "pfCyc" || tg.id === "pfCat") && state.pform) { readProfForm(); return; }
   if (/^sho(Ex|Dur|Pr)$/.test(tg.id)) { LS.set("wk.shareOpt", { ...SHOPT(), [{ shoEx: "ex", shoDur: "dur", shoPr: "pr" }[tg.id]]: tg.checked }); render(); return; }
   if (tg.id === "rsPlan" && state.rshare) { state.rshare.plan = tg.checked; render(); return; }
   if (tg.id === "inPlan" && state.incoming) { state.incoming.withPlan = tg.checked; render(); return; }

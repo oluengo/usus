@@ -18,18 +18,19 @@ function profAv(p, px, sexOver, colOver) {
 }
 const profChip = () => multiProf() ? `<button class="pchip" data-act="prof-pick" aria-label="${T("Cambiar de perfil")}">${profAv(curProf(), 26)}<span>${esc(profName(curProf()))}</span></button>` : "";
 /* Al cambiar de perfil se recarga la app: se recuerda dónde estabas (pantalla y pestaña de Ajustes) */
-const keepPlace = () => { try { sessionStorage.setItem("usus.place", JSON.stringify({ tab: state.tab, setTab: state.setTab })); } catch {} };
+const keepPlace = msg => { try { sessionStorage.setItem("usus.place", JSON.stringify({ tab: state.tab, setTab: state.setTab, ...(msg ? { msg } : {}) })); } catch {} };
 function restorePlace() {
   try { const p = JSON.parse(sessionStorage.getItem("usus.place") || "null"); sessionStorage.removeItem("usus.place");
     if (p && ["train", "routines", "diary", "stats", "data"].includes(p.tab)) state.tab = p.tab;
-    if (p && SET_GROUPS.some(t => t[0] === p.setTab)) state.setTab = p.setTab; } catch {}
+    if (p && SET_GROUPS.some(t => t[0] === p.setTab)) state.setTab = p.setTab;
+    if (p?.msg) setTimeout(() => toast(p.msg), 400); } catch {}
 }
 const profSessions = id => (rawGet(PK("wk.sessions", id), []) || []).length;
-function switchProfile(id) {
+function switchProfile(id, msg) {
   if (id === PROF) { state.ppick = false; render(); return; }
   if (state.active) { toast(T("Termina o descarta antes la sesión en curso")); return; }
   try { localStorage.setItem("wk.profile", JSON.stringify(id)); } catch {}
-  keepPlace(); location.reload();
+  keepPlace(msg); location.reload();
 }
 function profPickModal() {
   if (!state.ppick) return "";
@@ -45,7 +46,7 @@ function profPickModal() {
 function newProfForm(forMain) {
   const used = new Set(PROFS().map(p => p.color)), me = curProf();
   return forMain ? { forMain: true, step: "form", name: me.name || "", sex: me.sex || (CYC.cfg().on ? "f" : null), color: me.color || PCOLORS[0], cyc: CYC.cfg().on }
-    : { step: "form", name: "", sex: null, color: PCOLORS.find(c => !used.has(c)) || PCOLORS[2], cyc: false, from: state.routines.length ? "copy" : "empty", src: PROF, sel: null };
+    : { step: "form", name: "", sex: null, color: PCOLORS.find(c => !used.has(c)) || PCOLORS[2], cyc: false, cat: catOn(), from: state.routines.length ? "copy" : "empty", src: PROF, sel: null };
 }
 function startAddProfile() {
   state.ppick = false;
@@ -78,7 +79,8 @@ function profFormModal() {
     <span class="muted" style="font-size:.85rem;display:block;margin-top:12px">${T("Color")}</span>
     <div class="pcols">${PCOLORS.map(c => `<button data-pfcol="${c}" style="background:${c}" aria-pressed="${f.color === c}" aria-label="${T("Color")}"></button>`).join("")}</div>
     ${f.sex === "f" ? `<div class="pcyc"><label class="pcyh"><b>${T("Registro de la regla")}</b><input type="checkbox" role="switch" id="pfCyc" ${f.cyc ? "checked" : ""}></label>${CYC_INFO()}</div>` : ""}
-    ${f.forMain ? "" : `<h3 class="wh">${T("Empezar con")}</h3>
+    ${f.forMain ? "" : `<label class="pcat pcyh"><span><b>${T("Catálogo de ejercicios")}</b><small class="muted" style="display:block;font-size:.8rem">${T("Fichas, progresiones y Plan guiado. Se puede cambiar en Ajustes → App.")}</small></span><input type="checkbox" role="switch" id="pfCat" ${f.cat ? "checked" : ""}></label>
+      <h3 class="wh">${T("Empezar con")}</h3>
       <button class="popt${f.from === "empty" ? " on" : ""}" data-pffrom="empty"><i></i><span><b>${T("Vacío")}</b><small>${T("Sin rutinas.")}</small></span></button>
       <button class="popt${f.from === "copy" ? " on" : ""}" data-pffrom="copy"><i></i><span><b>${PROFS().length > 1 ? T("Rutinas de otro perfil") : T("Copiar rutinas de {x}", { x: esc(profName(curProf())) })}</b><small>${T("Solo las rutinas. Ningún registro.")}</small></span></button>
       ${f.from === "copy" ? `${PROFS().length > 1 ? `<div class="row" style="margin:4px 0 8px">${PROFS().map(p => `<button class="btn small pchip2${f.src === p.id ? " on" : ""}" data-pfsrc="${p.id}">${profAv(p, 20)} ${esc(profName(p))}</button>`).join("")}</div>` : ""}
@@ -87,13 +89,14 @@ function profFormModal() {
     <button class="btn primary" style="width:100%;margin-top:14px" data-act="pf-next">${f.forMain ? T("Continuar") : T("Crear perfil")}</button>
   </div></div>`;
 }
-function readProfForm() { const f = state.pform, n = document.getElementById("pfName"), c = document.getElementById("pfCyc"); if (!f) return; if (n) f.name = n.value; if (c) f.cyc = c.checked; }
+function readProfForm() { const f = state.pform, n = document.getElementById("pfName"), c = document.getElementById("pfCyc"), k = document.getElementById("pfCat"); if (!f) return; if (n) f.name = n.value; if (c) f.cyc = c.checked; if (k) f.cat = k.checked; }
 function profFormNext() {
   const f = state.pform; readProfForm();
   const n = f.name.trim();
   if (!n) { toast(T("Ponle un nombre")); document.getElementById("pfName")?.focus(); return; }
   if (PROFS().some(p => p.id !== (f.forMain ? PROF : "") && (p.name || "").toLowerCase() === n.toLowerCase())) { toast(T("Ya hay un perfil con ese nombre")); return; }
   if (!f.sex) { toast(T("Elige hombre o mujer")); return; }
+  if (!f.forMain && state.active) { toast(T("Termina o descarta antes la sesión en curso")); return; }   // si no, se crearía sin poder cambiar a él
   profFormOk();   // sin paso de confirmación: el aviso de que el sexo no se cambia ya está en el formulario
 }
 function profFormOk() {
@@ -106,10 +109,10 @@ function profFormOk() {
   const id = "p" + uid(), srcR = f.src === PROF ? state.routines : (rawGet(PK("wk.routines", f.src), []) || []);
   const sel = new Set(f.sel || srcR.map(r => r.id)), routines = f.from === "copy" ? srcR.filter(r => sel.has(r.id)).map(r => ({ ...JSON.parse(JSON.stringify(r)), id: uid(), oid: r.oid || r.id })) : [];
   const put = (k, v) => { try { localStorage.setItem(PK(k, id), JSON.stringify(v)); } catch {} };
-  put("wk.routines", routines); put("wk.sessions", []); put("wk.lang", LANG);
+  put("wk.routines", routines); put("wk.sessions", []); put("wk.lang", LANG); put("wk.catalog", !!f.cat);   // el catálogo se decide aquí: no se vuelve a preguntar al entrar
   if (f.sex === "f" && f.cyc) put("wk.cyc", { on: true, ack: true });
   saveProfs([...PROFS(), { id, name: n, sex: f.sex, color: f.color }]);
-  state.pform = null; switchProfile(id);
+  state.pform = null; render(); switchProfile(id, T("Perfil «{x}» creado. Ya estás en él.", { x: n }));
 }
 /* Editar (nombre y color; el sexo no se cambia) */
 function profEditModal() {
