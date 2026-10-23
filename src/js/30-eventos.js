@@ -298,6 +298,8 @@ document.addEventListener("click", async ev => {
     case "wiz-back": state.wiz = Math.max(0, (state.wiz || 0) - 1); render(); break;
     case "wiz-cat-yes": LS.set("wk.catalog", true); state.wiz = 2; render(); loadCatalog().then(c => { if (!c) toast(T("No se pudo cargar el catálogo. Se volverá a intentar al abrir la app.")); render(); }); break;
     case "wiz-cat-no": LS.set("wk.catalog", false); state.wiz = 2; render(); break;
+    case "wiz-skip": if (LS.get("wk.catalog", null) === null) { LS.set("wk.catalog", true); loadCatalog().then(render); }  // saltar: catálogo activado por defecto (se cambia en Ajustes → App)
+      wizDone(); state.tab = "train"; render(); window.scrollTo(0, 0); toast(T("Puedes crear rutinas en Biblioteca → Nueva rutina.")); break;
     case "wiz-end": wizDone(); state.tab = "train"; render(); window.scrollTo(0, 0); break;
     case "wiz-new": wizDone(); state.tab = "routines"; state.edSel = null; state.edSec = null; state.edQ = ""; state.editing = { id: uid(), isNew: true, name: "", variant: "", days: [], exercises: [{ name: "", sets: 3, reps: 10, type: "reps" }] }; render(); window.scrollTo(0, 0); break;
     case "wiz-imp": $("#wizFile")?.click(); break;

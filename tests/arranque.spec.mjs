@@ -48,3 +48,14 @@ test("primera vez: sin catálogo, atrás e importar una copia", async ({ page })
   await expect.poll(() => page.evaluate(() => (JSON.parse(localStorage.getItem("wk.routines")) || []).length)).toBe(1);
   expect(await page.evaluate(() => JSON.parse(localStorage.getItem("wk.catalog")))).toBe(false);
 });
+test("primera vez: saltar la intro acepta el aviso y deja el catálogo activado", async ({ page }) => {
+  const errors = []; page.on("pageerror", e => errors.push(String(e)));
+  await page.goto("./");
+  await page.locator('.modal [data-act="wiz-skip"]').click();
+  await expect(page.locator(".modal")).toHaveCount(0);
+  await expect(page.locator('nav button[aria-current="page"], nav button.on').first()).toBeVisible();
+  const st = await page.evaluate(() => ["wk.welcomed", "wk.catalog"].map(k => JSON.parse(localStorage.getItem(k))));
+  expect(st).toEqual([true, true]);
+  await page.reload(); await expect(page.locator(".modal")).toHaveCount(0);   // no vuelve a preguntar
+  expect(errors).toEqual([]);
+});

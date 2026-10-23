@@ -293,6 +293,7 @@ details.sess td:first-child{font-weight:500;padding-right:12px;width:40%}
 .copt button.on{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
 .wzdots{display:flex;gap:6px;margin:0 0 10px}.wzdots i{flex:1;height:4px;border-radius:2px;background:var(--line)}.wzdots i.on{background:var(--accent)}
 .wzn{font-size:.8rem;margin:0 0 10px}
+.wzhead{display:flex;align-items:baseline;justify-content:space-between;gap:10px}.wzskip{background:none;border:0;padding:4px 0;margin:-4px 0 6px;color:var(--accent);font:inherit;font-size:.82rem;font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
 .wzbar{margin-top:16px}.wzbar .btn.primary{padding:11px 18px}
 .wzmore{margin-top:12px;border-top:1px solid var(--line);padding-top:10px}.wzmore summary{cursor:pointer;font-weight:600;margin-bottom:8px}
 .copt button small{display:block;color:var(--muted);font-size:.82rem;margin-top:2px}
@@ -916,7 +917,8 @@ body:has(.sbar) .rest{bottom:calc(152px + env(safe-area-inset-bottom,0px))}
 /* Cuenta atrás: ficha resumida del siguiente ejercicio */
 .focus{align-items:flex-start}.fbox{margin:auto 0}
 .fnx{width:100%;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-top:8px;font-size:.9rem}
-.fnxh{display:flex;align-items:center;gap:8px;margin-bottom:4px}.fnxh b{flex:1;font-size:1rem}
+.fnxh{display:flex;align-items:center;gap:8px;cursor:pointer;list-style:none;min-height:28px}.fnxh::-webkit-details-marker{display:none}.fnxh b{flex:1;font-size:1rem}
+.fnxc{font-size:.82rem;color:var(--accent);font-weight:600;white-space:nowrap}.fnxc::after{content:" ▾"}.fnx[open] .fnxc::after{content:" ▴"}.fnx[open] .fnxh{margin-bottom:4px}
 .fnx p{margin:4px 0;color:var(--muted)}.fnx ol{margin:6px 0 8px;padding-left:20px}.fnx li{margin:2px 0}
 .fnx .fnxn{color:var(--ink)}.fnx .xl{color:var(--accent);font-weight:600;font-size:.88rem}
 /* Pantalla ancha: barra de secciones lateral */
@@ -3031,14 +3033,15 @@ function cancelRun() { if (run) { clearInterval(runT); run = null; } syncAwake()
 /* Pantalla encendida mientras hay una sesión en marcha (o una cuenta atrás) */
 const syncAwake = () => keepAwake(!!run || !!(state.active && !state.active.pre));
 document.addEventListener("toggle", ev => { if (ev.target.matches?.("details[data-plans]")) state.plansOpen = ev.target.open; }, true);
+document.addEventListener("toggle", ev => { if (run && ev.target.matches?.("details.fnx")) run.nxo = ev.target.open ? run.i : null; }, true);  // ficha del siguiente: abierta solo en este descanso
 document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") { wakeLock = null; syncAwake(); } });
 /* Descanso antes de otro ejercicio: su ficha resumida (para qué sirve y cómo se hace) y enlace a la completa */
 function nextCard(e) {
   const x = e?.xid && catReady() && CATBY[e.xid]; if (!x) return "";
   const inf = x.info?.[LANG] || x.info?.es || {}, how = inf.how || [];
-  return `<div class="fnx"><div class="fnxh"><b>${esc(xName(x))}</b>${LV(x.level)}</div>
+  return `<details class="fnx"${run?.nxo === run?.i ? " open" : ""}><summary class="fnxh"><b>${esc(xName(x))}</b>${LV(x.level)}<span class="fnxc">${T("Cómo se hace")}</span></summary>
     ${inf.why ? `<p>${esc(inf.why)}</p>` : ""}${how.length ? `<ol>${how.map(h => `<li>${esc(h)}</li>`).join("")}</ol>` : ""}
-    ${e.note ? `<p class="fnxn">✎ ${esc(e.note)}</p>` : ""}<button class="xl" data-xinfo="${esc(x.id)}">${T("Ver la ficha completa")}</button></div>`;
+    ${e.note ? `<p class="fnxn">✎ ${esc(e.note)}</p>` : ""}<button class="xl" data-xinfo="${esc(x.id)}">${T("Ver la ficha completa")}</button></details>`;
 }
 function focusView() {
   if (!run || !state.active) return "";
@@ -4434,7 +4437,8 @@ function installBlock() {
 /* ---------- Novedades (una vez por versión; historial al tocar la versión) ---------- */
 const CHANGES = [  // Novedades: solo en castellano; las traducciones, en i18n/*.po
   ["3.4.0", [
-    N_("Descanso entre ejercicios: debajo de «Siguiente» aparece una ficha resumida del próximo ejercicio del catálogo (para qué sirve y cómo se hace, con tu nota si la tiene) y un enlace a la ficha completa.")
+    N_("Descanso entre ejercicios: debajo de «Siguiente», el próximo ejercicio del catálogo con su ficha resumida plegada; al abrirla, para qué sirve y cómo se hace (con tu nota si la tiene) y un enlace a la ficha completa."),
+    N_("Primer uso: «Saltar la intro» en el asistente de bienvenida. Acepta el aviso, deja el catálogo activado y va directo a la app.")
   ]],
   ["3.3.0", [
     N_("Crear plan con IA (Biblioteca → Plan y Progreso → Resumen): en 4 pasos (sobre ti, qué buscas, tu semana y para la IA) Usus prepara unas indicaciones con tus datos, cómo debe responder la IA y el enlace al catálogo, con el rango recomendado y las articulaciones de cada ejercicio. Las copias o exportas, las pegas en tu IA y su respuesta vuelve a Usus para revisarla antes de importar."),
@@ -4565,7 +4569,8 @@ function welcomeModal() {
   if (LS.get("wk.welcomed", false)) return "";
   const steps = wizSteps(), i = Math.min(state.wiz || 0, steps.length - 1), st = steps[i];
   const dots = `<div class="wzdots" aria-hidden="true">${steps.map((_, k) => `<i class="${k <= i ? "on" : ""}"></i>`).join("")}</div>`;
-  const step = `<p class="muted wzn">${T("Paso {n} de {t}", { n: i + 1, t: steps.length })}</p>`;
+  const skip = st === "empezar" ? "" : `<button class="wzskip" data-act="wiz-skip">${st === "hola" ? T("Aceptar y saltar la intro") : T("Saltar la intro")}</button>`;
+  const step = `<div class="wzhead"><p class="muted wzn">${T("Paso {n} de {t}", { n: i + 1, t: steps.length })}</p>${skip}</div>`;
   const back = i ? `<button class="btn" data-act="wiz-back">${T("Atrás")}</button>` : "";
   const next = (txt = T("Siguiente")) => `<div class="row wzbar">${back}<span class="spacer"></span><button class="btn primary" data-act="wiz-next">${txt}</button></div>`;
   let body = "";
@@ -5694,6 +5699,8 @@ document.addEventListener("click", async ev => {
     case "wiz-back": state.wiz = Math.max(0, (state.wiz || 0) - 1); render(); break;
     case "wiz-cat-yes": LS.set("wk.catalog", true); state.wiz = 2; render(); loadCatalog().then(c => { if (!c) toast(T("No se pudo cargar el catálogo. Se volverá a intentar al abrir la app.")); render(); }); break;
     case "wiz-cat-no": LS.set("wk.catalog", false); state.wiz = 2; render(); break;
+    case "wiz-skip": if (LS.get("wk.catalog", null) === null) { LS.set("wk.catalog", true); loadCatalog().then(render); }  // saltar: catálogo activado por defecto (se cambia en Ajustes → App)
+      wizDone(); state.tab = "train"; render(); window.scrollTo(0, 0); toast(T("Puedes crear rutinas en Biblioteca → Nueva rutina.")); break;
     case "wiz-end": wizDone(); state.tab = "train"; render(); window.scrollTo(0, 0); break;
     case "wiz-new": wizDone(); state.tab = "routines"; state.edSel = null; state.edSec = null; state.edQ = ""; state.editing = { id: uid(), isNew: true, name: "", variant: "", days: [], exercises: [{ name: "", sets: 3, reps: 10, type: "reps" }] }; render(); window.scrollTo(0, 0); break;
     case "wiz-imp": $("#wizFile")?.click(); break;
@@ -6042,6 +6049,7 @@ const I18N = {
     "Abundante": "Abundant",
     "Accesorios": "Accessoris",
     "Aceptar las {n} propuestas": "Accepta les {n} propostes",
+    "Aceptar y saltar la intro": "Acceptar i saltar la introducció",
     "Acerca de": "Quant a",
     "Acné": "Acne",
     "Acostarse": "Anar a dormir",
@@ -6330,7 +6338,7 @@ const I18N = {
     "Descanso entre ejercicios": "Descans entre exercicis",
     "Descanso entre ejercicios (s)": "Descans entre exercicis (s)",
     "Descanso entre ejercicios: {n} s": "Descans entre exercicis: {n} s",
-    "Descanso entre ejercicios: debajo de «Siguiente» aparece una ficha resumida del próximo ejercicio del catálogo (para qué sirve y cómo se hace, con tu nota si la tiene) y un enlace a la ficha completa.": "Descans entre exercicis: sota «Següent» apareix una fitxa resumida del pròxim exercici del catàleg (per a què serveix i com es fa, amb la teva nota si en té) i un enllaç a la fitxa completa.",
+    "Descanso entre ejercicios: debajo de «Siguiente», el próximo ejercicio del catálogo con su ficha resumida plegada; al abrirla, para qué sirve y cómo se hace (con tu nota si la tiene) y un enlace a la ficha completa.": "Descans entre exercicis: sota «Següent», el pròxim exercici del catàleg amb la fitxa resumida plegada; en obrir-la, per a què serveix i com es fa (amb la teva nota si en té) i un enllaç a la fitxa completa.",
     "Descanso entre series": "Descans entre sèries",
     "Descanso entre series (s)": "Descans entre sèries (s)",
     "Descanso entre vueltas": "Descans entre voltes",
@@ -6984,6 +6992,7 @@ const I18N = {
     "Primer día": "Primer dia",
     "Primer día de la regla": "Primer dia de la regla",
     "Primer uso guiado en pasos: idioma y avisos, catálogo, material y cómo empezar (crear la primera rutina o importar una copia).": "Primer ús guiat en passos: idioma i avisos, catàleg, material i com començar (crear la primera rutina o importar una còpia).",
+    "Primer uso: «Saltar la intro» en el asistente de bienvenida. Acepta el aviso, deja el catálogo activado y va directo a la app.": "Primer ús: «Saltar la introducció» a l'assistent de benvinguda. Accepta l'avís, deixa el catàleg activat i va directament a l'app.",
     "Primera versión de la app para Android (APK), en GitHub → Releases. Es la misma app; sus datos van aparte de los de la PWA (se pasan con una copia).": "Primera versió de l'app per a Android (APK), a GitHub → Releases. És la mateixa app; les seves dades van a part de les de la PWA (es passen amb una còpia).",
     "Primera versión de Usus: rutinas, temporizadores, plan de progresión, diario, estadísticas y seguimiento opcional del ciclo (se activa en Ajustes). Todo se guarda solo en tu móvil.": "Primera versió d'Usus: rutines, temporitzadors, pla de progressió, diari, estadístiques i seguiment opcional del cicle (s'activa a Ajustos). Tot es desa només al teu mòbil.",
     "Primera vez con este ejercicio": "Primera vegada amb aquest exercici",
@@ -7005,6 +7014,7 @@ const I18N = {
     "Próxima ovulación aprox.: {d}": "Propera ovulació aprox.: {d}",
     "Próxima regla: {d} (± {n} d) · en {m} días": "Propera regla: {d} (± {n} d) · d'aquí a {m} dies",
     "Próximas fechas": "Properes dates",
+    "Puedes crear rutinas en Biblioteca → Nueva rutina.": "Pots crear rutines a Biblioteca → Nova rutina.",
     "Puedes entrenar cualquier día: el plan va en orden.": "Pots entrenar qualsevol dia: el pla va en ordre.",
     "Qué buscas": "Què busques",
     "Qué esperabas": "Què esperaves",
@@ -7095,6 +7105,7 @@ const I18N = {
     "Salidas en 30 días": "Sortides en 30 dies",
     "Saltar": "Salta",
     "Saltar ejercicio": "Salta l'exercici",
+    "Saltar la intro": "Saltar la introducció",
     "Salud y experiencia (para la IA)": "Salut i experiència (per a la IA)",
     "Salud y movilidad": "Salut i mobilitat",
     "Se abrirá GitHub con el formulario preparado.": "S'obrirà GitHub amb el formulari preparat.",
@@ -7512,6 +7523,7 @@ const I18N = {
     "Abundante": "Heavy",
     "Accesorios": "Accessories",
     "Aceptar las {n} propuestas": "Accept the {n} suggestions",
+    "Aceptar y saltar la intro": "Accept and skip the intro",
     "Acerca de": "About",
     "Acné": "Acne",
     "Acostarse": "Bedtime",
@@ -7800,7 +7812,7 @@ const I18N = {
     "Descanso entre ejercicios": "Rest between exercises",
     "Descanso entre ejercicios (s)": "Rest between exercises (s)",
     "Descanso entre ejercicios: {n} s": "Rest between exercises: {n} s",
-    "Descanso entre ejercicios: debajo de «Siguiente» aparece una ficha resumida del próximo ejercicio del catálogo (para qué sirve y cómo se hace, con tu nota si la tiene) y un enlace a la ficha completa.": "Rest between exercises: below «Next» there's a short card for the upcoming catalogue exercise (what it's for and how to do it, with your note if it has one) and a link to the full card.",
+    "Descanso entre ejercicios: debajo de «Siguiente», el próximo ejercicio del catálogo con su ficha resumida plegada; al abrirla, para qué sirve y cómo se hace (con tu nota si la tiene) y un enlace a la ficha completa.": "Rest between exercises: below «Next», the upcoming catalogue exercise with its short card folded; open it to see what it's for and how to do it (with your note if it has one) and a link to the full card.",
     "Descanso entre series": "Rest between sets",
     "Descanso entre series (s)": "Rest between sets (s)",
     "Descanso entre vueltas": "Rest between rounds",
@@ -8454,6 +8466,7 @@ const I18N = {
     "Primer día": "First day",
     "Primer día de la regla": "First day of the period",
     "Primer uso guiado en pasos: idioma y avisos, catálogo, material y cómo empezar (crear la primera rutina o importar una copia).": "Guided first run in steps: language and notices, catalogue, equipment and how to start (create your first routine or import a backup).",
+    "Primer uso: «Saltar la intro» en el asistente de bienvenida. Acepta el aviso, deja el catálogo activado y va directo a la app.": "First use: «Skip the intro» in the welcome wizard. It accepts the notice, leaves the catalogue on and goes straight to the app.",
     "Primera versión de la app para Android (APK), en GitHub → Releases. Es la misma app; sus datos van aparte de los de la PWA (se pasan con una copia).": "First Android app release (APK), on GitHub → Releases. It's the same app; its data is kept apart from the PWA's (move it with a backup).",
     "Primera versión de Usus: rutinas, temporizadores, plan de progresión, diario, estadísticas y seguimiento opcional del ciclo (se activa en Ajustes). Todo se guarda solo en tu móvil.": "First version of Usus: routines, timers, progression plan, diary, stats and optional cycle tracking (turn it on in Settings). Everything stays on your phone.",
     "Primera vez con este ejercicio": "First time with this exercise",
@@ -8475,6 +8488,7 @@ const I18N = {
     "Próxima ovulación aprox.: {d}": "Next approx. ovulation: {d}",
     "Próxima regla: {d} (± {n} d) · en {m} días": "Next period: {d} (± {n} d) · in {m} days",
     "Próximas fechas": "Upcoming dates",
+    "Puedes crear rutinas en Biblioteca → Nueva rutina.": "You can create routines in Library → New routine.",
     "Puedes entrenar cualquier día: el plan va en orden.": "You can train any day: the plan goes in order.",
     "Qué buscas": "Your goals",
     "Qué esperabas": "What you expected",
@@ -8565,6 +8579,7 @@ const I18N = {
     "Salidas en 30 días": "Outings in 30 days",
     "Saltar": "Skip",
     "Saltar ejercicio": "Skip exercise",
+    "Saltar la intro": "Skip the intro",
     "Salud y experiencia (para la IA)": "Health and experience (for the AI)",
     "Salud y movilidad": "Health and mobility",
     "Se abrirá GitHub con el formulario preparado.": "GitHub will open with the form ready.",

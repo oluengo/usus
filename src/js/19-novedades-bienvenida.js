@@ -1,7 +1,8 @@
 /* ---------- Novedades (una vez por versión; historial al tocar la versión) ---------- */
 const CHANGES = [  // Novedades: solo en castellano; las traducciones, en i18n/*.po
   ["3.4.0", [
-    N_("Descanso entre ejercicios: debajo de «Siguiente» aparece una ficha resumida del próximo ejercicio del catálogo (para qué sirve y cómo se hace, con tu nota si la tiene) y un enlace a la ficha completa.")
+    N_("Descanso entre ejercicios: debajo de «Siguiente», el próximo ejercicio del catálogo con su ficha resumida plegada; al abrirla, para qué sirve y cómo se hace (con tu nota si la tiene) y un enlace a la ficha completa."),
+    N_("Primer uso: «Saltar la intro» en el asistente de bienvenida. Acepta el aviso, deja el catálogo activado y va directo a la app.")
   ]],
   ["3.3.0", [
     N_("Crear plan con IA (Biblioteca → Plan y Progreso → Resumen): en 4 pasos (sobre ti, qué buscas, tu semana y para la IA) Usus prepara unas indicaciones con tus datos, cómo debe responder la IA y el enlace al catálogo, con el rango recomendado y las articulaciones de cada ejercicio. Las copias o exportas, las pegas en tu IA y su respuesta vuelve a Usus para revisarla antes de importar."),
@@ -132,7 +133,8 @@ function welcomeModal() {
   if (LS.get("wk.welcomed", false)) return "";
   const steps = wizSteps(), i = Math.min(state.wiz || 0, steps.length - 1), st = steps[i];
   const dots = `<div class="wzdots" aria-hidden="true">${steps.map((_, k) => `<i class="${k <= i ? "on" : ""}"></i>`).join("")}</div>`;
-  const step = `<p class="muted wzn">${T("Paso {n} de {t}", { n: i + 1, t: steps.length })}</p>`;
+  const skip = st === "empezar" ? "" : `<button class="wzskip" data-act="wiz-skip">${st === "hola" ? T("Aceptar y saltar la intro") : T("Saltar la intro")}</button>`;
+  const step = `<div class="wzhead"><p class="muted wzn">${T("Paso {n} de {t}", { n: i + 1, t: steps.length })}</p>${skip}</div>`;
   const back = i ? `<button class="btn" data-act="wiz-back">${T("Atrás")}</button>` : "";
   const next = (txt = T("Siguiente")) => `<div class="row wzbar">${back}<span class="spacer"></span><button class="btn primary" data-act="wiz-next">${txt}</button></div>`;
   let body = "";

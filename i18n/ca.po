@@ -375,6 +375,9 @@ msgstr "Accessoris"
 msgid "Aceptar las {n} propuestas"
 msgstr "Accepta les {n} propostes"
 
+msgid "Aceptar y saltar la intro"
+msgstr "Acceptar i saltar la introducció"
+
 msgid "Acerca de"
 msgstr "Quant a"
 
@@ -1258,8 +1261,8 @@ msgstr "Descans entre exercicis (s)"
 msgid "Descanso entre ejercicios: {n} s"
 msgstr "Descans entre exercicis: {n} s"
 
-msgid "Descanso entre ejercicios: debajo de «Siguiente» aparece una ficha resumida del próximo ejercicio del catálogo (para qué sirve y cómo se hace, con tu nota si la tiene) y un enlace a la ficha completa."
-msgstr "Descans entre exercicis: sota «Següent» apareix una fitxa resumida del pròxim exercici del catàleg (per a què serveix i com es fa, amb la teva nota si en té) i un enllaç a la fitxa completa."
+msgid "Descanso entre ejercicios: debajo de «Siguiente», el próximo ejercicio del catálogo con su ficha resumida plegada; al abrirla, para qué sirve y cómo se hace (con tu nota si la tiene) y un enlace a la ficha completa."
+msgstr "Descans entre exercicis: sota «Següent», el pròxim exercici del catàleg amb la fitxa resumida plegada; en obrir-la, per a què serveix i com es fa (amb la teva nota si en té) i un enllaç a la fitxa completa."
 
 msgid "Descanso entre series"
 msgstr "Descans entre sèries"
@@ -3276,6 +3279,9 @@ msgstr "Primer dia de la regla"
 msgid "Primer uso guiado en pasos: idioma y avisos, catálogo, material y cómo empezar (crear la primera rutina o importar una copia)."
 msgstr "Primer ús guiat en passos: idioma i avisos, catàleg, material i com començar (crear la primera rutina o importar una còpia)."
 
+msgid "Primer uso: «Saltar la intro» en el asistente de bienvenida. Acepta el aviso, deja el catálogo activado y va directo a la app."
+msgstr "Primer ús: «Saltar la introducció» a l'assistent de benvinguda. Accepta l'avís, deixa el catàleg activat i va directament a l'app."
+
 msgid "Primera versión de la app para Android (APK), en GitHub → Releases. Es la misma app; sus datos van aparte de los de la PWA (se pasan con una copia)."
 msgstr "Primera versió de l'app per a Android (APK), a GitHub → Releases. És la mateixa app; les seves dades van a part de les de la PWA (es passen amb una còpia)."
 
@@ -3340,6 +3346,9 @@ msgstr "Propera regla: {d} (± {n} d) · d'aquí a {m} dies"
 
 msgid "Próximas fechas"
 msgstr "Properes dates"
+
+msgid "Puedes crear rutinas en Biblioteca → Nueva rutina."
+msgstr "Pots crear rutines a Biblioteca → Nova rutina."
 
 msgid "Puedes entrenar cualquier día: el plan va en orden."
 msgstr "Pots entrenar qualsevol dia: el pla va en ordre."
@@ -3622,6 +3631,9 @@ msgstr "Salta"
 
 msgid "Saltar ejercicio"
 msgstr "Salta l'exercici"
+
+msgid "Saltar la intro"
+msgstr "Saltar la introducció"
 
 msgid "Salud y experiencia (para la IA)"
 msgstr "Salut i experiència (per a la IA)"
@@ -4612,6 +4624,9 @@ msgstr "Zona lumbar"
 
 msgid "Zona peligrosa"
 msgstr "Zona perillosa"
+
+#~ msgid "Descanso entre ejercicios: debajo de «Siguiente» aparece una ficha resumida del próximo ejercicio del catálogo (para qué sirve y cómo se hace, con tu nota si la tiene) y un enlace a la ficha completa."
+#~ msgstr "Descans entre exercicis: sota «Següent» apareix una fitxa resumida del pròxim exercici del catàleg (per a què serveix i com es fa, amb la teva nota si en té) i un enllaç a la fitxa completa."
 
 #~ msgid "1 Datos"
 #~ msgstr "1 Dades"

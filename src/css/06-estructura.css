@@ -263,6 +263,7 @@ body:has(.sbar) .rest{bottom:calc(152px + env(safe-area-inset-bottom,0px))}
 /* Cuenta atrás: ficha resumida del siguiente ejercicio */
 .focus{align-items:flex-start}.fbox{margin:auto 0}
 .fnx{width:100%;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-top:8px;font-size:.9rem}
-.fnxh{display:flex;align-items:center;gap:8px;margin-bottom:4px}.fnxh b{flex:1;font-size:1rem}
+.fnxh{display:flex;align-items:center;gap:8px;cursor:pointer;list-style:none;min-height:28px}.fnxh::-webkit-details-marker{display:none}.fnxh b{flex:1;font-size:1rem}
+.fnxc{font-size:.82rem;color:var(--accent);font-weight:600;white-space:nowrap}.fnxc::after{content:" ▾"}.fnx[open] .fnxc::after{content:" ▴"}.fnx[open] .fnxh{margin-bottom:4px}
 .fnx p{margin:4px 0;color:var(--muted)}.fnx ol{margin:6px 0 8px;padding-left:20px}.fnx li{margin:2px 0}
 .fnx .fnxn{color:var(--ink)}.fnx .xl{color:var(--accent);font-weight:600;font-size:.88rem}

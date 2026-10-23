@@ -76,6 +76,7 @@
 .copt button.on{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
 .wzdots{display:flex;gap:6px;margin:0 0 10px}.wzdots i{flex:1;height:4px;border-radius:2px;background:var(--line)}.wzdots i.on{background:var(--accent)}
 .wzn{font-size:.8rem;margin:0 0 10px}
+.wzhead{display:flex;align-items:baseline;justify-content:space-between;gap:10px}.wzskip{background:none;border:0;padding:4px 0;margin:-4px 0 6px;color:var(--accent);font:inherit;font-size:.82rem;font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
 .wzbar{margin-top:16px}.wzbar .btn.primary{padding:11px 18px}
 .wzmore{margin-top:12px;border-top:1px solid var(--line);padding-top:10px}.wzmore summary{cursor:pointer;font-weight:600;margin-bottom:8px}
 .copt button small{display:block;color:var(--muted);font-size:.82rem;margin-top:2px}

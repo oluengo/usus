@@ -147,14 +147,15 @@ function cancelRun() { if (run) { clearInterval(runT); run = null; } syncAwake()
 /* Pantalla encendida mientras hay una sesión en marcha (o una cuenta atrás) */
 const syncAwake = () => keepAwake(!!run || !!(state.active && !state.active.pre));
 document.addEventListener("toggle", ev => { if (ev.target.matches?.("details[data-plans]")) state.plansOpen = ev.target.open; }, true);
+document.addEventListener("toggle", ev => { if (run && ev.target.matches?.("details.fnx")) run.nxo = ev.target.open ? run.i : null; }, true);  // ficha del siguiente: abierta solo en este descanso
 document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") { wakeLock = null; syncAwake(); } });
 /* Descanso antes de otro ejercicio: su ficha resumida (para qué sirve y cómo se hace) y enlace a la completa */
 function nextCard(e) {
   const x = e?.xid && catReady() && CATBY[e.xid]; if (!x) return "";
   const inf = x.info?.[LANG] || x.info?.es || {}, how = inf.how || [];
-  return `<div class="fnx"><div class="fnxh"><b>${esc(xName(x))}</b>${LV(x.level)}</div>
+  return `<details class="fnx"${run?.nxo === run?.i ? " open" : ""}><summary class="fnxh"><b>${esc(xName(x))}</b>${LV(x.level)}<span class="fnxc">${T("Cómo se hace")}</span></summary>
     ${inf.why ? `<p>${esc(inf.why)}</p>` : ""}${how.length ? `<ol>${how.map(h => `<li>${esc(h)}</li>`).join("")}</ol>` : ""}
-    ${e.note ? `<p class="fnxn">✎ ${esc(e.note)}</p>` : ""}<button class="xl" data-xinfo="${esc(x.id)}">${T("Ver la ficha completa")}</button></div>`;
+    ${e.note ? `<p class="fnxn">✎ ${esc(e.note)}</p>` : ""}<button class="xl" data-xinfo="${esc(x.id)}">${T("Ver la ficha completa")}</button></details>`;
 }
 function focusView() {
   if (!run || !state.active) return "";

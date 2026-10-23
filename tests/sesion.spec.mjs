@@ -54,7 +54,9 @@ test("descanso entre ejercicios: ficha resumida del siguiente y enlace a la comp
   await page.locator('[data-start="rx"]:visible').first().click(); await page.locator('[data-act="sess-begin"]').click(); await page.clock.runFor(300);
   await page.locator('[data-done="0:0"]').click(); await page.clock.runFor(300);
   await expect(page.locator(".focus .fnx")).toContainText("Dominada");
-  await expect(page.locator(".focus .fnx ol li").first()).toBeVisible();
+  await expect(page.locator(".focus .fnx ol li").first()).toBeHidden();   // plegada por defecto
+  await page.locator(".focus .fnx summary").click(); await page.clock.runFor(1500);
+  await expect(page.locator(".focus .fnx ol li").first()).toBeVisible();  // sigue abierta tras repintar
   await page.locator(".focus .fnx .xl").click(); await expect(page.locator("#xiT")).toHaveText("Dominada");
   await page.locator('.mhead [data-act="xi-close"]').click(); await expect(page.locator(".focus")).toBeVisible();
   expect(errors).toEqual([]);

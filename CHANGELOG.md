@@ -6,7 +6,8 @@ Todas las versiones de Usus. Formato basado en [Keep a Changelog](https://keepac
 
 ## [3.4.0] — en pruebas (beta)
 
-- Descanso entre ejercicios: debajo de «Siguiente» aparece una ficha resumida del próximo ejercicio del catálogo (para qué sirve y cómo se hace, con tu nota si la tiene) y un enlace a la ficha completa.
+- Descanso entre ejercicios: debajo de «Siguiente», el próximo ejercicio del catálogo con su ficha resumida plegada; al abrirla, para qué sirve y cómo se hace (con tu nota si la tiene) y un enlace a la ficha completa.
+- Primer uso: «Saltar la intro» en el asistente de bienvenida. Acepta el aviso, deja el catálogo activado y va directo a la app.
 
 ## [3.3.0] — 2026-10-20
 
@@ -274,7 +275,8 @@ Primera versión pública.
 
 ### [3.4.0] — en pruebas (beta)
 
-- Descans entre exercicis: sota «Següent» apareix una fitxa resumida del pròxim exercici del catàleg (per a què serveix i com es fa, amb la teva nota si en té) i un enllaç a la fitxa completa.
+- Descans entre exercicis: sota «Següent», el pròxim exercici del catàleg amb la fitxa resumida plegada; en obrir-la, per a què serveix i com es fa (amb la teva nota si en té) i un enllaç a la fitxa completa.
+- Primer ús: «Saltar la introducció» a l'assistent de benvinguda. Accepta l'avís, deixa el catàleg activat i va directament a l'app.
 
 ### [3.3.0] — 2026-10-20
 
@@ -384,7 +386,8 @@ Primera versió pública: rutines amb sèries per repeticions o per temps, compt
 
 ### [3.4.0] — en pruebas (beta)
 
-- Rest between exercises: below «Next» there's a short card for the upcoming catalogue exercise (what it's for and how to do it, with your note if it has one) and a link to the full card.
+- Rest between exercises: below «Next», the upcoming catalogue exercise with its short card folded; open it to see what it's for and how to do it (with your note if it has one) and a link to the full card.
+- First use: «Skip the intro» in the welcome wizard. It accepts the notice, leaves the catalogue on and goes straight to the app.
 
 ### [3.3.0] — 2026-10-20
 
