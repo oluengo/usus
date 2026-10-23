@@ -1,0 +1,11 @@
+# Zapstore (tienda sobre Nostr). Publica el APK de cada Release de GitHub (etiquetas vX.Y.Z, no la beta).
+# Ficha: la toma de fastlane/metadata/android. Publicar: `zsp publish` (o `zsp publish --check` para ver qué subiría)
+# con SIGN_WITH=bunker://… en el entorno. Nunca guardar aquí ni en el repositorio la clave nsec.
+repository: https://github.com/oluengo/usus
+release_filter: ^v\d+\.\d+\.\d+$
+match: ^usus-\d+\.\d+\.\d+\.apk$
+name: Usus
+summary: Calisthenics workouts and habits. No accounts, no ads; your data stays on your phone.
+license: MIT
+website: https://oluengo.github.io/usus/
+tags: [fitness, calisthenics, workout, habits, health, privacy, offline]

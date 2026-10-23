@@ -55,7 +55,22 @@ npx cap open android  # o: cd android && ./gradlew assembleDebug
 - **IzzyOnDroid**: toma el APK firmado de cada Release de GitHub. La ficha (título, descripciones, icono, capturas y novedades) está en `fastlane/metadata/android/{es-ES,ca,en-US}/`.
 - **F-Droid**: compila desde el código con la misma ficha. Sin dependencias de Google ni rastreadores; un solo permiso (vibración).
 - **Novedades de la ficha**: al publicar una versión, `node scripts/fastlane.mjs X.Y.Z` crea `changelogs/<versionCode>.txt` (3.4.0 → 30400) desde CHANGELOG.md, en los tres idiomas.
-- **Google Play**: usa el `.aab`; cuenta de desarrollador y, en cuentas personales nuevas, prueba cerrada previa.
+- **Zapstore** (sobre Nostr): `zapstore.yaml` apunta a las Releases de GitHub (solo `vX.Y.Z`, sin la beta) y toma la ficha de `fastlane/`. Tras publicar una Release: `zsp publish` con `SIGN_WITH=bunker://…` (mejor un bunker NIP-46 que la nsec). `zsp publish --check` muestra qué subiría sin publicar.
+- **Google Play**: el `.aab` firmado sale en *Artifacts* de cada compilación de Release. Ver «Google Play» abajo.
+
+### Google Play
+
+1. **Cuenta**: Play Console, cuenta personal (pago único y verificación de identidad y de un móvil Android).
+2. **Firma**: en «Firma de apps de Play», subir la clave actual (opción «Usar una clave de un almacén Java», con la herramienta PEPK). Así el APK de Play y el de GitHub/Zapstore/IzzyOnDroid llevan la misma firma y se actualizan entre sí. Si Google genera la suya, no.
+3. **Ficha**: textos de `fastlane/metadata/android/` (Play admite poco HTML: quitar `<ul><li>`), icono 512×512, imagen destacada 1024×500 y capturas de `en-US/images/`.
+4. **Formularios**:
+   - Privacidad: `https://github.com/oluengo/usus/blob/main/PRIVACY.md`.
+   - Seguridad de los datos: no recoge ni comparte datos; nada sale del dispositivo; no hay cuenta.
+   - Apps de salud: declarar el registro de la regla (opcional, por perfil) y que no es un dispositivo médico.
+   - Clasificación de contenido: cuestionario (sin contenido sensible). Público: mayores de edad o 13+; no dirigida a menores.
+   - Anuncios: no. Acceso a la app: todo sin inicio de sesión.
+5. **Prueba cerrada** (cuentas personales nuevas): 12 personas con la prueba activa 14 días seguidos. Después, pedir acceso a producción.
+6. **Cada versión**: subir el `.aab` de la Release y las novedades de `changelogs/<versionCode>.txt`.
 
 ---
 
