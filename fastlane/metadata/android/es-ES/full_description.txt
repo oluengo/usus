@@ -1,0 +1,21 @@
+Usus (latín: práctica, hábito) sirve para registrar tus entrenamientos y tus hábitos. Pensada para calistenia y entrenamiento en casa, vale para cualquier rutina de series y repeticiones.
+
+Gratis, sin cuentas, sin anuncios y sin conexión a Internet: todo se guarda solo en tu móvil.
+
+<b>Qué incluye</b>
+<ul>
+<li><b>Rutinas</b> con series, repeticiones o tiempo, ejercicios por lado, lastre, descansos propios, secciones, superseries y circuitos.</li>
+<li><b>Catálogo de ejercicios</b> (opcional): ficha con para qué sirve, cómo se hace, errores típicos, material y progresión.</li>
+<li><b>Plan guiado</b>: unas preguntas y Usus propone rutinas a tu nivel y un plan en orden, con semanas de descarga.</li>
+<li><b>Progresión</b>: al terminar, propone pasar al siguiente ejercicio o volver al anterior. Decides tú.</li>
+<li><b>Entrenar</b>: un ejercicio por pantalla, cuenta atrás a pantalla completa, sonidos suaves o vibración, y la pantalla siempre encendida.</li>
+<li><b>Diario</b>: sueño, suplementos, pasos, peso, actividad y notas.</li>
+<li><b>Progreso</b>: constancia, récords, progreso por ejercicio, equilibrio entre lados y hábitos.</li>
+<li><b>Perfiles</b> para varias personas en el mismo móvil y registro opcional del ciclo.</li>
+<li><b>IA opcional y externa</b>: Usus prepara el texto para que la IA que elijas analice tus datos o proponga un plan. Usus no envía nada.</li>
+<li><b>Compartir</b> un entreno como imagen o tus rutinas mediante un enlace, sin servidores.</li>
+</ul>
+
+Copias de seguridad en un archivo, en castellano, català e inglés. Solo pide un permiso: vibración.
+
+Es una herramienta de registro, no un consejo médico. Hecha con IA · probada por humanos.

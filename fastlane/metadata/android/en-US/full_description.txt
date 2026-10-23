@@ -1,0 +1,21 @@
+Usus (Latin: practice, habit) lets you log your workouts and habits. Built with calisthenics and home training in mind, it works for any routine of sets and reps.
+
+Free, no accounts, no ads and no Internet connection: everything is stored only on your phone.
+
+<b>What's inside</b>
+<ul>
+<li><b>Routines</b> with sets, reps or time, per-side exercises, added weight, custom rests, sections, supersets and circuits.</li>
+<li><b>Exercise catalogue</b> (optional): a card with what it's for, how to do it, common mistakes, equipment and progression.</li>
+<li><b>Guided plan</b>: a few questions and Usus suggests routines at your level and an in-order plan, with deload weeks.</li>
+<li><b>Progression</b>: after a session it suggests moving to the next exercise or back to the previous one. You decide.</li>
+<li><b>Train</b>: one exercise per screen, full-screen countdown, soft sounds or vibration, and the screen stays on.</li>
+<li><b>Diary</b>: sleep, supplements, steps, weight, activity and notes.</li>
+<li><b>Progress</b>: consistency, PRs, progress per exercise, left/right balance and habits.</li>
+<li><b>Profiles</b> for several people on one phone and optional cycle tracking.</li>
+<li><b>Optional, external AI</b>: Usus prepares the text for the AI of your choice to analyse your data or suggest a plan. Usus sends nothing.</li>
+<li><b>Share</b> a workout as an image or your routines through a link, with no servers.</li>
+</ul>
+
+Backups to a file; in Spanish, Catalan and English. It asks for one permission only: vibration.
+
+It is a logging tool, not medical advice. Built with AI · tested by humans.

@@ -1,0 +1,21 @@
+Usus (llatí: pràctica, hàbit) serveix per registrar els teus entrenaments i els teus hàbits. Pensada per a la calistènia i l'entrenament a casa, val per a qualsevol rutina de sèries i repeticions.
+
+Gratuïta, sense comptes, sense anuncis i sense connexió a Internet: tot es desa només al teu mòbil.
+
+<b>Què inclou</b>
+<ul>
+<li><b>Rutines</b> amb sèries, repeticions o temps, exercicis per costat, llast, descansos propis, seccions, superseries i circuits.</li>
+<li><b>Catàleg d'exercicis</b> (opcional): fitxa amb per a què serveix, com es fa, errors típics, material i progressió.</li>
+<li><b>Pla guiat</b>: unes preguntes i Usus proposa rutines al teu nivell i un pla en ordre, amb setmanes de descàrrega.</li>
+<li><b>Progressió</b>: en acabar, proposa passar al següent exercici o tornar a l'anterior. Decideixes tu.</li>
+<li><b>Entrenar</b>: un exercici per pantalla, compte enrere a pantalla completa, sons suaus o vibració, i la pantalla sempre encesa.</li>
+<li><b>Diari</b>: son, suplements, passos, pes, activitat i notes.</li>
+<li><b>Progrés</b>: constància, rècords, progrés per exercici, equilibri entre costats i hàbits.</li>
+<li><b>Perfils</b> per a diverses persones al mateix mòbil i registre opcional del cicle.</li>
+<li><b>IA opcional i externa</b>: Usus prepara el text perquè la IA que triïs analitzi les teves dades o proposi un pla. Usus no envia res.</li>
+<li><b>Compartir</b> un entrenament com a imatge o les teves rutines amb un enllaç, sense servidors.</li>
+</ul>
+
+Còpies de seguretat en un fitxer, en castellà, català i anglès. Només demana un permís: vibració.
+
+És una eina de registre, no un consell mèdic. Feta amb IA · provada per humans.

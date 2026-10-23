@@ -52,7 +52,9 @@ npx cap open android  # o: cd android && ./gradlew assembleDebug
 ## Tiendas
 
 - **GitHub Releases**: listo. Con [Obtainium](https://github.com/ImranR98/Obtainium) el móvil avisa de cada versión nueva.
-- **IzzyOnDroid / F-Droid**: leen las Releases o compilan desde el código; sin dependencias de Google.
+- **IzzyOnDroid**: toma el APK firmado de cada Release de GitHub. La ficha (título, descripciones, icono, capturas y novedades) está en `fastlane/metadata/android/{es-ES,ca,en-US}/`.
+- **F-Droid**: compila desde el código con la misma ficha. Sin dependencias de Google ni rastreadores; un solo permiso (vibración).
+- **Novedades de la ficha**: al publicar una versión, `node scripts/fastlane.mjs X.Y.Z` crea `changelogs/<versionCode>.txt` (3.4.0 → 30400) desde CHANGELOG.md, en los tres idiomas.
 - **Google Play**: usa el `.aab`; cuenta de desarrollador y, en cuentas personales nuevas, prueba cerrada previa.
 
 ---
