@@ -1257,6 +1257,9 @@ msgstr ""
 msgid "Descanso entre ejercicios: {n} s"
 msgstr ""
 
+msgid "Descanso entre ejercicios: debajo de «Siguiente» aparece una ficha resumida del próximo ejercicio del catálogo (para qué sirve y cómo se hace, con tu nota si la tiene) y un enlace a la ficha completa."
+msgstr ""
+
 msgid "Descanso entre series"
 msgstr ""
 
@@ -4498,6 +4501,9 @@ msgid "Ver historial"
 msgstr ""
 
 msgid "Ver la app primero. Las rutinas se crean en Biblioteca → Nueva rutina."
+msgstr ""
+
+msgid "Ver la ficha completa"
 msgstr ""
 
 msgid "Ver notas"

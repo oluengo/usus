@@ -148,6 +148,14 @@ function cancelRun() { if (run) { clearInterval(runT); run = null; } syncAwake()
 const syncAwake = () => keepAwake(!!run || !!(state.active && !state.active.pre));
 document.addEventListener("toggle", ev => { if (ev.target.matches?.("details[data-plans]")) state.plansOpen = ev.target.open; }, true);
 document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") { wakeLock = null; syncAwake(); } });
+/* Descanso antes de otro ejercicio: su ficha resumida (para qué sirve y cómo se hace) y enlace a la completa */
+function nextCard(e) {
+  const x = e?.xid && catReady() && CATBY[e.xid]; if (!x) return "";
+  const inf = x.info?.[LANG] || x.info?.es || {}, how = inf.how || [];
+  return `<div class="fnx"><div class="fnxh"><b>${esc(xName(x))}</b>${LV(x.level)}</div>
+    ${inf.why ? `<p>${esc(inf.why)}</p>` : ""}${how.length ? `<ol>${how.map(h => `<li>${esc(h)}</li>`).join("")}</ol>` : ""}
+    ${e.note ? `<p class="fnxn">✎ ${esc(e.note)}</p>` : ""}<button class="xl" data-xinfo="${esc(x.id)}">${T("Ver la ficha completa")}</button></div>`;
+}
 function focusView() {
   if (!run || !state.active) return "";
   const f = run.q[run.i], e = exOf(f.ei) || {}, nx = run.q[run.i + 1], left = run.lead ? Math.max(0, Math.ceil((run.lead - Date.now()) / 1000)) : run.paused ? Math.ceil(run.rem / 1000) : Math.max(0, Math.ceil((run.end - Date.now()) / 1000));
@@ -172,6 +180,7 @@ function focusView() {
       <div class="fnum"><span id="fNum">${fmtLeft(left)}</span>${run.lead ? `<small>${T("Reanudando…")}</small>` : run.paused ? `<small>${T("En pausa")}</small>` : ""}</div></div>
     ${f.k !== "restx" && nSets ? `<div class="fdots">${e.sets.map((z, j) => `<i class="${z.done ? "d" : (f.k === "work" || f.k === "switch") && f.si === j ? "c" : ""}"></i>`).join("")}</div>` : ""}
     <p class="muted" style="margin:4px 0 0">${next}</p>
+    ${f.k === "restx" || (f.k === "rest" && f.g === 1) ? nextCard(e) : ""}
     ${f.k === "rest" || f.k === "restx" ? rirAsk() : ""}
     ${f.k === "rest" || f.k === "restx" ? `<div class="fadj"><button class="btn" data-act="run-adj" data-d="-5">−5 s</button><button class="btn" data-act="run-adj" data-d="5">+5 s</button></div>` : ""}
     <div class="fbtns"><button class="btn primary" data-act="run-pause" aria-pressed="${holding}">${holding ? "▶ " + T("Reanudar") : "❚❚ " + T("Pausa")}</button>

@@ -4,6 +4,10 @@ Todas las versiones de Usus. Formato basado en [Keep a Changelog](https://keepac
 
 **Castellano** · [Català](#català) · [English](#english)
 
+## [3.4.0] — en pruebas (beta)
+
+- Descanso entre ejercicios: debajo de «Siguiente» aparece una ficha resumida del próximo ejercicio del catálogo (para qué sirve y cómo se hace, con tu nota si la tiene) y un enlace a la ficha completa.
+
 ## [3.3.0] — 2026-10-20
 
 - Crear plan con IA (Biblioteca → Plan y Progreso → Resumen): en 4 pasos (sobre ti, qué buscas, tu semana y para la IA) Usus prepara unas indicaciones con tus datos, cómo debe responder la IA y el enlace al catálogo, con el rango recomendado y las articulaciones de cada ejercicio. Las copias o exportas, las pegas en tu IA y su respuesta vuelve a Usus para revisarla antes de importar.
@@ -268,6 +272,10 @@ Primera versión pública.
 
 ## Català
 
+### [3.4.0] — en pruebas (beta)
+
+- Descans entre exercicis: sota «Següent» apareix una fitxa resumida del pròxim exercici del catàleg (per a què serveix i com es fa, amb la teva nota si en té) i un enllaç a la fitxa completa.
+
 ### [3.3.0] — 2026-10-20
 
 - Crea un pla amb IA (Biblioteca → Pla i Progrés → Resum): en 4 passos (sobre tu, què busques, la teva setmana i per a la IA) Usus prepara unes indicacions amb les teves dades, com ha de respondre la IA i l'enllaç al catàleg, amb el rang recomanat i les articulacions de cada exercici. Les copies o exportes, les enganxes a la teva IA i la resposta torna a Usus per revisar-la abans d'importar.
@@ -373,6 +381,10 @@ Primera versió pública: rutines amb sèries per repeticions o per temps, compt
 ---
 
 ## English
+
+### [3.4.0] — en pruebas (beta)
+
+- Rest between exercises: below «Next» there's a short card for the upcoming catalogue exercise (what it's for and how to do it, with your note if it has one) and a link to the full card.
 
 ### [3.3.0] — 2026-10-20
 

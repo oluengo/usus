@@ -1258,6 +1258,9 @@ msgstr "Rest between exercises (s)"
 msgid "Descanso entre ejercicios: {n} s"
 msgstr "Rest between exercises: {n} s"
 
+msgid "Descanso entre ejercicios: debajo de «Siguiente» aparece una ficha resumida del próximo ejercicio del catálogo (para qué sirve y cómo se hace, con tu nota si la tiene) y un enlace a la ficha completa."
+msgstr "Rest between exercises: below «Next» there's a short card for the upcoming catalogue exercise (what it's for and how to do it, with your note if it has one) and a link to the full card."
+
 msgid "Descanso entre series"
 msgstr "Rest between sets"
 
@@ -4500,6 +4503,9 @@ msgstr "View history"
 
 msgid "Ver la app primero. Las rutinas se crean en Biblioteca → Nueva rutina."
 msgstr "See the app first. Routines are created in Library → New routine."
+
+msgid "Ver la ficha completa"
+msgstr "See the full card"
 
 msgid "Ver notas"
 msgstr "See notes"

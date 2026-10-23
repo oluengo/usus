@@ -1258,6 +1258,9 @@ msgstr "Descans entre exercicis (s)"
 msgid "Descanso entre ejercicios: {n} s"
 msgstr "Descans entre exercicis: {n} s"
 
+msgid "Descanso entre ejercicios: debajo de «Siguiente» aparece una ficha resumida del próximo ejercicio del catálogo (para qué sirve y cómo se hace, con tu nota si la tiene) y un enlace a la ficha completa."
+msgstr "Descans entre exercicis: sota «Següent» apareix una fitxa resumida del pròxim exercici del catàleg (per a què serveix i com es fa, amb la teva nota si en té) i un enllaç a la fitxa completa."
+
 msgid "Descanso entre series"
 msgstr "Descans entre sèries"
 
@@ -4500,6 +4503,9 @@ msgstr "Mostra l'historial"
 
 msgid "Ver la app primero. Las rutinas se crean en Biblioteca → Nueva rutina."
 msgstr "Veure l'app primer. Les rutines es creen a Biblioteca → Nova rutina."
+
+msgid "Ver la ficha completa"
+msgstr "Veure la fitxa completa"
 
 msgid "Ver notas"
 msgstr "Veure notes"

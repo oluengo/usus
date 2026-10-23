@@ -47,3 +47,15 @@ test("con avisos «Solo sonido» no vibra nunca", async ({ page }) => {
   await page.locator('[data-play="0:0"]').click(); await page.clock.runFor(15000);
   expect(await page.evaluate(() => window.__vib.filter(p => p !== 0).length)).toBe(0);
 });
+test("descanso entre ejercicios: ficha resumida del siguiente y enlace a la completa", async ({ page }) => {
+  const R = [{ id: "rx", name: "Ficha", block: "full", variant: "", days: [0, 1, 2, 3, 4, 5, 6], exercises: [
+    { name: "Flexión", xid: "flexion", sets: 1, reps: 8, type: "reps", rest: 0, restAfter: 30 }, { name: "Dominada", xid: "dominada", sets: 1, reps: 5, type: "reps" }] }];
+  const errors = await openApp(page, { catalog: true, clock: new Date("2026-10-16T09:00:00"), data: { "wk.routines": R, "wk.effort": { pem: false, rir: false } } });
+  await page.locator('[data-start="rx"]:visible').first().click(); await page.locator('[data-act="sess-begin"]').click(); await page.clock.runFor(300);
+  await page.locator('[data-done="0:0"]').click(); await page.clock.runFor(300);
+  await expect(page.locator(".focus .fnx")).toContainText("Dominada");
+  await expect(page.locator(".focus .fnx ol li").first()).toBeVisible();
+  await page.locator(".focus .fnx .xl").click(); await expect(page.locator("#xiT")).toHaveText("Dominada");
+  await page.locator('.mhead [data-act="xi-close"]').click(); await expect(page.locator(".focus")).toBeVisible();
+  expect(errors).toEqual([]);
+});
