@@ -4,7 +4,7 @@ Todas las versiones de Usus. Formato basado en [Keep a Changelog](https://keepac
 
 **Castellano** · [Català](#català) · [English](#english)
 
-## [3.4.0] — en pruebas (beta)
+## [3.4.0] — 2026-10-23
 
 - Descanso entre ejercicios: debajo de «Siguiente», el próximo ejercicio del catálogo con su ficha resumida plegada; al abrirla, para qué sirve y cómo se hace (con tu nota si la tiene) y un enlace a la ficha completa.
 - Primer uso: «Saltar la intro» en el asistente de bienvenida. Acepta el aviso, deja el catálogo activado y va directo a la app.
@@ -273,7 +273,7 @@ Primera versión pública.
 
 ## Català
 
-### [3.4.0] — en pruebas (beta)
+### [3.4.0] — 2026-10-23
 
 - Descans entre exercicis: sota «Següent», el pròxim exercici del catàleg amb la fitxa resumida plegada; en obrir-la, per a què serveix i com es fa (amb la teva nota si en té) i un enllaç a la fitxa completa.
 - Primer ús: «Saltar la introducció» a l'assistent de benvinguda. Accepta l'avís, deixa el catàleg activat i va directament a l'app.
@@ -384,7 +384,7 @@ Primera versió pública: rutines amb sèries per repeticions o per temps, compt
 
 ## English
 
-### [3.4.0] — en pruebas (beta)
+### [3.4.0] — 2026-10-23
 
 - Rest between exercises: below «Next», the upcoming catalogue exercise with its short card folded; open it to see what it's for and how to do it (with your note if it has one) and a link to the full card.
 - First use: «Skip the intro» in the welcome wizard. It accepts the notice, leaves the catalogue on and goes straight to the app.
