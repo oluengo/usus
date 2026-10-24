@@ -1,5 +1,5 @@
 # Usus · English
-# Este archivo se traduce en Weblate o a mano. Licencia MIT, como la app.
+# Este archivo se traduce a mano. Licencia MIT, como la app.
 msgid ""
 msgstr ""
 "Project-Id-Version: Usus\n"

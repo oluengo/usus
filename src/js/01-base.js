@@ -4,12 +4,12 @@ const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 
 const fmtKg = n => (Math.round(n * 10) / 10).toLocaleString(LOC());
 const fmtVol = n => n >= 10000 ? (n / 1000).toLocaleString(LOC(), {maximumFractionDigits: 1}) + " t" : Math.round(n).toLocaleString(LOC()) + " kg";
 /* ---------- Idiomas ----------
-   Para añadir un idioma: 1) añade su código a LANGS; 2) crea i18n/<código>.po (en Weblate o copiando ca.po) y tradúcelo;
+   Para añadir un idioma: 1) añade su código a LANGS; 2) crea i18n/<código>.po (copiando ca.po) y tradúcelo;
    3) node scripts/i18n.mjs build. Lo que falte se muestra en castellano. */
 const LANGS = { es: { name: "Castellano", locale: "es-ES" }, ca: { name: "Català", locale: "ca-ES" }, en: { name: "English", locale: "en-GB" } };
 let LANG = "es", MESES = [], DIAS = [];
 const LOC = () => LANGS[LANG]?.locale || LANG;
-/* Textos: el castellano es el original (msgid); las traducciones vienen de i18n/*.po (Weblate) y se generan en I18N.
+/* Textos: el castellano es el original (msgid); las traducciones vienen de i18n/*.po y se generan en I18N.
    T(texto, {n}) traduce; TN(n, singular, plural, {…}) elige la forma según el número; N_(texto) solo marca un texto
    para traducirlo más tarde con T(variable). */
 const fill = (r, p) => (p ? r.replace(/\{(\w+)\}/g, (_, k) => p[k] ?? "") : r);
