@@ -1,7 +1,7 @@
-// Traducciones de Usus con gettext (.po), el formato estándar que usa Weblate.
+// Traducciones de Usus con gettext (.po), el formato estándar de traducción.
 // - El castellano es el idioma de origen: el texto que va en T("…") en el código (src/js/*.js) es el msgid.
 // - i18n/usus.pot: plantilla con todos los textos (se genera, no se edita).
-// - i18n/<idioma>.po: traducciones (las edita Weblate o a mano).
+// - i18n/<idioma>.po: traducciones (se editan a mano).
 // - src/js/90-i18n.js es el diccionario I18N generado a partir de los .po (entre las marcas I18N:start / I18N:end);
 //   al generarlo se vuelve a montar index.html (scripts/build.mjs).
 //
@@ -61,7 +61,7 @@ function writePO(header, entries) {
 }
 const hdr = (lang) => [
   `# Usus · ${lang ? LANGS[lang].name : "plantilla"}`,
-  `# Este archivo se traduce en Weblate o a mano. Licencia MIT, como la app.`,
+  `# Este archivo se traduce a mano. Licencia MIT, como la app.`,
   `msgid ""`, `msgstr ""`,
   `"Project-Id-Version: Usus\\n"`, `"MIME-Version: 1.0\\n"`, `"Content-Type: text/plain; charset=UTF-8\\n"`, `"Content-Transfer-Encoding: 8bit\\n"`,
   ...(lang ? [`"Language: ${lang}\\n"`, `"Plural-Forms: ${LANGS[lang].plural}\\n"`] : [`"Language: es\\n"`]),
