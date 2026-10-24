@@ -4,7 +4,7 @@ Todas las versiones de Usus. Formato basado en [Keep a Changelog](https://keepac
 
 **Castellano** · [Català](#català) · [English](#english)
 
-## [3.5.0] — en pruebas (beta)
+## [3.5.0] — 2026-10-24
 
 - Reiniciar el plan: en el menú ⋯ del plan en Hoy o en Biblioteca → Plan, vuelve a la semana 1 desde hoy, sin semana elegida ni pausas. Tus rutinas, sesiones e historial no se tocan. Al terminar un plan, Hoy lo ofrece.
 - Nuevo perfil: el catálogo de ejercicios se elige en el mismo formulario. Al crearlo, Usus entra en él sin más preguntas y avisa de que ya estás en el nuevo perfil. Con una sesión en curso, pide terminarla antes.
@@ -278,7 +278,7 @@ Primera versión pública.
 
 ## Català
 
-### [3.5.0] — en pruebas (beta)
+### [3.5.0] — 2026-10-24
 
 - Reiniciar el pla: al menú ⋯ del pla a Avui o a Biblioteca → Pla, torna a la setmana 1 des d'avui, sense setmana triada ni pauses. Les teves rutines, sessions i historial no es toquen. En acabar un pla, Avui ho ofereix.
 - Perfil nou: el catàleg d'exercicis es tria al mateix formulari. En crear-lo, Usus hi entra sense més preguntes i avisa que ja ets al perfil nou. Amb una sessió en curs, demana acabar-la abans.
@@ -394,7 +394,7 @@ Primera versió pública: rutines amb sèries per repeticions o per temps, compt
 
 ## English
 
-### [3.5.0] — en pruebas (beta)
+### [3.5.0] — 2026-10-24
 
 - Restart the plan: from the plan's ⋯ menu in Today or in Library → Plan, it goes back to week 1 from today, with no chosen week or pauses. Your routines, sessions and history are not touched. When a plan ends, Today offers it.
 - New profile: the exercise catalogue is chosen in the same form. Once created, Usus switches to it with no more questions and tells you you're now on the new profile. With a session in progress, it asks you to finish it first.

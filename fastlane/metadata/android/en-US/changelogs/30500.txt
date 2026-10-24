@@ -1,0 +1,2 @@
+• Restart the plan: from the plan's ⋯ menu in Today or in Library → Plan, it goes back to week 1 from today, with no chosen week or pauses. Your routines, sessions and history are not touched. When a plan ends, Today offers it.
+• New profile: the exercise catalogue is chosen in the same form. Once created, Usus switches to it with no more questions and tells you you're now on the new profile. With a session in progress, it asks you to finish it first.

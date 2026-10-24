@@ -1,0 +1,2 @@
+• Reiniciar el pla: al menú ⋯ del pla a Avui o a Biblioteca → Pla, torna a la setmana 1 des d'avui, sense setmana triada ni pauses. Les teves rutines, sessions i historial no es toquen. En acabar un pla, Avui ho ofereix.
+• Perfil nou: el catàleg d'exercicis es tria al mateix formulari. En crear-lo, Usus hi entra sense més preguntes i avisa que ja ets al perfil nou. Amb una sessió en curs, demana acabar-la abans.
