@@ -59,3 +59,11 @@ test("primera vez: saltar la intro acepta el aviso y deja el catálogo activado"
   await page.reload(); await expect(page.locator(".modal")).toHaveCount(0);   // no vuelve a preguntar
   expect(errors).toEqual([]);
 });
+test("versión nueva: aviso breve que se oculta solo, sin ventana de novedades", async ({ page }) => {
+  const errors = await openApp(page, { clock: new Date("2026-10-16T09:00:00"), data: { "wk.seenVersion": "3.0.0" } });
+  await expect(page.locator("#toast")).toContainText("Usus se ha actualizado a la versión");
+  await expect(page.locator(".modal")).toHaveCount(0);
+  await page.clock.runFor(6000); await expect(page.locator("#toast")).not.toHaveClass(/show/);
+  expect(await page.evaluate(() => JSON.parse(localStorage.getItem("wk.seenVersion")))).not.toBe("3.0.0");
+  expect(errors).toEqual([]);
+});

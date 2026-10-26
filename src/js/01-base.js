@@ -76,7 +76,7 @@ const state = {
 const saveActive = () => LS.set("wk.active", state.active);
 
 let toastT;
-function toast(msg) { const t = $("#toast"); t.textContent = msg; t.classList.add("show"); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove("show"), 2200); }
+function toast(msg, ms = 2200) { const t = $("#toast"); t.textContent = msg; t.classList.add("show"); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove("show"), ms); }
 
 /* ---------- Utilidades de datos ---------- */
 const sessionVolume = s => s.exercises.filter(e => !isTime(e)).reduce((a, e) => a + e.sets.filter(x => x.done).reduce((b, x) => b + (+x.w || 0) * (+x.r || 0), 0), 0);

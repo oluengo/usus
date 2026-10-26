@@ -8,6 +8,7 @@ Todas las versiones de Usus. Formato basado en [Keep a Changelog](https://keepac
 
 - RIR sin contestar: si al acabar el descanso no has marcado cuántas te quedaban (o cuánto más habrías aguantado, en las series por tiempo), cuenta como 0. Con «×» la serie se queda sin valor.
 - Ventanas: el título va pegado arriba del todo (al desplazar ya no asoma el contenido por encima) y con más aire respecto a lo que sigue.
+- Al actualizar, en lugar de la ventana de novedades sale un aviso breve que se oculta solo. Las novedades siguen en Ajustes → Acerca de (tocando la versión).
 - Compartir con Usus: desde la app de tu IA, menú Compartir → Usus lleva su respuesta (texto o archivo) a la revisión, sin copiar ni pegar. En el APK y en la web instalada en Android.
 
 ## [3.5.0] — 2026-10-24
@@ -288,6 +289,7 @@ Primera versión pública.
 
 - RIR sense respondre: si en acabar el descans no has marcat quantes te'n quedaven (o quant més hauries aguantat, a les sèries per temps), compta com a 0. Amb «×» la sèrie es queda sense valor.
 - Finestres: el títol va enganxat a dalt de tot (en desplaçar ja no hi treu el cap el contingut per sobre) i amb més aire respecte al que segueix.
+- En actualitzar, en lloc de la finestra de novetats surt un avís breu que s'amaga sol. Les novetats continuen a Ajustos → Quant a (tocant la versió).
 - Compartir amb Usus: des de l'app de la teva IA, menú Compartir → Usus porta la resposta (text o fitxer) a la revisió, sense copiar ni enganxar. A l'APK i al web instal·lat a Android.
 
 ### [3.5.0] — 2026-10-24
@@ -410,6 +412,7 @@ Primera versió pública: rutines amb sèries per repeticions o per temps, compt
 
 - Unanswered RIR: if you haven't marked how many you had left when the rest ends (or how much longer you could have held, in timed sets), it counts as 0. With “×” the set stays without a value.
 - Windows: the title sits right at the top (content no longer peeks above it when scrolling) and has more room before what follows.
+- After an update, instead of the what's new window there's a short notice that hides by itself. What's new is still in Settings → About (tap the version).
 - Share to Usus: from your AI app, Share menu → Usus takes its reply (text or file) to the review, with no copy and paste. In the APK and in the web app installed on Android.
 
 ### [3.5.0] — 2026-10-24

@@ -460,6 +460,9 @@ msgstr "Settings reorganised into tabs: Workout, Body, App and Data. Your profil
 msgid "Al actualizar se cambian los ejercicios; el nombre, los días, la variante y tus sesiones no se tocan."
 msgstr "Updating changes the exercises; the name, days, variant and your sessions aren't touched."
 
+msgid "Al actualizar, en lugar de la ventana de novedades sale un aviso breve que se oculta solo. Las novedades siguen en Ajustes → Acerca de (tocando la versión)."
+msgstr "After an update, instead of the what's new window there's a short notice that hides by itself. What's new is still in Settings → About (tap the version)."
+
 msgid "Al añadir un plan recibido o de la IA, si sus letras de variante ya las usan tus rutinas, se cambian por otras libres para no mezclar planes."
 msgstr "When adding a received or AI plan, if its variant letters are already used by your routines, they're changed to free ones so plans don't get mixed."
 
@@ -4465,6 +4468,10 @@ msgstr "Usus sends nothing: you copy or share it yourself. What happens next dep
 
 msgid "Usus prepara un texto con tus datos y las instrucciones para que una IA (ChatGPT, Claude, Gemini…) los analice. Usus no envía nada: lo copias o compartes tú."
 msgstr "Usus prepares a text with your data and instructions for an AI (ChatGPT, Claude, Gemini…) to analyse it. Usus sends nothing: you copy or share it yourself."
+
+#, python-brace-format
+msgid "Usus se ha actualizado a la versión {v}. Novedades en Ajustes → Acerca de."
+msgstr "Usus has been updated to version {v}. What's new is in Settings → About."
 
 msgid "Usus: registro de entrenos y hábitos. Gratis, sin cuentas y tus datos se quedan en tu móvil."
 msgstr "Usus: workout and habit log. Free, no accounts, and your data stays on your phone."

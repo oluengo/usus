@@ -460,6 +460,9 @@ msgstr "Ajustos reorganitzat en pestanyes: Entrenament, Cos, App i Dades. El per
 msgid "Al actualizar se cambian los ejercicios; el nombre, los días, la variante y tus sesiones no se tocan."
 msgstr "En actualitzar canvien els exercicis; el nom, els dies, la variant i les teves sessions no es toquen."
 
+msgid "Al actualizar, en lugar de la ventana de novedades sale un aviso breve que se oculta solo. Las novedades siguen en Ajustes → Acerca de (tocando la versión)."
+msgstr "En actualitzar, en lloc de la finestra de novetats surt un avís breu que s'amaga sol. Les novetats continuen a Ajustos → Quant a (tocant la versió)."
+
 msgid "Al añadir un plan recibido o de la IA, si sus letras de variante ya las usan tus rutinas, se cambian por otras libres para no mezclar planes."
 msgstr "En afegir un pla rebut o de la IA, si les seves lletres de variant ja les fan servir les teves rutines, es canvien per altres de lliures per no barrejar plans."
 
@@ -4465,6 +4468,10 @@ msgstr "Usus no envia res: ho copies o comparteixes tu. El que passi després de
 
 msgid "Usus prepara un texto con tus datos y las instrucciones para que una IA (ChatGPT, Claude, Gemini…) los analice. Usus no envía nada: lo copias o compartes tú."
 msgstr "Usus prepara un text amb les teves dades i les instruccions perquè una IA (ChatGPT, Claude, Gemini…) les analitzi. Usus no envia res: el copies o el comparteixes tu."
+
+#, python-brace-format
+msgid "Usus se ha actualizado a la versión {v}. Novedades en Ajustes → Acerca de."
+msgstr "Usus s'ha actualitzat a la versió {v}. Novetats a Ajustos → Quant a."
 
 msgid "Usus: registro de entrenos y hábitos. Gratis, sin cuentas y tus datos se quedan en tu móvil."
 msgstr "Usus: registre d'entrenaments i hàbits. Gratis, sense comptes i les teves dades es queden al teu mòbil."

@@ -8,7 +8,8 @@
   migrateStored(); migrateTypes(); planMigrateOrder();
   applyTheme(curTheme());
   restorePlace();
-  if (LS.get("wk.welcomed", false) && LS.get("wk.seenVersion", null) !== APP_VERSION && CHANGES[0][0] === APP_VERSION) state.newsOpen = "new";
+  // Versión nueva: un aviso breve que se oculta solo; las novedades, en Ajustes → Acerca de
+  if (LS.get("wk.welcomed", false) && LS.get("wk.seenVersion", null) !== APP_VERSION) { LS.set("wk.seenVersion", APP_VERSION); setTimeout(() => toast(T("Usus se ha actualizado a la versión {v}. Novedades en Ajustes → Acerca de.", { v: APP_VERSION }), 5000), 800); }
   if (LS.get("wk.catalog", null) === null) state.catAsk = true;
   if (catOn()) loadCatalog().then(c => { planUpCheck(); render(); }); else planUpCheck();
   render();

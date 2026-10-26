@@ -459,6 +459,9 @@ msgstr ""
 msgid "Al actualizar se cambian los ejercicios; el nombre, los días, la variante y tus sesiones no se tocan."
 msgstr ""
 
+msgid "Al actualizar, en lugar de la ventana de novedades sale un aviso breve que se oculta solo. Las novedades siguen en Ajustes → Acerca de (tocando la versión)."
+msgstr ""
+
 msgid "Al añadir un plan recibido o de la IA, si sus letras de variante ya las usan tus rutinas, se cambian por otras libres para no mezclar planes."
 msgstr ""
 
@@ -4463,6 +4466,10 @@ msgid "Usus no envía nada: lo copias o compartes tú. Lo que pase después depe
 msgstr ""
 
 msgid "Usus prepara un texto con tus datos y las instrucciones para que una IA (ChatGPT, Claude, Gemini…) los analice. Usus no envía nada: lo copias o compartes tú."
+msgstr ""
+
+#, python-brace-format
+msgid "Usus se ha actualizado a la versión {v}. Novedades en Ajustes → Acerca de."
 msgstr ""
 
 msgid "Usus: registro de entrenos y hábitos. Gratis, sin cuentas y tus datos se quedan en tu móvil."
