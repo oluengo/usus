@@ -1,4 +1,4 @@
-// Capturas para la ficha de las tiendas (fastlane), con datos inventados, en castellano, català e inglés.
+// Capturas para la ficha de la tienda (fastlane): Hoy, entrenando, cuenta atrás y progreso, con datos inventados, en castellano, català e inglés.
 // Uso: node scripts/capturas.mjs [es ca en]   (PW_CHROMIUM=/ruta/a/chrome si Playwright no trae su navegador)
 // Salida: fastlane/metadata/android/<idioma>/images/phoneScreenshots/NN-nombre.jpg (540×1170)
 import { chromium } from "@playwright/test";
@@ -66,16 +66,12 @@ try {
     const shot = async name => { await page.clock.runFor(400); await page.screenshot({ path: `${dir}/${name}.jpg`, type: "jpeg", quality: 86 }); };
     const tab = async t => { await page.locator(`nav [data-tab="${t}"]`).click(); await page.evaluate(() => window.scrollTo(0, 0)); };
     await shot("01-hoy");
-    await tab("routines"); await shot("06-biblioteca");
-    await page.locator('[data-rview="plan"]').click(); await shot("05-plan");
-    await tab("diary"); await shot("08-diario");
-    await tab("stats"); await shot("07-progreso");
+    await tab("stats"); await shot("04-progreso");
     // Entrenar: sesión A · Torso, con la primera serie hecha, y el descanso antes del siguiente ejercicio
     await tab("train"); await page.locator('[data-start="ra1"]').first().click(); await page.locator('[data-act="sess-begin"]').click(); await page.clock.runFor(800);
     await page.locator('[data-done="0:0"]').click(); await page.clock.runFor(30000);
     if (await page.locator(".focus").count()) await page.locator('.focus [data-act="run-skip"]').click();
     await page.clock.runFor(500); await shot("02-entrenando");
-    await page.locator("[data-xinfo]:visible").first().click(); await shot("04-ficha"); await page.locator('.mhead [data-act="xi-close"]').click();
     for (const j of [1, 2]) { await page.locator(`[data-done="0:${j}"]`).click(); await page.clock.runFor(600); if (j < 2 && await page.locator(".focus").count()) await page.locator('.focus [data-act="run-skip"]').click(); }
     await page.clock.runFor(20000); await shot("03-cuenta-atras");
     await ctx.close(); console.log(`capturas ${lang} → ${dir}`);

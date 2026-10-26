@@ -55,7 +55,7 @@ npx cap open android  # o: cd android && ./gradlew assembleDebug
 
 - **GitHub Releases**: el APK de cada versión. Con [Obtainium](https://github.com/ImranR98/Obtainium) el móvil avisa de cada versión nueva.
 - **Zapstore** (sobre Nostr): `zapstore.yaml` apunta a las Releases de GitHub (solo `vX.Y.Z`, sin la beta) y toma la ficha de `fastlane/metadata/android/{es-ES,ca,en-US}/`. Tras publicar una Release: `zsp publish` con `SIGN_WITH=bunker://…` (mejor un bunker NIP-46 que la nsec). `zsp publish --check` muestra qué subiría sin publicar.
-- **Ficha**: al publicar una versión, `node scripts/fastlane.mjs X.Y.Z` crea sus novedades (`changelogs/<versionCode>.txt`, 3.5.1 → 30501) desde CHANGELOG.md. Las capturas, con datos inventados y en los tres idiomas: `node scripts/capturas.mjs`.
+- **Ficha**: al publicar una versión, `node scripts/fastlane.mjs X.Y.Z` crea sus novedades (`changelogs/<versionCode>.txt`, 3.5.1 → 30501) desde CHANGELOG.md. Las 4 capturas (Hoy, entrenando, cuenta atrás y progreso), con datos inventados y en los tres idiomas: `node scripts/capturas.mjs`.
 
 ---
 
