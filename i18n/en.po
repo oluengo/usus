@@ -4537,6 +4537,9 @@ msgstr "Fertile window"
 msgid "Ventanas con un mismo diseño: título arriba con ✕ para cerrar siempre en el mismo sitio, pasos con barra de progreso y Atrás/Siguiente abajo. Al cerrar un proceso a medias, Usus avisa de si se pierde o se guarda lo hecho. En Crear plan con IA ya se puede elegir el sexo."
 msgstr "Windows with one design: title at the top with ✕ to close, always in the same place; steps with a progress bar and Back/Next at the bottom. When you close a half-finished process, Usus tells you whether it's lost or saved. In Create plan with AI you can now choose your sex."
 
+msgid "Ventanas: el título va pegado arriba del todo (al desplazar ya no asoma el contenido por encima) y con más aire respecto a lo que sigue."
+msgstr "Windows: the title sits right at the top (content no longer peeks above it when scrolling) and has more room before what follows."
+
 msgid "Ver el aviso"
 msgstr "View the notice"
 

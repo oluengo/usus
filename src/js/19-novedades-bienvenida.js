@@ -2,6 +2,7 @@
 const CHANGES = [  // Novedades: solo en castellano; las traducciones, en i18n/*.po
   ["3.5.1", [
     N_("RIR sin contestar: si al acabar el descanso no has marcado cuántas te quedaban (o cuánto más habrías aguantado, en las series por tiempo), cuenta como 0. Con «×» la serie se queda sin valor."),
+    N_("Ventanas: el título va pegado arriba del todo (al desplazar ya no asoma el contenido por encima) y con más aire respecto a lo que sigue."),
     N_("Compartir con Usus: desde la app de tu IA, menú Compartir → Usus lleva su respuesta (texto o archivo) a la revisión, sin copiar ni pegar. En el APK y en la web instalada en Android.")
   ]],
   ["3.5.0", [

@@ -4536,6 +4536,9 @@ msgstr ""
 msgid "Ventanas con un mismo diseño: título arriba con ✕ para cerrar siempre en el mismo sitio, pasos con barra de progreso y Atrás/Siguiente abajo. Al cerrar un proceso a medias, Usus avisa de si se pierde o se guarda lo hecho. En Crear plan con IA ya se puede elegir el sexo."
 msgstr ""
 
+msgid "Ventanas: el título va pegado arriba del todo (al desplazar ya no asoma el contenido por encima) y con más aire respecto a lo que sigue."
+msgstr ""
+
 msgid "Ver el aviso"
 msgstr ""
 

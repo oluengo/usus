@@ -4537,6 +4537,9 @@ msgstr "Finestra fèrtil"
 msgid "Ventanas con un mismo diseño: título arriba con ✕ para cerrar siempre en el mismo sitio, pasos con barra de progreso y Atrás/Siguiente abajo. Al cerrar un proceso a medias, Usus avisa de si se pierde o se guarda lo hecho. En Crear plan con IA ya se puede elegir el sexo."
 msgstr "Finestres amb un mateix disseny: títol a dalt amb ✕ per tancar sempre al mateix lloc, passos amb barra de progrés i Enrere/Següent a baix. En tancar un procés a mitges, Usus avisa de si es perd o es desa el que s'ha fet. A Crea un pla amb IA ja es pot triar el sexe."
 
+msgid "Ventanas: el título va pegado arriba del todo (al desplazar ya no asoma el contenido por encima) y con más aire respecto a lo que sigue."
+msgstr "Finestres: el títol va enganxat a dalt de tot (en desplaçar ja no hi treu el cap el contingut per sobre) i amb més aire respecte al que segueix."
+
 msgid "Ver el aviso"
 msgstr "Veure l'avís"
 
