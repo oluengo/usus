@@ -40,6 +40,7 @@ function aiModal() {
       <h3 class="wh">${T("Cuando la IA responda")}</h3>
       <p class="muted" style="font-size:.85rem;margin:0 0 6px">${T("Si te propone rutinas ajustadas, copia su respuesta (entera o solo el bloque de código) y toca el botón. Usus solo lee el bloque de rutinas y te deja elegir cuáles actualizar.")}</p>
       <button class="btn" style="width:100%" data-act="ai-clip">${T("Pegar respuesta de la IA")}</button>
+      ${canReceiveShare() ? `<p class="muted" style="font-size:.8rem;margin:6px 0 0">${T("También puedes compartirla con Usus desde la app de la IA: menú Compartir → Usus.")}</p>` : ""}
       <details class="aimanual"${state.ai?.manual ? " open" : ""}><summary>${T("O pégala a mano")}</summary>
         <textarea id="aiPaste" rows="3" placeholder="${T("Pega aquí la respuesta de la IA")}"></textarea>
         <button class="btn" style="width:100%;margin-top:8px" data-act="ai-paste">${T("Revisar rutinas propuestas")}</button></details>
@@ -215,6 +216,7 @@ function aipModal() {
     <h3 class="wh">${T("Cuando la IA responda")}</h3>
     <p class="muted" style="font-size:.85rem;margin:0 0 6px">${T("Copia su respuesta (entera o solo el bloque de código) y toca el botón. Usus solo lee el bloque de datos y te enseña las rutinas y el plan antes de importar nada.")}</p>
     <button class="btn primary" style="width:100%" data-act="aip-clip">${T("Pegar respuesta de la IA")}</button>
+      ${canReceiveShare() ? `<p class="muted" style="font-size:.8rem;margin:6px 0 0">${T("También puedes compartirla con Usus desde la app de la IA: menú Compartir → Usus.")}</p>` : ""}
     <details class="aimanual"${a.manual ? " open" : ""}><summary>${T("O pégala a mano")}</summary>
       <textarea id="aipPaste" rows="3" placeholder="${T("Pega aquí la respuesta de la IA")}"></textarea>
       <button class="btn" style="width:100%;margin-top:8px" data-act="aip-paste">${T("Revisar rutinas y plan")}</button></details>`;

@@ -1,4 +1,4 @@
-// Novedades para F-Droid / IzzyOnDroid: la sección de esta versión en CHANGELOG.md, en
+// Novedades de la ficha (Zapstore): la sección de esta versión en CHANGELOG.md, en
 // fastlane/metadata/android/{es-ES,ca,en-US}/changelogs/<versionCode>.txt (texto plano, máx. 500).
 // Uso: node scripts/fastlane.mjs 3.4.0   (sin versión: la de APP_VERSION). versionCode: 3.4.0 → 30400.
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";

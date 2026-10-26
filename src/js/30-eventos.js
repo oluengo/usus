@@ -149,7 +149,7 @@ document.addEventListener("click", async ev => {
   }
   if (d.done && a) {
     const [ei, si] = d.done.split(":").map(Number); const s = a.exercises[ei].sets[si];
-    s.done = !s.done; if (!s.done) delete s.rir; state.rirAsk = s.done && EFF().rir ? { ei, si } : null; saveActive();
+    s.done = !s.done; if (!s.done) { delete s.rir; state.rirAsk = null; } else { rirAuto(); if (EFF().rir) state.rirAsk = { ei, si, t: Date.now() }; } saveActive();
     if (s.done && !run) { const q = afterSet(ei, si); if (q.length) { unlockAudio(); startRun(q); return; } advanceIfDone(ei, si); }
     render(); return;
   }

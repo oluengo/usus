@@ -74,7 +74,7 @@ function startRun(q) {
   enterPhase(0); runT = setInterval(runTick, 200);
 }
 function enterPhase(i) {
-  run.i = i; const f = run.q[i]; run.end = Date.now() + f.d * 1000; run.tick = null;
+  run.i = i; const f = run.q[i]; run.t0 = Date.now(); run.end = run.t0 + f.d * 1000; run.tick = null;
   if (f.k === "work") { state.exView = f.ei; sfx("go"); flash(); }
   if (f.k === "restx" || f.k === "rest" || f.k === "prep") { state.exView = f.ei; }
   render();
@@ -83,11 +83,12 @@ function markSet(f, secsDone) {
   const e = exOf(f.ei), st = e?.sets[f.si]; if (!st) return;
   if (secsDone !== undefined) st.r = secsDone;
   st.done = true; saveActive();
-  if (EFF().rir) state.rirAsk = { ei: f.ei, si: f.si };
+  rirAuto(); if (EFF().rir) state.rirAsk = { ei: f.ei, si: f.si, t: Date.now() };
 }
 /* Fin de un tramo. natural: llegó a 0 (no se saltó) */
 function phaseDone(natural) {
   const f = run.q[run.i], nx = run.q[run.i + 1];
+  if (f.k === "rest" || f.k === "restx") rirAuto(run.t0);   // se acabó el descanso sin contestar: 0
   if (f.k === "work") {
     if (f.side !== "a") markSet(f, natural ? f.d : Math.max(1, Math.round(f.d - Math.max(0, run.end - Date.now()) / 1000)));
     if (natural) sfx("end");
@@ -207,7 +208,7 @@ function updateLive() {
 
 async function finishSession() {
   const a = state.active;
-  cancelRun();
+  cancelRun(); rirAuto();
   const exercises = a.exercises.map(e => ({ name: e.name, ...(e.xid ? { xid: e.xid } : {}), ...(e.xid && techOf(e) ? { tech: techOf(e) } : {}), ...(e.from ? { from: e.from.name, ...(e.from.xid ? { fromXid: e.from.xid } : {}), ...(e.from.tech ? { fromTech: e.from.tech } : {}) } : {}), ...(e.note ? { note: String(e.note).trim().slice(0, 140) } : {}), type: isTime(e) ? "time" : "reps", sides: !!e.sides, sets: e.sets.filter(s => s.done).map(s => ({ w: +s.w || 0, r: +s.r || 0, ...(sideReps(e) ? { r2: +R2(s) || 0 } : {}), ...(s.rir !== undefined && s.rir !== null ? { rir: s.rir } : {}), done: true })) })).filter(e => e.sets.length);
   if (!exercises.length) { toast(T("Marca al menos una serie como completada")); return; }
   const s = { id: a.id, start: a.start, end: a.start + activeMs(a), ...(a.rid ? { rid: a.rid } : {}), routine: a.routine, block: a.block || guessBlock(a.routine), exercises };

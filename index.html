@@ -1140,7 +1140,7 @@ function lastSetsFor(ref) {
   }
   return null;
 }
-const APP_VERSION = "3.5.0";
+const APP_VERSION = "3.5.1";
 const THEMES = [["protector", "Protector", "Oscuro cálido, sin azul"], ["dark", "Oscuro", "Neutro"], ["light", "Claro", "Para el día"], ["auto", "Automático", "Sigue al sistema"]];
 const curTheme = () => document.documentElement.dataset.theme || "auto";
 function applyTheme(t) {
@@ -1412,7 +1412,7 @@ function planSection() {
     <div class="legend" style="margin-top:6px">${vs.map(v => `<span>${vChip(v)}</span>`).join("")}<span><span class="vchip vd">${T("Descarga")}</span></span><span>${T("↑ = subir reps · barra = días de fuerza hechos")}</span></div>
     <div class="pgrid">${(p.order && pn ? pn.ws : ws).map((w, i) => { const ord = !!p.order, pd = ord ? (w.seq?.length || 0) : plannedDays(w), dd = ord ? (w.done?.size || 0) : doneDays(w), cur = pn?.status === "on" && pn.i === i, past = ord ? (pn?.status === "done" || i < (pn?.i ?? -1)) : addDays(w.t, 7) <= now;
       return `<button class="pwk${past ? " past" : ""}${cur ? " now" : ""}${w.deload ? " dl" : ""}${w.pause ? " pz" : ""}" style="${w.deload ? "" : `background:${varColor(w.variant, p)}`}" data-pweek="${i}" aria-label="${T("Semana {n} de {m}", { n: w.n, m: ws.length })} · ${weekLabel(w)}">
-        <b>S${w.n} · ${w.pause ? T("Pausa") : w.deload ? T("Desc.") : esc(w.variant)}</b><span>${w.t ? fmt(w.t) : "&nbsp;"}</span>${w.up ? `<i class="up">↑</i>` : ""}
+        <b>${T("S{n}", { n: w.n })} · ${w.pause ? T("Pausa") : w.deload ? T("Desc.") : esc(w.variant)}</b><span>${w.t ? fmt(w.t) : "&nbsp;"}</span>${w.up ? `<i class="up">↑</i>` : ""}
         ${pd ? `<span class="pbar2"><i style="width:${Math.min(100, dd / pd * 100)}%"></i></span>` : ""}</button>`; }).join("")}</div>
     <p class="muted" style="font-size:.8rem;margin:10px 0 0">${T("Toca una semana para ver sus rutinas.")}</p>${planPauseBlock(p)}`
     : `<div class="empty" style="margin-top:14px">${T("El plan no tiene fases válidas. Edítalo para añadirlas.")}</div>`}
@@ -1464,7 +1464,7 @@ function viewPlanEdit() {
       <select id="pUpRule">${UP_RULES.map(([k, n]) => `<option value="${k}" ${upRuleOf(d) === k ? "selected" : ""}>${T(n)}</option>`).join("")}</select>
       <p class="muted" style="font-size:.78rem;margin:6px 0 0">${upRuleOf(d) === "mark" ? T("Solo se marca la semana; tú decides qué subir.") : upRuleOf(d) === "step" ? T("Se aplica sola al empezar la semana a las rutinas de esa variante, con aviso en Hoy y opción de deshacer. Pasa al siguiente paso del catálogo solo si la última vez llegaste al objetivo.") : T("Se aplica sola al empezar la semana a las rutinas de esa variante, con aviso en Hoy y opción de deshacer.")}</p>` : ""}
       <p class="muted" style="font-size:.85rem;margin:14px 0 0">${ws.length ? T("Vista previa: {n} semanas, {d} de descarga.", { n: ws.length, d: ws.filter(w => w.deload).length }) : T("Añade al menos una fase con variante y semanas.")}</p>
-      ${ws.length ? `<div class="pprev">${ws.map(w => `<i style="background:${w.deload ? "var(--line)" : varColor(w.variant, d)}" title="S${w.n} · ${weekLabel(w)}">${w.deload ? "·" : esc(w.variant)}</i>`).join("")}</div>` : ""}
+      ${ws.length ? `<div class="pprev">${ws.map(w => `<i style="background:${w.deload ? "var(--line)" : varColor(w.variant, d)}" title="${T("S{n}", { n: w.n })} · ${weekLabel(w)}">${w.deload ? "·" : esc(w.variant)}</i>`).join("")}</div>` : ""}
     </div>
     <div class="row" style="margin-top:16px">
       ${PL.get() && !state.planNew ? `<button class="btn danger" data-act="plan-del">${T("Eliminar plan")}</button>` : ""}
@@ -2187,6 +2187,7 @@ function aiModal() {
       <h3 class="wh">${T("Cuando la IA responda")}</h3>
       <p class="muted" style="font-size:.85rem;margin:0 0 6px">${T("Si te propone rutinas ajustadas, copia su respuesta (entera o solo el bloque de código) y toca el botón. Usus solo lee el bloque de rutinas y te deja elegir cuáles actualizar.")}</p>
       <button class="btn" style="width:100%" data-act="ai-clip">${T("Pegar respuesta de la IA")}</button>
+      ${canReceiveShare() ? `<p class="muted" style="font-size:.8rem;margin:6px 0 0">${T("También puedes compartirla con Usus desde la app de la IA: menú Compartir → Usus.")}</p>` : ""}
       <details class="aimanual"${state.ai?.manual ? " open" : ""}><summary>${T("O pégala a mano")}</summary>
         <textarea id="aiPaste" rows="3" placeholder="${T("Pega aquí la respuesta de la IA")}"></textarea>
         <button class="btn" style="width:100%;margin-top:8px" data-act="ai-paste">${T("Revisar rutinas propuestas")}</button></details>
@@ -2362,6 +2363,7 @@ function aipModal() {
     <h3 class="wh">${T("Cuando la IA responda")}</h3>
     <p class="muted" style="font-size:.85rem;margin:0 0 6px">${T("Copia su respuesta (entera o solo el bloque de código) y toca el botón. Usus solo lee el bloque de datos y te enseña las rutinas y el plan antes de importar nada.")}</p>
     <button class="btn primary" style="width:100%" data-act="aip-clip">${T("Pegar respuesta de la IA")}</button>
+      ${canReceiveShare() ? `<p class="muted" style="font-size:.8rem;margin:6px 0 0">${T("También puedes compartirla con Usus desde la app de la IA: menú Compartir → Usus.")}</p>` : ""}
     <details class="aimanual"${a.manual ? " open" : ""}><summary>${T("O pégala a mano")}</summary>
       <textarea id="aipPaste" rows="3" placeholder="${T("Pega aquí la respuesta de la IA")}"></textarea>
       <button class="btn" style="width:100%;margin-top:8px" data-act="aip-paste">${T("Revisar rutinas y plan")}</button></details>`;
@@ -2537,6 +2539,13 @@ function rirAsk() {
   const tm = isTime(e), opts = tm ? [0, 5, 10, 15] : [0, 1, 2, 3, 4], top = opts[opts.length - 1];
   return `<div class="rirbar"><span>${tm ? T("¿Cuánto más habrías aguantado?") : T("¿Cuántas te quedaban?")} <small>${esc(exName(e))} · ${T("serie {n}", { n: q.si + 1 })}</small></span>
     <div class="rirb">${opts.map(n => `<button data-rir="${n}" aria-label="${n === top ? (tm ? T("15 s o más") : T("4 o más")) : tm ? n + " s" : n}">${n === top ? top + "+" : n}${tm ? "<small>s</small>" : ""}</button>`).join("")}<button class="x" data-rir="-1" aria-label="${T("Sin RIR")}">×</button></div></div>`;
+}
+/* Pregunta sin contestar al acabar el descanso (o al pasar a otra serie o terminar): cuenta como 0, no quedaba nada.
+   Con «×» (sin RIR) la pregunta ya se ha cerrado y la serie se queda sin valor. */
+function rirAuto(since) {
+  const q = state.rirAsk, a = state.active; if (since && q?.t > since) return;   // pregunta de una serie marcada durante este descanso: sigue abierta
+  state.rirAsk = null; if (!q || !a) return;
+  const x = a.exercises[q.ei]?.sets[q.si]; if (x && x.done && x.rir === undefined) { x.rir = 0; saveActive(); }
 }
 const rirTxt = (x, e) => x.rir === undefined || x.rir === null ? "" : e && isTime(e) ? `+${x.rir >= 15 ? "15+" : x.rir} s` : x.rir >= 4 ? "4+" : String(x.rir);
 /* Último registro de un ejercicio (objeto entero: series, nota…) y última sustitución en la misma rutina */
@@ -2972,7 +2981,7 @@ function startRun(q) {
   enterPhase(0); runT = setInterval(runTick, 200);
 }
 function enterPhase(i) {
-  run.i = i; const f = run.q[i]; run.end = Date.now() + f.d * 1000; run.tick = null;
+  run.i = i; const f = run.q[i]; run.t0 = Date.now(); run.end = run.t0 + f.d * 1000; run.tick = null;
   if (f.k === "work") { state.exView = f.ei; sfx("go"); flash(); }
   if (f.k === "restx" || f.k === "rest" || f.k === "prep") { state.exView = f.ei; }
   render();
@@ -2981,11 +2990,12 @@ function markSet(f, secsDone) {
   const e = exOf(f.ei), st = e?.sets[f.si]; if (!st) return;
   if (secsDone !== undefined) st.r = secsDone;
   st.done = true; saveActive();
-  if (EFF().rir) state.rirAsk = { ei: f.ei, si: f.si };
+  rirAuto(); if (EFF().rir) state.rirAsk = { ei: f.ei, si: f.si, t: Date.now() };
 }
 /* Fin de un tramo. natural: llegó a 0 (no se saltó) */
 function phaseDone(natural) {
   const f = run.q[run.i], nx = run.q[run.i + 1];
+  if (f.k === "rest" || f.k === "restx") rirAuto(run.t0);   // se acabó el descanso sin contestar: 0
   if (f.k === "work") {
     if (f.side !== "a") markSet(f, natural ? f.d : Math.max(1, Math.round(f.d - Math.max(0, run.end - Date.now()) / 1000)));
     if (natural) sfx("end");
@@ -3105,7 +3115,7 @@ function updateLive() {
 
 async function finishSession() {
   const a = state.active;
-  cancelRun();
+  cancelRun(); rirAuto();
   const exercises = a.exercises.map(e => ({ name: e.name, ...(e.xid ? { xid: e.xid } : {}), ...(e.xid && techOf(e) ? { tech: techOf(e) } : {}), ...(e.from ? { from: e.from.name, ...(e.from.xid ? { fromXid: e.from.xid } : {}), ...(e.from.tech ? { fromTech: e.from.tech } : {}) } : {}), ...(e.note ? { note: String(e.note).trim().slice(0, 140) } : {}), type: isTime(e) ? "time" : "reps", sides: !!e.sides, sets: e.sets.filter(s => s.done).map(s => ({ w: +s.w || 0, r: +s.r || 0, ...(sideReps(e) ? { r2: +R2(s) || 0 } : {}), ...(s.rir !== undefined && s.rir !== null ? { rir: s.rir } : {}), done: true })) })).filter(e => e.sets.length);
   if (!exercises.length) { toast(T("Marca al menos una serie como completada")); return; }
   const s = { id: a.id, start: a.start, end: a.start + activeMs(a), ...(a.rid ? { rid: a.rid } : {}), routine: a.routine, block: a.block || guessBlock(a.routine), exercises };
@@ -4423,6 +4433,8 @@ window.addEventListener("beforeinstallprompt", e => { e.preventDefault(); instal
 window.addEventListener("appinstalled", () => { installEvt = null; toast(T("App instalada")); render(); });
 const isNative = () => !!window.Capacitor?.isNativePlatform?.();
 const isStandalone = () => matchMedia("(display-mode: standalone)").matches || navigator.standalone === true;
+// Usus aparece en el menú Compartir de otras apps: en el APK y en la PWA instalada en Android (Web Share Target)
+const canReceiveShare = () => isNative() || (isStandalone() && /Android/i.test(navigator.userAgent));
 const isIOS = () => /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
 const SIGN_FP = "28:B6:FF:4A:8F:61:F6:88:D4:B4:9D:C7:E8:B7:2D:95:D5:D9:44:45:D2:A2:30:07:1A:FA:72:B1:B2:D0:3E:C8";
 function updatesBlock() {
@@ -4448,6 +4460,10 @@ function installBlock() {
 }
 /* ---------- Novedades (una vez por versión; historial al tocar la versión) ---------- */
 const CHANGES = [  // Novedades: solo en castellano; las traducciones, en i18n/*.po
+  ["3.5.1", [
+    N_("RIR sin contestar: si al acabar el descanso no has marcado cuántas te quedaban (o cuánto más habrías aguantado, en las series por tiempo), cuenta como 0. Con «×» la serie se queda sin valor."),
+    N_("Compartir con Usus: desde la app de tu IA, menú Compartir → Usus lleva su respuesta (texto o archivo) a la revisión, sin copiar ni pegar. En el APK y en la web instalada en Android.")
+  ]],
   ["3.5.0", [
     N_("Reiniciar el plan: en el menú ⋯ del plan en Hoy o en Biblioteca → Plan, vuelve a la semana 1 desde hoy, sin semana elegida ni pausas. Tus rutinas, sesiones e historial no se tocan. Al terminar un plan, Hoy lo ofrece."),
     N_("Nuevo perfil: el catálogo de ejercicios se elige en el mismo formulario. Al crearlo, Usus entra en él sin más preguntas y avisa de que ya estás en el nuevo perfil. Con una sesión en curso, pide terminarla antes.")
@@ -4906,6 +4922,24 @@ async function readShareHash() {
   state.incoming = inc; render();
 }
 window.addEventListener("hashchange", () => { readShareHash(); });
+/* Recibir algo compartido con Usus desde otra app (la respuesta de una IA, un archivo de Usus):
+   en el APK llega por el puente nativo (window.ususReceive); en la PWA instalada, por ?share&text=… (Web Share Target). */
+async function receiveShared(text) {
+  text = String(text || "").trim(); if (!text) return;
+  if (state.active) { toast(T("Termina o descarta antes la sesión en curso")); return; }
+  let json = false; try { JSON.parse(text); json = true; } catch {}
+  if (json) { await importJSON(text); return; }
+  const inc = aiParse(text);
+  if (!inc) { toast(T("No se han encontrado rutinas de Usus en lo compartido")); return; }
+  state.incoming = { ...inc, ai: true }; render();
+}
+window.ususReceive = text => { receiveShared(text); };
+function readShareTarget() {
+  const q = new URLSearchParams(location.search); if (!q.has("share")) return;
+  const text = [q.get("text"), q.get("title"), q.get("url")].find(x => x && x.trim()) || "";
+  try { history.replaceState(null, "", location.pathname + location.hash); } catch {}
+  receiveShared(text);
+}
 /* ---------- Perfiles ----------
    Cada perfil es independiente: datos y ajustes en sus propias claves. El primero ("main") usa las de siempre (wk.*);
    los demás, wk.<id>.* (ver PK). Solo se comparten la lista de perfiles y el aviso de bienvenida. */
@@ -5569,7 +5603,7 @@ document.addEventListener("click", async ev => {
   }
   if (d.done && a) {
     const [ei, si] = d.done.split(":").map(Number); const s = a.exercises[ei].sets[si];
-    s.done = !s.done; if (!s.done) delete s.rir; state.rirAsk = s.done && EFF().rir ? { ei, si } : null; saveActive();
+    s.done = !s.done; if (!s.done) { delete s.rir; state.rirAsk = null; } else { rirAuto(); if (EFF().rir) state.rirAsk = { ei, si, t: Date.now() }; } saveActive();
     if (s.done && !run) { const q = afterSet(ei, si); if (q.length) { unlockAudio(); startRun(q); return; } advanceIfDone(ei, si); }
     render(); return;
   }
@@ -6273,6 +6307,7 @@ const I18N = {
     "Cómo se hace": "Com es fa",
     "Cómodo de principio a fin.": "Còmode de principi a fi.",
     "Compartir": "Compartir",
+    "Compartir con Usus: desde la app de tu IA, menú Compartir → Usus lleva su respuesta (texto o archivo) a la revisión, sin copiar ni pegar. En el APK y en la web instalada en Android.": "Compartir amb Usus: des de l'app de la teva IA, menú Compartir → Usus porta la resposta (text o fitxer) a la revisió, sense copiar ni enganxar. A l'APK i al web instal·lat a Android.",
     "Compartir entreno": "Compartir entrenament",
     "Compartir rutinas": "Compartir rutines",
     "Compartir Usus": "Compartir Usus",
@@ -6820,6 +6855,7 @@ const I18N = {
     "No se envía nada hasta que tú lo revises y lo publiques en GitHub.": "No s'envia res fins que tu ho revisis i ho publiquis a GitHub.",
     "No se ha podido leer lo copiado: pégalo aquí": "No s'ha pogut llegir el que has copiat: enganxa-ho aquí",
     "No se han encontrado rutinas de Usus en la respuesta": "No s'han trobat rutines d'Usus a la resposta",
+    "No se han encontrado rutinas de Usus en lo compartido": "No s'han trobat rutines d'Usus en el que s'ha compartit",
     "no se hizo": "no es va fer",
     "No se podrá cambiar una vez creado el perfil.": "No es podrà canviar un cop creat el perfil.",
     "No se pudo cargar el catálogo. Se volverá a intentar al abrir la app.": "No s'ha pogut carregar el catàleg. Es tornarà a provar en obrir l'app.",
@@ -7114,6 +7150,7 @@ const I18N = {
     "RIR": "RIR",
     "RIR por serie": "RIR per sèrie",
     "RIR por serie (repeticiones en reserva), opcional en Ajustes → Entreno.": "RIR per sèrie (repeticions en reserva), opcional a Ajustos → Entrenament.",
+    "RIR sin contestar: si al acabar el descanso no has marcado cuántas te quedaban (o cuánto más habrías aguantado, en las series por tiempo), cuenta como 0. Con «×» la serie se queda sin valor.": "RIR sense respondre: si en acabar el descans no has marcat quantes te'n quedaven (o quant més hauries aguantat, a les sèries per temps), compta com a 0. Amb «×» la sèrie es queda sense valor.",
     "RIR también en series por tiempo: cuánto más habrías aguantado (0, 5, 10, 15+ s).": "RIR també en sèries per temps: quant més hauries aguantat (0, 5, 10, 15+ s).",
     "Rodilla": "Genoll",
     "Rueda abdominal": "Roda abdominal",
@@ -7131,6 +7168,7 @@ const I18N = {
     "Rutinas por variante": "Rutines per variant",
     "Rutinas y días": "Rutines i dies",
     "S": "Ds",
+    "S{n}": "S{n}",
     "Salidas en 30 días": "Sortides en 30 dies",
     "Saltar": "Salta",
     "Saltar ejercicio": "Salta l'exercici",
@@ -7288,6 +7326,7 @@ const I18N = {
     "Suplementos": "Suplements",
     "Sus datos van aparte de los de la PWA.": "Les seves dades van a part de les de la PWA.",
     "También lleva a": "També porta a",
+    "También puedes compartirla con Usus desde la app de la IA: menú Compartir → Usus.": "També la pots compartir amb Usus des de l'app de la IA: menú Compartir → Usus.",
     "Te han compartido {n} rutinas": "T'han compartit {n} rutines",
     "Te han compartido un plan": "T'han compartit un pla",
     "Te han compartido una rutina": "T'han compartit una rutina",
@@ -7757,6 +7796,7 @@ const I18N = {
     "Cómo se hace": "How to do it",
     "Cómodo de principio a fin.": "Comfortable from start to finish.",
     "Compartir": "Share",
+    "Compartir con Usus: desde la app de tu IA, menú Compartir → Usus lleva su respuesta (texto o archivo) a la revisión, sin copiar ni pegar. En el APK y en la web instalada en Android.": "Share to Usus: from your AI app, Share menu → Usus takes its reply (text or file) to the review, with no copy and paste. In the APK and in the web app installed on Android.",
     "Compartir entreno": "Share workout",
     "Compartir rutinas": "Share routines",
     "Compartir Usus": "Share Usus",
@@ -8304,6 +8344,7 @@ const I18N = {
     "No se envía nada hasta que tú lo revises y lo publiques en GitHub.": "Nothing is sent until you review it and post it on GitHub.",
     "No se ha podido leer lo copiado: pégalo aquí": "Couldn't read what you copied: paste it here",
     "No se han encontrado rutinas de Usus en la respuesta": "No Usus routines found in the reply",
+    "No se han encontrado rutinas de Usus en lo compartido": "No Usus routines found in what was shared",
     "no se hizo": "not done",
     "No se podrá cambiar una vez creado el perfil.": "Can't be changed once the profile is created.",
     "No se pudo cargar el catálogo. Se volverá a intentar al abrir la app.": "Couldn't load the catalogue. It will try again when you open the app.",
@@ -8598,6 +8639,7 @@ const I18N = {
     "RIR": "RIR",
     "RIR por serie": "RIR per set",
     "RIR por serie (repeticiones en reserva), opcional en Ajustes → Entreno.": "RIR per set (reps in reserve), optional in Settings → Workout.",
+    "RIR sin contestar: si al acabar el descanso no has marcado cuántas te quedaban (o cuánto más habrías aguantado, en las series por tiempo), cuenta como 0. Con «×» la serie se queda sin valor.": "Unanswered RIR: if you haven't marked how many you had left when the rest ends (or how much longer you could have held, in timed sets), it counts as 0. With “×” the set stays without a value.",
     "RIR también en series por tiempo: cuánto más habrías aguantado (0, 5, 10, 15+ s).": "RIR for timed sets too: how much longer you could have held (0, 5, 10, 15+ s).",
     "Rodilla": "Knee",
     "Rueda abdominal": "Ab wheel",
@@ -8615,6 +8657,7 @@ const I18N = {
     "Rutinas por variante": "Routines by variant",
     "Rutinas y días": "Routines and days",
     "S": "S",
+    "S{n}": "W{n}",
     "Salidas en 30 días": "Outings in 30 days",
     "Saltar": "Skip",
     "Saltar ejercicio": "Skip exercise",
@@ -8772,6 +8815,7 @@ const I18N = {
     "Suplementos": "Supplements",
     "Sus datos van aparte de los de la PWA.": "Its data is kept apart from the PWA's.",
     "También lleva a": "Also leads to",
+    "También puedes compartirla con Usus desde la app de la IA: menú Compartir → Usus.": "You can also share it with Usus from the AI app: Share menu → Usus.",
     "Te han compartido {n} rutinas": "Someone shared {n} routines with you",
     "Te han compartido un plan": "Someone shared a plan with you",
     "Te han compartido una rutina": "Someone shared a routine with you",
@@ -8952,6 +8996,7 @@ const I18N = {
   if (catOn()) loadCatalog().then(c => { planUpCheck(); render(); }); else planUpCheck();
   render();
   await readShareHash();
+  readShareTarget();
   if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
 })();
 })();

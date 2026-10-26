@@ -33,6 +33,13 @@ function rirAsk() {
   return `<div class="rirbar"><span>${tm ? T("¿Cuánto más habrías aguantado?") : T("¿Cuántas te quedaban?")} <small>${esc(exName(e))} · ${T("serie {n}", { n: q.si + 1 })}</small></span>
     <div class="rirb">${opts.map(n => `<button data-rir="${n}" aria-label="${n === top ? (tm ? T("15 s o más") : T("4 o más")) : tm ? n + " s" : n}">${n === top ? top + "+" : n}${tm ? "<small>s</small>" : ""}</button>`).join("")}<button class="x" data-rir="-1" aria-label="${T("Sin RIR")}">×</button></div></div>`;
 }
+/* Pregunta sin contestar al acabar el descanso (o al pasar a otra serie o terminar): cuenta como 0, no quedaba nada.
+   Con «×» (sin RIR) la pregunta ya se ha cerrado y la serie se queda sin valor. */
+function rirAuto(since) {
+  const q = state.rirAsk, a = state.active; if (since && q?.t > since) return;   // pregunta de una serie marcada durante este descanso: sigue abierta
+  state.rirAsk = null; if (!q || !a) return;
+  const x = a.exercises[q.ei]?.sets[q.si]; if (x && x.done && x.rir === undefined) { x.rir = 0; saveActive(); }
+}
 const rirTxt = (x, e) => x.rir === undefined || x.rir === null ? "" : e && isTime(e) ? `+${x.rir >= 15 ? "15+" : x.rir} s` : x.rir >= 4 ? "4+" : String(x.rir);
 /* Último registro de un ejercicio (objeto entero: series, nota…) y última sustitución en la misma rutina */
 function lastExFor(e) {

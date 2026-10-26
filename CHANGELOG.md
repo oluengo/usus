@@ -4,6 +4,11 @@ Todas las versiones de Usus. Formato basado en [Keep a Changelog](https://keepac
 
 **Castellano** · [Català](#català) · [English](#english)
 
+## [3.5.1] — en pruebas (beta)
+
+- RIR sin contestar: si al acabar el descanso no has marcado cuántas te quedaban (o cuánto más habrías aguantado, en las series por tiempo), cuenta como 0. Con «×» la serie se queda sin valor.
+- Compartir con Usus: desde la app de tu IA, menú Compartir → Usus lleva su respuesta (texto o archivo) a la revisión, sin copiar ni pegar. En el APK y en la web instalada en Android.
+
 ## [3.5.0] — 2026-10-24
 
 - Reiniciar el plan: en el menú ⋯ del plan en Hoy o en Biblioteca → Plan, vuelve a la semana 1 desde hoy, sin semana elegida ni pausas. Tus rutinas, sesiones e historial no se tocan. Al terminar un plan, Hoy lo ofrece.
@@ -278,6 +283,11 @@ Primera versión pública.
 
 ## Català
 
+### [3.5.1] — en pruebas (beta)
+
+- RIR sense respondre: si en acabar el descans no has marcat quantes te'n quedaven (o quant més hauries aguantat, a les sèries per temps), compta com a 0. Amb «×» la sèrie es queda sense valor.
+- Compartir amb Usus: des de l'app de la teva IA, menú Compartir → Usus porta la resposta (text o fitxer) a la revisió, sense copiar ni enganxar. A l'APK i al web instal·lat a Android.
+
 ### [3.5.0] — 2026-10-24
 
 - Reiniciar el pla: al menú ⋯ del pla a Avui o a Biblioteca → Pla, torna a la setmana 1 des d'avui, sense setmana triada ni pauses. Les teves rutines, sessions i historial no es toquen. En acabar un pla, Avui ho ofereix.
@@ -393,6 +403,11 @@ Primera versió pública: rutines amb sèries per repeticions o per temps, compt
 ---
 
 ## English
+
+### [3.5.1] — en pruebas (beta)
+
+- Unanswered RIR: if you haven't marked how many you had left when the rest ends (or how much longer you could have held, in timed sets), it counts as 0. With “×” the set stays without a value.
+- Share to Usus: from your AI app, Share menu → Usus takes its reply (text or file) to the review, with no copy and paste. In the APK and in the web app installed on Android.
 
 ### [3.5.0] — 2026-10-24
 

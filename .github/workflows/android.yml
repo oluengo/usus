@@ -1,6 +1,6 @@
-# Compila la app Android (APK + AAB) a partir de la PWA.
+# Compila la app Android (APK) a partir de la PWA.
 # - Etiqueta v* (p. ej. v2.2.1, igual que APP_VERSION), o Release publicada desde la web de GitHub:
-#   adjunta a la Release el APK, con las notas de CHANGELOG.md. El AAB queda en Artifacts.
+#   adjunta a la Release el APK, con las notas de CHANGELOG.md.
 # - Push a la rama beta: «Usus Beta», otra app (io.github.oluengo.usus.beta) con sus propios datos, versión X.Y.Z-beta.N.
 #   Se publica como pre-release «Usus Beta» (etiqueta usus-beta, se sustituye en cada push) y queda en Artifacts.
 # - Lanzado a mano: deja los archivos en "Artifacts" de la ejecución.
@@ -90,10 +90,9 @@ jobs:
           USUS_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
         run: |
           chmod +x gradlew
-          ./gradlew --no-daemon assembleRelease bundleRelease
+          ./gradlew --no-daemon assembleRelease
           mkdir -p ../dist
           cp app/build/outputs/apk/release/app-release.apk "../dist/${{ steps.v.outputs.file }}-${{ steps.v.outputs.version }}.apk"
-          cp app/build/outputs/bundle/release/app-release.aab "../dist/${{ steps.v.outputs.file }}-${{ steps.v.outputs.version }}.aab"
 
       - name: Compilar (depuración)
         if: steps.key.outputs.signed != 'true'
@@ -127,7 +126,6 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/v') && steps.key.outputs.signed == 'true'
         run: node scripts/notes.mjs "${{ steps.v.outputs.version }}" dist/firma-sha256.txt > "$RUNNER_TEMP/notas.md"
 
-      # En la Release solo va el APK; el AAB (para Google Play) queda en Artifacts de la ejecución.
       - name: Release de GitHub
         if: startsWith(github.ref, 'refs/tags/v') && steps.key.outputs.signed == 'true'
         uses: softprops/action-gh-release@v2

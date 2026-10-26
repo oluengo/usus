@@ -166,6 +166,8 @@ window.addEventListener("beforeinstallprompt", e => { e.preventDefault(); instal
 window.addEventListener("appinstalled", () => { installEvt = null; toast(T("App instalada")); render(); });
 const isNative = () => !!window.Capacitor?.isNativePlatform?.();
 const isStandalone = () => matchMedia("(display-mode: standalone)").matches || navigator.standalone === true;
+// Usus aparece en el menú Compartir de otras apps: en el APK y en la PWA instalada en Android (Web Share Target)
+const canReceiveShare = () => isNative() || (isStandalone() && /Android/i.test(navigator.userAgent));
 const isIOS = () => /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
 const SIGN_FP = "28:B6:FF:4A:8F:61:F6:88:D4:B4:9D:C7:E8:B7:2D:95:D5:D9:44:45:D2:A2:30:07:1A:FA:72:B1:B2:D0:3E:C8";
 function updatesBlock() {

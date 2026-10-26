@@ -18,8 +18,8 @@ No hace falta ordenador: lo hace GitHub Actions (`.github/workflows/android.yml`
 
 | Qué haces | Qué obtienes |
 |---|---|
-| Publicar una Release con la etiqueta `vX.Y.Z` (igual que `APP_VERSION`) desde la web | El APK se adjunta a la **Release**, con las notas de CHANGELOG.md. El AAB queda en *Artifacts* |
-| Push a la rama `android`, o «Run workflow» en Actions → Android | APK y AAB en *Artifacts* de esa ejecución (pruebas) |
+| Publicar una Release con la etiqueta `vX.Y.Z` (igual que `APP_VERSION`) desde la web | El APK se adjunta a la **Release**, con las notas de CHANGELOG.md |
+| Push a la rama `android`, o «Run workflow» en Actions → Android | APK en *Artifacts* de esa ejecución (pruebas) |
 
 La versión del APK sale de `APP_VERSION`: `2.2.1` → `versionName 2.2.1`, `versionCode 20201`.
 
@@ -51,34 +51,17 @@ npm run sync          # copia la PWA a www/ y la pasa al proyecto Android
 npx cap open android  # o: cd android && ./gradlew assembleDebug
 ```
 
-## Tiendas
+## Dónde se publica
 
-- **GitHub Releases**: listo. Con [Obtainium](https://github.com/ImranR98/Obtainium) el móvil avisa de cada versión nueva.
-- **IzzyOnDroid**: toma el APK firmado de cada Release de GitHub. La ficha (título, descripciones, icono, capturas y novedades) está en `fastlane/metadata/android/{es-ES,ca,en-US}/`.
-- **F-Droid**: compila desde el código con la misma ficha. Sin dependencias de Google ni rastreadores; un solo permiso (vibración).
-- **Novedades de la ficha**: al publicar una versión, `node scripts/fastlane.mjs X.Y.Z` crea `changelogs/<versionCode>.txt` (3.4.0 → 30400) desde CHANGELOG.md, en los tres idiomas.
-- **Zapstore** (sobre Nostr): `zapstore.yaml` apunta a las Releases de GitHub (solo `vX.Y.Z`, sin la beta) y toma la ficha de `fastlane/`. Tras publicar una Release: `zsp publish` con `SIGN_WITH=bunker://…` (mejor un bunker NIP-46 que la nsec). `zsp publish --check` muestra qué subiría sin publicar.
-- **Google Play**: el `.aab` firmado sale en *Artifacts* de cada compilación de Release. Ver «Google Play» abajo.
-
-### Google Play
-
-1. **Cuenta**: Play Console, cuenta personal (pago único y verificación de identidad y de un móvil Android).
-2. **Firma**: en «Firma de apps de Play», subir la clave actual (opción «Usar una clave de un almacén Java», con la herramienta PEPK). Así el APK de Play y el de GitHub/Zapstore/IzzyOnDroid llevan la misma firma y se actualizan entre sí. Si Google genera la suya, no.
-3. **Ficha**: textos de `fastlane/metadata/android/` (Play admite poco HTML: quitar `<ul><li>`), icono 512×512, imagen destacada 1024×500 y capturas de `en-US/images/`.
-4. **Formularios**:
-   - Privacidad: `https://github.com/oluengo/usus/blob/main/PRIVACY.md`.
-   - Seguridad de los datos: no recoge ni comparte datos; nada sale del dispositivo; no hay cuenta.
-   - Apps de salud: declarar el registro de la regla (opcional, por perfil) y que no es un dispositivo médico.
-   - Clasificación de contenido: cuestionario (sin contenido sensible). Público: mayores de edad o 13+; no dirigida a menores.
-   - Anuncios: no. Acceso a la app: todo sin inicio de sesión.
-5. **Prueba cerrada** (cuentas personales nuevas): 12 personas con la prueba activa 14 días seguidos. Después, pedir acceso a producción.
-6. **Cada versión**: subir el `.aab` de la Release y las novedades de `changelogs/<versionCode>.txt`.
+- **GitHub Releases**: el APK de cada versión. Con [Obtainium](https://github.com/ImranR98/Obtainium) el móvil avisa de cada versión nueva.
+- **Zapstore** (sobre Nostr): `zapstore.yaml` apunta a las Releases de GitHub (solo `vX.Y.Z`, sin la beta) y toma la ficha de `fastlane/metadata/android/{es-ES,ca,en-US}/`. Tras publicar una Release: `zsp publish` con `SIGN_WITH=bunker://…` (mejor un bunker NIP-46 que la nsec). `zsp publish --check` muestra qué subiría sin publicar.
+- **Ficha**: al publicar una versión, `node scripts/fastlane.mjs X.Y.Z` crea sus novedades (`changelogs/<versionCode>.txt`, 3.5.1 → 30501) desde CHANGELOG.md. Las capturas, con datos inventados y en los tres idiomas: `node scripts/capturas.mjs`.
 
 ---
 
 ## English
 
-The Android app is the **same PWA** packaged with Capacitor, plus a small bridge (`scripts/native.js`) for native file sharing, keeping the screen on while training and the Back button. GitHub Actions builds it: tag `vX.Y.Z` (matching `APP_VERSION`) or a Release published on the web → APK attached with notes from CHANGELOG.md; push to `android` or a manual run → APK and AAB in *Artifacts*. Only one permission (vibration); no Internet or storage permission. Signing uses the repository secrets `ANDROID_KEYSTORE_BASE64`, `ANDROID_KEYSTORE_PASSWORD`, `ANDROID_KEY_ALIAS` and `ANDROID_KEY_PASSWORD` (see the `keytool` commands above). Keep the key safe: without it, no updates can be published. PWA and APK data are separate; move them with an exported backup. Signing certificate SHA-256: `28:B6:FF:4A:8F:61:F6:88:D4:B4:9D:C7:E8:B7:2D:95:D5:D9:44:45:D2:A2:30:07:1A:FA:72:B1:B2:D0:3E:C8`.
+The Android app is the **same PWA** packaged with Capacitor, plus a small bridge (`scripts/native.js`) for native file sharing, keeping the screen on while training and the Back button. GitHub Actions builds it: tag `vX.Y.Z` (matching `APP_VERSION`) or a Release published on the web → APK attached with notes from CHANGELOG.md; push to `android` or a manual run → APK in *Artifacts*. Only one permission (vibration); no Internet or storage permission. Signing uses the repository secrets `ANDROID_KEYSTORE_BASE64`, `ANDROID_KEYSTORE_PASSWORD`, `ANDROID_KEY_ALIAS` and `ANDROID_KEY_PASSWORD` (see the `keytool` commands above). Keep the key safe: without it, no updates can be published. PWA and APK data are separate; move them with an exported backup. Signing certificate SHA-256: `28:B6:FF:4A:8F:61:F6:88:D4:B4:9D:C7:E8:B7:2D:95:D5:D9:44:45:D2:A2:30:07:1A:FA:72:B1:B2:D0:3E:C8`.
 
 ## Versión de pruebas (beta)
 

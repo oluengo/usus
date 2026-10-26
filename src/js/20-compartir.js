@@ -266,3 +266,21 @@ async function readShareHash() {
   state.incoming = inc; render();
 }
 window.addEventListener("hashchange", () => { readShareHash(); });
+/* Recibir algo compartido con Usus desde otra app (la respuesta de una IA, un archivo de Usus):
+   en el APK llega por el puente nativo (window.ususReceive); en la PWA instalada, por ?share&text=… (Web Share Target). */
+async function receiveShared(text) {
+  text = String(text || "").trim(); if (!text) return;
+  if (state.active) { toast(T("Termina o descarta antes la sesión en curso")); return; }
+  let json = false; try { JSON.parse(text); json = true; } catch {}
+  if (json) { await importJSON(text); return; }
+  const inc = aiParse(text);
+  if (!inc) { toast(T("No se han encontrado rutinas de Usus en lo compartido")); return; }
+  state.incoming = { ...inc, ai: true }; render();
+}
+window.ususReceive = text => { receiveShared(text); };
+function readShareTarget() {
+  const q = new URLSearchParams(location.search); if (!q.has("share")) return;
+  const text = [q.get("text"), q.get("title"), q.get("url")].find(x => x && x.trim()) || "";
+  try { history.replaceState(null, "", location.pathname + location.hash); } catch {}
+  receiveShared(text);
+}

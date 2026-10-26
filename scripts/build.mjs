@@ -16,17 +16,11 @@ export function assemble(root = ".") {
   for (const m of ["/*@css*/\n", "/*@js*/\n"]) if (!shell.includes(m)) throw new Error(`src/index.html sin la marca ${m.trim()}`);
   return shell.replace("/*@css*/\n", () => cat("css")).replace("/*@js*/\n", () => cat("js"));
 }
-// versionCode de Android (3.5.0 → 30500) en un archivo propio, para que F-Droid lo lea al buscar versiones nuevas.
-export function versionCode(html) { const [a, b, c] = /const APP_VERSION = "([\d.]+)"/.exec(html)[1].split(".").map(Number); return a * 10000 + b * 100 + (c || 0); }
-const VC = "android/version-code.txt";
-export function build(root = ".") { const h = assemble(root); writeFileSync(`${root}/index.html`, h); writeFileSync(`${root}/${VC}`, versionCode(h) + "\n"); }
+export function build(root = ".") { writeFileSync(`${root}/index.html`, assemble(root)); }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   if (process.argv.includes("--check")) {
-    const h = assemble();
-    if (h !== readFileSync("index.html", "utf8")) { console.error("index.html no está al día con src/. Ejecuta: npm run build"); process.exit(1); }
-    let vc = ""; try { vc = readFileSync(VC, "utf8").trim(); } catch {}
-    if (vc !== String(versionCode(h))) { console.error(`${VC} no coincide con APP_VERSION. Ejecuta: npm run build`); process.exit(1); }
+    if (assemble() !== readFileSync("index.html", "utf8")) { console.error("index.html no está al día con src/. Ejecuta: npm run build"); process.exit(1); }
     console.log("index.html al día con src/");
   } else { build(); console.log("index.html montado desde src/"); }
 }

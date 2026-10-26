@@ -1,5 +1,5 @@
 // Cambia la versión al actualizar index.html para forzar la recarga de la caché
-const CACHE = "usus-3.5.0";
+const CACHE = "usus-3.5.1";
 const CORE = ["./", "index.html", "ejercicios.json", "manifest.webmanifest", "icon-192.png", "icon-512.png", "icon-maskable-512.png", "favicon-48.png",
   "fonts/instrument-sans-400.woff2", "fonts/instrument-sans-500.woff2", "fonts/instrument-sans-600.woff2", "fonts/instrument-sans-700.woff2"];
 
@@ -17,6 +17,8 @@ self.addEventListener("fetch", e => {
   if (req.method !== "GET") return;
   if (FAM === "usus-" && new URL(req.url).pathname.startsWith(new URL("beta/", self.registration.scope).pathname)) return;
   // Red primero para la página (coge actualizaciones), caché si no hay conexión
+  // Algo compartido con Usus (?share&text=…): la página guardada, sin pasar por el servidor (el texto puede ser largo)
+  if (req.mode === "navigate" && new URL(req.url).searchParams.has("share")) { e.respondWith(caches.match("index.html").then(h => h || fetch("index.html"))); return; }
   if (req.mode === "navigate") {
     e.respondWith(fetch(req).then(r => { const c = r.clone(); caches.open(CACHE).then(x => x.put("index.html", c)); return r; })
       .catch(() => caches.match("index.html")));

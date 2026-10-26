@@ -998,6 +998,9 @@ msgstr "Comfortable from start to finish."
 msgid "Compartir"
 msgstr "Share"
 
+msgid "Compartir con Usus: desde la app de tu IA, menú Compartir → Usus lleva su respuesta (texto o archivo) a la revisión, sin copiar ni pegar. En el APK y en la web instalada en Android."
+msgstr "Share to Usus: from your AI app, Share menu → Usus takes its reply (text or file) to the review, with no copy and paste. In the APK and in the web app installed on Android."
+
 msgid "Compartir entreno"
 msgstr "Share workout"
 
@@ -2682,6 +2685,9 @@ msgstr "Couldn't read what you copied: paste it here"
 msgid "No se han encontrado rutinas de Usus en la respuesta"
 msgstr "No Usus routines found in the reply"
 
+msgid "No se han encontrado rutinas de Usus en lo compartido"
+msgstr "No Usus routines found in what was shared"
+
 msgid "no se hizo"
 msgstr "not done"
 
@@ -3601,6 +3607,9 @@ msgstr "RIR per set"
 msgid "RIR por serie (repeticiones en reserva), opcional en Ajustes → Entreno."
 msgstr "RIR per set (reps in reserve), optional in Settings → Workout."
 
+msgid "RIR sin contestar: si al acabar el descanso no has marcado cuántas te quedaban (o cuánto más habrías aguantado, en las series por tiempo), cuenta como 0. Con «×» la serie se queda sin valor."
+msgstr "Unanswered RIR: if you haven't marked how many you had left when the rest ends (or how much longer you could have held, in timed sets), it counts as 0. With “×” the set stays without a value."
+
 msgid "RIR también en series por tiempo: cuánto más habrías aguantado (0, 5, 10, 15+ s)."
 msgstr "RIR for timed sets too: how much longer you could have held (0, 5, 10, 15+ s)."
 
@@ -3651,6 +3660,10 @@ msgstr "Routines and days"
 
 msgid "S"
 msgstr "S"
+
+#, python-brace-format
+msgid "S{n}"
+msgstr "W{n}"
 
 msgid "Salidas en 30 días"
 msgstr "Outings in 30 days"
@@ -4153,6 +4166,9 @@ msgstr "Its data is kept apart from the PWA's."
 
 msgid "También lleva a"
 msgstr "Also leads to"
+
+msgid "También puedes compartirla con Usus desde la app de la IA: menú Compartir → Usus."
+msgstr "You can also share it with Usus from the AI app: Share menu → Usus."
 
 #, python-brace-format
 msgid "Te han compartido {n} rutinas"

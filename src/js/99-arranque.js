@@ -13,5 +13,6 @@
   if (catOn()) loadCatalog().then(c => { planUpCheck(); render(); }); else planUpCheck();
   render();
   await readShareHash();
+  readShareTarget();
   if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
 })();

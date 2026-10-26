@@ -236,7 +236,7 @@ function planSection() {
     <div class="legend" style="margin-top:6px">${vs.map(v => `<span>${vChip(v)}</span>`).join("")}<span><span class="vchip vd">${T("Descarga")}</span></span><span>${T("↑ = subir reps · barra = días de fuerza hechos")}</span></div>
     <div class="pgrid">${(p.order && pn ? pn.ws : ws).map((w, i) => { const ord = !!p.order, pd = ord ? (w.seq?.length || 0) : plannedDays(w), dd = ord ? (w.done?.size || 0) : doneDays(w), cur = pn?.status === "on" && pn.i === i, past = ord ? (pn?.status === "done" || i < (pn?.i ?? -1)) : addDays(w.t, 7) <= now;
       return `<button class="pwk${past ? " past" : ""}${cur ? " now" : ""}${w.deload ? " dl" : ""}${w.pause ? " pz" : ""}" style="${w.deload ? "" : `background:${varColor(w.variant, p)}`}" data-pweek="${i}" aria-label="${T("Semana {n} de {m}", { n: w.n, m: ws.length })} · ${weekLabel(w)}">
-        <b>S${w.n} · ${w.pause ? T("Pausa") : w.deload ? T("Desc.") : esc(w.variant)}</b><span>${w.t ? fmt(w.t) : "&nbsp;"}</span>${w.up ? `<i class="up">↑</i>` : ""}
+        <b>${T("S{n}", { n: w.n })} · ${w.pause ? T("Pausa") : w.deload ? T("Desc.") : esc(w.variant)}</b><span>${w.t ? fmt(w.t) : "&nbsp;"}</span>${w.up ? `<i class="up">↑</i>` : ""}
         ${pd ? `<span class="pbar2"><i style="width:${Math.min(100, dd / pd * 100)}%"></i></span>` : ""}</button>`; }).join("")}</div>
     <p class="muted" style="font-size:.8rem;margin:10px 0 0">${T("Toca una semana para ver sus rutinas.")}</p>${planPauseBlock(p)}`
     : `<div class="empty" style="margin-top:14px">${T("El plan no tiene fases válidas. Edítalo para añadirlas.")}</div>`}
@@ -288,7 +288,7 @@ function viewPlanEdit() {
       <select id="pUpRule">${UP_RULES.map(([k, n]) => `<option value="${k}" ${upRuleOf(d) === k ? "selected" : ""}>${T(n)}</option>`).join("")}</select>
       <p class="muted" style="font-size:.78rem;margin:6px 0 0">${upRuleOf(d) === "mark" ? T("Solo se marca la semana; tú decides qué subir.") : upRuleOf(d) === "step" ? T("Se aplica sola al empezar la semana a las rutinas de esa variante, con aviso en Hoy y opción de deshacer. Pasa al siguiente paso del catálogo solo si la última vez llegaste al objetivo.") : T("Se aplica sola al empezar la semana a las rutinas de esa variante, con aviso en Hoy y opción de deshacer.")}</p>` : ""}
       <p class="muted" style="font-size:.85rem;margin:14px 0 0">${ws.length ? T("Vista previa: {n} semanas, {d} de descarga.", { n: ws.length, d: ws.filter(w => w.deload).length }) : T("Añade al menos una fase con variante y semanas.")}</p>
-      ${ws.length ? `<div class="pprev">${ws.map(w => `<i style="background:${w.deload ? "var(--line)" : varColor(w.variant, d)}" title="S${w.n} · ${weekLabel(w)}">${w.deload ? "·" : esc(w.variant)}</i>`).join("")}</div>` : ""}
+      ${ws.length ? `<div class="pprev">${ws.map(w => `<i style="background:${w.deload ? "var(--line)" : varColor(w.variant, d)}" title="${T("S{n}", { n: w.n })} · ${weekLabel(w)}">${w.deload ? "·" : esc(w.variant)}</i>`).join("")}</div>` : ""}
     </div>
     <div class="row" style="margin-top:16px">
       ${PL.get() && !state.planNew ? `<button class="btn danger" data-act="plan-del">${T("Eliminar plan")}</button>` : ""}

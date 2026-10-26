@@ -997,6 +997,9 @@ msgstr ""
 msgid "Compartir"
 msgstr ""
 
+msgid "Compartir con Usus: desde la app de tu IA, menú Compartir → Usus lleva su respuesta (texto o archivo) a la revisión, sin copiar ni pegar. En el APK y en la web instalada en Android."
+msgstr ""
+
 msgid "Compartir entreno"
 msgstr ""
 
@@ -2681,6 +2684,9 @@ msgstr ""
 msgid "No se han encontrado rutinas de Usus en la respuesta"
 msgstr ""
 
+msgid "No se han encontrado rutinas de Usus en lo compartido"
+msgstr ""
+
 msgid "no se hizo"
 msgstr ""
 
@@ -3600,6 +3606,9 @@ msgstr ""
 msgid "RIR por serie (repeticiones en reserva), opcional en Ajustes → Entreno."
 msgstr ""
 
+msgid "RIR sin contestar: si al acabar el descanso no has marcado cuántas te quedaban (o cuánto más habrías aguantado, en las series por tiempo), cuenta como 0. Con «×» la serie se queda sin valor."
+msgstr ""
+
 msgid "RIR también en series por tiempo: cuánto más habrías aguantado (0, 5, 10, 15+ s)."
 msgstr ""
 
@@ -3649,6 +3658,10 @@ msgid "Rutinas y días"
 msgstr ""
 
 msgid "S"
+msgstr ""
+
+#, python-brace-format
+msgid "S{n}"
 msgstr ""
 
 msgid "Salidas en 30 días"
@@ -4151,6 +4164,9 @@ msgid "Sus datos van aparte de los de la PWA."
 msgstr ""
 
 msgid "También lleva a"
+msgstr ""
+
+msgid "También puedes compartirla con Usus desde la app de la IA: menú Compartir → Usus."
 msgstr ""
 
 #, python-brace-format

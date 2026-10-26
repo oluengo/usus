@@ -55,3 +55,15 @@ test("respuesta de la IA guardada como archivo: Importar la lleva a la revisión
   expect((await ls(page, "wk.plan")).name).toBe("Plan con IA");
   expect(errors).toEqual([]);
 });
+test("compartir con Usus: la respuesta de la IA llega a la revisión (PWA y puente del APK)", async ({ page }) => {
+  const prose = "Aquí tienes tu plan:\n\n```json\n" + JSON.stringify(RESP, null, 2) + "\n```\n¡Suerte!";
+  const errors = await openApp(page, { path: "./?share&text=" + encodeURIComponent(prose) });
+  await expect(page.locator("#inT")).toContainText("Propuesta de la IA");
+  expect(await page.evaluate(() => location.search)).toBe("");               // la URL queda limpia
+  await page.locator('.mhead [data-act="in-close"]').click();
+  await page.evaluate(() => window.ususReceive("hola, nada que importar")); // texto sin rutinas: aviso
+  await expect(page.locator("#toast")).toContainText("No se han encontrado rutinas");
+  await page.evaluate(t => window.ususReceive(t), JSON.stringify(RESP));     // archivo .json de la IA
+  await expect(page.locator("#inT")).toContainText("Propuesta de la IA");
+  expect(errors).toEqual([]);
+});

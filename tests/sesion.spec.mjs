@@ -61,3 +61,27 @@ test("descanso entre ejercicios: ficha resumida del siguiente y enlace a la comp
   await page.locator('.mhead [data-act="xi-close"]').click(); await expect(page.locator(".focus")).toBeVisible();
   expect(errors).toEqual([]);
 });
+test("RIR sin contestar: 0 al acabar el descanso (reps y tiempo); con × se queda sin valor", async ({ page }) => {
+  const R = [{ id: "rr", name: "RIR", block: "full", variant: "", days: [0, 1, 2, 3, 4, 5, 6], exercises: [
+    { name: "Flexión", sets: 3, reps: 8, type: "reps", rest: 20 }, { name: "Plancha", sets: 2, reps: 10, type: "time", rest: 20 }] }];
+  const errors = await openApp(page, { clock: T0, data: { "wk.routines": R, ...TIMERS, "wk.effort": { pem: false, rir: true }, "wk.autoStart": false } });
+  await page.locator('[data-start="rr"]:visible').first().click(); await page.locator('[data-act="sess-begin"]').click(); await page.clock.runFor(300);
+  const rir = () => page.evaluate(() => JSON.parse(localStorage.getItem("wk.active")).exercises.map(e => e.sets.map(s => s.rir ?? "-").join("")).join(" "));
+  await page.locator('[data-done="0:0"]').click(); await page.clock.runFor(300);
+  await expect(page.locator(".focus .rirbar")).toBeVisible();
+  await page.clock.runFor(21000);                                   // descanso acabado sin contestar
+  expect(await rir()).toBe("0-- --");
+  await page.locator('[data-done="0:1"]').click(); await page.clock.runFor(300);
+  await page.locator('.focus [data-rir="-1"]').click(); await page.clock.runFor(21000);   // «×»: sin valor
+  expect(await rir()).toBe("0-- --");
+  await page.locator('[data-done="0:2"]').click(); await page.clock.runFor(300);
+  await page.locator('.focus [data-rir="2"]').click(); await page.clock.runFor(21000);
+  expect(await rir()).toBe("0-2 --");
+  // Plancha por tiempo: «¿cuánto más habrías aguantado?» sin contestar → 0 al acabar el descanso
+  if (await page.locator(".focus").count()) { await page.locator('.focus [data-act="run-skip"]').click(); await page.clock.runFor(300); }   // descanso entre ejercicios
+  await page.locator('[data-play="1:0"]').click(); await page.clock.runFor(13000);   // preparación 2 s + 10 s
+  await expect(page.locator(".focus .rirbar")).toContainText("aguantado");
+  await page.clock.runFor(21000);
+  expect(await rir()).toBe("0-2 0-");
+  expect(errors).toEqual([]);
+});

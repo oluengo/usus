@@ -1,6 +1,7 @@
 // Puente para la versión Android (Capacitor). Solo se incluye en el APK; la PWA no lo carga.
 // - Compartir archivos (copias, CSV, análisis) con la hoja nativa de Android.
 // - Pantalla encendida durante el entreno (wakeLock nativo).
+// - Recibir lo que se comparte con Usus desde otra app (la respuesta de una IA).
 // - Botón Atrás: cierra el diálogo abierto, vuelve de una pantalla (rutina, grupo de Ajustes), vuelve a Hoy o minimiza la app.
 (function () {
   const C = window.Capacitor;
@@ -44,6 +45,13 @@
 
   // Imprimir / guardar PDF: el WebView de Android no implementa window.print(); lo hace el plugin propio UsusPrint
   try { const pr = C.registerPlugin ? C.registerPlugin("UsusPrint") : P.UsusPrint; if (pr) window.ususPrint = name => pr.print({ name: String(name || "Usus") }).catch(() => {}); } catch (e) {}
+
+  // Recibir lo que otra app comparte con Usus (respuesta de la IA, archivo de Usus): se pasa a la app cuando esté lista
+  try {
+    const sh = C.registerPlugin ? C.registerPlugin("UsusShare") : P.UsusShare;
+    const give = t => { if (window.ususReceive) window.ususReceive(t); else setTimeout(() => give(t), 300); };
+    if (sh) sh.addListener("shared", d => { if (d && d.text) give(d.text); });
+  } catch (e) {}
 
   const CLOSE = '[data-act$="-close"],[data-act$="-cancel"],[data-act$="-back"],[data-act$="-no"]';
   if (P.App) P.App.addListener("backButton", () => {
