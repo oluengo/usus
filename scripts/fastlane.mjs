@@ -10,9 +10,11 @@ const es = part(new RegExp(`\\n## \\[${esc}\\][^\\n]*\\n([\\s\\S]*?)(?=\\n## )`)
 const block = h => part(new RegExp(`\\n## ${h}\\n[\\s\\S]*?\\n### \\[${esc}\\][^\\n]*\\n([\\s\\S]*?)(?=\\n### |\\n## |\\n---|$)`));
 if (!es) { console.error(`CHANGELOG.md sin la versión ${v}`); process.exit(1); }
 const plain = t => t.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1").replace(/\*\*|__|`/g, "").replace(/^#+ /gm, "").replace(/^- /gm, "• ").trim();
-const cut = t => t.length <= 500 ? t : t.slice(0, t.lastIndexOf("\n", 497) > 0 ? t.lastIndexOf("\n", 497) : 497) + "\n…";
+// Máx. 500: si no cabe, primero se quitan los paréntesis; si aún no, se corta por la última línea entera
+const short = t => t.length <= 500 ? t : t.replace(/ \([^()]*\)/g, "");
+const cut0 = t => t.length <= 500 ? t : t.slice(0, t.lastIndexOf("\n", 497) > 0 ? t.lastIndexOf("\n", 497) : 497) + "\n…";
 for (const [loc, txt] of [["es-ES", es], ["ca", block("Català") || es], ["en-US", block("English") || es]]) {
   const dir = `fastlane/metadata/android/${loc}/changelogs`; mkdirSync(dir, { recursive: true });
-  writeFileSync(`${dir}/${code}.txt`, cut(plain(txt)) + "\n");
+  writeFileSync(`${dir}/${code}.txt`, cut0(short(plain(txt))) + "\n");
 }
 console.log(`fastlane: novedades de ${v} → changelogs/${code}.txt`);

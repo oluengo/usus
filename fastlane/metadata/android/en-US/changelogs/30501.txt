@@ -1,0 +1,4 @@
+• Share to Usus: from your AI app, Share menu → Usus takes its reply to the review, with no copy and paste. In the APK and in the web app installed on Android.
+• Unanswered RIR: if you haven't marked how many you had left when the rest ends, it counts as 0. With “×” the set stays without a value.
+• Windows: the title sits right at the top and has more room before what follows.
+…
