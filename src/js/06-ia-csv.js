@@ -110,7 +110,7 @@ function aiBuild(o) {
     const g = LS.get("wk.goals", null); if (g && (g.daily || g.strength)) L.push(X.goalW(g.strength || 0, g.daily || 0));
     const S = state.sessions.filter(s => inP(s.start)).sort((a, b) => a.start - b.start);
     L.push("", `## ${X.sessions(S.length)}`, X.sessFmt);
-    S.forEach(s => L.push(`${dayKey(s.start)} ${hmOf(s.start)} · ${s.routine || X.free} · ${Math.round((s.end - s.start) / 60000)}${+s.pem ? ` · ${LANG === "en" ? "RPE" : "PEM"} ${s.pem}` : ""} | ${s.exercises.map(e => `${exLabel(e)}${e.from ? ` (${X.insteadOf} ${e.from})` : ""}: ${e.sets.map(x => (sideReps(e) ? `${x.r}/${R2(x)}` : `${x.r}`) + (+x.w ? `@${x.w}` : "") + (rirTxt(x, e) ? `(${rirTxt(x, e)})` : "")).join(",")}${isTime(e) ? " s" : ""}${e.note ? ` ✎ "${String(e.note).replace(/\s+/g, " ")}"` : ""}`).join(" | ")}`));
+    S.forEach(s => L.push(`${dayKey(s.start)} ${hmOf(s.start)} · ${s.routine || X.free} · ${Math.round((s.end - s.start) / 60000)}${+s.pem ? ` · ${LANG === "en" ? "RPE" : "PEM"} ${s.pem}` : ""} | ${s.exercises.map(e => `${exLabel(e)}${e.from ? ` (${X.insteadOf} ${e.from})` : ""}: ${e.sets.map(x => (sideReps(e) ? `${x.r}/${R2(x)}` : `${x.r}`) + (+x.w ? `@${x.w}` : "") + (rirTxt(x, e) ? `(${rirTxt(x, e)})` : "") + (+x.miss ? `(-${x.miss})` : "")).join(",")}${isTime(e) ? " s" : ""}${e.note ? ` ✎ "${String(e.note).replace(/\s+/g, " ")}"` : ""}`).join(" | ")}`));
     L.push("");
   }
   if (inc.weight) { const Wl = W.list().filter(x => inP(x.t)); L.push(`## ${X.weight}${W.goal() ? ` · ${X.goal} ${W.goal()}` : ""}`, Wl.length ? Wl.map(x => `${dayKey(x.t)} ${x.kg}`).join(" · ") : X.noRec, ""); }
@@ -310,8 +310,8 @@ function csvBuild(weeks) {
   const X = XL(), C = X.csv, es = LANG !== "en", now = Date.now(), from = weeks ? now - weeks * 7 * 864e5 : 0, inP = t => t >= from && t <= now, inK = k => k >= dayKey(from) && k <= dayKey(now);
   const yn = b => b ? C.yes : C.no, F = {}, put = (k, head, rows) => { if (rows.length) F[`${C.files[k]}.csv`] = [k, csvTable(head, rows, es)]; };
   const S = state.sessions.filter(s => inP(s.start)).sort((a, b) => a.start - b.start), rows = [];
-  S.forEach(s => s.exercises.forEach(e => e.sets.forEach((x, i) => rows.push([dayKey(s.start), hmOf(s.start), s.routine || "", s.block || "", Math.round((s.end - s.start) / 60000), +s.pem || null, sLoad(s) || null, exName(e), e.xid || "", e.xid ? techOf(e) : "", e.from || "", isTime(e) ? C.tTime : C.tReps, yn(e.sides), i + 1, +x.r || 0, sideReps(e) ? +R2(x) || 0 : null, +x.w || 0, x.rir !== undefined && x.rir !== null ? +x.rir : null, i === 0 ? e.note || "" : ""]))));
-  put("sesiones", [C.date, C.time, C.routine, C.block, C.dur, C.pem, C.load, C.ex, C.xid, C.tech, C.from, C.type, C.side, C.set, C.val, C.r2, C.kg, C.rir, C.note], rows);
+  S.forEach(s => s.exercises.forEach(e => e.sets.forEach((x, i) => rows.push([dayKey(s.start), hmOf(s.start), s.routine || "", s.block || "", Math.round((s.end - s.start) / 60000), +s.pem || null, sLoad(s) || null, exName(e), e.xid || "", e.xid ? techOf(e) : "", e.from || "", isTime(e) ? C.tTime : C.tReps, yn(e.sides), i + 1, +x.r || 0, sideReps(e) ? +R2(x) || 0 : null, +x.w || 0, x.rir !== undefined && x.rir !== null ? +x.rir : null, +x.miss || null, i === 0 ? e.note || "" : ""]))));
+  put("sesiones", [C.date, C.time, C.routine, C.block, C.dur, C.pem, C.load, C.ex, C.xid, C.tech, C.from, C.type, C.side, C.set, C.val, C.r2, C.kg, C.rir, C.miss, C.note], rows);
   put("rutinas", [C.routine, C.id, C.block, C.variant, C.days, C.order, C.ex, C.xid, C.tech, C.sets, C.target, C.type, C.side, C.rest],
     state.routines.flatMap(r => r.exercises.map((e, i) => [r.name, r.oid || r.id, r.block || "", normVar(r.variant), WEEK_ORDER.filter(d => (r.days || []).includes(d)).map(d => X.dayL[d]).join(" "), i + 1, exName(e), e.xid || "", e.xid ? techOf(e) : "", +e.sets, +e.reps, isTime(e) ? C.tTime : C.tReps, yn(e.sides), +e.rest || null])));
   const D = DY.all(), days = Object.keys(D).filter(inK).sort();

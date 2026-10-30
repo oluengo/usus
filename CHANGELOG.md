@@ -4,6 +4,11 @@ Todas las versiones de Usus. Formato basado en [Keep a Changelog](https://keepac
 
 **Castellano** · [Català](#català) · [English](#english)
 
+## [3.5.2] — 2026-10-30
+
+- Lo que faltó en cada serie: la pregunta ahora es «¿Cuántas te faltaron?» (o cuántos segundos, en las series por tiempo) y se resta de lo hecho. Así la propuesta de subir de ejercicio y el resumen cuentan lo que hiciste de verdad. Sin contestar, la serie cuenta como completa.
+- Fichas desde las propuestas: en «Listo para subir» (o bajar) y en las sugerencias de ⇄ Cambiar ejercicio, toca el nombre o ⓘ para ver en qué consiste el ejercicio.
+
 ## [3.5.1] — 2026-10-26
 
 - Compartir con Usus: desde la app de tu IA, menú Compartir → Usus lleva su respuesta (texto o archivo) a la revisión, sin copiar ni pegar. En el APK y en la web instalada en Android.
@@ -285,6 +290,11 @@ Primera versión pública.
 
 ## Català
 
+### [3.5.2] — 2026-10-30
+
+- El que va faltar a cada sèrie: la pregunta ara és «Quantes te'n van faltar?» (o quants segons, a les sèries per temps) i es resta del que s'ha fet. Així la proposta de pujar d'exercici i el resum compten el que vas fer de debò. Sense respondre, la sèrie compta com a completa.
+- Fitxes des de les propostes: a «A punt per pujar» (o baixar) i als suggeriments de ⇄ Canviar l'exercici, toca el nom o ⓘ per veure en què consisteix l'exercici.
+
 ### [3.5.1] — 2026-10-26
 
 - Compartir amb Usus: des de l'app de la teva IA, menú Compartir → Usus porta la resposta (text o fitxer) a la revisió, sense copiar ni enganxar. A l'APK i al web instal·lat a Android.
@@ -407,6 +417,11 @@ Primera versió pública: rutines amb sèries per repeticions o per temps, compt
 ---
 
 ## English
+
+### [3.5.2] — 2026-10-30
+
+- What was missing in each set: the question is now “How many were you short?” (or how many seconds, in timed sets) and it's subtracted from what you did. So the suggestion to move up and the summary count what you really did. Unanswered, the set counts as complete.
+- Cards from suggestions: in “Ready to step up” (or down) and in the ⇄ Swap exercise suggestions, tap the name or ⓘ to see what the exercise is about.
 
 ### [3.5.1] — 2026-10-26
 

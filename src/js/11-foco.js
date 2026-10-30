@@ -209,7 +209,7 @@ function updateLive() {
 async function finishSession() {
   const a = state.active;
   cancelRun(); rirAuto();
-  const exercises = a.exercises.map(e => ({ name: e.name, ...(e.xid ? { xid: e.xid } : {}), ...(e.xid && techOf(e) ? { tech: techOf(e) } : {}), ...(e.from ? { from: e.from.name, ...(e.from.xid ? { fromXid: e.from.xid } : {}), ...(e.from.tech ? { fromTech: e.from.tech } : {}) } : {}), ...(e.note ? { note: String(e.note).trim().slice(0, 140) } : {}), type: isTime(e) ? "time" : "reps", sides: !!e.sides, sets: e.sets.filter(s => s.done).map(s => ({ w: +s.w || 0, r: +s.r || 0, ...(sideReps(e) ? { r2: +R2(s) || 0 } : {}), ...(s.rir !== undefined && s.rir !== null ? { rir: s.rir } : {}), done: true })) })).filter(e => e.sets.length);
+  const exercises = a.exercises.map(e => ({ name: e.name, ...(e.xid ? { xid: e.xid } : {}), ...(e.xid && techOf(e) ? { tech: techOf(e) } : {}), ...(e.from ? { from: e.from.name, ...(e.from.xid ? { fromXid: e.from.xid } : {}), ...(e.from.tech ? { fromTech: e.from.tech } : {}) } : {}), ...(e.note ? { note: String(e.note).trim().slice(0, 140) } : {}), type: isTime(e) ? "time" : "reps", sides: !!e.sides, sets: e.sets.filter(s => s.done).map(s => ({ w: +s.w || 0, r: +s.r || 0, ...(sideReps(e) ? { r2: +R2(s) || 0 } : {}), ...(s.rir !== undefined && s.rir !== null ? { rir: s.rir } : {}), ...(s.miss ? { miss: s.miss } : {}), done: true })) })).filter(e => e.sets.length);
   if (!exercises.length) { toast(T("Marca al menos una serie como completada")); return; }
   const s = { id: a.id, start: a.start, end: a.start + activeMs(a), ...(a.rid ? { rid: a.rid } : {}), routine: a.routine, block: a.block || guessBlock(a.routine), exercises };
   state.sessions.push(s);

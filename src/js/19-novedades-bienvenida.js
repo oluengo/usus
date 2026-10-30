@@ -1,5 +1,9 @@
 /* ---------- Novedades (una vez por versión; historial al tocar la versión) ---------- */
 const CHANGES = [  // Novedades: solo en castellano; las traducciones, en i18n/*.po
+  ["3.5.2", [
+    N_("Lo que faltó en cada serie: la pregunta ahora es «¿Cuántas te faltaron?» (o cuántos segundos, en las series por tiempo) y se resta de lo hecho. Así la propuesta de subir de ejercicio y el resumen cuentan lo que hiciste de verdad. Sin contestar, la serie cuenta como completa."),
+    N_("Fichas desde las propuestas: en «Listo para subir» (o bajar) y en las sugerencias de ⇄ Cambiar ejercicio, toca el nombre o ⓘ para ver en qué consiste el ejercicio.")
+  ]],
   ["3.5.1", [
     N_("Compartir con Usus: desde la app de tu IA, menú Compartir → Usus lleva su respuesta (texto o archivo) a la revisión, sin copiar ni pegar. En el APK y en la web instalada en Android."),
     N_("RIR sin contestar: si al acabar el descanso no has marcado cuántas te quedaban (o cuánto más habrías aguantado, en las series por tiempo), cuenta como 0. Con «×» la serie se queda sin valor."),

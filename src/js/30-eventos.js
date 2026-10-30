@@ -21,7 +21,7 @@ document.addEventListener("click", async ev => {
     if (!catOn()) { if (!confirm(T("Para ver la ficha hay que activar el catálogo de ejercicios en este perfil. ¿Activarlo?"))) return; LS.set("wk.catalog", true); }
     if (!CAT && !(await loadCatalog())) { toast(T("No se pudo cargar el catálogo. Se volverá a intentar al abrir la app.")); render(); return; }
     if (!CATBY[d.xinfo]) return;
-    if (state.editing) readEditor(); state.exInfo = d.xinfo; state.exInfoAdd = false; state.exInfoFrom = state.editing || state.gp ? "ed" : ""; render(); [...document.querySelectorAll(".mbox.dsh")].pop()?.scrollTo(0, 0); return; }
+    if (state.editing) readEditor(); state.exInfo = d.xinfo; state.exInfoAdd = false; state.exInfoFrom = state.editing || state.gp || state.xpick || state.savedSess || state.progChange ? "ed" : ""; render(); [...document.querySelectorAll(".mbox.dsh")].pop()?.scrollTo(0, 0); return; }
   if (state.gp) {   // plan guiado
     const g = state.gp, top = () => document.querySelector(".mbox.gp")?.scrollTo(0, 0);
     if (d.gpgoal) { g.goal = d.gpgoal; render(); return; }
@@ -52,7 +52,7 @@ document.addEventListener("click", async ev => {
   if (d.pdel) { const p = PLS.list().find(x => x.id === d.pdel); if (!p || !confirm(T("¿Eliminar el plan «{x}»? Tus rutinas y sesiones no se tocan.", { x: planName(p) }))) return; PLS.save(PLS.list().filter(x => x.id !== d.pdel)); state.plansOpen = true; render(); return; }
   if (d.snote) { state.sessNoteEd = d.snote; render(); document.querySelector(`[data-ssnote="${d.snote}"]`)?.focus(); return; }
   if (d.pem || d.spem) { const [id, n] = (d.pem || d.spem).split(":"); setPem(id, +n); render(); return; }
-  if (d.rir !== undefined && state.rirAsk && a) { const q = state.rirAsk, x = a.exercises[q.ei]?.sets[q.si]; if (x && +d.rir >= 0) x.rir = +d.rir; state.rirAsk = null; saveActive(); render(); return; }
+  if (d.rir !== undefined && state.rirAsk && a) { const q = state.rirAsk, e = a.exercises[q.ei], x = e?.sets[q.si]; if (x && +d.rir >= 0) setMiss(e, x, +d.rir); state.rirAsk = null; saveActive(); render(); return; }
   if (d.enote !== undefined && a) { state.noteOpen = state.noteOpen === +d.enote ? null : +d.enote; render(); if (state.noteOpen !== null) document.querySelector(`[data-enotet="${d.enote}"]`)?.focus(); return; }
   if (d.swap !== undefined && a) { state.noteOpen = null; if (catReady()) { state.xpick = { mode: "swap", ei: +d.swap, q: "" }; } else state.swap = { ei: +d.swap }; render(); setTimeout(() => (catReady() ? $("#xpQ") : $("#swName"))?.focus(), 0); return; }
   if (d.swapundo !== undefined && a) { swapUndo(+d.swapundo); render(); return; }
@@ -149,7 +149,7 @@ document.addEventListener("click", async ev => {
   }
   if (d.done && a) {
     const [ei, si] = d.done.split(":").map(Number); const s = a.exercises[ei].sets[si];
-    s.done = !s.done; if (!s.done) { delete s.rir; state.rirAsk = null; } else { rirAuto(); if (EFF().rir) state.rirAsk = { ei, si, t: Date.now() }; } saveActive();
+    s.done = !s.done; if (!s.done) { setMiss(a.exercises[ei], s, 0); delete s.miss; delete s.rir; state.rirAsk = null; } else { rirAuto(); if (EFF().rir) state.rirAsk = { ei, si, t: Date.now() }; } saveActive();
     if (s.done && !run) { const q = afterSet(ei, si); if (q.length) { unlockAudio(); startRun(q); return; } advanceIfDone(ei, si); }
     render(); return;
   }

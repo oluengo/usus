@@ -82,3 +82,5 @@
 .copt button small{display:block;color:var(--muted);font-size:.82rem;margin-top:2px}
 .copt button.on{border:2px solid var(--accent);padding:11px 13px}
 .ex-head .xinfo{width:26px;height:26px;font-size:13px}
+.xrw{display:flex;align-items:center;border-bottom:1px solid var(--line)}.xrw:last-child{border-bottom:0}.xrw .xrow{border-bottom:0}
+.xri{flex:none;width:40px;height:40px;margin-right:4px;border:0;border-radius:50%;background:none;color:var(--accent);display:grid;place-items:center;cursor:pointer}.xri:hover,.xri:focus-visible{background:var(--bg)}.xri svg{width:20px;height:20px}

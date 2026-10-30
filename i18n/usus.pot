@@ -23,16 +23,16 @@ msgstr ""
 msgid "¿Consolidar antes?"
 msgstr ""
 
-msgid "¿Cuántas te quedaban?"
-msgstr ""
-
-msgid "¿Cuánto más habrías aguantado?"
+msgid "¿Cuántas te faltaron?"
 msgstr ""
 
 msgid "¿Cuánto puedes entrenar?"
 msgstr ""
 
 msgid "¿Cuánto te ha costado?"
+msgstr ""
+
+msgid "¿Cuántos segundos te faltaron?"
 msgstr ""
 
 msgid "¿Descartar la propuesta de la IA? No se añadirá nada."
@@ -335,9 +335,6 @@ msgstr ""
 msgid "1 uso"
 msgstr ""
 
-msgid "15 s o más"
-msgstr ""
-
 msgid "1RM estimado"
 msgstr ""
 
@@ -348,9 +345,6 @@ msgid "2 ejercicios por hoja"
 msgstr ""
 
 msgid "30 días"
-msgstr ""
-
-msgid "4 o más"
 msgstr ""
 
 msgid "4 semanas"
@@ -469,6 +463,9 @@ msgid "Al cambiar de perfil te quedas en la misma pantalla (por ejemplo, Ajustes
 msgstr ""
 
 msgid "Al crearlo eliges qué rutinas van en cada variante y qué días tocan."
+msgstr ""
+
+msgid "Al marcar una serie, pregunta cuántas repeticiones (o segundos) te faltaron para completarla"
 msgstr ""
 
 msgid "Al terminar (s)"
@@ -1948,6 +1945,9 @@ msgstr ""
 msgid "Fichas desde cualquier sitio: toca el nombre de un ejercicio del catálogo en la rutina, antes de iniciar o en el Diario para ver cómo se hace. Si el perfil no tiene el catálogo activado, se pide activarlo."
 msgstr ""
 
+msgid "Fichas desde las propuestas: en «Listo para subir» (o bajar) y en las sugerencias de ⇄ Cambiar ejercicio, toca el nombre o ⓘ para ver en qué consiste el ejercicio."
+msgstr ""
+
 msgid "Fichas, progresiones y Plan guiado. Se puede cambiar en Ajustes → App."
 msgstr ""
 
@@ -2366,6 +2366,12 @@ msgstr ""
 msgid "Lo copiado no tiene rutinas de Usus. Copia la respuesta de la IA (o su bloque de código) y vuelve a probar."
 msgstr ""
 
+msgid "Lo que faltó en cada serie"
+msgstr ""
+
+msgid "Lo que faltó en cada serie: la pregunta ahora es «¿Cuántas te faltaron?» (o cuántos segundos, en las series por tiempo) y se resta de lo hecho. Así la propuesta de subir de ejercicio y el resumen cuentan lo que hiciste de verdad. Sin contestar, la serie cuenta como completa."
+msgstr ""
+
 msgid "Lo que pase después depende de la IA que elijas: revisa su política de privacidad. El análisis lo hace una IA, no un profesional sanitario."
 msgstr ""
 
@@ -2632,6 +2638,9 @@ msgstr ""
 msgid "Ninguna"
 msgstr ""
 
+msgid "Ninguna: serie completa"
+msgstr ""
+
 msgid "Ninguno"
 msgstr ""
 
@@ -2643,6 +2652,9 @@ msgstr ""
 
 #, python-brace-format
 msgid "Nivel {n} de 5"
+msgstr ""
+
+msgid "No contestar"
 msgstr ""
 
 msgid "No entrené"
@@ -3529,9 +3541,6 @@ msgstr ""
 msgid "repeticiones"
 msgstr ""
 
-msgid "Repeticiones en reserva al marcar cada serie"
-msgstr ""
-
 #, python-brace-format
 msgid "Repeticiones lado derecho serie {n}"
 msgstr ""
@@ -3601,9 +3610,6 @@ msgid "revisión desde el {d}"
 msgstr ""
 
 msgid "RIR"
-msgstr ""
-
-msgid "RIR por serie"
 msgstr ""
 
 msgid "RIR por serie (repeticiones en reserva), opcional en Ajustes → Entreno."
@@ -4036,9 +4042,6 @@ msgid "Sin registros"
 msgstr ""
 
 msgid "Sin resultados."
-msgstr ""
-
-msgid "Sin RIR"
 msgstr ""
 
 msgid "Sin rutinas."
@@ -4571,6 +4574,10 @@ msgid "Ver la app primero. Las rutinas se crean en Biblioteca → Nueva rutina."
 msgstr ""
 
 msgid "Ver la ficha completa"
+msgstr ""
+
+#, python-brace-format
+msgid "Ver la ficha de {x}"
 msgstr ""
 
 msgid "Ver mis planes"

@@ -58,7 +58,7 @@ function progCards() {
       <p>${up ? T("{x}: objetivo cumplido {n} sesiones seguidas.", { x: `<b>${esc(xName(fx))}</b>`, n: p.hist.length }) : T("{x}: por debajo del {p} % del objetivo {n} sesiones seguidas.", { x: `<b>${esc(xName(fx))}</b>`, p: PROG().down.split("-")[0], n: p.hist.length })}</p>
       <div class="pgh2">${p.hist.map((v, j) => `${setChips(v, re)}<small>${j === 0 ? T("hoy") : T("antes")}</small>`).join("")}<small>${T("objetivo {n}", { n: re.reps + u })}</small></div>
       ${up ? "" : `<p class="muted" style="font-size:.82rem">${T("Es normal al empezar un paso nuevo. Volver unas semanas al anterior suele hacer avanzar antes.")}</p>`}
-      <div class="pgft">${esc(xName(fx))} ${LV(fx.level)} → <b>${esc(xName(tx))}</b> ${LV(tx.level)}</div>
+      <div class="pgft"><button class="xl" data-xinfo="${fx.id}">${esc(xName(fx))}</button> ${LV(fx.level)} → <b><button class="xl" data-xinfo="${tx.id}">${esc(xName(tx))}</button></b> ${LV(tx.level)}</div>
       <div class="row"><button class="btn small primary" data-pgch="${k}">${T("Cambiar en la rutina")}</button><button class="btn small" data-pglater="${k}">${up ? T("Más tarde") : T("Seguir intentándolo")}</button><button class="btn small ghost" data-pgmute="${k}">${T("No proponer")}</button></div>
     </div>`; }).join("")}</div>`;
 }
@@ -69,9 +69,9 @@ function progChangeModal() {
   return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="pcT"><div class="mbox">
     ${mHead("pcT", up ? T("Subir de paso") : T("Volver al paso anterior"), "pg-cancel")}
     <p class="muted" style="margin:0;font-size:.85rem">${T("En «{x}». Las demás rutinas no cambian.", { x: esc(r.name) })}</p>
-    <div class="pcg"><div class="pcc"><small>${T("Ahora")}</small><b>${esc(xName(fx))}</b>${LV(fx.level)}<span class="muted">${re.sets} × ${re.reps}${isTime(re) ? " s" : ""}${re.sides ? " " + T("por lado") : ""}</span></div>
+    <div class="pcg"><div class="pcc"><small>${T("Ahora")}</small><b><button class="xl" data-xinfo="${fx.id}">${esc(xName(fx))}</button></b>${LV(fx.level)}<span class="muted">${re.sets} × ${re.reps}${isTime(re) ? " s" : ""}${re.sides ? " " + T("por lado") : ""}</span></div>
       <span class="pca">→</span>
-      <div class="pcc new"><small>${T("Nuevo")}</small><b>${esc(xName(tx))}</b>${LV(tx.level)}<span class="pcn">${re.sets}&nbsp;× <button data-pgn="${tx.type === "time" ? -5 : -1}" aria-label="${T("Menos")}">−</button><b>${c.tgt}${tu}</b><button data-pgn="${tx.type === "time" ? 5 : 1}" aria-label="${T("Más")}">+</button></span></div></div>
+      <div class="pcc new"><small>${T("Nuevo")}</small><b><button class="xl" data-xinfo="${tx.id}">${esc(xName(tx))}</button></b>${LV(tx.level)}<span class="pcn">${re.sets}&nbsp;× <button data-pgn="${tx.type === "time" ? -5 : -1}" aria-label="${T("Menos")}">−</button><b>${c.tgt}${tu}</b><button data-pgn="${tx.type === "time" ? 5 : 1}" aria-label="${T("Más")}">+</button></span></div></div>
     <p class="muted" style="font-size:.82rem;margin:10px 0 0">${up ? T("Objetivo de inicio más bajo: el paso nuevo es más difícil. Tu historial de {x} se conserva.", { x: esc(xName(fx)) }) : T("Objetivo de inicio asequible para consolidar. Tu historial de {x} se conserva.", { x: esc(xName(fx)) })}</p>
     <div class="row" style="margin-top:14px"><span class="spacer"></span><button class="btn ghost" data-act="pg-cancel">${T("Cancelar")}</button><button class="btn primary" data-act="pg-ok">${T("Cambiar")}</button></div>
   </div></div>`;
@@ -198,12 +198,12 @@ es: {
   routines: "Rutinas actuales", variant: "variante", days: "días", all: "todos", perSide: "por lado", rest: "desc", dayL: ["D", "L", "M", "X", "J", "V", "S"],
   plan: "Plan", start: "Inicio", review: "revisión", phases: "fases", wk: "sem", repeat: "(se repiten)", deload: "descarga", no: "no", every: "cada",
   goalW: (a, b) => `Objetivo semanal: ${a} días de fuerza, ${b} días de rutina diaria`,
-  sessions: n => `Sesiones (${n})`, sessFmt: "Formato: fecha hora · rutina · minutos · PEM (esfuerzo 1–10) | ejercicio (en lugar de…, si se cambió en la sesión): series (reps, o s si es por tiempo; izq/der si es por lado; @kg = lastre; (n) = RIR, repeticiones en reserva) ✎ nota", free: "libre",
+  sessions: n => `Sesiones (${n})`, sessFmt: "Formato: fecha hora · rutina · minutos · PEM (esfuerzo 1–10) | ejercicio (en lugar de…, si se cambió en la sesión): series (reps, o s si es por tiempo; izq/der si es por lado; @kg = lastre; (n) = RIR, repeticiones en reserva; (-n) = faltaron n para completar la serie, ya descontadas) ✎ nota", free: "libre",
   weight: "Peso (kg)", goal: "objetivo", noRec: "Sin registros en el período", supps: "Suplementos", diary: "Diario", fmt: "Formato: fecha",
   colSleep: "sueño (acostarse–levantarse, calidad 1–5)", colSteps: "pasos", colSupp: "suplementos tomados", colNotes: "etiquetas y nota", colCyc: "ciclo (sangrado, síntomas)", none: "ninguno",
   tags: { skip: "no entrené", pain: "molestia", tired: "cansado", great: "gran sesión" }, flow: { l: "leve", m: "moderada", h: "abundante" },
   acts: "Actividades", periods: n => `Reglas (últimas ${n}, también anteriores al período para ver la regularidad)`, paused: "Seguimiento en pausa desde",
-  csv: { tech: "tecnica", pem: "pem", load: "carga", rir: "rir", from: "en_lugar_de", date: "fecha", time: "hora", routine: "rutina", block: "bloque", dur: "duracion_min", ex: "ejercicio", xid: "id_catalogo", type: "tipo", side: "por_lado", set: "serie", val: "reps_o_seg", r2: "reps_der", kg: "lastre_kg",
+  csv: { tech: "tecnica", pem: "pem", load: "carga", rir: "rir", miss: "faltaron", from: "en_lugar_de", date: "fecha", time: "hora", routine: "rutina", block: "bloque", dur: "duracion_min", ex: "ejercicio", xid: "id_catalogo", type: "tipo", side: "por_lado", set: "serie", val: "reps_o_seg", r2: "reps_der", kg: "lastre_kg",
     id: "id", variant: "variante", days: "dias", order: "orden", sets: "series", target: "objetivo", rest: "descanso_s",
     bed: "acostarse", wake: "levantarse", sleepH: "horas_sueno", q: "calidad_sueno", steps: "pasos", tags: "etiquetas", note: "nota",
     supp: "suplemento", taken: "tomado", amount: "cantidad", unit: "unidad", when: "momento", wkg: "kg", atype: "tipo", km: "km", min: "minutos",
@@ -211,7 +211,7 @@ es: {
     files: { sesiones: "sesiones", rutinas: "rutinas", diario: "diario", suplementos: "suplementos", peso: "peso", actividades: "actividades", ciclo_reglas: "ciclo_reglas", ciclo_dias: "ciclo_dias" },
     readme: "LEEME", head: "Usus · datos exportados en CSV", all: "todo el historial", last: n => `últimas ${n} semanas`,
     fmtEs: "separador ; y coma decimal (Excel en castellano o català)", fmtIntl: "separador , y punto decimal", enc: "UTF-8 · fechas AAAA-MM-DD", priv: "Tus datos, solo tuyos: este archivo no se ha enviado a ningún sitio.",
-    desc: { sesiones: "Una fila por serie hecha. pem: esfuerzo percibido de la sesión (1–10); carga = pem × minutos. reps_o_seg son segundos si tipo = tiempo. reps_der solo en ejercicios por lado (reps_o_seg = izquierdo). rir: repeticiones en reserva (4 = 4 o más). en_lugar_de: ejercicio de la rutina sustituido en esa sesión. nota: en la primera serie de cada ejercicio. id_catalogo: identificador fijo del catálogo de Usus, si el ejercicio está vinculado (sirve para agrupar aunque cambie el nombre).",
+    desc: { sesiones: "Una fila por serie hecha. pem: esfuerzo percibido de la sesión (1–10); carga = pem × minutos. reps_o_seg son segundos si tipo = tiempo. reps_der solo en ejercicios por lado (reps_o_seg = izquierdo). rir: repeticiones en reserva (4 = 4 o más; hasta la 3.5.1). faltaron: repeticiones o segundos que faltaron para completar la serie (ya restados de reps_o_seg). en_lugar_de: ejercicio de la rutina sustituido en esa sesión. nota: en la primera serie de cada ejercicio. id_catalogo: identificador fijo del catálogo de Usus, si el ejercicio está vinculado (sirve para agrupar aunque cambie el nombre).",
       rutinas: "Rutinas actuales, una fila por ejercicio. objetivo: repeticiones o segundos. dias: L M X J V S D.", diario: "Una fila por día con algún dato. horas_sueno, de acostarse a levantarse. calidad_sueno de 1 a 5.",
       suplementos: "Una fila por suplemento y día registrado.", peso: "Registros de peso.", actividades: "Caminar, correr, bici… con distancia y tiempo.",
       ciclo_reglas: "Cada regla: inicio, fin, duración y días hasta la siguiente (= duración del ciclo).", ciclo_dias: "Días con sangrado o síntomas registrados." } }
@@ -274,12 +274,12 @@ ca: {
   routines: "Rutines actuals", variant: "variant", days: "dies", all: "tots", perSide: "per costat", rest: "desc", dayL: ["Dg", "Dl", "Dt", "Dc", "Dj", "Dv", "Ds"],
   plan: "Pla", start: "Inici", review: "revisió", phases: "fases", wk: "setm", repeat: "(es repeteixen)", deload: "descàrrega", no: "no", every: "cada",
   goalW: (a, b) => `Objectiu setmanal: ${a} dies de força, ${b} dies de rutina diària`,
-  sessions: n => `Sessions (${n})`, sessFmt: "Format: data hora · rutina · minuts · PEM (esforç 1–10) | exercici (en lloc de…, si es va canviar a la sessió): sèries (reps, o s si és per temps; esq/dre si és per costat; @kg = llast; (n) = RIR, repeticions en reserva) ✎ nota", free: "lliure",
+  sessions: n => `Sessions (${n})`, sessFmt: "Format: data hora · rutina · minuts · PEM (esforç 1–10) | exercici (en lloc de…, si es va canviar a la sessió): sèries (reps, o s si és per temps; esq/dre si és per costat; @kg = llast; (n) = RIR, repeticions en reserva; (-n) = en faltaven n per completar la sèrie, ja descomptades) ✎ nota", free: "lliure",
   weight: "Pes (kg)", goal: "objectiu", noRec: "Sense registres en el període", supps: "Suplements", diary: "Diari", fmt: "Format: data",
   colSleep: "son (anar a dormir–llevar-se, qualitat 1–5)", colSteps: "passos", colSupp: "suplements presos", colNotes: "etiquetes i nota", colCyc: "cicle (sagnat, símptomes)", none: "cap",
   tags: { skip: "no vaig entrenar", pain: "molèstia", tired: "cansat", great: "gran sessió" }, flow: { l: "lleu", m: "moderat", h: "abundant" },
   acts: "Activitats", periods: n => `Regles (últimes ${n}, també anteriors al període per veure'n la regularitat)`, paused: "Seguiment en pausa des de",
-  csv: { tech: "tecnica", pem: "pem", load: "carrega", rir: "rir", from: "en_lloc_de", date: "data", time: "hora", routine: "rutina", block: "bloc", dur: "durada_min", ex: "exercici", xid: "id_cataleg", type: "tipus", side: "per_costat", set: "serie", val: "reps_o_seg", r2: "reps_dre", kg: "llast_kg",
+  csv: { tech: "tecnica", pem: "pem", load: "carrega", rir: "rir", miss: "faltaven", from: "en_lloc_de", date: "data", time: "hora", routine: "rutina", block: "bloc", dur: "durada_min", ex: "exercici", xid: "id_cataleg", type: "tipus", side: "per_costat", set: "serie", val: "reps_o_seg", r2: "reps_dre", kg: "llast_kg",
     id: "id", variant: "variant", days: "dies", order: "ordre", sets: "series", target: "objectiu", rest: "descans_s",
     bed: "anar_a_dormir", wake: "llevar_se", sleepH: "hores_son", q: "qualitat_son", steps: "passos", tags: "etiquetes", note: "nota",
     supp: "suplement", taken: "pres", amount: "quantitat", unit: "unitat", when: "moment", wkg: "kg", atype: "tipus", km: "km", min: "minuts",
@@ -287,7 +287,7 @@ ca: {
     files: { sesiones: "sessions", rutinas: "rutines", diario: "diari", suplementos: "suplements", peso: "pes", actividades: "activitats", ciclo_reglas: "cicle_regles", ciclo_dias: "cicle_dies" },
     readme: "LLEGEIX-ME", head: "Usus · dades exportades en CSV", all: "tot l'historial", last: n => `últimes ${n} setmanes`,
     fmtEs: "separador ; i coma decimal (Excel en català o castellà)", fmtIntl: "separador , i punt decimal", enc: "UTF-8 · dates AAAA-MM-DD", priv: "Les teves dades, només teves: aquest arxiu no s'ha enviat enlloc.",
-    desc: { sesiones: "Una fila per sèrie feta. pem: esforç percebut de la sessió (1–10); carrega = pem × minuts. reps_o_seg són segons si tipus = temps. reps_dre només en exercicis per costat (reps_o_seg = esquerre). rir: repeticions en reserva (4 = 4 o més). en_lloc_de: exercici de la rutina substituït en aquella sessió. nota: a la primera sèrie de cada exercici. id_cataleg: identificador fix del catàleg d'Usus, si l'exercici està vinculat.",
+    desc: { sesiones: "Una fila per sèrie feta. pem: esforç percebut de la sessió (1–10); carrega = pem × minuts. reps_o_seg són segons si tipus = temps. reps_dre només en exercicis per costat (reps_o_seg = esquerre). rir: repeticions en reserva (4 = 4 o més; fins a la 3.5.1). faltaven: repeticions o segons que faltaven per completar la sèrie (ja restats de reps_o_seg). en_lloc_de: exercici de la rutina substituït en aquella sessió. nota: a la primera sèrie de cada exercici. id_cataleg: identificador fix del catàleg d'Usus, si l'exercici està vinculat.",
       rutinas: "Rutines actuals, una fila per exercici. objectiu: repeticions o segons. dies: Dl Dt Dc Dj Dv Ds Dg.", diario: "Una fila per dia amb alguna dada. hores_son, d'anar a dormir a llevar-se. qualitat_son de 1 a 5.",
       suplementos: "Una fila per suplement i dia registrat.", peso: "Registres de pes.", actividades: "Caminar, córrer, bici… amb distància i temps.",
       ciclo_reglas: "Cada regla: inici, fi, durada i dies fins a la següent (= durada del cicle).", ciclo_dias: "Dies amb sagnat o símptomes registrats." } }
@@ -350,12 +350,12 @@ en: {
   routines: "Current routines", variant: "variant", days: "days", all: "every day", perSide: "per side", rest: "rest", dayL: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
   plan: "Plan", start: "Start", review: "review", phases: "phases", wk: "wk", repeat: "(repeating)", deload: "deload", no: "no", every: "every",
   goalW: (a, b) => `Weekly goal: ${a} strength days, ${b} daily-routine days`,
-  sessions: n => `Sessions (${n})`, sessFmt: "Format: date time · routine · minutes · RPE (effort 1–10) | exercise (instead of…, if swapped in the session): sets (reps, or s if timed; left/right if per side; @kg = added weight; (n) = RIR, reps in reserve) ✎ note", free: "free",
+  sessions: n => `Sessions (${n})`, sessFmt: "Format: date time · routine · minutes · RPE (effort 1–10) | exercise (instead of…, if swapped in the session): sets (reps, or s if timed; left/right if per side; @kg = added weight; (n) = RIR, reps in reserve; (-n) = n missing to complete the set, already subtracted) ✎ note", free: "free",
   weight: "Weight (kg)", goal: "goal", noRec: "No entries in the period", supps: "Supplements", diary: "Diary", fmt: "Format: date",
   colSleep: "sleep (bed–wake, quality 1–5)", colSteps: "steps", colSupp: "supplements taken", colNotes: "tags and note", colCyc: "cycle (bleeding, symptoms)", none: "none",
   tags: { skip: "didn't train", pain: "discomfort", tired: "tired", great: "great session" }, flow: { l: "light", m: "medium", h: "heavy" },
   acts: "Activities", periods: n => `Periods (last ${n}, including before the period to show regularity)`, paused: "Tracking paused since",
-  csv: { tech: "technique", pem: "rpe", load: "load", rir: "rir", from: "instead_of", date: "date", time: "time", routine: "routine", block: "block", dur: "duration_min", ex: "exercise", xid: "catalogue_id", type: "type", side: "per_side", set: "set", val: "reps_or_sec", r2: "reps_right", kg: "weight_kg",
+  csv: { tech: "technique", pem: "rpe", load: "load", rir: "rir", miss: "missed", from: "instead_of", date: "date", time: "time", routine: "routine", block: "block", dur: "duration_min", ex: "exercise", xid: "catalogue_id", type: "type", side: "per_side", set: "set", val: "reps_or_sec", r2: "reps_right", kg: "weight_kg",
     id: "id", variant: "variant", days: "days", order: "order", sets: "sets", target: "target", rest: "rest_s",
     bed: "bedtime", wake: "wake_time", sleepH: "sleep_hours", q: "sleep_quality", steps: "steps", tags: "tags", note: "note",
     supp: "supplement", taken: "taken", amount: "amount", unit: "unit", when: "when", wkg: "kg", atype: "type", km: "km", min: "minutes",
@@ -363,7 +363,7 @@ en: {
     files: { sesiones: "sessions", rutinas: "routines", diario: "diary", suplementos: "supplements", peso: "weight", actividades: "activities", ciclo_reglas: "cycle_periods", ciclo_dias: "cycle_days" },
     readme: "README", head: "Usus · data exported as CSV", all: "full history", last: n => `last ${n} weeks`,
     fmtEs: "; separator and decimal comma", fmtIntl: ", separator and decimal point", enc: "UTF-8 · dates YYYY-MM-DD", priv: "Your data, only yours: this file hasn't been sent anywhere.",
-    desc: { sesiones: "One row per completed set. rpe: session rating of perceived exertion (1–10); load = rpe × minutes. reps_or_sec are seconds when type = time. reps_right only for per-side exercises (reps_or_sec = left). rir: reps in reserve (4 = 4 or more). instead_of: routine exercise swapped out in that session. note: on each exercise's first set. catalogue_id: fixed Usus catalogue id, if the exercise is linked.",
+    desc: { sesiones: "One row per completed set. rpe: session rating of perceived exertion (1–10); load = rpe × minutes. reps_or_sec are seconds when type = time. reps_right only for per-side exercises (reps_or_sec = left). rir: reps in reserve (4 = 4 or more; up to 3.5.1). missed: reps or seconds missing to complete the set (already subtracted from reps_or_sec). instead_of: routine exercise swapped out in that session. note: on each exercise's first set. catalogue_id: fixed Usus catalogue id, if the exercise is linked.",
       rutinas: "Current routines, one row per exercise. target: reps or seconds. days: Mo Tu We Th Fr Sa Su.", diario: "One row per day with any data. sleep_hours, from bedtime to wake time. sleep_quality from 1 to 5.",
       suplementos: "One row per supplement and logged day.", peso: "Weight entries.", actividades: "Walking, running, cycling… with distance and time.",
       ciclo_reglas: "Each period: start, end, length and days to the next one (= cycle length).", ciclo_dias: "Days with logged bleeding or symptoms." } }

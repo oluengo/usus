@@ -28,7 +28,7 @@ function render() {
   if (state.tab === "history") state.tab = "diary";
   const v = state.actForm ? viewActForm : state.tab === "data" && state.link ? viewLink : { train: viewTrain, routines: viewRoutines, diary: viewDiary, stats: viewStats, data: viewData }[state.tab];
   const mb = document.querySelector(".mbox.dsh"), mbTop = mb ? mb.scrollTop : 0;
-  $("#app").innerHTML = v() + focusView() + welcomeModal() + noticeModal() + planWeekModal() + planMenuModal() + newsModal() + cycAckModal() + savedModal() + shareSessModal() + shareRoutModal() + incomingModal() + profPickModal() + profFormModal() + profEditModal() + profCopyModal() + issueModal() + gpModal() + exInfoModal() + xpickModal() + ownMatModal() + catAskModal() + progChangeModal() + aiModal() + aipModal() + csvModal() + swapModal() + dayNoteModal();
+  $("#app").innerHTML = v() + focusView() + welcomeModal() + noticeModal() + planWeekModal() + planMenuModal() + newsModal() + cycAckModal() + savedModal() + shareSessModal() + shareRoutModal() + incomingModal() + profPickModal() + profFormModal() + profEditModal() + profCopyModal() + issueModal() + gpModal() + xpickModal() + ownMatModal() + catAskModal() + progChangeModal() + aiModal() + aipModal() + csvModal() + swapModal() + dayNoteModal() + exInfoModal();
   if (mb) { const nb = document.querySelector(".mbox.dsh"); if (nb) nb.scrollTop = mbTop; }
   if (state.tab === "train" && state.active && !state.actForm) tick();
   if (state.shareSess && SHOPT().img) sessPreview();
@@ -39,6 +39,7 @@ function render() {
 }
 
 /* Cabecera estándar de las ventanas: [‹ atrás (pasos)] título [✕ cerrar]. Fija arriba al desplazar. */
+const II = '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg>';   // ficha (información)
 const XI = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>', LI = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>';
 function mHead(id, title, close, o = {}) {
   return `<div class="mhead">${o.back ? `<button class="mic" data-act="${o.back}" aria-label="${T("Atrás")}">${LI}</button>` : ""}<h2 id="${id}">${title}</h2>${close ? `<button class="mic" data-act="${close}" aria-label="${T("Cerrar")}">${XI}</button>` : ""}</div>${o.sub ? `<p class="msub">${o.sub}</p>` : ""}`;

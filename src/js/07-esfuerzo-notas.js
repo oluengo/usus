@@ -1,6 +1,8 @@
 /* ---------- Esfuerzo, cambiar ejercicio y notas (2.2) ----------
    PEM (percepción del esfuerzo, 1–10) por sesión: s.pem. Carga = PEM × minutos (método de Foster).
-   RIR (repeticiones en reserva) por serie, opcional: set.rir (0–4; 4 = 4 o más).
+   Lo que faltó por serie (3.5.2), opcional: set.miss = repeticiones (o segundos) que faltaron para completarla; se restan de lo hecho
+   (set.r, y set.r2 si va por lados), así la progresión y el resumen cuentan lo hecho de verdad. Sin contestar = 0 (completa).
+   Antes de la 3.5.2: set.rir = repeticiones en reserva (0–4); se conserva en el historial.
    Cambiar un ejercicio solo en la sesión: e.from = {name, xid} (el de la rutina); las series cuentan para el que se hace.
    Nota por ejercicio: e.note. Ajustes: wk.effort = {pem, rir}. */
 const EFF = () => ({ pem: true, rir: false, ...(LS.get("wk.effort", {}) || {}) });
@@ -28,17 +30,23 @@ function setPem(id, n) {
 /* RIR: tras marcar una serie (si está activado), en la tarjeta y en la pantalla de descanso */
 function rirAsk() {
   const q = state.rirAsk, a = state.active; if (!q || !a) return "";
-  const e = a.exercises[q.ei], x = e?.sets[q.si]; if (!x || !x.done || x.rir !== undefined) return "";
-  const tm = isTime(e), opts = tm ? [0, 5, 10, 15] : [0, 1, 2, 3, 4], top = opts[opts.length - 1];
-  return `<div class="rirbar"><span>${tm ? T("¿Cuánto más habrías aguantado?") : T("¿Cuántas te quedaban?")} <small>${esc(exName(e))} · ${T("serie {n}", { n: q.si + 1 })}</small></span>
-    <div class="rirb">${opts.map(n => `<button data-rir="${n}" aria-label="${n === top ? (tm ? T("15 s o más") : T("4 o más")) : tm ? n + " s" : n}">${n === top ? top + "+" : n}${tm ? "<small>s</small>" : ""}</button>`).join("")}<button class="x" data-rir="-1" aria-label="${T("Sin RIR")}">×</button></div></div>`;
+  const e = a.exercises[q.ei], x = e?.sets[q.si]; if (!x || !x.done || x.miss !== undefined) return "";
+  const tm = isTime(e), max = Math.min(+x.r || 0, sideReps(e) ? +R2(x) || 0 : Infinity), opts = (tm ? [0, 5, 10, 15, 20, 30] : [0, 1, 2, 3, 4, 5]).filter(n => n < max || n === 0);
+  return `<div class="rirbar"><span>${tm ? T("¿Cuántos segundos te faltaron?") : T("¿Cuántas te faltaron?")} <small>${esc(exName(e))} · ${T("serie {n}", { n: q.si + 1 })}</small></span>
+    <div class="rirb">${opts.map(n => `<button data-rir="${n}" aria-label="${n === 0 ? T("Ninguna: serie completa") : tm ? n + " s" : n}">${n}${tm ? "<small>s</small>" : ""}</button>`).join("")}<button class="x" data-rir="-1" aria-label="${T("No contestar")}">×</button></div></div>`;
+}
+/* Lo que faltó se resta de lo hecho (y se devuelve si se desmarca la serie) */
+function setMiss(e, x, n) {
+  if (x.miss) { x.r = (+x.r || 0) + x.miss; if (x.r2 !== undefined) x.r2 = (+x.r2 || 0) + x.miss; }
+  x.miss = Math.max(0, Math.min(n, +x.r || 0)); if (!x.miss) return;
+  x.r = Math.max(0, (+x.r || 0) - x.miss); if (sideReps(e)) x.r2 = Math.max(0, (+R2(x) || 0) - x.miss);
 }
 /* Pregunta sin contestar al acabar el descanso (o al pasar a otra serie o terminar): cuenta como 0, no quedaba nada.
    Con «×» (sin RIR) la pregunta ya se ha cerrado y la serie se queda sin valor. */
 function rirAuto(since) {
   const q = state.rirAsk, a = state.active; if (since && q?.t > since) return;   // pregunta de una serie marcada durante este descanso: sigue abierta
   state.rirAsk = null; if (!q || !a) return;
-  const x = a.exercises[q.ei]?.sets[q.si]; if (x && x.done && x.rir === undefined) { x.rir = 0; saveActive(); }
+  const x = a.exercises[q.ei]?.sets[q.si]; if (x && x.done && x.miss === undefined) { x.miss = 0; saveActive(); }
 }
 const rirTxt = (x, e) => x.rir === undefined || x.rir === null ? "" : e && isTime(e) ? `+${x.rir >= 15 ? "15+" : x.rir} s` : x.rir >= 4 ? "4+" : String(x.rir);
 /* Último registro de un ejercicio (objeto entero: series, nota…) y última sustitución en la misma rutina */

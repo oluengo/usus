@@ -38,7 +38,7 @@ function viewData() {
     <h2>${T("Esfuerzo")}</h2>
     <div class="lgroup">
       ${srowS("effPem", T("Preguntar el esfuerzo al terminar"), EFF().pem, T("PEM del 1 al 10, opcional en cada sesión"))}
-      ${srowS("effRir", T("RIR por serie"), EFF().rir, T("Repeticiones en reserva al marcar cada serie"))}
+      ${srowS("effRir", T("Lo que faltó en cada serie"), EFF().rir, T("Al marcar una serie, pregunta cuántas repeticiones (o segundos) te faltaron para completarla"))}
     </div>
     <h2>${T("Objetivos semanales")}</h2>
     <div class="lgroup">

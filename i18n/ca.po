@@ -24,17 +24,17 @@ msgstr "Com vols començar?"
 msgid "¿Consolidar antes?"
 msgstr "Consolidar abans?"
 
-msgid "¿Cuántas te quedaban?"
-msgstr "Quantes te'n quedaven?"
-
-msgid "¿Cuánto más habrías aguantado?"
-msgstr "Quant més hauries aguantat?"
+msgid "¿Cuántas te faltaron?"
+msgstr "Quantes te'n van faltar?"
 
 msgid "¿Cuánto puedes entrenar?"
 msgstr "Quant pots entrenar?"
 
 msgid "¿Cuánto te ha costado?"
 msgstr "Quant t'ha costat?"
+
+msgid "¿Cuántos segundos te faltaron?"
+msgstr "Quants segons te'n van faltar?"
 
 msgid "¿Descartar la propuesta de la IA? No se añadirá nada."
 msgstr "Vols descartar la proposta de la IA? No s'afegirà res."
@@ -336,9 +336,6 @@ msgstr "1 rutina actualitzada"
 msgid "1 uso"
 msgstr "1 ús"
 
-msgid "15 s o más"
-msgstr "15 s o més"
-
 msgid "1RM estimado"
 msgstr "1RM estimat"
 
@@ -350,9 +347,6 @@ msgstr "2 exercicis per full"
 
 msgid "30 días"
 msgstr "30 dies"
-
-msgid "4 o más"
-msgstr "4 o més"
 
 msgid "4 semanas"
 msgstr "4 setmanes"
@@ -471,6 +465,9 @@ msgstr "En canviar de perfil et quedes a la mateixa pantalla (per exemple, Ajust
 
 msgid "Al crearlo eliges qué rutinas van en cada variante y qué días tocan."
 msgstr "En crear-lo tries quines rutines van a cada variant i quins dies toquen."
+
+msgid "Al marcar una serie, pregunta cuántas repeticiones (o segundos) te faltaron para completarla"
+msgstr "En marcar una sèrie, pregunta quantes repeticions (o segons) te'n van faltar per completar-la"
 
 msgid "Al terminar (s)"
 msgstr "En acabar (s)"
@@ -1949,6 +1946,9 @@ msgstr "Fitxes del catàleg en català i English, i noms dels exercicis en catal
 msgid "Fichas desde cualquier sitio: toca el nombre de un ejercicio del catálogo en la rutina, antes de iniciar o en el Diario para ver cómo se hace. Si el perfil no tiene el catálogo activado, se pide activarlo."
 msgstr "Fitxes des de qualsevol lloc: toca el nom d'un exercici del catàleg a la rutina, abans d'iniciar o al Diari per veure com es fa. Si el perfil no té el catàleg activat, es demana activar-lo."
 
+msgid "Fichas desde las propuestas: en «Listo para subir» (o bajar) y en las sugerencias de ⇄ Cambiar ejercicio, toca el nombre o ⓘ para ver en qué consiste el ejercicio."
+msgstr "Fitxes des de les propostes: a «A punt per pujar» (o baixar) i als suggeriments de ⇄ Canviar l'exercici, toca el nom o ⓘ per veure en què consisteix l'exercici."
+
 msgid "Fichas, progresiones y Plan guiado. Se puede cambiar en Ajustes → App."
 msgstr "Fitxes, progressions i Pla guiat. Es pot canviar a Ajustos → App."
 
@@ -2367,6 +2367,12 @@ msgstr "A punt per pujar"
 msgid "Lo copiado no tiene rutinas de Usus. Copia la respuesta de la IA (o su bloque de código) y vuelve a probar."
 msgstr "El que has copiat no té rutines d'Usus. Copia la resposta de la IA (o el seu bloc de codi) i torna-ho a provar."
 
+msgid "Lo que faltó en cada serie"
+msgstr "El que va faltar a cada sèrie"
+
+msgid "Lo que faltó en cada serie: la pregunta ahora es «¿Cuántas te faltaron?» (o cuántos segundos, en las series por tiempo) y se resta de lo hecho. Así la propuesta de subir de ejercicio y el resumen cuentan lo que hiciste de verdad. Sin contestar, la serie cuenta como completa."
+msgstr "El que va faltar a cada sèrie: la pregunta ara és «Quantes te'n van faltar?» (o quants segons, a les sèries per temps) i es resta del que s'ha fet. Així la proposta de pujar d'exercici i el resum compten el que vas fer de debò. Sense respondre, la sèrie compta com a completa."
+
 msgid "Lo que pase después depende de la IA que elijas: revisa su política de privacidad. El análisis lo hace una IA, no un profesional sanitario."
 msgstr "El que passi després depèn de la IA que triïs: revisa'n la política de privacitat. L'anàlisi la fa una IA, no un professional sanitari."
 
@@ -2633,6 +2639,9 @@ msgstr "Neutre"
 msgid "Ninguna"
 msgstr "Cap"
 
+msgid "Ninguna: serie completa"
+msgstr "Cap: sèrie completa"
+
 msgid "Ninguno"
 msgstr "Cap"
 
@@ -2645,6 +2654,9 @@ msgstr "Nivell"
 #, python-brace-format
 msgid "Nivel {n} de 5"
 msgstr "Nivell {n} de 5"
+
+msgid "No contestar"
+msgstr "No respondre"
 
 msgid "No entrené"
 msgstr "No he entrenat"
@@ -3530,9 +3542,6 @@ msgstr "Repartiment per bloc"
 msgid "repeticiones"
 msgstr "repeticions"
 
-msgid "Repeticiones en reserva al marcar cada serie"
-msgstr "Repeticions en reserva en marcar cada sèrie"
-
 #, python-brace-format
 msgid "Repeticiones lado derecho serie {n}"
 msgstr "Repeticions costat dret sèrie {n}"
@@ -3603,9 +3612,6 @@ msgstr "revisió des del {d}"
 
 msgid "RIR"
 msgstr "RIR"
-
-msgid "RIR por serie"
-msgstr "RIR per sèrie"
 
 msgid "RIR por serie (repeticiones en reserva), opcional en Ajustes → Entreno."
 msgstr "RIR per sèrie (repeticions en reserva), opcional a Ajustos → Entrenament."
@@ -4038,9 +4044,6 @@ msgstr "Sense registres"
 
 msgid "Sin resultados."
 msgstr "Sense resultats."
-
-msgid "Sin RIR"
-msgstr "Sense RIR"
 
 msgid "Sin rutinas."
 msgstr "Sense rutines."
@@ -4574,6 +4577,10 @@ msgstr "Veure l'app primer. Les rutines es creen a Biblioteca → Nova rutina."
 msgid "Ver la ficha completa"
 msgstr "Veure la fitxa completa"
 
+#, python-brace-format
+msgid "Ver la ficha de {x}"
+msgstr "Veure la fitxa de {x}"
+
 msgid "Ver mis planes"
 msgstr "Veure els meus plans"
 
@@ -4682,6 +4689,27 @@ msgstr "Zona lumbar"
 
 msgid "Zona peligrosa"
 msgstr "Zona perillosa"
+
+#~ msgid "¿Cuántas te quedaban?"
+#~ msgstr "Quantes te'n quedaven?"
+
+#~ msgid "¿Cuánto más habrías aguantado?"
+#~ msgstr "Quant més hauries aguantat?"
+
+#~ msgid "15 s o más"
+#~ msgstr "15 s o més"
+
+#~ msgid "4 o más"
+#~ msgstr "4 o més"
+
+#~ msgid "Repeticiones en reserva al marcar cada serie"
+#~ msgstr "Repeticions en reserva en marcar cada sèrie"
+
+#~ msgid "RIR por serie"
+#~ msgstr "RIR per sèrie"
+
+#~ msgid "Sin RIR"
+#~ msgstr "Sense RIR"
 
 #~ msgid "Descanso entre ejercicios: debajo de «Siguiente» aparece una ficha resumida del próximo ejercicio del catálogo (para qué sirve y cómo se hace, con tu nota si la tiene) y un enlace a la ficha completa."
 #~ msgstr "Descans entre exercicis: sota «Següent» apareix una fitxa resumida del pròxim exercici del catàleg (per a què serveix i com es fa, amb la teva nota si en té) i un enllaç a la fitxa completa."

@@ -24,17 +24,17 @@ msgstr "How do you want to start?"
 msgid "¿Consolidar antes?"
 msgstr "Consolidate first?"
 
-msgid "¿Cuántas te quedaban?"
-msgstr "How many were left in the tank?"
-
-msgid "¿Cuánto más habrías aguantado?"
-msgstr "How much longer could you have held?"
+msgid "¿Cuántas te faltaron?"
+msgstr "How many were you short?"
 
 msgid "¿Cuánto puedes entrenar?"
 msgstr "How much can you train?"
 
 msgid "¿Cuánto te ha costado?"
 msgstr "How hard was it?"
+
+msgid "¿Cuántos segundos te faltaron?"
+msgstr "How many seconds were you short?"
 
 msgid "¿Descartar la propuesta de la IA? No se añadirá nada."
 msgstr "Discard the AI's suggestion? Nothing will be added."
@@ -336,9 +336,6 @@ msgstr "1 routine updated"
 msgid "1 uso"
 msgstr "1 use"
 
-msgid "15 s o más"
-msgstr "15 s or more"
-
 msgid "1RM estimado"
 msgstr "Estimated 1RM"
 
@@ -350,9 +347,6 @@ msgstr "2 exercises per sheet"
 
 msgid "30 días"
 msgstr "30 days"
-
-msgid "4 o más"
-msgstr "4 or more"
 
 msgid "4 semanas"
 msgstr "4 weeks"
@@ -471,6 +465,9 @@ msgstr "Switching profile keeps you on the same screen (for example, Settings) i
 
 msgid "Al crearlo eliges qué rutinas van en cada variante y qué días tocan."
 msgstr "When you create it, you choose which routines go in each variant and on which days."
+
+msgid "Al marcar una serie, pregunta cuántas repeticiones (o segundos) te faltaron para completarla"
+msgstr "When you tick a set, asks how many reps (or seconds) you were short of completing it"
 
 msgid "Al terminar (s)"
 msgstr "After (s)"
@@ -1949,6 +1946,9 @@ msgstr "Catalogue cards in Català and English, and exercise names in Català."
 msgid "Fichas desde cualquier sitio: toca el nombre de un ejercicio del catálogo en la rutina, antes de iniciar o en el Diario para ver cómo se hace. Si el perfil no tiene el catálogo activado, se pide activarlo."
 msgstr "Cards from anywhere: tap the name of a catalogue exercise in a routine, before starting or in the Diary to see how it's done. If the profile doesn't have the catalogue turned on, you're asked to turn it on."
 
+msgid "Fichas desde las propuestas: en «Listo para subir» (o bajar) y en las sugerencias de ⇄ Cambiar ejercicio, toca el nombre o ⓘ para ver en qué consiste el ejercicio."
+msgstr "Cards from suggestions: in “Ready to step up” (or down) and in the ⇄ Swap exercise suggestions, tap the name or ⓘ to see what the exercise is about."
+
 msgid "Fichas, progresiones y Plan guiado. Se puede cambiar en Ajustes → App."
 msgstr "Cards, progressions and Guided plan. You can change it in Settings → App."
 
@@ -2367,6 +2367,12 @@ msgstr "Ready to step up"
 msgid "Lo copiado no tiene rutinas de Usus. Copia la respuesta de la IA (o su bloque de código) y vuelve a probar."
 msgstr "What you copied has no Usus routines. Copy the AI's reply (or its code block) and try again."
 
+msgid "Lo que faltó en cada serie"
+msgstr "What was missing in each set"
+
+msgid "Lo que faltó en cada serie: la pregunta ahora es «¿Cuántas te faltaron?» (o cuántos segundos, en las series por tiempo) y se resta de lo hecho. Así la propuesta de subir de ejercicio y el resumen cuentan lo que hiciste de verdad. Sin contestar, la serie cuenta como completa."
+msgstr "What was missing in each set: the question is now “How many were you short?” (or how many seconds, in timed sets) and it's subtracted from what you did. So the suggestion to move up and the summary count what you really did. Unanswered, the set counts as complete."
+
 msgid "Lo que pase después depende de la IA que elijas: revisa su política de privacidad. El análisis lo hace una IA, no un profesional sanitario."
 msgstr "What happens next depends on the AI you choose: check its privacy policy. The analysis is done by an AI, not a health professional."
 
@@ -2633,6 +2639,9 @@ msgstr "Neutral"
 msgid "Ninguna"
 msgstr "None"
 
+msgid "Ninguna: serie completa"
+msgstr "None: set complete"
+
 msgid "Ninguno"
 msgstr "None"
 
@@ -2645,6 +2654,9 @@ msgstr "Level"
 #, python-brace-format
 msgid "Nivel {n} de 5"
 msgstr "Level {n} of 5"
+
+msgid "No contestar"
+msgstr "Don't answer"
 
 msgid "No entrené"
 msgstr "Didn't train"
@@ -3530,9 +3542,6 @@ msgstr "Split by block"
 msgid "repeticiones"
 msgstr "reps"
 
-msgid "Repeticiones en reserva al marcar cada serie"
-msgstr "Reps in reserve when you tick each set"
-
 #, python-brace-format
 msgid "Repeticiones lado derecho serie {n}"
 msgstr "Right side reps set {n}"
@@ -3603,9 +3612,6 @@ msgstr "review from {d}"
 
 msgid "RIR"
 msgstr "RIR"
-
-msgid "RIR por serie"
-msgstr "RIR per set"
 
 msgid "RIR por serie (repeticiones en reserva), opcional en Ajustes → Entreno."
 msgstr "RIR per set (reps in reserve), optional in Settings → Workout."
@@ -4038,9 +4044,6 @@ msgstr "No entries"
 
 msgid "Sin resultados."
 msgstr "No results."
-
-msgid "Sin RIR"
-msgstr "No RIR"
 
 msgid "Sin rutinas."
 msgstr "No routines."
@@ -4574,6 +4577,10 @@ msgstr "See the app first. Routines are created in Library → New routine."
 msgid "Ver la ficha completa"
 msgstr "See the full card"
 
+#, python-brace-format
+msgid "Ver la ficha de {x}"
+msgstr "See the card for {x}"
+
 msgid "Ver mis planes"
 msgstr "See my plans"
 
@@ -4682,6 +4689,27 @@ msgstr "Lower back"
 
 msgid "Zona peligrosa"
 msgstr "Danger zone"
+
+#~ msgid "¿Cuántas te quedaban?"
+#~ msgstr "How many were left in the tank?"
+
+#~ msgid "¿Cuánto más habrías aguantado?"
+#~ msgstr "How much longer could you have held?"
+
+#~ msgid "15 s o más"
+#~ msgstr "15 s or more"
+
+#~ msgid "4 o más"
+#~ msgstr "4 or more"
+
+#~ msgid "Repeticiones en reserva al marcar cada serie"
+#~ msgstr "Reps in reserve when you tick each set"
+
+#~ msgid "RIR por serie"
+#~ msgstr "RIR per set"
+
+#~ msgid "Sin RIR"
+#~ msgstr "No RIR"
 
 #~ msgid "Descanso entre ejercicios: debajo de «Siguiente» aparece una ficha resumida del próximo ejercicio del catálogo (para qué sirve y cómo se hace, con tu nota si la tiene) y un enlace a la ficha completa."
 #~ msgstr "Rest between exercises: below «Next» there's a short card for the upcoming catalogue exercise (what it's for and how to do it, with your note if it has one) and a link to the full card."

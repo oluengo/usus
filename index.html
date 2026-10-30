@@ -299,6 +299,8 @@ details.sess td:first-child{font-weight:500;padding-right:12px;width:40%}
 .copt button small{display:block;color:var(--muted);font-size:.82rem;margin-top:2px}
 .copt button.on{border:2px solid var(--accent);padding:11px 13px}
 .ex-head .xinfo{width:26px;height:26px;font-size:13px}
+.xrw{display:flex;align-items:center;border-bottom:1px solid var(--line)}.xrw:last-child{border-bottom:0}.xrw .xrow{border-bottom:0}
+.xri{flex:none;width:40px;height:40px;margin-right:4px;border:0;border-radius:50%;background:none;color:var(--accent);display:grid;place-items:center;cursor:pointer}.xri:hover,.xri:focus-visible{background:var(--bg)}.xri svg{width:20px;height:20px}
 /* Asistente de progresión */
 .pgsec{text-align:left;margin:14px 0 4px}
 .pgh{font-size:.72rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin:0 2px 6px}
@@ -1145,7 +1147,7 @@ function lastSetsFor(ref) {
   }
   return null;
 }
-const APP_VERSION = "3.5.1";
+const APP_VERSION = "3.5.2";
 const THEMES = [["protector", "Protector", "Oscuro cálido, sin azul"], ["dark", "Oscuro", "Neutro"], ["light", "Claro", "Para el día"], ["auto", "Automático", "Sigue al sistema"]];
 const curTheme = () => document.documentElement.dataset.theme || "auto";
 function applyTheme(t) {
@@ -1565,6 +1567,8 @@ const xMeta = x => `<span class="xmeta">${LV(x.level)}<span>${x.type === "time" 
 const canDo = x => (x.equip || []).every(haveMat);
 const norm = s => String(s || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
 const xMatches = (x, q) => !q || [x.name.es, x.name.en, x.name.ca, ...(x.alias || [])].some(n => n && norm(n).includes(q));
+/* Fila del selector con su ficha al lado (no se puede anidar un botón dentro de otro) */
+const xRowI = (x, attr) => `<div class="xrw">${xRow(x, attr)}<button class="xri" data-xinfo="${x.id}" aria-label="${T("Ver la ficha de {x}", { x: esc(xName(x)) })}">${II}</button></div>`;
 const xRow = (x, attr, chev) => `<button class="xrow" ${attr}><span class="t"><b>${esc(xName(x))}</b>${xMeta(x)}</span>${matsOf(x.equip)}${chev ? `<span class="chev" aria-hidden="true">›</span>` : ""}</button>`;
 /* Propuesta del catálogo para un nombre propio. strict: solo si coincide un nombre o alias (sin tildes ni mayúsculas) */
 const STOP = new Set(["en", "de", "con", "a", "la", "el", "al", "del", "las", "los", "the", "on", "with", "of"]);
@@ -1637,10 +1641,10 @@ function exInfoModal() {
 /* Selector: añadir del catálogo (editor de rutina, sesión) o elegir otro al vincular. state.xpick = {mode: "ed"|"sess"|"link", q, k} */
 function xpListHTML() {
   const p = state.xpick, q = norm(p.q || "");
-  if (q) { const l = CAT.exercises.filter(x => xMatches(x, q)).sort((a, b) => a.level - b.level); return l.length ? `<div class="xlist" style="margin-top:10px">${l.slice(0, 40).map(x => xRow(x, `data-xpadd="${x.id}"`)).join("")}</div>` : `<p class="muted" style="margin:12px 2px">${T("Sin resultados.")}</p>`; }
+  if (q) { const l = CAT.exercises.filter(x => xMatches(x, q)).sort((a, b) => a.level - b.level); return l.length ? `<div class="xlist" style="margin-top:10px">${l.slice(0, 40).map(x => xRowI(x, `data-xpadd="${x.id}"`)).join("")}</div>` : `<p class="muted" style="margin:12px 2px">${T("Sin resultados.")}</p>`; }
   const sx = p.mode === "swap" && CATBY[state.active?.exercises[p.ei]?.from?.xid || state.active?.exercises[p.ei]?.xid];
   return (sx ? [PATS.find(z => z[0] === sx.pattern), ...PATS.filter(z => z[0] !== sx.pattern)] : PATS).map(([pt, n]) => { const g = CAT.exercises.filter(x => x.pattern === pt).sort((a, b) => a.family.localeCompare(b.family) || a.level - b.level);
-    return `<div class="xgrp">${T(n)}</div><div class="xlist">${g.map(x => xRow(x, `data-xpadd="${x.id}"`)).join("")}</div>`; }).join("");
+    return `<div class="xgrp">${T(n)}</div><div class="xlist">${g.map(x => xRowI(x, `data-xpadd="${x.id}"`)).join("")}</div>`; }).join("");
 }
 function xpickModal() {
   const p = state.xpick; if (!p || !CAT) return "";
@@ -1838,7 +1842,7 @@ function progCards() {
       <p>${up ? T("{x}: objetivo cumplido {n} sesiones seguidas.", { x: `<b>${esc(xName(fx))}</b>`, n: p.hist.length }) : T("{x}: por debajo del {p} % del objetivo {n} sesiones seguidas.", { x: `<b>${esc(xName(fx))}</b>`, p: PROG().down.split("-")[0], n: p.hist.length })}</p>
       <div class="pgh2">${p.hist.map((v, j) => `${setChips(v, re)}<small>${j === 0 ? T("hoy") : T("antes")}</small>`).join("")}<small>${T("objetivo {n}", { n: re.reps + u })}</small></div>
       ${up ? "" : `<p class="muted" style="font-size:.82rem">${T("Es normal al empezar un paso nuevo. Volver unas semanas al anterior suele hacer avanzar antes.")}</p>`}
-      <div class="pgft">${esc(xName(fx))} ${LV(fx.level)} → <b>${esc(xName(tx))}</b> ${LV(tx.level)}</div>
+      <div class="pgft"><button class="xl" data-xinfo="${fx.id}">${esc(xName(fx))}</button> ${LV(fx.level)} → <b><button class="xl" data-xinfo="${tx.id}">${esc(xName(tx))}</button></b> ${LV(tx.level)}</div>
       <div class="row"><button class="btn small primary" data-pgch="${k}">${T("Cambiar en la rutina")}</button><button class="btn small" data-pglater="${k}">${up ? T("Más tarde") : T("Seguir intentándolo")}</button><button class="btn small ghost" data-pgmute="${k}">${T("No proponer")}</button></div>
     </div>`; }).join("")}</div>`;
 }
@@ -1849,9 +1853,9 @@ function progChangeModal() {
   return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="pcT"><div class="mbox">
     ${mHead("pcT", up ? T("Subir de paso") : T("Volver al paso anterior"), "pg-cancel")}
     <p class="muted" style="margin:0;font-size:.85rem">${T("En «{x}». Las demás rutinas no cambian.", { x: esc(r.name) })}</p>
-    <div class="pcg"><div class="pcc"><small>${T("Ahora")}</small><b>${esc(xName(fx))}</b>${LV(fx.level)}<span class="muted">${re.sets} × ${re.reps}${isTime(re) ? " s" : ""}${re.sides ? " " + T("por lado") : ""}</span></div>
+    <div class="pcg"><div class="pcc"><small>${T("Ahora")}</small><b><button class="xl" data-xinfo="${fx.id}">${esc(xName(fx))}</button></b>${LV(fx.level)}<span class="muted">${re.sets} × ${re.reps}${isTime(re) ? " s" : ""}${re.sides ? " " + T("por lado") : ""}</span></div>
       <span class="pca">→</span>
-      <div class="pcc new"><small>${T("Nuevo")}</small><b>${esc(xName(tx))}</b>${LV(tx.level)}<span class="pcn">${re.sets}&nbsp;× <button data-pgn="${tx.type === "time" ? -5 : -1}" aria-label="${T("Menos")}">−</button><b>${c.tgt}${tu}</b><button data-pgn="${tx.type === "time" ? 5 : 1}" aria-label="${T("Más")}">+</button></span></div></div>
+      <div class="pcc new"><small>${T("Nuevo")}</small><b><button class="xl" data-xinfo="${tx.id}">${esc(xName(tx))}</button></b>${LV(tx.level)}<span class="pcn">${re.sets}&nbsp;× <button data-pgn="${tx.type === "time" ? -5 : -1}" aria-label="${T("Menos")}">−</button><b>${c.tgt}${tu}</b><button data-pgn="${tx.type === "time" ? 5 : 1}" aria-label="${T("Más")}">+</button></span></div></div>
     <p class="muted" style="font-size:.82rem;margin:10px 0 0">${up ? T("Objetivo de inicio más bajo: el paso nuevo es más difícil. Tu historial de {x} se conserva.", { x: esc(xName(fx)) }) : T("Objetivo de inicio asequible para consolidar. Tu historial de {x} se conserva.", { x: esc(xName(fx)) })}</p>
     <div class="row" style="margin-top:14px"><span class="spacer"></span><button class="btn ghost" data-act="pg-cancel">${T("Cancelar")}</button><button class="btn primary" data-act="pg-ok">${T("Cambiar")}</button></div>
   </div></div>`;
@@ -1978,12 +1982,12 @@ es: {
   routines: "Rutinas actuales", variant: "variante", days: "días", all: "todos", perSide: "por lado", rest: "desc", dayL: ["D", "L", "M", "X", "J", "V", "S"],
   plan: "Plan", start: "Inicio", review: "revisión", phases: "fases", wk: "sem", repeat: "(se repiten)", deload: "descarga", no: "no", every: "cada",
   goalW: (a, b) => `Objetivo semanal: ${a} días de fuerza, ${b} días de rutina diaria`,
-  sessions: n => `Sesiones (${n})`, sessFmt: "Formato: fecha hora · rutina · minutos · PEM (esfuerzo 1–10) | ejercicio (en lugar de…, si se cambió en la sesión): series (reps, o s si es por tiempo; izq/der si es por lado; @kg = lastre; (n) = RIR, repeticiones en reserva) ✎ nota", free: "libre",
+  sessions: n => `Sesiones (${n})`, sessFmt: "Formato: fecha hora · rutina · minutos · PEM (esfuerzo 1–10) | ejercicio (en lugar de…, si se cambió en la sesión): series (reps, o s si es por tiempo; izq/der si es por lado; @kg = lastre; (n) = RIR, repeticiones en reserva; (-n) = faltaron n para completar la serie, ya descontadas) ✎ nota", free: "libre",
   weight: "Peso (kg)", goal: "objetivo", noRec: "Sin registros en el período", supps: "Suplementos", diary: "Diario", fmt: "Formato: fecha",
   colSleep: "sueño (acostarse–levantarse, calidad 1–5)", colSteps: "pasos", colSupp: "suplementos tomados", colNotes: "etiquetas y nota", colCyc: "ciclo (sangrado, síntomas)", none: "ninguno",
   tags: { skip: "no entrené", pain: "molestia", tired: "cansado", great: "gran sesión" }, flow: { l: "leve", m: "moderada", h: "abundante" },
   acts: "Actividades", periods: n => `Reglas (últimas ${n}, también anteriores al período para ver la regularidad)`, paused: "Seguimiento en pausa desde",
-  csv: { tech: "tecnica", pem: "pem", load: "carga", rir: "rir", from: "en_lugar_de", date: "fecha", time: "hora", routine: "rutina", block: "bloque", dur: "duracion_min", ex: "ejercicio", xid: "id_catalogo", type: "tipo", side: "por_lado", set: "serie", val: "reps_o_seg", r2: "reps_der", kg: "lastre_kg",
+  csv: { tech: "tecnica", pem: "pem", load: "carga", rir: "rir", miss: "faltaron", from: "en_lugar_de", date: "fecha", time: "hora", routine: "rutina", block: "bloque", dur: "duracion_min", ex: "ejercicio", xid: "id_catalogo", type: "tipo", side: "por_lado", set: "serie", val: "reps_o_seg", r2: "reps_der", kg: "lastre_kg",
     id: "id", variant: "variante", days: "dias", order: "orden", sets: "series", target: "objetivo", rest: "descanso_s",
     bed: "acostarse", wake: "levantarse", sleepH: "horas_sueno", q: "calidad_sueno", steps: "pasos", tags: "etiquetas", note: "nota",
     supp: "suplemento", taken: "tomado", amount: "cantidad", unit: "unidad", when: "momento", wkg: "kg", atype: "tipo", km: "km", min: "minutos",
@@ -1991,7 +1995,7 @@ es: {
     files: { sesiones: "sesiones", rutinas: "rutinas", diario: "diario", suplementos: "suplementos", peso: "peso", actividades: "actividades", ciclo_reglas: "ciclo_reglas", ciclo_dias: "ciclo_dias" },
     readme: "LEEME", head: "Usus · datos exportados en CSV", all: "todo el historial", last: n => `últimas ${n} semanas`,
     fmtEs: "separador ; y coma decimal (Excel en castellano o català)", fmtIntl: "separador , y punto decimal", enc: "UTF-8 · fechas AAAA-MM-DD", priv: "Tus datos, solo tuyos: este archivo no se ha enviado a ningún sitio.",
-    desc: { sesiones: "Una fila por serie hecha. pem: esfuerzo percibido de la sesión (1–10); carga = pem × minutos. reps_o_seg son segundos si tipo = tiempo. reps_der solo en ejercicios por lado (reps_o_seg = izquierdo). rir: repeticiones en reserva (4 = 4 o más). en_lugar_de: ejercicio de la rutina sustituido en esa sesión. nota: en la primera serie de cada ejercicio. id_catalogo: identificador fijo del catálogo de Usus, si el ejercicio está vinculado (sirve para agrupar aunque cambie el nombre).",
+    desc: { sesiones: "Una fila por serie hecha. pem: esfuerzo percibido de la sesión (1–10); carga = pem × minutos. reps_o_seg son segundos si tipo = tiempo. reps_der solo en ejercicios por lado (reps_o_seg = izquierdo). rir: repeticiones en reserva (4 = 4 o más; hasta la 3.5.1). faltaron: repeticiones o segundos que faltaron para completar la serie (ya restados de reps_o_seg). en_lugar_de: ejercicio de la rutina sustituido en esa sesión. nota: en la primera serie de cada ejercicio. id_catalogo: identificador fijo del catálogo de Usus, si el ejercicio está vinculado (sirve para agrupar aunque cambie el nombre).",
       rutinas: "Rutinas actuales, una fila por ejercicio. objetivo: repeticiones o segundos. dias: L M X J V S D.", diario: "Una fila por día con algún dato. horas_sueno, de acostarse a levantarse. calidad_sueno de 1 a 5.",
       suplementos: "Una fila por suplemento y día registrado.", peso: "Registros de peso.", actividades: "Caminar, correr, bici… con distancia y tiempo.",
       ciclo_reglas: "Cada regla: inicio, fin, duración y días hasta la siguiente (= duración del ciclo).", ciclo_dias: "Días con sangrado o síntomas registrados." } }
@@ -2054,12 +2058,12 @@ ca: {
   routines: "Rutines actuals", variant: "variant", days: "dies", all: "tots", perSide: "per costat", rest: "desc", dayL: ["Dg", "Dl", "Dt", "Dc", "Dj", "Dv", "Ds"],
   plan: "Pla", start: "Inici", review: "revisió", phases: "fases", wk: "setm", repeat: "(es repeteixen)", deload: "descàrrega", no: "no", every: "cada",
   goalW: (a, b) => `Objectiu setmanal: ${a} dies de força, ${b} dies de rutina diària`,
-  sessions: n => `Sessions (${n})`, sessFmt: "Format: data hora · rutina · minuts · PEM (esforç 1–10) | exercici (en lloc de…, si es va canviar a la sessió): sèries (reps, o s si és per temps; esq/dre si és per costat; @kg = llast; (n) = RIR, repeticions en reserva) ✎ nota", free: "lliure",
+  sessions: n => `Sessions (${n})`, sessFmt: "Format: data hora · rutina · minuts · PEM (esforç 1–10) | exercici (en lloc de…, si es va canviar a la sessió): sèries (reps, o s si és per temps; esq/dre si és per costat; @kg = llast; (n) = RIR, repeticions en reserva; (-n) = en faltaven n per completar la sèrie, ja descomptades) ✎ nota", free: "lliure",
   weight: "Pes (kg)", goal: "objectiu", noRec: "Sense registres en el període", supps: "Suplements", diary: "Diari", fmt: "Format: data",
   colSleep: "son (anar a dormir–llevar-se, qualitat 1–5)", colSteps: "passos", colSupp: "suplements presos", colNotes: "etiquetes i nota", colCyc: "cicle (sagnat, símptomes)", none: "cap",
   tags: { skip: "no vaig entrenar", pain: "molèstia", tired: "cansat", great: "gran sessió" }, flow: { l: "lleu", m: "moderat", h: "abundant" },
   acts: "Activitats", periods: n => `Regles (últimes ${n}, també anteriors al període per veure'n la regularitat)`, paused: "Seguiment en pausa des de",
-  csv: { tech: "tecnica", pem: "pem", load: "carrega", rir: "rir", from: "en_lloc_de", date: "data", time: "hora", routine: "rutina", block: "bloc", dur: "durada_min", ex: "exercici", xid: "id_cataleg", type: "tipus", side: "per_costat", set: "serie", val: "reps_o_seg", r2: "reps_dre", kg: "llast_kg",
+  csv: { tech: "tecnica", pem: "pem", load: "carrega", rir: "rir", miss: "faltaven", from: "en_lloc_de", date: "data", time: "hora", routine: "rutina", block: "bloc", dur: "durada_min", ex: "exercici", xid: "id_cataleg", type: "tipus", side: "per_costat", set: "serie", val: "reps_o_seg", r2: "reps_dre", kg: "llast_kg",
     id: "id", variant: "variant", days: "dies", order: "ordre", sets: "series", target: "objectiu", rest: "descans_s",
     bed: "anar_a_dormir", wake: "llevar_se", sleepH: "hores_son", q: "qualitat_son", steps: "passos", tags: "etiquetes", note: "nota",
     supp: "suplement", taken: "pres", amount: "quantitat", unit: "unitat", when: "moment", wkg: "kg", atype: "tipus", km: "km", min: "minuts",
@@ -2067,7 +2071,7 @@ ca: {
     files: { sesiones: "sessions", rutinas: "rutines", diario: "diari", suplementos: "suplements", peso: "pes", actividades: "activitats", ciclo_reglas: "cicle_regles", ciclo_dias: "cicle_dies" },
     readme: "LLEGEIX-ME", head: "Usus · dades exportades en CSV", all: "tot l'historial", last: n => `últimes ${n} setmanes`,
     fmtEs: "separador ; i coma decimal (Excel en català o castellà)", fmtIntl: "separador , i punt decimal", enc: "UTF-8 · dates AAAA-MM-DD", priv: "Les teves dades, només teves: aquest arxiu no s'ha enviat enlloc.",
-    desc: { sesiones: "Una fila per sèrie feta. pem: esforç percebut de la sessió (1–10); carrega = pem × minuts. reps_o_seg són segons si tipus = temps. reps_dre només en exercicis per costat (reps_o_seg = esquerre). rir: repeticions en reserva (4 = 4 o més). en_lloc_de: exercici de la rutina substituït en aquella sessió. nota: a la primera sèrie de cada exercici. id_cataleg: identificador fix del catàleg d'Usus, si l'exercici està vinculat.",
+    desc: { sesiones: "Una fila per sèrie feta. pem: esforç percebut de la sessió (1–10); carrega = pem × minuts. reps_o_seg són segons si tipus = temps. reps_dre només en exercicis per costat (reps_o_seg = esquerre). rir: repeticions en reserva (4 = 4 o més; fins a la 3.5.1). faltaven: repeticions o segons que faltaven per completar la sèrie (ja restats de reps_o_seg). en_lloc_de: exercici de la rutina substituït en aquella sessió. nota: a la primera sèrie de cada exercici. id_cataleg: identificador fix del catàleg d'Usus, si l'exercici està vinculat.",
       rutinas: "Rutines actuals, una fila per exercici. objectiu: repeticions o segons. dies: Dl Dt Dc Dj Dv Ds Dg.", diario: "Una fila per dia amb alguna dada. hores_son, d'anar a dormir a llevar-se. qualitat_son de 1 a 5.",
       suplementos: "Una fila per suplement i dia registrat.", peso: "Registres de pes.", actividades: "Caminar, córrer, bici… amb distància i temps.",
       ciclo_reglas: "Cada regla: inici, fi, durada i dies fins a la següent (= durada del cicle).", ciclo_dias: "Dies amb sagnat o símptomes registrats." } }
@@ -2130,12 +2134,12 @@ en: {
   routines: "Current routines", variant: "variant", days: "days", all: "every day", perSide: "per side", rest: "rest", dayL: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
   plan: "Plan", start: "Start", review: "review", phases: "phases", wk: "wk", repeat: "(repeating)", deload: "deload", no: "no", every: "every",
   goalW: (a, b) => `Weekly goal: ${a} strength days, ${b} daily-routine days`,
-  sessions: n => `Sessions (${n})`, sessFmt: "Format: date time · routine · minutes · RPE (effort 1–10) | exercise (instead of…, if swapped in the session): sets (reps, or s if timed; left/right if per side; @kg = added weight; (n) = RIR, reps in reserve) ✎ note", free: "free",
+  sessions: n => `Sessions (${n})`, sessFmt: "Format: date time · routine · minutes · RPE (effort 1–10) | exercise (instead of…, if swapped in the session): sets (reps, or s if timed; left/right if per side; @kg = added weight; (n) = RIR, reps in reserve; (-n) = n missing to complete the set, already subtracted) ✎ note", free: "free",
   weight: "Weight (kg)", goal: "goal", noRec: "No entries in the period", supps: "Supplements", diary: "Diary", fmt: "Format: date",
   colSleep: "sleep (bed–wake, quality 1–5)", colSteps: "steps", colSupp: "supplements taken", colNotes: "tags and note", colCyc: "cycle (bleeding, symptoms)", none: "none",
   tags: { skip: "didn't train", pain: "discomfort", tired: "tired", great: "great session" }, flow: { l: "light", m: "medium", h: "heavy" },
   acts: "Activities", periods: n => `Periods (last ${n}, including before the period to show regularity)`, paused: "Tracking paused since",
-  csv: { tech: "technique", pem: "rpe", load: "load", rir: "rir", from: "instead_of", date: "date", time: "time", routine: "routine", block: "block", dur: "duration_min", ex: "exercise", xid: "catalogue_id", type: "type", side: "per_side", set: "set", val: "reps_or_sec", r2: "reps_right", kg: "weight_kg",
+  csv: { tech: "technique", pem: "rpe", load: "load", rir: "rir", miss: "missed", from: "instead_of", date: "date", time: "time", routine: "routine", block: "block", dur: "duration_min", ex: "exercise", xid: "catalogue_id", type: "type", side: "per_side", set: "set", val: "reps_or_sec", r2: "reps_right", kg: "weight_kg",
     id: "id", variant: "variant", days: "days", order: "order", sets: "sets", target: "target", rest: "rest_s",
     bed: "bedtime", wake: "wake_time", sleepH: "sleep_hours", q: "sleep_quality", steps: "steps", tags: "tags", note: "note",
     supp: "supplement", taken: "taken", amount: "amount", unit: "unit", when: "when", wkg: "kg", atype: "type", km: "km", min: "minutes",
@@ -2143,7 +2147,7 @@ en: {
     files: { sesiones: "sessions", rutinas: "routines", diario: "diary", suplementos: "supplements", peso: "weight", actividades: "activities", ciclo_reglas: "cycle_periods", ciclo_dias: "cycle_days" },
     readme: "README", head: "Usus · data exported as CSV", all: "full history", last: n => `last ${n} weeks`,
     fmtEs: "; separator and decimal comma", fmtIntl: ", separator and decimal point", enc: "UTF-8 · dates YYYY-MM-DD", priv: "Your data, only yours: this file hasn't been sent anywhere.",
-    desc: { sesiones: "One row per completed set. rpe: session rating of perceived exertion (1–10); load = rpe × minutes. reps_or_sec are seconds when type = time. reps_right only for per-side exercises (reps_or_sec = left). rir: reps in reserve (4 = 4 or more). instead_of: routine exercise swapped out in that session. note: on each exercise's first set. catalogue_id: fixed Usus catalogue id, if the exercise is linked.",
+    desc: { sesiones: "One row per completed set. rpe: session rating of perceived exertion (1–10); load = rpe × minutes. reps_or_sec are seconds when type = time. reps_right only for per-side exercises (reps_or_sec = left). rir: reps in reserve (4 = 4 or more; up to 3.5.1). missed: reps or seconds missing to complete the set (already subtracted from reps_or_sec). instead_of: routine exercise swapped out in that session. note: on each exercise's first set. catalogue_id: fixed Usus catalogue id, if the exercise is linked.",
       rutinas: "Current routines, one row per exercise. target: reps or seconds. days: Mo Tu We Th Fr Sa Su.", diario: "One row per day with any data. sleep_hours, from bedtime to wake time. sleep_quality from 1 to 5.",
       suplementos: "One row per supplement and logged day.", peso: "Weight entries.", actividades: "Walking, running, cycling… with distance and time.",
       ciclo_reglas: "Each period: start, end, length and days to the next one (= cycle length).", ciclo_dias: "Days with logged bleeding or symptoms." } }
@@ -2262,7 +2266,7 @@ function aiBuild(o) {
     const g = LS.get("wk.goals", null); if (g && (g.daily || g.strength)) L.push(X.goalW(g.strength || 0, g.daily || 0));
     const S = state.sessions.filter(s => inP(s.start)).sort((a, b) => a.start - b.start);
     L.push("", `## ${X.sessions(S.length)}`, X.sessFmt);
-    S.forEach(s => L.push(`${dayKey(s.start)} ${hmOf(s.start)} · ${s.routine || X.free} · ${Math.round((s.end - s.start) / 60000)}${+s.pem ? ` · ${LANG === "en" ? "RPE" : "PEM"} ${s.pem}` : ""} | ${s.exercises.map(e => `${exLabel(e)}${e.from ? ` (${X.insteadOf} ${e.from})` : ""}: ${e.sets.map(x => (sideReps(e) ? `${x.r}/${R2(x)}` : `${x.r}`) + (+x.w ? `@${x.w}` : "") + (rirTxt(x, e) ? `(${rirTxt(x, e)})` : "")).join(",")}${isTime(e) ? " s" : ""}${e.note ? ` ✎ "${String(e.note).replace(/\s+/g, " ")}"` : ""}`).join(" | ")}`));
+    S.forEach(s => L.push(`${dayKey(s.start)} ${hmOf(s.start)} · ${s.routine || X.free} · ${Math.round((s.end - s.start) / 60000)}${+s.pem ? ` · ${LANG === "en" ? "RPE" : "PEM"} ${s.pem}` : ""} | ${s.exercises.map(e => `${exLabel(e)}${e.from ? ` (${X.insteadOf} ${e.from})` : ""}: ${e.sets.map(x => (sideReps(e) ? `${x.r}/${R2(x)}` : `${x.r}`) + (+x.w ? `@${x.w}` : "") + (rirTxt(x, e) ? `(${rirTxt(x, e)})` : "") + (+x.miss ? `(-${x.miss})` : "")).join(",")}${isTime(e) ? " s" : ""}${e.note ? ` ✎ "${String(e.note).replace(/\s+/g, " ")}"` : ""}`).join(" | ")}`));
     L.push("");
   }
   if (inc.weight) { const Wl = W.list().filter(x => inP(x.t)); L.push(`## ${X.weight}${W.goal() ? ` · ${X.goal} ${W.goal()}` : ""}`, Wl.length ? Wl.map(x => `${dayKey(x.t)} ${x.kg}`).join(" · ") : X.noRec, ""); }
@@ -2462,8 +2466,8 @@ function csvBuild(weeks) {
   const X = XL(), C = X.csv, es = LANG !== "en", now = Date.now(), from = weeks ? now - weeks * 7 * 864e5 : 0, inP = t => t >= from && t <= now, inK = k => k >= dayKey(from) && k <= dayKey(now);
   const yn = b => b ? C.yes : C.no, F = {}, put = (k, head, rows) => { if (rows.length) F[`${C.files[k]}.csv`] = [k, csvTable(head, rows, es)]; };
   const S = state.sessions.filter(s => inP(s.start)).sort((a, b) => a.start - b.start), rows = [];
-  S.forEach(s => s.exercises.forEach(e => e.sets.forEach((x, i) => rows.push([dayKey(s.start), hmOf(s.start), s.routine || "", s.block || "", Math.round((s.end - s.start) / 60000), +s.pem || null, sLoad(s) || null, exName(e), e.xid || "", e.xid ? techOf(e) : "", e.from || "", isTime(e) ? C.tTime : C.tReps, yn(e.sides), i + 1, +x.r || 0, sideReps(e) ? +R2(x) || 0 : null, +x.w || 0, x.rir !== undefined && x.rir !== null ? +x.rir : null, i === 0 ? e.note || "" : ""]))));
-  put("sesiones", [C.date, C.time, C.routine, C.block, C.dur, C.pem, C.load, C.ex, C.xid, C.tech, C.from, C.type, C.side, C.set, C.val, C.r2, C.kg, C.rir, C.note], rows);
+  S.forEach(s => s.exercises.forEach(e => e.sets.forEach((x, i) => rows.push([dayKey(s.start), hmOf(s.start), s.routine || "", s.block || "", Math.round((s.end - s.start) / 60000), +s.pem || null, sLoad(s) || null, exName(e), e.xid || "", e.xid ? techOf(e) : "", e.from || "", isTime(e) ? C.tTime : C.tReps, yn(e.sides), i + 1, +x.r || 0, sideReps(e) ? +R2(x) || 0 : null, +x.w || 0, x.rir !== undefined && x.rir !== null ? +x.rir : null, +x.miss || null, i === 0 ? e.note || "" : ""]))));
+  put("sesiones", [C.date, C.time, C.routine, C.block, C.dur, C.pem, C.load, C.ex, C.xid, C.tech, C.from, C.type, C.side, C.set, C.val, C.r2, C.kg, C.rir, C.miss, C.note], rows);
   put("rutinas", [C.routine, C.id, C.block, C.variant, C.days, C.order, C.ex, C.xid, C.tech, C.sets, C.target, C.type, C.side, C.rest],
     state.routines.flatMap(r => r.exercises.map((e, i) => [r.name, r.oid || r.id, r.block || "", normVar(r.variant), WEEK_ORDER.filter(d => (r.days || []).includes(d)).map(d => X.dayL[d]).join(" "), i + 1, exName(e), e.xid || "", e.xid ? techOf(e) : "", +e.sets, +e.reps, isTime(e) ? C.tTime : C.tReps, yn(e.sides), +e.rest || null])));
   const D = DY.all(), days = Object.keys(D).filter(inK).sort();
@@ -2512,7 +2516,9 @@ function csvModal() {
 }
 /* ---------- Esfuerzo, cambiar ejercicio y notas (2.2) ----------
    PEM (percepción del esfuerzo, 1–10) por sesión: s.pem. Carga = PEM × minutos (método de Foster).
-   RIR (repeticiones en reserva) por serie, opcional: set.rir (0–4; 4 = 4 o más).
+   Lo que faltó por serie (3.5.2), opcional: set.miss = repeticiones (o segundos) que faltaron para completarla; se restan de lo hecho
+   (set.r, y set.r2 si va por lados), así la progresión y el resumen cuentan lo hecho de verdad. Sin contestar = 0 (completa).
+   Antes de la 3.5.2: set.rir = repeticiones en reserva (0–4); se conserva en el historial.
    Cambiar un ejercicio solo en la sesión: e.from = {name, xid} (el de la rutina); las series cuentan para el que se hace.
    Nota por ejercicio: e.note. Ajustes: wk.effort = {pem, rir}. */
 const EFF = () => ({ pem: true, rir: false, ...(LS.get("wk.effort", {}) || {}) });
@@ -2540,17 +2546,23 @@ function setPem(id, n) {
 /* RIR: tras marcar una serie (si está activado), en la tarjeta y en la pantalla de descanso */
 function rirAsk() {
   const q = state.rirAsk, a = state.active; if (!q || !a) return "";
-  const e = a.exercises[q.ei], x = e?.sets[q.si]; if (!x || !x.done || x.rir !== undefined) return "";
-  const tm = isTime(e), opts = tm ? [0, 5, 10, 15] : [0, 1, 2, 3, 4], top = opts[opts.length - 1];
-  return `<div class="rirbar"><span>${tm ? T("¿Cuánto más habrías aguantado?") : T("¿Cuántas te quedaban?")} <small>${esc(exName(e))} · ${T("serie {n}", { n: q.si + 1 })}</small></span>
-    <div class="rirb">${opts.map(n => `<button data-rir="${n}" aria-label="${n === top ? (tm ? T("15 s o más") : T("4 o más")) : tm ? n + " s" : n}">${n === top ? top + "+" : n}${tm ? "<small>s</small>" : ""}</button>`).join("")}<button class="x" data-rir="-1" aria-label="${T("Sin RIR")}">×</button></div></div>`;
+  const e = a.exercises[q.ei], x = e?.sets[q.si]; if (!x || !x.done || x.miss !== undefined) return "";
+  const tm = isTime(e), max = Math.min(+x.r || 0, sideReps(e) ? +R2(x) || 0 : Infinity), opts = (tm ? [0, 5, 10, 15, 20, 30] : [0, 1, 2, 3, 4, 5]).filter(n => n < max || n === 0);
+  return `<div class="rirbar"><span>${tm ? T("¿Cuántos segundos te faltaron?") : T("¿Cuántas te faltaron?")} <small>${esc(exName(e))} · ${T("serie {n}", { n: q.si + 1 })}</small></span>
+    <div class="rirb">${opts.map(n => `<button data-rir="${n}" aria-label="${n === 0 ? T("Ninguna: serie completa") : tm ? n + " s" : n}">${n}${tm ? "<small>s</small>" : ""}</button>`).join("")}<button class="x" data-rir="-1" aria-label="${T("No contestar")}">×</button></div></div>`;
+}
+/* Lo que faltó se resta de lo hecho (y se devuelve si se desmarca la serie) */
+function setMiss(e, x, n) {
+  if (x.miss) { x.r = (+x.r || 0) + x.miss; if (x.r2 !== undefined) x.r2 = (+x.r2 || 0) + x.miss; }
+  x.miss = Math.max(0, Math.min(n, +x.r || 0)); if (!x.miss) return;
+  x.r = Math.max(0, (+x.r || 0) - x.miss); if (sideReps(e)) x.r2 = Math.max(0, (+R2(x) || 0) - x.miss);
 }
 /* Pregunta sin contestar al acabar el descanso (o al pasar a otra serie o terminar): cuenta como 0, no quedaba nada.
    Con «×» (sin RIR) la pregunta ya se ha cerrado y la serie se queda sin valor. */
 function rirAuto(since) {
   const q = state.rirAsk, a = state.active; if (since && q?.t > since) return;   // pregunta de una serie marcada durante este descanso: sigue abierta
   state.rirAsk = null; if (!q || !a) return;
-  const x = a.exercises[q.ei]?.sets[q.si]; if (x && x.done && x.rir === undefined) { x.rir = 0; saveActive(); }
+  const x = a.exercises[q.ei]?.sets[q.si]; if (x && x.done && x.miss === undefined) { x.miss = 0; saveActive(); }
 }
 const rirTxt = (x, e) => x.rir === undefined || x.rir === null ? "" : e && isTime(e) ? `+${x.rir >= 15 ? "15+" : x.rir} s` : x.rir >= 4 ? "4+" : String(x.rir);
 /* Último registro de un ejercicio (objeto entero: series, nota…) y última sustitución en la misma rutina */
@@ -2650,7 +2662,7 @@ function render() {
   if (state.tab === "history") state.tab = "diary";
   const v = state.actForm ? viewActForm : state.tab === "data" && state.link ? viewLink : { train: viewTrain, routines: viewRoutines, diary: viewDiary, stats: viewStats, data: viewData }[state.tab];
   const mb = document.querySelector(".mbox.dsh"), mbTop = mb ? mb.scrollTop : 0;
-  $("#app").innerHTML = v() + focusView() + welcomeModal() + noticeModal() + planWeekModal() + planMenuModal() + newsModal() + cycAckModal() + savedModal() + shareSessModal() + shareRoutModal() + incomingModal() + profPickModal() + profFormModal() + profEditModal() + profCopyModal() + issueModal() + gpModal() + exInfoModal() + xpickModal() + ownMatModal() + catAskModal() + progChangeModal() + aiModal() + aipModal() + csvModal() + swapModal() + dayNoteModal();
+  $("#app").innerHTML = v() + focusView() + welcomeModal() + noticeModal() + planWeekModal() + planMenuModal() + newsModal() + cycAckModal() + savedModal() + shareSessModal() + shareRoutModal() + incomingModal() + profPickModal() + profFormModal() + profEditModal() + profCopyModal() + issueModal() + gpModal() + xpickModal() + ownMatModal() + catAskModal() + progChangeModal() + aiModal() + aipModal() + csvModal() + swapModal() + dayNoteModal() + exInfoModal();
   if (mb) { const nb = document.querySelector(".mbox.dsh"); if (nb) nb.scrollTop = mbTop; }
   if (state.tab === "train" && state.active && !state.actForm) tick();
   if (state.shareSess && SHOPT().img) sessPreview();
@@ -2661,6 +2673,7 @@ function render() {
 }
 
 /* Cabecera estándar de las ventanas: [‹ atrás (pasos)] título [✕ cerrar]. Fija arriba al desplazar. */
+const II = '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg>';   // ficha (información)
 const XI = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>', LI = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>';
 function mHead(id, title, close, o = {}) {
   return `<div class="mhead">${o.back ? `<button class="mic" data-act="${o.back}" aria-label="${T("Atrás")}">${LI}</button>` : ""}<h2 id="${id}">${title}</h2>${close ? `<button class="mic" data-act="${close}" aria-label="${T("Cerrar")}">${XI}</button>` : ""}</div>${o.sub ? `<p class="msub">${o.sub}</p>` : ""}`;
@@ -3121,7 +3134,7 @@ function updateLive() {
 async function finishSession() {
   const a = state.active;
   cancelRun(); rirAuto();
-  const exercises = a.exercises.map(e => ({ name: e.name, ...(e.xid ? { xid: e.xid } : {}), ...(e.xid && techOf(e) ? { tech: techOf(e) } : {}), ...(e.from ? { from: e.from.name, ...(e.from.xid ? { fromXid: e.from.xid } : {}), ...(e.from.tech ? { fromTech: e.from.tech } : {}) } : {}), ...(e.note ? { note: String(e.note).trim().slice(0, 140) } : {}), type: isTime(e) ? "time" : "reps", sides: !!e.sides, sets: e.sets.filter(s => s.done).map(s => ({ w: +s.w || 0, r: +s.r || 0, ...(sideReps(e) ? { r2: +R2(s) || 0 } : {}), ...(s.rir !== undefined && s.rir !== null ? { rir: s.rir } : {}), done: true })) })).filter(e => e.sets.length);
+  const exercises = a.exercises.map(e => ({ name: e.name, ...(e.xid ? { xid: e.xid } : {}), ...(e.xid && techOf(e) ? { tech: techOf(e) } : {}), ...(e.from ? { from: e.from.name, ...(e.from.xid ? { fromXid: e.from.xid } : {}), ...(e.from.tech ? { fromTech: e.from.tech } : {}) } : {}), ...(e.note ? { note: String(e.note).trim().slice(0, 140) } : {}), type: isTime(e) ? "time" : "reps", sides: !!e.sides, sets: e.sets.filter(s => s.done).map(s => ({ w: +s.w || 0, r: +s.r || 0, ...(sideReps(e) ? { r2: +R2(s) || 0 } : {}), ...(s.rir !== undefined && s.rir !== null ? { rir: s.rir } : {}), ...(s.miss ? { miss: s.miss } : {}), done: true })) })).filter(e => e.sets.length);
   if (!exercises.length) { toast(T("Marca al menos una serie como completada")); return; }
   const s = { id: a.id, start: a.start, end: a.start + activeMs(a), ...(a.rid ? { rid: a.rid } : {}), routine: a.routine, block: a.block || guessBlock(a.routine), exercises };
   state.sessions.push(s);
@@ -4310,7 +4323,7 @@ function viewData() {
     <h2>${T("Esfuerzo")}</h2>
     <div class="lgroup">
       ${srowS("effPem", T("Preguntar el esfuerzo al terminar"), EFF().pem, T("PEM del 1 al 10, opcional en cada sesión"))}
-      ${srowS("effRir", T("RIR por serie"), EFF().rir, T("Repeticiones en reserva al marcar cada serie"))}
+      ${srowS("effRir", T("Lo que faltó en cada serie"), EFF().rir, T("Al marcar una serie, pregunta cuántas repeticiones (o segundos) te faltaron para completarla"))}
     </div>
     <h2>${T("Objetivos semanales")}</h2>
     <div class="lgroup">
@@ -4465,6 +4478,10 @@ function installBlock() {
 }
 /* ---------- Novedades (una vez por versión; historial al tocar la versión) ---------- */
 const CHANGES = [  // Novedades: solo en castellano; las traducciones, en i18n/*.po
+  ["3.5.2", [
+    N_("Lo que faltó en cada serie: la pregunta ahora es «¿Cuántas te faltaron?» (o cuántos segundos, en las series por tiempo) y se resta de lo hecho. Así la propuesta de subir de ejercicio y el resumen cuentan lo que hiciste de verdad. Sin contestar, la serie cuenta como completa."),
+    N_("Fichas desde las propuestas: en «Listo para subir» (o bajar) y en las sugerencias de ⇄ Cambiar ejercicio, toca el nombre o ⓘ para ver en qué consiste el ejercicio.")
+  ]],
   ["3.5.1", [
     N_("Compartir con Usus: desde la app de tu IA, menú Compartir → Usus lleva su respuesta (texto o archivo) a la revisión, sin copiar ni pegar. En el APK y en la web instalada en Android."),
     N_("RIR sin contestar: si al acabar el descanso no has marcado cuántas te quedaban (o cuánto más habrías aguantado, en las series por tiempo), cuenta como 0. Con «×» la serie se queda sin valor."),
@@ -5482,7 +5499,7 @@ document.addEventListener("click", async ev => {
     if (!catOn()) { if (!confirm(T("Para ver la ficha hay que activar el catálogo de ejercicios en este perfil. ¿Activarlo?"))) return; LS.set("wk.catalog", true); }
     if (!CAT && !(await loadCatalog())) { toast(T("No se pudo cargar el catálogo. Se volverá a intentar al abrir la app.")); render(); return; }
     if (!CATBY[d.xinfo]) return;
-    if (state.editing) readEditor(); state.exInfo = d.xinfo; state.exInfoAdd = false; state.exInfoFrom = state.editing || state.gp ? "ed" : ""; render(); [...document.querySelectorAll(".mbox.dsh")].pop()?.scrollTo(0, 0); return; }
+    if (state.editing) readEditor(); state.exInfo = d.xinfo; state.exInfoAdd = false; state.exInfoFrom = state.editing || state.gp || state.xpick || state.savedSess || state.progChange ? "ed" : ""; render(); [...document.querySelectorAll(".mbox.dsh")].pop()?.scrollTo(0, 0); return; }
   if (state.gp) {   // plan guiado
     const g = state.gp, top = () => document.querySelector(".mbox.gp")?.scrollTo(0, 0);
     if (d.gpgoal) { g.goal = d.gpgoal; render(); return; }
@@ -5513,7 +5530,7 @@ document.addEventListener("click", async ev => {
   if (d.pdel) { const p = PLS.list().find(x => x.id === d.pdel); if (!p || !confirm(T("¿Eliminar el plan «{x}»? Tus rutinas y sesiones no se tocan.", { x: planName(p) }))) return; PLS.save(PLS.list().filter(x => x.id !== d.pdel)); state.plansOpen = true; render(); return; }
   if (d.snote) { state.sessNoteEd = d.snote; render(); document.querySelector(`[data-ssnote="${d.snote}"]`)?.focus(); return; }
   if (d.pem || d.spem) { const [id, n] = (d.pem || d.spem).split(":"); setPem(id, +n); render(); return; }
-  if (d.rir !== undefined && state.rirAsk && a) { const q = state.rirAsk, x = a.exercises[q.ei]?.sets[q.si]; if (x && +d.rir >= 0) x.rir = +d.rir; state.rirAsk = null; saveActive(); render(); return; }
+  if (d.rir !== undefined && state.rirAsk && a) { const q = state.rirAsk, e = a.exercises[q.ei], x = e?.sets[q.si]; if (x && +d.rir >= 0) setMiss(e, x, +d.rir); state.rirAsk = null; saveActive(); render(); return; }
   if (d.enote !== undefined && a) { state.noteOpen = state.noteOpen === +d.enote ? null : +d.enote; render(); if (state.noteOpen !== null) document.querySelector(`[data-enotet="${d.enote}"]`)?.focus(); return; }
   if (d.swap !== undefined && a) { state.noteOpen = null; if (catReady()) { state.xpick = { mode: "swap", ei: +d.swap, q: "" }; } else state.swap = { ei: +d.swap }; render(); setTimeout(() => (catReady() ? $("#xpQ") : $("#swName"))?.focus(), 0); return; }
   if (d.swapundo !== undefined && a) { swapUndo(+d.swapundo); render(); return; }
@@ -5610,7 +5627,7 @@ document.addEventListener("click", async ev => {
   }
   if (d.done && a) {
     const [ei, si] = d.done.split(":").map(Number); const s = a.exercises[ei].sets[si];
-    s.done = !s.done; if (!s.done) { delete s.rir; state.rirAsk = null; } else { rirAuto(); if (EFF().rir) state.rirAsk = { ei, si, t: Date.now() }; } saveActive();
+    s.done = !s.done; if (!s.done) { setMiss(a.exercises[ei], s, 0); delete s.miss; delete s.rir; state.rirAsk = null; } else { rirAuto(); if (EFF().rir) state.rirAsk = { ei, si, t: Date.now() }; } saveActive();
     if (s.done && !run) { const q = afterSet(ei, si); if (q.length) { unlockAudio(); startRun(q); return; } advanceIfDone(ei, si); }
     render(); return;
   }
@@ -6013,10 +6030,10 @@ const I18N = {
     "¿Borrar los datos para el análisis? El resto de datos no se toca.": "Esborrar les dades per a l'anàlisi? La resta de dades no es toca.",
     "¿Cómo quieres empezar?": "Com vols començar?",
     "¿Consolidar antes?": "Consolidar abans?",
-    "¿Cuántas te quedaban?": "Quantes te'n quedaven?",
-    "¿Cuánto más habrías aguantado?": "Quant més hauries aguantat?",
+    "¿Cuántas te faltaron?": "Quantes te'n van faltar?",
     "¿Cuánto puedes entrenar?": "Quant pots entrenar?",
     "¿Cuánto te ha costado?": "Quant t'ha costat?",
+    "¿Cuántos segundos te faltaron?": "Quants segons te'n van faltar?",
     "¿Descartar la propuesta de la IA? No se añadirá nada.": "Vols descartar la proposta de la IA? No s'afegirà res.",
     "¿Descartar la sesión en curso? Se perderán los datos.": "Vols descartar la sessió en curs? Es perdran les dades.",
     "¿Eliminar el plan «{x}»? Tus rutinas y sesiones no se tocan.": "Eliminar el pla «{x}»? Les teves rutines i sessions no es toquen.",
@@ -6097,12 +6114,10 @@ const I18N = {
     "1 hoja": "1 full",
     "1 rutina actualizada": "1 rutina actualitzada",
     "1 uso": "1 ús",
-    "15 s o más": "15 s o més",
     "1RM estimado": "1RM estimat",
     "1RM estimado (fórmula de Epley) por sesión": "1RM estimat (fórmula d'Epley) per sessió",
     "2 ejercicios por hoja": "2 exercicis per full",
     "30 días": "30 dies",
-    "4 o más": "4 o més",
     "4 semanas": "4 setmanes",
     "A, B… = orden. A1, A2 = superserie o circuito: se hacen seguidos y se repite la vuelta.": "A, B… = ordre. A1, A2 = supersèrie o circuit: es fan seguits i es repeteix la volta.",
     "Abrir": "Obrir",
@@ -6142,6 +6157,7 @@ const I18N = {
     "Al añadir un plan recibido o de la IA, si sus letras de variante ya las usan tus rutinas, se cambian por otras libres para no mezclar planes.": "En afegir un pla rebut o de la IA, si les seves lletres de variant ja les fan servir les teves rutines, es canvien per altres de lliures per no barrejar plans.",
     "Al cambiar de perfil te quedas en la misma pantalla (por ejemplo, Ajustes) en vez de volver a Hoy.": "En canviar de perfil et quedes a la mateixa pantalla (per exemple, Ajustos) en lloc de tornar a Avui.",
     "Al crearlo eliges qué rutinas van en cada variante y qué días tocan.": "En crear-lo tries quines rutines van a cada variant i quins dies toquen.",
+    "Al marcar una serie, pregunta cuántas repeticiones (o segundos) te faltaron para completarla": "En marcar una sèrie, pregunta quantes repeticions (o segons) te'n van faltar per completar-la",
     "Al terminar (s)": "En acabar (s)",
     "Al terminar cada sesión, solo en ejercicios del catálogo": "En acabar cada sessió, només en exercicis del catàleg",
     "Al vincular un nombre como «Fondos (bajada 3 s)», lo que va entre paréntesis pasa a ser la técnica.": "En vincular un nom com «Fons (baixada 3 s)», el que va entre parèntesis passa a ser la tècnica.",
@@ -6621,6 +6637,7 @@ const I18N = {
     "Fértil (est.)": "Fèrtil (est.)",
     "Fichas del catálogo en català e English, y nombres de los ejercicios en català.": "Fitxes del catàleg en català i English, i noms dels exercicis en català.",
     "Fichas desde cualquier sitio: toca el nombre de un ejercicio del catálogo en la rutina, antes de iniciar o en el Diario para ver cómo se hace. Si el perfil no tiene el catálogo activado, se pide activarlo.": "Fitxes des de qualsevol lloc: toca el nom d'un exercici del catàleg a la rutina, abans d'iniciar o al Diari per veure com es fa. Si el perfil no té el catàleg activat, es demana activar-lo.",
+    "Fichas desde las propuestas: en «Listo para subir» (o bajar) y en las sugerencias de ⇄ Cambiar ejercicio, toca el nombre o ⓘ para ver en qué consiste el ejercicio.": "Fitxes des de les propostes: a «A punt per pujar» (o baixar) i als suggeriments de ⇄ Canviar l'exercici, toca el nom o ⓘ per veure en què consisteix l'exercici.",
     "Fichas, progresiones y Plan guiado. Se puede cambiar en Ajustes → App.": "Fitxes, progressions i Pla guiat. Es pot canviar a Ajustos → App.",
     "Fin de la regla · {d}": "Final de la regla · {d}",
     "Fin de la regla registrado": "Final de la regla registrat",
@@ -6758,6 +6775,8 @@ const I18N = {
     "Línea y barras verdes: objetivo.": "Línia i barres verdes: objectiu.",
     "Listo para subir": "A punt per pujar",
     "Lo copiado no tiene rutinas de Usus. Copia la respuesta de la IA (o su bloque de código) y vuelve a probar.": "El que has copiat no té rutines d'Usus. Copia la resposta de la IA (o el seu bloc de codi) i torna-ho a provar.",
+    "Lo que faltó en cada serie": "El que va faltar a cada sèrie",
+    "Lo que faltó en cada serie: la pregunta ahora es «¿Cuántas te faltaron?» (o cuántos segundos, en las series por tiempo) y se resta de lo hecho. Así la propuesta de subir de ejercicio y el resumen cuentan lo que hiciste de verdad. Sin contestar, la serie cuenta como completa.": "El que va faltar a cada sèrie: la pregunta ara és «Quantes te'n van faltar?» (o quants segons, a les sèries per temps) i es resta del que s'ha fet. Així la proposta de pujar d'exercici i el resum compten el que vas fer de debò. Sense respondre, la sèrie compta com a completa.",
     "Lo que pase después depende de la IA que elijas: revisa su política de privacidad. El análisis lo hace una IA, no un profesional sanitario.": "El que passi després depèn de la IA que triïs: revisa'n la política de privacitat. L'anàlisi la fa una IA, no un professional sanitari.",
     "Lo que quieras que la IA tenga en cuenta": "El que vulguis que la IA tingui en compte",
     "Los datos del ciclo se guardan solo en este dispositivo y van en la copia de seguridad completa.": "Les dades del cicle es desen només en aquest dispositiu i van a la còpia de seguretat completa.",
@@ -6845,10 +6864,12 @@ const I18N = {
     "Necesitas una cuenta de GitHub (gratis).": "Necessites un compte de GitHub (gratuït).",
     "Neutro": "Neutre",
     "Ninguna": "Cap",
+    "Ninguna: serie completa": "Cap: sèrie completa",
     "Ninguno": "Cap",
     "Ninguno: solo suelo": "Cap: només terra",
     "Nivel": "Nivell",
     "Nivel {n} de 5": "Nivell {n} de 5",
+    "No contestar": "No respondre",
     "No entrené": "No he entrenat",
     "No habrías podido hacer mucho más.": "No hauries pogut fer gaire més.",
     "No hago ejercicio o hace mucho que lo dejé.": "No faig exercici o fa molt que ho vaig deixar.",
@@ -7133,7 +7154,6 @@ const I18N = {
     "Reiniciar el plan: en el menú ⋯ del plan en Hoy o en Biblioteca → Plan, vuelve a la semana 1 desde hoy, sin semana elegida ni pausas. Tus rutinas, sesiones e historial no se tocan. Al terminar un plan, Hoy lo ofrece.": "Reiniciar el pla: al menú ⋯ del pla a Avui o a Biblioteca → Pla, torna a la setmana 1 des d'avui, sense setmana triada ni pauses. Les teves rutines, sessions i historial no es toquen. En acabar un pla, Avui ho ofereix.",
     "Reparto por bloque": "Repartiment per bloc",
     "repeticiones": "repeticions",
-    "Repeticiones en reserva al marcar cada serie": "Repeticions en reserva en marcar cada sèrie",
     "Repeticiones lado derecho serie {n}": "Repeticions costat dret sèrie {n}",
     "Repeticiones lado izquierdo serie {n}": "Repeticions costat esquerre sèrie {n}",
     "Repeticiones serie {n}": "Repeticions sèrie {n}",
@@ -7156,7 +7176,6 @@ const I18N = {
     "Revisión (opcional)": "Revisió (opcional)",
     "revisión desde el {d}": "revisió des del {d}",
     "RIR": "RIR",
-    "RIR por serie": "RIR per sèrie",
     "RIR por serie (repeticiones en reserva), opcional en Ajustes → Entreno.": "RIR per sèrie (repeticions en reserva), opcional a Ajustos → Entrenament.",
     "RIR sin contestar: si al acabar el descanso no has marcado cuántas te quedaban (o cuánto más habrías aguantado, en las series por tiempo), cuenta como 0. Con «×» la serie se queda sin valor.": "RIR sense respondre: si en acabar el descans no has marcat quantes te'n quedaven (o quant més hauries aguantat, a les sèries per temps), compta com a 0. Amb «×» la sèrie es queda sense valor.",
     "RIR también en series por tiempo: cuánto más habrías aguantado (0, 5, 10, 15+ s).": "RIR també en sèries per temps: quant més hauries aguantat (0, 5, 10, 15+ s).",
@@ -7292,7 +7311,6 @@ const I18N = {
     "Sin propuesta en el catálogo": "Sense proposta al catàleg",
     "Sin registros": "Sense registres",
     "Sin resultados.": "Sense resultats.",
-    "Sin RIR": "Sense RIR",
     "Sin rutinas.": "Sense rutines.",
     "Sin sesiones en las últimas 4 semanas.": "Sense sessions en les últimes 4 setmanes.",
     "Sin suplementos": "Sense suplements",
@@ -7464,6 +7482,7 @@ const I18N = {
     "Ver historial": "Mostra l'historial",
     "Ver la app primero. Las rutinas se crean en Biblioteca → Nueva rutina.": "Veure l'app primer. Les rutines es creen a Biblioteca → Nova rutina.",
     "Ver la ficha completa": "Veure la fitxa completa",
+    "Ver la ficha de {x}": "Veure la fitxa de {x}",
     "Ver mis planes": "Veure els meus plans",
     "Ver notas": "Veure notes",
     "Ver propuesta": "Veure la proposta",
@@ -7505,10 +7524,10 @@ const I18N = {
     "¿Borrar los datos para el análisis? El resto de datos no se toca.": "Delete the analysis data? Nothing else is touched.",
     "¿Cómo quieres empezar?": "How do you want to start?",
     "¿Consolidar antes?": "Consolidate first?",
-    "¿Cuántas te quedaban?": "How many were left in the tank?",
-    "¿Cuánto más habrías aguantado?": "How much longer could you have held?",
+    "¿Cuántas te faltaron?": "How many were you short?",
     "¿Cuánto puedes entrenar?": "How much can you train?",
     "¿Cuánto te ha costado?": "How hard was it?",
+    "¿Cuántos segundos te faltaron?": "How many seconds were you short?",
     "¿Descartar la propuesta de la IA? No se añadirá nada.": "Discard the AI's suggestion? Nothing will be added.",
     "¿Descartar la sesión en curso? Se perderán los datos.": "Discard the current session? Its data will be lost.",
     "¿Eliminar el plan «{x}»? Tus rutinas y sesiones no se tocan.": "Delete the plan “{x}”? Your routines and sessions aren't touched.",
@@ -7589,12 +7608,10 @@ const I18N = {
     "1 hoja": "1 sheet",
     "1 rutina actualizada": "1 routine updated",
     "1 uso": "1 use",
-    "15 s o más": "15 s or more",
     "1RM estimado": "Estimated 1RM",
     "1RM estimado (fórmula de Epley) por sesión": "Estimated 1RM (Epley formula) per session",
     "2 ejercicios por hoja": "2 exercises per sheet",
     "30 días": "30 days",
-    "4 o más": "4 or more",
     "4 semanas": "4 weeks",
     "A, B… = orden. A1, A2 = superserie o circuito: se hacen seguidos y se repite la vuelta.": "A, B… = order. A1, A2 = superset or circuit: done back to back, then the round repeats.",
     "Abrir": "Open",
@@ -7634,6 +7651,7 @@ const I18N = {
     "Al añadir un plan recibido o de la IA, si sus letras de variante ya las usan tus rutinas, se cambian por otras libres para no mezclar planes.": "When adding a received or AI plan, if its variant letters are already used by your routines, they're changed to free ones so plans don't get mixed.",
     "Al cambiar de perfil te quedas en la misma pantalla (por ejemplo, Ajustes) en vez de volver a Hoy.": "Switching profile keeps you on the same screen (for example, Settings) instead of going back to Today.",
     "Al crearlo eliges qué rutinas van en cada variante y qué días tocan.": "When you create it, you choose which routines go in each variant and on which days.",
+    "Al marcar una serie, pregunta cuántas repeticiones (o segundos) te faltaron para completarla": "When you tick a set, asks how many reps (or seconds) you were short of completing it",
     "Al terminar (s)": "After (s)",
     "Al terminar cada sesión, solo en ejercicios del catálogo": "After each session, only for catalogue exercises",
     "Al vincular un nombre como «Fondos (bajada 3 s)», lo que va entre paréntesis pasa a ser la técnica.": "When linking a name like “Dips (3 s lowering)”, the part in brackets becomes the technique.",
@@ -8113,6 +8131,7 @@ const I18N = {
     "Fértil (est.)": "Fertile (est.)",
     "Fichas del catálogo en català e English, y nombres de los ejercicios en català.": "Catalogue cards in Català and English, and exercise names in Català.",
     "Fichas desde cualquier sitio: toca el nombre de un ejercicio del catálogo en la rutina, antes de iniciar o en el Diario para ver cómo se hace. Si el perfil no tiene el catálogo activado, se pide activarlo.": "Cards from anywhere: tap the name of a catalogue exercise in a routine, before starting or in the Diary to see how it's done. If the profile doesn't have the catalogue turned on, you're asked to turn it on.",
+    "Fichas desde las propuestas: en «Listo para subir» (o bajar) y en las sugerencias de ⇄ Cambiar ejercicio, toca el nombre o ⓘ para ver en qué consiste el ejercicio.": "Cards from suggestions: in “Ready to step up” (or down) and in the ⇄ Swap exercise suggestions, tap the name or ⓘ to see what the exercise is about.",
     "Fichas, progresiones y Plan guiado. Se puede cambiar en Ajustes → App.": "Cards, progressions and Guided plan. You can change it in Settings → App.",
     "Fin de la regla · {d}": "End of period · {d}",
     "Fin de la regla registrado": "End of period logged",
@@ -8250,6 +8269,8 @@ const I18N = {
     "Línea y barras verdes: objetivo.": "Line and green bars: goal.",
     "Listo para subir": "Ready to step up",
     "Lo copiado no tiene rutinas de Usus. Copia la respuesta de la IA (o su bloque de código) y vuelve a probar.": "What you copied has no Usus routines. Copy the AI's reply (or its code block) and try again.",
+    "Lo que faltó en cada serie": "What was missing in each set",
+    "Lo que faltó en cada serie: la pregunta ahora es «¿Cuántas te faltaron?» (o cuántos segundos, en las series por tiempo) y se resta de lo hecho. Así la propuesta de subir de ejercicio y el resumen cuentan lo que hiciste de verdad. Sin contestar, la serie cuenta como completa.": "What was missing in each set: the question is now “How many were you short?” (or how many seconds, in timed sets) and it's subtracted from what you did. So the suggestion to move up and the summary count what you really did. Unanswered, the set counts as complete.",
     "Lo que pase después depende de la IA que elijas: revisa su política de privacidad. El análisis lo hace una IA, no un profesional sanitario.": "What happens next depends on the AI you choose: check its privacy policy. The analysis is done by an AI, not a health professional.",
     "Lo que quieras que la IA tenga en cuenta": "Anything you want the AI to take into account",
     "Los datos del ciclo se guardan solo en este dispositivo y van en la copia de seguridad completa.": "Cycle data is stored only on this device and is included in the full backup.",
@@ -8337,10 +8358,12 @@ const I18N = {
     "Necesitas una cuenta de GitHub (gratis).": "You need a (free) GitHub account.",
     "Neutro": "Neutral",
     "Ninguna": "None",
+    "Ninguna: serie completa": "None: set complete",
     "Ninguno": "None",
     "Ninguno: solo suelo": "None: floor only",
     "Nivel": "Level",
     "Nivel {n} de 5": "Level {n} of 5",
+    "No contestar": "Don't answer",
     "No entrené": "Didn't train",
     "No habrías podido hacer mucho más.": "You couldn't have done much more.",
     "No hago ejercicio o hace mucho que lo dejé.": "I don't exercise, or stopped a long time ago.",
@@ -8625,7 +8648,6 @@ const I18N = {
     "Reiniciar el plan: en el menú ⋯ del plan en Hoy o en Biblioteca → Plan, vuelve a la semana 1 desde hoy, sin semana elegida ni pausas. Tus rutinas, sesiones e historial no se tocan. Al terminar un plan, Hoy lo ofrece.": "Restart the plan: from the plan's ⋯ menu in Today or in Library → Plan, it goes back to week 1 from today, with no chosen week or pauses. Your routines, sessions and history are not touched. When a plan ends, Today offers it.",
     "Reparto por bloque": "Split by block",
     "repeticiones": "reps",
-    "Repeticiones en reserva al marcar cada serie": "Reps in reserve when you tick each set",
     "Repeticiones lado derecho serie {n}": "Right side reps set {n}",
     "Repeticiones lado izquierdo serie {n}": "Left side reps set {n}",
     "Repeticiones serie {n}": "Reps set {n}",
@@ -8648,7 +8670,6 @@ const I18N = {
     "Revisión (opcional)": "Review (optional)",
     "revisión desde el {d}": "review from {d}",
     "RIR": "RIR",
-    "RIR por serie": "RIR per set",
     "RIR por serie (repeticiones en reserva), opcional en Ajustes → Entreno.": "RIR per set (reps in reserve), optional in Settings → Workout.",
     "RIR sin contestar: si al acabar el descanso no has marcado cuántas te quedaban (o cuánto más habrías aguantado, en las series por tiempo), cuenta como 0. Con «×» la serie se queda sin valor.": "Unanswered RIR: if you haven't marked how many you had left when the rest ends (or how much longer you could have held, in timed sets), it counts as 0. With “×” the set stays without a value.",
     "RIR también en series por tiempo: cuánto más habrías aguantado (0, 5, 10, 15+ s).": "RIR for timed sets too: how much longer you could have held (0, 5, 10, 15+ s).",
@@ -8784,7 +8805,6 @@ const I18N = {
     "Sin propuesta en el catálogo": "No suggestion in the catalogue",
     "Sin registros": "No entries",
     "Sin resultados.": "No results.",
-    "Sin RIR": "No RIR",
     "Sin rutinas.": "No routines.",
     "Sin sesiones en las últimas 4 semanas.": "No sessions in the last 4 weeks.",
     "Sin suplementos": "No supplements",
@@ -8956,6 +8976,7 @@ const I18N = {
     "Ver historial": "View history",
     "Ver la app primero. Las rutinas se crean en Biblioteca → Nueva rutina.": "See the app first. Routines are created in Library → New routine.",
     "Ver la ficha completa": "See the full card",
+    "Ver la ficha de {x}": "See the card for {x}",
     "Ver mis planes": "See my plans",
     "Ver notas": "See notes",
     "Ver propuesta": "See the plan",

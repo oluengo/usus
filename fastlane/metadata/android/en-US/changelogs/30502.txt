@@ -1,0 +1,2 @@
+• What was missing in each set: the question is now “How many were you short?” (or how many seconds, in timed sets) and it's subtracted from what you did. So the suggestion to move up and the summary count what you really did. Unanswered, the set counts as complete.
+• Cards from suggestions: in “Ready to step up” (or down) and in the ⇄ Swap exercise suggestions, tap the name or ⓘ to see what the exercise is about.

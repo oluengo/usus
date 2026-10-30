@@ -49,6 +49,8 @@ const xMeta = x => `<span class="xmeta">${LV(x.level)}<span>${x.type === "time" 
 const canDo = x => (x.equip || []).every(haveMat);
 const norm = s => String(s || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
 const xMatches = (x, q) => !q || [x.name.es, x.name.en, x.name.ca, ...(x.alias || [])].some(n => n && norm(n).includes(q));
+/* Fila del selector con su ficha al lado (no se puede anidar un botón dentro de otro) */
+const xRowI = (x, attr) => `<div class="xrw">${xRow(x, attr)}<button class="xri" data-xinfo="${x.id}" aria-label="${T("Ver la ficha de {x}", { x: esc(xName(x)) })}">${II}</button></div>`;
 const xRow = (x, attr, chev) => `<button class="xrow" ${attr}><span class="t"><b>${esc(xName(x))}</b>${xMeta(x)}</span>${matsOf(x.equip)}${chev ? `<span class="chev" aria-hidden="true">›</span>` : ""}</button>`;
 /* Propuesta del catálogo para un nombre propio. strict: solo si coincide un nombre o alias (sin tildes ni mayúsculas) */
 const STOP = new Set(["en", "de", "con", "a", "la", "el", "al", "del", "las", "los", "the", "on", "with", "of"]);
@@ -121,10 +123,10 @@ function exInfoModal() {
 /* Selector: añadir del catálogo (editor de rutina, sesión) o elegir otro al vincular. state.xpick = {mode: "ed"|"sess"|"link", q, k} */
 function xpListHTML() {
   const p = state.xpick, q = norm(p.q || "");
-  if (q) { const l = CAT.exercises.filter(x => xMatches(x, q)).sort((a, b) => a.level - b.level); return l.length ? `<div class="xlist" style="margin-top:10px">${l.slice(0, 40).map(x => xRow(x, `data-xpadd="${x.id}"`)).join("")}</div>` : `<p class="muted" style="margin:12px 2px">${T("Sin resultados.")}</p>`; }
+  if (q) { const l = CAT.exercises.filter(x => xMatches(x, q)).sort((a, b) => a.level - b.level); return l.length ? `<div class="xlist" style="margin-top:10px">${l.slice(0, 40).map(x => xRowI(x, `data-xpadd="${x.id}"`)).join("")}</div>` : `<p class="muted" style="margin:12px 2px">${T("Sin resultados.")}</p>`; }
   const sx = p.mode === "swap" && CATBY[state.active?.exercises[p.ei]?.from?.xid || state.active?.exercises[p.ei]?.xid];
   return (sx ? [PATS.find(z => z[0] === sx.pattern), ...PATS.filter(z => z[0] !== sx.pattern)] : PATS).map(([pt, n]) => { const g = CAT.exercises.filter(x => x.pattern === pt).sort((a, b) => a.family.localeCompare(b.family) || a.level - b.level);
-    return `<div class="xgrp">${T(n)}</div><div class="xlist">${g.map(x => xRow(x, `data-xpadd="${x.id}"`)).join("")}</div>`; }).join("");
+    return `<div class="xgrp">${T(n)}</div><div class="xlist">${g.map(x => xRowI(x, `data-xpadd="${x.id}"`)).join("")}</div>`; }).join("");
 }
 function xpickModal() {
   const p = state.xpick; if (!p || !CAT) return "";
