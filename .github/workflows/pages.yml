@@ -1,5 +1,6 @@
 # Publica la web en GitHub Pages:
-# - rama main → https://oluengo.github.io/usus/
+# - landing/ → https://oluengo.github.io/usus/ (página de presentación)
+# - rama main → https://oluengo.github.io/usus/app/ (la app)
 # - rama beta → https://oluengo.github.io/usus/beta/ (versión de pruebas, con sus datos aparte)
 # Requiere Settings → Pages → Build and deployment → Source: «GitHub Actions».
 # El entorno github-pages solo admite publicar desde main: un push a beta relanza este flujo sobre main,
@@ -56,17 +57,19 @@ jobs:
       - name: Montar el sitio
         run: |
           WEB="index.html sw.js ejercicios.json manifest.webmanifest icon-192.png icon-512.png icon-maskable-512.png favicon-48.png LICENSE PRIVACY.md README.md ANDROID.md CHANGELOG.md fonts capturas"
-          mkdir -p _site
-          for f in $WEB; do if [ -e "main/$f" ]; then cp -r "main/$f" _site/; fi; done
+          mkdir -p _site/app
+          for f in $WEB; do if [ -e "main/$f" ]; then cp -r "main/$f" _site/app/; fi; done
+          # Página de presentación en la raíz; su sw.js retira el service worker antiguo de /usus/
+          cp -r main/landing/. _site/
           touch _site/.nojekyll
           if [ -f beta/index.html ]; then
             mkdir -p _site/beta
             for f in $WEB; do if [ -e "beta/$f" ] && [ "$f" != "capturas" ]; then cp -r "beta/$f" _site/beta/; fi; done
             # Caché propia de la beta y nombre propio al instalarla
             sed -i 's/const CACHE = "usus-/const CACHE = "usus-beta-/' _site/beta/sw.js
-            node -e 'const f="_site/beta/manifest.webmanifest",fs=require("fs"),m=JSON.parse(fs.readFileSync(f,"utf8"));m.name="Usus Beta";m.short_name="Usus β";if(m.id)m.id="beta/";fs.writeFileSync(f,JSON.stringify(m,null,2))'
+            node -e 'const f="_site/beta/manifest.webmanifest",fs=require("fs"),m=JSON.parse(fs.readFileSync(f,"utf8"));m.name="Usus Beta";m.short_name="Usus β";m.id="/usus/beta/";fs.writeFileSync(f,JSON.stringify(m,null,2))'
           fi
-          ls -la _site _site/beta 2>/dev/null | head -40
+          ls -la _site _site/app _site/beta 2>/dev/null | head -60
 
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3

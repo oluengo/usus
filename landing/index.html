@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Usus · Workout & habit tracker</title>
+<meta name="description" content="Usus: calisthenics workout and habit tracker. Free, no accounts, offline. Everything stays on your phone.">
+<link rel="icon" href="app/favicon-48.png">
+<link rel="apple-touch-icon" href="app/icon-192.png">
+<meta name="theme-color" content="#16120E">
+<script>
+(function () {
+	var q = new URLSearchParams(location.search), h = location.hash, standalone = false;
+	try { standalone = matchMedia("(display-mode: standalone)").matches || navigator.standalone === true; } catch (e) {}
+	if (standalone || h.indexOf("#r=") === 0 || q.has("share")) {
+		location.replace("app/" + location.search + h);
+	}
+})();
+</script>
+<style>
+@font-face { font-family: "Instrument Sans"; font-weight: 400; font-display: swap; src: url(app/fonts/instrument-sans-400.woff2) format("woff2"); }
+@font-face { font-family: "Instrument Sans"; font-weight: 600; font-display: swap; src: url(app/fonts/instrument-sans-600.woff2) format("woff2"); }
+@font-face { font-family: "Instrument Sans"; font-weight: 700; font-display: swap; src: url(app/fonts/instrument-sans-700.woff2) format("woff2"); }
+
+:root {
+	color-scheme: light dark;
+	--bg: light-dark(#F5F6F8, #121418);
+	--surface: light-dark(#FFFFFF, #1B1E24);
+	--ink: light-dark(#16191F, #ECEEF2);
+	--muted: light-dark(#6A7180, #9AA1AE);
+	--line: light-dark(#E3E6EB, #2B2F37);
+	--accent: light-dark(#2446C7, #7E98F5);
+	--accent-ink: light-dark(#FFFFFF, #121418);
+	--accent-soft: light-dark(#E8EDFB, #232C47);
+	--ok: light-dark(#1E8A5A, #4CC08A);
+	--ok-soft: light-dark(#E3F4EC, #1C3329);
+	--amber: #E8A33D;
+	--night: #16120E;
+	--font: "Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+:root[data-theme="light"] { color-scheme: light; }
+:root[data-theme="dark"] { color-scheme: dark; }
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 17px/1.55 var(--font); -webkit-text-size-adjust: 100%; }
+a { color: var(--accent); }
+img { max-width: 100%; height: auto; display: block; }
+.wrap { max-width: 68rem; margin: 0 auto; padding: 0 1.25rem; }
+h1, h2, h3 { line-height: 1.15; letter-spacing: -.02em; margin: 0; }
+h2 { font-size: clamp(1.6rem, 3.5vw, 2.2rem); margin-bottom: .6rem; }
+.lead { color: var(--muted); font-size: 1.08rem; max-width: 40rem; margin: 0 0 2rem; }
+section { padding: 4.5rem 0; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+.top { position: sticky; top: 0; z-index: 10; background: color-mix(in srgb, var(--night) 88%, transparent); backdrop-filter: blur(10px); color: #F3EEE6; }
+.top .wrap { display: flex; align-items: center; gap: 1rem; height: 3.5rem; }
+.top a { color: inherit; text-decoration: none; }
+.brand { display: flex; align-items: center; gap: .55rem; font-weight: 700; }
+.brand img { width: 1.75rem; height: 1.75rem; border-radius: 22%; }
+.top nav { margin-left: auto; display: flex; align-items: center; gap: 1.1rem; font-size: .92rem; }
+.top nav .navlink { opacity: .8; }
+.top nav .navlink:hover { opacity: 1; }
+.lang { display: flex; gap: .15rem; font-size: .8rem; }
+.lang button, .theme { font: inherit; background: none; border: 0; color: inherit; opacity: .65; cursor: pointer; padding: .25rem .35rem; border-radius: 6px; }
+.lang button[aria-pressed="true"] { opacity: 1; font-weight: 700; background: rgba(255,255,255,.1); }
+.theme { opacity: .8; display: grid; place-items: center; }
+.theme svg { width: 1.1rem; height: 1.1rem; }
+.i-sun { display: none; }
+:root[data-theme="dark"] .i-sun { display: block; } :root[data-theme="dark"] .i-moon { display: none; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .i-sun { display: block; } :root:not([data-theme="light"]) .i-moon { display: none; } }
+
+.hero { background: var(--night); color: #F3EEE6; padding: 4rem 0 0; overflow: hidden; }
+.hero .wrap { display: grid; gap: 2.5rem; }
+.hero .kicker { display: inline-flex; align-items: center; gap: .5rem; color: var(--amber); font-weight: 600; font-size: .9rem; letter-spacing: .02em; }
+.hero h1 { font-size: clamp(2.4rem, 6vw, 4rem); margin: .7rem 0 1rem; max-width: 14ch; }
+.hero p { color: #B9B1A6; font-size: 1.12rem; max-width: 34rem; margin: 0 0 1.8rem; }
+.cta { display: flex; flex-wrap: wrap; gap: .75rem; }
+.btn { display: inline-flex; align-items: center; gap: .5rem; padding: .8rem 1.25rem; border-radius: 12px; font-weight: 600; text-decoration: none; border: 1px solid transparent; min-height: 48px; }
+.btn svg { width: 1.15rem; height: 1.15rem; }
+.btn.primary { background: #2446C7; color: #fff; }
+.btn.primary:hover { background: #1D3AAA; }
+.btn.ghost { color: #F3EEE6; border-color: #3A332B; }
+.btn.ghost:hover { border-color: #6B6156; }
+.meta { display: flex; flex-wrap: wrap; gap: .4rem 1.2rem; margin-top: 1.5rem; font-size: .88rem; color: #9C9387; list-style: none; padding: 0; }
+.meta li::before { content: "✓ "; color: var(--amber); }
+.hero figure { margin: 0; }
+.hero figure img { width: 100%; border-radius: 18px 18px 0 0; }
+@media (min-width: 60rem) {
+	.hero { padding-top: 5rem; }
+	.hero .wrap { grid-template-columns: 1fr 1.25fr; align-items: end; }
+	.hero .copy { padding-bottom: 4.5rem; }
+}
+
+.features { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(15.5rem, 1fr)); }
+.feature { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 1.25rem; }
+.feature .ic { width: 2.4rem; height: 2.4rem; border-radius: 10px; background: var(--accent-soft); color: var(--accent); display: grid; place-items: center; margin-bottom: .9rem; }
+.feature .ic svg { width: 1.3rem; height: 1.3rem; }
+.feature h3 { font-size: 1.05rem; margin-bottom: .35rem; }
+.feature p { margin: 0; color: var(--muted); font-size: .95rem; }
+.opt { font-size: .72rem; font-weight: 600; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: .05rem .5rem; margin-left: .35rem; vertical-align: .15em; }
+
+.gallery { display: flex; gap: 1rem; overflow-x: auto; scroll-snap-type: x mandatory; padding: .5rem 1.25rem 1.5rem; margin: 0 -1.25rem; scrollbar-width: thin; }
+.gallery figure { margin: 0; flex: 0 0 auto; width: min(15rem, 62vw); scroll-snap-align: start; }
+.gallery img { border-radius: 22px; border: 1px solid var(--line); aspect-ratio: 540 / 1169; object-fit: cover; background: var(--surface); }
+.gallery figcaption { font-size: .88rem; color: var(--muted); margin-top: .6rem; text-align: center; }
+
+.install { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr)); }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 1.5rem; }
+.card h3 { display: flex; align-items: center; gap: .6rem; font-size: 1.15rem; margin-bottom: 1rem; }
+.card h3 svg { width: 1.4rem; height: 1.4rem; color: var(--accent); }
+.card ol { margin: 0 0 1.2rem; padding-left: 1.2rem; }
+.card li { margin-bottom: .45rem; }
+.card .btn.primary { background: var(--accent); color: var(--accent-ink); }
+.card .btn.line { border-color: var(--line); color: var(--ink); }
+.card .actions { display: flex; flex-wrap: wrap; gap: .6rem; }
+.note { color: var(--muted); font-size: .9rem; margin-top: 1rem; }
+code { font-size: .88em; background: var(--accent-soft); padding: .1rem .35rem; border-radius: 6px; overflow-wrap: anywhere; }
+
+.privacy { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 2rem; display: grid; gap: 1.5rem; }
+@media (min-width: 52rem) { .privacy { grid-template-columns: 1fr 1.3fr; padding: 2.5rem; } }
+.privacy ul { list-style: none; margin: 0; padding: 0; display: grid; gap: .8rem; }
+.privacy li { display: grid; grid-template-columns: 1.6rem 1fr; gap: .5rem; }
+.privacy li::before { content: "✓"; width: 1.4rem; height: 1.4rem; border-radius: 50%; background: var(--ok-soft); color: var(--ok); display: grid; place-items: center; font-size: .8rem; font-weight: 700; margin-top: .1rem; }
+
+.faq details { border-bottom: 1px solid var(--line); padding: 1rem 0; }
+.faq summary { cursor: pointer; font-weight: 600; list-style: none; display: flex; justify-content: space-between; gap: 1rem; }
+.faq summary::after { content: "+"; color: var(--accent); font-size: 1.3rem; line-height: 1; }
+.faq details[open] summary::after { content: "−"; }
+.faq details p { color: var(--muted); margin: .6rem 0 0; }
+
+footer { border-top: 1px solid var(--line); padding: 2.5rem 0 3rem; color: var(--muted); font-size: .9rem; }
+footer .wrap { display: grid; gap: 1rem; }
+footer .links { display: flex; flex-wrap: wrap; gap: .4rem 1.4rem; }
+footer .links a { color: var(--ink); text-decoration: none; }
+footer .links a:hover { color: var(--accent); }
+.donate { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; }
+.donate button { font: inherit; font-size: .85rem; background: var(--surface); color: var(--ink); border: 1px solid var(--line); border-radius: 999px; padding: .3rem .8rem; cursor: pointer; }
+.donate button:hover { border-color: var(--accent); }
+#copied { color: var(--ok); }
+
+@media (max-width: 40rem) {
+	body { font-size: 16px; }
+	section { padding: 3.25rem 0; }
+	.top nav .navlink { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+	<div class="wrap">
+		<a class="brand" href="./"><img src="app/icon-192.png" alt="">Usus</a>
+		<nav>
+			<a class="navlink" href="#features" data-i="navFeatures"></a>
+			<a class="navlink" href="#install" data-i="navInstall"></a>
+			<a class="navlink" href="https://oluengo.github.io/">oluengo</a>
+			<div class="lang" role="group" aria-label="Language">
+				<button data-lang="ca">CA</button><button data-lang="es">ES</button><button data-lang="en">EN</button>
+			</div>
+			<button class="theme" id="theme" type="button" data-i-aria="theme">
+				<svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+				<svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+			</button>
+		</nav>
+	</div>
+</header>
+
+<main>
+	<div class="hero">
+		<div class="wrap">
+			<div class="copy">
+				<span class="kicker" data-i="kicker"></span>
+				<h1 data-i="title"></h1>
+				<p data-i="intro"></p>
+				<div class="cta">
+					<a class="btn primary" href="app/" data-i="open"></a>
+					<a class="btn ghost" href="https://github.com/oluengo/usus/releases/latest">
+						<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.6 9.5l1.8-3.1a.4.4 0 0 0-.7-.4l-1.8 3.2A11 11 0 0 0 12 8.2c-1.8 0-3.4.4-4.9 1L5.3 6a.4.4 0 0 0-.7.4l1.8 3.1A10.5 10.5 0 0 0 1 18h22a10.5 10.5 0 0 0-5.4-8.5zM7 15.3a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm10 0a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/></svg>
+						<span data-i="android"></span>
+					</a>
+				</div>
+				<ul class="meta" data-list="meta"></ul>
+			</div>
+			<figure><img src="app/capturas/portada.jpg" width="2000" height="1067" data-i-alt="heroAlt" alt=""></figure>
+		</div>
+	</div>
+
+	<section id="features">
+		<div class="wrap">
+			<h2 data-i="featTitle"></h2>
+			<p class="lead" data-i="featLead"></p>
+			<div class="features" id="features-list"></div>
+		</div>
+	</section>
+
+	<section style="padding-top:0">
+		<div class="wrap">
+			<h2 data-i="shotsTitle"></h2>
+			<p class="lead" data-i="shotsLead"></p>
+			<div class="gallery" id="gallery"></div>
+		</div>
+	</section>
+
+	<section id="install">
+		<div class="wrap">
+			<h2 data-i="installTitle"></h2>
+			<p class="lead" data-i="installLead"></p>
+			<div class="install">
+				<div class="card">
+					<h3><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.6 9.5l1.8-3.1a.4.4 0 0 0-.7-.4l-1.8 3.2A11 11 0 0 0 12 8.2c-1.8 0-3.4.4-4.9 1L5.3 6a.4.4 0 0 0-.7.4l1.8 3.1A10.5 10.5 0 0 0 1 18h22a10.5 10.5 0 0 0-5.4-8.5zM7 15.3a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm10 0a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/></svg><span>Android</span></h3>
+					<ol data-list="androidSteps"></ol>
+					<div class="actions">
+						<a class="btn primary" href="https://github.com/oluengo/usus/releases/latest" data-i="apk"></a>
+						<a class="btn line" href="https://github.com/ImranR98/Obtainium">Obtainium</a>
+					</div>
+				</div>
+				<div class="card">
+					<h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="14" height="11" rx="2"/><path d="M6 19h6M9 15v4"/><rect x="17" y="8" width="5" height="12" rx="1.5"/></svg><span data-i="webTitle"></span></h3>
+					<ol data-list="webSteps"></ol>
+					<div class="actions">
+						<a class="btn primary" href="app/" data-i="open"></a>
+						<a class="btn line" href="beta/" data-i="beta"></a>
+					</div>
+				</div>
+			</div>
+			<p class="note" data-i="installNote"></p>
+		</div>
+	</section>
+
+	<section id="privacy" style="padding-top:0">
+		<div class="wrap">
+			<div class="privacy">
+				<div>
+					<h2 data-i="privTitle"></h2>
+					<p class="lead" style="margin-bottom:1rem" data-i="privLead"></p>
+					<a href="https://github.com/oluengo/usus/blob/main/PRIVACY.md" data-i="privLink"></a>
+				</div>
+				<ul data-list="priv"></ul>
+			</div>
+		</div>
+	</section>
+
+	<section id="faq" style="padding-top:0">
+		<div class="wrap faq">
+			<h2 data-i="faqTitle"></h2>
+			<div id="faq-list"></div>
+		</div>
+	</section>
+</main>
+
+<footer>
+	<div class="wrap">
+		<div class="links">
+			<a href="https://github.com/oluengo/usus/releases" data-i="releases"></a>
+			<a href="https://github.com/oluengo/usus/blob/main/CHANGELOG.md" id="changelog" data-i="changelog"></a>
+			<a href="https://github.com/oluengo/usus">GitHub</a>
+			<a href="https://github.com/oluengo/usus/issues" data-i="issues"></a>
+			<a href="https://github.com/oluengo/usus/blob/main/LICENSE" data-i="license"></a>
+		</div>
+		<div class="donate">
+			<span data-i="support"></span>
+			<button data-copy="bc1pnvdct6hfnh67p7dcg2e5mdveyz8jlxuzv4yflkxqccc72qkuc8ls8raspa">Bitcoin</button>
+			<button data-copy="oluengo@rizful.com">Lightning · zap</button>
+			<span id="copied" role="status"></span>
+		</div>
+		<div><span data-i="made"></span> · <span data-i="disclaimer"></span> · <a href="https://oluengo.github.io/" style="color:inherit">oluengo.github.io</a></div>
+	</div>
+</footer>
+
+<script>
+const I = {
+	es: {
+		navFeatures: "Funciones", navInstall: "Instalar", theme: "Cambiar tema",
+		kicker: "Calistenia · entrenamiento en casa · hábitos",
+		title: "Entrena con constancia. Sin cuentas.",
+		intro: "Usus registra tus entrenamientos y tus hábitos desde el móvil. Rutinas, cuenta atrás, progresión y diario, todo guardado solo en tu dispositivo.",
+		open: "Abrir Usus", android: "Descargar para Android",
+		meta: ["Gratis y sin anuncios", "Funciona sin conexión", "Català · Castellano · English", "Software libre (MIT)"],
+		heroAlt: "Usus: Hoy, cuenta atrás, Diario y Progreso",
+		featTitle: "Todo lo que necesitas para entrenar",
+		featLead: "Pensada para calistenia y entrenamiento en casa; vale para cualquier rutina de series y repeticiones.",
+		features: [
+			["routine", "Rutinas a tu medida", "Series, repeticiones o tiempo, por lado, lastre, secciones, superseries y circuitos. Imprímelas o guárdalas en PDF."],
+			["play", "Entrenar sin mirar", "Un ejercicio por pantalla y cuenta atrás a pantalla completa, con sonido o vibración."],
+			["up", "Progresión", "Al terminar, Usus propone pasar al siguiente ejercicio o volver al anterior. Decides tú."],
+			["book", "Catálogo de ejercicios", "Ficha de cada ejercicio, material y progresión.", true],
+			["plan", "Plan guiado", "Rutinas a tu nivel y un plan que rota variantes en orden, con descargas y pausas. También con IA externa.", true],
+			["diary", "Diario y progreso", "Sueño, pasos, peso, actividad y notas. Constancia, récords y hábitos de un vistazo."],
+			["people", "Perfiles", "Varias personas en el mismo móvil, registro opcional del ciclo y temas claro, oscuro y protector."],
+			["share", "Compartir sin servidores", "Envía entrenos y rutinas por enlace. Copias de seguridad y exportación a CSV."]
+		],
+		shotsTitle: "Así se ve", shotsLead: "Capturas en castellano. La app también está en català e inglés.",
+		shots: [["03-sesion", "Entrenando"], ["14-cuenta-atras", "Cuenta atrás"], ["02-rutinas", "Rutinas"], ["04-plan", "Plan"], ["05-diario", "Diario"], ["06-progreso", "Progreso"], ["13-ficha", "Ficha de ejercicio"], ["11-ciclo-hoy", "Ciclo"]],
+		installTitle: "Instalar", installLead: "Elige cómo usarla. Es gratis en todas partes.",
+		androidSteps: ["Descarga el APK de la última versión.", "Ábrelo y permite instalar desde esa fuente si Android lo pide.", "Para recibir actualizaciones, añade <code>https://github.com/oluengo/usus</code> en Obtainium."],
+		apk: "Descargar APK",
+		webTitle: "iPhone u ordenador",
+		webSteps: ["Abre Usus en el navegador.", "iPhone (Safari): Compartir → «Añadir a pantalla de inicio».", "Chrome o Edge: el icono de instalar de la barra de direcciones."],
+		beta: "Probar la beta",
+		installNote: "La web y el APK guardan sus datos por separado: pásalos con una copia (Ajustes → Datos).",
+		privTitle: "Tus datos no salen de tu móvil",
+		privLead: "Usus no recoge ningún dato. No hay cuentas, servidor, analítica, publicidad ni rastreadores.",
+		privLink: "Leer la política de privacidad",
+		priv: ["Rutinas, sesiones, diario, peso y ciclo se guardan solo en tu dispositivo. Nadie más tiene acceso, tampoco quien la desarrolla.", "Solo sale lo que tú exportas: copias, CSV o lo que compartes.", "El APK no tiene permiso de Internet; solo vibración para los avisos del descanso.", "Borrar es fácil: desde Ajustes → Datos, o desinstalando la app."],
+		faqTitle: "Preguntas frecuentes",
+		faq: [
+			["¿Cuánto cuesta?", "Nada. Usus es gratis, sin anuncios ni compras dentro de la app. Si te resulta útil, puedes apoyar el proyecto con una donación."],
+			["¿Necesito crear una cuenta?", "No. Abres la app y empiezas. Tus datos se quedan en tu dispositivo."],
+			["¿Funciona sin conexión?", "Sí. La web se instala como app y funciona sin Internet; el APK de Android no usa la red."],
+			["¿Cómo paso mis datos a otro móvil?", "Haz una copia en Ajustes → Datos y ábrela en el otro dispositivo."],
+			["¿Usus me da consejo médico?", "No. Es una herramienta de registro. Ante cualquier duda de salud, consulta con un profesional."],
+			["¿Qué es la beta?", "Una versión de pruebas con lo último. Tiene sus propios datos, aparte de los de la versión normal, y puede tener fallos."]
+		],
+		releases: "Versiones", changelog: "Historial de cambios", issues: "Informar de un problema", license: "Licencia MIT",
+		support: "Apoya el proyecto (toca para copiar):", copied: "copiado",
+		made: "Hecha con IA · probada por humanos", disclaimer: "Herramienta de registro, no consejo médico"
+	},
+	ca: {
+		navFeatures: "Funcions", navInstall: "Instal·lar", theme: "Canvia el tema",
+		kicker: "Calistènia · entrenament a casa · hàbits",
+		title: "Entrena amb constància. Sense comptes.",
+		intro: "Usus registra els teus entrenaments i els teus hàbits des del mòbil. Rutines, compte enrere, progressió i diari, tot desat només al teu dispositiu.",
+		open: "Obre Usus", android: "Descarrega per a Android",
+		meta: ["Gratuïta i sense anuncis", "Funciona sense connexió", "Català · Castellano · English", "Programari lliure (MIT)"],
+		heroAlt: "Usus: Avui, compte enrere, Diari i Progrés",
+		featTitle: "Tot el que cal per entrenar",
+		featLead: "Pensada per a calistènia i entrenament a casa; serveix per a qualsevol rutina de sèries i repeticions.",
+		features: [
+			["routine", "Rutines a mida", "Sèries, repeticions o temps, per costat, llast, seccions, supersèries i circuits. Imprimeix-les o desa-les en PDF."],
+			["play", "Entrenar sense mirar", "Un exercici per pantalla i compte enrere a pantalla completa, amb so o vibració."],
+			["up", "Progressió", "En acabar, Usus proposa passar al següent exercici o tornar a l'anterior. Tu decideixes."],
+			["book", "Catàleg d'exercicis", "Fitxa de cada exercici, material i progressió.", true],
+			["plan", "Pla guiat", "Rutines al teu nivell i un pla que alterna variants en ordre, amb descàrregues i pauses. També amb IA externa.", true],
+			["diary", "Diari i progrés", "Son, passos, pes, activitat i notes. Constància, rècords i hàbits d'un cop d'ull."],
+			["people", "Perfils", "Diverses persones al mateix mòbil, registre opcional del cicle i temes clar, fosc i protector."],
+			["share", "Compartir sense servidors", "Envia entrenaments i rutines per enllaç. Còpies de seguretat i exportació a CSV."]
+		],
+		shotsTitle: "Així es veu", shotsLead: "Captures en castellà. L'app també és en català i anglès.",
+		shots: [["03-sesion", "Entrenant"], ["14-cuenta-atras", "Compte enrere"], ["02-rutinas", "Rutines"], ["04-plan", "Pla"], ["05-diario", "Diari"], ["06-progreso", "Progrés"], ["13-ficha", "Fitxa d'exercici"], ["11-ciclo-hoy", "Cicle"]],
+		installTitle: "Instal·lar", installLead: "Tria com fer-la servir. És gratuïta a tot arreu.",
+		androidSteps: ["Descarrega l'APK de l'última versió.", "Obre'l i permet instal·lar des d'aquesta font si Android ho demana.", "Per rebre actualitzacions, afegeix <code>https://github.com/oluengo/usus</code> a Obtainium."],
+		apk: "Descarrega l'APK",
+		webTitle: "iPhone o ordinador",
+		webSteps: ["Obre Usus al navegador.", "iPhone (Safari): Comparteix → «Afegeix a la pantalla d'inici».", "Chrome o Edge: la icona d'instal·lar de la barra d'adreces."],
+		beta: "Prova la beta",
+		installNote: "La web i l'APK desen les dades per separat: passa-les amb una còpia (Configuració → Dades).",
+		privTitle: "Les teves dades no surten del mòbil",
+		privLead: "Usus no recull cap dada. No hi ha comptes, servidor, analítica, publicitat ni rastrejadors.",
+		privLink: "Llegeix la política de privacitat",
+		priv: ["Rutines, sessions, diari, pes i cicle es desen només al teu dispositiu. Ningú més hi té accés, tampoc qui la desenvolupa.", "Només surt el que tu exportes: còpies, CSV o el que comparteixes.", "L'APK no té permís d'Internet; només vibració per als avisos del descans.", "Esborrar és fàcil: des de Configuració → Dades, o desinstal·lant l'app."],
+		faqTitle: "Preguntes freqüents",
+		faq: [
+			["Quant costa?", "Res. Usus és gratuïta, sense anuncis ni compres dins l'app. Si et resulta útil, pots donar suport al projecte amb una donació."],
+			["Cal crear un compte?", "No. Obres l'app i comences. Les teves dades es queden al dispositiu."],
+			["Funciona sense connexió?", "Sí. La web s'instal·la com a app i funciona sense Internet; l'APK d'Android no fa servir la xarxa."],
+			["Com passo les dades a un altre mòbil?", "Fes una còpia a Configuració → Dades i obre-la a l'altre dispositiu."],
+			["Usus em dona consell mèdic?", "No. És una eina de registre. Davant qualsevol dubte de salut, consulta un professional."],
+			["Què és la beta?", "Una versió de proves amb el més nou. Té les seves pròpies dades, a part de les de la versió normal, i pot tenir errors."]
+		],
+		releases: "Versions", changelog: "Historial de canvis", issues: "Informa d'un problema", license: "Llicència MIT",
+		support: "Dona suport al projecte (toca per copiar):", copied: "copiat",
+		made: "Feta amb IA · provada per humans", disclaimer: "Eina de registre, no consell mèdic"
+	},
+	en: {
+		navFeatures: "Features", navInstall: "Install", theme: "Toggle theme",
+		kicker: "Calisthenics · home training · habits",
+		title: "Train consistently. No accounts.",
+		intro: "Usus logs your workouts and habits on your phone. Routines, countdowns, progression and a diary, all stored only on your device.",
+		open: "Open Usus", android: "Download for Android",
+		meta: ["Free, no ads", "Works offline", "Català · Castellano · English", "Free software (MIT)"],
+		heroAlt: "Usus: Today, countdown, Diary and Progress",
+		featTitle: "Everything you need to train",
+		featLead: "Built for calisthenics and home training; it works for any routine of sets and reps.",
+		features: [
+			["routine", "Routines your way", "Sets, reps or time, per side, added weight, sections, supersets and circuits. Print them or save them as PDF."],
+			["play", "Train hands-free", "One exercise per screen and a full-screen countdown with sound or vibration."],
+			["up", "Progression", "After a session, Usus suggests moving to the next exercise or back to the previous one. You decide."],
+			["book", "Exercise catalogue", "A card for each exercise, equipment and progression.", true],
+			["plan", "Guided plan", "Routines at your level and a plan that rotates variants in order, with deloads and pauses. Also with external AI.", true],
+			["diary", "Diary and progress", "Sleep, steps, weight, activity and notes. Consistency, PRs and habits at a glance."],
+			["people", "Profiles", "Several people on one phone, optional cycle tracking and light, dark and protector themes."],
+			["share", "Share without servers", "Send workouts and routines by link. Backups and CSV export."]
+		],
+		shotsTitle: "Take a look", shotsLead: "Screenshots in Spanish. The app is also in Catalan and English.",
+		shots: [["03-sesion", "Training"], ["14-cuenta-atras", "Countdown"], ["02-rutinas", "Routines"], ["04-plan", "Plan"], ["05-diario", "Diary"], ["06-progreso", "Progress"], ["13-ficha", "Exercise card"], ["11-ciclo-hoy", "Cycle"]],
+		installTitle: "Install", installLead: "Choose how to use it. It's free everywhere.",
+		androidSteps: ["Download the APK from the latest release.", "Open it and allow installing from that source if Android asks.", "To get updates, add <code>https://github.com/oluengo/usus</code> to Obtainium."],
+		apk: "Download APK",
+		webTitle: "iPhone or computer",
+		webSteps: ["Open Usus in your browser.", "iPhone (Safari): Share → “Add to Home Screen”.", "Chrome or Edge: the install icon in the address bar."],
+		beta: "Try the beta",
+		installNote: "The web app and the APK keep separate data: move it with a backup (Settings → Data).",
+		privTitle: "Your data never leaves your phone",
+		privLead: "Usus collects no data. There are no accounts, servers, analytics, ads or trackers.",
+		privLink: "Read the privacy policy",
+		priv: ["Routines, sessions, diary, weight and cycle are stored only on your device. Nobody else can access them, including the developer.", "Only what you export leaves: backups, CSV or what you share.", "The APK has no Internet permission; just vibration for rest alerts.", "Deleting is easy: Settings → Data, or uninstall the app."],
+		faqTitle: "FAQ",
+		faq: [
+			["How much does it cost?", "Nothing. Usus is free, with no ads or in-app purchases. If you find it useful, you can support the project with a donation."],
+			["Do I need an account?", "No. Open the app and start. Your data stays on your device."],
+			["Does it work offline?", "Yes. The web app installs like an app and works without Internet; the Android APK doesn't use the network."],
+			["How do I move my data to another phone?", "Make a backup in Settings → Data and open it on the other device."],
+			["Does Usus give medical advice?", "No. It's a logging tool. For any health question, ask a professional."],
+			["What is the beta?", "A test version with the latest changes. It keeps its own data, separate from the regular version, and may have bugs."]
+		],
+		releases: "Releases", changelog: "Changelog", issues: "Report a problem", license: "MIT License",
+		support: "Support the project (tap to copy):", copied: "copied",
+		made: "Built with AI · tested by humans", disclaimer: "A logging tool, not medical advice"
+	}
+};
+const ICONS = {
+	routine: '<path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>',
+	play: '<circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2M9 2h6"/>',
+	up: '<path d="M3 17l6-6 4 4 8-8M15 7h6v6"/>',
+	book: '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/>',
+	plan: '<rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4M8 14h3M13 17h3"/>',
+	diary: '<path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/>',
+	people: '<circle cx="9" cy="8" r="3.5"/><path d="M2 20c.8-3.5 3.6-5.5 7-5.5s6.2 2 7 5.5"/><circle cx="17.5" cy="9" r="2.5"/><path d="M17 14.5c2.4.2 4.3 1.9 5 4.5"/>',
+	share: '<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/>'
+};
+const LANGS = ["ca", "es", "en"], root = document.documentElement;
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+function pickLang() {
+	const q = new URLSearchParams(location.search).get("lang");
+	if (LANGS.includes(q)) return q;
+	try { const s = localStorage.getItem("lang"); if (LANGS.includes(s)) return s; } catch (e) {}
+	const n = (navigator.languages || [navigator.language || ""]).map(x => String(x).slice(0, 2));
+	return n.find(x => LANGS.includes(x)) || "en";
+}
+let L;
+function render(lang) {
+	L = lang; const t = I[lang]; root.lang = lang;
+	document.querySelectorAll("[data-i]").forEach(el => { el.textContent = t[el.dataset.i]; });
+	document.querySelectorAll("[data-i-aria]").forEach(el => { el.setAttribute("aria-label", t[el.dataset.iAria]); el.title = t[el.dataset.iAria]; });
+	document.querySelectorAll("[data-i-alt]").forEach(el => { el.alt = t[el.dataset.iAlt]; });
+	document.querySelectorAll("[data-list]").forEach(el => { el.innerHTML = t[el.dataset.list].map(x => "<li>" + (el.dataset.list.endsWith("Steps") ? x : esc(x)) + "</li>").join(""); });
+	document.getElementById("features-list").innerHTML = t.features.map(([ic, h, p, opt]) =>
+		`<div class="feature"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[ic]}</svg></div><h3>${esc(h)}${opt ? `<span class="opt">${lang === "en" ? "optional" : "opcional"}</span>` : ""}</h3><p>${esc(p)}</p></div>`).join("");
+	document.getElementById("gallery").innerHTML = t.shots.map(([f, c]) =>
+		`<figure><img src="app/capturas/${f}.jpg" width="540" height="1169" loading="lazy" alt="${esc(c)}"><figcaption>${esc(c)}</figcaption></figure>`).join("");
+	document.getElementById("faq-list").innerHTML = t.faq.map(([q, a]) => `<details><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join("");
+	document.getElementById("changelog").href = "https://github.com/oluengo/usus/blob/main/CHANGELOG.md" + (lang === "en" ? "#english" : "");
+	document.querySelectorAll("[data-lang]").forEach(b => b.setAttribute("aria-pressed", b.dataset.lang === lang));
+}
+document.querySelectorAll("[data-lang]").forEach(b => b.addEventListener("click", () => {
+	try { localStorage.setItem("lang", b.dataset.lang); } catch (e) {}
+	render(b.dataset.lang);
+}));
+try { const th = localStorage.getItem("theme"); if (th) root.dataset.theme = th; } catch (e) {}
+document.getElementById("theme").addEventListener("click", () => {
+	const cur = root.dataset.theme || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+	root.dataset.theme = cur === "dark" ? "light" : "dark";
+	try { localStorage.setItem("theme", root.dataset.theme); } catch (e) {}
+});
+const copied = document.getElementById("copied"); let ct;
+document.querySelectorAll("[data-copy]").forEach(b => b.addEventListener("click", async () => {
+	let ok = false;
+	try { await navigator.clipboard.writeText(b.dataset.copy); ok = true; } catch (e) {}
+	copied.textContent = ok ? b.textContent + " " + I[L].copied : b.dataset.copy;
+	clearTimeout(ct); ct = setTimeout(() => { copied.textContent = ""; }, ok ? 1800 : 8000);
+}));
+render(pickLang());
+</script>
+</body>
+</html>

@@ -8,12 +8,12 @@
 
 Gratis, sin cuentas ni anuncios y sin conexión. Todo se guarda **solo en tu móvil** ([privacidad](PRIVACY.md)). En castellano, català e inglés.
 
-**[Abrir Usus →](https://oluengo.github.io/usus/)** · **[Descargar para Android](https://github.com/oluengo/usus/releases/latest)**
+**[Abrir Usus →](https://oluengo.github.io/usus/app/)** · **[Web](https://oluengo.github.io/usus/)** · **[Descargar para Android](https://github.com/oluengo/usus/releases/latest)**
 
 ## Instalar
 
 - **Android:** el APK de la [última versión](https://github.com/oluengo/usus/releases/latest), o añade `https://github.com/oluengo/usus` en [Obtainium](https://github.com/ImranR98/Obtainium) para recibir las actualizaciones.
-- **iPhone u ordenador:** abre [la web](https://oluengo.github.io/usus/) e instálala desde el navegador (Safari: Compartir → «Añadir a pantalla de inicio»).
+- **iPhone u ordenador:** abre [la web](https://oluengo.github.io/usus/app/) e instálala desde el navegador (Safari: Compartir → «Añadir a pantalla de inicio»).
 
 Web y APK guardan sus datos por separado: pásalos con una copia (Ajustes → Datos). Firma, permisos y versión beta: [ANDROID.md](ANDROID.md).
 
@@ -48,12 +48,12 @@ Web y APK guardan sus datos por separado: pásalos con una copia (Ajustes → Da
 
 Free, no accounts, no ads and works offline. Everything is stored **only on your phone** ([privacy](PRIVACY.md#english)). In Spanish, Catalan and English.
 
-**[Open Usus →](https://oluengo.github.io/usus/)** · **[Download for Android](https://github.com/oluengo/usus/releases/latest)**
+**[Open Usus →](https://oluengo.github.io/usus/app/)** · **[Website](https://oluengo.github.io/usus/)** · **[Download for Android](https://github.com/oluengo/usus/releases/latest)**
 
 ### Install
 
 - **Android:** the APK from the [latest release](https://github.com/oluengo/usus/releases/latest), or add `https://github.com/oluengo/usus` to [Obtainium](https://github.com/ImranR98/Obtainium) to get updates.
-- **iPhone or computer:** open [the web app](https://oluengo.github.io/usus/) and install it from the browser (Safari: Share → “Add to Home Screen”).
+- **iPhone or computer:** open [the web app](https://oluengo.github.io/usus/app/) and install it from the browser (Safari: Share → “Add to Home Screen”).
 
 Web and APK keep separate data: move it with a backup (Settings → Data). Signing, permissions and beta: [ANDROID.md](ANDROID.md#english).
 

@@ -2,6 +2,7 @@
   "name": "Usus",
   "short_name": "Usus",
   "description": "Workout log with routines, timers and stats. Works offline. · Registro de entrenamientos · Registre d'entrenaments",
+  "id": "/usus/",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
