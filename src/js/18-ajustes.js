@@ -65,6 +65,7 @@ function viewData() {
     perfil: `
     ${profSettings()}
     ${persPanel()}
+    ${nostrAccount()}
     ${curProf().sex === "m" ? "" : `<h2>${T("Ciclo")}</h2>
     ${cycSettings()}`}
     ${aiProfPanel()}
@@ -109,7 +110,7 @@ function viewData() {
     <h2>${T("Importar")}</h2>
     <div class="panel">${item(T("Importar JSON"), T("Copia completa o solo rutinas. Se combina con lo existente; los duplicados se actualizan."), "imp", T("Elegir archivo"))}</div>
     <input type="file" id="impFile" accept="application/json,.json,text/plain,.txt" hidden>
-    ${nostrBlock(item)}
+    ${nostrBackup(item)}
     <h2>${T("Zona peligrosa")}</h2>
     <div class="dzone" role="note"><b>⚠ ${T("Borrar todos los datos")}</b>
       <p>${multiProf() ? T("Se borra todo lo de este perfil en este dispositivo: rutinas, sesiones, plan, peso, diario y ciclo. No se puede deshacer.") : T("Se borra todo lo de este dispositivo: rutinas, sesiones, plan, peso, diario y ciclo. No se puede deshacer.")} ${T("Exporta antes una copia.")}</p>

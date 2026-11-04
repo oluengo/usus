@@ -1071,6 +1071,9 @@ msgstr ""
 msgid "Condiciones de salud relevantes"
 msgstr ""
 
+msgid "Conecta antes tu cuenta de Nostr en Ajustes → Perfil."
+msgstr ""
+
 msgid "Conecta tu cuenta de Nostr con un bunker (Amber, nsec.app…) para guardar copias cifradas y publicar tus entrenos y rutinas. Usus no ve tu clave privada y solo se conecta cuando usas Nostr."
 msgstr ""
 
@@ -1116,6 +1119,9 @@ msgstr ""
 
 #, python-brace-format
 msgid "Copia del {d} ({p}). Se combina con lo que hay en este perfil, como al importar un archivo. ¿Recuperarla?"
+msgstr ""
+
+msgid "Copia en Nostr"
 msgstr ""
 
 msgid "Copia guardada en Nostr"
@@ -1197,6 +1203,9 @@ msgid "Cuenta atrás"
 msgstr ""
 
 msgid "Cuenta atrás rehecha desde cero con cinco tramos y una regla para cada uno: preparación, serie, cambio de lado (ahora ajustable), descanso entre series y entre ejercicios. Al acabar un descanso, si sigue una serie por tiempo con inicio automático, empieza sola sin otra cuenta atrás; si no, espera."
+msgstr ""
+
+msgid "Cuenta de Nostr"
 msgstr ""
 
 msgid "Cuenta de Nostr conectada"
@@ -2315,13 +2324,13 @@ msgstr ""
 msgid "iPhone / iPad (Safari): botón Compartir → «Añadir a pantalla de inicio»."
 msgstr ""
 
-msgid "Ir a Ajustes"
-msgstr ""
-
 msgid "Ir a hoy"
 msgstr ""
 
 msgid "Ir a Hoy"
+msgstr ""
+
+msgid "Ir a Perfil"
 msgstr ""
 
 msgid "Irritabilidad"
@@ -2864,7 +2873,7 @@ msgstr ""
 msgid "Normal"
 msgstr ""
 
-msgid "Nostr (opcional): conecta tu cuenta con un bunker (Amber, nsec.app…) en Ajustes → Datos y copias. Usus no ve tu clave privada y, sin Nostr, no se conecta a nada."
+msgid "Nostr (opcional): conecta tu cuenta con un bunker (Amber, nsec.app…) en Ajustes → Perfil; la copia está en Ajustes → Datos y copias. Usus no ve tu clave privada y, sin Nostr, no se conecta a nada."
 msgstr ""
 
 msgid "Nota"
@@ -3082,7 +3091,7 @@ msgstr ""
 msgid "Para la IA"
 msgstr ""
 
-msgid "Para publicar, conecta antes tu cuenta de Nostr en Ajustes → Datos y copias."
+msgid "Para publicar, conecta antes tu cuenta de Nostr en Ajustes → Perfil."
 msgstr ""
 
 msgid "Para que las mejore o las respete (p. ej. una rutina diaria)."

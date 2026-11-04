@@ -31,11 +31,13 @@ test("conectar con el bunker y guardar la copia cifrada; recuperarla en otro per
   await mockNostr(page);
   const errors = await openApp(page, { data: { "wk.routines": ROUTINES } });
   await nav(page, "data"); await page.locator('[data-stab="datos"]').click();
+  await page.locator('[data-act="ns-go-set"]').click();                         // la cuenta va en Perfil
   await page.fill("#nsBunker", "hola"); await page.locator('[data-act="ns-connect"]').click();
   await expect(page.locator("#toast")).toContainText("bunker://");               // dirección no válida
   await page.fill("#nsBunker", BUNKER); await page.locator('[data-act="ns-connect"]').click();
   await expect(page.locator(".nsacc")).toContainText("npub1prueba");
   expect((await ls(page, "wk.nostr")).pubkey).toBe(PK);
+  await nav(page, "data"); await page.locator('[data-stab="datos"]').click();
   await page.locator('[data-act="ns-bk-save"]').click();
   await expect(page.locator("#toast")).toContainText("Copia guardada en Nostr");
   const evs = await page.evaluate(() => window.__ev);

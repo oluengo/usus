@@ -6,7 +6,7 @@ Todas las versiones de Usus. Formato basado en [Keep a Changelog](https://keepac
 
 ## [3.6.0] — en pruebas (beta)
 
-- Nostr (opcional): conecta tu cuenta con un bunker (Amber, nsec.app…) en Ajustes → Datos y copias. Usus no ve tu clave privada y, sin Nostr, no se conecta a nada.
+- Nostr (opcional): conecta tu cuenta con un bunker (Amber, nsec.app…) en Ajustes → Perfil; la copia está en Ajustes → Datos y copias. Usus no ve tu clave privada y, sin Nostr, no se conecta a nada.
 - Copia de seguridad en Nostr: la copia completa, comprimida y cifrada para que solo tú puedas leerla. «Guardar copia en Nostr» y «Recuperar de Nostr», por ejemplo para pasar tus datos a otro móvil.
 - Publicar en Nostr: el entreno (texto y, si quieres, su imagen) y tus rutinas o el plan con su enlace. Antes de publicar ves y editas la nota.
 - El APK pide ahora permiso de Internet, que solo se usa con Nostr.
@@ -299,7 +299,7 @@ Primera versión pública.
 
 ### [3.6.0] — en pruebas (beta)
 
-- Nostr (opcional): connecta el teu compte amb un bunker (Amber, nsec.app…) a Ajustos → Dades i còpies. Usus no veu la teva clau privada i, sense Nostr, no es connecta a res.
+- Nostr (opcional): connecta el teu compte amb un bunker (Amber, nsec.app…) a Ajustos → Perfil; la còpia és a Ajustos → Dades i còpies. Usus no veu la teva clau privada i, sense Nostr, no es connecta a res.
 - Còpia de seguretat a Nostr: la còpia completa, comprimida i xifrada perquè només tu la puguis llegir. «Desar còpia a Nostr» i «Recuperar de Nostr», per exemple per passar les teves dades a un altre mòbil.
 - Publicar a Nostr: l'entrenament (text i, si vols, la imatge) i les teves rutines o el pla amb el seu enllaç. Abans de publicar veus i edites la nota.
 - L'APK demana ara permís d'Internet, que només es fa servir amb Nostr.
@@ -434,7 +434,7 @@ Primera versió pública: rutines amb sèries per repeticions o per temps, compt
 
 ### [3.6.0] — en pruebas (beta)
 
-- Nostr (optional): connect your account with a bunker (Amber, nsec.app…) in Settings → Data and backups. Usus never sees your private key and, without Nostr, connects to nothing.
+- Nostr (optional): connect your account with a bunker (Amber, nsec.app…) in Settings → Profile; the backup is in Settings → Data and backups. Usus never sees your private key and, without Nostr, connects to nothing.
 - Backup on Nostr: the full backup, compressed and encrypted so only you can read it. “Save backup to Nostr” and “Restore from Nostr”, for example to move your data to another phone.
 - Post on Nostr: the workout (text and, if you like, its image) and your routines or plan with their link. You see and edit the note before posting.
 - The APK now asks for Internet permission, used only for Nostr.

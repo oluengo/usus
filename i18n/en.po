@@ -1072,6 +1072,9 @@ msgstr "With variants, Usus uses its progression plan: Today tells you what's on
 msgid "Condiciones de salud relevantes"
 msgstr "Relevant health conditions"
 
+msgid "Conecta antes tu cuenta de Nostr en Ajustes → Perfil."
+msgstr "First connect your Nostr account in Settings → Profile."
+
 msgid "Conecta tu cuenta de Nostr con un bunker (Amber, nsec.app…) para guardar copias cifradas y publicar tus entrenos y rutinas. Usus no ve tu clave privada y solo se conecta cuando usas Nostr."
 msgstr "Connect your Nostr account with a bunker (Amber, nsec.app…) to save encrypted backups and post your workouts and routines. Usus never sees your private key and only connects when you use Nostr."
 
@@ -1118,6 +1121,9 @@ msgstr "Backup on Nostr: the full backup, compressed and encrypted so only you c
 #, python-brace-format
 msgid "Copia del {d} ({p}). Se combina con lo que hay en este perfil, como al importar un archivo. ¿Recuperarla?"
 msgstr "Backup from {d} ({p}). It's merged with what's in this profile, like importing a file. Restore it?"
+
+msgid "Copia en Nostr"
+msgstr "Backup on Nostr"
 
 msgid "Copia guardada en Nostr"
 msgstr "Backup saved on Nostr"
@@ -1199,6 +1205,9 @@ msgstr "Countdown"
 
 msgid "Cuenta atrás rehecha desde cero con cinco tramos y una regla para cada uno: preparación, serie, cambio de lado (ahora ajustable), descanso entre series y entre ejercicios. Al acabar un descanso, si sigue una serie por tiempo con inicio automático, empieza sola sin otra cuenta atrás; si no, espera."
 msgstr "Countdown rebuilt from scratch with five stages and one rule each: get-ready, set, side switch (now adjustable), rest between sets and between exercises. When a rest ends, if a timed set with auto start follows, it starts right away with no extra countdown; otherwise it waits."
+
+msgid "Cuenta de Nostr"
+msgstr "Nostr account"
 
 msgid "Cuenta de Nostr conectada"
 msgstr "Nostr account connected"
@@ -2316,14 +2325,14 @@ msgstr "Intermediate (2–5 years)"
 msgid "iPhone / iPad (Safari): botón Compartir → «Añadir a pantalla de inicio»."
 msgstr "iPhone / iPad (Safari): Share button → “Add to Home Screen”."
 
-msgid "Ir a Ajustes"
-msgstr "Go to Settings"
-
 msgid "Ir a hoy"
 msgstr "Go to today"
 
 msgid "Ir a Hoy"
 msgstr "Go to Today"
+
+msgid "Ir a Perfil"
+msgstr "Go to Profile"
 
 msgid "Irritabilidad"
 msgstr "Irritability"
@@ -2865,8 +2874,8 @@ msgstr "Exercise name"
 msgid "Normal"
 msgstr "Normal"
 
-msgid "Nostr (opcional): conecta tu cuenta con un bunker (Amber, nsec.app…) en Ajustes → Datos y copias. Usus no ve tu clave privada y, sin Nostr, no se conecta a nada."
-msgstr "Nostr (optional): connect your account with a bunker (Amber, nsec.app…) in Settings → Data and backups. Usus never sees your private key and, without Nostr, connects to nothing."
+msgid "Nostr (opcional): conecta tu cuenta con un bunker (Amber, nsec.app…) en Ajustes → Perfil; la copia está en Ajustes → Datos y copias. Usus no ve tu clave privada y, sin Nostr, no se conecta a nada."
+msgstr "Nostr (optional): connect your account with a bunker (Amber, nsec.app…) in Settings → Profile; the backup is in Settings → Data and backups. Usus never sees your private key and, without Nostr, connects to nothing."
 
 msgid "Nota"
 msgstr "Note"
@@ -3083,8 +3092,8 @@ msgstr "To pick exercises when building routines and know how to progress."
 msgid "Para la IA"
 msgstr "For the AI"
 
-msgid "Para publicar, conecta antes tu cuenta de Nostr en Ajustes → Datos y copias."
-msgstr "To post, first connect your Nostr account in Settings → Data and backups."
+msgid "Para publicar, conecta antes tu cuenta de Nostr en Ajustes → Perfil."
+msgstr "To post, first connect your Nostr account in Settings → Profile."
 
 msgid "Para que las mejore o las respete (p. ej. una rutina diaria)."
 msgstr "So it improves or keeps them (e.g. a daily routine)."
@@ -4871,6 +4880,15 @@ msgstr "Lower back"
 
 msgid "Zona peligrosa"
 msgstr "Danger zone"
+
+#~ msgid "Nostr (opcional): conecta tu cuenta con un bunker (Amber, nsec.app…) en Ajustes → Datos y copias. Usus no ve tu clave privada y, sin Nostr, no se conecta a nada."
+#~ msgstr "Nostr (optional): connect your account with a bunker (Amber, nsec.app…) in Settings → Data and backups. Usus never sees your private key and, without Nostr, connects to nothing."
+
+#~ msgid "Ir a Ajustes"
+#~ msgstr "Go to Settings"
+
+#~ msgid "Para publicar, conecta antes tu cuenta de Nostr en Ajustes → Datos y copias."
+#~ msgstr "To post, first connect your Nostr account in Settings → Data and backups."
 
 #~ msgid "Esta app no se conecta a Internet, así que no busca versiones nuevas por su cuenta. Se publican en GitHub; al instalar una nueva encima, tus datos se mantienen."
 #~ msgstr "This app doesn't connect to the Internet, so it doesn't look for new versions by itself. They're published on GitHub; installing a new one on top keeps your data."

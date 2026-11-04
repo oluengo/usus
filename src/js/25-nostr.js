@@ -150,20 +150,27 @@ function nsPostModal() {
       ${p.k === "sess" ? `<label class="shopt"><span>${T("Con la imagen del entreno")}<small class="muted" style="display:block;font-size:.78rem">${T("Se sube a un servidor Blossom y queda pública.")}</small></span><input type="checkbox" role="switch" id="nsImg" ${p.img ? "checked" : ""}></label>` : ""}
       ${b ? `<p class="nsbusy" role="status">${esc(b)}</p>` : ""}
       <div class="row" style="margin-top:12px"><button class="btn" style="flex:1" data-act="ns-post-close">${T("Cancelar")}</button><button class="btn primary" style="flex:1" data-act="ns-post-go" ${b ? "disabled" : ""}>${T("Publicar")}</button></div>`
-    : `<p>${T("Para publicar, conecta antes tu cuenta de Nostr en Ajustes → Datos y copias.")}</p>
-      <div class="row" style="margin-top:12px"><button class="btn" style="flex:1" data-act="ns-post-close">${T("Cancelar")}</button><button class="btn primary" style="flex:1" data-act="ns-go-set">${T("Ir a Ajustes")}</button></div>`}
+    : `<p>${T("Para publicar, conecta antes tu cuenta de Nostr en Ajustes → Perfil.")}</p>
+      <div class="row" style="margin-top:12px"><button class="btn" style="flex:1" data-act="ns-post-close">${T("Cancelar")}</button><button class="btn primary" style="flex:1" data-act="ns-go-set">${T("Ir a Perfil")}</button></div>`}
   </div></div>`;
 }
-/* Ajustes → Datos y copias */
-function nostrBlock(item) {
-  const c = NS.cfg(), b = state.nsBusy, when = t => new Date(t).toLocaleDateString(LOC(), { day: "numeric", month: "short", year: "numeric" });
-  return `<h2>Nostr</h2><div class="panel">${c ? `
-    <div class="nsacc"><span class="nsav" aria-hidden="true">${NS_ICO}</span><span class="t"><b>${esc(c.name || T("Tu cuenta"))}</b><small>${esc(nsShort(c))}</small></span><button class="btn small" data-act="ns-off">${T("Desconectar")}</button></div>
-    ${item(T("Guardar copia en Nostr"), T("La copia completa, cifrada para que solo tú puedas leerla.") + (c.lastBk ? " " + T("Última: {d}.", { d: when(c.lastBk) }) : ""), "ns-bk-save", T("Guardar"), true)}
-    ${item(T("Recuperar de Nostr"), T("Trae tu copia y la combina con lo que hay en este perfil."), "ns-bk-load", T("Recuperar"))}`
+/* La cuenta, en Ajustes → Perfil (cada perfil, la suya); la copia, en Ajustes → Datos y copias */
+const nsBusyLine = () => state.nsBusy ? `<p class="nsbusy" role="status">${esc(state.nsBusy)}</p>` : "";
+function nostrAccount() {
+  const c = NS.cfg();
+  return `<h2>${T("Cuenta de Nostr")}</h2><div class="panel">${c ? `
+    <div class="nsacc" style="border:0;margin:0;padding:0"><span class="nsav" aria-hidden="true">${NS_ICO}</span><span class="t"><b>${esc(c.name || T("Tu cuenta"))}</b><small>${esc(nsShort(c))}</small></span><button class="btn small" data-act="ns-off">${T("Desconectar")}</button></div>`
   : `<p class="muted" style="font-size:.88rem;margin:0 0 10px">${T("Conecta tu cuenta de Nostr con un bunker (Amber, nsec.app…) para guardar copias cifradas y publicar tus entrenos y rutinas. Usus no ve tu clave privada y solo se conecta cuando usas Nostr.")}</p>
     <label class="muted" for="nsBunker" style="font-size:.85rem">${T("Dirección del bunker")}</label>
-    <div class="row" style="margin-top:4px;flex-wrap:nowrap"><input id="nsBunker" type="text" placeholder="bunker://…" autocomplete="off" autocapitalize="off" spellcheck="false" style="flex:1;min-width:0"><button class="btn primary" data-act="ns-connect" ${b ? "disabled" : ""}>${T("Conectar")}</button></div>`}
-    ${b ? `<p class="nsbusy" role="status">${esc(b)}</p>` : ""}</div>`;
+    <div class="row" style="margin-top:4px;flex-wrap:nowrap"><input id="nsBunker" type="text" placeholder="bunker://…" autocomplete="off" autocapitalize="off" spellcheck="false" style="flex:1;min-width:0"><button class="btn primary" data-act="ns-connect" ${state.nsBusy ? "disabled" : ""}>${T("Conectar")}</button></div>`}
+    ${nsBusyLine()}</div>`;
+}
+function nostrBackup(item) {
+  const c = NS.cfg(), when = t => new Date(t).toLocaleDateString(LOC(), { day: "numeric", month: "short", year: "numeric" });
+  return `<h2>Nostr</h2><div class="panel">${c ? `
+    ${item(T("Guardar copia en Nostr"), T("La copia completa, cifrada para que solo tú puedas leerla.") + (c.lastBk ? " " + T("Última: {d}.", { d: when(c.lastBk) }) : ""), "ns-bk-save", T("Guardar"), true)}
+    ${item(T("Recuperar de Nostr"), T("Trae tu copia y la combina con lo que hay en este perfil."), "ns-bk-load", T("Recuperar"))}`
+  : `${item(T("Copia en Nostr"), T("Conecta antes tu cuenta de Nostr en Ajustes → Perfil."), "ns-go-set", T("Ir a Perfil"))}`}
+    ${nsBusyLine()}</div>`;
 }
 const NS_ICO = '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20c2-6 6-9 12-10M16 10c1.5-2 2-4 1.5-6-2 0-4 1-5 3"/><circle cx="7" cy="17" r="1"/></svg>';

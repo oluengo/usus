@@ -4356,6 +4356,7 @@ function viewData() {
     perfil: `
     ${profSettings()}
     ${persPanel()}
+    ${nostrAccount()}
     ${curProf().sex === "m" ? "" : `<h2>${T("Ciclo")}</h2>
     ${cycSettings()}`}
     ${aiProfPanel()}
@@ -4400,7 +4401,7 @@ function viewData() {
     <h2>${T("Importar")}</h2>
     <div class="panel">${item(T("Importar JSON"), T("Copia completa o solo rutinas. Se combina con lo existente; los duplicados se actualizan."), "imp", T("Elegir archivo"))}</div>
     <input type="file" id="impFile" accept="application/json,.json,text/plain,.txt" hidden>
-    ${nostrBlock(item)}
+    ${nostrBackup(item)}
     <h2>${T("Zona peligrosa")}</h2>
     <div class="dzone" role="note"><b>⚠ ${T("Borrar todos los datos")}</b>
       <p>${multiProf() ? T("Se borra todo lo de este perfil en este dispositivo: rutinas, sesiones, plan, peso, diario y ciclo. No se puede deshacer.") : T("Se borra todo lo de este dispositivo: rutinas, sesiones, plan, peso, diario y ciclo. No se puede deshacer.")} ${T("Exporta antes una copia.")}</p>
@@ -4486,7 +4487,7 @@ function installBlock() {
 /* ---------- Novedades (una vez por versión; historial al tocar la versión) ---------- */
 const CHANGES = [  // Novedades: solo en castellano; las traducciones, en i18n/*.po
   ["3.6.0", [
-    N_("Nostr (opcional): conecta tu cuenta con un bunker (Amber, nsec.app…) en Ajustes → Datos y copias. Usus no ve tu clave privada y, sin Nostr, no se conecta a nada."),
+    N_("Nostr (opcional): conecta tu cuenta con un bunker (Amber, nsec.app…) en Ajustes → Perfil; la copia está en Ajustes → Datos y copias. Usus no ve tu clave privada y, sin Nostr, no se conecta a nada."),
     N_("Copia de seguridad en Nostr: la copia completa, comprimida y cifrada para que solo tú puedas leerla. «Guardar copia en Nostr» y «Recuperar de Nostr», por ejemplo para pasar tus datos a otro móvil."),
     N_("Publicar en Nostr: el entreno (texto y, si quieres, su imagen) y tus rutinas o el plan con su enlace. Antes de publicar ves y editas la nota."),
     N_("El APK pide ahora permiso de Internet, que solo se usa con Nostr.")
@@ -5648,21 +5649,28 @@ function nsPostModal() {
       ${p.k === "sess" ? `<label class="shopt"><span>${T("Con la imagen del entreno")}<small class="muted" style="display:block;font-size:.78rem">${T("Se sube a un servidor Blossom y queda pública.")}</small></span><input type="checkbox" role="switch" id="nsImg" ${p.img ? "checked" : ""}></label>` : ""}
       ${b ? `<p class="nsbusy" role="status">${esc(b)}</p>` : ""}
       <div class="row" style="margin-top:12px"><button class="btn" style="flex:1" data-act="ns-post-close">${T("Cancelar")}</button><button class="btn primary" style="flex:1" data-act="ns-post-go" ${b ? "disabled" : ""}>${T("Publicar")}</button></div>`
-    : `<p>${T("Para publicar, conecta antes tu cuenta de Nostr en Ajustes → Datos y copias.")}</p>
-      <div class="row" style="margin-top:12px"><button class="btn" style="flex:1" data-act="ns-post-close">${T("Cancelar")}</button><button class="btn primary" style="flex:1" data-act="ns-go-set">${T("Ir a Ajustes")}</button></div>`}
+    : `<p>${T("Para publicar, conecta antes tu cuenta de Nostr en Ajustes → Perfil.")}</p>
+      <div class="row" style="margin-top:12px"><button class="btn" style="flex:1" data-act="ns-post-close">${T("Cancelar")}</button><button class="btn primary" style="flex:1" data-act="ns-go-set">${T("Ir a Perfil")}</button></div>`}
   </div></div>`;
 }
-/* Ajustes → Datos y copias */
-function nostrBlock(item) {
-  const c = NS.cfg(), b = state.nsBusy, when = t => new Date(t).toLocaleDateString(LOC(), { day: "numeric", month: "short", year: "numeric" });
-  return `<h2>Nostr</h2><div class="panel">${c ? `
-    <div class="nsacc"><span class="nsav" aria-hidden="true">${NS_ICO}</span><span class="t"><b>${esc(c.name || T("Tu cuenta"))}</b><small>${esc(nsShort(c))}</small></span><button class="btn small" data-act="ns-off">${T("Desconectar")}</button></div>
-    ${item(T("Guardar copia en Nostr"), T("La copia completa, cifrada para que solo tú puedas leerla.") + (c.lastBk ? " " + T("Última: {d}.", { d: when(c.lastBk) }) : ""), "ns-bk-save", T("Guardar"), true)}
-    ${item(T("Recuperar de Nostr"), T("Trae tu copia y la combina con lo que hay en este perfil."), "ns-bk-load", T("Recuperar"))}`
+/* La cuenta, en Ajustes → Perfil (cada perfil, la suya); la copia, en Ajustes → Datos y copias */
+const nsBusyLine = () => state.nsBusy ? `<p class="nsbusy" role="status">${esc(state.nsBusy)}</p>` : "";
+function nostrAccount() {
+  const c = NS.cfg();
+  return `<h2>${T("Cuenta de Nostr")}</h2><div class="panel">${c ? `
+    <div class="nsacc" style="border:0;margin:0;padding:0"><span class="nsav" aria-hidden="true">${NS_ICO}</span><span class="t"><b>${esc(c.name || T("Tu cuenta"))}</b><small>${esc(nsShort(c))}</small></span><button class="btn small" data-act="ns-off">${T("Desconectar")}</button></div>`
   : `<p class="muted" style="font-size:.88rem;margin:0 0 10px">${T("Conecta tu cuenta de Nostr con un bunker (Amber, nsec.app…) para guardar copias cifradas y publicar tus entrenos y rutinas. Usus no ve tu clave privada y solo se conecta cuando usas Nostr.")}</p>
     <label class="muted" for="nsBunker" style="font-size:.85rem">${T("Dirección del bunker")}</label>
-    <div class="row" style="margin-top:4px;flex-wrap:nowrap"><input id="nsBunker" type="text" placeholder="bunker://…" autocomplete="off" autocapitalize="off" spellcheck="false" style="flex:1;min-width:0"><button class="btn primary" data-act="ns-connect" ${b ? "disabled" : ""}>${T("Conectar")}</button></div>`}
-    ${b ? `<p class="nsbusy" role="status">${esc(b)}</p>` : ""}</div>`;
+    <div class="row" style="margin-top:4px;flex-wrap:nowrap"><input id="nsBunker" type="text" placeholder="bunker://…" autocomplete="off" autocapitalize="off" spellcheck="false" style="flex:1;min-width:0"><button class="btn primary" data-act="ns-connect" ${state.nsBusy ? "disabled" : ""}>${T("Conectar")}</button></div>`}
+    ${nsBusyLine()}</div>`;
+}
+function nostrBackup(item) {
+  const c = NS.cfg(), when = t => new Date(t).toLocaleDateString(LOC(), { day: "numeric", month: "short", year: "numeric" });
+  return `<h2>Nostr</h2><div class="panel">${c ? `
+    ${item(T("Guardar copia en Nostr"), T("La copia completa, cifrada para que solo tú puedas leerla.") + (c.lastBk ? " " + T("Última: {d}.", { d: when(c.lastBk) }) : ""), "ns-bk-save", T("Guardar"), true)}
+    ${item(T("Recuperar de Nostr"), T("Trae tu copia y la combina con lo que hay en este perfil."), "ns-bk-load", T("Recuperar"))}`
+  : `${item(T("Copia en Nostr"), T("Conecta antes tu cuenta de Nostr en Ajustes → Perfil."), "ns-go-set", T("Ir a Perfil"))}`}
+    ${nsBusyLine()}</div>`;
 }
 const NS_ICO = '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20c2-6 6-9 12-10M16 10c1.5-2 2-4 1.5-6-2 0-4 1-5 3"/><circle cx="7" cy="17" r="1"/></svg>';
 /* ---------- Eventos ---------- */
@@ -5998,7 +6006,7 @@ document.addEventListener("click", async ev => {
     case "rs-nostr": nsPostRout(); break;
     case "ns-post-go": nsPublish(); break;
     case "ns-post-close": if (state.nsBusy) break; if (state.nsPost && !state.nsPost.done && ($("#nsText")?.value || "").trim() !== state.nsPost.text.trim() && !confirm(T("¿Descartar la nota sin publicar?"))) break; state.nsPost = null; render(); break;
-    case "ns-go-set": state.nsPost = null; state.shareSess = null; state.rshare = null; state.savedSess = null; state.tab = "data"; state.setTab = "datos"; render(); window.scrollTo(0, 0); break;
+    case "ns-go-set": state.nsPost = null; state.shareSess = null; state.rshare = null; state.savedSess = null; state.tab = "data"; state.setTab = "perfil"; render(); setTimeout(() => $("#nsBunker")?.scrollIntoView({ block: "center" }), 50); break;
     case "share-app": await shareOut({ title: "Usus", text: shareAppText(), url: appURL() }); break;
     case "saved-close": state.savedSess = null; state.progProps = null; render(); break;
     case "shsess-close": state.shareSess = null; render(); break;
@@ -6553,6 +6561,7 @@ const I18N = {
     "Con tu molestia, algunos ejercicios se cambian por otros de la misma zona.": "Amb la teva molèstia, alguns exercicis es canvien per altres de la mateixa zona.",
     "Con variantes, Usus usa su plan de progresión: Hoy te dice qué toca cada semana.": "Amb variants, Usus fa servir el seu pla de progressió: Avui et diu què toca cada setmana.",
     "Condiciones de salud relevantes": "Condicions de salut rellevants",
+    "Conecta antes tu cuenta de Nostr en Ajustes → Perfil.": "Connecta abans el teu compte de Nostr a Ajustos → Perfil.",
     "Conecta tu cuenta de Nostr con un bunker (Amber, nsec.app…) para guardar copias cifradas y publicar tus entrenos y rutinas. Usus no ve tu clave privada y solo se conecta cuando usas Nostr.": "Connecta el teu compte de Nostr amb un bunker (Amber, nsec.app…) per desar còpies xifrades i publicar els teus entrenaments i rutines. Usus no veu la teva clau privada i només es connecta quan fas servir Nostr.",
     "Conectando… acepta la petición en tu bunker.": "Connectant… accepta la petició al teu bunker.",
     "Conectar": "Connectar",
@@ -6568,6 +6577,7 @@ const I18N = {
     "Copia de seguridad": "Còpia de seguretat",
     "Copia de seguridad en Nostr: la copia completa, comprimida y cifrada para que solo tú puedas leerla. «Guardar copia en Nostr» y «Recuperar de Nostr», por ejemplo para pasar tus datos a otro móvil.": "Còpia de seguretat a Nostr: la còpia completa, comprimida i xifrada perquè només tu la puguis llegir. «Desar còpia a Nostr» i «Recuperar de Nostr», per exemple per passar les teves dades a un altre mòbil.",
     "Copia del {d} ({p}). Se combina con lo que hay en este perfil, como al importar un archivo. ¿Recuperarla?": "Còpia del {d} ({p}). Es combina amb el que hi ha en aquest perfil, com en importar un fitxer. La vols recuperar?",
+    "Copia en Nostr": "Còpia a Nostr",
     "Copia guardada en Nostr": "Còpia desada a Nostr",
     "copia incompleta": "còpia incompleta",
     "Copia su respuesta (entera o solo el bloque de código) y toca el botón. Usus solo lee el bloque de datos y te enseña las rutinas y el plan antes de importar nada.": "Copia la resposta (sencera o només el bloc de codi) i toca el botó. Usus només llegeix el bloc de dades i t'ensenya les rutines i el pla abans d'importar res.",
@@ -6594,6 +6604,7 @@ const I18N = {
     "Cuando la IA responda": "Quan la IA respongui",
     "Cuenta atrás": "Compte enrere",
     "Cuenta atrás rehecha desde cero con cinco tramos y una regla para cada uno: preparación, serie, cambio de lado (ahora ajustable), descanso entre series y entre ejercicios. Al acabar un descanso, si sigue una serie por tiempo con inicio automático, empieza sola sin otra cuenta atrás; si no, espera.": "Compte enrere refet des de zero amb cinc trams i una regla per a cadascun: preparació, sèrie, canvi de costat (ara ajustable), descans entre sèries i entre exercicis. En acabar un descans, si segueix una sèrie per temps amb inici automàtic, comença sola sense un altre compte enrere; si no, espera.",
+    "Cuenta de Nostr": "Compte de Nostr",
     "Cuenta de Nostr conectada": "Compte de Nostr connectat",
     "Cuenta de Nostr desconectada": "Compte de Nostr desconnectat",
     "Cuerpo": "Cos",
@@ -6956,9 +6967,9 @@ const I18N = {
     "Instalar en el móvil": "Instal·la-la al mòbil",
     "Intermedio (2–5 años)": "Intermedi (2–5 anys)",
     "iPhone / iPad (Safari): botón Compartir → «Añadir a pantalla de inicio».": "iPhone / iPad (Safari): botó Compartir → «Afegeix a la pantalla d'inici».",
-    "Ir a Ajustes": "Anar a Ajustos",
     "Ir a hoy": "Vés a avui",
     "Ir a Hoy": "Anar a Avui",
+    "Ir a Perfil": "Anar a Perfil",
     "Irritabilidad": "Irritabilitat",
     "isométricos": "isomètrics",
     "Isométricos y habilidades": "Isomètrics i habilitats",
@@ -7134,7 +7145,7 @@ const I18N = {
     "Nombre de la sección": "Nom de la secció",
     "Nombre del ejercicio": "Nom de l'exercici",
     "Normal": "Normal",
-    "Nostr (opcional): conecta tu cuenta con un bunker (Amber, nsec.app…) en Ajustes → Datos y copias. Usus no ve tu clave privada y, sin Nostr, no se conecta a nada.": "Nostr (opcional): connecta el teu compte amb un bunker (Amber, nsec.app…) a Ajustos → Dades i còpies. Usus no veu la teva clau privada i, sense Nostr, no es connecta a res.",
+    "Nostr (opcional): conecta tu cuenta con un bunker (Amber, nsec.app…) en Ajustes → Perfil; la copia está en Ajustes → Datos y copias. Usus no ve tu clave privada y, sin Nostr, no se conecta a nada.": "Nostr (opcional): connecta el teu compte amb un bunker (Amber, nsec.app…) a Ajustos → Perfil; la còpia és a Ajustos → Dades i còpies. Usus no veu la teva clau privada i, sense Nostr, no es connecta a res.",
     "Nota": "Nota",
     "Nota (opcional)": "Nota (opcional)",
     "Nota de la sesión": "Nota de la sessió",
@@ -7203,7 +7214,7 @@ const I18N = {
     "Para el objetivo ({g})": "Per a l'objectiu ({g})",
     "Para elegir ejercicios al crear rutinas y saber cómo avanzar.": "Per triar exercicis en crear rutines i saber com avançar.",
     "Para la IA": "Per a la IA",
-    "Para publicar, conecta antes tu cuenta de Nostr en Ajustes → Datos y copias.": "Per publicar, connecta abans el teu compte de Nostr a Ajustos → Dades i còpies.",
+    "Para publicar, conecta antes tu cuenta de Nostr en Ajustes → Perfil.": "Per publicar, connecta abans el teu compte de Nostr a Ajustos → Perfil.",
     "Para que las mejore o las respete (p. ej. una rutina diaria).": "Perquè les millori o les respecti (p. ex. una rutina diària).",
     "Para qué lo usarías": "Per a què ho faries servir",
     "Para qué sirve": "Per a què serveix",
@@ -8104,6 +8115,7 @@ const I18N = {
     "Con tu molestia, algunos ejercicios se cambian por otros de la misma zona.": "Because of your ache, some exercises are replaced by others for the same area.",
     "Con variantes, Usus usa su plan de progresión: Hoy te dice qué toca cada semana.": "With variants, Usus uses its progression plan: Today tells you what's on each week.",
     "Condiciones de salud relevantes": "Relevant health conditions",
+    "Conecta antes tu cuenta de Nostr en Ajustes → Perfil.": "First connect your Nostr account in Settings → Profile.",
     "Conecta tu cuenta de Nostr con un bunker (Amber, nsec.app…) para guardar copias cifradas y publicar tus entrenos y rutinas. Usus no ve tu clave privada y solo se conecta cuando usas Nostr.": "Connect your Nostr account with a bunker (Amber, nsec.app…) to save encrypted backups and post your workouts and routines. Usus never sees your private key and only connects when you use Nostr.",
     "Conectando… acepta la petición en tu bunker.": "Connecting… accept the request in your bunker.",
     "Conectar": "Connect",
@@ -8119,6 +8131,7 @@ const I18N = {
     "Copia de seguridad": "Backup",
     "Copia de seguridad en Nostr: la copia completa, comprimida y cifrada para que solo tú puedas leerla. «Guardar copia en Nostr» y «Recuperar de Nostr», por ejemplo para pasar tus datos a otro móvil.": "Backup on Nostr: the full backup, compressed and encrypted so only you can read it. “Save backup to Nostr” and “Restore from Nostr”, for example to move your data to another phone.",
     "Copia del {d} ({p}). Se combina con lo que hay en este perfil, como al importar un archivo. ¿Recuperarla?": "Backup from {d} ({p}). It's merged with what's in this profile, like importing a file. Restore it?",
+    "Copia en Nostr": "Backup on Nostr",
     "Copia guardada en Nostr": "Backup saved on Nostr",
     "copia incompleta": "incomplete backup",
     "Copia su respuesta (entera o solo el bloque de código) y toca el botón. Usus solo lee el bloque de datos y te enseña las rutinas y el plan antes de importar nada.": "Copy its reply (all of it or just the code block) and tap the button. Usus only reads the data block and shows you the routines and plan before importing anything.",
@@ -8145,6 +8158,7 @@ const I18N = {
     "Cuando la IA responda": "When the AI replies",
     "Cuenta atrás": "Countdown",
     "Cuenta atrás rehecha desde cero con cinco tramos y una regla para cada uno: preparación, serie, cambio de lado (ahora ajustable), descanso entre series y entre ejercicios. Al acabar un descanso, si sigue una serie por tiempo con inicio automático, empieza sola sin otra cuenta atrás; si no, espera.": "Countdown rebuilt from scratch with five stages and one rule each: get-ready, set, side switch (now adjustable), rest between sets and between exercises. When a rest ends, if a timed set with auto start follows, it starts right away with no extra countdown; otherwise it waits.",
+    "Cuenta de Nostr": "Nostr account",
     "Cuenta de Nostr conectada": "Nostr account connected",
     "Cuenta de Nostr desconectada": "Nostr account disconnected",
     "Cuerpo": "Body",
@@ -8507,9 +8521,9 @@ const I18N = {
     "Instalar en el móvil": "Install on your phone",
     "Intermedio (2–5 años)": "Intermediate (2–5 years)",
     "iPhone / iPad (Safari): botón Compartir → «Añadir a pantalla de inicio».": "iPhone / iPad (Safari): Share button → “Add to Home Screen”.",
-    "Ir a Ajustes": "Go to Settings",
     "Ir a hoy": "Go to today",
     "Ir a Hoy": "Go to Today",
+    "Ir a Perfil": "Go to Profile",
     "Irritabilidad": "Irritability",
     "isométricos": "isometric",
     "Isométricos y habilidades": "Holds and skills",
@@ -8685,7 +8699,7 @@ const I18N = {
     "Nombre de la sección": "Section name",
     "Nombre del ejercicio": "Exercise name",
     "Normal": "Normal",
-    "Nostr (opcional): conecta tu cuenta con un bunker (Amber, nsec.app…) en Ajustes → Datos y copias. Usus no ve tu clave privada y, sin Nostr, no se conecta a nada.": "Nostr (optional): connect your account with a bunker (Amber, nsec.app…) in Settings → Data and backups. Usus never sees your private key and, without Nostr, connects to nothing.",
+    "Nostr (opcional): conecta tu cuenta con un bunker (Amber, nsec.app…) en Ajustes → Perfil; la copia está en Ajustes → Datos y copias. Usus no ve tu clave privada y, sin Nostr, no se conecta a nada.": "Nostr (optional): connect your account with a bunker (Amber, nsec.app…) in Settings → Profile; the backup is in Settings → Data and backups. Usus never sees your private key and, without Nostr, connects to nothing.",
     "Nota": "Note",
     "Nota (opcional)": "Note (optional)",
     "Nota de la sesión": "Session note",
@@ -8754,7 +8768,7 @@ const I18N = {
     "Para el objetivo ({g})": "To target ({g})",
     "Para elegir ejercicios al crear rutinas y saber cómo avanzar.": "To pick exercises when building routines and know how to progress.",
     "Para la IA": "For the AI",
-    "Para publicar, conecta antes tu cuenta de Nostr en Ajustes → Datos y copias.": "To post, first connect your Nostr account in Settings → Data and backups.",
+    "Para publicar, conecta antes tu cuenta de Nostr en Ajustes → Perfil.": "To post, first connect your Nostr account in Settings → Profile.",
     "Para que las mejore o las respete (p. ej. una rutina diaria).": "So it improves or keeps them (e.g. a daily routine).",
     "Para qué lo usarías": "What you'd use it for",
     "Para qué sirve": "What it's for",
