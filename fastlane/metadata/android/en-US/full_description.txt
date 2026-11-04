@@ -1,6 +1,6 @@
 Usus (Latin: practice, habit) lets you log your workouts and habits. Built with calisthenics and home training in mind, it works for any routine of sets and reps.
 
-Free, no accounts, no ads and no Internet connection: everything is stored only on your phone.
+Free, no accounts, no ads and works offline: everything is stored only on your phone.
 
 <b>What's inside</b>
 <ul>
@@ -14,8 +14,9 @@ Free, no accounts, no ads and no Internet connection: everything is stored only 
 <li><b>Profiles</b> for several people on one phone and optional cycle tracking.</li>
 <li><b>Optional, external AI</b>: Usus prepares the text for the AI of your choice to analyse your data or suggest a plan. Usus sends nothing.</li>
 <li><b>Share</b> a workout as an image or your routines through a link, with no servers.</li>
+<li><b>Nostr</b> (optional): with your bunker, a backup encrypted only for you and posting workouts and routines.</li>
 </ul>
 
-Backups to a file; in Spanish, Catalan and English. It asks for one permission only: vibration.
+Backups to a file; in Spanish, Catalan and English. Permissions: vibration, and Internet only for Nostr.
 
 It is a logging tool, not medical advice. Built with AI · tested by humans.

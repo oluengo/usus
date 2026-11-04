@@ -109,6 +109,7 @@ function viewData() {
     <h2>${T("Importar")}</h2>
     <div class="panel">${item(T("Importar JSON"), T("Copia completa o solo rutinas. Se combina con lo existente; los duplicados se actualizan."), "imp", T("Elegir archivo"))}</div>
     <input type="file" id="impFile" accept="application/json,.json,text/plain,.txt" hidden>
+    ${nostrBlock(item)}
     <h2>${T("Zona peligrosa")}</h2>
     <div class="dzone" role="note"><b>⚠ ${T("Borrar todos los datos")}</b>
       <p>${multiProf() ? T("Se borra todo lo de este perfil en este dispositivo: rutinas, sesiones, plan, peso, diario y ciclo. No se puede deshacer.") : T("Se borra todo lo de este dispositivo: rutinas, sesiones, plan, peso, diario y ciclo. No se puede deshacer.")} ${T("Exporta antes una copia.")}</p>
@@ -173,7 +174,7 @@ const SIGN_FP = "28:B6:FF:4A:8F:61:F6:88:D4:B4:9D:C7:E8:B7:2D:95:D5:D9:44:45:D2:
 function updatesBlock() {
   return `<h2>${T("Actualizaciones")}</h2>
     <div class="panel"><div class="row" style="justify-content:space-between;align-items:baseline"><b style="font-size:1.05rem">Usus ${APP_VERSION}${BETA ? " beta" : ""}</b><span class="badge-ok">${T("App Android")}</span></div>
-      <p class="muted" style="font-size:.85rem;margin:6px 0 0">${T("Esta app no se conecta a Internet, así que no busca versiones nuevas por su cuenta. Se publican en GitHub; al instalar una nueva encima, tus datos se mantienen.")}</p>
+      <p class="muted" style="font-size:.85rem;margin:6px 0 0">${T("Esta app no busca versiones nuevas por su cuenta (solo se conecta a Internet si usas Nostr). Se publican en GitHub; al instalar una nueva encima, tus datos se mantienen.")}</p>
       <div class="row" style="margin-top:12px;flex-wrap:wrap"><a class="btn small primary" href="${REL_URL}" target="_blank" rel="noopener">${T("Ver versiones")} ↗</a><button class="btn small" data-act="news-open">${T("Novedades de la {v}", { v: APP_VERSION })}</button></div></div>
     <div class="panel" style="margin-top:10px"><b>${T("Avisos automáticos con Obtainium")}</b>
       <p class="muted" style="font-size:.85rem;margin:4px 0 0">${T("App gratuita que vigila GitHub y te avisa o instala cada versión nueva. Es opcional.")}</p>

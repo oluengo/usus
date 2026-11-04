@@ -45,7 +45,9 @@
         </provider>
     </application>
 
-    <!-- Permisos: solo vibración (avisos del descanso). Sin Internet: la app no se conecta a nada;
-         importar y exportar usan el selector de archivos y el menú de compartir de Android, sin permiso de almacenamiento. -->
+    <!-- Permisos: vibración (avisos del descanso) e Internet, que solo se usa con Nostr (opcional: copia cifrada y publicar).
+         Sin conectar Nostr, la app no se conecta a nada. Importar y exportar usan el selector de archivos y el menú de compartir
+         de Android, sin permiso de almacenamiento. -->
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

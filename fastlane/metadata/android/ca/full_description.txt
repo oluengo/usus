@@ -1,6 +1,6 @@
 Usus (llatí: pràctica, hàbit) serveix per registrar els teus entrenaments i els teus hàbits. Pensada per a la calistènia i l'entrenament a casa, val per a qualsevol rutina de sèries i repeticions.
 
-Gratuïta, sense comptes, sense anuncis i sense connexió a Internet: tot es desa només al teu mòbil.
+Gratuïta, sense comptes, sense anuncis i funciona sense connexió: tot es desa només al teu mòbil.
 
 <b>Què inclou</b>
 <ul>
@@ -14,8 +14,9 @@ Gratuïta, sense comptes, sense anuncis i sense connexió a Internet: tot es des
 <li><b>Perfils</b> per a diverses persones al mateix mòbil i registre opcional del cicle.</li>
 <li><b>IA opcional i externa</b>: Usus prepara el text perquè la IA que triïs analitzi les teves dades o proposi un pla. Usus no envia res.</li>
 <li><b>Compartir</b> un entrenament com a imatge o les teves rutines amb un enllaç, sense servidors.</li>
+<li><b>Nostr</b> (opcional): amb el teu bunker, còpia de seguretat xifrada només per a tu i publicar entrenaments i rutines.</li>
 </ul>
 
-Còpies de seguretat en un fitxer, en castellà, català i anglès. Només demana un permís: vibració.
+Còpies de seguretat en un fitxer, en castellà, català i anglès. Permisos: vibració, i Internet només per a Nostr.
 
 És una eina de registre, no un consell mèdic. Feta amb IA · provada per humans.

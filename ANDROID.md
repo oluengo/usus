@@ -6,7 +6,7 @@ La app Android es **la misma PWA** empaquetada con [Capacitor](https://capacitor
 - mantiene la pantalla encendida durante el entreno;
 - hace que el botón Atrás cierre el diálogo abierto, vuelva a Hoy o minimice la app.
 
-Un solo permiso, **vibración** (avisos del descanso). Sin permiso de Internet ni de almacenamiento: importar y exportar usan el selector de archivos y el menú de compartir de Android. Sin copia automática en la nube de Android. Los datos solo se mueven con la copia que exportas tú ([privacidad](PRIVACY.md)). Cada compilación comprueba que el APK no pide otros permisos.
+Dos permisos: **vibración** (avisos del descanso) e **Internet**, que solo se usa si conectas Nostr (copia cifrada y publicar). Sin permiso de almacenamiento: importar y exportar usan el selector de archivos y el menú de compartir de Android. Sin copia automática en la nube de Android. Cada compilación comprueba que el APK no pide otros permisos ([privacidad](PRIVACY.md)).
 
 > **Los datos de la PWA y del APK están separados.** Para pasar de una a otra: Ajustes → Datos → exportar copia en la PWA e importarla en el APK.
 
@@ -61,7 +61,7 @@ npx cap open android  # o: cd android && ./gradlew assembleDebug
 
 ## English
 
-The Android app is the **same PWA** packaged with Capacitor, plus a small bridge (`scripts/native.js`) for native file sharing, keeping the screen on while training and the Back button. GitHub Actions builds it: tag `vX.Y.Z` (matching `APP_VERSION`) or a Release published on the web → APK attached with notes from CHANGELOG.md; push to `android` or a manual run → APK in *Artifacts*. Only one permission (vibration); no Internet or storage permission. Signing uses the repository secrets `ANDROID_KEYSTORE_BASE64`, `ANDROID_KEYSTORE_PASSWORD`, `ANDROID_KEY_ALIAS` and `ANDROID_KEY_PASSWORD` (see the `keytool` commands above). Keep the key safe: without it, no updates can be published. PWA and APK data are separate; move them with an exported backup. Signing certificate SHA-256: `28:B6:FF:4A:8F:61:F6:88:D4:B4:9D:C7:E8:B7:2D:95:D5:D9:44:45:D2:A2:30:07:1A:FA:72:B1:B2:D0:3E:C8`.
+The Android app is the **same PWA** packaged with Capacitor, plus a small bridge (`scripts/native.js`) for native file sharing, keeping the screen on while training and the Back button. GitHub Actions builds it: tag `vX.Y.Z` (matching `APP_VERSION`) or a Release published on the web → APK attached with notes from CHANGELOG.md; push to `android` or a manual run → APK in *Artifacts*. Two permissions: vibration and Internet (used only for the optional Nostr backup and posting); no storage permission. Signing uses the repository secrets `ANDROID_KEYSTORE_BASE64`, `ANDROID_KEYSTORE_PASSWORD`, `ANDROID_KEY_ALIAS` and `ANDROID_KEY_PASSWORD` (see the `keytool` commands above). Keep the key safe: without it, no updates can be published. PWA and APK data are separate; move them with an exported backup. Signing certificate SHA-256: `28:B6:FF:4A:8F:61:F6:88:D4:B4:9D:C7:E8:B7:2D:95:D5:D9:44:45:D2:A2:30:07:1A:FA:72:B1:B2:D0:3E:C8`.
 
 ## Versión de pruebas (beta)
 

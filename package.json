@@ -8,7 +8,8 @@
     "www": "npm run build && node scripts/www.mjs",
     "sync": "npm run www && npx cap sync android",
     "i18n": "node scripts/i18n.mjs all",
-    "test": "playwright test"
+    "test": "playwright test",
+    "nostr": "esbuild scripts/nostr/entry.mjs --bundle --minify --format=iife --global-name=UsusNostr --target=es2020 --legal-comments=eof --outfile=nostr.js"
   },
   "devDependencies": {
     "@axe-core/playwright": "4.10.2",
@@ -19,6 +20,8 @@
     "@capacitor/core": "8.5.2",
     "@capacitor/filesystem": "8.1.4",
     "@capacitor/share": "8.0.3",
-    "@playwright/test": "1.56.0"
+    "@playwright/test": "1.56.0",
+    "esbuild": "0.25.10",
+    "nostr-tools": "2.25.2"
   }
 }

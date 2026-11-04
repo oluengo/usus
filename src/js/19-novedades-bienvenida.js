@@ -1,5 +1,11 @@
 /* ---------- Novedades (una vez por versión; historial al tocar la versión) ---------- */
 const CHANGES = [  // Novedades: solo en castellano; las traducciones, en i18n/*.po
+  ["3.6.0", [
+    N_("Nostr (opcional): conecta tu cuenta con un bunker (Amber, nsec.app…) en Ajustes → Datos y copias. Usus no ve tu clave privada y, sin Nostr, no se conecta a nada."),
+    N_("Copia de seguridad en Nostr: la copia completa, comprimida y cifrada para que solo tú puedas leerla. «Guardar copia en Nostr» y «Recuperar de Nostr», por ejemplo para pasar tus datos a otro móvil."),
+    N_("Publicar en Nostr: el entreno (texto y, si quieres, su imagen) y tus rutinas o el plan con su enlace. Antes de publicar ves y editas la nota."),
+    N_("El APK pide ahora permiso de Internet, que solo se usa con Nostr.")
+  ]],
   ["3.5.2", [
     N_("Lo que faltó en cada serie: la pregunta ahora es «¿Cuántas te faltaron?» (o cuántos segundos, en las series por tiempo) y se resta de lo hecho. Así la propuesta de subir de ejercicio y el resumen cuentan lo que hiciste de verdad. Sin contestar, la serie cuenta como completa."),
     N_("Fichas desde las propuestas: en «Listo para subir» (o bajar) y en las sugerencias de ⇄ Cambiar ejercicio, toca el nombre o ⓘ para ver en qué consiste el ejercicio.")

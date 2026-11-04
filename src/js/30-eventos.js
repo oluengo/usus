@@ -323,6 +323,15 @@ document.addEventListener("click", async ev => {
     case "about-idea": state.issue = "idea"; render(); break;
     case "issue-close": state.issue = null; render(); break;
     case "issue-go": { const u = issueURL(state.issue); state.issue = null; render(); openExt(u); break; }
+    case "ns-connect": nsConnect(); break;
+    case "ns-off": nsDisconnect(); break;
+    case "ns-bk-save": nsBackupSave(); break;
+    case "ns-bk-load": nsBackupLoad(); break;
+    case "shsess-nostr": nsPostSess(); break;
+    case "rs-nostr": nsPostRout(); break;
+    case "ns-post-go": nsPublish(); break;
+    case "ns-post-close": if (state.nsBusy) break; if (state.nsPost && !state.nsPost.done && ($("#nsText")?.value || "").trim() !== state.nsPost.text.trim() && !confirm(T("¿Descartar la nota sin publicar?"))) break; state.nsPost = null; render(); break;
+    case "ns-go-set": state.nsPost = null; state.shareSess = null; state.rshare = null; state.savedSess = null; state.tab = "data"; state.setTab = "datos"; render(); window.scrollTo(0, 0); break;
     case "share-app": await shareOut({ title: "Usus", text: shareAppText(), url: appURL() }); break;
     case "saved-close": state.savedSess = null; state.progProps = null; render(); break;
     case "shsess-close": state.shareSess = null; render(); break;
@@ -401,7 +410,7 @@ document.addEventListener("click", async ev => {
     }
     case "exp-all": {
       const pm = curProf(), pn = multiProf() ? `-${fileSlug(profName(pm))}` : "";
-      const ok = await deliver(`usus-${T("copia")}${pn}-${stamp()}.json`, JSON.stringify({ app: "usus", version: DATA_VERSION, exported: new Date().toISOString(), ...(pm.sex ? { profile: { name: pm.name, sex: pm.sex, color: pm.color } } : {}), routines: state.routines, sessions: state.sessions, weights: W.list(), weightGoal: W.goal(), diary: DY.all(), cycle: { periods: CYC.list(), symptoms: CYC.syms(), settings: CYC.cfg() }, supplements: DY.supps(), activities: ACT.list(), activityTypes: ACT.types(), goals: LS.get("wk.goals", null), plan: PL.get(), plans: PLS.list(), ...(aiHasData(aiProf()) ? { aiProfile: aiProf() } : {}), ...(LS.get("wk.aiPlan", null) ? { aiPlan: LS.get("wk.aiPlan", null) } : {}) }, null, 2), "application/json");
+      const ok = await deliver(`usus-${T("copia")}${pn}-${stamp()}.json`, JSON.stringify(backupObj(), null, 2), "application/json");
       if (ok) { LS.set("wk.lastBackup", Date.now()); render(); } break;
     }
     case "w-add": {

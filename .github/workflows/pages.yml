@@ -56,7 +56,7 @@ jobs:
 
       - name: Montar el sitio
         run: |
-          WEB="index.html sw.js ejercicios.json manifest.webmanifest icon-192.png icon-512.png icon-maskable-512.png favicon-48.png LICENSE PRIVACY.md README.md ANDROID.md CHANGELOG.md fonts capturas"
+          WEB="index.html sw.js nostr.js ejercicios.json manifest.webmanifest icon-192.png icon-512.png icon-maskable-512.png favicon-48.png LICENSE PRIVACY.md README.md ANDROID.md CHANGELOG.md fonts capturas"
           mkdir -p _site/app
           for f in $WEB; do if [ -e "main/$f" ]; then cp -r "main/$f" _site/app/; fi; done
           # Página de presentación en la raíz; su sw.js retira el service worker antiguo de /usus/

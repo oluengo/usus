@@ -35,10 +35,16 @@ msgstr ""
 msgid "¿Cuántos segundos te faltaron?"
 msgstr ""
 
+msgid "¿Descartar la nota sin publicar?"
+msgstr ""
+
 msgid "¿Descartar la propuesta de la IA? No se añadirá nada."
 msgstr ""
 
 msgid "¿Descartar la sesión en curso? Se perderán los datos."
+msgstr ""
+
+msgid "¿Desconectar la cuenta de Nostr de este perfil? Tus copias en Nostr no se borran."
 msgstr ""
 
 #, python-brace-format
@@ -242,6 +248,10 @@ msgstr ""
 
 #, python-brace-format
 msgid "{n} rutinas copiadas a {x}"
+msgstr ""
+
+#, python-brace-format
+msgid "{n} rutinas para Usus. Abre el enlace para añadirlas."
 msgstr ""
 
 #, python-brace-format
@@ -790,6 +800,9 @@ msgstr ""
 msgid "Brazos"
 msgstr ""
 
+msgid "Buscando tu copia en Nostr…"
+msgstr ""
+
 msgid "Buscar (también en inglés o por alias)"
 msgstr ""
 
@@ -1037,6 +1050,9 @@ msgstr ""
 msgid "Con fuerza"
 msgstr ""
 
+msgid "Con la imagen del entreno"
+msgstr ""
+
 msgid "con lastre"
 msgstr ""
 
@@ -1053,6 +1069,15 @@ msgid "Con variantes, Usus usa su plan de progresión: Hoy te dice qué toca cad
 msgstr ""
 
 msgid "Condiciones de salud relevantes"
+msgstr ""
+
+msgid "Conecta tu cuenta de Nostr con un bunker (Amber, nsec.app…) para guardar copias cifradas y publicar tus entrenos y rutinas. Usus no ve tu clave privada y solo se conecta cuando usas Nostr."
+msgstr ""
+
+msgid "Conectando… acepta la petición en tu bunker."
+msgstr ""
+
+msgid "Conectar"
 msgstr ""
 
 msgid "Conseguido"
@@ -1084,6 +1109,19 @@ msgid "Copia de {x}"
 msgstr ""
 
 msgid "Copia de seguridad"
+msgstr ""
+
+msgid "Copia de seguridad en Nostr: la copia completa, comprimida y cifrada para que solo tú puedas leerla. «Guardar copia en Nostr» y «Recuperar de Nostr», por ejemplo para pasar tus datos a otro móvil."
+msgstr ""
+
+#, python-brace-format
+msgid "Copia del {d} ({p}). Se combina con lo que hay en este perfil, como al importar un archivo. ¿Recuperarla?"
+msgstr ""
+
+msgid "Copia guardada en Nostr"
+msgstr ""
+
+msgid "copia incompleta"
 msgstr ""
 
 msgid "Copia su respuesta (entera o solo el bloque de código) y toca el botón. Usus solo lee el bloque de datos y te enseña las rutinas y el plan antes de importar nada."
@@ -1159,6 +1197,12 @@ msgid "Cuenta atrás"
 msgstr ""
 
 msgid "Cuenta atrás rehecha desde cero con cinco tramos y una regla para cada uno: preparación, serie, cambio de lado (ahora ajustable), descanso entre series y entre ejercicios. Al acabar un descanso, si sigue una serie por tiempo con inicio automático, empieza sola sin otra cuenta atrás; si no, espera."
+msgstr ""
+
+msgid "Cuenta de Nostr conectada"
+msgstr ""
+
+msgid "Cuenta de Nostr desconectada"
 msgstr ""
 
 msgid "Cuerpo"
@@ -1305,6 +1349,12 @@ msgstr ""
 msgid "Descartar"
 msgstr ""
 
+msgid "Descifrando… acepta en tu bunker si lo pide."
+msgstr ""
+
+msgid "Desconectar"
+msgstr ""
+
 msgid "Desde"
 msgstr ""
 
@@ -1428,6 +1478,9 @@ msgid "Días tomados en el periodo (o desde que lo añadiste)."
 msgstr ""
 
 msgid "Días y tiempo"
+msgstr ""
+
+msgid "Dirección del bunker"
 msgstr ""
 
 msgid "Distancia"
@@ -1596,7 +1649,13 @@ msgstr ""
 msgid "Ejercicios y series"
 msgstr ""
 
+msgid "El APK pide ahora permiso de Internet, que solo se usa con Nostr."
+msgstr ""
+
 msgid "El archivo no es un JSON válido"
+msgstr ""
+
+msgid "el bunker no responde"
 msgstr ""
 
 msgid "El catálogo de ejercicios no se copia: las indicaciones llevan el enlace para que la IA lo consulte."
@@ -1814,6 +1873,9 @@ msgstr ""
 msgid "Es una propuesta general: no sustituye a un entrenador ni a un profesional sanitario."
 msgstr ""
 
+msgid "Escribe algo para publicar"
+msgstr ""
+
 #, python-brace-format
 msgid "Escribe un objetivo válido, por ejemplo {v}"
 msgstr ""
@@ -1849,7 +1911,7 @@ msgstr ""
 msgid "Esta app es una herramienta de registro, no un consejo médico ni un plan de entrenamiento. Consulta con un profesional antes de empezar o cambiar tu actividad física."
 msgstr ""
 
-msgid "Esta app no se conecta a Internet, así que no busca versiones nuevas por su cuenta. Se publican en GitHub; al instalar una nueva encima, tus datos se mantienen."
+msgid "Esta app no busca versiones nuevas por su cuenta (solo se conecta a Internet si usas Nostr). Se publican en GitHub; al instalar una nueva encima, tus datos se mantienen."
 msgstr ""
 
 msgid "Esta copia es de una versión más nueva de Usus. Actualiza la app para importarla completa. ¿Importar igualmente lo que se pueda?"
@@ -1916,6 +1978,9 @@ msgid "Externa"
 msgstr ""
 
 msgid "Fácil"
+msgstr ""
+
+msgid "falta una parte"
 msgstr ""
 
 msgid "Fases (se repiten en orden)"
@@ -2018,10 +2083,17 @@ msgstr ""
 msgid "Guardado"
 msgstr ""
 
+#, python-brace-format
+msgid "Guardando {k} de {n}… acepta en tu bunker si lo pide."
+msgstr ""
+
 msgid "Guardar"
 msgstr ""
 
 msgid "Guardar actividad"
+msgstr ""
+
+msgid "Guardar copia en Nostr"
 msgstr ""
 
 msgid "Guardar para próximas exportaciones"
@@ -2198,6 +2270,9 @@ msgstr ""
 msgid "Incluir plan de progresión"
 msgstr ""
 
+msgid "Incluye el plan de progresión."
+msgstr ""
+
 msgid "Incluye un plan, que sustituirá al actual."
 msgstr ""
 
@@ -2240,6 +2315,9 @@ msgstr ""
 msgid "iPhone / iPad (Safari): botón Compartir → «Añadir a pantalla de inicio»."
 msgstr ""
 
+msgid "Ir a Ajustes"
+msgstr ""
+
 msgid "Ir a hoy"
 msgstr ""
 
@@ -2274,6 +2352,9 @@ msgid "L"
 msgstr ""
 
 msgid "L,M,X,J,V,S,D"
+msgstr ""
+
+msgid "La copia completa, cifrada para que solo tú puedas leerla."
 msgstr ""
 
 msgid "La más larga"
@@ -2542,6 +2623,10 @@ msgstr ""
 msgid "Mi material (Ajustes → Entreno) y material en tus ejercicios propios."
 msgstr ""
 
+#, python-brace-format
+msgid "Mi rutina «{x}» para Usus. Abre el enlace para añadirla."
+msgstr ""
+
 msgid "Minutos"
 msgstr ""
 
@@ -2672,6 +2757,9 @@ msgstr ""
 msgid "No hay ejercicios por vincular."
 msgstr ""
 
+msgid "No hay ninguna copia de Usus en Nostr con esta cuenta"
+msgstr ""
+
 msgid "No hay sesiones para exportar"
 msgstr ""
 
@@ -2711,10 +2799,29 @@ msgstr ""
 msgid "No se pudo cargar el catálogo. Se volverá a intentar al abrir la app."
 msgstr ""
 
+#, python-brace-format
+msgid "No se pudo conectar: {x}. Revisa la dirección y que tu firmante esté abierto."
+msgstr ""
+
 msgid "No se pudo copiar"
 msgstr ""
 
+#, python-brace-format
+msgid "No se pudo guardar la copia en Nostr: {x}"
+msgstr ""
+
 msgid "No se pudo guardar: almacenamiento lleno"
+msgstr ""
+
+#, python-brace-format
+msgid "No se pudo publicar: {x}"
+msgstr ""
+
+#, python-brace-format
+msgid "No se pudo recuperar la copia: {x}"
+msgstr ""
+
+msgid "no se pudo subir la imagen"
 msgstr ""
 
 msgid "No se puede cambiar"
@@ -2757,6 +2864,9 @@ msgstr ""
 msgid "Normal"
 msgstr ""
 
+msgid "Nostr (opcional): conecta tu cuenta con un bunker (Amber, nsec.app…) en Ajustes → Datos y copias. Usus no ve tu clave privada y, sin Nostr, no se conecta a nada."
+msgstr ""
+
 msgid "Nota"
 msgstr ""
 
@@ -2767,6 +2877,10 @@ msgid "Nota de la sesión"
 msgstr ""
 
 msgid "Nota por ejercicio (✎): la verás la próxima vez junto a «Anterior»."
+msgstr ""
+
+#, python-brace-format
+msgid "Nota pública con tu cuenta {x}. Revisa el texto: lo verá cualquiera."
 msgstr ""
 
 msgid "Notas"
@@ -2968,6 +3082,9 @@ msgstr ""
 msgid "Para la IA"
 msgstr ""
 
+msgid "Para publicar, conecta antes tu cuenta de Nostr en Ajustes → Datos y copias."
+msgstr ""
+
 msgid "Para que las mejore o las respete (p. ej. una rutina diaria)."
 msgstr ""
 
@@ -3056,6 +3173,9 @@ msgid "Pecho"
 msgstr ""
 
 msgid "Pega aquí la respuesta de la IA"
+msgstr ""
+
+msgid "Pega la dirección bunker://… de tu firmante (Amber, nsec.app…)."
 msgstr ""
 
 msgid "Pégalas en una conversación nueva de tu IA (ChatGPT, Claude, Gemini…) o sube el archivo."
@@ -3297,6 +3417,9 @@ msgstr ""
 msgid "Preparación: {n} s"
 msgstr ""
 
+msgid "Preparando la copia…"
+msgstr ""
+
 msgid "Preparar análisis"
 msgstr ""
 
@@ -3387,6 +3510,21 @@ msgstr ""
 msgid "Próximas fechas"
 msgstr ""
 
+msgid "Publicado en Nostr"
+msgstr ""
+
+msgid "Publicando… acepta en tu bunker si lo pide."
+msgstr ""
+
+msgid "Publicar"
+msgstr ""
+
+msgid "Publicar en Nostr"
+msgstr ""
+
+msgid "Publicar en Nostr: el entreno (texto y, si quieres, su imagen) y tus rutinas o el plan con su enlace. Antes de publicar ves y editas la nota."
+msgstr ""
+
 msgid "Puedes crear rutinas en Biblioteca → Nueva rutina."
 msgstr ""
 
@@ -3470,6 +3608,16 @@ msgid "Récords"
 msgstr ""
 
 msgid "Récords recientes"
+msgstr ""
+
+#, python-brace-format
+msgid "Recuperando {k} de {n}…"
+msgstr ""
+
+msgid "Recuperar"
+msgstr ""
+
+msgid "Recuperar de Nostr"
 msgstr ""
 
 msgid "Registra caminatas, carreras o bici con «Registrar actividad» en Hoy."
@@ -3729,6 +3877,9 @@ msgstr ""
 msgid "Se guarda únicamente en este móvil, dentro de este perfil."
 msgstr ""
 
+msgid "Se guardará en Nostr la copia completa de este perfil, cifrada para que solo tú puedas leerla. Tu bunker pedirá aprobar varias firmas. ¿Seguir?"
+msgstr ""
+
 #, python-brace-format
 msgid "Se ha aplicado la regla de tu plan: {x}."
 msgstr ""
@@ -3741,6 +3892,9 @@ msgid "Se parece un {p} % a «{x}», que ya tienes"
 msgstr ""
 
 msgid "Se queda como ejercicio propio"
+msgstr ""
+
+msgid "Se sube a un servidor Blossom y queda pública."
 msgstr ""
 
 msgid "Se ve al abrir la app; no hay notificaciones con el móvil bloqueado."
@@ -3998,7 +4152,13 @@ msgstr ""
 msgid "Sin barra para dominadas: se usa remo en su lugar."
 msgstr ""
 
+msgid "sin conexión"
+msgstr ""
+
 msgid "sin copias todavía"
+msgstr ""
+
+msgid "sin cuenta de Nostr"
 msgstr ""
 
 msgid "Sin descanso por defecto"
@@ -4134,6 +4294,9 @@ msgstr ""
 msgid "Sonido y vibración"
 msgstr ""
 
+msgid "Subiendo la imagen…"
+msgstr ""
+
 msgid "Subir"
 msgstr ""
 
@@ -4237,6 +4400,9 @@ msgid "Test rápido"
 msgstr ""
 
 msgid "Texto"
+msgstr ""
+
+msgid "Texto de la nota"
 msgstr ""
 
 msgid "Tics en los últimos segundos"
@@ -4348,10 +4514,19 @@ msgstr ""
 msgid "Tracción vertical"
 msgstr ""
 
+msgid "Trae tu copia y la combina con lo que hay en este perfil."
+msgstr ""
+
 msgid "Tras el descanso, la siguiente serie por tiempo empieza sola"
 msgstr ""
 
 msgid "Tres sonidos: tic en los últimos segundos de cualquier cuenta atrás, inicio y fin. La vibración respeta siempre Ajustes → Avisos."
+msgstr ""
+
+msgid "Tu bunker pide autorizar a Usus: acéptalo y vuelve."
+msgstr ""
+
+msgid "Tu cuenta"
 msgstr ""
 
 msgid "Tu material y molestias"
@@ -4397,6 +4572,10 @@ msgstr ""
 
 #, python-brace-format
 msgid "Última sesión: {d}"
+msgstr ""
+
+#, python-brace-format
+msgid "Última: {d}."
 msgstr ""
 
 msgid "último"
@@ -4590,6 +4769,9 @@ msgid "Ver propuesta"
 msgstr ""
 
 msgid "Ver versiones"
+msgstr ""
+
+msgid "Verla en njump.me"
 msgstr ""
 
 msgid "versión"

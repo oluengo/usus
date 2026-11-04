@@ -28,6 +28,7 @@ Web y APK guardan sus datos por separado: pásalos con una copia (Ajustes → Da
 - **Análisis con IA** *(opcional, externa)*: Usus prepara tus datos para que la IA que elijas haga un informe con gráficos. Usus no envía nada.
 - **Perfiles** para varias personas, registro opcional del **ciclo**, temas claro, oscuro y protector.
 - **Compartir** entrenos y rutinas sin servidores; copias de seguridad y CSV.
+- **Nostr** *(opcional)*: con tu bunker, copia de seguridad cifrada solo para ti y publicar entrenos y rutinas. Sin conectarlo, Usus no se conecta a nada.
 
 <table><tr>
 <td width="25%"><img src="capturas/03-sesion.jpg" alt="Entrenando"></td>
@@ -68,6 +69,7 @@ Web and APK keep separate data: move it with a backup (Settings → Data). Signi
 - **AI analysis** *(optional, external)*: Usus prepares your data for the AI of your choice to write a report with charts. Usus sends nothing.
 - **Profiles** for several people, optional **cycle** tracking, light, dark and protector themes.
 - **Share** workouts and routines with no servers; backups and CSV.
+- **Nostr** *(optional)*: with your bunker, a backup encrypted only for you and posting workouts and routines. Without it, Usus connects to nothing.
 
 [Changelog](CHANGELOG.md#english) · [Report a problem](https://github.com/oluengo/usus/issues) · [Translations](i18n/README.md) · [Code](src/README.md)
 

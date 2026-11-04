@@ -15,6 +15,8 @@ npm run build        # traducciones (i18n/*.po → js/90-i18n.js) + monta index.
 | `js/*.js` | Código, en orden de nombre. Todo va dentro del mismo bloque `(() => { … })()`, así que las partes se ven entre sí como si fueran un solo archivo; el orden importa solo para lo que se ejecuta al cargar (`99-arranque.js` va el último). |
 | `js/90-i18n.js` | Diccionario de traducciones. Lo genera `scripts/i18n.mjs` desde `i18n/*.po`: no se edita a mano. |
 
-Partes del código: `01-base` (utilidades, idiomas, almacenamiento, estado) · `02-plan` · `03-catalogo` · `04-secciones-grupos` · `05-progresion` · `06-ia-csv` · `07-esfuerzo-notas` · `08-iconos-render` · `10-hoy-sesion` · `11-foco` (cuenta atrás) · `12-rutinas-editor` · `13-imprimir` · `14-diario-datos` · `15-ciclo` · `16-actividad-diario` · `17-progreso` · `18-ajustes` · `19-novedades-bienvenida` · `20-compartir` · `21-perfiles` · `22-acerca` · `23-formato-datos` · `30-eventos` · `99-arranque`.
+Partes del código: `01-base` (utilidades, idiomas, almacenamiento, estado) · `02-plan` · `03-catalogo` · `04-secciones-grupos` · `05-progresion` · `06-ia-csv` · `07-esfuerzo-notas` · `08-iconos-render` · `10-hoy-sesion` · `11-foco` (cuenta atrás) · `12-rutinas-editor` · `13-imprimir` · `14-diario-datos` · `15-ciclo` · `16-actividad-diario` · `17-progreso` · `18-ajustes` · `19-novedades-bienvenida` · `20-compartir` · `21-perfiles` · `22-acerca` · `23-formato-datos` · `24-plan-guiado` · `25-nostr` · `30-eventos` · `99-arranque`.
+
+**Nostr:** `nostr.js` (raíz) es la librería que usa `25-nostr.js` (bunker NIP-46, relays): se genera con `npm run nostr` desde `scripts/nostr/entry.mjs` (nostr-tools con versión fija) y se sube al repositorio. La app la carga solo al usar Nostr.
 
 Para probar: `npm test` (monta antes de arrancar; ver `tests/README.md`).

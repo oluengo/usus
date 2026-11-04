@@ -124,6 +124,7 @@ function shareSessModal() {
     ${ck("shoEx", "ex", T("Ejercicios y series"))}${ck("shoDur", "dur", T("Duración y totales"))}${ck("shoPr", "pr", T("Récords"))}
     <p class="muted" style="font-size:.78rem;margin:8px 0 0">${T("Solo sale lo que ves aquí. Nunca tu peso, el diario ni el ciclo.")}</p>
     <div class="row" style="margin-top:12px"><button class="btn" style="flex:1" data-act="${o.img ? "shsess-save" : "shsess-copy"}">${o.img ? T("Guardar") : T("Copiar")}</button><button class="btn primary shbtn" style="flex:1" data-act="shsess-go">${SHARE_ICO}${T("Compartir")}</button></div>
+    <button class="btn nsbtn" style="width:100%;margin-top:8px" data-act="shsess-nostr">${NS_ICO}${T("Publicar en Nostr")}</button>
   </div></div>`;
 }
 /* Rutinas y programa: enlace o archivo */
@@ -161,6 +162,7 @@ function shareRoutModal() {
     ${p ? `<label class="shopt" style="margin-top:10px"><span>${T("Incluir plan de progresión")}<small class="muted" style="display:block;font-size:.78rem">${T("Fases, semanas y descargas. No tu fecha de inicio ni la de revisión.")}</small></span><input type="checkbox" role="switch" id="rsPlan" ${sh.plan ? "checked" : ""}></label>` : ""}
     ${miss.length ? `<p style="font-size:.8rem;color:var(--accent);margin:6px 0 0">${T("El plan usa la variante {v}, que no va incluida: esas semanas quedarán sin rutina.", { v: miss.join(", ") })}</p>` : ""}
     <div class="row" style="margin-top:12px"><button class="btn" style="flex:1" data-act="rs-file" ${sel.size ? "" : "disabled"}>${T("Archivo")}</button><button class="btn primary shbtn" style="flex:1" data-act="rs-link" ${sel.size ? "" : "disabled"}>${SHARE_ICO}${T("Enlace")}</button></div>
+    <button class="btn nsbtn" style="width:100%;margin-top:8px" data-act="rs-nostr" ${sel.size ? "" : "disabled"}>${NS_ICO}${T("Publicar en Nostr")}</button>
   </div></div>`;
 }
 async function shareRoutGo(how) {

@@ -4,6 +4,13 @@ Todas las versiones de Usus. Formato basado en [Keep a Changelog](https://keepac
 
 **Castellano** · [Català](#català) · [English](#english)
 
+## [3.6.0] — en pruebas (beta)
+
+- Nostr (opcional): conecta tu cuenta con un bunker (Amber, nsec.app…) en Ajustes → Datos y copias. Usus no ve tu clave privada y, sin Nostr, no se conecta a nada.
+- Copia de seguridad en Nostr: la copia completa, comprimida y cifrada para que solo tú puedas leerla. «Guardar copia en Nostr» y «Recuperar de Nostr», por ejemplo para pasar tus datos a otro móvil.
+- Publicar en Nostr: el entreno (texto y, si quieres, su imagen) y tus rutinas o el plan con su enlace. Antes de publicar ves y editas la nota.
+- El APK pide ahora permiso de Internet, que solo se usa con Nostr.
+
 ## [3.5.2] — 2026-10-30
 
 - Lo que faltó en cada serie: la pregunta ahora es «¿Cuántas te faltaron?» (o cuántos segundos, en las series por tiempo) y se resta de lo hecho. Así la propuesta de subir de ejercicio y el resumen cuentan lo que hiciste de verdad. Sin contestar, la serie cuenta como completa.
@@ -290,6 +297,13 @@ Primera versión pública.
 
 ## Català
 
+### [3.6.0] — en pruebas (beta)
+
+- Nostr (opcional): connecta el teu compte amb un bunker (Amber, nsec.app…) a Ajustos → Dades i còpies. Usus no veu la teva clau privada i, sense Nostr, no es connecta a res.
+- Còpia de seguretat a Nostr: la còpia completa, comprimida i xifrada perquè només tu la puguis llegir. «Desar còpia a Nostr» i «Recuperar de Nostr», per exemple per passar les teves dades a un altre mòbil.
+- Publicar a Nostr: l'entrenament (text i, si vols, la imatge) i les teves rutines o el pla amb el seu enllaç. Abans de publicar veus i edites la nota.
+- L'APK demana ara permís d'Internet, que només es fa servir amb Nostr.
+
 ### [3.5.2] — 2026-10-30
 
 - El que va faltar a cada sèrie: la pregunta ara és «Quantes te'n van faltar?» (o quants segons, a les sèries per temps) i es resta del que s'ha fet. Així la proposta de pujar d'exercici i el resum compten el que vas fer de debò. Sense respondre, la sèrie compta com a completa.
@@ -417,6 +431,13 @@ Primera versió pública: rutines amb sèries per repeticions o per temps, compt
 ---
 
 ## English
+
+### [3.6.0] — en pruebas (beta)
+
+- Nostr (optional): connect your account with a bunker (Amber, nsec.app…) in Settings → Data and backups. Usus never sees your private key and, without Nostr, connects to nothing.
+- Backup on Nostr: the full backup, compressed and encrypted so only you can read it. “Save backup to Nostr” and “Restore from Nostr”, for example to move your data to another phone.
+- Post on Nostr: the workout (text and, if you like, its image) and your routines or plan with their link. You see and edit the note before posting.
+- The APK now asks for Internet permission, used only for Nostr.
 
 ### [3.5.2] — 2026-10-30
 
