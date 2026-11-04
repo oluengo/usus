@@ -4,7 +4,7 @@ Todas las versiones de Usus. Formato basado en [Keep a Changelog](https://keepac
 
 **Castellano** · [Català](#català) · [English](#english)
 
-## [3.6.0] — en pruebas (beta)
+## [3.6.0] — 2026-11-04
 
 - Nostr (opcional): conecta tu cuenta con un bunker (Amber, nsec.app…) en Ajustes → Perfil; la copia está en Ajustes → Datos y copias. Usus no ve tu clave privada y, sin Nostr, no se conecta a nada.
 - Copia de seguridad en Nostr: la copia completa, comprimida y cifrada para que solo tú puedas leerla. «Guardar copia en Nostr» y «Recuperar de Nostr», por ejemplo para pasar tus datos a otro móvil.
@@ -297,7 +297,7 @@ Primera versión pública.
 
 ## Català
 
-### [3.6.0] — en pruebas (beta)
+### [3.6.0] — 2026-11-04
 
 - Nostr (opcional): connecta el teu compte amb un bunker (Amber, nsec.app…) a Ajustos → Perfil; la còpia és a Ajustos → Dades i còpies. Usus no veu la teva clau privada i, sense Nostr, no es connecta a res.
 - Còpia de seguretat a Nostr: la còpia completa, comprimida i xifrada perquè només tu la puguis llegir. «Desar còpia a Nostr» i «Recuperar de Nostr», per exemple per passar les teves dades a un altre mòbil.
@@ -432,7 +432,7 @@ Primera versió pública: rutines amb sèries per repeticions o per temps, compt
 
 ## English
 
-### [3.6.0] — en pruebas (beta)
+### [3.6.0] — 2026-11-04
 
 - Nostr (optional): connect your account with a bunker (Amber, nsec.app…) in Settings → Profile; the backup is in Settings → Data and backups. Usus never sees your private key and, without Nostr, connects to nothing.
 - Backup on Nostr: the full backup, compressed and encrypted so only you can read it. “Save backup to Nostr” and “Restore from Nostr”, for example to move your data to another phone.

@@ -1,0 +1,3 @@
+• Nostr: connecta el teu compte amb un bunker a Ajustos → Perfil; la còpia és a Ajustos → Dades i còpies. Usus no veu la teva clau privada i, sense Nostr, no es connecta a res.
+• Còpia de seguretat a Nostr: la còpia completa, comprimida i xifrada perquè només tu la puguis llegir. «Desar còpia a Nostr» i «Recuperar de Nostr», per exemple per passar les teves dades a un altre mòbil.
+…

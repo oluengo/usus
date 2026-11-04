@@ -1,0 +1,4 @@
+• Nostr: connect your account with a bunker in Settings → Profile; the backup is in Settings → Data and backups. Usus never sees your private key and, without Nostr, connects to nothing.
+• Backup on Nostr: the full backup, compressed and encrypted so only you can read it. “Save backup to Nostr” and “Restore from Nostr”, for example to move your data to another phone.
+• Post on Nostr: the workout and your routines or plan with their link. You see and edit the note before posting.
+…

@@ -1,0 +1,4 @@
+• Nostr: conecta tu cuenta con un bunker en Ajustes → Perfil; la copia está en Ajustes → Datos y copias. Usus no ve tu clave privada y, sin Nostr, no se conecta a nada.
+• Copia de seguridad en Nostr: la copia completa, comprimida y cifrada para que solo tú puedas leerla. «Guardar copia en Nostr» y «Recuperar de Nostr», por ejemplo para pasar tus datos a otro móvil.
+• Publicar en Nostr: el entreno y tus rutinas o el plan con su enlace. Antes de publicar ves y editas la nota.
+…
