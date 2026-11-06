@@ -15,5 +15,6 @@
   render();
   await readShareHash();
   readShareTarget();
+  if (NS.cfg()) setTimeout(nsCheckNewer, 1500);   // con cuenta de Nostr: ¿hay una copia más nueva?
   if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
 })();

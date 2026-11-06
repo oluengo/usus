@@ -54,6 +54,7 @@ document.addEventListener("click", async ev => {
   if (d.pem || d.spem) { const [id, n] = (d.pem || d.spem).split(":"); setPem(id, +n); render(); return; }
   if (d.rir !== undefined && state.rirAsk && a) { const q = state.rirAsk, e = a.exercises[q.ei], x = e?.sets[q.si]; if (x && +d.rir >= 0) setMiss(e, x, +d.rir); state.rirAsk = null; saveActive(); render(); return; }
   if (d.enote !== undefined && a) { state.noteOpen = state.noteOpen === +d.enote ? null : +d.enote; render(); if (state.noteOpen !== null) document.querySelector(`[data-enotet="${d.enote}"]`)?.focus(); return; }
+  if (d.nscopy !== undefined) { try { await navigator.clipboard.writeText(d.nscopy); toast(T("Copiado")); } catch { toast(d.nscopy, 5000); } return; }
   if (d.swap !== undefined && a) { state.noteOpen = null; if (catReady()) { state.xpick = { mode: "swap", ei: +d.swap, q: "" }; } else state.swap = { ei: +d.swap }; render(); setTimeout(() => (catReady() ? $("#xpQ") : $("#swName"))?.focus(), 0); return; }
   if (d.swapundo !== undefined && a) { swapUndo(+d.swapundo); render(); return; }
   if (d.aiw !== undefined && state.ai) { state.ai.weeks = +d.aiw; render(); return; }
@@ -327,6 +328,7 @@ document.addEventListener("click", async ev => {
     case "ns-off": nsDisconnect(); break;
     case "ns-bk-save": nsBackupSave(); break;
     case "ns-bk-load": nsBackupLoad(); break;
+    case "ns-newer-x": { const c = NS.cfg(); if (c && state.nsNewer) NS.save({ ...c, seen: state.nsNewer.at }); state.nsNewer = null; render(); break; }
     case "shsess-nostr": nsPostSess(); break;
     case "rs-nostr": nsPostRout(); break;
     case "ns-post-go": nsPublish(); break;
@@ -497,6 +499,7 @@ document.addEventListener("change", async ev => {
   if (state.planMode === "edit" && ev.target.closest?.("#app") && (/^p(On|Order|OrderAt|Start|Review|DlW|DlE|Up|UpRule)$/.test(ev.target.id) || ev.target.dataset.pv !== undefined || ev.target.dataset.pw !== undefined)) { readPlan(); render(); return; }
   const tg = ev.target, dk = state.day || dayKey(Date.now());
   if (tg.id === "progOn" || tg.id === "progUp" || tg.id === "progDown") { const P = PROG(); if (tg.id === "progOn") P.on = tg.checked; if (tg.id === "progUp") P.up = +tg.value; if (tg.id === "progDown") P.down = tg.value; LS.set("wk.prog", P); render(); return; }
+  if (tg.id === "nsAuto") { const c = NS.cfg(); if (c) NS.save({ ...c, auto: tg.checked }); render(); return; }
   if (tg.id === "effPem" || tg.id === "effRir") { LS.set("wk.effort", { ...EFF(), [tg.id === "effPem" ? "pem" : "rir"]: tg.checked }); render(); return; }
   if (tg.id === "catOnly") { state.catOnly = tg.checked; const l = $("#catList"); if (l) l.innerHTML = catListHTML(); return; }
   if (tg.dataset.omat && state.ownMat) { const k = tg.dataset.omat, l = state.ownMat.equip.filter(z => z !== k); if (tg.checked) l.push(k); state.ownMat.equip = l; return; }

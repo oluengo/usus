@@ -44,6 +44,12 @@ const myEquip = () => { const l = LS.get("wk.equip", null); return Array.isArray
 const haveMat = k => { const l = myEquip(); return MAT_ALWAYS.has(k) || !l || l.includes(k); };
 const LV = n => `<span class="bars l${n}" role="img" aria-label="${T("Nivel {n} de 5", { n })}">${[1, 2, 3, 4, 5].map(i => `<i class="${i <= n ? "on" : ""}"></i>`).join("")}</span>`;
 const matIco = k => MAT[k] ? `<span class="mat${haveMat(k) ? "" : " no"}" title="${T(MAT[k][0])}"><svg viewBox="0 0 24 24" aria-hidden="true">${MAT[k][1]}</svg></span>` : "";
+/* Material de una lista de ejercicios (catálogo o propio), sin repetir; lo que falta en «Mi material», marcado */
+function matsNeeded(exs) {
+  const keys = new Set(), other = new Set();
+  (exs || []).forEach(e => { const x = e?.xid && CATBY[e.xid]; ((x ? x.equip : e?.equip) || []).forEach(k => MAT[k] && keys.add(k)); if (!x && e?.other) other.add(String(e.other).trim()); });
+  return { keys: MAT_ORDER([...keys]), other: [...other].filter(Boolean) };
+}
 const matsOf = (eq, other) => (eq?.length || other) ? `<span class="mats">${(eq || []).map(matIco).join("")}${other ? `<span class="otag">${esc(other)}</span>` : ""}</span>` : "";
 const xMeta = x => `<span class="xmeta">${LV(x.level)}<span>${x.type === "time" ? T("tiempo") : T("reps")}</span>${x.sides ? `<span class="otag">${T("por lado")}</span>` : ""}${x.impact ? `<span class="otag">${T("impacto")}</span>` : ""}</span>`;
 const canDo = x => (x.equip || []).every(haveMat);
@@ -125,8 +131,24 @@ function xpListHTML() {
   const p = state.xpick, q = norm(p.q || "");
   if (q) { const l = CAT.exercises.filter(x => xMatches(x, q)).sort((a, b) => a.level - b.level); return l.length ? `<div class="xlist" style="margin-top:10px">${l.slice(0, 40).map(x => xRowI(x, `data-xpadd="${x.id}"`)).join("")}</div>` : `<p class="muted" style="margin:12px 2px">${T("Sin resultados.")}</p>`; }
   const sx = p.mode === "swap" && CATBY[state.active?.exercises[p.ei]?.from?.xid || state.active?.exercises[p.ei]?.xid];
-  return (sx ? [PATS.find(z => z[0] === sx.pattern), ...PATS.filter(z => z[0] !== sx.pattern)] : PATS).map(([pt, n]) => { const g = CAT.exercises.filter(x => x.pattern === pt).sort((a, b) => a.family.localeCompare(b.family) || a.level - b.level);
+  const all = (sx ? [PATS.find(z => z[0] === sx.pattern), ...PATS.filter(z => z[0] !== sx.pattern)] : PATS).map(([pt, n]) => { const g = CAT.exercises.filter(x => x.pattern === pt).sort((a, b) => a.family.localeCompare(b.family) || a.level - b.level);
     return `<div class="xgrp">${T(n)}</div><div class="xlist">${g.map(x => xRowI(x, `data-xpadd="${x.id}"`)).join("")}</div>`; }).join("");
+  if (!sx) return all;
+  // Cambiar ejercicio: primero lo que tiene sentido (su progresión y movimientos parecidos); el catálogo entero, plegado
+  const sg = swapSugs(sx), grp = (t, l) => l.length ? `<div class="xgrp">${t}</div><div class="xlist">${l.map(x => xRowI(x, `data-xpadd="${x.id}"`)).join("")}</div>` : "";
+  return grp(T("Más difícil (su progresión)"), sg.harder) + grp(T("Más fácil (su progresión)"), sg.easier) + grp(T("Movimiento parecido"), sg.near)
+    + `<details class="xall"><summary>${T("Todo el catálogo")}</summary>${all}</details>`;
+}
+/* Sugerencias para cambiar un ejercicio: hasta 2 pasos arriba y abajo en su cadena, y del mismo patrón con nivel parecido
+   (primero los que se pueden hacer con «Mi material») */
+function swapSugs(sx) {
+  const ch = new Map();
+  (CHAIN[sx.id] || []).forEach(({ c, i }) => [-2, -1, 1, 2].forEach(d => { const id = c[i + d]; if (id && CATBY[id] && id !== sx.id && !ch.has(id)) ch.set(id, d); }));
+  const by = dir => [...ch].filter(([, d]) => dir * d > 0).sort((a, b) => Math.abs(a[1]) - Math.abs(b[1])).map(([id]) => CATBY[id]);
+  const role = x => x.role || "main";
+  const near = CAT.exercises.filter(x => x.pattern === sx.pattern && x.id !== sx.id && !ch.has(x.id) && role(x) === role(sx) && Math.abs(x.level - sx.level) <= 1)
+    .sort((a, b) => (canDo(b) - canDo(a)) || Math.abs(a.level - sx.level) - Math.abs(b.level - sx.level) || a.family.localeCompare(b.family)).slice(0, 8);
+  return { harder: by(1), easier: by(-1), near };
 }
 function xpickModal() {
   const p = state.xpick; if (!p || !CAT) return "";

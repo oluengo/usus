@@ -1,5 +1,13 @@
 /* ---------- Novedades (una vez por versión; historial al tocar la versión) ---------- */
 const CHANGES = [  // Novedades: solo en castellano; las traducciones, en i18n/*.po
+  ["3.7.0", [
+    N_("Antes de empezar: debajo de «Iniciar», el material que necesita la rutina, en una línea. Lo que no tienes en «Mi material» sale marcado."),
+    N_("⇄ Cambiar ejercicio: primero los de su progresión (más difícil y más fácil) y los de movimiento parecido y nivel cercano; el catálogo entero, plegado debajo."),
+    N_("Nostr: copia automática al terminar cada sesión y, al abrir Usus, aviso si hay en Nostr una copia más nueva (de otro móvil o de la web). Se desactiva en Ajustes → Datos y copias."),
+    N_("Perfil de Nostr en Ajustes → Perfil, como en Wavestr: foto, nombre, verificación, a quién sigues, relays, clave pública y Lightning para copiar."),
+    N_("Subir de ejercicio: eliges tras cuántas sesiones al objetivo se propone (de 1 a 5; 2 por defecto) en Ajustes → Entreno."),
+    N_("Series por tiempo: en «¿Cuántos segundos te faltaron?» los números van sin «s».")
+  ]],
   ["3.6.0", [
     N_("Nostr (opcional): conecta tu cuenta con un bunker (Amber, nsec.app…) en Ajustes → Perfil; la copia está en Ajustes → Datos y copias. Usus no ve tu clave privada y, sin Nostr, no se conecta a nada."),
     N_("Copia de seguridad en Nostr: la copia completa, comprimida y cifrada para que solo tú puedas leerla. «Guardar copia en Nostr» y «Recuperar de Nostr», por ejemplo para pasar tus datos a otro móvil."),

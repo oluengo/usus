@@ -49,7 +49,7 @@ function viewData() {
     ${catOn() ? `<h2>${T("Progresión")}</h2>
     <div class="lgroup">
       ${srowS("progOn", T("Proponer cambios de paso"), PROG().on, T("Al terminar cada sesión, solo en ejercicios del catálogo"))}
-      ${PROG().on ? `<div class="srow"><label class="t" for="progUp">${T("Subir tras (al objetivo)")}</label><select id="progUp">${[2, 3].map(n => `<option value="${n}" ${PROG().up === n ? "selected" : ""}>${T("{n} sesiones", { n })}</option>`).join("")}</select></div>
+      ${PROG().on ? `<div class="srow"><label class="t" for="progUp">${T("Subir tras (al objetivo)")}</label><select id="progUp">${[1, 2, 3, 4, 5].map(n => `<option value="${n}" ${PROG().up === n ? "selected" : ""}>${n === 1 ? T("1 sesión") : T("{n} sesiones", { n })}</option>`).join("")}</select></div>
       <div class="srow"><label class="t" for="progDown">${T("Proponer retroceder")}</label><select id="progDown">${DOWN_OPTS.map(([k, n]) => `<option value="${k}" ${PROG().down === k ? "selected" : ""}>${T(n)}</option>`).join("")}</select></div>` : ""}
       ${(LS.get("wk.progMute", []) || []).length ? `<div class="srow"><span class="t">${T("Volver a proponer en todos ({n} silenciados)", { n: (LS.get("wk.progMute", []) || []).length })}</span><button class="btn small" data-act="prog-unmute">${T("Activar")}</button></div>` : ""}
     </div>

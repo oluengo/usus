@@ -33,7 +33,7 @@ function rirAsk() {
   const e = a.exercises[q.ei], x = e?.sets[q.si]; if (!x || !x.done || x.miss !== undefined) return "";
   const tm = isTime(e), max = Math.min(+x.r || 0, sideReps(e) ? +R2(x) || 0 : Infinity), opts = (tm ? [0, 5, 10, 15, 20, 30] : [0, 1, 2, 3, 4, 5]).filter(n => n < max || n === 0);
   return `<div class="rirbar"><span>${tm ? T("¿Cuántos segundos te faltaron?") : T("¿Cuántas te faltaron?")} <small>${esc(exName(e))} · ${T("serie {n}", { n: q.si + 1 })}</small></span>
-    <div class="rirb">${opts.map(n => `<button data-rir="${n}" aria-label="${n === 0 ? T("Ninguna: serie completa") : tm ? n + " s" : n}">${n}${tm ? "<small>s</small>" : ""}</button>`).join("")}<button class="x" data-rir="-1" aria-label="${T("No contestar")}">×</button></div></div>`;
+    <div class="rirb">${opts.map(n => `<button data-rir="${n}" aria-label="${n === 0 ? T("Ninguna: serie completa") : tm ? n + " s" : n}">${n}</button>`).join("")}<button class="x" data-rir="-1" aria-label="${T("No contestar")}">×</button></div></div>`;
 }
 /* Lo que faltó se resta de lo hecho (y se devuelve si se desmarca la serie) */
 function setMiss(e, x, n) {

@@ -121,3 +121,15 @@ test("cambiar ejercicio: cada sugerencia del catálogo tiene su ficha", async ({
   await page.locator('.mhead [data-act="xi-close"]').click(); await expect(page.locator("#xpT")).toBeVisible();
   expect(errors).toEqual([]);
 });
+test("antes de empezar: material de la rutina; cambiar ejercicio: primero su progresión", async ({ page }) => {
+  const R = [{ id: "rm", name: "Mat", block: "full", variant: "", days: [0, 1, 2, 3, 4, 5, 6], exercises: [{ name: "Flexión", xid: "flexion", sets: 1, reps: 8, type: "reps" }, { name: "Dominada negativa", xid: "dominada-negativa", sets: 1, reps: 5, type: "reps" }, { name: "Mochila", sets: 1, reps: 5, type: "reps", other: "Mochila con libros" }] }];
+  const errors = await openApp(page, { catalog: true, clock: T0, data: { "wk.routines": R, ...TIMERS, "wk.equip": ["paralelas"] } });
+  await page.locator('[data-start="rm"]:visible').first().click();
+  await expect(page.locator(".premat")).toContainText("Barra"); await expect(page.locator(".premat .pmi.no")).toContainText("Barra");   // no la tiene
+  await expect(page.locator(".premat")).toContainText("Mochila con libros");
+  await page.locator('[data-act="sess-begin"]').click(); await page.clock.runFor(300);
+  await page.locator('[data-swap="0"]').click(); await page.clock.runFor(300);
+  await expect(page.locator("#xpList .xgrp").first()).toContainText("Más difícil");
+  await expect(page.locator("#xpList details.xall")).not.toHaveAttribute("open", "");
+  expect(errors).toEqual([]);
+});

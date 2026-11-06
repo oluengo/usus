@@ -35,7 +35,7 @@ test("conectar con el bunker y guardar la copia cifrada; recuperarla en otro per
   await page.fill("#nsBunker", "hola"); await page.locator('[data-act="ns-connect"]').click();
   await expect(page.locator("#toast")).toContainText("bunker://");               // dirección no válida
   await page.fill("#nsBunker", BUNKER); await page.locator('[data-act="ns-connect"]').click();
-  await expect(page.locator(".nsacc")).toContainText("npub1prueba");
+  await expect(page.locator(".nsprof")).toContainText("npub1prueba");
   expect((await ls(page, "wk.nostr")).pubkey).toBe(PK);
   await nav(page, "data"); await page.locator('[data-stab="datos"]').click();
   await page.locator('[data-act="ns-bk-save"]').click();
@@ -86,5 +86,36 @@ test("sin cuenta: publicar lleva a conectarla en Ajustes", async ({ page }) => {
   await page.locator('[data-act="shsess-nostr"]').click(); await page.locator('[data-act="ns-go-set"]').click();
   await expect(page.locator("#nsBunker")).toBeVisible();
   expect(await page.evaluate(() => !!document.querySelector('script[src="nostr.js"]'))).toBe(false);   // sin usar Nostr no se carga nada
+  expect(errors).toEqual([]);
+});
+test("sincronizar: copia sola al terminar la sesión y aviso al abrir si hay una más nueva", async ({ page, context }) => {
+  await mockNostr(page);
+  const R = [{ id: "rn", name: "Corta", block: "full", variant: "", days: [0, 1, 2, 3, 4, 5, 6], exercises: [{ name: "Flexión", sets: 1, reps: 5, type: "reps" }] }];
+  const errors = await openApp(page, { data: { "wk.routines": R, "wk.nostr": CFG, "wk.effort": { pem: false, rir: false } } });
+  await page.locator('[data-start="rn"]:visible').first().click(); await page.locator('[data-act="sess-begin"]').click();
+  await page.locator('[data-done="0:0"]').click(); await page.locator('[data-act="finish"]').click();
+  await expect(page.locator("#toast")).toContainText("Copia guardada en Nostr");                  // sin preguntar
+  const evs = await page.evaluate(() => window.__ev);
+  expect(evs.some(e => e.tags[0]?.[1] === "usus/backup")).toBe(true);
+  expect(errors).toEqual([]);
+  // Otro dispositivo: la copia de Nostr es más nueva que lo último guardado aquí → aviso en Hoy
+  const p2 = await context.newPage(); await mockNostr(p2, evs);
+  const e2 = await openApp(p2, { data: { "wk.routines": R, "wk.nostr": { ...CFG, lastBk: 0, seen: 0 } } });
+  await expect(p2.locator(".prow", { hasText: "Copia más nueva en Nostr" })).toBeVisible();
+  await p2.locator('[data-act="ns-newer-x"]').click();
+  await expect(p2.locator(".prow", { hasText: "Copia más nueva en Nostr" })).toHaveCount(0);
+  expect((await ls(p2, "wk.nostr")).seen).toBeGreaterThan(0);                                         // no vuelve a avisar de esa
+  expect(e2).toEqual([]);
+});
+test("perfil de Nostr: foto, nombre, nip05, datos y clave pública copiable", async ({ page }) => {
+  const k0 = { kind: 0, tags: [], created_at: 1, content: JSON.stringify({ display_name: "Alex Nostr", name: "alex", nip05: "alex@usus.test", about: "Calistenia y café.", lud16: "alex@ln.test" }) };
+  const k3 = { kind: 3, tags: [["p", "x"], ["p", "y"], ["p", "z"]], created_at: 1, content: "" };
+  await mockNostr(page, [k0, k3]);
+  const errors = await openApp(page, { data: { "wk.nostr": CFG } });
+  await nav(page, "data"); await page.locator('[data-stab="perfil"]').click();
+  await expect(page.locator(".nsprof .nsname")).toHaveText("Alex Nostr");
+  await expect(page.locator(".nsprof")).toContainText("✓ alex@usus.test");
+  await expect(page.locator(".nsstats")).toContainText("3");
+  await expect(page.locator(".nsprof")).toContainText("⚡ alex@ln.test");
   expect(errors).toEqual([]);
 });

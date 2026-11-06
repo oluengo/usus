@@ -217,5 +217,6 @@ async function finishSession() {
   await store.saveSession(s);
   state.savedSess = s.id; state.swapDone = null; state.rirAsk = null; state.progProps = progProposals(s);
   state.day = dayKey(Date.now()); state.tab = "diary"; render();
+  nsAutoBackup();
 }
 

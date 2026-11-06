@@ -320,6 +320,9 @@ msgstr ""
 msgid "↑ = subir reps · barra = días de fuerza hechos"
 msgstr ""
 
+msgid "⇄ Cambiar ejercicio: primero los de su progresión (más difícil y más fácil) y los de movimiento parecido y nivel cercano; el catálogo entero, plegado debajo."
+msgstr ""
+
 msgid "+1 repetición por serie (+5 s)"
 msgstr ""
 
@@ -340,6 +343,9 @@ msgid "1 hoja"
 msgstr ""
 
 msgid "1 rutina actualizada"
+msgstr ""
+
+msgid "1 sesión"
 msgstr ""
 
 msgid "1 uso"
@@ -484,6 +490,9 @@ msgstr ""
 msgid "Al terminar cada sesión, solo en ejercicios del catálogo"
 msgstr ""
 
+msgid "Al terminar cada sesión. Al abrir Usus, avisa si hay una copia más nueva."
+msgstr ""
+
 msgid "Al vincular un nombre como «Fondos (bajada 3 s)», lo que va entre paréntesis pasa a ser la técnica."
 msgstr ""
 
@@ -548,6 +557,9 @@ msgid "Antes de empezar"
 msgstr ""
 
 msgid "Antes de empezar:"
+msgstr ""
+
+msgid "Antes de empezar: debajo de «Iniciar», el material que necesita la rutina, en una línea. Lo que no tienes en «Mi material» sale marcado."
 msgstr ""
 
 msgid "Antes de una serie por tiempo que empiezas tú"
@@ -977,6 +989,9 @@ msgstr ""
 msgid "Claro"
 msgstr ""
 
+msgid "Clave pública"
+msgstr ""
+
 msgid "Código fuente"
 msgstr ""
 
@@ -1101,6 +1116,9 @@ msgstr ""
 msgid "copia"
 msgstr ""
 
+msgid "Copia automática"
+msgstr ""
+
 msgid "Copia completa"
 msgstr ""
 
@@ -1128,6 +1146,9 @@ msgid "Copia guardada en Nostr"
 msgstr ""
 
 msgid "copia incompleta"
+msgstr ""
+
+msgid "Copia más nueva en Nostr"
 msgstr ""
 
 msgid "Copia su respuesta (entera o solo el bloque de código) y toca el botón. Usus solo lee el bloque de datos y te enseña las rutinas y el plan antes de importar nada."
@@ -1270,6 +1291,10 @@ msgid "deben estar en la misma sección"
 msgstr ""
 
 msgid "Dejar como propio"
+msgstr ""
+
+#, python-brace-format
+msgid "Del {d}, guardada desde otro dispositivo o la web."
 msgstr ""
 
 msgid "del diario"
@@ -2032,6 +2057,9 @@ msgstr ""
 msgid "Fin de la regla registrado"
 msgstr ""
 
+msgid "Firma"
+msgstr ""
+
 msgid "Flexiones"
 msgstr ""
 
@@ -2527,7 +2555,13 @@ msgstr ""
 msgid "Más difícil"
 msgstr ""
 
+msgid "Más difícil (su progresión)"
+msgstr ""
+
 msgid "Más fácil"
+msgstr ""
+
+msgid "Más fácil (su progresión)"
 msgstr ""
 
 msgid "Más reps en una sesión"
@@ -2693,6 +2727,9 @@ msgstr ""
 msgid "Movilidad y calentamiento"
 msgstr ""
 
+msgid "Movimiento parecido"
+msgstr ""
+
 msgid "mujer"
 msgstr ""
 
@@ -2736,6 +2773,9 @@ msgid "Ninguna: serie completa"
 msgstr ""
 
 msgid "Ninguno"
+msgstr ""
+
+msgid "ninguno, solo suelo"
 msgstr ""
 
 msgid "Ninguno: solo suelo"
@@ -2874,6 +2914,9 @@ msgid "Normal"
 msgstr ""
 
 msgid "Nostr (opcional): conecta tu cuenta con un bunker (Amber, nsec.app…) en Ajustes → Perfil; la copia está en Ajustes → Datos y copias. Usus no ve tu clave privada y, sin Nostr, no se conecta a nada."
+msgstr ""
+
+msgid "Nostr: copia automática al terminar cada sesión y, al abrir Usus, aviso si hay en Nostr una copia más nueva (de otro móvil o de la web). Se desactiva en Ajustes → Datos y copias."
 msgstr ""
 
 msgid "Nota"
@@ -3232,6 +3275,9 @@ msgstr ""
 
 #, python-brace-format
 msgid "Perfil «{x}» creado. Ya estás en él."
+msgstr ""
+
+msgid "Perfil de Nostr en Ajustes → Perfil, como en Wavestr: foto, nombre, verificación, a quién sigues, relays, clave pública y Lightning para copiar."
 msgstr ""
 
 msgid "Perfil guardado"
@@ -3692,6 +3738,9 @@ msgstr ""
 msgid "Reiniciar el plan: en el menú ⋯ del plan en Hoy o en Biblioteca → Plan, vuelve a la semana 1 desde hoy, sin semana elegida ni pausas. Tus rutinas, sesiones e historial no se tocan. Al terminar un plan, Hoy lo ofrece."
 msgstr ""
 
+msgid "Relays"
+msgstr ""
+
 msgid "Reparto por bloque"
 msgstr ""
 
@@ -4034,6 +4083,9 @@ msgstr ""
 msgid "Series hechas por tipo en las últimas 4 semanas."
 msgstr ""
 
+msgid "Series por tiempo: en «¿Cuántos segundos te faltaron?» los números van sin «s»."
+msgstr ""
+
 msgid "Ses."
 msgstr ""
 
@@ -4115,6 +4167,9 @@ msgid "Sí, dame toda la info"
 msgstr ""
 
 msgid "Sigue al sistema"
+msgstr ""
+
+msgid "Siguiendo"
 msgstr ""
 
 msgid "siguiente"
@@ -4313,6 +4368,9 @@ msgstr ""
 msgid "Subir {x}"
 msgstr ""
 
+msgid "Subir de ejercicio: eliges tras cuántas sesiones al objetivo se propone (de 1 a 5; 2 por defecto) en Ajustes → Entreno."
+msgstr ""
+
 msgid "Subir de paso"
 msgstr ""
 
@@ -4476,6 +4534,9 @@ msgid "Todas las semanas"
 msgstr ""
 
 msgid "Todo"
+msgstr ""
+
+msgid "Todo el catálogo"
 msgstr ""
 
 msgid "Todo en JSON: rutinas, plan, sesiones, pesos, diario, suplementos y ciclo. Sirve para restaurar."
@@ -4651,6 +4712,9 @@ msgstr ""
 
 #, python-brace-format
 msgid "Usus incluye un catálogo opcional de {n} ejercicios de calistenia, cada uno con su ficha: para qué sirve, cómo se hace, errores típicos, material y progresión."
+msgstr ""
+
+msgid "Usus no cambia tu perfil de Nostr: solo lo muestra."
 msgstr ""
 
 msgid "Usus no envía nada: lo copias o compartes tú. Lo que pase después depende de la IA que elijas; revisa su política de privacidad. El plan lo hace una IA, no un entrenador ni un profesional sanitario: revísalo y escucha a tu cuerpo."

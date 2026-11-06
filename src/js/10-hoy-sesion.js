@@ -38,7 +38,7 @@ function backupBanner() {
     `<button class="btn small" data-act="exp-all">${T("Exportar ahora")}</button><button class="btn ghost small" data-act="bk-later">${T("Más tarde")}</button>`);
 }
 function pendingCard() {
-  const rows = backupBanner() + weightBanner() + cycBanner() + apkTip();
+  const rows = nsNewerBanner() + backupBanner() + weightBanner() + cycBanner() + apkTip();
   return rows ? `<h2>${T("Pendiente")}</h2><div class="plist2" role="status">${rows}</div>` : "";
 }
 function viewTrain() {
@@ -145,12 +145,18 @@ function sessionPanel(a, sheet) {
     <datalist id="exNames">${allExerciseNames().map(n => `<option value="${esc(n)}">`).join("")}</datalist>
     <button class="btn primary" style="width:100%;margin-top:20px;padding:14px" data-act="finish">${T("Terminar y guardar")}</button>`;
 }
+/* Material que hace falta, antes de iniciar: una línea discreta */
+function preMats(a) {
+  const r = state.routines.find(x => x.id === a.rid), m = matsNeeded([...a.exercises, ...(r?.exercises || [])]);   // el material propio está en la rutina if (!m.keys.length && !m.other.length) return `<p class="premat"><span class="muted">${T("Material")}:</span> ${T("ninguno, solo suelo")}</p>`;
+  return `<p class="premat"><span class="muted">${T("Material")}:</span> ${m.keys.map(k => `<span class="pmi${haveMat(k) ? "" : " no"}">${matIco(k)}${T(MAT[k][0])}</span>`).join("")}${m.other.map(o => `<span class="pmi">${esc(o)}</span>`).join("")}</p>`;
+}
 /* Antes de iniciar: se revisa la sesión; el reloj y las series quedan bloqueados */
 function viewPre(a) {
   return `<div class="row"><span class="muted">${T("Sesión sin iniciar")}</span><span class="spacer"></span>
       <button class="btn ghost small danger" data-act="discard">${T("Descartar")}</button></div>
     <h1 style="margin-top:8px">${esc(a.routine || T("Sesión libre"))}</h1>
     <div class="prebar"><button class="btn primary" data-act="sess-begin">${PLAY}${T("Iniciar")}</button><small class="muted">${T("El reloj y las series se activan al iniciar.")}</small></div>
+    ${preMats(a)}
     <div class="list">${a.exercises.map((e, i, all) => { const tm = isTime(e), r0 = e.sets[0]?.r, g = grpOf(e), ks = a.groups ? exKeys(all) : null;
       return `<div class="ex${g ? " ing" : ""}"><strong>${ks ? `<b class="ekey">${ks[i]}</b> ` : ""}${xLink(e, esc(exLabel(e)))}</strong><div class="muted" style="margin-top:2px">${g ? `${grpLabel(g)} · ${T("{n} vueltas", { n: e.sets.length })} × ${r0 ? (tm ? r0 + " s" : r0 + " reps") : "—"}` : `${e.sets.length} × ${r0 ? (tm ? r0 + " s" : r0 + " reps") : "—"} · ${T("descanso {n} s", { n: restFor(e) })}`}</div></div>`; }).join("")}</div>
     <div class="row" style="margin-top:14px">

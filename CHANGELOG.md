@@ -4,6 +4,15 @@ Todas las versiones de Usus. Formato basado en [Keep a Changelog](https://keepac
 
 **Castellano** · [Català](#català) · [English](#english)
 
+## [3.7.0] — en pruebas (beta)
+
+- Antes de empezar: debajo de «Iniciar», el material que necesita la rutina, en una línea. Lo que no tienes en «Mi material» sale marcado.
+- ⇄ Cambiar ejercicio: primero los de su progresión (más difícil y más fácil) y los de movimiento parecido y nivel cercano; el catálogo entero, plegado debajo.
+- Nostr: copia automática al terminar cada sesión y, al abrir Usus, aviso si hay en Nostr una copia más nueva (de otro móvil o de la web). Se desactiva en Ajustes → Datos y copias.
+- Perfil de Nostr en Ajustes → Perfil, como en Wavestr: foto, nombre, verificación, a quién sigues, relays, clave pública y Lightning para copiar.
+- Subir de ejercicio: eliges tras cuántas sesiones al objetivo se propone (de 1 a 5; 2 por defecto) en Ajustes → Entreno.
+- Series por tiempo: en «¿Cuántos segundos te faltaron?» los números van sin «s».
+
 ## [3.6.0] — 2026-11-04
 
 - Nostr (opcional): conecta tu cuenta con un bunker (Amber, nsec.app…) en Ajustes → Perfil; la copia está en Ajustes → Datos y copias. Usus no ve tu clave privada y, sin Nostr, no se conecta a nada.
@@ -297,6 +306,15 @@ Primera versión pública.
 
 ## Català
 
+### [3.7.0] — en pruebas (beta)
+
+- Abans de començar: sota «Iniciar», el material que necessita la rutina, en una línia. El que no tens a «El meu material» surt marcat.
+- ⇄ Canviar l'exercici: primer els de la seva progressió (més difícil i més fàcil) i els de moviment semblant i nivell proper; el catàleg sencer, plegat a sota.
+- Nostr: còpia automàtica en acabar cada sessió i, en obrir Usus, avís si hi ha a Nostr una còpia més nova (d'un altre mòbil o del web). Es desactiva a Ajustos → Dades i còpies.
+- Perfil de Nostr a Ajustos → Perfil, com a Wavestr: foto, nom, verificació, a qui segueixes, relays, clau pública i Lightning per copiar.
+- Pujar d'exercici: tries després de quantes sessions a l'objectiu es proposa (d'1 a 5; 2 per defecte) a Ajustos → Entrenament.
+- Sèries per temps: a «Quants segons te'n van faltar?» els números van sense «s».
+
 ### [3.6.0] — 2026-11-04
 
 - Nostr (opcional): connecta el teu compte amb un bunker (Amber, nsec.app…) a Ajustos → Perfil; la còpia és a Ajustos → Dades i còpies. Usus no veu la teva clau privada i, sense Nostr, no es connecta a res.
@@ -431,6 +449,15 @@ Primera versió pública: rutines amb sèries per repeticions o per temps, compt
 ---
 
 ## English
+
+### [3.7.0] — en pruebas (beta)
+
+- Before starting: below “Start”, the equipment the routine needs, in one line. Anything not in “My equipment” is marked.
+- ⇄ Swap exercise: first those in its progression (harder and easier) and similar movements at a close level; the whole catalogue, folded below.
+- Nostr: automatic backup after every session and, when you open Usus, a notice if there's a newer backup on Nostr (from another phone or the web). Turn it off in Settings → Data and backups.
+- Nostr profile in Settings → Profile, like in Wavestr: picture, name, verification, following, relays, public key and Lightning to copy.
+- Moving up: choose after how many sessions on target it's suggested (1 to 5; 2 by default) in Settings → Workout.
+- Timed sets: in “How many seconds were you short?” the numbers no longer carry an “s”.
 
 ### [3.6.0] — 2026-11-04
 

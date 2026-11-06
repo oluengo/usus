@@ -321,6 +321,9 @@ msgstr "% = last session against the routine target. Arrow = compared with the p
 msgid "↑ = subir reps · barra = días de fuerza hechos"
 msgstr "↑ = add reps · bar = strength days done"
 
+msgid "⇄ Cambiar ejercicio: primero los de su progresión (más difícil y más fácil) y los de movimiento parecido y nivel cercano; el catálogo entero, plegado debajo."
+msgstr "⇄ Swap exercise: first those in its progression (harder and easier) and similar movements at a close level; the whole catalogue, folded below."
+
 msgid "+1 repetición por serie (+5 s)"
 msgstr "+1 rep per set (+5 s)"
 
@@ -342,6 +345,9 @@ msgstr "1 sheet"
 
 msgid "1 rutina actualizada"
 msgstr "1 routine updated"
+
+msgid "1 sesión"
+msgstr "1 session"
 
 msgid "1 uso"
 msgstr "1 use"
@@ -485,6 +491,9 @@ msgstr "After (s)"
 msgid "Al terminar cada sesión, solo en ejercicios del catálogo"
 msgstr "After each session, only for catalogue exercises"
 
+msgid "Al terminar cada sesión. Al abrir Usus, avisa si hay una copia más nueva."
+msgstr "After every session. When you open Usus, it tells you if there's a newer backup."
+
 msgid "Al vincular un nombre como «Fondos (bajada 3 s)», lo que va entre paréntesis pasa a ser la técnica."
 msgstr "When linking a name like “Dips (3 s lowering)”, the part in brackets becomes the technique."
 
@@ -550,6 +559,9 @@ msgstr "Before you start"
 
 msgid "Antes de empezar:"
 msgstr "Before you start:"
+
+msgid "Antes de empezar: debajo de «Iniciar», el material que necesita la rutina, en una línea. Lo que no tienes en «Mi material» sale marcado."
+msgstr "Before starting: below “Start”, the equipment the routine needs, in one line. Anything not in “My equipment” is marked."
 
 msgid "Antes de una serie por tiempo que empiezas tú"
 msgstr "Before a timed set you start yourself"
@@ -978,6 +990,9 @@ msgstr "Circuit"
 msgid "Claro"
 msgstr "Light"
 
+msgid "Clave pública"
+msgstr "Public key"
+
 msgid "Código fuente"
 msgstr "Source code"
 
@@ -1102,6 +1117,9 @@ msgstr "Continue"
 msgid "copia"
 msgstr "backup"
 
+msgid "Copia automática"
+msgstr "Automatic backup"
+
 msgid "Copia completa"
 msgstr "Full backup"
 
@@ -1130,6 +1148,9 @@ msgstr "Backup saved on Nostr"
 
 msgid "copia incompleta"
 msgstr "incomplete backup"
+
+msgid "Copia más nueva en Nostr"
+msgstr "Newer backup on Nostr"
 
 msgid "Copia su respuesta (entera o solo el bloque de código) y toca el botón. Usus solo lee el bloque de datos y te enseña las rutinas y el plan antes de importar nada."
 msgstr "Copy its reply (all of it or just the code block) and tap the button. Usus only reads the data block and shows you the routines and plan before importing anything."
@@ -1272,6 +1293,10 @@ msgstr "they must be in the same section"
 
 msgid "Dejar como propio"
 msgstr "Keep as my own"
+
+#, python-brace-format
+msgid "Del {d}, guardada desde otro dispositivo o la web."
+msgstr "From {d}, saved from another device or the web."
 
 msgid "del diario"
 msgstr "from diary"
@@ -2033,6 +2058,9 @@ msgstr "End of period · {d}"
 msgid "Fin de la regla registrado"
 msgstr "End of period logged"
 
+msgid "Firma"
+msgstr "Signs"
+
 msgid "Flexiones"
 msgstr "Push-ups"
 
@@ -2528,8 +2556,14 @@ msgstr "More"
 msgid "Más difícil"
 msgstr "Harder"
 
+msgid "Más difícil (su progresión)"
+msgstr "Harder (its progression)"
+
 msgid "Más fácil"
 msgstr "Easier"
+
+msgid "Más fácil (su progresión)"
+msgstr "Easier (its progression)"
 
 msgid "Más reps en una sesión"
 msgstr "Most reps in a session"
@@ -2694,6 +2728,9 @@ msgstr "Reason (optional)"
 msgid "Movilidad y calentamiento"
 msgstr "Mobility and warm-up"
 
+msgid "Movimiento parecido"
+msgstr "Similar movement"
+
 msgid "mujer"
 msgstr "woman"
 
@@ -2738,6 +2775,9 @@ msgstr "None: set complete"
 
 msgid "Ninguno"
 msgstr "None"
+
+msgid "ninguno, solo suelo"
+msgstr "none, just the floor"
 
 msgid "Ninguno: solo suelo"
 msgstr "None: floor only"
@@ -2876,6 +2916,9 @@ msgstr "Normal"
 
 msgid "Nostr (opcional): conecta tu cuenta con un bunker (Amber, nsec.app…) en Ajustes → Perfil; la copia está en Ajustes → Datos y copias. Usus no ve tu clave privada y, sin Nostr, no se conecta a nada."
 msgstr "Nostr (optional): connect your account with a bunker (Amber, nsec.app…) in Settings → Profile; the backup is in Settings → Data and backups. Usus never sees your private key and, without Nostr, connects to nothing."
+
+msgid "Nostr: copia automática al terminar cada sesión y, al abrir Usus, aviso si hay en Nostr una copia más nueva (de otro móvil o de la web). Se desactiva en Ajustes → Datos y copias."
+msgstr "Nostr: automatic backup after every session and, when you open Usus, a notice if there's a newer backup on Nostr (from another phone or the web). Turn it off in Settings → Data and backups."
 
 msgid "Nota"
 msgstr "Note"
@@ -3234,6 +3277,9 @@ msgstr "Profile"
 #, python-brace-format
 msgid "Perfil «{x}» creado. Ya estás en él."
 msgstr "Profile “{x}” created. You're now using it."
+
+msgid "Perfil de Nostr en Ajustes → Perfil, como en Wavestr: foto, nombre, verificación, a quién sigues, relays, clave pública y Lightning para copiar."
+msgstr "Nostr profile in Settings → Profile, like in Wavestr: picture, name, verification, following, relays, public key and Lightning to copy."
 
 msgid "Perfil guardado"
 msgstr "Profile saved"
@@ -3693,6 +3739,9 @@ msgstr "Restart the plan"
 msgid "Reiniciar el plan: en el menú ⋯ del plan en Hoy o en Biblioteca → Plan, vuelve a la semana 1 desde hoy, sin semana elegida ni pausas. Tus rutinas, sesiones e historial no se tocan. Al terminar un plan, Hoy lo ofrece."
 msgstr "Restart the plan: from the plan's ⋯ menu in Today or in Library → Plan, it goes back to week 1 from today, with no chosen week or pauses. Your routines, sessions and history are not touched. When a plan ends, Today offers it."
 
+msgid "Relays"
+msgstr "Relays"
+
 msgid "Reparto por bloque"
 msgstr "Split by block"
 
@@ -4035,6 +4084,9 @@ msgstr "Sets"
 msgid "Series hechas por tipo en las últimas 4 semanas."
 msgstr "Sets done by type in the last 4 weeks."
 
+msgid "Series por tiempo: en «¿Cuántos segundos te faltaron?» los números van sin «s»."
+msgstr "Timed sets: in “How many seconds were you short?” the numbers no longer carry an “s”."
+
 msgid "Ses."
 msgstr "Ses."
 
@@ -4117,6 +4169,9 @@ msgstr "Yes, give me all the info"
 
 msgid "Sigue al sistema"
 msgstr "Follows the system"
+
+msgid "Siguiendo"
+msgstr "Following"
 
 msgid "siguiente"
 msgstr "next"
@@ -4314,6 +4369,9 @@ msgstr "Move up"
 msgid "Subir {x}"
 msgstr "Move {x} up"
 
+msgid "Subir de ejercicio: eliges tras cuántas sesiones al objetivo se propone (de 1 a 5; 2 por defecto) en Ajustes → Entreno."
+msgstr "Moving up: choose after how many sessions on target it's suggested (1 to 5; 2 by default) in Settings → Workout."
+
 msgid "Subir de paso"
 msgstr "Step up"
 
@@ -4478,6 +4536,9 @@ msgstr "Every week"
 
 msgid "Todo"
 msgstr "All"
+
+msgid "Todo el catálogo"
+msgstr "Whole catalogue"
 
 msgid "Todo en JSON: rutinas, plan, sesiones, pesos, diario, suplementos y ciclo. Sirve para restaurar."
 msgstr "Everything in JSON: routines, plan, sessions, weights, diary, supplements and cycle. Use it to restore."
@@ -4653,6 +4714,9 @@ msgstr "Usus is a web app (PWA): you install it from the browser, no app store, 
 #, python-brace-format
 msgid "Usus incluye un catálogo opcional de {n} ejercicios de calistenia, cada uno con su ficha: para qué sirve, cómo se hace, errores típicos, material y progresión."
 msgstr "Usus includes an optional catalogue of {n} calisthenics exercises, each with its own card: what it's for, how to do it, common mistakes, equipment and progression."
+
+msgid "Usus no cambia tu perfil de Nostr: solo lo muestra."
+msgstr "Usus doesn't change your Nostr profile: it only shows it."
 
 msgid "Usus no envía nada: lo copias o compartes tú. Lo que pase después depende de la IA que elijas; revisa su política de privacidad. El plan lo hace una IA, no un entrenador ni un profesional sanitario: revísalo y escucha a tu cuerpo."
 msgstr "Usus sends nothing: you copy or share it yourself. What happens next depends on the AI you choose; check its privacy policy. The plan is made by an AI, not a coach or a health professional: review it and listen to your body."
