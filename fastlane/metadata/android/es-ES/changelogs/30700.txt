@@ -1,0 +1,4 @@
+• Antes de empezar: debajo de «Iniciar», el material que necesita la rutina, en una línea. Lo que no tienes en «Mi material» sale marcado. Sale también sin el catálogo activado.
+• ⇄ Cambiar ejercicio: primero los de su progresión y los de movimiento parecido y nivel cercano; el catálogo entero, plegado debajo.
+• Nostr: copia automática al terminar cada sesión y, al abrir Usus, aviso si hay en Nostr una copia más nueva. Se desactiva en Ajustes → Datos y copias.
+…

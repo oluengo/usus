@@ -1,0 +1,4 @@
+• Before starting: below “Start”, the equipment the routine needs, in one line. Anything not in “My equipment” is marked. It shows even with the catalogue turned off.
+• ⇄ Swap exercise: first those in its progression and similar movements at a close level; the whole catalogue, folded below.
+• Nostr: automatic backup after every session and, when you open Usus, a notice if there's a newer backup on Nostr. Turn it off in Settings → Data and backups.
+…

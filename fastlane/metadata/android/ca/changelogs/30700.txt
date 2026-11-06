@@ -1,0 +1,4 @@
+• Abans de començar: sota «Iniciar», el material que necessita la rutina, en una línia. El que no tens a «El meu material» surt marcat. Surt també sense el catàleg activat.
+• ⇄ Canviar l'exercici: primer els de la seva progressió i els de moviment semblant i nivell proper; el catàleg sencer, plegat a sota.
+• Nostr: còpia automàtica en acabar cada sessió i, en obrir Usus, avís si hi ha a Nostr una còpia més nova. Es desactiva a Ajustos → Dades i còpies.
+…

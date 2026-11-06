@@ -4,7 +4,7 @@ Todas las versiones de Usus. Formato basado en [Keep a Changelog](https://keepac
 
 **Castellano** · [Català](#català) · [English](#english)
 
-## [3.7.0] — en pruebas (beta)
+## [3.7.0] — 2026-11-06
 
 - Antes de empezar: debajo de «Iniciar», el material que necesita la rutina, en una línea. Lo que no tienes en «Mi material» sale marcado. Sale también sin el catálogo activado.
 - ⇄ Cambiar ejercicio: primero los de su progresión (más difícil y más fácil) y los de movimiento parecido y nivel cercano; el catálogo entero, plegado debajo.
@@ -307,7 +307,7 @@ Primera versión pública.
 
 ## Català
 
-### [3.7.0] — en pruebas (beta)
+### [3.7.0] — 2026-11-06
 
 - Abans de començar: sota «Iniciar», el material que necessita la rutina, en una línia. El que no tens a «El meu material» surt marcat. Surt també sense el catàleg activat.
 - ⇄ Canviar l'exercici: primer els de la seva progressió (més difícil i més fàcil) i els de moviment semblant i nivell proper; el catàleg sencer, plegat a sota.
@@ -452,7 +452,7 @@ Primera versió pública: rutines amb sèries per repeticions o per temps, compt
 
 ## English
 
-### [3.7.0] — en pruebas (beta)
+### [3.7.0] — 2026-11-06
 
 - Before starting: below “Start”, the equipment the routine needs, in one line. Anything not in “My equipment” is marked. It shows even with the catalogue turned off.
 - ⇄ Swap exercise: first those in its progression (harder and easier) and similar movements at a close level; the whole catalogue, folded below.
