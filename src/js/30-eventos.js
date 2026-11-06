@@ -325,6 +325,7 @@ document.addEventListener("click", async ev => {
     case "issue-close": state.issue = null; render(); break;
     case "issue-go": { const u = issueURL(state.issue); state.issue = null; render(); openExt(u); break; }
     case "ns-connect": nsConnect(); break;
+    case "ns-amber": nsConnectAmber(); break;
     case "ns-off": nsDisconnect(); break;
     case "ns-bk-save": nsBackupSave(); break;
     case "ns-bk-load": nsBackupLoad(); break;

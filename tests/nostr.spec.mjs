@@ -121,3 +121,34 @@ test("cuenta de Nostr: foto, nombre, nip05 y clave pública copiable, como en Wa
   await expect(page.locator(".nsban")).toHaveCount(0);
   expect(errors).toEqual([]);
 });
+test("APK: entrar con Amber (NIP-55) y firmar; la firma se comprueba", async ({ page }) => {
+  // Amber simulado en Node con una clave de prueba; nostr.js real (las consultas a relays fallan sin red y se ignoran)
+  const { generateSecretKey, getPublicKey, finalizeEvent } = await import("nostr-tools/pure");
+  const sk = generateSecretKey(), pk = getPublicKey(sk);
+  let bad = false;
+  await page.exposeFunction("amberSign", json => { const e = JSON.parse(json); const s = finalizeEvent({ kind: e.kind, created_at: e.created_at, tags: e.tags, content: e.content }, sk); return JSON.stringify(bad ? { ...s, content: "otra cosa" } : s); });
+  await page.addInitScript(pk => {
+    window.Capacitor = { isNativePlatform: () => true, Plugins: { UsusSigner: {
+      async available() { return { ok: true }; },
+      async getPublicKey() { return { result: pk, package: "com.greenart7c3.nostrsigner" }; },
+      async request(o) { if (o.type === "sign_event") return { event: await window.amberSign(o.content) }; return { result: "x" }; }
+    } } };
+  }, pk);
+  const errors = await openApp(page, {});
+  await nav(page, "data"); await page.locator('[data-stab="nostr"]').click();
+  await page.locator('[data-act="ns-amber"]').click();
+  await expect(page.locator(".nsprof")).toContainText("Firma con Amber", { timeout: 20000 });
+  const c = await ls(page, "wk.nostr"); expect([c.method, c.pubkey, c.pkg]).toEqual(["amber", pk, "com.greenart7c3.nostrsigner"]);
+  const ev = await page.evaluate(() => window.UsusNostr.sign({ kind: 1, created_at: 1, tags: [], content: "hola" }));
+  expect(ev.pubkey).toBe(pk); expect(ev.sig).toHaveLength(128);
+  bad = true;   // una firma que no cuadra con lo pedido se rechaza
+  expect(await page.evaluate(() => window.UsusNostr.sign({ kind: 1, created_at: 1, tags: [], content: "hola" }).then(() => "ok", e => e.message))).toBe("firma no válida");
+  expect(errors).toEqual([]);
+});
+test("sin catálogo activado, el material de la rutina sale igual", async ({ page }) => {
+  const R = [{ id: "rm", name: "Mat", block: "full", variant: "", days: [0, 1, 2, 3, 4, 5, 6], exercises: [{ name: "Dominada negativa", xid: "dominada-negativa", sets: 1, reps: 5, type: "reps" }] }];
+  const errors = await openApp(page, { data: { "wk.routines": R, "wk.catalog": false } });
+  await page.locator('[data-start="rm"]:visible').first().click();
+  await expect(page.locator(".premat")).toContainText("Barra");
+  expect(errors).toEqual([]);
+});

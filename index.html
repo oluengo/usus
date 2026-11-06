@@ -2870,6 +2870,7 @@ function sessionPanel(a, sheet) {
 }
 /* Material que hace falta, antes de iniciar: una línea discreta */
 function preMats(a) {
+  if (!CAT && a.exercises.some(e => e.xid)) loadCatalog().then(c => c && render());   // el material de los del catálogo está en él, aunque esté oculto
   const r = state.routines.find(x => x.id === a.rid), m = matsNeeded([...a.exercises, ...(r?.exercises || [])]);   // el material propio está en la rutina if (!m.keys.length && !m.other.length) return `<p class="premat"><span class="muted">${T("Material")}:</span> ${T("ninguno, solo suelo")}</p>`;
   return `<p class="premat"><span class="muted">${T("Material")}:</span> ${m.keys.map(k => `<span class="pmi${haveMat(k) ? "" : " no"}">${matIco(k)}${T(MAT[k][0])}</span>`).join("")}${m.other.map(o => `<span class="pmi">${esc(o)}</span>`).join("")}</p>`;
 }
@@ -4474,7 +4475,7 @@ const SICO = {
 const SET_BLOCKS = [["perfil", "nostr"], ["entreno", "avisos", "apariencia"], ["datos"], ["acerca"]];
 function setSub(k, lastBk) {
   if (k === "perfil") return multiProf() ? esc(profName(curProf())) : T("Perfiles y datos personales");
-  if (k === "nostr") { const c = NS.cfg(); return c ? esc(c.name || nsShort(c)) + " · Bunker" : T("Sin conectar · copia cifrada y publicar"); }
+  if (k === "nostr") { const c = NS.cfg(); return c ? esc(c.name || nsShort(c)) + (c.method === "amber" ? " · Amber" : " · Bunker") : T("Sin conectar · copia cifrada y publicar"); }
   if (k === "entreno") return T("Tiempos, esfuerzo, objetivos y catálogo");
   if (k === "avisos") return T((FX.find(x => x[0] === fxMode()) || FX[0])[1]);
   if (k === "apariencia") return `${T((THEMES.find(x => x[0] === curTheme()) || THEMES[3])[1])} · ${LANGS[LANG]?.name || LANG}`;
@@ -4533,10 +4534,11 @@ function installBlock() {
 /* ---------- Novedades (una vez por versión; historial al tocar la versión) ---------- */
 const CHANGES = [  // Novedades: solo en castellano; las traducciones, en i18n/*.po
   ["3.7.0", [
-    N_("Antes de empezar: debajo de «Iniciar», el material que necesita la rutina, en una línea. Lo que no tienes en «Mi material» sale marcado."),
+    N_("Antes de empezar: debajo de «Iniciar», el material que necesita la rutina, en una línea. Lo que no tienes en «Mi material» sale marcado. Sale también sin el catálogo activado."),
     N_("⇄ Cambiar ejercicio: primero los de su progresión (más difícil y más fácil) y los de movimiento parecido y nivel cercano; el catálogo entero, plegado debajo."),
     N_("Nostr: copia automática al terminar cada sesión y, al abrir Usus, aviso si hay en Nostr una copia más nueva (de otro móvil o de la web). Se desactiva en Ajustes → Datos y copias."),
     N_("Ajustes, ordenados en bloques como en Wavestr, con un apartado nuevo «Cuenta de Nostr»: tu foto, nombre y verificación, y la clave pública y Lightning para copiar."),
+    N_("Nostr en el APK: entra con Amber, el firmante de Nostr para Android, como en Wavestr; con la web o sin Amber, con un bunker."),
     N_("Subir de ejercicio: eliges tras cuántas sesiones al objetivo se propone (de 1 a 5; 2 por defecto) en Ajustes → Entreno."),
     N_("Series por tiempo: en «¿Cuántos segundos te faltaron?» los números van sin «s».")
   ]],
@@ -5578,7 +5580,7 @@ const nsTime = (p, ms) => Promise.race([p, new Promise((_, ko) => setTimeout(() 
 const nsErr = e => String(e?.message || e || "").slice(0, 80);
 async function nsSigner() {
   const L = await nsLib(), c = NS.cfg(); if (!c) throw new Error(T("sin cuenta de Nostr"));
-  if (!L.active()) L.resume(c.bp, c.sk, nsAuth);
+  if (!L.active()) { if (c.method === "amber") L.amberResume(c.pubkey, c.pkg); else L.resume(c.bp, c.sk, nsAuth); }
   return L;
 }
 const nsBusy = msg => { state.nsBusy = msg || null; render(); };
@@ -5594,20 +5596,36 @@ async function gunB64(b64) {
 }
 
 /* Conectar y desconectar */
+/* Tras entrar (con Amber o con bunker): relays de escritura (NIP-65), servidores Blossom y perfil */
+async function nsAfterLogin(L, pk, extra, base) {
+  const look = [...new Set([...NS_DEF, ...(extra || [])])];
+  let relays = NS_DEF, blossom = [];
+  try { const ev = await L.get(look, { kinds: [10002], authors: [pk] }); const w = (ev?.tags || []).filter(t => t[0] === "r" && /^wss:\/\//.test(t[1] || "") && t[2] !== "read").map(t => t[1]); if (w.length) relays = w.slice(0, 6); } catch {}
+  try { const ev = await L.get(look, { kinds: [10063], authors: [pk] }); blossom = (ev?.tags || []).filter(t => t[0] === "server" && /^https:\/\//.test(t[1] || "")).map(t => t[1]).slice(0, 3); } catch {}
+  NS.save({ ...base, pubkey: pk, npub: L.npub(pk), name: "", relays, blossom });
+  await nsRefreshProfile(true);
+  toast(T("Cuenta de Nostr conectada"));
+}
 async function nsConnect() {
   const v = ($("#nsBunker")?.value || "").trim();
   if (!/^bunker:\/\/[0-9a-f]{64}/i.test(v)) { toast(T("Pega la dirección bunker://… de tu firmante (Amber, nsec.app…).")); $("#nsBunker")?.focus(); return; }
   nsBusy(T("Conectando… acepta la petición en tu bunker."));
   try {
-    const L = await nsLib(), r = await nsTime(L.connect(v, null, nsAuth), 120000), pk = r.pubkey;
-    const look = [...new Set([...NS_DEF, ...(r.bp.relays || [])])];
-    let relays = NS_DEF, blossom = [], name = "";
-    try { const ev = await L.get(look, { kinds: [10002], authors: [pk] }); const w = (ev?.tags || []).filter(t => t[0] === "r" && /^wss:\/\//.test(t[1] || "") && t[2] !== "read").map(t => t[1]); if (w.length) relays = w.slice(0, 6); } catch {}
-    try { const ev = await L.get(look, { kinds: [10063], authors: [pk] }); blossom = (ev?.tags || []).filter(t => t[0] === "server" && /^https:\/\//.test(t[1] || "")).map(t => t[1]).slice(0, 3); } catch {}
-    NS.save({ bp: { pubkey: r.bp.pubkey, relays: r.bp.relays || [] }, sk: r.sk, pubkey: pk, npub: L.npub(pk), name, relays, blossom });
-    await nsRefreshProfile(true);
-    toast(T("Cuenta de Nostr conectada"));
+    const L = await nsLib(), r = await nsTime(L.connect(v, null, nsAuth), 120000);
+    await nsAfterLogin(L, r.pubkey, r.bp.relays, { method: "bunker", bp: { pubkey: r.bp.pubkey, relays: r.bp.relays || [] }, sk: r.sk });
   } catch (e) { toast(T("No se pudo conectar: {x}. Revisa la dirección y que tu firmante esté abierto.", { x: nsErr(e) }), 5000); }
+  nsBusy(null);
+}
+/* Amber (NIP-55), solo en el APK: como en Wavestr */
+async function nsConnectAmber() {
+  nsBusy(T("Abriendo Amber…"));
+  try {
+    const L = await nsLib();
+    if (!(await L.amberAvailable())) { toast(T("Instala Amber (firmante de Nostr) o usa un bunker."), 5000); nsBusy(null); return; }
+    const r = await L.amberLogin();
+    nsBusy(T("Conectando…"));
+    await nsAfterLogin(L, r.pubkey, [], { method: "amber", pkg: r.pkg });
+  } catch (e) { toast(T("No se pudo entrar con Amber: {x}", { x: nsErr(e) }), 5000); }
   nsBusy(null);
 }
 async function nsDisconnect() {
@@ -5754,20 +5772,21 @@ function nsAvatar(c, px) {
 /* Ajustes → Cuenta de Nostr, como en Wavestr: la cuenta en una fila; Usus no cambia el perfil */
 function nostrAccount() {
   const c = NS.cfg();
-  if (!c) return `<div class="panel"><b>${T("Sin cuenta")}</b><p class="muted" style="font-size:.88rem;margin:4px 0 12px">${T("Conecta tu cuenta de Nostr con un bunker (Amber, nsec.app…) para guardar copias cifradas y publicar tus entrenos y rutinas. Usus no ve tu clave privada y solo se conecta cuando usas Nostr.")}</p>
+  if (!c) return `<div class="panel"><b>${T("Sin cuenta")}</b><p class="muted" style="font-size:.88rem;margin:4px 0 12px">${T("Entra con tu cuenta de Nostr para guardar copias cifradas y publicar tus entrenos y rutinas. Usus no ve tu clave privada y solo se conecta cuando usas Nostr.")}</p>
+    ${isNative() ? `<button class="btn primary nsbtn" style="width:100%" data-act="ns-amber" ${state.nsBusy ? "disabled" : ""}>${NS_ICO}${T("Entrar con Amber")}</button><p class="muted" style="font-size:.82rem;margin:14px 0 4px">${T("O con un bunker (nsec.app, nsecBunker…):")}</p>` : ""}
     <label class="muted" for="nsBunker" style="font-size:.85rem">${T("Dirección del bunker")}</label>
     <div class="row" style="margin-top:4px;flex-wrap:nowrap"><input id="nsBunker" type="text" placeholder="bunker://…" autocomplete="off" autocapitalize="off" spellcheck="false" style="flex:1;min-width:0"><button class="btn primary" data-act="ns-connect" ${state.nsBusy ? "disabled" : ""}>${T("Conectar")}</button></div>
     ${nsBusyLine()}</div>`;
   setTimeout(() => nsRefreshProfile(), 0);
   const p = c.prof || {}, name = p.display || c.name || T("Tu cuenta");
-  const sub = [p.name ? "@" + esc(p.name) : "", p.nip05 ? `<span class="nip">✓ ${esc(p.nip05.replace(/^_@/, ""))}</span>` : ""].filter(Boolean).join(" · ") || T("Firma con bunker");
+  const sub = [p.name ? "@" + esc(p.name) : "", p.nip05 ? `<span class="nip">✓ ${esc(p.nip05.replace(/^_@/, ""))}</span>` : ""].filter(Boolean).join(" · ") || (c.method === "amber" ? T("Firma con Amber") : T("Firma con bunker"));
   const copy = (lab, val, shown) => `<div class="nslab">${lab}</div><div class="nscopy"><code>${esc(shown || val)}</code><button class="btn ghost small" data-nscopy="${esc(val)}">${T("Copiar")}</button></div>`;
   return `<div class="panel nsprof">
     <div class="nsacc">${nsAvatar(c, 48)}<span class="t"><b>${esc(name)}</b><small>${sub}</small></span></div>
     ${p.about ? `<p class="nsabout">${esc(p.about)}</p>` : ""}
     ${copy(T("Clave pública"), c.npub || "")}
     ${p.lud16 ? copy("Lightning", p.lud16, "⚡ " + p.lud16) : ""}
-    <p class="muted" style="font-size:.8rem;margin:10px 0 0">${T("Firma con tu bunker. Usus no cambia tu perfil de Nostr: solo lo muestra.")}</p>
+    <p class="muted" style="font-size:.8rem;margin:10px 0 0">${c.method === "amber" ? T("Firma con Amber. Usus no cambia tu perfil de Nostr: solo lo muestra.") : T("Firma con tu bunker. Usus no cambia tu perfil de Nostr: solo lo muestra.")}</p>
     <button class="btn" style="margin-top:10px" data-act="ns-off">${T("Desconectar")}</button>
     ${nsBusyLine()}</div>`;
 }
@@ -6108,6 +6127,7 @@ document.addEventListener("click", async ev => {
     case "issue-close": state.issue = null; render(); break;
     case "issue-go": { const u = issueURL(state.issue); state.issue = null; render(); openExt(u); break; }
     case "ns-connect": nsConnect(); break;
+    case "ns-amber": nsConnectAmber(); break;
     case "ns-off": nsDisconnect(); break;
     case "ns-bk-save": nsBackupSave(); break;
     case "ns-bk-load": nsBackupLoad(); break;
@@ -6442,6 +6462,7 @@ const I18N = {
     "30 días": "30 dies",
     "4 semanas": "4 setmanes",
     "A, B… = orden. A1, A2 = superserie o circuito: se hacen seguidos y se repite la vuelta.": "A, B… = ordre. A1, A2 = supersèrie o circuit: es fan seguits i es repeteix la volta.",
+    "Abriendo Amber…": "Obrint Amber…",
     "Abrir": "Obrir",
     "Abrir en el Diario": "Obre al Diari",
     "Abrir GitHub": "Obrir GitHub",
@@ -6506,7 +6527,7 @@ const I18N = {
     "Antes de añadir otro perfil, completa el tuyo. Tus datos no cambian.": "Abans d'afegir un altre perfil, completa el teu. Les teves dades no canvien.",
     "Antes de empezar": "Abans de començar",
     "Antes de empezar:": "Abans de començar:",
-    "Antes de empezar: debajo de «Iniciar», el material que necesita la rutina, en una línea. Lo que no tienes en «Mi material» sale marcado.": "Abans de començar: sota «Iniciar», el material que necessita la rutina, en una línia. El que no tens a «El meu material» surt marcat.",
+    "Antes de empezar: debajo de «Iniciar», el material que necesita la rutina, en una línea. Lo que no tienes en «Mi material» sale marcado. Sale también sin el catálogo activado.": "Abans de començar: sota «Iniciar», el material que necessita la rutina, en una línia. El que no tens a «El meu material» surt marcat. Surt també sense el catàleg activat.",
     "Antes de una serie por tiempo que empiezas tú": "Abans d'una sèrie per temps que comences tu",
     "Anticonceptivo hormonal": "Anticonceptiu hormonal",
     "Antojos": "Desitjos",
@@ -6679,7 +6700,7 @@ const I18N = {
     "Con variantes, Usus usa su plan de progresión: Hoy te dice qué toca cada semana.": "Amb variants, Usus fa servir el seu pla de progressió: Avui et diu què toca cada setmana.",
     "Condiciones de salud relevantes": "Condicions de salut rellevants",
     "Conecta antes tu cuenta en Ajustes → Cuenta de Nostr.": "Connecta abans el teu compte a Ajustos → Compte de Nostr.",
-    "Conecta tu cuenta de Nostr con un bunker (Amber, nsec.app…) para guardar copias cifradas y publicar tus entrenos y rutinas. Usus no ve tu clave privada y solo se conecta cuando usas Nostr.": "Connecta el teu compte de Nostr amb un bunker (Amber, nsec.app…) per desar còpies xifrades i publicar els teus entrenaments i rutines. Usus no veu la teva clau privada i només es connecta quan fas servir Nostr.",
+    "Conectando…": "Connectant…",
     "Conectando… acepta la petición en tu bunker.": "Connectant… accepta la petició al teu bunker.",
     "Conectar": "Connectar",
     "Conseguido": "Aconseguit",
@@ -6929,6 +6950,8 @@ const I18N = {
     "Entendido": "Entesos",
     "Entendido, activar": "Entesos, activa",
     "Entendido, empezar": "Entesos, començar",
+    "Entra con tu cuenta de Nostr para guardar copias cifradas y publicar tus entrenos y rutinas. Usus no ve tu clave privada y solo se conecta cuando usas Nostr.": "Entra amb el teu compte de Nostr per desar còpies xifrades i publicar els teus entrenaments i rutines. Usus no veu la teva clau privada i només es connecta quan fas servir Nostr.",
+    "Entrar con Amber": "Entra amb Amber",
     "Entrenado": "Entrenat",
     "Entrenado 30 días": "Entrenat 30 dies",
     "Entrenando: cabecera fija con el tiempo y el avance, series más grandes y una barra abajo con la acción que toca (marcar la serie, empezar la cuenta atrás, siguiente ejercicio o terminar).": "Entrenant: capçalera fixa amb el temps i l'avanç, sèries més grans i una barra a baix amb l'acció que toca (marcar la sèrie, començar el compte enrere, exercici següent o acabar).",
@@ -6991,6 +7014,8 @@ const I18N = {
     "Fichas, progresiones y Plan guiado. Se puede cambiar en Ajustes → App.": "Fitxes, progressions i Pla guiat. Es pot canviar a Ajustos → App.",
     "Fin de la regla · {d}": "Final de la regla · {d}",
     "Fin de la regla registrado": "Final de la regla registrat",
+    "Firma con Amber": "Signa amb Amber",
+    "Firma con Amber. Usus no cambia tu perfil de Nostr: solo lo muestra.": "Signa amb Amber. Usus no canvia el teu perfil de Nostr: només el mostra.",
     "Firma con bunker": "Signa amb bunker",
     "Firma con tu bunker. Usus no cambia tu perfil de Nostr: solo lo muestra.": "Signa amb el teu bunker. Usus no canvia el teu perfil de Nostr: només el mostra.",
     "Flexiones": "Flexions",
@@ -7084,6 +7109,7 @@ const I18N = {
     "Inicio automático: no": "Inici automàtic: no",
     "Inicio automático: sí": "Inici automàtic: sí",
     "Insomnio": "Insomni",
+    "Instala Amber (firmante de Nostr) o usa un bunker.": "Instal·la Amber (signant de Nostr) o fes servir un bunker.",
     "Instala Obtainium.": "Instal·la Obtainium.",
     "Instalar ahora": "Instal·la ara",
     "Instalar en el móvil": "Instal·la-la al mòbil",
@@ -7252,6 +7278,7 @@ const I18N = {
     "No se pudo cargar el catálogo. Se volverá a intentar al abrir la app.": "No s'ha pogut carregar el catàleg. Es tornarà a provar en obrir l'app.",
     "No se pudo conectar: {x}. Revisa la dirección y que tu firmante esté abierto.": "No s'ha pogut connectar: {x}. Revisa l'adreça i que el teu signant estigui obert.",
     "No se pudo copiar": "No s'ha pogut copiar",
+    "No se pudo entrar con Amber: {x}": "No s'ha pogut entrar amb Amber: {x}",
     "No se pudo guardar la copia en Nostr: {x}": "No s'ha pogut desar la còpia a Nostr: {x}",
     "No se pudo guardar: almacenamiento lleno": "No s'ha pogut desar: emmagatzematge ple",
     "No se pudo publicar: {x}": "No s'ha pogut publicar: {x}",
@@ -7271,6 +7298,7 @@ const I18N = {
     "Nombre del ejercicio": "Nom de l'exercici",
     "Normal": "Normal",
     "Nostr (opcional): conecta tu cuenta con un bunker (Amber, nsec.app…) en Ajustes → Perfil; la copia está en Ajustes → Datos y copias. Usus no ve tu clave privada y, sin Nostr, no se conecta a nada.": "Nostr (opcional): connecta el teu compte amb un bunker (Amber, nsec.app…) a Ajustos → Perfil; la còpia és a Ajustos → Dades i còpies. Usus no veu la teva clau privada i, sense Nostr, no es connecta a res.",
+    "Nostr en el APK: entra con Amber, el firmante de Nostr para Android, como en Wavestr; con la web o sin Amber, con un bunker.": "Nostr a l'APK: entra amb Amber, el signant de Nostr per a Android, com a Wavestr; amb el web o sense Amber, amb un bunker.",
     "Nostr: copia automática al terminar cada sesión y, al abrir Usus, aviso si hay en Nostr una copia más nueva (de otro móvil o de la web). Se desactiva en Ajustes → Datos y copias.": "Nostr: còpia automàtica en acabar cada sessió i, en obrir Usus, avís si hi ha a Nostr una còpia més nova (d'un altre mòbil o del web). Es desactiva a Ajustos → Dades i còpies.",
     "Nota": "Nota",
     "Nota (opcional)": "Nota (opcional)",
@@ -7297,6 +7325,7 @@ const I18N = {
     "Nunca": "Mai",
     "Nunca incluye tus rutinas, sesiones ni registros.": "Mai no inclou les teves rutines, sessions ni registres.",
     "Nunca sale al compartir rutinas o entrenos.": "Mai no surt en compartir rutines o entrenaments.",
+    "O con un bunker (nsec.app, nsecBunker…):": "O amb un bunker (nsec.app, nsecBunker…):",
     "O pégala a mano": "O enganxa-la a mà",
     "obj.": "obj.",
     "objetivo": "objectiu",
@@ -8016,6 +8045,7 @@ const I18N = {
     "30 días": "30 days",
     "4 semanas": "4 weeks",
     "A, B… = orden. A1, A2 = superserie o circuito: se hacen seguidos y se repite la vuelta.": "A, B… = order. A1, A2 = superset or circuit: done back to back, then the round repeats.",
+    "Abriendo Amber…": "Opening Amber…",
     "Abrir": "Open",
     "Abrir en el Diario": "Open in Diary",
     "Abrir GitHub": "Open GitHub",
@@ -8080,7 +8110,7 @@ const I18N = {
     "Antes de añadir otro perfil, completa el tuyo. Tus datos no cambian.": "Before adding another profile, complete yours. Your data doesn't change.",
     "Antes de empezar": "Before you start",
     "Antes de empezar:": "Before you start:",
-    "Antes de empezar: debajo de «Iniciar», el material que necesita la rutina, en una línea. Lo que no tienes en «Mi material» sale marcado.": "Before starting: below “Start”, the equipment the routine needs, in one line. Anything not in “My equipment” is marked.",
+    "Antes de empezar: debajo de «Iniciar», el material que necesita la rutina, en una línea. Lo que no tienes en «Mi material» sale marcado. Sale también sin el catálogo activado.": "Before starting: below “Start”, the equipment the routine needs, in one line. Anything not in “My equipment” is marked. It shows even with the catalogue turned off.",
     "Antes de una serie por tiempo que empiezas tú": "Before a timed set you start yourself",
     "Anticonceptivo hormonal": "Hormonal contraception",
     "Antojos": "Cravings",
@@ -8253,7 +8283,7 @@ const I18N = {
     "Con variantes, Usus usa su plan de progresión: Hoy te dice qué toca cada semana.": "With variants, Usus uses its progression plan: Today tells you what's on each week.",
     "Condiciones de salud relevantes": "Relevant health conditions",
     "Conecta antes tu cuenta en Ajustes → Cuenta de Nostr.": "First connect your account in Settings → Nostr account.",
-    "Conecta tu cuenta de Nostr con un bunker (Amber, nsec.app…) para guardar copias cifradas y publicar tus entrenos y rutinas. Usus no ve tu clave privada y solo se conecta cuando usas Nostr.": "Connect your Nostr account with a bunker (Amber, nsec.app…) to save encrypted backups and post your workouts and routines. Usus never sees your private key and only connects when you use Nostr.",
+    "Conectando…": "Connecting…",
     "Conectando… acepta la petición en tu bunker.": "Connecting… accept the request in your bunker.",
     "Conectar": "Connect",
     "Conseguido": "Reached",
@@ -8503,6 +8533,8 @@ const I18N = {
     "Entendido": "Got it",
     "Entendido, activar": "Got it, turn on",
     "Entendido, empezar": "Got it, let's start",
+    "Entra con tu cuenta de Nostr para guardar copias cifradas y publicar tus entrenos y rutinas. Usus no ve tu clave privada y solo se conecta cuando usas Nostr.": "Sign in with your Nostr account to save encrypted backups and post your workouts and routines. Usus never sees your private key and only connects when you use Nostr.",
+    "Entrar con Amber": "Sign in with Amber",
     "Entrenado": "Trained",
     "Entrenado 30 días": "Trained, 30 days",
     "Entrenando: cabecera fija con el tiempo y el avance, series más grandes y una barra abajo con la acción que toca (marcar la serie, empezar la cuenta atrás, siguiente ejercicio o terminar).": "Training: a fixed header with time and progress, bigger sets and a bottom bar with the next action (mark the set, start the countdown, next exercise or finish).",
@@ -8565,6 +8597,8 @@ const I18N = {
     "Fichas, progresiones y Plan guiado. Se puede cambiar en Ajustes → App.": "Cards, progressions and Guided plan. You can change it in Settings → App.",
     "Fin de la regla · {d}": "End of period · {d}",
     "Fin de la regla registrado": "End of period logged",
+    "Firma con Amber": "Signs with Amber",
+    "Firma con Amber. Usus no cambia tu perfil de Nostr: solo lo muestra.": "Signs with Amber. Usus doesn't change your Nostr profile: it only shows it.",
     "Firma con bunker": "Signs with a bunker",
     "Firma con tu bunker. Usus no cambia tu perfil de Nostr: solo lo muestra.": "Signs with your bunker. Usus doesn't change your Nostr profile: it only shows it.",
     "Flexiones": "Push-ups",
@@ -8658,6 +8692,7 @@ const I18N = {
     "Inicio automático: no": "Auto-start: off",
     "Inicio automático: sí": "Auto-start: on",
     "Insomnio": "Insomnia",
+    "Instala Amber (firmante de Nostr) o usa un bunker.": "Install Amber (a Nostr signer) or use a bunker.",
     "Instala Obtainium.": "Install Obtainium.",
     "Instalar ahora": "Install now",
     "Instalar en el móvil": "Install on your phone",
@@ -8826,6 +8861,7 @@ const I18N = {
     "No se pudo cargar el catálogo. Se volverá a intentar al abrir la app.": "Couldn't load the catalogue. It will try again when you open the app.",
     "No se pudo conectar: {x}. Revisa la dirección y que tu firmante esté abierto.": "Couldn't connect: {x}. Check the address and that your signer is open.",
     "No se pudo copiar": "Couldn't copy",
+    "No se pudo entrar con Amber: {x}": "Couldn't sign in with Amber: {x}",
     "No se pudo guardar la copia en Nostr: {x}": "Couldn't save the backup to Nostr: {x}",
     "No se pudo guardar: almacenamiento lleno": "Couldn't save: storage full",
     "No se pudo publicar: {x}": "Couldn't post: {x}",
@@ -8845,6 +8881,7 @@ const I18N = {
     "Nombre del ejercicio": "Exercise name",
     "Normal": "Normal",
     "Nostr (opcional): conecta tu cuenta con un bunker (Amber, nsec.app…) en Ajustes → Perfil; la copia está en Ajustes → Datos y copias. Usus no ve tu clave privada y, sin Nostr, no se conecta a nada.": "Nostr (optional): connect your account with a bunker (Amber, nsec.app…) in Settings → Profile; the backup is in Settings → Data and backups. Usus never sees your private key and, without Nostr, connects to nothing.",
+    "Nostr en el APK: entra con Amber, el firmante de Nostr para Android, como en Wavestr; con la web o sin Amber, con un bunker.": "Nostr in the APK: sign in with Amber, the Nostr signer for Android, like in Wavestr; on the web or without Amber, with a bunker.",
     "Nostr: copia automática al terminar cada sesión y, al abrir Usus, aviso si hay en Nostr una copia más nueva (de otro móvil o de la web). Se desactiva en Ajustes → Datos y copias.": "Nostr: automatic backup after every session and, when you open Usus, a notice if there's a newer backup on Nostr (from another phone or the web). Turn it off in Settings → Data and backups.",
     "Nota": "Note",
     "Nota (opcional)": "Note (optional)",
@@ -8871,6 +8908,7 @@ const I18N = {
     "Nunca": "Never",
     "Nunca incluye tus rutinas, sesiones ni registros.": "It never includes your routines, sessions or logs.",
     "Nunca sale al compartir rutinas o entrenos.": "It's never included when sharing routines or workouts.",
+    "O con un bunker (nsec.app, nsecBunker…):": "Or with a bunker (nsec.app, nsecBunker…):",
     "O pégala a mano": "Or paste it by hand",
     "obj.": "target",
     "objetivo": "target",

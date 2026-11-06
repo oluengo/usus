@@ -1,10 +1,11 @@
 /* ---------- Novedades (una vez por versión; historial al tocar la versión) ---------- */
 const CHANGES = [  // Novedades: solo en castellano; las traducciones, en i18n/*.po
   ["3.7.0", [
-    N_("Antes de empezar: debajo de «Iniciar», el material que necesita la rutina, en una línea. Lo que no tienes en «Mi material» sale marcado."),
+    N_("Antes de empezar: debajo de «Iniciar», el material que necesita la rutina, en una línea. Lo que no tienes en «Mi material» sale marcado. Sale también sin el catálogo activado."),
     N_("⇄ Cambiar ejercicio: primero los de su progresión (más difícil y más fácil) y los de movimiento parecido y nivel cercano; el catálogo entero, plegado debajo."),
     N_("Nostr: copia automática al terminar cada sesión y, al abrir Usus, aviso si hay en Nostr una copia más nueva (de otro móvil o de la web). Se desactiva en Ajustes → Datos y copias."),
     N_("Ajustes, ordenados en bloques como en Wavestr, con un apartado nuevo «Cuenta de Nostr»: tu foto, nombre y verificación, y la clave pública y Lightning para copiar."),
+    N_("Nostr en el APK: entra con Amber, el firmante de Nostr para Android, como en Wavestr; con la web o sin Amber, con un bunker."),
     N_("Subir de ejercicio: eliges tras cuántas sesiones al objetivo se propone (de 1 a 5; 2 por defecto) en Ajustes → Entreno."),
     N_("Series por tiempo: en «¿Cuántos segundos te faltaron?» los números van sin «s».")
   ]],

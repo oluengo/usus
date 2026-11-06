@@ -147,6 +147,7 @@ function sessionPanel(a, sheet) {
 }
 /* Material que hace falta, antes de iniciar: una línea discreta */
 function preMats(a) {
+  if (!CAT && a.exercises.some(e => e.xid)) loadCatalog().then(c => c && render());   // el material de los del catálogo está en él, aunque esté oculto
   const r = state.routines.find(x => x.id === a.rid), m = matsNeeded([...a.exercises, ...(r?.exercises || [])]);   // el material propio está en la rutina if (!m.keys.length && !m.other.length) return `<p class="premat"><span class="muted">${T("Material")}:</span> ${T("ninguno, solo suelo")}</p>`;
   return `<p class="premat"><span class="muted">${T("Material")}:</span> ${m.keys.map(k => `<span class="pmi${haveMat(k) ? "" : " no"}">${matIco(k)}${T(MAT[k][0])}</span>`).join("")}${m.other.map(o => `<span class="pmi">${esc(o)}</span>`).join("")}</p>`;
 }

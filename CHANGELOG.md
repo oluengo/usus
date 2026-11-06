@@ -6,10 +6,11 @@ Todas las versiones de Usus. Formato basado en [Keep a Changelog](https://keepac
 
 ## [3.7.0] — en pruebas (beta)
 
-- Antes de empezar: debajo de «Iniciar», el material que necesita la rutina, en una línea. Lo que no tienes en «Mi material» sale marcado.
+- Antes de empezar: debajo de «Iniciar», el material que necesita la rutina, en una línea. Lo que no tienes en «Mi material» sale marcado. Sale también sin el catálogo activado.
 - ⇄ Cambiar ejercicio: primero los de su progresión (más difícil y más fácil) y los de movimiento parecido y nivel cercano; el catálogo entero, plegado debajo.
 - Nostr: copia automática al terminar cada sesión y, al abrir Usus, aviso si hay en Nostr una copia más nueva (de otro móvil o de la web). Se desactiva en Ajustes → Datos y copias.
 - Ajustes, ordenados en bloques como en Wavestr, con un apartado nuevo «Cuenta de Nostr»: tu foto, nombre y verificación, y la clave pública y Lightning para copiar.
+- Nostr en el APK: entra con Amber, el firmante de Nostr para Android, como en Wavestr; con la web o sin Amber, con un bunker.
 - Subir de ejercicio: eliges tras cuántas sesiones al objetivo se propone (de 1 a 5; 2 por defecto) en Ajustes → Entreno.
 - Series por tiempo: en «¿Cuántos segundos te faltaron?» los números van sin «s».
 
@@ -308,10 +309,11 @@ Primera versión pública.
 
 ### [3.7.0] — en pruebas (beta)
 
-- Abans de començar: sota «Iniciar», el material que necessita la rutina, en una línia. El que no tens a «El meu material» surt marcat.
+- Abans de començar: sota «Iniciar», el material que necessita la rutina, en una línia. El que no tens a «El meu material» surt marcat. Surt també sense el catàleg activat.
 - ⇄ Canviar l'exercici: primer els de la seva progressió (més difícil i més fàcil) i els de moviment semblant i nivell proper; el catàleg sencer, plegat a sota.
 - Nostr: còpia automàtica en acabar cada sessió i, en obrir Usus, avís si hi ha a Nostr una còpia més nova (d'un altre mòbil o del web). Es desactiva a Ajustos → Dades i còpies.
 - Ajustos, ordenats en blocs com a Wavestr, amb un apartat nou «Compte de Nostr»: la teva foto, nom i verificació, i la clau pública i Lightning per copiar.
+- Nostr a l'APK: entra amb Amber, el signant de Nostr per a Android, com a Wavestr; amb el web o sense Amber, amb un bunker.
 - Pujar d'exercici: tries després de quantes sessions a l'objectiu es proposa (d'1 a 5; 2 per defecte) a Ajustos → Entrenament.
 - Sèries per temps: a «Quants segons te'n van faltar?» els números van sense «s».
 
@@ -452,10 +454,11 @@ Primera versió pública: rutines amb sèries per repeticions o per temps, compt
 
 ### [3.7.0] — en pruebas (beta)
 
-- Before starting: below “Start”, the equipment the routine needs, in one line. Anything not in “My equipment” is marked.
+- Before starting: below “Start”, the equipment the routine needs, in one line. Anything not in “My equipment” is marked. It shows even with the catalogue turned off.
 - ⇄ Swap exercise: first those in its progression (harder and easier) and similar movements at a close level; the whole catalogue, folded below.
 - Nostr: automatic backup after every session and, when you open Usus, a notice if there's a newer backup on Nostr (from another phone or the web). Turn it off in Settings → Data and backups.
 - Settings grouped in blocks like in Wavestr, with a new “Nostr account” section: your picture, name and verification, plus the public key and Lightning to copy.
+- Nostr in the APK: sign in with Amber, the Nostr signer for Android, like in Wavestr; on the web or without Amber, with a bunker.
 - Moving up: choose after how many sessions on target it's suggested (1 to 5; 2 by default) in Settings → Workout.
 - Timed sets: in “How many seconds were you short?” the numbers no longer carry an “s”.
 

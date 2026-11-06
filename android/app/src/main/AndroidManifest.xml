@@ -50,4 +50,13 @@
          de Android, sin permiso de almacenamiento. -->
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- Ver si hay un firmante de Nostr (Amber, NIP-55) instalado -->
+    <queries>
+        <package android:name="com.greenart7c3.nostrsigner" />
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="nostrsigner" />
+        </intent>
+    </queries>
 </manifest>

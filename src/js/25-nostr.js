@@ -25,7 +25,7 @@ const nsTime = (p, ms) => Promise.race([p, new Promise((_, ko) => setTimeout(() 
 const nsErr = e => String(e?.message || e || "").slice(0, 80);
 async function nsSigner() {
   const L = await nsLib(), c = NS.cfg(); if (!c) throw new Error(T("sin cuenta de Nostr"));
-  if (!L.active()) L.resume(c.bp, c.sk, nsAuth);
+  if (!L.active()) { if (c.method === "amber") L.amberResume(c.pubkey, c.pkg); else L.resume(c.bp, c.sk, nsAuth); }
   return L;
 }
 const nsBusy = msg => { state.nsBusy = msg || null; render(); };
@@ -41,20 +41,36 @@ async function gunB64(b64) {
 }
 
 /* Conectar y desconectar */
+/* Tras entrar (con Amber o con bunker): relays de escritura (NIP-65), servidores Blossom y perfil */
+async function nsAfterLogin(L, pk, extra, base) {
+  const look = [...new Set([...NS_DEF, ...(extra || [])])];
+  let relays = NS_DEF, blossom = [];
+  try { const ev = await L.get(look, { kinds: [10002], authors: [pk] }); const w = (ev?.tags || []).filter(t => t[0] === "r" && /^wss:\/\//.test(t[1] || "") && t[2] !== "read").map(t => t[1]); if (w.length) relays = w.slice(0, 6); } catch {}
+  try { const ev = await L.get(look, { kinds: [10063], authors: [pk] }); blossom = (ev?.tags || []).filter(t => t[0] === "server" && /^https:\/\//.test(t[1] || "")).map(t => t[1]).slice(0, 3); } catch {}
+  NS.save({ ...base, pubkey: pk, npub: L.npub(pk), name: "", relays, blossom });
+  await nsRefreshProfile(true);
+  toast(T("Cuenta de Nostr conectada"));
+}
 async function nsConnect() {
   const v = ($("#nsBunker")?.value || "").trim();
   if (!/^bunker:\/\/[0-9a-f]{64}/i.test(v)) { toast(T("Pega la dirección bunker://… de tu firmante (Amber, nsec.app…).")); $("#nsBunker")?.focus(); return; }
   nsBusy(T("Conectando… acepta la petición en tu bunker."));
   try {
-    const L = await nsLib(), r = await nsTime(L.connect(v, null, nsAuth), 120000), pk = r.pubkey;
-    const look = [...new Set([...NS_DEF, ...(r.bp.relays || [])])];
-    let relays = NS_DEF, blossom = [], name = "";
-    try { const ev = await L.get(look, { kinds: [10002], authors: [pk] }); const w = (ev?.tags || []).filter(t => t[0] === "r" && /^wss:\/\//.test(t[1] || "") && t[2] !== "read").map(t => t[1]); if (w.length) relays = w.slice(0, 6); } catch {}
-    try { const ev = await L.get(look, { kinds: [10063], authors: [pk] }); blossom = (ev?.tags || []).filter(t => t[0] === "server" && /^https:\/\//.test(t[1] || "")).map(t => t[1]).slice(0, 3); } catch {}
-    NS.save({ bp: { pubkey: r.bp.pubkey, relays: r.bp.relays || [] }, sk: r.sk, pubkey: pk, npub: L.npub(pk), name, relays, blossom });
-    await nsRefreshProfile(true);
-    toast(T("Cuenta de Nostr conectada"));
+    const L = await nsLib(), r = await nsTime(L.connect(v, null, nsAuth), 120000);
+    await nsAfterLogin(L, r.pubkey, r.bp.relays, { method: "bunker", bp: { pubkey: r.bp.pubkey, relays: r.bp.relays || [] }, sk: r.sk });
   } catch (e) { toast(T("No se pudo conectar: {x}. Revisa la dirección y que tu firmante esté abierto.", { x: nsErr(e) }), 5000); }
+  nsBusy(null);
+}
+/* Amber (NIP-55), solo en el APK: como en Wavestr */
+async function nsConnectAmber() {
+  nsBusy(T("Abriendo Amber…"));
+  try {
+    const L = await nsLib();
+    if (!(await L.amberAvailable())) { toast(T("Instala Amber (firmante de Nostr) o usa un bunker."), 5000); nsBusy(null); return; }
+    const r = await L.amberLogin();
+    nsBusy(T("Conectando…"));
+    await nsAfterLogin(L, r.pubkey, [], { method: "amber", pkg: r.pkg });
+  } catch (e) { toast(T("No se pudo entrar con Amber: {x}", { x: nsErr(e) }), 5000); }
   nsBusy(null);
 }
 async function nsDisconnect() {
@@ -201,20 +217,21 @@ function nsAvatar(c, px) {
 /* Ajustes → Cuenta de Nostr, como en Wavestr: la cuenta en una fila; Usus no cambia el perfil */
 function nostrAccount() {
   const c = NS.cfg();
-  if (!c) return `<div class="panel"><b>${T("Sin cuenta")}</b><p class="muted" style="font-size:.88rem;margin:4px 0 12px">${T("Conecta tu cuenta de Nostr con un bunker (Amber, nsec.app…) para guardar copias cifradas y publicar tus entrenos y rutinas. Usus no ve tu clave privada y solo se conecta cuando usas Nostr.")}</p>
+  if (!c) return `<div class="panel"><b>${T("Sin cuenta")}</b><p class="muted" style="font-size:.88rem;margin:4px 0 12px">${T("Entra con tu cuenta de Nostr para guardar copias cifradas y publicar tus entrenos y rutinas. Usus no ve tu clave privada y solo se conecta cuando usas Nostr.")}</p>
+    ${isNative() ? `<button class="btn primary nsbtn" style="width:100%" data-act="ns-amber" ${state.nsBusy ? "disabled" : ""}>${NS_ICO}${T("Entrar con Amber")}</button><p class="muted" style="font-size:.82rem;margin:14px 0 4px">${T("O con un bunker (nsec.app, nsecBunker…):")}</p>` : ""}
     <label class="muted" for="nsBunker" style="font-size:.85rem">${T("Dirección del bunker")}</label>
     <div class="row" style="margin-top:4px;flex-wrap:nowrap"><input id="nsBunker" type="text" placeholder="bunker://…" autocomplete="off" autocapitalize="off" spellcheck="false" style="flex:1;min-width:0"><button class="btn primary" data-act="ns-connect" ${state.nsBusy ? "disabled" : ""}>${T("Conectar")}</button></div>
     ${nsBusyLine()}</div>`;
   setTimeout(() => nsRefreshProfile(), 0);
   const p = c.prof || {}, name = p.display || c.name || T("Tu cuenta");
-  const sub = [p.name ? "@" + esc(p.name) : "", p.nip05 ? `<span class="nip">✓ ${esc(p.nip05.replace(/^_@/, ""))}</span>` : ""].filter(Boolean).join(" · ") || T("Firma con bunker");
+  const sub = [p.name ? "@" + esc(p.name) : "", p.nip05 ? `<span class="nip">✓ ${esc(p.nip05.replace(/^_@/, ""))}</span>` : ""].filter(Boolean).join(" · ") || (c.method === "amber" ? T("Firma con Amber") : T("Firma con bunker"));
   const copy = (lab, val, shown) => `<div class="nslab">${lab}</div><div class="nscopy"><code>${esc(shown || val)}</code><button class="btn ghost small" data-nscopy="${esc(val)}">${T("Copiar")}</button></div>`;
   return `<div class="panel nsprof">
     <div class="nsacc">${nsAvatar(c, 48)}<span class="t"><b>${esc(name)}</b><small>${sub}</small></span></div>
     ${p.about ? `<p class="nsabout">${esc(p.about)}</p>` : ""}
     ${copy(T("Clave pública"), c.npub || "")}
     ${p.lud16 ? copy("Lightning", p.lud16, "⚡ " + p.lud16) : ""}
-    <p class="muted" style="font-size:.8rem;margin:10px 0 0">${T("Firma con tu bunker. Usus no cambia tu perfil de Nostr: solo lo muestra.")}</p>
+    <p class="muted" style="font-size:.8rem;margin:10px 0 0">${c.method === "amber" ? T("Firma con Amber. Usus no cambia tu perfil de Nostr: solo lo muestra.") : T("Firma con tu bunker. Usus no cambia tu perfil de Nostr: solo lo muestra.")}</p>
     <button class="btn" style="margin-top:10px" data-act="ns-off">${T("Desconectar")}</button>
     ${nsBusyLine()}</div>`;
 }
