@@ -62,10 +62,10 @@ function viewData() {
       ${catReady() ? `<div class="srow"><span class="t">${T("Vincular ejercicios")}<small>${T("Une tus nombres con las fichas del catálogo")}</small></span><button class="btn small" data-act="link-open">${T("Abrir")}${(() => { const own = new Set(LS.get("wk.linkOwn", []) || []), c = linkCandidates().filter(x => !own.has(x.k)).length; return c ? ` · ${c}` : ""; })()}</button></div>` : ""}
     </div>
 `,
+    nostr: nostrAccount(),
     perfil: `
     ${profSettings()}
     ${persPanel()}
-    ${nostrAccount()}
     ${curProf().sex === "m" ? "" : `<h2>${T("Ciclo")}</h2>
     ${cycSettings()}`}
     ${aiProfPanel()}
@@ -119,7 +119,7 @@ function viewData() {
   };
   const G = SET_GROUPS.find(g => g[0] === cur);
   return `<div class="ssplit${sel ? " hasdet" : ""}"><div class="slist"><div class="phead"><h1>${T("Ajustes")}</h1></div>
-    <div class="lgroup">${SET_GROUPS.map(([k, n, ic]) => `<button class="lrow${k === cur ? " cur" : ""}" data-stab="${k}" aria-current="${k === sel}"><span class="lico">${SICO[ic]}</span><span class="t"><b>${T(n)}</b><small>${setSub(k, lastBk)}</small></span><span class="chev" aria-hidden="true">›</span></button>`).join("")}</div>
+    ${SET_BLOCKS.map(b => `<div class="lgroup sblk">${b.map(k => SET_GROUPS.find(g => g[0] === k)).map(([k, n, ic]) => `<button class="lrow${k === cur ? " cur" : ""}" data-stab="${k}" aria-current="${k === sel}"><span class="lico">${k === "nostr" && NS.cfg() ? nsAvatar(NS.cfg(), 34) : SICO[ic]}</span><span class="t"><b>${T(n)}</b><small>${setSub(k, lastBk)}</small></span><span class="chev" aria-hidden="true">›</span></button>`).join("")}</div>`).join("")}
     <p class="sub" style="margin:12px 4px 0">${TN(state.routines.length, "{n} rutina", "{n} rutinas")} · ${TN(state.sessions.length, "{n} sesión", "{n} sesiones")}</p></div>
     <section class="sdet" aria-labelledby="sdT"><button class="back" data-back="set">‹ ${T("Ajustes")}</button><h2 class="sdh" id="sdT">${T(G[1])}</h2>${P[cur]}</section></div>`;
 }
@@ -127,17 +127,21 @@ function viewData() {
 const srowN = (id, l, v, attrs, sub) => `<div class="srow"><label class="t" for="${id}">${l}${sub ? `<small>${sub}</small>` : ""}</label><input id="${id}" type="number" inputmode="numeric" ${attrs} value="${esc(v)}"></div>`;
 const srowS = (id, l, on, sub) => `<label class="srow"><span class="t">${l}${sub ? `<small>${sub}</small>` : ""}</span><input type="checkbox" role="switch" id="${id}" ${on ? "checked" : ""}></label>`;
 /* Ajustes: grupos, cada uno con su pantalla */
-const SET_GROUPS = [["perfil", N_("Perfil"), "user"], ["entreno", N_("Entreno"), "train"], ["avisos", N_("Avisos"), "bell"], ["apariencia", N_("Apariencia e idioma"), "paint"], ["datos", N_("Datos y copias"), "db"], ["acerca", N_("Acerca de"), "info"]];
+/* En bloques, como en Wavestr: quién eres · cómo entrenas · tus datos · la app */
+const SET_GROUPS = [["perfil", N_("Perfil"), "user"], ["nostr", N_("Cuenta de Nostr"), "key"], ["entreno", N_("Entreno"), "train"], ["avisos", N_("Avisos"), "bell"], ["apariencia", N_("Apariencia e idioma"), "paint"], ["datos", N_("Datos y copias"), "db"], ["acerca", N_("Acerca de"), "info"]];
 const SICO = {
   user: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>',
   train: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7v10M18 7v10M3 10v4M21 10v4M6 12h12"/></svg>',
   bell: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 16V11a6 6 0 1 1 12 0v5l2 2H4z"/><path d="M10 21h4"/></svg>',
   paint: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M12 3a9 9 0 0 1 0 18"/></svg>',
   db: '<svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg>',
-  info: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg>'
+  info: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg>',
+  key: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M17 6l3 3M14 9l2 2"/></svg>'
 };
+const SET_BLOCKS = [["perfil", "nostr"], ["entreno", "avisos", "apariencia"], ["datos"], ["acerca"]];
 function setSub(k, lastBk) {
   if (k === "perfil") return multiProf() ? esc(profName(curProf())) : T("Perfiles y datos personales");
+  if (k === "nostr") { const c = NS.cfg(); return c ? esc(c.name || nsShort(c)) + " · Bunker" : T("Sin conectar · copia cifrada y publicar"); }
   if (k === "entreno") return T("Tiempos, esfuerzo, objetivos y catálogo");
   if (k === "avisos") return T((FX.find(x => x[0] === fxMode()) || FX[0])[1]);
   if (k === "apariencia") return `${T((THEMES.find(x => x[0] === curTheme()) || THEMES[3])[1])} · ${LANGS[LANG]?.name || LANG}`;

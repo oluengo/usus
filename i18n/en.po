@@ -467,6 +467,9 @@ msgstr "Settings in groups, each with its own screen: Profile, Workout, Alerts, 
 msgid "Ajustes reorganizado en pestañas: Entreno, Cuerpo, App y Datos. El perfil queda arriba; para cambiar o añadir perfiles, botón «Perfiles»."
 msgstr "Settings reorganised into tabs: Workout, Body, App and Data. Your profile stays on top; to switch or add profiles, use the “Profiles” button."
 
+msgid "Ajustes, ordenados en bloques como en Wavestr, con un apartado nuevo «Cuenta de Nostr»: tu foto, nombre y verificación, y la clave pública y Lightning para copiar."
+msgstr "Settings grouped in blocks like in Wavestr, with a new “Nostr account” section: your picture, name and verification, plus the public key and Lightning to copy."
+
 msgid "Al actualizar se cambian los ejercicios; el nombre, los días, la variante y tus sesiones no se tocan."
 msgstr "Updating changes the exercises; the name, days, variant and your sessions aren't touched."
 
@@ -1087,8 +1090,8 @@ msgstr "With variants, Usus uses its progression plan: Today tells you what's on
 msgid "Condiciones de salud relevantes"
 msgstr "Relevant health conditions"
 
-msgid "Conecta antes tu cuenta de Nostr en Ajustes → Perfil."
-msgstr "First connect your Nostr account in Settings → Profile."
+msgid "Conecta antes tu cuenta en Ajustes → Cuenta de Nostr."
+msgstr "First connect your account in Settings → Nostr account."
 
 msgid "Conecta tu cuenta de Nostr con un bunker (Amber, nsec.app…) para guardar copias cifradas y publicar tus entrenos y rutinas. Usus no ve tu clave privada y solo se conecta cuando usas Nostr."
 msgstr "Connect your Nostr account with a bunker (Amber, nsec.app…) to save encrypted backups and post your workouts and routines. Usus never sees your private key and only connects when you use Nostr."
@@ -2058,8 +2061,11 @@ msgstr "End of period · {d}"
 msgid "Fin de la regla registrado"
 msgstr "End of period logged"
 
-msgid "Firma"
-msgstr "Signs"
+msgid "Firma con bunker"
+msgstr "Signs with a bunker"
+
+msgid "Firma con tu bunker. Usus no cambia tu perfil de Nostr: solo lo muestra."
+msgstr "Signs with your bunker. Usus doesn't change your Nostr profile: it only shows it."
 
 msgid "Flexiones"
 msgstr "Push-ups"
@@ -2358,9 +2364,6 @@ msgstr "Go to today"
 
 msgid "Ir a Hoy"
 msgstr "Go to Today"
-
-msgid "Ir a Perfil"
-msgstr "Go to Profile"
 
 msgid "Irritabilidad"
 msgstr "Irritability"
@@ -3135,8 +3138,8 @@ msgstr "To pick exercises when building routines and know how to progress."
 msgid "Para la IA"
 msgstr "For the AI"
 
-msgid "Para publicar, conecta antes tu cuenta de Nostr en Ajustes → Perfil."
-msgstr "To post, first connect your Nostr account in Settings → Profile."
+msgid "Para publicar, conecta antes tu cuenta en Ajustes → Cuenta de Nostr."
+msgstr "To post, first connect your account in Settings → Nostr account."
 
 msgid "Para que las mejore o las respete (p. ej. una rutina diaria)."
 msgstr "So it improves or keeps them (e.g. a daily routine)."
@@ -3277,9 +3280,6 @@ msgstr "Profile"
 #, python-brace-format
 msgid "Perfil «{x}» creado. Ya estás en él."
 msgstr "Profile “{x}” created. You're now using it."
-
-msgid "Perfil de Nostr en Ajustes → Perfil, como en Wavestr: foto, nombre, verificación, a quién sigues, relays, clave pública y Lightning para copiar."
-msgstr "Nostr profile in Settings → Profile, like in Wavestr: picture, name, verification, following, relays, public key and Lightning to copy."
 
 msgid "Perfil guardado"
 msgstr "Profile saved"
@@ -3739,9 +3739,6 @@ msgstr "Restart the plan"
 msgid "Reiniciar el plan: en el menú ⋯ del plan en Hoy o en Biblioteca → Plan, vuelve a la semana 1 desde hoy, sin semana elegida ni pausas. Tus rutinas, sesiones e historial no se tocan. Al terminar un plan, Hoy lo ofrece."
 msgstr "Restart the plan: from the plan's ⋯ menu in Today or in Library → Plan, it goes back to week 1 from today, with no chosen week or pauses. Your routines, sessions and history are not touched. When a plan ends, Today offers it."
 
-msgid "Relays"
-msgstr "Relays"
-
 msgid "Reparto por bloque"
 msgstr "Split by block"
 
@@ -4170,9 +4167,6 @@ msgstr "Yes, give me all the info"
 msgid "Sigue al sistema"
 msgstr "Follows the system"
 
-msgid "Siguiendo"
-msgstr "Following"
-
 msgid "siguiente"
 msgstr "next"
 
@@ -4217,11 +4211,17 @@ msgstr "Without a bar or rings, your back can only be trained with a band or flo
 msgid "Sin barra para dominadas: se usa remo en su lugar."
 msgstr "No bar for pull-ups: rows are used instead."
 
+msgid "Sin conectar · copia cifrada y publicar"
+msgstr "Not connected · encrypted backup and posting"
+
 msgid "sin conexión"
 msgstr "offline"
 
 msgid "sin copias todavía"
 msgstr "no backups yet"
+
+msgid "Sin cuenta"
+msgstr "No account"
 
 msgid "sin cuenta de Nostr"
 msgstr "no Nostr account"
@@ -4715,9 +4715,6 @@ msgstr "Usus is a web app (PWA): you install it from the browser, no app store, 
 msgid "Usus incluye un catálogo opcional de {n} ejercicios de calistenia, cada uno con su ficha: para qué sirve, cómo se hace, errores típicos, material y progresión."
 msgstr "Usus includes an optional catalogue of {n} calisthenics exercises, each with its own card: what it's for, how to do it, common mistakes, equipment and progression."
 
-msgid "Usus no cambia tu perfil de Nostr: solo lo muestra."
-msgstr "Usus doesn't change your Nostr profile: it only shows it."
-
 msgid "Usus no envía nada: lo copias o compartes tú. Lo que pase después depende de la IA que elijas; revisa su política de privacidad. El plan lo hace una IA, no un entrenador ni un profesional sanitario: revísalo y escucha a tu cuerpo."
 msgstr "Usus sends nothing: you copy or share it yourself. What happens next depends on the AI you choose; check its privacy policy. The plan is made by an AI, not a coach or a health professional: review it and listen to your body."
 
@@ -4944,6 +4941,30 @@ msgstr "Lower back"
 
 msgid "Zona peligrosa"
 msgstr "Danger zone"
+
+#~ msgid "Perfil de Nostr en Ajustes → Perfil, como en Wavestr: foto, nombre, verificación, a quién sigues, relays, clave pública y Lightning para copiar."
+#~ msgstr "Nostr profile in Settings → Profile, like in Wavestr: picture, name, verification, following, relays, public key and Lightning to copy."
+
+#~ msgid "Conecta antes tu cuenta de Nostr en Ajustes → Perfil."
+#~ msgstr "First connect your Nostr account in Settings → Profile."
+
+#~ msgid "Firma"
+#~ msgstr "Signs"
+
+#~ msgid "Ir a Perfil"
+#~ msgstr "Go to Profile"
+
+#~ msgid "Para publicar, conecta antes tu cuenta de Nostr en Ajustes → Perfil."
+#~ msgstr "To post, first connect your Nostr account in Settings → Profile."
+
+#~ msgid "Relays"
+#~ msgstr "Relays"
+
+#~ msgid "Siguiendo"
+#~ msgstr "Following"
+
+#~ msgid "Usus no cambia tu perfil de Nostr: solo lo muestra."
+#~ msgstr "Usus doesn't change your Nostr profile: it only shows it."
 
 #~ msgid "Nostr (opcional): conecta tu cuenta con un bunker (Amber, nsec.app…) en Ajustes → Datos y copias. Usus no ve tu clave privada y, sin Nostr, no se conecta a nada."
 #~ msgstr "Nostr (optional): connect your account with a bunker (Amber, nsec.app…) in Settings → Data and backups. Usus never sees your private key and, without Nostr, connects to nothing."

@@ -169,8 +169,8 @@ function nsPostModal() {
       ${p.k === "sess" ? `<label class="shopt"><span>${T("Con la imagen del entreno")}<small class="muted" style="display:block;font-size:.78rem">${T("Se sube a un servidor Blossom y queda pública.")}</small></span><input type="checkbox" role="switch" id="nsImg" ${p.img ? "checked" : ""}></label>` : ""}
       ${b ? `<p class="nsbusy" role="status">${esc(b)}</p>` : ""}
       <div class="row" style="margin-top:12px"><button class="btn" style="flex:1" data-act="ns-post-close">${T("Cancelar")}</button><button class="btn primary" style="flex:1" data-act="ns-post-go" ${b ? "disabled" : ""}>${T("Publicar")}</button></div>`
-    : `<p>${T("Para publicar, conecta antes tu cuenta de Nostr en Ajustes → Perfil.")}</p>
-      <div class="row" style="margin-top:12px"><button class="btn" style="flex:1" data-act="ns-post-close">${T("Cancelar")}</button><button class="btn primary" style="flex:1" data-act="ns-go-set">${T("Ir a Perfil")}</button></div>`}
+    : `<p>${T("Para publicar, conecta antes tu cuenta en Ajustes → Cuenta de Nostr.")}</p>
+      <div class="row" style="margin-top:12px"><button class="btn" style="flex:1" data-act="ns-post-close">${T("Cancelar")}</button><button class="btn primary" style="flex:1" data-act="ns-go-set">${T("Conectar")}</button></div>`}
   </div></div>`;
 }
 /* La cuenta, en Ajustes → Perfil (cada perfil, la suya); la copia, en Ajustes → Datos y copias */
@@ -193,26 +193,29 @@ async function nsRefreshProfile(force) {
 const nsHue = pk => parseInt(String(pk || "0").slice(0, 6), 16) % 360;
 const nsGrad = pk => `linear-gradient(135deg,hsl(${nsHue(pk)} 70% 55%),hsl(${(nsHue(pk) + 60) % 360} 70% 45%))`;
 const nsInit = s => (String(s || "?").trim().split(/\s+/).map(w => w[0]).join("").slice(0, 2) || "?").toUpperCase();
+/* Avatar: la foto del perfil o las iniciales sobre un color propio de la clave */
+function nsAvatar(c, px) {
+  const p = c?.prof || {}, name = p.display || c?.name || "?";
+  return `<span class="nspic" style="width:${px}px;height:${px}px;font-size:${Math.round(px * .38)}px;background:${nsGrad(c?.pubkey)}"><span aria-hidden="true">${esc(nsInit(name))}</span>${p.picture ? `<img src="${esc(p.picture)}" alt="" referrerpolicy="no-referrer" loading="lazy" onerror="this.remove()">` : ""}</span>`;
+}
+/* Ajustes → Cuenta de Nostr, como en Wavestr: la cuenta en una fila; Usus no cambia el perfil */
 function nostrAccount() {
   const c = NS.cfg();
-  if (!c) return `<h2>${T("Cuenta de Nostr")}</h2><div class="panel"><p class="muted" style="font-size:.88rem;margin:0 0 10px">${T("Conecta tu cuenta de Nostr con un bunker (Amber, nsec.app…) para guardar copias cifradas y publicar tus entrenos y rutinas. Usus no ve tu clave privada y solo se conecta cuando usas Nostr.")}</p>
+  if (!c) return `<div class="panel"><b>${T("Sin cuenta")}</b><p class="muted" style="font-size:.88rem;margin:4px 0 12px">${T("Conecta tu cuenta de Nostr con un bunker (Amber, nsec.app…) para guardar copias cifradas y publicar tus entrenos y rutinas. Usus no ve tu clave privada y solo se conecta cuando usas Nostr.")}</p>
     <label class="muted" for="nsBunker" style="font-size:.85rem">${T("Dirección del bunker")}</label>
     <div class="row" style="margin-top:4px;flex-wrap:nowrap"><input id="nsBunker" type="text" placeholder="bunker://…" autocomplete="off" autocapitalize="off" spellcheck="false" style="flex:1;min-width:0"><button class="btn primary" data-act="ns-connect" ${state.nsBusy ? "disabled" : ""}>${T("Conectar")}</button></div>
     ${nsBusyLine()}</div>`;
   setTimeout(() => nsRefreshProfile(), 0);
-  const p = c.prof || {}, name = p.display || c.name || T("Tu cuenta"), img = (u, cl, alt) => u ? `<img class="${cl}" src="${esc(u)}" alt="${alt}" referrerpolicy="no-referrer" loading="lazy" onerror="this.remove()">` : "";
+  const p = c.prof || {}, name = p.display || c.name || T("Tu cuenta");
+  const sub = [p.name ? "@" + esc(p.name) : "", p.nip05 ? `<span class="nip">✓ ${esc(p.nip05.replace(/^_@/, ""))}</span>` : ""].filter(Boolean).join(" · ") || T("Firma con bunker");
   const copy = (lab, val, shown) => `<div class="nslab">${lab}</div><div class="nscopy"><code>${esc(shown || val)}</code><button class="btn ghost small" data-nscopy="${esc(val)}">${T("Copiar")}</button></div>`;
-  return `<h2>${T("Cuenta de Nostr")}</h2><div class="panel nsprof">
-    <div class="nsban" style="background:${nsGrad(c.pubkey)}">${img(p.banner, "", "")}</div>
-    <div class="nspic" style="background:${nsGrad(c.pubkey)}"><span aria-hidden="true">${esc(nsInit(name))}</span>${img(p.picture, "", "")}</div>
-    <h3 class="nsname">${esc(name)}</h3>
-    ${p.name || p.nip05 ? `<p class="nsids">${p.name ? `<span>@${esc(p.name)}</span>` : ""}${p.nip05 ? `<span class="nip">✓ ${esc(p.nip05.replace(/^_@/, ""))}</span>` : ""}</p>` : ""}
+  return `<div class="panel nsprof">
+    <div class="nsacc">${nsAvatar(c, 48)}<span class="t"><b>${esc(name)}</b><small>${sub}</small></span></div>
     ${p.about ? `<p class="nsabout">${esc(p.about)}</p>` : ""}
-    <div class="nsstats"><div><b>${c.follows ?? "…"}</b><small>${T("Siguiendo")}</small></div><div><b>${nsRelays().length}</b><small>${T("Relays")}</small></div><div><b>Bunker</b><small>${T("Firma")}</small></div></div>
     ${copy(T("Clave pública"), c.npub || "")}
     ${p.lud16 ? copy("Lightning", p.lud16, "⚡ " + p.lud16) : ""}
-    <p class="muted" style="font-size:.8rem;margin:10px 0 0">${T("Usus no cambia tu perfil de Nostr: solo lo muestra.")}</p>
-    <button class="btn" style="width:100%;margin-top:10px" data-act="ns-off">${T("Desconectar")}</button>
+    <p class="muted" style="font-size:.8rem;margin:10px 0 0">${T("Firma con tu bunker. Usus no cambia tu perfil de Nostr: solo lo muestra.")}</p>
+    <button class="btn" style="margin-top:10px" data-act="ns-off">${T("Desconectar")}</button>
     ${nsBusyLine()}</div>`;
 }
 function nostrBackup(item) {
@@ -221,7 +224,7 @@ function nostrBackup(item) {
     ${item(T("Guardar copia en Nostr"), T("La copia completa, cifrada para que solo tú puedas leerla.") + (c.lastBk ? " " + T("Última: {d}.", { d: when(c.lastBk) }) : ""), "ns-bk-save", T("Guardar"), true)}
     ${item(T("Recuperar de Nostr"), T("Trae tu copia y la combina con lo que hay en este perfil."), "ns-bk-load", T("Recuperar"))}
     <label class="srow" style="cursor:pointer"><span class="t">${T("Copia automática")}<small class="muted" style="display:block;font-size:.8rem">${T("Al terminar cada sesión. Al abrir Usus, avisa si hay una copia más nueva.")}</small></span><input type="checkbox" role="switch" id="nsAuto" ${nsAutoOn() ? "checked" : ""}></label>`
-  : `${item(T("Copia en Nostr"), T("Conecta antes tu cuenta de Nostr en Ajustes → Perfil."), "ns-go-set", T("Ir a Perfil"))}`}
+  : `${item(T("Copia en Nostr"), T("Conecta antes tu cuenta en Ajustes → Cuenta de Nostr."), "ns-go-set", T("Conectar"))}`}
     ${nsBusyLine()}</div>`;
 }
 const NS_ICO = '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20c2-6 6-9 12-10M16 10c1.5-2 2-4 1.5-6-2 0-4 1-5 3"/><circle cx="7" cy="17" r="1"/></svg>';

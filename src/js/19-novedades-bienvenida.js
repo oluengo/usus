@@ -4,7 +4,7 @@ const CHANGES = [  // Novedades: solo en castellano; las traducciones, en i18n/*
     N_("Antes de empezar: debajo de «Iniciar», el material que necesita la rutina, en una línea. Lo que no tienes en «Mi material» sale marcado."),
     N_("⇄ Cambiar ejercicio: primero los de su progresión (más difícil y más fácil) y los de movimiento parecido y nivel cercano; el catálogo entero, plegado debajo."),
     N_("Nostr: copia automática al terminar cada sesión y, al abrir Usus, aviso si hay en Nostr una copia más nueva (de otro móvil o de la web). Se desactiva en Ajustes → Datos y copias."),
-    N_("Perfil de Nostr en Ajustes → Perfil, como en Wavestr: foto, nombre, verificación, a quién sigues, relays, clave pública y Lightning para copiar."),
+    N_("Ajustes, ordenados en bloques como en Wavestr, con un apartado nuevo «Cuenta de Nostr»: tu foto, nombre y verificación, y la clave pública y Lightning para copiar."),
     N_("Subir de ejercicio: eliges tras cuántas sesiones al objetivo se propone (de 1 a 5; 2 por defecto) en Ajustes → Entreno."),
     N_("Series por tiempo: en «¿Cuántos segundos te faltaron?» los números van sin «s».")
   ]],

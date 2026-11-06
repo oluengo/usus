@@ -31,7 +31,7 @@ test("conectar con el bunker y guardar la copia cifrada; recuperarla en otro per
   await mockNostr(page);
   const errors = await openApp(page, { data: { "wk.routines": ROUTINES } });
   await nav(page, "data"); await page.locator('[data-stab="datos"]').click();
-  await page.locator('[data-act="ns-go-set"]').click();                         // la cuenta va en Perfil
+  await page.locator('[data-act="ns-go-set"]').click();                         // la cuenta va en su propio apartado
   await page.fill("#nsBunker", "hola"); await page.locator('[data-act="ns-connect"]').click();
   await expect(page.locator("#toast")).toContainText("bunker://");               // dirección no válida
   await page.fill("#nsBunker", BUNKER); await page.locator('[data-act="ns-connect"]').click();
@@ -107,15 +107,17 @@ test("sincronizar: copia sola al terminar la sesión y aviso al abrir si hay una
   expect((await ls(p2, "wk.nostr")).seen).toBeGreaterThan(0);                                         // no vuelve a avisar de esa
   expect(e2).toEqual([]);
 });
-test("perfil de Nostr: foto, nombre, nip05, datos y clave pública copiable", async ({ page }) => {
+test("cuenta de Nostr: foto, nombre, nip05 y clave pública copiable, como en Wavestr", async ({ page }) => {
   const k0 = { kind: 0, tags: [], created_at: 1, content: JSON.stringify({ display_name: "Alex Nostr", name: "alex", nip05: "alex@usus.test", about: "Calistenia y café.", lud16: "alex@ln.test" }) };
   const k3 = { kind: 3, tags: [["p", "x"], ["p", "y"], ["p", "z"]], created_at: 1, content: "" };
   await mockNostr(page, [k0, k3]);
   const errors = await openApp(page, { data: { "wk.nostr": CFG } });
-  await nav(page, "data"); await page.locator('[data-stab="perfil"]').click();
-  await expect(page.locator(".nsprof .nsname")).toHaveText("Alex Nostr");
+  await nav(page, "data");
+  await expect(page.locator('[data-stab="nostr"]')).toContainText("Alex");               // en la lista de Ajustes, con su nombre
+  await page.locator('[data-stab="nostr"]').click();
+  await expect(page.locator(".nsprof .nsacc b")).toHaveText("Alex Nostr");
   await expect(page.locator(".nsprof")).toContainText("✓ alex@usus.test");
-  await expect(page.locator(".nsstats")).toContainText("3");
   await expect(page.locator(".nsprof")).toContainText("⚡ alex@ln.test");
+  await expect(page.locator(".nsban")).toHaveCount(0);
   expect(errors).toEqual([]);
 });

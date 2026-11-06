@@ -281,12 +281,12 @@ body:has(.sbar) .rest{bottom:calc(152px + env(safe-area-inset-bottom,0px))}
 .premat{display:flex;flex-wrap:wrap;align-items:center;gap:4px 10px;margin:-4px 0 12px;font-size:.85rem}
 .premat .pmi{display:inline-flex;align-items:center;gap:4px;white-space:nowrap}.premat .pmi .mat{width:18px;height:18px}.premat .pmi.no{color:var(--warn)}
 .premat .mat svg{width:13px;height:13px}
-/* Perfil de Nostr (3.7.0), como en Wavestr */
-.nsprof{padding-top:0;overflow:hidden}.nsban{height:96px;margin:0 -16px;position:relative}.nsban img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.nspic{position:relative;width:76px;height:76px;margin-top:-38px;border-radius:50%;border:4px solid var(--surface);display:grid;place-items:center;color:#fff;font-weight:700;font-size:1.4rem;overflow:hidden}
+/* Cuenta de Nostr (3.7.0), como en Wavestr */
+.sblk+.sblk{margin-top:12px}
+.nspic{position:relative;flex:none;border-radius:50%;display:inline-grid;place-items:center;color:#fff;font-weight:700;overflow:hidden}
 .nspic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.nsname{margin:8px 0 0;font-size:1.25rem}.nsids{margin:2px 0 0;display:flex;flex-wrap:wrap;gap:4px 10px;font-size:.88rem;color:var(--muted)}.nsids .nip{color:var(--accent);font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%}
-.nsabout{margin:8px 0 0;font-size:.9rem;white-space:pre-line;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
-.nsstats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0 4px}.nsstats div{background:var(--bg);border-radius:12px;padding:8px 10px;min-width:0}.nsstats b{display:block;font-family:ui-monospace,monospace;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.nsstats small{color:var(--muted);font-size:.72rem}
+.lico:has(.nspic){background:none;border-radius:50%}
+.nsprof .nsacc{border:0;margin:0;padding:0}.nsprof .nsacc b{font-size:1.05rem}.nsprof .nsacc small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.nsprof .nip{color:var(--accent);font-weight:600}
+.nsabout{margin:10px 0 0;font-size:.9rem;white-space:pre-line;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .nslab{margin:12px 0 4px;font-size:.75rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
 .nscopy{display:flex;align-items:center;gap:6px;background:var(--bg);border-radius:12px;padding-left:12px}.nscopy code{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:.78rem}

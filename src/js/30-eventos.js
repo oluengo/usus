@@ -333,7 +333,7 @@ document.addEventListener("click", async ev => {
     case "rs-nostr": nsPostRout(); break;
     case "ns-post-go": nsPublish(); break;
     case "ns-post-close": if (state.nsBusy) break; if (state.nsPost && !state.nsPost.done && ($("#nsText")?.value || "").trim() !== state.nsPost.text.trim() && !confirm(T("¿Descartar la nota sin publicar?"))) break; state.nsPost = null; render(); break;
-    case "ns-go-set": state.nsPost = null; state.shareSess = null; state.rshare = null; state.savedSess = null; state.tab = "data"; state.setTab = "perfil"; render(); setTimeout(() => $("#nsBunker")?.scrollIntoView({ block: "center" }), 50); break;
+    case "ns-go-set": state.nsPost = null; state.shareSess = null; state.rshare = null; state.savedSess = null; state.tab = "data"; state.setTab = "nostr"; render(); setTimeout(() => $("#nsBunker")?.scrollIntoView({ block: "center" }), 50); break;
     case "share-app": await shareOut({ title: "Usus", text: shareAppText(), url: appURL() }); break;
     case "saved-close": state.savedSess = null; state.progProps = null; render(); break;
     case "shsess-close": state.shareSess = null; render(); break;
