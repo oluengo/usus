@@ -4,6 +4,12 @@ Todas las versiones de Usus. Formato basado en [Keep a Changelog](https://keepac
 
 **Castellano** · [Català](#català) · [English](#english)
 
+## [3.7.2] — 2026-11-07
+
+- Copia en Nostr por apartados: rutinas y planes, entrenos y progreso, diario, peso y ciclo, y ajustes. Al guardar y al recuperar eliges cuáles.
+- La copia, en Nostr y en archivo, lleva ahora también los ajustes (material, catálogo, tiempos, progresión, tema, idioma…) y el historial de subidas de ejercicio.
+- Cada perfil guarda su copia de Nostr aparte: la de otro perfil o la de la web ya no pisa la tuya. La copia automática solo guarda lo que ha cambiado.
+
 ## [3.7.1] — 2026-11-07
 
 - Nostr en la web: entra con la extensión del navegador (Alby, nos2x…), además de con un bunker.
@@ -312,6 +318,12 @@ Primera versión pública.
 
 ## Català
 
+### [3.7.2] — 2026-11-07
+
+- Còpia a Nostr per apartats: rutines i plans, entrenaments i progrés, diari, pes i cicle, i ajustos. En desar i en recuperar tries quins.
+- La còpia, a Nostr i en arxiu, porta ara també els ajustos (material, catàleg, temps, progressió, tema, idioma…) i l'historial de pujades d'exercici.
+- Cada perfil desa la seva còpia de Nostr a part: la d'un altre perfil o la del web ja no trepitja la teva. La còpia automàtica només desa el que ha canviat.
+
 ### [3.7.1] — 2026-11-07
 
 - Nostr al web: entra amb l'extensió del navegador (Alby, nos2x…), a més d'amb un bunker.
@@ -461,6 +473,12 @@ Primera versió pública: rutines amb sèries per repeticions o per temps, compt
 ---
 
 ## English
+
+### [3.7.2] — 2026-11-07
+
+- Nostr backup by sections: routines and plans, workouts and progress, diary, weight and cycle, and settings. When saving and restoring you choose which.
+- The backup, on Nostr and as a file, now also carries your settings (equipment, catalogue, timers, progression, theme, language…) and the history of exercise move-ups.
+- Each profile keeps its own Nostr backup: another profile's or the web's no longer overwrites yours. The automatic backup only saves what has changed.
 
 ### [3.7.1] — 2026-11-07
 

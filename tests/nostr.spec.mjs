@@ -12,12 +12,12 @@ async function mockNostr(page, events = []) {
       on: false,
       async connect(v) { window.__calls.push("connect"); this.on = true; return { pubkey: pk, sk: "1".repeat(64), bp: { pubkey: "b".repeat(64), relays: ["wss://relay.test"] } }; },
       resume() { this.on = true; }, active() { return this.on; }, async disconnect() { this.on = false; },
-      async sign(ev) { window.__calls.push("sign:" + ev.kind); return { ...ev, pubkey: pk, id: (Math.random().toString(16).slice(2) + "0".repeat(64)).slice(0, 64), sig: "x" }; },
+      async sign(ev) { window.__calls.push("sign:" + ev.kind); (window.__d ||= []).push(dOf(ev)); return { ...ev, pubkey: pk, id: (Math.random().toString(16).slice(2) + "0".repeat(64)).slice(0, 64), sig: "x" }; },
       async encrypt(_, t) { window.__calls.push("encrypt"); return "enc:" + t; },
       async decrypt(_, t) { window.__calls.push("decrypt"); return t.slice(4); },
       async publish(_, ev) { const d = dOf(ev); window.__ev = window.__ev.filter(e => !(d && e.kind === ev.kind && dOf(e) === d)); window.__ev.push(ev); return ev; },
       async get(_, f) { const l = window.__ev.filter(e => (!f.kinds || f.kinds.includes(e.kind)) && (!f["#d"] || f["#d"].includes(dOf(e)))); return l[l.length - 1] || null; },
-      async query() { return []; },
+      async query(_, f) { return window.__ev.filter(e => (!f.kinds || f.kinds.includes(e.kind)) && (!f["#d"] || f["#d"].includes(dOf(e)))); },
       npub: h => "npub1prueba" + h.slice(0, 10), nevent: id => "nevent1" + id.slice(0, 12)
     };
   }, [PK, events]);
@@ -27,9 +27,11 @@ async function openShare(page) {   // Diario → Entreno → la sesión → Comp
   const sum = page.locator("details.sess summary").first(); if (await sum.count()) await sum.click();
   await page.locator('[data-shsess="s1"]').first().click(); await expect(page.locator("#shT")).toBeVisible();
 }
-test("conectar con el bunker y guardar la copia cifrada; recuperarla en otro perfil vacío", async ({ page, context }) => {
+test("conectar con el bunker y guardar la copia cifrada por apartados; recuperarla en otro móvil vacío", async ({ page, context }) => {
   await mockNostr(page);
-  const errors = await openApp(page, { data: { "wk.routines": ROUTINES } });
+  const LOG = [{ t: 1700000000000, rid: "r1", from: "flexion", to: "flexion-diamante", dir: "up" }];
+  const errors = await openApp(page, { data: { "wk.routines": ROUTINES, "wk.equip": ["barra", "anillas"], "wk.restDefault": 75, "wk.progLog": LOG,
+    "wk.sessions": [{ id: "s1", start: Date.now() - 864e5, end: Date.now() - 864e5 + 3e6, rid: "r1", routine: "A", exercises: [] }] } });
   await nav(page, "data"); await page.locator('[data-stab="datos"]').click();
   await page.locator('[data-act="ns-go-set"]').click();                         // la cuenta va en su propio apartado
   await page.fill("#nsBunker", "hola"); await page.locator('[data-act="ns-connect"]').click();
@@ -39,21 +41,42 @@ test("conectar con el bunker y guardar la copia cifrada; recuperarla en otro per
   expect((await ls(page, "wk.nostr")).pubkey).toBe(PK);
   await nav(page, "data"); await page.locator('[data-stab="datos"]').click();
   await page.locator('[data-act="ns-bk-save"]').click();
+  await expect(page.locator("#nbT")).toHaveText("Guardar copia en Nostr");
+  await expect(page.locator("[data-nsbks]:checked")).toHaveCount(4);            // los cuatro apartados, por defecto
+  await page.locator('[data-act="ns-bk-go"]').click();
   await expect(page.locator("#toast")).toContainText("Copia guardada en Nostr");
-  const evs = await page.evaluate(() => window.__ev);
-  const man = evs.find(e => e.tags[0][1] === "usus/backup"), parts = evs.filter(e => /^usus\/backup\/\d+$/.test(e.tags[0][1]));
-  expect(man.kind).toBe(30078); expect(parts.length).toBeGreaterThan(0);
+  const evs = await page.evaluate(() => window.__ev), ds = evs.map(e => e.tags[0][1]);
+  for (const k of ["rut", "ent", "dia", "aj"]) {                                  // cada apartado, en su sitio y por perfil
+    const man = evs.find(e => e.tags[0][1] === "usus/p/main/" + k); expect(man.kind).toBe(30078);
+    expect(JSON.parse(man.content.slice(4)).parts).toBe(ds.filter(d => d.startsWith("usus/p/main/" + k + "/")).length);
+  }
   expect(evs.every(e => e.content.startsWith("enc:"))).toBe(true);                // todo pasa por el cifrado del firmante
-  expect(JSON.parse(man.content.slice(4)).parts).toBe(parts.length);
   expect(evs.some(e => e.content.includes("B · Empuje"))).toBe(false);           // nada en claro
   expect(errors).toEqual([]);
   // Otro móvil: sin rutinas, misma cuenta → recupera la copia
   const p2 = await context.newPage(); await mockNostr(p2, evs);
   const e2 = await openApp(p2, { data: { "wk.nostr": CFG } });
   await nav(p2, "data"); await p2.locator('[data-stab="datos"]').click();
+ 
   await p2.locator('[data-act="ns-bk-load"]').click();
+  await expect(p2.locator("#nbT")).toHaveText("Recuperar de Nostr");
+  await expect(p2.locator("[data-nsbks]:checked")).toHaveCount(4);
+  await p2.locator('[data-act="ns-bk-go"]').click();
   await expect.poll(async () => ((await ls(p2, "wk.routines")) || []).map(r => r.name)).toContain("B · Empuje");
+  expect((await ls(p2, "wk.sessions")).length).toBe(1);                                    // entrenos
+  expect(await ls(p2, "wk.equip")).toEqual(["barra", "anillas"]);                         // ajustes
+  expect(await ls(p2, "wk.restDefault")).toBe(75);
+  expect((await ls(p2, "wk.progLog"))[0].to).toBe("flexion-diamante");                   // historial de progresión
   expect(e2).toEqual([]);
+  // Solo un apartado: los ajustes, sin traer rutinas
+  const p3 = await context.newPage(); await mockNostr(p3, evs);
+  await openApp(p3, { data: { "wk.nostr": CFG, "wk.routines": [] } });
+  await nav(p3, "data"); await p3.locator('[data-stab="datos"]').click();
+  await p3.locator('[data-act="ns-bk-load"]').click();
+  for (const k of ["rut", "ent", "dia"]) await p3.locator(`[data-nsbks="${k}"]`).uncheck();
+  await p3.locator('[data-act="ns-bk-go"]').click();
+  await expect.poll(async () => ls(p3, "wk.equip")).toEqual(["barra", "anillas"]);
+  expect((await ls(p3, "wk.routines")) || []).toHaveLength(0);
 });
 test("publicar el entreno con imagen (Blossom) y las rutinas con su enlace", async ({ page }) => {
   await mockNostr(page);
@@ -96,7 +119,14 @@ test("sincronizar: copia sola al terminar la sesión y aviso al abrir si hay una
   await page.locator('[data-done="0:0"]').click(); await page.locator('[data-act="finish"]').click();
   await expect(page.locator("#toast")).toContainText("Copia guardada en Nostr");                  // sin preguntar
   const evs = await page.evaluate(() => window.__ev);
-  expect(evs.some(e => e.tags[0]?.[1] === "usus/backup")).toBe(true);
+  expect(evs.some(e => e.tags[0]?.[1] === "usus/p/main/ent")).toBe(true);
+  // La siguiente copia automática solo guarda lo que ha cambiado (los ajustes, no)
+  await page.evaluate(() => { window.__d = []; });
+  if (await page.locator('[data-act="saved-close"]').count()) await page.locator('[data-act="saved-close"]').first().click();
+  await nav(page, "train"); await page.locator('[data-start="rn"]:visible').first().click(); await page.locator('[data-act="sess-begin"]').click();
+  await page.locator('[data-done="0:0"]').click(); await page.locator('[data-act="finish"]').click();
+  await expect.poll(() => page.evaluate(() => window.__d.includes("usus/p/main/ent"))).toBe(true);
+  expect(await page.evaluate(() => window.__d.some(d => /\/(aj|rut)(\/|$)/.test(d)))).toBe(false);
   expect(errors).toEqual([]);
   // Otro dispositivo: la copia de Nostr es más nueva que lo último guardado aquí → aviso en Hoy
   const p2 = await context.newPage(); await mockNostr(p2, evs);
@@ -185,5 +215,21 @@ test("solo npub: se ve la cuenta, pero sin copias ni publicar", async ({ page })
   await nav(page, "data"); await page.locator('[data-stab="datos"]').click();
   await expect(page.getByText("Con solo la npub no se pueden guardar")).toBeVisible();
   await expect(page.locator('[data-act="ns-bk-save"]')).toHaveCount(0);
+  expect(errors).toEqual([]);
+});
+test("Nostr: la copia anterior (una pieza) se sigue pudiendo recuperar", async ({ page }) => {
+  const enc = t => "enc:" + t;
+  // Copia v1 hecha con nostr real: gzip+base64 de un JSON de Usus
+  const zlib = await import("node:zlib");
+  const z = zlib.gzipSync(Buffer.from(JSON.stringify({ app: "usus", version: 2, exported: "2026-11-01T10:00:00Z", routines: [{ id: "rv", name: "Vieja", block: "full", variant: "", days: [1], exercises: [{ name: "Flexión", sets: 1, reps: 5, type: "reps" }] }], sessions: [{ id: "sv", start: 1700000000000, end: 1700000300000, rid: "rv", routine: "Vieja", exercises: [] }] }))).toString("base64");
+  const evs = [{ kind: 30078, created_at: 1762000000, tags: [["d", "usus/backup/0"]], content: enc(z) },
+    { kind: 30078, created_at: 1762000000, tags: [["d", "usus/backup"]], content: enc(JSON.stringify({ v: 1, parts: 1, len: z.length, t: 1762000000000, profile: "Alex" })) }];
+  await mockNostr(page, evs);
+  const errors = await openApp(page, { data: { "wk.nostr": CFG } });
+  await nav(page, "data"); await page.locator('[data-stab="datos"]').click();
+  await page.locator('[data-act="ns-bk-load"]').click();
+  await expect(page.locator(".modal:has(#nbT)")).toContainText("de antes de los apartados");
+  await page.locator('[data-act="ns-bk-go"]').click();
+  await expect.poll(async () => ((await ls(page, "wk.routines")) || []).map(r => r.name)).toContain("Vieja");
   expect(errors).toEqual([]);
 });

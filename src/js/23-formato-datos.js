@@ -18,10 +18,35 @@ function migrateStored() {
   const j = migrateData({ version: v, routines: state.routines, sessions: state.sessions });
   state.routines = j.routines; state.sessions = j.sessions; store.saveAll(); LS.set("wk.dataVersion", DATA_VERSION);
 }
-/* Copia completa del perfil (la misma para el archivo y para Nostr) */
-function backupObj() {
+/* Ajustes del perfil y su historial de progresión, que también viajan en la copia (3.7.2).
+   No viajan: la cuenta de Nostr, la sesión en curso ni los avisos ya vistos. */
+const SET_KEYS = ["wk.catalog", "wk.equip", "wk.effort", "wk.fx", "wk.prog", "wk.restDefault", "wk.restExDefault", "wk.prep", "wk.switch", "wk.warn", "wk.autoStart", "wk.distUnit",
+  "wk.theme", "wk.lang", "wk.weighOn", "wk.weighDay", "wk.actGoalSteps", "wk.actGoalKm", "wk.statsCat", "wk.statsHidden", "wk.statsPer", "wk.statsOrder", "wk.shareOpt"];
+const PROG_KEYS = ["wk.progLog", "wk.progMute", "wk.planUpLog", "wk.planUpDone", "wk.planShift", "wk.linkOwn"];
+const pickLS = keys => Object.fromEntries(keys.map(k => [k, LS.get(k, null)]).filter(([, v]) => v !== null && v !== undefined));
+/* Apartados de la copia: en Nostr se guardan y se recuperan por separado */
+const BK_SECS = { rut: ["routines", "plan", "plans", "aiPlan"], ent: ["sessions", "progress"], dia: ["weights", "weightGoal", "diary", "supplements", "activities", "activityTypes", "cycle"], aj: ["profile", "settings", "goals", "aiProfile"] };
+/* Copia completa del perfil (la misma para el archivo y para Nostr); con secs, solo esos apartados */
+function backupObj(secs) {
   const pm = curProf();
-  return { app: "usus", version: DATA_VERSION, exported: new Date().toISOString(), ...(pm.sex ? { profile: { name: pm.name, sex: pm.sex, color: pm.color } } : {}), routines: state.routines, sessions: state.sessions, weights: W.list(), weightGoal: W.goal(), diary: DY.all(), cycle: { periods: CYC.list(), symptoms: CYC.syms(), settings: CYC.cfg() }, supplements: DY.supps(), activities: ACT.list(), activityTypes: ACT.types(), goals: LS.get("wk.goals", null), plan: PL.get(), plans: PLS.list(), ...(aiHasData(aiProf()) ? { aiProfile: aiProf() } : {}), ...(LS.get("wk.aiPlan", null) ? { aiPlan: LS.get("wk.aiPlan", null) } : {}) };
+  const all = { app: "usus", version: DATA_VERSION, exported: new Date().toISOString(), ...(pm.sex ? { profile: { name: pm.name, sex: pm.sex, color: pm.color } } : {}), routines: state.routines, sessions: state.sessions, weights: W.list(), weightGoal: W.goal(), diary: DY.all(), cycle: { periods: CYC.list(), symptoms: CYC.syms(), settings: CYC.cfg() }, supplements: DY.supps(), activities: ACT.list(), activityTypes: ACT.types(), goals: LS.get("wk.goals", null), plan: PL.get(), plans: PLS.list(), ...(aiHasData(aiProf()) ? { aiProfile: aiProf() } : {}), ...(LS.get("wk.aiPlan", null) ? { aiPlan: LS.get("wk.aiPlan", null) } : {}),
+    settings: pickLS(SET_KEYS), progress: pickLS(PROG_KEYS) };
+  if (!secs) return all;
+  const keep = new Set(["app", "version", "exported", ...secs.flatMap(s => BK_SECS[s] || [])]);
+  return Object.fromEntries(Object.entries(all).filter(([k]) => keep.has(k)));
+}
+/* Ajustes e historial de progresión de una copia: los ajustes sustituyen a los actuales; el historial se combina */
+function importExtras(j) {
+  if (j.settings && typeof j.settings === "object") {
+    SET_KEYS.forEach(k => { if (j.settings[k] !== undefined && j.settings[k] !== null) LS.set(k, j.settings[k]); });
+    const l = j.settings["wk.lang"]; if (l && LANGS[l]) setLang(l);
+    if (j.settings["wk.theme"]) applyTheme(j.settings["wk.theme"]);
+    if (LS.get("wk.catalog", false) && !CAT) loadCatalog().then(c => c && render());
+  }
+  const p = j.progress; if (!p || typeof p !== "object") return;
+  if (Array.isArray(p["wk.progLog"])) { const m = new Map((LS.get("wk.progLog", []) || []).map(x => [x.t + ":" + x.rid + ":" + x.to, x])); p["wk.progLog"].filter(x => x && x.t).forEach(x => m.set(x.t + ":" + x.rid + ":" + x.to, x)); LS.set("wk.progLog", [...m.values()].sort((a, b) => a.t - b.t).slice(-300)); }
+  ["wk.progMute", "wk.planUpDone", "wk.linkOwn"].forEach(k => { if (Array.isArray(p[k])) LS.set(k, [...new Set([...(LS.get(k, []) || []), ...p[k]])]); });
+  ["wk.planUpLog", "wk.planShift"].forEach(k => { if (p[k] && LS.get(k, null) === null) LS.set(k, p[k]); });
 }
 async function importJSON(text) {
   let j; try { j = JSON.parse(text); } catch { const inc = aiParse(text); if (inc) { state.incoming = { ...inc, ai: true }; render(); return; } toast(T("El archivo no es un JSON válido")); return; }
@@ -36,8 +61,9 @@ async function importJSON(text) {
   const nd = j.diary && typeof j.diary === "object" ? Object.keys(j.diary).length : 0;
   const na = (Array.isArray(j.activities) ? j.activities.length : 0) + (Array.isArray(j.cycle?.periods) ? j.cycle.periods.length : 0);
   const hasPlan = !!(j.plan && typeof j.plan === "object" && j.plan.start && Array.isArray(j.plan.phases));
+  const hasSet = !!(j.settings && typeof j.settings === "object" && Object.keys(j.settings).length), hasProg = !!(j.progress && typeof j.progress === "object" && Object.keys(j.progress).length);
   // Solo rutinas (sin registros): se revisan como unas rutinas recibidas, con aviso si ya las tienes
-  if (rs.length && !ss.length && !ws.length && !nd && !na && !hasPlan) {
+  if (rs.length && !ss.length && !ws.length && !nd && !na && !hasPlan && !hasSet && !hasProg) {
     const inc = sanitizeShared({ routines: rs.map(r => ({ ...r, oid: r.oid || r.id })) }); if (!inc) { toast(T("No se encontraron rutinas, sesiones ni pesos")); return; }
     state.incoming = inc; render(); return;
   }
@@ -45,9 +71,10 @@ async function importJSON(text) {
   const dupI = new Set(); let simN = 0;
   rs.forEach((r, i) => { if (state.routines.some(x => x.id === r.id)) return; const m = routMatch(normRoutine(JSON.parse(JSON.stringify(r)))); if (m?.same) dupI.add(i); else if (m) simN++; });
   const dupMsg = (dupI.size ? " " + TN(dupI.size, "{n} rutina ya la tienes igual: no se duplica.", "{n} rutinas ya las tienes iguales: no se duplican.") : "") + (simN ? " " + TN(simN, "{n} rutina se parece mucho a una tuya: se añade igualmente.", "{n} rutinas se parecen mucho a otras tuyas: se añaden igualmente.") : "");
-  if (!rs.length && !ss.length && !ws.length && !nd && !na && !hasPlan) { toast(T("No se encontraron rutinas, sesiones ni pesos")); return; }
-  if (!rs.length && !ss.length && !ws.length && !nd && !na) { if (!confirm(T("Importar el plan de progresión. Sustituirá al plan actual, si lo hay. ¿Continuar?"))) return; }
-  else if (!confirm(T("Importar {r} rutinas, {s} sesiones, {w} pesos y {d} días de diario. Se combinarán con tus datos actuales. ¿Continuar?", { r: rs.length, s: ss.length, w: ws.length, d: nd }) + dupMsg + (hasPlan ? " " + T("Incluye un plan, que sustituirá al actual.") : ""))) return;
+  if (!rs.length && !ss.length && !ws.length && !nd && !na && !hasPlan && !hasSet && !hasProg) { toast(T("No se encontraron rutinas, sesiones ni pesos")); return; }
+  const more = (hasPlan ? " " + T("Incluye un plan, que sustituirá al actual.") : "") + (hasSet ? " " + T("Incluye los ajustes, que sustituirán a los actuales.") : "");
+  if (!rs.length && !ss.length && !ws.length && !nd && !na) { if (!confirm(hasPlan && !hasSet && !hasProg ? T("Importar el plan de progresión. Sustituirá al plan actual, si lo hay. ¿Continuar?") : T("Importar los ajustes y el historial de progresión de la copia. ¿Continuar?") + more)) return; }
+  else if (!confirm(T("Importar {r} rutinas, {s} sesiones, {w} pesos y {d} días de diario. Se combinarán con tus datos actuales. ¿Continuar?", { r: rs.length, s: ss.length, w: ws.length, d: nd }) + dupMsg + more)) return;
   if (ws.length) {
     const m = new Map(W.list().map(x => [dayStart(x.t), x])); ws.forEach(x => m.set(dayStart(x.t), { id: x.id || uid(), t: x.t, kg: +x.kg })); W.save([...m.values()]);
   }
@@ -70,6 +97,7 @@ async function importJSON(text) {
   const merge = (cur, inc) => { const m = new Map(cur.map(x => [x.id, x])); inc.forEach(x => m.set(x.id || uid(), { ...x, id: x.id || uid() })); return [...m.values()]; };
   state.routines = merge(state.routines, rs.filter((_, i) => !dupI.has(i)));
   state.sessions = merge(state.sessions, ss.map(s => ({ ...s, end: s.end || s.start })));
+  importExtras(j);
   store.saveAll(); migrateTypes(); toast(T("Datos importados")); render();
 }
 

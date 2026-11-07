@@ -949,6 +949,7 @@ body:has(.sbar) .rest{bottom:calc(152px + env(safe-area-inset-bottom,0px))}
 .nslab{margin:12px 0 4px;font-size:.75rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
 .nscopy{display:flex;align-items:center;gap:6px;background:var(--bg);border-radius:12px;padding-left:12px}.nscopy code{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:.78rem}
 .nsro{margin-top:14px}.nsro summary{cursor:pointer;font-size:.85rem;color:var(--muted)}
+.nsbkh{font-size:.9rem;margin:12px 0 2px}
 /* Pantalla ancha: barra de secciones lateral */
 @media (min-width:1000px){
   body{padding-left:216px}
@@ -1167,7 +1168,7 @@ function lastSetsFor(ref) {
   }
   return null;
 }
-const APP_VERSION = "3.7.1";
+const APP_VERSION = "3.7.2";
 const THEMES = [["protector", "Protector", "Oscuro cálido, sin azul"], ["dark", "Oscuro", "Neutro"], ["light", "Claro", "Para el día"], ["auto", "Automático", "Sigue al sistema"]];
 const curTheme = () => document.documentElement.dataset.theme || "auto";
 function applyTheme(t) {
@@ -2704,7 +2705,7 @@ function render() {
   if (state.tab === "history") state.tab = "diary";
   const v = state.actForm ? viewActForm : state.tab === "data" && state.link ? viewLink : { train: viewTrain, routines: viewRoutines, diary: viewDiary, stats: viewStats, data: viewData }[state.tab];
   const mb = document.querySelector(".mbox.dsh"), mbTop = mb ? mb.scrollTop : 0;
-  $("#app").innerHTML = v() + focusView() + welcomeModal() + noticeModal() + planWeekModal() + planMenuModal() + newsModal() + cycAckModal() + savedModal() + shareSessModal() + shareRoutModal() + incomingModal() + profPickModal() + profFormModal() + profEditModal() + profCopyModal() + issueModal() + gpModal() + xpickModal() + ownMatModal() + catAskModal() + progChangeModal() + aiModal() + aipModal() + csvModal() + swapModal() + dayNoteModal() + nsPostModal() + exInfoModal();
+  $("#app").innerHTML = v() + focusView() + welcomeModal() + noticeModal() + planWeekModal() + planMenuModal() + newsModal() + nsBkModal() + cycAckModal() + savedModal() + shareSessModal() + shareRoutModal() + incomingModal() + profPickModal() + profFormModal() + profEditModal() + profCopyModal() + issueModal() + gpModal() + xpickModal() + ownMatModal() + catAskModal() + progChangeModal() + aiModal() + aipModal() + csvModal() + swapModal() + dayNoteModal() + nsPostModal() + exInfoModal();
   if (mb) { const nb = document.querySelector(".mbox.dsh"); if (nb) nb.scrollTop = mbTop; }
   if (state.tab === "train" && state.active && !state.actForm) tick();
   if (state.shareSess && SHOPT().img) sessPreview();
@@ -4534,6 +4535,11 @@ function installBlock() {
 }
 /* ---------- Novedades (una vez por versión; historial al tocar la versión) ---------- */
 const CHANGES = [  // Novedades: solo en castellano; las traducciones, en i18n/*.po
+  ["3.7.2", [
+    N_("Copia en Nostr por apartados: rutinas y planes, entrenos y progreso, diario, peso y ciclo, y ajustes. Al guardar y al recuperar eliges cuáles."),
+    N_("La copia, en Nostr y en archivo, lleva ahora también los ajustes (material, catálogo, tiempos, progresión, tema, idioma…) y el historial de subidas de ejercicio."),
+    N_("Cada perfil guarda su copia de Nostr aparte: la de otro perfil o la de la web ya no pisa la tuya. La copia automática solo guarda lo que ha cambiado.")
+  ]],
   ["3.7.1", [
     N_("Nostr en la web: entra con la extensión del navegador (Alby, nos2x…), además de con un bunker."),
     N_("Nostr con solo tu npub: solo lectura, se ve tu perfil pero no hay copias ni publicar.")
@@ -5311,10 +5317,35 @@ function migrateStored() {
   const j = migrateData({ version: v, routines: state.routines, sessions: state.sessions });
   state.routines = j.routines; state.sessions = j.sessions; store.saveAll(); LS.set("wk.dataVersion", DATA_VERSION);
 }
-/* Copia completa del perfil (la misma para el archivo y para Nostr) */
-function backupObj() {
+/* Ajustes del perfil y su historial de progresión, que también viajan en la copia (3.7.2).
+   No viajan: la cuenta de Nostr, la sesión en curso ni los avisos ya vistos. */
+const SET_KEYS = ["wk.catalog", "wk.equip", "wk.effort", "wk.fx", "wk.prog", "wk.restDefault", "wk.restExDefault", "wk.prep", "wk.switch", "wk.warn", "wk.autoStart", "wk.distUnit",
+  "wk.theme", "wk.lang", "wk.weighOn", "wk.weighDay", "wk.actGoalSteps", "wk.actGoalKm", "wk.statsCat", "wk.statsHidden", "wk.statsPer", "wk.statsOrder", "wk.shareOpt"];
+const PROG_KEYS = ["wk.progLog", "wk.progMute", "wk.planUpLog", "wk.planUpDone", "wk.planShift", "wk.linkOwn"];
+const pickLS = keys => Object.fromEntries(keys.map(k => [k, LS.get(k, null)]).filter(([, v]) => v !== null && v !== undefined));
+/* Apartados de la copia: en Nostr se guardan y se recuperan por separado */
+const BK_SECS = { rut: ["routines", "plan", "plans", "aiPlan"], ent: ["sessions", "progress"], dia: ["weights", "weightGoal", "diary", "supplements", "activities", "activityTypes", "cycle"], aj: ["profile", "settings", "goals", "aiProfile"] };
+/* Copia completa del perfil (la misma para el archivo y para Nostr); con secs, solo esos apartados */
+function backupObj(secs) {
   const pm = curProf();
-  return { app: "usus", version: DATA_VERSION, exported: new Date().toISOString(), ...(pm.sex ? { profile: { name: pm.name, sex: pm.sex, color: pm.color } } : {}), routines: state.routines, sessions: state.sessions, weights: W.list(), weightGoal: W.goal(), diary: DY.all(), cycle: { periods: CYC.list(), symptoms: CYC.syms(), settings: CYC.cfg() }, supplements: DY.supps(), activities: ACT.list(), activityTypes: ACT.types(), goals: LS.get("wk.goals", null), plan: PL.get(), plans: PLS.list(), ...(aiHasData(aiProf()) ? { aiProfile: aiProf() } : {}), ...(LS.get("wk.aiPlan", null) ? { aiPlan: LS.get("wk.aiPlan", null) } : {}) };
+  const all = { app: "usus", version: DATA_VERSION, exported: new Date().toISOString(), ...(pm.sex ? { profile: { name: pm.name, sex: pm.sex, color: pm.color } } : {}), routines: state.routines, sessions: state.sessions, weights: W.list(), weightGoal: W.goal(), diary: DY.all(), cycle: { periods: CYC.list(), symptoms: CYC.syms(), settings: CYC.cfg() }, supplements: DY.supps(), activities: ACT.list(), activityTypes: ACT.types(), goals: LS.get("wk.goals", null), plan: PL.get(), plans: PLS.list(), ...(aiHasData(aiProf()) ? { aiProfile: aiProf() } : {}), ...(LS.get("wk.aiPlan", null) ? { aiPlan: LS.get("wk.aiPlan", null) } : {}),
+    settings: pickLS(SET_KEYS), progress: pickLS(PROG_KEYS) };
+  if (!secs) return all;
+  const keep = new Set(["app", "version", "exported", ...secs.flatMap(s => BK_SECS[s] || [])]);
+  return Object.fromEntries(Object.entries(all).filter(([k]) => keep.has(k)));
+}
+/* Ajustes e historial de progresión de una copia: los ajustes sustituyen a los actuales; el historial se combina */
+function importExtras(j) {
+  if (j.settings && typeof j.settings === "object") {
+    SET_KEYS.forEach(k => { if (j.settings[k] !== undefined && j.settings[k] !== null) LS.set(k, j.settings[k]); });
+    const l = j.settings["wk.lang"]; if (l && LANGS[l]) setLang(l);
+    if (j.settings["wk.theme"]) applyTheme(j.settings["wk.theme"]);
+    if (LS.get("wk.catalog", false) && !CAT) loadCatalog().then(c => c && render());
+  }
+  const p = j.progress; if (!p || typeof p !== "object") return;
+  if (Array.isArray(p["wk.progLog"])) { const m = new Map((LS.get("wk.progLog", []) || []).map(x => [x.t + ":" + x.rid + ":" + x.to, x])); p["wk.progLog"].filter(x => x && x.t).forEach(x => m.set(x.t + ":" + x.rid + ":" + x.to, x)); LS.set("wk.progLog", [...m.values()].sort((a, b) => a.t - b.t).slice(-300)); }
+  ["wk.progMute", "wk.planUpDone", "wk.linkOwn"].forEach(k => { if (Array.isArray(p[k])) LS.set(k, [...new Set([...(LS.get(k, []) || []), ...p[k]])]); });
+  ["wk.planUpLog", "wk.planShift"].forEach(k => { if (p[k] && LS.get(k, null) === null) LS.set(k, p[k]); });
 }
 async function importJSON(text) {
   let j; try { j = JSON.parse(text); } catch { const inc = aiParse(text); if (inc) { state.incoming = { ...inc, ai: true }; render(); return; } toast(T("El archivo no es un JSON válido")); return; }
@@ -5329,8 +5360,9 @@ async function importJSON(text) {
   const nd = j.diary && typeof j.diary === "object" ? Object.keys(j.diary).length : 0;
   const na = (Array.isArray(j.activities) ? j.activities.length : 0) + (Array.isArray(j.cycle?.periods) ? j.cycle.periods.length : 0);
   const hasPlan = !!(j.plan && typeof j.plan === "object" && j.plan.start && Array.isArray(j.plan.phases));
+  const hasSet = !!(j.settings && typeof j.settings === "object" && Object.keys(j.settings).length), hasProg = !!(j.progress && typeof j.progress === "object" && Object.keys(j.progress).length);
   // Solo rutinas (sin registros): se revisan como unas rutinas recibidas, con aviso si ya las tienes
-  if (rs.length && !ss.length && !ws.length && !nd && !na && !hasPlan) {
+  if (rs.length && !ss.length && !ws.length && !nd && !na && !hasPlan && !hasSet && !hasProg) {
     const inc = sanitizeShared({ routines: rs.map(r => ({ ...r, oid: r.oid || r.id })) }); if (!inc) { toast(T("No se encontraron rutinas, sesiones ni pesos")); return; }
     state.incoming = inc; render(); return;
   }
@@ -5338,9 +5370,10 @@ async function importJSON(text) {
   const dupI = new Set(); let simN = 0;
   rs.forEach((r, i) => { if (state.routines.some(x => x.id === r.id)) return; const m = routMatch(normRoutine(JSON.parse(JSON.stringify(r)))); if (m?.same) dupI.add(i); else if (m) simN++; });
   const dupMsg = (dupI.size ? " " + TN(dupI.size, "{n} rutina ya la tienes igual: no se duplica.", "{n} rutinas ya las tienes iguales: no se duplican.") : "") + (simN ? " " + TN(simN, "{n} rutina se parece mucho a una tuya: se añade igualmente.", "{n} rutinas se parecen mucho a otras tuyas: se añaden igualmente.") : "");
-  if (!rs.length && !ss.length && !ws.length && !nd && !na && !hasPlan) { toast(T("No se encontraron rutinas, sesiones ni pesos")); return; }
-  if (!rs.length && !ss.length && !ws.length && !nd && !na) { if (!confirm(T("Importar el plan de progresión. Sustituirá al plan actual, si lo hay. ¿Continuar?"))) return; }
-  else if (!confirm(T("Importar {r} rutinas, {s} sesiones, {w} pesos y {d} días de diario. Se combinarán con tus datos actuales. ¿Continuar?", { r: rs.length, s: ss.length, w: ws.length, d: nd }) + dupMsg + (hasPlan ? " " + T("Incluye un plan, que sustituirá al actual.") : ""))) return;
+  if (!rs.length && !ss.length && !ws.length && !nd && !na && !hasPlan && !hasSet && !hasProg) { toast(T("No se encontraron rutinas, sesiones ni pesos")); return; }
+  const more = (hasPlan ? " " + T("Incluye un plan, que sustituirá al actual.") : "") + (hasSet ? " " + T("Incluye los ajustes, que sustituirán a los actuales.") : "");
+  if (!rs.length && !ss.length && !ws.length && !nd && !na) { if (!confirm(hasPlan && !hasSet && !hasProg ? T("Importar el plan de progresión. Sustituirá al plan actual, si lo hay. ¿Continuar?") : T("Importar los ajustes y el historial de progresión de la copia. ¿Continuar?") + more)) return; }
+  else if (!confirm(T("Importar {r} rutinas, {s} sesiones, {w} pesos y {d} días de diario. Se combinarán con tus datos actuales. ¿Continuar?", { r: rs.length, s: ss.length, w: ws.length, d: nd }) + dupMsg + more)) return;
   if (ws.length) {
     const m = new Map(W.list().map(x => [dayStart(x.t), x])); ws.forEach(x => m.set(dayStart(x.t), { id: x.id || uid(), t: x.t, kg: +x.kg })); W.save([...m.values()]);
   }
@@ -5363,6 +5396,7 @@ async function importJSON(text) {
   const merge = (cur, inc) => { const m = new Map(cur.map(x => [x.id, x])); inc.forEach(x => m.set(x.id || uid(), { ...x, id: x.id || uid() })); return [...m.values()]; };
   state.routines = merge(state.routines, rs.filter((_, i) => !dupI.has(i)));
   state.sessions = merge(state.sessions, ss.map(s => ({ ...s, end: s.end || s.start })));
+  importExtras(j);
   store.saveAll(); migrateTypes(); toast(T("Datos importados")); render();
 }
 
@@ -5561,8 +5595,8 @@ const xLink = (e, label) => e?.xid ? `<button class="xl" data-xinfo="${esc(e.xid
 /* ---------- Nostr (3.6.0): cuenta con bunker, copia cifrada y publicar ----------
    - Se entra con Amber (APK), una extensión del navegador (NIP-07) o un bunker (NIP-46). Usus no ve ni guarda la nsec.
    - Con solo la npub, solo lectura: se ve el perfil, pero no hay copias ni publicar (no se puede firmar ni descifrar).
-   - Copia de seguridad: la misma copia completa del archivo, comprimida (gzip) y cifrada con NIP-44 para uno mismo,
-     en eventos de datos de app (kind 30078): d=usus/backup (índice) y d=usus/backup/N (partes). Nadie más la puede leer.
+   - Copia de seguridad: la del archivo, por apartados, comprimida (gzip) y cifrada con NIP-44 para uno mismo,
+     en eventos de datos de app (kind 30078): ver nsBackupSave. Nadie más la puede leer.
    - Publicar: nota pública (kind 1) que se revisa antes; el entreno puede llevar su imagen (subida a Blossom).
    - La librería (nostr.js) se carga solo al usar Nostr: sin usarlo, Usus no se conecta a nada.
    wk.nostr (por perfil) = { bp: {pubkey, relays}, sk, pubkey, npub, name, relays, blossom, lastBk } */
@@ -5665,52 +5699,118 @@ async function nsDisconnect() {
   NS.save(null); toast(T("Cuenta de Nostr desconectada")); render();
 }
 
-/* Copia de seguridad cifrada para uno mismo */
-async function nsBackupSave(auto) {
-  if (!auto && !confirm(T("Se guardará en Nostr la copia completa de este perfil, cifrada para que solo tú puedas leerla. Tu bunker pedirá aprobar varias firmas. ¿Seguir?"))) return;
-  nsBusy(T("Preparando la copia…"));
+/* Copia de seguridad cifrada para uno mismo, por apartados (3.7.2). Cada perfil tiene su sitio: d = usus/p/<perfil>/<apartado>
+   (índice cifrado: partes, longitud, fecha) y usus/p/<perfil>/<apartado>/N (partes). Así una copia de otro perfil, o
+   de un apartado, no pisa a las demás. La copia anterior (d = usus/backup, una sola pieza) se puede seguir recuperando. */
+const NS_SECS = [["rut", N_("Rutinas y planes")], ["ent", N_("Entrenos y progreso")], ["dia", N_("Diario, peso y ciclo")], ["aj", N_("Ajustes")]];
+const nsSecName = k => T((NS_SECS.find(s => s[0] === k) || [k, k])[1]);
+const nsD = (pid, s) => `usus/p/${pid}/${s}`;
+const nsDRe = /^usus\/p\/([^/]+)\/(rut|ent|dia|aj)$/;
+async function nsHash(text) { return [...new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text)))].slice(0, 12).map(b => b.toString(16).padStart(2, "0")).join(""); }
+/* Guardar: los apartados elegidos; en la copia automática, solo los que han cambiado desde la última */
+async function nsBackupSave(auto, secs) {
+  secs = secs?.length ? secs : NS_SECS.map(s => s[0]);
   try {
-    const L = await nsSigner(), c = NS.cfg(), rel = nsRelays(), now = Math.floor(Date.now() / 1000);
-    const z = await gzB64(JSON.stringify(backupObj())), parts = [];
-    for (let i = 0; i < z.length; i += NS_PART) parts.push(z.slice(i, i + NS_PART));
-    const put = async (d, text, k, n) => { nsBusy(T("Guardando {k} de {n}… acepta en tu bunker si lo pide.", { k, n }));
+    const c0 = NS.cfg(), pid = curProf().id, h = { ...(c0.h || {}) }, todo = [];
+    for (const s of secs) { const o = backupObj([s]), sig = await nsHash(JSON.stringify({ ...o, exported: 0 })); if (!auto || h[s] !== sig) todo.push([s, o, sig]); }
+    if (!todo.length) return;
+    nsBusy(T("Preparando la copia…"));
+    const L = await nsSigner(), c = NS.cfg(), rel = nsRelays(), now = Math.floor(Date.now() / 1000), plan = [];
+    for (const [s, o, sig] of todo) { const z = await gzB64(JSON.stringify(o)), parts = []; for (let i = 0; i < z.length; i += NS_PART) parts.push(z.slice(i, i + NS_PART)); plan.push({ s, z, parts, sig }); }
+    const n = plan.reduce((a, x) => a + x.parts.length + 1, 0); let k = 0;
+    const put = async (d, text) => { k++; nsBusy(T("Guardando {k} de {n}… acepta en tu bunker si lo pide.", { k, n }));
       const ev = await nsTime(L.sign({ kind: 30078, created_at: now, tags: [["d", d]], content: await nsTime(L.encrypt(c.pubkey, text), 90000) }), 90000);
       await nsTime(L.publish(rel, ev), 30000); };
-    for (let i = 0; i < parts.length; i++) await put(`usus/backup/${i}`, parts[i], i + 1, parts.length + 1);
-    await put("usus/backup", JSON.stringify({ v: 1, parts: parts.length, len: z.length, t: Date.now(), app: APP_VERSION, profile: profName(curProf()) }), parts.length + 1, parts.length + 1);
-    NS.save({ ...NS.cfg(), lastBk: Date.now(), seen: now }); LS.set("wk.lastBackup", Date.now()); state.nsNewer = null;
+    for (const x of plan) {
+      for (let i = 0; i < x.parts.length; i++) await put(`${nsD(pid, x.s)}/${i}`, x.parts[i]);
+      await put(nsD(pid, x.s), JSON.stringify({ v: 2, s: x.s, parts: x.parts.length, len: x.z.length, t: Date.now(), app: APP_VERSION, profile: profName(curProf()) }));
+      h[x.s] = x.sig;
+    }
+    NS.save({ ...NS.cfg(), h, lastBk: Date.now(), seen: now }); LS.set("wk.lastBackup", Date.now()); state.nsNewer = null; state.nsBk = null;
     toast(T("Copia guardada en Nostr"));
   } catch (e) { toast(T("No se pudo guardar la copia en Nostr: {x}", { x: nsErr(e) }), 5000); }
   nsBusy(null);
 }
+/* Recuperar: busca las copias de esta cuenta (por perfil) y se eligen los apartados */
 async function nsBackupLoad() {
-  nsBusy(T("Buscando tu copia en Nostr…"));
+  state.nsBk = { mode: "load", list: null }; nsBusy(T("Buscando tu copia en Nostr…"));
+  try {
+    const L = await nsSigner(), c = NS.cfg(), evs = await L.query(nsRelays(), { kinds: [30078], authors: [c.pubkey] }), g = new Map();
+    for (const ev of evs || []) {
+      const d = (ev.tags.find(t => t[0] === "d") || [])[1] || "", m = nsDRe.exec(d);
+      if (m) { const x = g.get(m[1]) || { pid: m[1], secs: {} }; if (!x.secs[m[2]] || x.secs[m[2]].created_at < ev.created_at) x.secs[m[2]] = ev; g.set(m[1], x); }
+      else if (d === "usus/backup") g.set("_v1", { pid: "_v1", old: ev });
+    }
+    const list = [...g.values()].map(x => ({ ...x, t: x.old ? x.old.created_at : Math.max(...Object.values(x.secs).map(e => e.created_at)) }));
+    const me = curProf().id; list.sort((a, b) => (b.pid === me) - (a.pid === me) || (a.pid === "_v1") - (b.pid === "_v1") || b.t - a.t);
+    if (!list.length) { state.nsBk = null; toast(T("No hay ninguna copia de Usus en Nostr con esta cuenta")); nsBusy(null); return; }
+    // Con copias de varios perfiles, el nombre de cada uno (va cifrado en su índice)
+    if (list.filter(x => !x.old).length > 1) { nsBusy(T("Descifrando… acepta en tu bunker si lo pide."));
+      for (const x of list) if (!x.old) { try { x.name = JSON.parse(await nsTime(L.decrypt(c.pubkey, Object.values(x.secs)[0].content), 90000)).profile || ""; } catch {} } }
+    state.nsBk = { mode: "load", list, pick: list[0].pid };
+  } catch (e) { state.nsBk = null; toast(T("No se pudo recuperar la copia: {x}", { x: nsErr(e) }), 5000); }
+  nsBusy(null);
+}
+async function nsBackupRestore(pid, secs) {
+  const b = state.nsBk, x = b?.list?.find(y => y.pid === pid); if (!x) return;
   try {
     const L = await nsSigner(), c = NS.cfg(), rel = nsRelays(), q = d => L.get(rel, { kinds: [30078], authors: [c.pubkey], "#d": [d] });
-    const mev = await q("usus/backup");
-    if (!mev) { toast(T("No hay ninguna copia de Usus en Nostr con esta cuenta")); nsBusy(null); return; }
-    nsBusy(T("Descifrando… acepta en tu bunker si lo pide."));
-    const man = JSON.parse(await nsTime(L.decrypt(c.pubkey, mev.content), 90000)); nsBusy(null);
-    const when = new Date(man.t).toLocaleString(LOC(), { day: "numeric", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit" });
-    if (!confirm(T("Copia del {d} ({p}). Se combina con lo que hay en este perfil, como al importar un archivo. ¿Recuperarla?", { d: when, p: man.profile || "Usus" }))) return;
-    let z = "";
-    for (let i = 0; i < man.parts; i++) { nsBusy(T("Recuperando {k} de {n}…", { k: i + 1, n: man.parts }));
-      const ev = await q(`usus/backup/${i}`); if (!ev) throw new Error(T("falta una parte")); z += await nsTime(L.decrypt(c.pubkey, ev.content), 90000); }
-    if (z.length !== man.len) throw new Error(T("copia incompleta"));
-    nsBusy(null); await importJSON(await gunB64(z));
-    NS.save({ ...NS.cfg(), seen: mev.created_at }); state.nsNewer = null; render();
+    const pieces = x.old ? [["usus/backup", x.old]] : secs.filter(s => x.secs[s]).map(s => [nsD(pid, s), x.secs[s]]);
+    if (!pieces.length) { toast(T("Elige al menos un apartado")); return; }
+    let all = {}, seen = 0;
+    for (const [d, mev] of pieces) {
+      nsBusy(T("Descifrando… acepta en tu bunker si lo pide."));
+      const man = JSON.parse(await nsTime(L.decrypt(c.pubkey, mev.content), 90000)); let z = "";
+      for (let i = 0; i < man.parts; i++) { nsBusy(T("Recuperando {k} de {n}…", { k: i + 1, n: man.parts }));
+        const ev = await q(`${d}/${i}`); if (!ev) throw new Error(T("falta una parte")); z += await nsTime(L.decrypt(c.pubkey, ev.content), 90000); }
+      if (z.length !== man.len) throw new Error(T("copia incompleta"));
+      all = { ...all, ...JSON.parse(await gunB64(z)) }; seen = Math.max(seen, mev.created_at);
+    }
+    nsBusy(null); state.nsBk = null; render();
+    await importJSON(JSON.stringify(all));
+    NS.save({ ...NS.cfg(), seen }); state.nsNewer = null; render();
   } catch (e) { toast(T("No se pudo recuperar la copia: {x}", { x: nsErr(e) }), 5000); nsBusy(null); }
 }
+/* Ventana para elegir qué guardar o qué recuperar */
+function nsBkModal() {
+  const b = state.nsBk; if (!b) return "";
+  const busy = state.nsBusy, when = t => new Date(t * 1000).toLocaleString(LOC(), { day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" });
+  const chk = (k, on, sub, dis) => `<label class="shopt"><span>${esc(nsSecName(k))}${sub ? `<small class="muted" style="display:block;font-size:.78rem">${sub}</small>` : ""}</span><input type="checkbox" data-nsbks="${k}" ${on ? "checked" : ""} ${dis ? "disabled" : ""}></label>`;
+  let body;
+  if (b.mode === "save") body = `<p class="muted" style="font-size:.85rem;margin:0 0 6px">${T("Cifrada para que solo tú puedas leerla. Cada apartado se guarda por separado y no pisa a los demás.")}</p>
+    ${NS_SECS.map(([k]) => chk(k, true)).join("")}
+    ${busy ? `<p class="nsbusy" role="status">${esc(busy)}</p>` : ""}
+    <div class="row" style="margin-top:12px"><button class="btn" style="flex:1" data-act="ns-bk-close">${T("Cancelar")}</button><button class="btn primary" style="flex:1" data-act="ns-bk-go" ${busy ? "disabled" : ""}>${T("Guardar")}</button></div>`;
+  else if (!b.list) body = `<p class="nsbusy" role="status">${esc(busy || "")}</p>`;
+  else {
+    const x = b.list.find(y => y.pid === b.pick) || b.list[0], me = curProf().id;
+    const lab = y => y.old ? T("Copia anterior (una sola pieza)") : y.pid === me ? T("Este perfil") : (y.name || T("Otro perfil"));
+    body = `${b.list.length > 1 ? `<div class="nsbkp">${b.list.map(y => `<label class="shopt"><span>${esc(lab(y))}<small class="muted" style="display:block;font-size:.78rem">${when(y.t)}</small></span><input type="radio" name="nsbkp" data-nsbkp="${esc(y.pid)}" ${y.pid === x.pid ? "checked" : ""}></label>`).join("")}</div><h3 class="nsbkh">${T("Qué recuperar")}</h3>` : ""}
+      ${x.old ? `<p class="muted" style="font-size:.85rem;margin:0">${T("Copia completa del {d}, de antes de los apartados.", { d: when(x.t) })}</p>` : NS_SECS.map(([k]) => chk(k, !!x.secs[k], x.secs[k] ? when(x.secs[k].created_at) : T("No hay copia"), !x.secs[k])).join("")}
+      <p class="muted" style="font-size:.8rem;margin:10px 0 0">${T("Se combina con lo que hay en este perfil, como al importar un archivo. Los ajustes sustituyen a los actuales.")}</p>
+      ${busy ? `<p class="nsbusy" role="status">${esc(busy)}</p>` : ""}
+      <div class="row" style="margin-top:12px"><button class="btn" style="flex:1" data-act="ns-bk-close">${T("Cancelar")}</button><button class="btn primary" style="flex:1" data-act="ns-bk-go" ${busy ? "disabled" : ""}>${T("Recuperar")}</button></div>`;
+  }
+  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="nbT"><div class="mbox dsh">${mHead("nbT", b.mode === "save" ? T("Guardar copia en Nostr") : T("Recuperar de Nostr"), "ns-bk-close")}${body}</div></div>`;
+}
+function nsBkGo() {
+  const b = state.nsBk; if (!b || state.nsBusy) return;
+  const secs = [...document.querySelectorAll("[data-nsbks]:checked")].map(i => i.dataset.nsbks);
+  if (b.mode === "save") { if (!secs.length) return toast(T("Elige al menos un apartado")); nsBackupSave(false, secs); }
+  else nsBackupRestore(b.pick, secs);
+}
 
-/* Sincronizar (3.7.0): copia sola al terminar cada sesión; al abrir, aviso si en Nostr hay una copia más nueva
-   que la última que se guardó o recuperó aquí (se mira la fecha del índice, sin descifrar ni pedir nada al bunker). */
+/* Sincronizar (3.7.0): copia sola al terminar cada sesión (3.7.2: solo los apartados que han cambiado); al abrir, aviso
+   si en Nostr hay una copia de este perfil más nueva que la última que se guardó o recuperó aquí (se mira la fecha de
+   los índices, sin descifrar ni pedir nada al firmante). */
 const nsAutoOn = () => NS.cfg()?.auto !== false;
 function nsAutoBackup() { if (NS.cfg() && !nsRO() && nsAutoOn() && !state.nsBusy) nsBackupSave(true); }
 async function nsCheckNewer() {
   const c = NS.cfg(); if (!c || nsRO()) return;
   try {
-    const L = await nsLib(), ev = await L.get(nsRelays(), { kinds: [30078], authors: [c.pubkey], "#d": ["usus/backup"] });
-    if (ev && ev.created_at > (c.seen || 0) + 60 && ev.created_at * 1000 > (c.lastBk || 0) + 60e3) { state.nsNewer = { t: ev.created_at * 1000, at: ev.created_at }; render(); }
+    const L = await nsLib(), pid = curProf().id, evs = await L.query(nsRelays(), { kinds: [30078], authors: [c.pubkey], "#d": NS_SECS.map(s => nsD(pid, s[0])) });
+    const at = Math.max(0, ...(evs || []).map(e => e.created_at));
+    if (at && at > (c.seen || 0) + 60 && at * 1000 > (c.lastBk || 0) + 60e3) { state.nsNewer = { t: at * 1000, at }; render(); }
   } catch {}
 }
 function nsNewerBanner() {
@@ -5830,8 +5930,8 @@ function nostrBackup(item) {
   const c = NS.cfg(), when = t => new Date(t).toLocaleDateString(LOC(), { day: "numeric", month: "short", year: "numeric" });
   if (c?.method === "npub") return `<h2>Nostr</h2><div class="panel">${item(T("Copia en Nostr"), T("Con solo la npub no se pueden guardar ni recuperar copias: entra con un firmante en Ajustes → Cuenta de Nostr."), "ns-go-set", T("Cuenta"))}</div>`;
   return `<h2>Nostr</h2><div class="panel">${c ? `
-    ${item(T("Guardar copia en Nostr"), T("La copia completa, cifrada para que solo tú puedas leerla.") + (c.lastBk ? " " + T("Última: {d}.", { d: when(c.lastBk) }) : ""), "ns-bk-save", T("Guardar"), true)}
-    ${item(T("Recuperar de Nostr"), T("Trae tu copia y la combina con lo que hay en este perfil."), "ns-bk-load", T("Recuperar"))}
+    ${item(T("Guardar copia en Nostr"), T("Rutinas, entrenos, diario y ajustes, por separado y cifrados para que solo tú puedas leerlos.") + (c.lastBk ? " " + T("Última: {d}.", { d: when(c.lastBk) }) : ""), "ns-bk-save", T("Guardar"), true)}
+    ${item(T("Recuperar de Nostr"), T("Eliges qué apartados traer; se combinan con lo que hay en este perfil."), "ns-bk-load", T("Recuperar"))}
     <label class="srow" style="cursor:pointer"><span class="t">${T("Copia automática")}<small class="muted" style="display:block;font-size:.8rem">${T("Al terminar cada sesión. Al abrir Usus, avisa si hay una copia más nueva.")}</small></span><input type="checkbox" role="switch" id="nsAuto" ${nsAutoOn() ? "checked" : ""}></label>`
   : `${item(T("Copia en Nostr"), T("Conecta antes tu cuenta en Ajustes → Cuenta de Nostr."), "ns-go-set", T("Conectar"))}`}
     ${nsBusyLine()}</div>`;
@@ -6168,7 +6268,9 @@ document.addEventListener("click", async ev => {
     case "ns-ext": nsConnectExt(); break;
     case "ns-npub": nsConnectNpub(); break;
     case "ns-off": nsDisconnect(); break;
-    case "ns-bk-save": nsBackupSave(); break;
+    case "ns-bk-save": state.nsBk = { mode: "save" }; render(); break;
+    case "ns-bk-go": nsBkGo(); break;
+    case "ns-bk-close": if (!state.nsBusy) { state.nsBk = null; render(); } break;
     case "ns-bk-load": nsBackupLoad(); break;
     case "ns-newer-x": { const c = NS.cfg(); if (c && state.nsNewer) NS.save({ ...c, seen: state.nsNewer.at }); state.nsNewer = null; render(); break; }
     case "shsess-nostr": nsPostSess(); break;
@@ -6341,6 +6443,7 @@ document.addEventListener("change", async ev => {
   if (state.planMode === "edit" && ev.target.closest?.("#app") && (/^p(On|Order|OrderAt|Start|Review|DlW|DlE|Up|UpRule)$/.test(ev.target.id) || ev.target.dataset.pv !== undefined || ev.target.dataset.pw !== undefined)) { readPlan(); render(); return; }
   const tg = ev.target, dk = state.day || dayKey(Date.now());
   if (tg.id === "progOn" || tg.id === "progUp" || tg.id === "progDown") { const P = PROG(); if (tg.id === "progOn") P.on = tg.checked; if (tg.id === "progUp") P.up = +tg.value; if (tg.id === "progDown") P.down = tg.value; LS.set("wk.prog", P); render(); return; }
+  if (tg.dataset.nsbkp && state.nsBk) { state.nsBk.pick = tg.dataset.nsbkp; render(); return; }
   if (tg.id === "nsAuto") { const c = NS.cfg(); if (c) NS.save({ ...c, auto: tg.checked }); render(); return; }
   if (tg.id === "effPem" || tg.id === "effRir") { LS.set("wk.effort", { ...EFF(), [tg.id === "effPem" ? "pem" : "rir"]: tg.checked }); render(); return; }
   if (tg.id === "catOnly") { state.catOnly = tg.checked; const l = $("#catList"); if (l) l.innerHTML = catListHTML(); return; }
@@ -6656,6 +6759,7 @@ const I18N = {
     "Cada (semanas de entreno)": "Cada (setmanes d'entrenament)",
     "Cada ficha indica su rol (principal, accesorio, movilidad, calentamiento o cardio), el rango recomendado por serie y las articulaciones que más carga. Al añadir un ejercicio del catálogo, las repeticiones o segundos salen en mitad de ese rango.": "Cada fitxa indica el seu rol (principal, accessori, mobilitat, escalfament o cardio), el rang recomanat per sèrie i les articulacions que més carrega. En afegir un exercici del catàleg, les repeticions o segons surten a la meitat d'aquest rang.",
     "Cada perfil decide. Se puede cambiar en Ajustes → App.": "Cada perfil decideix. Es pot canviar a Ajustos → App.",
+    "Cada perfil guarda su copia de Nostr aparte: la de otro perfil o la de la web ya no pisa la tuya. La copia automática solo guarda lo que ha cambiado.": "Cada perfil desa la seva còpia de Nostr a part: la d'un altre perfil o la del web ja no trepitja la teva. La còpia automàtica només desa el que ha canviat.",
     "Cada perfil tiene sus propios datos y ajustes.": "Cada perfil té les seves pròpies dades i ajustos.",
     "cadera": "maluc",
     "Caja / banco": "Caixa / banc",
@@ -6705,6 +6809,7 @@ const I18N = {
     "Ciclo (reglas y síntomas)": "Cicle (regles i símptomes)",
     "Ciclos irregulares: la estimación es menos fiable.": "Cicles irregulars: l'estimació és menys fiable.",
     "Ciclos registrados": "Cicles registrats",
+    "Cifrada para que solo tú puedas leerla. Cada apartado se guarda por separado y no pisa a los demás.": "Xifrada perquè només tu la puguis llegir. Cada apartat es desa per separat i no trepitja els altres.",
     "Circuito": "Circuit",
     "Claro": "Clar",
     "Clave pública": "Clau pública",
@@ -6751,14 +6856,16 @@ const I18N = {
     "Constancia marca aparte los días con «No entrené».": "Constància marca a part els dies amb «No vaig entrenar».",
     "Continuar": "Continuar",
     "copia": "copia",
+    "Copia anterior (una sola pieza)": "Còpia anterior (una sola peça)",
     "Copia automática": "Còpia automàtica",
     "Copia completa": "Còpia completa",
+    "Copia completa del {d}, de antes de los apartados.": "Còpia completa del {d}, d'abans dels apartats.",
     "Copia completa o solo rutinas. Se combina con lo existente; los duplicados se actualizan.": "Còpia completa o només rutines. Es combina amb el que ja hi ha; els duplicats s'actualitzen.",
     "Copia de {x}": "Còpia de {x}",
     "Copia de seguridad": "Còpia de seguretat",
     "Copia de seguridad en Nostr: la copia completa, comprimida y cifrada para que solo tú puedas leerla. «Guardar copia en Nostr» y «Recuperar de Nostr», por ejemplo para pasar tus datos a otro móvil.": "Còpia de seguretat a Nostr: la còpia completa, comprimida i xifrada perquè només tu la puguis llegir. «Desar còpia a Nostr» i «Recuperar de Nostr», per exemple per passar les teves dades a un altre mòbil.",
-    "Copia del {d} ({p}). Se combina con lo que hay en este perfil, como al importar un archivo. ¿Recuperarla?": "Còpia del {d} ({p}). Es combina amb el que hi ha en aquest perfil, com en importar un fitxer. La vols recuperar?",
     "Copia en Nostr": "Còpia a Nostr",
+    "Copia en Nostr por apartados: rutinas y planes, entrenos y progreso, diario, peso y ciclo, y ajustes. Al guardar y al recuperar eliges cuáles.": "Còpia a Nostr per apartats: rutines i plans, entrenaments i progrés, diari, pes i cicle, i ajustos. En desar i en recuperar tries quins.",
     "Copia guardada en Nostr": "Còpia desada a Nostr",
     "copia incompleta": "còpia incompleta",
     "Copia más nueva en Nostr": "Còpia més nova a Nostr",
@@ -6864,6 +6971,7 @@ const I18N = {
     "Diaria / otras": "Diària / altres",
     "Diario": "Diari",
     "Diario en filas: cada dato del día en una fila con su icono, detalle y valor (entreno primero); lo que falta, en «Añadir a este día». El peso se anota aquí.": "Diari en files: cada dada del dia en una fila amb la seva icona, detall i valor (l'entrenament primer); el que falta, a «Afegir a aquest dia». El pes s'anota aquí.",
+    "Diario, peso y ciclo": "Diari, pes i cicle",
     "Diario: nota de la sesión y notas de cada ejercicio editables después de terminar.": "Diari: nota de la sessió i notes de cada exercici editables després d'acabar.",
     "días": "dies",
     "Días con Diaria": "Dies amb Diària",
@@ -6953,9 +7061,11 @@ const I18N = {
     "Elegir fecha": "Tria una data",
     "Elegir otro": "Tria'n un altre",
     "Elegirlo yo": "Triar-lo jo",
+    "Elige al menos un apartado": "Tria almenys un apartat",
     "Elige al menos un día": "Tria almenys un dia",
     "Elige hombre o mujer": "Tria home o dona",
     "Eliges los ejercicios, las series y los descansos.": "Tries els exercicis, les sèries i els descansos.",
+    "Eliges qué apartados traer; se combinan con lo que hay en este perfil.": "Tries quins apartats portar; es combinen amb el que hi ha en aquest perfil.",
     "Eliminar": "Elimina",
     "Eliminar plan": "Elimina el pla",
     "Eliminar sesión": "Elimina la sessió",
@@ -7003,6 +7113,7 @@ const I18N = {
     "Entreno con regularidad": "Entreno amb regularitat",
     "Entreno por fase": "Entrenament per fase",
     "Entrenos del día": "Entrenaments del dia",
+    "Entrenos y progreso": "Entrenaments i progrés",
     "Entrenos, rutinas y plan": "Entrenaments, rutines i pla",
     "Equilibrio izq. / der.": "Equilibri esq. / dre.",
     "Errores típicos": "Errors típics",
@@ -7137,6 +7248,7 @@ const I18N = {
     "Importar {r} rutinas, {s} sesiones, {w} pesos y {d} días de diario. Se combinarán con tus datos actuales. ¿Continuar?": "S'importaran {r} rutines, {s} sessions, {w} pesos i {d} dies de diari, combinats amb les teves dades actuals. Vols continuar?",
     "Importar el plan de progresión. Sustituirá al plan actual, si lo hay. ¿Continuar?": "Vols importar el pla de progressió? Substituirà el pla actual, si n'hi ha.",
     "Importar JSON": "Importa JSON",
+    "Importar los ajustes y el historial de progresión de la copia. ¿Continuar?": "Importar els ajustos i l'historial de progressió de la còpia. Continuar?",
     "Importar una copia o rutinas": "Importar una còpia o rutines",
     "Imprimir": "Imprimeix",
     "Imprimir / guardar PDF": "Imprimeix / desa en PDF",
@@ -7147,6 +7259,7 @@ const I18N = {
     "Incluir en las indicaciones": "Incloure a les indicacions",
     "Incluir plan de progresión": "Incloure el pla de progressió",
     "Incluye el plan de progresión.": "Inclou el pla de progressió.",
+    "Incluye los ajustes, que sustituirán a los actuales.": "Inclou els ajustos, que substituiran els actuals.",
     "Incluye un plan, que sustituirá al actual.": "Inclou un pla, que substituirà l'actual.",
     "Indicaciones copiadas": "Indicacions copiades",
     "Informar de un problema": "Informar d'un problema",
@@ -7174,7 +7287,7 @@ const I18N = {
     "JSON para compartir o pasar a otro móvil.": "JSON per compartir o passar a un altre mòbil.",
     "L": "Dl",
     "L,M,X,J,V,S,D": "Dl,Dt,Dc,Dj,Dv,Ds,Dg",
-    "La copia completa, cifrada para que solo tú puedas leerla.": "La còpia completa, xifrada perquè només tu la puguis llegir.",
+    "La copia, en Nostr y en archivo, lleva ahora también los ajustes (material, catálogo, tiempos, progresión, tema, idioma…) y el historial de subidas de ejercicio.": "La còpia, a Nostr i en arxiu, porta ara també els ajustos (material, catàleg, temps, progressió, tema, idioma…) i l'historial de pujades d'exercici.",
     "La más larga": "La més llarga",
     "La misma Usus, instalada como app. Sus datos van aparte: exporta una copia aquí e impórtala allí.": "La mateixa Usus, instal·lada com a app. Les seves dades van a part: exporta una còpia aquí i importa-la allà.",
     "La noche que termina este día.": "La nit que acaba aquest dia.",
@@ -7307,6 +7420,7 @@ const I18N = {
     "No entrené": "No he entrenat",
     "No habrías podido hacer mucho más.": "No hauries pogut fer gaire més.",
     "No hago ejercicio o hace mucho que lo dejé.": "No faig exercici o fa molt que ho vaig deixar.",
+    "No hay copia": "No hi ha còpia",
     "No hay datos para exportar": "No hi ha dades per exportar",
     "No hay ejercicios por vincular.": "No hi ha exercicis per vincular.",
     "No hay ninguna copia de Usus en Nostr con esta cuenta": "No hi ha cap còpia d'Usus a Nostr amb aquest compte",
@@ -7411,6 +7525,7 @@ const I18N = {
     "Otro": "Altre",
     "Otro material (sin icono)": "Altre material (sense icona)",
     "Otro motivo": "Un altre motiu",
+    "Otro perfil": "Un altre perfil",
     "Otros": "Altres",
     "Otros deportes o actividades": "Altres esports o activitats",
     "Ovulación (aprox.)": "Ovulació (aprox.)",
@@ -7571,6 +7686,7 @@ const I18N = {
     "Qué esperabas": "Què esperaves",
     "Qué ha pasado": "Què ha passat",
     "Qué hay de nuevo": "Què hi ha de nou",
+    "Qué recuperar": "Què recuperar",
     "Qué rutinas entran en cada variante y qué días tocan. «Todas las semanas» se sugiere siempre, también en descarga (como la Diaria).": "Quines rutines entren a cada variant i quins dies toquen. «Totes les setmanes» se suggereix sempre, també en descàrrega (com la Diària).",
     "Qué te gustaría": "Què t'agradaria",
     "Qué trae cada versión": "Què porta cada versió",
@@ -7657,6 +7773,8 @@ const I18N = {
     "Rutinas hechas y pendientes": "Rutines fetes i pendents",
     "Rutinas por variante": "Rutines per variant",
     "Rutinas y días": "Rutines i dies",
+    "Rutinas y planes": "Rutines i plans",
+    "Rutinas, entrenos, diario y ajustes, por separado y cifrados para que solo tú puedas leerlos.": "Rutines, entrenaments, diari i ajustos, per separat i xifrats perquè només tu els puguis llegir.",
     "S": "Ds",
     "S{n}": "S{n}",
     "Salidas en 30 días": "Sortides en 30 dies",
@@ -7675,9 +7793,9 @@ const I18N = {
     "Se borrarán las reglas, síntomas y ajustes del ciclo. El resto de datos no se toca. ¿Continuar?": "S'esborraran les regles, símptomes i ajustos del cicle. La resta de dades no es toca. Vols continuar?",
     "Se borrarán todas las rutinas, sesiones y pesos de este dispositivo. ¿Has hecho una copia?": "S'esborraran totes les rutines, sessions i pesos d'aquest dispositiu. Has fet una còpia?",
     "Se borrarán todos los datos de «{x}» en este dispositivo. Los demás perfiles no se tocan. ¿Has hecho una copia?": "S'esborraran totes les dades de «{x}» en aquest dispositiu. Els altres perfils no es toquen. Has fet una còpia?",
+    "Se combina con lo que hay en este perfil, como al importar un archivo. Los ajustes sustituyen a los actuales.": "Es combina amb el que hi ha en aquest perfil, com en importar un arxiu. Els ajustos substitueixen els actuals.",
     "Se evitan los ejercicios que más cargan esa zona.": "S'eviten els exercicis que més carreguen aquesta zona.",
     "Se guarda únicamente en este móvil, dentro de este perfil.": "Es desa únicament en aquest mòbil, dins d'aquest perfil.",
-    "Se guardará en Nostr la copia completa de este perfil, cifrada para que solo tú puedas leerla. Tu bunker pedirá aprobar varias firmas. ¿Seguir?": "Es desarà a Nostr la còpia completa d'aquest perfil, xifrada perquè només tu la puguis llegir. El teu bunker demanarà aprovar diverses signatures. Continuar?",
     "Se ha aplicado la regla de tu plan: {x}.": "S'ha aplicat la regla del teu pla: {x}.",
     "Se ofrece tal cual, sin garantías de ningún tipo. La usas bajo tu responsabilidad.": "S'ofereix tal com és, sense garanties de cap mena. La fas servir sota la teva responsabilitat.",
     "Se parece un {p} % a «{x}», que ya tienes": "S'assembla un {p} % a «{x}», que ja tens",
@@ -7888,7 +8006,6 @@ const I18N = {
     "Tracción": "Tracció",
     "Tracción horizontal": "Tracció horitzontal",
     "Tracción vertical": "Tracció vertical",
-    "Trae tu copia y la combina con lo que hay en este perfil.": "Porta la teva còpia i la combina amb el que hi ha en aquest perfil.",
     "Tras el descanso, la siguiente serie por tiempo empieza sola": "Després del descans, la sèrie per temps següent comença sola",
     "Tres sonidos: tic en los últimos segundos de cualquier cuenta atrás, inicio y fin. La vibración respeta siempre Ajustes → Avisos.": "Tres sons: tic als últims segons de qualsevol compte enrere, inici i fi. La vibració respecta sempre Ajustos → Avisos.",
     "Tu bunker pide autorizar a Usus: acéptalo y vuelve.": "El teu bunker demana autoritzar Usus: accepta-ho i torna.",
@@ -8259,6 +8376,7 @@ const I18N = {
     "Cada (semanas de entreno)": "Every (training weeks)",
     "Cada ficha indica su rol (principal, accesorio, movilidad, calentamiento o cardio), el rango recomendado por serie y las articulaciones que más carga. Al añadir un ejercicio del catálogo, las repeticiones o segundos salen en mitad de ese rango.": "Each card shows its role (main, accessory, mobility, warm-up or cardio), the recommended range per set and the joints it loads most. When you add an exercise from the catalogue, reps or seconds start in the middle of that range.",
     "Cada perfil decide. Se puede cambiar en Ajustes → App.": "Each profile decides. You can change it in Settings → App.",
+    "Cada perfil guarda su copia de Nostr aparte: la de otro perfil o la de la web ya no pisa la tuya. La copia automática solo guarda lo que ha cambiado.": "Each profile keeps its own Nostr backup: another profile's or the web's no longer overwrites yours. The automatic backup only saves what has changed.",
     "Cada perfil tiene sus propios datos y ajustes.": "Each profile has its own data and settings.",
     "cadera": "hips",
     "Caja / banco": "Box / bench",
@@ -8308,6 +8426,7 @@ const I18N = {
     "Ciclo (reglas y síntomas)": "Cycle (periods and symptoms)",
     "Ciclos irregulares: la estimación es menos fiable.": "Irregular cycles: the estimate is less reliable.",
     "Ciclos registrados": "Cycles logged",
+    "Cifrada para que solo tú puedas leerla. Cada apartado se guarda por separado y no pisa a los demás.": "Encrypted so only you can read it. Each section is saved separately and doesn't overwrite the others.",
     "Circuito": "Circuit",
     "Claro": "Light",
     "Clave pública": "Public key",
@@ -8354,14 +8473,16 @@ const I18N = {
     "Constancia marca aparte los días con «No entrené».": "Consistency shows “Didn't train” days separately.",
     "Continuar": "Continue",
     "copia": "backup",
+    "Copia anterior (una sola pieza)": "Previous backup (single piece)",
     "Copia automática": "Automatic backup",
     "Copia completa": "Full backup",
+    "Copia completa del {d}, de antes de los apartados.": "Full backup from {d}, from before sections.",
     "Copia completa o solo rutinas. Se combina con lo existente; los duplicados se actualizan.": "Full backup or routines only. Merged with existing data; duplicates are updated.",
     "Copia de {x}": "Copy of {x}",
     "Copia de seguridad": "Backup",
     "Copia de seguridad en Nostr: la copia completa, comprimida y cifrada para que solo tú puedas leerla. «Guardar copia en Nostr» y «Recuperar de Nostr», por ejemplo para pasar tus datos a otro móvil.": "Backup on Nostr: the full backup, compressed and encrypted so only you can read it. “Save backup to Nostr” and “Restore from Nostr”, for example to move your data to another phone.",
-    "Copia del {d} ({p}). Se combina con lo que hay en este perfil, como al importar un archivo. ¿Recuperarla?": "Backup from {d} ({p}). It's merged with what's in this profile, like importing a file. Restore it?",
     "Copia en Nostr": "Backup on Nostr",
+    "Copia en Nostr por apartados: rutinas y planes, entrenos y progreso, diario, peso y ciclo, y ajustes. Al guardar y al recuperar eliges cuáles.": "Nostr backup by sections: routines and plans, workouts and progress, diary, weight and cycle, and settings. When saving and restoring you choose which.",
     "Copia guardada en Nostr": "Backup saved on Nostr",
     "copia incompleta": "incomplete backup",
     "Copia más nueva en Nostr": "Newer backup on Nostr",
@@ -8467,6 +8588,7 @@ const I18N = {
     "Diaria / otras": "Daily / other",
     "Diario": "Diary",
     "Diario en filas: cada dato del día en una fila con su icono, detalle y valor (entreno primero); lo que falta, en «Añadir a este día». El peso se anota aquí.": "Diary in rows: each item of the day in a row with its icon, detail and value (training first); anything missing goes under “Add to this day”. Weight is logged here.",
+    "Diario, peso y ciclo": "Diary, weight and cycle",
     "Diario: nota de la sesión y notas de cada ejercicio editables después de terminar.": "Diary: session note and each exercise's note can be edited after finishing.",
     "días": "days",
     "Días con Diaria": "Days with Daily",
@@ -8556,9 +8678,11 @@ const I18N = {
     "Elegir fecha": "Pick a date",
     "Elegir otro": "Choose another",
     "Elegirlo yo": "Choose it myself",
+    "Elige al menos un apartado": "Choose at least one section",
     "Elige al menos un día": "Choose at least one day",
     "Elige hombre o mujer": "Choose man or woman",
     "Eliges los ejercicios, las series y los descansos.": "You choose the exercises, sets and rests.",
+    "Eliges qué apartados traer; se combinan con lo que hay en este perfil.": "Choose which sections to bring; they're merged with what's in this profile.",
     "Eliminar": "Delete",
     "Eliminar plan": "Delete plan",
     "Eliminar sesión": "Delete session",
@@ -8606,6 +8730,7 @@ const I18N = {
     "Entreno con regularidad": "I train regularly",
     "Entreno por fase": "Training by phase",
     "Entrenos del día": "Workouts of the day",
+    "Entrenos y progreso": "Workouts and progress",
     "Entrenos, rutinas y plan": "Workouts, routines and plan",
     "Equilibrio izq. / der.": "Left / right balance",
     "Errores típicos": "Common mistakes",
@@ -8740,6 +8865,7 @@ const I18N = {
     "Importar {r} rutinas, {s} sesiones, {w} pesos y {d} días de diario. Se combinarán con tus datos actuales. ¿Continuar?": "Import {r} routines, {s} sessions, {w} weights and {d} diary days? They'll be merged with your current data.",
     "Importar el plan de progresión. Sustituirá al plan actual, si lo hay. ¿Continuar?": "Import the progression plan? It will replace the current plan, if any.",
     "Importar JSON": "Import JSON",
+    "Importar los ajustes y el historial de progresión de la copia. ¿Continuar?": "Import the settings and progression history from the backup. Continue?",
     "Importar una copia o rutinas": "Import a backup or routines",
     "Imprimir": "Print",
     "Imprimir / guardar PDF": "Print / save PDF",
@@ -8750,6 +8876,7 @@ const I18N = {
     "Incluir en las indicaciones": "Include in the instructions",
     "Incluir plan de progresión": "Include progression plan",
     "Incluye el plan de progresión.": "Includes the progression plan.",
+    "Incluye los ajustes, que sustituirán a los actuales.": "Includes settings, which will replace the current ones.",
     "Incluye un plan, que sustituirá al actual.": "Includes a plan, which will replace the current one.",
     "Indicaciones copiadas": "Instructions copied",
     "Informar de un problema": "Report a problem",
@@ -8777,7 +8904,7 @@ const I18N = {
     "JSON para compartir o pasar a otro móvil.": "JSON to share or move to another phone.",
     "L": "M",
     "L,M,X,J,V,S,D": "M,T,W,T,F,S,S",
-    "La copia completa, cifrada para que solo tú puedas leerla.": "The full backup, encrypted so only you can read it.",
+    "La copia, en Nostr y en archivo, lleva ahora también los ajustes (material, catálogo, tiempos, progresión, tema, idioma…) y el historial de subidas de ejercicio.": "The backup, on Nostr and as a file, now also carries your settings (equipment, catalogue, timers, progression, theme, language…) and the history of exercise move-ups.",
     "La más larga": "Longest",
     "La misma Usus, instalada como app. Sus datos van aparte: exporta una copia aquí e impórtala allí.": "The same Usus, installed as an app. Its data is separate: export a backup here and import it there.",
     "La noche que termina este día.": "The night that ends on this day.",
@@ -8910,6 +9037,7 @@ const I18N = {
     "No entrené": "Didn't train",
     "No habrías podido hacer mucho más.": "You couldn't have done much more.",
     "No hago ejercicio o hace mucho que lo dejé.": "I don't exercise, or stopped a long time ago.",
+    "No hay copia": "No backup",
     "No hay datos para exportar": "No data to export",
     "No hay ejercicios por vincular.": "No exercises to link.",
     "No hay ninguna copia de Usus en Nostr con esta cuenta": "There's no Usus backup on Nostr for this account",
@@ -9014,6 +9142,7 @@ const I18N = {
     "Otro": "Other",
     "Otro material (sin icono)": "Other equipment (no icon)",
     "Otro motivo": "Other reason",
+    "Otro perfil": "Another profile",
     "Otros": "Other",
     "Otros deportes o actividades": "Other sports or activities",
     "Ovulación (aprox.)": "Ovulation (approx.)",
@@ -9174,6 +9303,7 @@ const I18N = {
     "Qué esperabas": "What you expected",
     "Qué ha pasado": "What happened",
     "Qué hay de nuevo": "What's new",
+    "Qué recuperar": "What to restore",
     "Qué rutinas entran en cada variante y qué días tocan. «Todas las semanas» se sugiere siempre, también en descarga (como la Diaria).": "Which routines go in each variant and on which days. “Every week” is always suggested, deload weeks included (like the Daily).",
     "Qué te gustaría": "What you'd like",
     "Qué trae cada versión": "What each version brings",
@@ -9260,6 +9390,8 @@ const I18N = {
     "Rutinas hechas y pendientes": "Routines done and to do",
     "Rutinas por variante": "Routines by variant",
     "Rutinas y días": "Routines and days",
+    "Rutinas y planes": "Routines and plans",
+    "Rutinas, entrenos, diario y ajustes, por separado y cifrados para que solo tú puedas leerlos.": "Routines, workouts, diary and settings, separately and encrypted so only you can read them.",
     "S": "S",
     "S{n}": "W{n}",
     "Salidas en 30 días": "Outings in 30 days",
@@ -9278,9 +9410,9 @@ const I18N = {
     "Se borrarán las reglas, síntomas y ajustes del ciclo. El resto de datos no se toca. ¿Continuar?": "Periods, symptoms and cycle settings will be deleted. Nothing else is touched. Continue?",
     "Se borrarán todas las rutinas, sesiones y pesos de este dispositivo. ¿Has hecho una copia?": "All routines, sessions and weights on this device will be deleted. Have you made a backup?",
     "Se borrarán todos los datos de «{x}» en este dispositivo. Los demás perfiles no se tocan. ¿Has hecho una copia?": "All of “{x}”'s data on this device will be deleted. Other profiles aren't touched. Have you made a backup?",
+    "Se combina con lo que hay en este perfil, como al importar un archivo. Los ajustes sustituyen a los actuales.": "It's merged with what's in this profile, as when importing a file. Settings replace the current ones.",
     "Se evitan los ejercicios que más cargan esa zona.": "Exercises that load that area most are avoided.",
     "Se guarda únicamente en este móvil, dentro de este perfil.": "It's stored only on this phone, inside this profile.",
-    "Se guardará en Nostr la copia completa de este perfil, cifrada para que solo tú puedas leerla. Tu bunker pedirá aprobar varias firmas. ¿Seguir?": "The full backup of this profile will be saved on Nostr, encrypted so only you can read it. Your bunker will ask you to approve several signatures. Continue?",
     "Se ha aplicado la regla de tu plan: {x}.": "Your plan's rule was applied: {x}.",
     "Se ofrece tal cual, sin garantías de ningún tipo. La usas bajo tu responsabilidad.": "Provided as is, without warranty of any kind. Use it at your own risk.",
     "Se parece un {p} % a «{x}», que ya tienes": "{p}% similar to “{x}”, which you already have",
@@ -9491,7 +9623,6 @@ const I18N = {
     "Tracción": "Pull",
     "Tracción horizontal": "Horizontal pull",
     "Tracción vertical": "Vertical pull",
-    "Trae tu copia y la combina con lo que hay en este perfil.": "Brings your backup and merges it with what's in this profile.",
     "Tras el descanso, la siguiente serie por tiempo empieza sola": "After the rest, the next timed set starts on its own",
     "Tres sonidos: tic en los últimos segundos de cualquier cuenta atrás, inicio y fin. La vibración respeta siempre Ajustes → Avisos.": "Three sounds: a tick in the last seconds of any countdown, start and end. Vibration always follows Settings → Alerts.",
     "Tu bunker pide autorizar a Usus: acéptalo y vuelve.": "Your bunker asks you to authorise Usus: accept and come back.",

@@ -843,6 +843,9 @@ msgstr "Each card shows its role (main, accessory, mobility, warm-up or cardio),
 msgid "Cada perfil decide. Se puede cambiar en Ajustes → App."
 msgstr "Each profile decides. You can change it in Settings → App."
 
+msgid "Cada perfil guarda su copia de Nostr aparte: la de otro perfil o la de la web ya no pisa la tuya. La copia automática solo guarda lo que ha cambiado."
+msgstr "Each profile keeps its own Nostr backup: another profile's or the web's no longer overwrites yours. The automatic backup only saves what has changed."
+
 msgid "Cada perfil tiene sus propios datos y ajustes."
 msgstr "Each profile has its own data and settings."
 
@@ -993,6 +996,9 @@ msgstr "Irregular cycles: the estimate is less reliable."
 msgid "Ciclos registrados"
 msgstr "Cycles logged"
 
+msgid "Cifrada para que solo tú puedas leerla. Cada apartado se guarda por separado y no pisa a los demás."
+msgstr "Encrypted so only you can read it. Each section is saved separately and doesn't overwrite the others."
+
 msgid "Circuito"
 msgstr "Circuit"
 
@@ -1132,11 +1138,18 @@ msgstr "Continue"
 msgid "copia"
 msgstr "backup"
 
+msgid "Copia anterior (una sola pieza)"
+msgstr "Previous backup (single piece)"
+
 msgid "Copia automática"
 msgstr "Automatic backup"
 
 msgid "Copia completa"
 msgstr "Full backup"
+
+#, python-brace-format
+msgid "Copia completa del {d}, de antes de los apartados."
+msgstr "Full backup from {d}, from before sections."
 
 msgid "Copia completa o solo rutinas. Se combina con lo existente; los duplicados se actualizan."
 msgstr "Full backup or routines only. Merged with existing data; duplicates are updated."
@@ -1151,12 +1164,11 @@ msgstr "Backup"
 msgid "Copia de seguridad en Nostr: la copia completa, comprimida y cifrada para que solo tú puedas leerla. «Guardar copia en Nostr» y «Recuperar de Nostr», por ejemplo para pasar tus datos a otro móvil."
 msgstr "Backup on Nostr: the full backup, compressed and encrypted so only you can read it. “Save backup to Nostr” and “Restore from Nostr”, for example to move your data to another phone."
 
-#, python-brace-format
-msgid "Copia del {d} ({p}). Se combina con lo que hay en este perfil, como al importar un archivo. ¿Recuperarla?"
-msgstr "Backup from {d} ({p}). It's merged with what's in this profile, like importing a file. Restore it?"
-
 msgid "Copia en Nostr"
 msgstr "Backup on Nostr"
+
+msgid "Copia en Nostr por apartados: rutinas y planes, entrenos y progreso, diario, peso y ciclo, y ajustes. Al guardar y al recuperar eliges cuáles."
+msgstr "Nostr backup by sections: routines and plans, workouts and progress, diary, weight and cycle, and settings. When saving and restoring you choose which."
 
 msgid "Copia guardada en Nostr"
 msgstr "Backup saved on Nostr"
@@ -1490,6 +1502,9 @@ msgstr "Diary"
 msgid "Diario en filas: cada dato del día en una fila con su icono, detalle y valor (entreno primero); lo que falta, en «Añadir a este día». El peso se anota aquí."
 msgstr "Diary in rows: each item of the day in a row with its icon, detail and value (training first); anything missing goes under “Add to this day”. Weight is logged here."
 
+msgid "Diario, peso y ciclo"
+msgstr "Diary, weight and cycle"
+
 msgid "Diario: nota de la sesión y notas de cada ejercicio editables después de terminar."
 msgstr "Diary: session note and each exercise's note can be edited after finishing."
 
@@ -1764,6 +1779,9 @@ msgstr "Choose another"
 msgid "Elegirlo yo"
 msgstr "Choose it myself"
 
+msgid "Elige al menos un apartado"
+msgstr "Choose at least one section"
+
 msgid "Elige al menos un día"
 msgstr "Choose at least one day"
 
@@ -1772,6 +1790,9 @@ msgstr "Choose man or woman"
 
 msgid "Eliges los ejercicios, las series y los descansos."
 msgstr "You choose the exercises, sets and rests."
+
+msgid "Eliges qué apartados traer; se combinan con lo que hay en este perfil."
+msgstr "Choose which sections to bring; they're merged with what's in this profile."
 
 msgid "Eliminar"
 msgstr "Delete"
@@ -1916,6 +1937,9 @@ msgstr "Training by phase"
 
 msgid "Entrenos del día"
 msgstr "Workouts of the day"
+
+msgid "Entrenos y progreso"
+msgstr "Workouts and progress"
 
 msgid "Entrenos, rutinas y plan"
 msgstr "Workouts, routines and plan"
@@ -2326,6 +2350,9 @@ msgstr "Import the progression plan? It will replace the current plan, if any."
 msgid "Importar JSON"
 msgstr "Import JSON"
 
+msgid "Importar los ajustes y el historial de progresión de la copia. ¿Continuar?"
+msgstr "Import the settings and progression history from the backup. Continue?"
+
 msgid "Importar una copia o rutinas"
 msgstr "Import a backup or routines"
 
@@ -2355,6 +2382,9 @@ msgstr "Include progression plan"
 
 msgid "Incluye el plan de progresión."
 msgstr "Includes the progression plan."
+
+msgid "Incluye los ajustes, que sustituirán a los actuales."
+msgstr "Includes settings, which will replace the current ones."
 
 msgid "Incluye un plan, que sustituirá al actual."
 msgstr "Includes a plan, which will replace the current one."
@@ -2437,8 +2467,8 @@ msgstr "M"
 msgid "L,M,X,J,V,S,D"
 msgstr "M,T,W,T,F,S,S"
 
-msgid "La copia completa, cifrada para que solo tú puedas leerla."
-msgstr "The full backup, encrypted so only you can read it."
+msgid "La copia, en Nostr y en archivo, lleva ahora también los ajustes (material, catálogo, tiempos, progresión, tema, idioma…) y el historial de subidas de ejercicio."
+msgstr "The backup, on Nostr and as a file, now also carries your settings (equipment, catalogue, timers, progression, theme, language…) and the history of exercise move-ups."
 
 msgid "La más larga"
 msgstr "Longest"
@@ -2846,6 +2876,9 @@ msgstr "You couldn't have done much more."
 msgid "No hago ejercicio o hace mucho que lo dejé."
 msgstr "I don't exercise, or stopped a long time ago."
 
+msgid "No hay copia"
+msgstr "No backup"
+
 msgid "No hay datos para exportar"
 msgstr "No data to export"
 
@@ -3173,6 +3206,9 @@ msgstr "Other equipment (no icon)"
 
 msgid "Otro motivo"
 msgstr "Other reason"
+
+msgid "Otro perfil"
+msgstr "Another profile"
 
 msgid "Otros"
 msgstr "Other"
@@ -3671,6 +3707,9 @@ msgstr "What happened"
 msgid "Qué hay de nuevo"
 msgstr "What's new"
 
+msgid "Qué recuperar"
+msgstr "What to restore"
+
 msgid "Qué rutinas entran en cada variante y qué días tocan. «Todas las semanas» se sugiere siempre, también en descarga (como la Diaria)."
 msgstr "Which routines go in each variant and on which days. “Every week” is always suggested, deload weeks included (like the Daily)."
 
@@ -3942,6 +3981,12 @@ msgstr "Routines by variant"
 msgid "Rutinas y días"
 msgstr "Routines and days"
 
+msgid "Rutinas y planes"
+msgstr "Routines and plans"
+
+msgid "Rutinas, entrenos, diario y ajustes, por separado y cifrados para que solo tú puedas leerlos."
+msgstr "Routines, workouts, diary and settings, separately and encrypted so only you can read them."
+
 msgid "S"
 msgstr "S"
 
@@ -3999,14 +4044,14 @@ msgstr "All routines, sessions and weights on this device will be deleted. Have 
 msgid "Se borrarán todos los datos de «{x}» en este dispositivo. Los demás perfiles no se tocan. ¿Has hecho una copia?"
 msgstr "All of “{x}”'s data on this device will be deleted. Other profiles aren't touched. Have you made a backup?"
 
+msgid "Se combina con lo que hay en este perfil, como al importar un archivo. Los ajustes sustituyen a los actuales."
+msgstr "It's merged with what's in this profile, as when importing a file. Settings replace the current ones."
+
 msgid "Se evitan los ejercicios que más cargan esa zona."
 msgstr "Exercises that load that area most are avoided."
 
 msgid "Se guarda únicamente en este móvil, dentro de este perfil."
 msgstr "It's stored only on this phone, inside this profile."
-
-msgid "Se guardará en Nostr la copia completa de este perfil, cifrada para que solo tú puedas leerla. Tu bunker pedirá aprobar varias firmas. ¿Seguir?"
-msgstr "The full backup of this profile will be saved on Nostr, encrypted so only you can read it. Your bunker will ask you to approve several signatures. Continue?"
 
 #, python-brace-format
 msgid "Se ha aplicado la regla de tu plan: {x}."
@@ -4672,9 +4717,6 @@ msgstr "Horizontal pull"
 msgid "Tracción vertical"
 msgstr "Vertical pull"
 
-msgid "Trae tu copia y la combina con lo que hay en este perfil."
-msgstr "Brings your backup and merges it with what's in this profile."
-
 msgid "Tras el descanso, la siguiente serie por tiempo empieza sola"
 msgstr "After the rest, the next timed set starts on its own"
 
@@ -5031,6 +5073,19 @@ msgstr "Lower back"
 
 msgid "Zona peligrosa"
 msgstr "Danger zone"
+
+#, python-brace-format
+#~ msgid "Copia del {d} ({p}). Se combina con lo que hay en este perfil, como al importar un archivo. ¿Recuperarla?"
+#~ msgstr "Backup from {d} ({p}). It's merged with what's in this profile, like importing a file. Restore it?"
+
+#~ msgid "La copia completa, cifrada para que solo tú puedas leerla."
+#~ msgstr "The full backup, encrypted so only you can read it."
+
+#~ msgid "Se guardará en Nostr la copia completa de este perfil, cifrada para que solo tú puedas leerla. Tu bunker pedirá aprobar varias firmas. ¿Seguir?"
+#~ msgstr "The full backup of this profile will be saved on Nostr, encrypted so only you can read it. Your bunker will ask you to approve several signatures. Continue?"
+
+#~ msgid "Trae tu copia y la combina con lo que hay en este perfil."
+#~ msgstr "Brings your backup and merges it with what's in this profile."
 
 #~ msgid "Antes de empezar: debajo de «Iniciar», el material que necesita la rutina, en una línea. Lo que no tienes en «Mi material» sale marcado."
 #~ msgstr "Before starting: below “Start”, the equipment the routine needs, in one line. Anything not in “My equipment” is marked."

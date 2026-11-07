@@ -1,8 +1,8 @@
 /* ---------- Nostr (3.6.0): cuenta con bunker, copia cifrada y publicar ----------
    - Se entra con Amber (APK), una extensión del navegador (NIP-07) o un bunker (NIP-46). Usus no ve ni guarda la nsec.
    - Con solo la npub, solo lectura: se ve el perfil, pero no hay copias ni publicar (no se puede firmar ni descifrar).
-   - Copia de seguridad: la misma copia completa del archivo, comprimida (gzip) y cifrada con NIP-44 para uno mismo,
-     en eventos de datos de app (kind 30078): d=usus/backup (índice) y d=usus/backup/N (partes). Nadie más la puede leer.
+   - Copia de seguridad: la del archivo, por apartados, comprimida (gzip) y cifrada con NIP-44 para uno mismo,
+     en eventos de datos de app (kind 30078): ver nsBackupSave. Nadie más la puede leer.
    - Publicar: nota pública (kind 1) que se revisa antes; el entreno puede llevar su imagen (subida a Blossom).
    - La librería (nostr.js) se carga solo al usar Nostr: sin usarlo, Usus no se conecta a nada.
    wk.nostr (por perfil) = { bp: {pubkey, relays}, sk, pubkey, npub, name, relays, blossom, lastBk } */
@@ -105,52 +105,118 @@ async function nsDisconnect() {
   NS.save(null); toast(T("Cuenta de Nostr desconectada")); render();
 }
 
-/* Copia de seguridad cifrada para uno mismo */
-async function nsBackupSave(auto) {
-  if (!auto && !confirm(T("Se guardará en Nostr la copia completa de este perfil, cifrada para que solo tú puedas leerla. Tu bunker pedirá aprobar varias firmas. ¿Seguir?"))) return;
-  nsBusy(T("Preparando la copia…"));
+/* Copia de seguridad cifrada para uno mismo, por apartados (3.7.2). Cada perfil tiene su sitio: d = usus/p/<perfil>/<apartado>
+   (índice cifrado: partes, longitud, fecha) y usus/p/<perfil>/<apartado>/N (partes). Así una copia de otro perfil, o
+   de un apartado, no pisa a las demás. La copia anterior (d = usus/backup, una sola pieza) se puede seguir recuperando. */
+const NS_SECS = [["rut", N_("Rutinas y planes")], ["ent", N_("Entrenos y progreso")], ["dia", N_("Diario, peso y ciclo")], ["aj", N_("Ajustes")]];
+const nsSecName = k => T((NS_SECS.find(s => s[0] === k) || [k, k])[1]);
+const nsD = (pid, s) => `usus/p/${pid}/${s}`;
+const nsDRe = /^usus\/p\/([^/]+)\/(rut|ent|dia|aj)$/;
+async function nsHash(text) { return [...new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text)))].slice(0, 12).map(b => b.toString(16).padStart(2, "0")).join(""); }
+/* Guardar: los apartados elegidos; en la copia automática, solo los que han cambiado desde la última */
+async function nsBackupSave(auto, secs) {
+  secs = secs?.length ? secs : NS_SECS.map(s => s[0]);
   try {
-    const L = await nsSigner(), c = NS.cfg(), rel = nsRelays(), now = Math.floor(Date.now() / 1000);
-    const z = await gzB64(JSON.stringify(backupObj())), parts = [];
-    for (let i = 0; i < z.length; i += NS_PART) parts.push(z.slice(i, i + NS_PART));
-    const put = async (d, text, k, n) => { nsBusy(T("Guardando {k} de {n}… acepta en tu bunker si lo pide.", { k, n }));
+    const c0 = NS.cfg(), pid = curProf().id, h = { ...(c0.h || {}) }, todo = [];
+    for (const s of secs) { const o = backupObj([s]), sig = await nsHash(JSON.stringify({ ...o, exported: 0 })); if (!auto || h[s] !== sig) todo.push([s, o, sig]); }
+    if (!todo.length) return;
+    nsBusy(T("Preparando la copia…"));
+    const L = await nsSigner(), c = NS.cfg(), rel = nsRelays(), now = Math.floor(Date.now() / 1000), plan = [];
+    for (const [s, o, sig] of todo) { const z = await gzB64(JSON.stringify(o)), parts = []; for (let i = 0; i < z.length; i += NS_PART) parts.push(z.slice(i, i + NS_PART)); plan.push({ s, z, parts, sig }); }
+    const n = plan.reduce((a, x) => a + x.parts.length + 1, 0); let k = 0;
+    const put = async (d, text) => { k++; nsBusy(T("Guardando {k} de {n}… acepta en tu bunker si lo pide.", { k, n }));
       const ev = await nsTime(L.sign({ kind: 30078, created_at: now, tags: [["d", d]], content: await nsTime(L.encrypt(c.pubkey, text), 90000) }), 90000);
       await nsTime(L.publish(rel, ev), 30000); };
-    for (let i = 0; i < parts.length; i++) await put(`usus/backup/${i}`, parts[i], i + 1, parts.length + 1);
-    await put("usus/backup", JSON.stringify({ v: 1, parts: parts.length, len: z.length, t: Date.now(), app: APP_VERSION, profile: profName(curProf()) }), parts.length + 1, parts.length + 1);
-    NS.save({ ...NS.cfg(), lastBk: Date.now(), seen: now }); LS.set("wk.lastBackup", Date.now()); state.nsNewer = null;
+    for (const x of plan) {
+      for (let i = 0; i < x.parts.length; i++) await put(`${nsD(pid, x.s)}/${i}`, x.parts[i]);
+      await put(nsD(pid, x.s), JSON.stringify({ v: 2, s: x.s, parts: x.parts.length, len: x.z.length, t: Date.now(), app: APP_VERSION, profile: profName(curProf()) }));
+      h[x.s] = x.sig;
+    }
+    NS.save({ ...NS.cfg(), h, lastBk: Date.now(), seen: now }); LS.set("wk.lastBackup", Date.now()); state.nsNewer = null; state.nsBk = null;
     toast(T("Copia guardada en Nostr"));
   } catch (e) { toast(T("No se pudo guardar la copia en Nostr: {x}", { x: nsErr(e) }), 5000); }
   nsBusy(null);
 }
+/* Recuperar: busca las copias de esta cuenta (por perfil) y se eligen los apartados */
 async function nsBackupLoad() {
-  nsBusy(T("Buscando tu copia en Nostr…"));
+  state.nsBk = { mode: "load", list: null }; nsBusy(T("Buscando tu copia en Nostr…"));
+  try {
+    const L = await nsSigner(), c = NS.cfg(), evs = await L.query(nsRelays(), { kinds: [30078], authors: [c.pubkey] }), g = new Map();
+    for (const ev of evs || []) {
+      const d = (ev.tags.find(t => t[0] === "d") || [])[1] || "", m = nsDRe.exec(d);
+      if (m) { const x = g.get(m[1]) || { pid: m[1], secs: {} }; if (!x.secs[m[2]] || x.secs[m[2]].created_at < ev.created_at) x.secs[m[2]] = ev; g.set(m[1], x); }
+      else if (d === "usus/backup") g.set("_v1", { pid: "_v1", old: ev });
+    }
+    const list = [...g.values()].map(x => ({ ...x, t: x.old ? x.old.created_at : Math.max(...Object.values(x.secs).map(e => e.created_at)) }));
+    const me = curProf().id; list.sort((a, b) => (b.pid === me) - (a.pid === me) || (a.pid === "_v1") - (b.pid === "_v1") || b.t - a.t);
+    if (!list.length) { state.nsBk = null; toast(T("No hay ninguna copia de Usus en Nostr con esta cuenta")); nsBusy(null); return; }
+    // Con copias de varios perfiles, el nombre de cada uno (va cifrado en su índice)
+    if (list.filter(x => !x.old).length > 1) { nsBusy(T("Descifrando… acepta en tu bunker si lo pide."));
+      for (const x of list) if (!x.old) { try { x.name = JSON.parse(await nsTime(L.decrypt(c.pubkey, Object.values(x.secs)[0].content), 90000)).profile || ""; } catch {} } }
+    state.nsBk = { mode: "load", list, pick: list[0].pid };
+  } catch (e) { state.nsBk = null; toast(T("No se pudo recuperar la copia: {x}", { x: nsErr(e) }), 5000); }
+  nsBusy(null);
+}
+async function nsBackupRestore(pid, secs) {
+  const b = state.nsBk, x = b?.list?.find(y => y.pid === pid); if (!x) return;
   try {
     const L = await nsSigner(), c = NS.cfg(), rel = nsRelays(), q = d => L.get(rel, { kinds: [30078], authors: [c.pubkey], "#d": [d] });
-    const mev = await q("usus/backup");
-    if (!mev) { toast(T("No hay ninguna copia de Usus en Nostr con esta cuenta")); nsBusy(null); return; }
-    nsBusy(T("Descifrando… acepta en tu bunker si lo pide."));
-    const man = JSON.parse(await nsTime(L.decrypt(c.pubkey, mev.content), 90000)); nsBusy(null);
-    const when = new Date(man.t).toLocaleString(LOC(), { day: "numeric", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit" });
-    if (!confirm(T("Copia del {d} ({p}). Se combina con lo que hay en este perfil, como al importar un archivo. ¿Recuperarla?", { d: when, p: man.profile || "Usus" }))) return;
-    let z = "";
-    for (let i = 0; i < man.parts; i++) { nsBusy(T("Recuperando {k} de {n}…", { k: i + 1, n: man.parts }));
-      const ev = await q(`usus/backup/${i}`); if (!ev) throw new Error(T("falta una parte")); z += await nsTime(L.decrypt(c.pubkey, ev.content), 90000); }
-    if (z.length !== man.len) throw new Error(T("copia incompleta"));
-    nsBusy(null); await importJSON(await gunB64(z));
-    NS.save({ ...NS.cfg(), seen: mev.created_at }); state.nsNewer = null; render();
+    const pieces = x.old ? [["usus/backup", x.old]] : secs.filter(s => x.secs[s]).map(s => [nsD(pid, s), x.secs[s]]);
+    if (!pieces.length) { toast(T("Elige al menos un apartado")); return; }
+    let all = {}, seen = 0;
+    for (const [d, mev] of pieces) {
+      nsBusy(T("Descifrando… acepta en tu bunker si lo pide."));
+      const man = JSON.parse(await nsTime(L.decrypt(c.pubkey, mev.content), 90000)); let z = "";
+      for (let i = 0; i < man.parts; i++) { nsBusy(T("Recuperando {k} de {n}…", { k: i + 1, n: man.parts }));
+        const ev = await q(`${d}/${i}`); if (!ev) throw new Error(T("falta una parte")); z += await nsTime(L.decrypt(c.pubkey, ev.content), 90000); }
+      if (z.length !== man.len) throw new Error(T("copia incompleta"));
+      all = { ...all, ...JSON.parse(await gunB64(z)) }; seen = Math.max(seen, mev.created_at);
+    }
+    nsBusy(null); state.nsBk = null; render();
+    await importJSON(JSON.stringify(all));
+    NS.save({ ...NS.cfg(), seen }); state.nsNewer = null; render();
   } catch (e) { toast(T("No se pudo recuperar la copia: {x}", { x: nsErr(e) }), 5000); nsBusy(null); }
 }
+/* Ventana para elegir qué guardar o qué recuperar */
+function nsBkModal() {
+  const b = state.nsBk; if (!b) return "";
+  const busy = state.nsBusy, when = t => new Date(t * 1000).toLocaleString(LOC(), { day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" });
+  const chk = (k, on, sub, dis) => `<label class="shopt"><span>${esc(nsSecName(k))}${sub ? `<small class="muted" style="display:block;font-size:.78rem">${sub}</small>` : ""}</span><input type="checkbox" data-nsbks="${k}" ${on ? "checked" : ""} ${dis ? "disabled" : ""}></label>`;
+  let body;
+  if (b.mode === "save") body = `<p class="muted" style="font-size:.85rem;margin:0 0 6px">${T("Cifrada para que solo tú puedas leerla. Cada apartado se guarda por separado y no pisa a los demás.")}</p>
+    ${NS_SECS.map(([k]) => chk(k, true)).join("")}
+    ${busy ? `<p class="nsbusy" role="status">${esc(busy)}</p>` : ""}
+    <div class="row" style="margin-top:12px"><button class="btn" style="flex:1" data-act="ns-bk-close">${T("Cancelar")}</button><button class="btn primary" style="flex:1" data-act="ns-bk-go" ${busy ? "disabled" : ""}>${T("Guardar")}</button></div>`;
+  else if (!b.list) body = `<p class="nsbusy" role="status">${esc(busy || "")}</p>`;
+  else {
+    const x = b.list.find(y => y.pid === b.pick) || b.list[0], me = curProf().id;
+    const lab = y => y.old ? T("Copia anterior (una sola pieza)") : y.pid === me ? T("Este perfil") : (y.name || T("Otro perfil"));
+    body = `${b.list.length > 1 ? `<div class="nsbkp">${b.list.map(y => `<label class="shopt"><span>${esc(lab(y))}<small class="muted" style="display:block;font-size:.78rem">${when(y.t)}</small></span><input type="radio" name="nsbkp" data-nsbkp="${esc(y.pid)}" ${y.pid === x.pid ? "checked" : ""}></label>`).join("")}</div><h3 class="nsbkh">${T("Qué recuperar")}</h3>` : ""}
+      ${x.old ? `<p class="muted" style="font-size:.85rem;margin:0">${T("Copia completa del {d}, de antes de los apartados.", { d: when(x.t) })}</p>` : NS_SECS.map(([k]) => chk(k, !!x.secs[k], x.secs[k] ? when(x.secs[k].created_at) : T("No hay copia"), !x.secs[k])).join("")}
+      <p class="muted" style="font-size:.8rem;margin:10px 0 0">${T("Se combina con lo que hay en este perfil, como al importar un archivo. Los ajustes sustituyen a los actuales.")}</p>
+      ${busy ? `<p class="nsbusy" role="status">${esc(busy)}</p>` : ""}
+      <div class="row" style="margin-top:12px"><button class="btn" style="flex:1" data-act="ns-bk-close">${T("Cancelar")}</button><button class="btn primary" style="flex:1" data-act="ns-bk-go" ${busy ? "disabled" : ""}>${T("Recuperar")}</button></div>`;
+  }
+  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="nbT"><div class="mbox dsh">${mHead("nbT", b.mode === "save" ? T("Guardar copia en Nostr") : T("Recuperar de Nostr"), "ns-bk-close")}${body}</div></div>`;
+}
+function nsBkGo() {
+  const b = state.nsBk; if (!b || state.nsBusy) return;
+  const secs = [...document.querySelectorAll("[data-nsbks]:checked")].map(i => i.dataset.nsbks);
+  if (b.mode === "save") { if (!secs.length) return toast(T("Elige al menos un apartado")); nsBackupSave(false, secs); }
+  else nsBackupRestore(b.pick, secs);
+}
 
-/* Sincronizar (3.7.0): copia sola al terminar cada sesión; al abrir, aviso si en Nostr hay una copia más nueva
-   que la última que se guardó o recuperó aquí (se mira la fecha del índice, sin descifrar ni pedir nada al bunker). */
+/* Sincronizar (3.7.0): copia sola al terminar cada sesión (3.7.2: solo los apartados que han cambiado); al abrir, aviso
+   si en Nostr hay una copia de este perfil más nueva que la última que se guardó o recuperó aquí (se mira la fecha de
+   los índices, sin descifrar ni pedir nada al firmante). */
 const nsAutoOn = () => NS.cfg()?.auto !== false;
 function nsAutoBackup() { if (NS.cfg() && !nsRO() && nsAutoOn() && !state.nsBusy) nsBackupSave(true); }
 async function nsCheckNewer() {
   const c = NS.cfg(); if (!c || nsRO()) return;
   try {
-    const L = await nsLib(), ev = await L.get(nsRelays(), { kinds: [30078], authors: [c.pubkey], "#d": ["usus/backup"] });
-    if (ev && ev.created_at > (c.seen || 0) + 60 && ev.created_at * 1000 > (c.lastBk || 0) + 60e3) { state.nsNewer = { t: ev.created_at * 1000, at: ev.created_at }; render(); }
+    const L = await nsLib(), pid = curProf().id, evs = await L.query(nsRelays(), { kinds: [30078], authors: [c.pubkey], "#d": NS_SECS.map(s => nsD(pid, s[0])) });
+    const at = Math.max(0, ...(evs || []).map(e => e.created_at));
+    if (at && at > (c.seen || 0) + 60 && at * 1000 > (c.lastBk || 0) + 60e3) { state.nsNewer = { t: at * 1000, at }; render(); }
   } catch {}
 }
 function nsNewerBanner() {
@@ -270,8 +336,8 @@ function nostrBackup(item) {
   const c = NS.cfg(), when = t => new Date(t).toLocaleDateString(LOC(), { day: "numeric", month: "short", year: "numeric" });
   if (c?.method === "npub") return `<h2>Nostr</h2><div class="panel">${item(T("Copia en Nostr"), T("Con solo la npub no se pueden guardar ni recuperar copias: entra con un firmante en Ajustes → Cuenta de Nostr."), "ns-go-set", T("Cuenta"))}</div>`;
   return `<h2>Nostr</h2><div class="panel">${c ? `
-    ${item(T("Guardar copia en Nostr"), T("La copia completa, cifrada para que solo tú puedas leerla.") + (c.lastBk ? " " + T("Última: {d}.", { d: when(c.lastBk) }) : ""), "ns-bk-save", T("Guardar"), true)}
-    ${item(T("Recuperar de Nostr"), T("Trae tu copia y la combina con lo que hay en este perfil."), "ns-bk-load", T("Recuperar"))}
+    ${item(T("Guardar copia en Nostr"), T("Rutinas, entrenos, diario y ajustes, por separado y cifrados para que solo tú puedas leerlos.") + (c.lastBk ? " " + T("Última: {d}.", { d: when(c.lastBk) }) : ""), "ns-bk-save", T("Guardar"), true)}
+    ${item(T("Recuperar de Nostr"), T("Eliges qué apartados traer; se combinan con lo que hay en este perfil."), "ns-bk-load", T("Recuperar"))}
     <label class="srow" style="cursor:pointer"><span class="t">${T("Copia automática")}<small class="muted" style="display:block;font-size:.8rem">${T("Al terminar cada sesión. Al abrir Usus, avisa si hay una copia más nueva.")}</small></span><input type="checkbox" role="switch" id="nsAuto" ${nsAutoOn() ? "checked" : ""}></label>`
   : `${item(T("Copia en Nostr"), T("Conecta antes tu cuenta en Ajustes → Cuenta de Nostr."), "ns-go-set", T("Conectar"))}`}
     ${nsBusyLine()}</div>`;

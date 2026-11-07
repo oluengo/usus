@@ -329,7 +329,9 @@ document.addEventListener("click", async ev => {
     case "ns-ext": nsConnectExt(); break;
     case "ns-npub": nsConnectNpub(); break;
     case "ns-off": nsDisconnect(); break;
-    case "ns-bk-save": nsBackupSave(); break;
+    case "ns-bk-save": state.nsBk = { mode: "save" }; render(); break;
+    case "ns-bk-go": nsBkGo(); break;
+    case "ns-bk-close": if (!state.nsBusy) { state.nsBk = null; render(); } break;
     case "ns-bk-load": nsBackupLoad(); break;
     case "ns-newer-x": { const c = NS.cfg(); if (c && state.nsNewer) NS.save({ ...c, seen: state.nsNewer.at }); state.nsNewer = null; render(); break; }
     case "shsess-nostr": nsPostSess(); break;
@@ -502,6 +504,7 @@ document.addEventListener("change", async ev => {
   if (state.planMode === "edit" && ev.target.closest?.("#app") && (/^p(On|Order|OrderAt|Start|Review|DlW|DlE|Up|UpRule)$/.test(ev.target.id) || ev.target.dataset.pv !== undefined || ev.target.dataset.pw !== undefined)) { readPlan(); render(); return; }
   const tg = ev.target, dk = state.day || dayKey(Date.now());
   if (tg.id === "progOn" || tg.id === "progUp" || tg.id === "progDown") { const P = PROG(); if (tg.id === "progOn") P.on = tg.checked; if (tg.id === "progUp") P.up = +tg.value; if (tg.id === "progDown") P.down = tg.value; LS.set("wk.prog", P); render(); return; }
+  if (tg.dataset.nsbkp && state.nsBk) { state.nsBk.pick = tg.dataset.nsbkp; render(); return; }
   if (tg.id === "nsAuto") { const c = NS.cfg(); if (c) NS.save({ ...c, auto: tg.checked }); render(); return; }
   if (tg.id === "effPem" || tg.id === "effRir") { LS.set("wk.effort", { ...EFF(), [tg.id === "effPem" ? "pem" : "rir"]: tg.checked }); render(); return; }
   if (tg.id === "catOnly") { state.catOnly = tg.checked; const l = $("#catList"); if (l) l.innerHTML = catListHTML(); return; }

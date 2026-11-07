@@ -1,5 +1,10 @@
 /* ---------- Novedades (una vez por versión; historial al tocar la versión) ---------- */
 const CHANGES = [  // Novedades: solo en castellano; las traducciones, en i18n/*.po
+  ["3.7.2", [
+    N_("Copia en Nostr por apartados: rutinas y planes, entrenos y progreso, diario, peso y ciclo, y ajustes. Al guardar y al recuperar eliges cuáles."),
+    N_("La copia, en Nostr y en archivo, lleva ahora también los ajustes (material, catálogo, tiempos, progresión, tema, idioma…) y el historial de subidas de ejercicio."),
+    N_("Cada perfil guarda su copia de Nostr aparte: la de otro perfil o la de la web ya no pisa la tuya. La copia automática solo guarda lo que ha cambiado.")
+  ]],
   ["3.7.1", [
     N_("Nostr en la web: entra con la extensión del navegador (Alby, nos2x…), además de con un bunker."),
     N_("Nostr con solo tu npub: solo lectura, se ve tu perfil pero no hay copias ni publicar.")

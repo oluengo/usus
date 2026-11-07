@@ -843,6 +843,9 @@ msgstr "Cada fitxa indica el seu rol (principal, accessori, mobilitat, escalfame
 msgid "Cada perfil decide. Se puede cambiar en Ajustes → App."
 msgstr "Cada perfil decideix. Es pot canviar a Ajustos → App."
 
+msgid "Cada perfil guarda su copia de Nostr aparte: la de otro perfil o la de la web ya no pisa la tuya. La copia automática solo guarda lo que ha cambiado."
+msgstr "Cada perfil desa la seva còpia de Nostr a part: la d'un altre perfil o la del web ja no trepitja la teva. La còpia automàtica només desa el que ha canviat."
+
 msgid "Cada perfil tiene sus propios datos y ajustes."
 msgstr "Cada perfil té les seves pròpies dades i ajustos."
 
@@ -993,6 +996,9 @@ msgstr "Cicles irregulars: l'estimació és menys fiable."
 msgid "Ciclos registrados"
 msgstr "Cicles registrats"
 
+msgid "Cifrada para que solo tú puedas leerla. Cada apartado se guarda por separado y no pisa a los demás."
+msgstr "Xifrada perquè només tu la puguis llegir. Cada apartat es desa per separat i no trepitja els altres."
+
 msgid "Circuito"
 msgstr "Circuit"
 
@@ -1132,11 +1138,18 @@ msgstr "Continuar"
 msgid "copia"
 msgstr "copia"
 
+msgid "Copia anterior (una sola pieza)"
+msgstr "Còpia anterior (una sola peça)"
+
 msgid "Copia automática"
 msgstr "Còpia automàtica"
 
 msgid "Copia completa"
 msgstr "Còpia completa"
+
+#, python-brace-format
+msgid "Copia completa del {d}, de antes de los apartados."
+msgstr "Còpia completa del {d}, d'abans dels apartats."
 
 msgid "Copia completa o solo rutinas. Se combina con lo existente; los duplicados se actualizan."
 msgstr "Còpia completa o només rutines. Es combina amb el que ja hi ha; els duplicats s'actualitzen."
@@ -1151,12 +1164,11 @@ msgstr "Còpia de seguretat"
 msgid "Copia de seguridad en Nostr: la copia completa, comprimida y cifrada para que solo tú puedas leerla. «Guardar copia en Nostr» y «Recuperar de Nostr», por ejemplo para pasar tus datos a otro móvil."
 msgstr "Còpia de seguretat a Nostr: la còpia completa, comprimida i xifrada perquè només tu la puguis llegir. «Desar còpia a Nostr» i «Recuperar de Nostr», per exemple per passar les teves dades a un altre mòbil."
 
-#, python-brace-format
-msgid "Copia del {d} ({p}). Se combina con lo que hay en este perfil, como al importar un archivo. ¿Recuperarla?"
-msgstr "Còpia del {d} ({p}). Es combina amb el que hi ha en aquest perfil, com en importar un fitxer. La vols recuperar?"
-
 msgid "Copia en Nostr"
 msgstr "Còpia a Nostr"
+
+msgid "Copia en Nostr por apartados: rutinas y planes, entrenos y progreso, diario, peso y ciclo, y ajustes. Al guardar y al recuperar eliges cuáles."
+msgstr "Còpia a Nostr per apartats: rutines i plans, entrenaments i progrés, diari, pes i cicle, i ajustos. En desar i en recuperar tries quins."
 
 msgid "Copia guardada en Nostr"
 msgstr "Còpia desada a Nostr"
@@ -1490,6 +1502,9 @@ msgstr "Diari"
 msgid "Diario en filas: cada dato del día en una fila con su icono, detalle y valor (entreno primero); lo que falta, en «Añadir a este día». El peso se anota aquí."
 msgstr "Diari en files: cada dada del dia en una fila amb la seva icona, detall i valor (l'entrenament primer); el que falta, a «Afegir a aquest dia». El pes s'anota aquí."
 
+msgid "Diario, peso y ciclo"
+msgstr "Diari, pes i cicle"
+
 msgid "Diario: nota de la sesión y notas de cada ejercicio editables después de terminar."
 msgstr "Diari: nota de la sessió i notes de cada exercici editables després d'acabar."
 
@@ -1764,6 +1779,9 @@ msgstr "Tria'n un altre"
 msgid "Elegirlo yo"
 msgstr "Triar-lo jo"
 
+msgid "Elige al menos un apartado"
+msgstr "Tria almenys un apartat"
+
 msgid "Elige al menos un día"
 msgstr "Tria almenys un dia"
 
@@ -1772,6 +1790,9 @@ msgstr "Tria home o dona"
 
 msgid "Eliges los ejercicios, las series y los descansos."
 msgstr "Tries els exercicis, les sèries i els descansos."
+
+msgid "Eliges qué apartados traer; se combinan con lo que hay en este perfil."
+msgstr "Tries quins apartats portar; es combinen amb el que hi ha en aquest perfil."
 
 msgid "Eliminar"
 msgstr "Elimina"
@@ -1916,6 +1937,9 @@ msgstr "Entrenament per fase"
 
 msgid "Entrenos del día"
 msgstr "Entrenaments del dia"
+
+msgid "Entrenos y progreso"
+msgstr "Entrenaments i progrés"
 
 msgid "Entrenos, rutinas y plan"
 msgstr "Entrenaments, rutines i pla"
@@ -2326,6 +2350,9 @@ msgstr "Vols importar el pla de progressió? Substituirà el pla actual, si n'hi
 msgid "Importar JSON"
 msgstr "Importa JSON"
 
+msgid "Importar los ajustes y el historial de progresión de la copia. ¿Continuar?"
+msgstr "Importar els ajustos i l'historial de progressió de la còpia. Continuar?"
+
 msgid "Importar una copia o rutinas"
 msgstr "Importar una còpia o rutines"
 
@@ -2355,6 +2382,9 @@ msgstr "Incloure el pla de progressió"
 
 msgid "Incluye el plan de progresión."
 msgstr "Inclou el pla de progressió."
+
+msgid "Incluye los ajustes, que sustituirán a los actuales."
+msgstr "Inclou els ajustos, que substituiran els actuals."
 
 msgid "Incluye un plan, que sustituirá al actual."
 msgstr "Inclou un pla, que substituirà l'actual."
@@ -2437,8 +2467,8 @@ msgstr "Dl"
 msgid "L,M,X,J,V,S,D"
 msgstr "Dl,Dt,Dc,Dj,Dv,Ds,Dg"
 
-msgid "La copia completa, cifrada para que solo tú puedas leerla."
-msgstr "La còpia completa, xifrada perquè només tu la puguis llegir."
+msgid "La copia, en Nostr y en archivo, lleva ahora también los ajustes (material, catálogo, tiempos, progresión, tema, idioma…) y el historial de subidas de ejercicio."
+msgstr "La còpia, a Nostr i en arxiu, porta ara també els ajustos (material, catàleg, temps, progressió, tema, idioma…) i l'historial de pujades d'exercici."
 
 msgid "La más larga"
 msgstr "La més llarga"
@@ -2846,6 +2876,9 @@ msgstr "No hauries pogut fer gaire més."
 msgid "No hago ejercicio o hace mucho que lo dejé."
 msgstr "No faig exercici o fa molt que ho vaig deixar."
 
+msgid "No hay copia"
+msgstr "No hi ha còpia"
+
 msgid "No hay datos para exportar"
 msgstr "No hi ha dades per exportar"
 
@@ -3173,6 +3206,9 @@ msgstr "Altre material (sense icona)"
 
 msgid "Otro motivo"
 msgstr "Un altre motiu"
+
+msgid "Otro perfil"
+msgstr "Un altre perfil"
 
 msgid "Otros"
 msgstr "Altres"
@@ -3671,6 +3707,9 @@ msgstr "Què ha passat"
 msgid "Qué hay de nuevo"
 msgstr "Què hi ha de nou"
 
+msgid "Qué recuperar"
+msgstr "Què recuperar"
+
 msgid "Qué rutinas entran en cada variante y qué días tocan. «Todas las semanas» se sugiere siempre, también en descarga (como la Diaria)."
 msgstr "Quines rutines entren a cada variant i quins dies toquen. «Totes les setmanes» se suggereix sempre, també en descàrrega (com la Diària)."
 
@@ -3942,6 +3981,12 @@ msgstr "Rutines per variant"
 msgid "Rutinas y días"
 msgstr "Rutines i dies"
 
+msgid "Rutinas y planes"
+msgstr "Rutines i plans"
+
+msgid "Rutinas, entrenos, diario y ajustes, por separado y cifrados para que solo tú puedas leerlos."
+msgstr "Rutines, entrenaments, diari i ajustos, per separat i xifrats perquè només tu els puguis llegir."
+
 msgid "S"
 msgstr "Ds"
 
@@ -3999,14 +4044,14 @@ msgstr "S'esborraran totes les rutines, sessions i pesos d'aquest dispositiu. Ha
 msgid "Se borrarán todos los datos de «{x}» en este dispositivo. Los demás perfiles no se tocan. ¿Has hecho una copia?"
 msgstr "S'esborraran totes les dades de «{x}» en aquest dispositiu. Els altres perfils no es toquen. Has fet una còpia?"
 
+msgid "Se combina con lo que hay en este perfil, como al importar un archivo. Los ajustes sustituyen a los actuales."
+msgstr "Es combina amb el que hi ha en aquest perfil, com en importar un arxiu. Els ajustos substitueixen els actuals."
+
 msgid "Se evitan los ejercicios que más cargan esa zona."
 msgstr "S'eviten els exercicis que més carreguen aquesta zona."
 
 msgid "Se guarda únicamente en este móvil, dentro de este perfil."
 msgstr "Es desa únicament en aquest mòbil, dins d'aquest perfil."
-
-msgid "Se guardará en Nostr la copia completa de este perfil, cifrada para que solo tú puedas leerla. Tu bunker pedirá aprobar varias firmas. ¿Seguir?"
-msgstr "Es desarà a Nostr la còpia completa d'aquest perfil, xifrada perquè només tu la puguis llegir. El teu bunker demanarà aprovar diverses signatures. Continuar?"
 
 #, python-brace-format
 msgid "Se ha aplicado la regla de tu plan: {x}."
@@ -4672,9 +4717,6 @@ msgstr "Tracció horitzontal"
 msgid "Tracción vertical"
 msgstr "Tracció vertical"
 
-msgid "Trae tu copia y la combina con lo que hay en este perfil."
-msgstr "Porta la teva còpia i la combina amb el que hi ha en aquest perfil."
-
 msgid "Tras el descanso, la siguiente serie por tiempo empieza sola"
 msgstr "Després del descans, la sèrie per temps següent comença sola"
 
@@ -5031,6 +5073,19 @@ msgstr "Zona lumbar"
 
 msgid "Zona peligrosa"
 msgstr "Zona perillosa"
+
+#, python-brace-format
+#~ msgid "Copia del {d} ({p}). Se combina con lo que hay en este perfil, como al importar un archivo. ¿Recuperarla?"
+#~ msgstr "Còpia del {d} ({p}). Es combina amb el que hi ha en aquest perfil, com en importar un fitxer. La vols recuperar?"
+
+#~ msgid "La copia completa, cifrada para que solo tú puedas leerla."
+#~ msgstr "La còpia completa, xifrada perquè només tu la puguis llegir."
+
+#~ msgid "Se guardará en Nostr la copia completa de este perfil, cifrada para que solo tú puedas leerla. Tu bunker pedirá aprobar varias firmas. ¿Seguir?"
+#~ msgstr "Es desarà a Nostr la còpia completa d'aquest perfil, xifrada perquè només tu la puguis llegir. El teu bunker demanarà aprovar diverses signatures. Continuar?"
+
+#~ msgid "Trae tu copia y la combina con lo que hay en este perfil."
+#~ msgstr "Porta la teva còpia i la combina amb el que hi ha en aquest perfil."
 
 #~ msgid "Antes de empezar: debajo de «Iniciar», el material que necesita la rutina, en una línea. Lo que no tienes en «Mi material» sale marcado."
 #~ msgstr "Abans de començar: sota «Iniciar», el material que necessita la rutina, en una línia. El que no tens a «El meu material» surt marcat."

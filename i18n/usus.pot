@@ -842,6 +842,9 @@ msgstr ""
 msgid "Cada perfil decide. Se puede cambiar en Ajustes → App."
 msgstr ""
 
+msgid "Cada perfil guarda su copia de Nostr aparte: la de otro perfil o la de la web ya no pisa la tuya. La copia automática solo guarda lo que ha cambiado."
+msgstr ""
+
 msgid "Cada perfil tiene sus propios datos y ajustes."
 msgstr ""
 
@@ -992,6 +995,9 @@ msgstr ""
 msgid "Ciclos registrados"
 msgstr ""
 
+msgid "Cifrada para que solo tú puedas leerla. Cada apartado se guarda por separado y no pisa a los demás."
+msgstr ""
+
 msgid "Circuito"
 msgstr ""
 
@@ -1131,10 +1137,17 @@ msgstr ""
 msgid "copia"
 msgstr ""
 
+msgid "Copia anterior (una sola pieza)"
+msgstr ""
+
 msgid "Copia automática"
 msgstr ""
 
 msgid "Copia completa"
+msgstr ""
+
+#, python-brace-format
+msgid "Copia completa del {d}, de antes de los apartados."
 msgstr ""
 
 msgid "Copia completa o solo rutinas. Se combina con lo existente; los duplicados se actualizan."
@@ -1150,11 +1163,10 @@ msgstr ""
 msgid "Copia de seguridad en Nostr: la copia completa, comprimida y cifrada para que solo tú puedas leerla. «Guardar copia en Nostr» y «Recuperar de Nostr», por ejemplo para pasar tus datos a otro móvil."
 msgstr ""
 
-#, python-brace-format
-msgid "Copia del {d} ({p}). Se combina con lo que hay en este perfil, como al importar un archivo. ¿Recuperarla?"
+msgid "Copia en Nostr"
 msgstr ""
 
-msgid "Copia en Nostr"
+msgid "Copia en Nostr por apartados: rutinas y planes, entrenos y progreso, diario, peso y ciclo, y ajustes. Al guardar y al recuperar eliges cuáles."
 msgstr ""
 
 msgid "Copia guardada en Nostr"
@@ -1489,6 +1501,9 @@ msgstr ""
 msgid "Diario en filas: cada dato del día en una fila con su icono, detalle y valor (entreno primero); lo que falta, en «Añadir a este día». El peso se anota aquí."
 msgstr ""
 
+msgid "Diario, peso y ciclo"
+msgstr ""
+
 msgid "Diario: nota de la sesión y notas de cada ejercicio editables después de terminar."
 msgstr ""
 
@@ -1763,6 +1778,9 @@ msgstr ""
 msgid "Elegirlo yo"
 msgstr ""
 
+msgid "Elige al menos un apartado"
+msgstr ""
+
 msgid "Elige al menos un día"
 msgstr ""
 
@@ -1770,6 +1788,9 @@ msgid "Elige hombre o mujer"
 msgstr ""
 
 msgid "Eliges los ejercicios, las series y los descansos."
+msgstr ""
+
+msgid "Eliges qué apartados traer; se combinan con lo que hay en este perfil."
 msgstr ""
 
 msgid "Eliminar"
@@ -1914,6 +1935,9 @@ msgid "Entreno por fase"
 msgstr ""
 
 msgid "Entrenos del día"
+msgstr ""
+
+msgid "Entrenos y progreso"
 msgstr ""
 
 msgid "Entrenos, rutinas y plan"
@@ -2325,6 +2349,9 @@ msgstr ""
 msgid "Importar JSON"
 msgstr ""
 
+msgid "Importar los ajustes y el historial de progresión de la copia. ¿Continuar?"
+msgstr ""
+
 msgid "Importar una copia o rutinas"
 msgstr ""
 
@@ -2353,6 +2380,9 @@ msgid "Incluir plan de progresión"
 msgstr ""
 
 msgid "Incluye el plan de progresión."
+msgstr ""
+
+msgid "Incluye los ajustes, que sustituirán a los actuales."
 msgstr ""
 
 msgid "Incluye un plan, que sustituirá al actual."
@@ -2436,7 +2466,7 @@ msgstr ""
 msgid "L,M,X,J,V,S,D"
 msgstr ""
 
-msgid "La copia completa, cifrada para que solo tú puedas leerla."
+msgid "La copia, en Nostr y en archivo, lleva ahora también los ajustes (material, catálogo, tiempos, progresión, tema, idioma…) y el historial de subidas de ejercicio."
 msgstr ""
 
 msgid "La más larga"
@@ -2845,6 +2875,9 @@ msgstr ""
 msgid "No hago ejercicio o hace mucho que lo dejé."
 msgstr ""
 
+msgid "No hay copia"
+msgstr ""
+
 msgid "No hay datos para exportar"
 msgstr ""
 
@@ -3171,6 +3204,9 @@ msgid "Otro material (sin icono)"
 msgstr ""
 
 msgid "Otro motivo"
+msgstr ""
+
+msgid "Otro perfil"
 msgstr ""
 
 msgid "Otros"
@@ -3670,6 +3706,9 @@ msgstr ""
 msgid "Qué hay de nuevo"
 msgstr ""
 
+msgid "Qué recuperar"
+msgstr ""
+
 msgid "Qué rutinas entran en cada variante y qué días tocan. «Todas las semanas» se sugiere siempre, también en descarga (como la Diaria)."
 msgstr ""
 
@@ -3941,6 +3980,12 @@ msgstr ""
 msgid "Rutinas y días"
 msgstr ""
 
+msgid "Rutinas y planes"
+msgstr ""
+
+msgid "Rutinas, entrenos, diario y ajustes, por separado y cifrados para que solo tú puedas leerlos."
+msgstr ""
+
 msgid "S"
 msgstr ""
 
@@ -3998,13 +4043,13 @@ msgstr ""
 msgid "Se borrarán todos los datos de «{x}» en este dispositivo. Los demás perfiles no se tocan. ¿Has hecho una copia?"
 msgstr ""
 
+msgid "Se combina con lo que hay en este perfil, como al importar un archivo. Los ajustes sustituyen a los actuales."
+msgstr ""
+
 msgid "Se evitan los ejercicios que más cargan esa zona."
 msgstr ""
 
 msgid "Se guarda únicamente en este móvil, dentro de este perfil."
-msgstr ""
-
-msgid "Se guardará en Nostr la copia completa de este perfil, cifrada para que solo tú puedas leerla. Tu bunker pedirá aprobar varias firmas. ¿Seguir?"
 msgstr ""
 
 #, python-brace-format
@@ -4669,9 +4714,6 @@ msgid "Tracción horizontal"
 msgstr ""
 
 msgid "Tracción vertical"
-msgstr ""
-
-msgid "Trae tu copia y la combina con lo que hay en este perfil."
 msgstr ""
 
 msgid "Tras el descanso, la siguiente serie por tiempo empieza sola"
