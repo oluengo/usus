@@ -1,0 +1,3 @@
+• Còpia a Nostr per apartats: rutines i plans, entrenaments i progrés, diari, pes i cicle, i ajustos. En desar i en recuperar tries quins.
+• La còpia, a Nostr i en arxiu, porta ara també els ajustos (material, catàleg, temps, progressió, tema, idioma…) i l'historial de pujades d'exercici.
+• Cada perfil desa la seva còpia de Nostr a part: la d'un altre perfil o la del web ja no trepitja la teva. La còpia automàtica només desa el que ha canviat.

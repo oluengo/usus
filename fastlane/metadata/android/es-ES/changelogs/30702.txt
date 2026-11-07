@@ -1,0 +1,3 @@
+• Copia en Nostr por apartados: rutinas y planes, entrenos y progreso, diario, peso y ciclo, y ajustes. Al guardar y al recuperar eliges cuáles.
+• La copia, en Nostr y en archivo, lleva ahora también los ajustes (material, catálogo, tiempos, progresión, tema, idioma…) y el historial de subidas de ejercicio.
+• Cada perfil guarda su copia de Nostr aparte: la de otro perfil o la de la web ya no pisa la tuya. La copia automática solo guarda lo que ha cambiado.

@@ -1,0 +1,3 @@
+• Nostr backup by sections: routines and plans, workouts and progress, diary, weight and cycle, and settings. When saving and restoring you choose which.
+• The backup, on Nostr and as a file, now also carries your settings (equipment, catalogue, timers, progression, theme, language…) and the history of exercise move-ups.
+• Each profile keeps its own Nostr backup: another profile's or the web's no longer overwrites yours. The automatic backup only saves what has changed.
