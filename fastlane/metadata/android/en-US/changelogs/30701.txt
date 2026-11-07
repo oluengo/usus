@@ -1,0 +1,2 @@
+• Nostr on the web: sign in with your browser extension (Alby, nos2x…), as well as with a bunker.
+• Nostr with just your npub: read-only, your profile shows but there are no backups or posting.

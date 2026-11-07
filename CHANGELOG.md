@@ -4,6 +4,11 @@ Todas las versiones de Usus. Formato basado en [Keep a Changelog](https://keepac
 
 **Castellano** · [Català](#català) · [English](#english)
 
+## [3.7.1] — 2026-11-07
+
+- Nostr en la web: entra con la extensión del navegador (Alby, nos2x…), además de con un bunker.
+- Nostr con solo tu npub: solo lectura, se ve tu perfil pero no hay copias ni publicar.
+
 ## [3.7.0] — 2026-11-06
 
 - Antes de empezar: debajo de «Iniciar», el material que necesita la rutina, en una línea. Lo que no tienes en «Mi material» sale marcado. Sale también sin el catálogo activado.
@@ -307,6 +312,11 @@ Primera versión pública.
 
 ## Català
 
+### [3.7.1] — 2026-11-07
+
+- Nostr al web: entra amb l'extensió del navegador (Alby, nos2x…), a més d'amb un bunker.
+- Nostr només amb la teva npub: només lectura, es veu el teu perfil però no hi ha còpies ni publicar.
+
 ### [3.7.0] — 2026-11-06
 
 - Abans de començar: sota «Iniciar», el material que necessita la rutina, en una línia. El que no tens a «El meu material» surt marcat. Surt també sense el catàleg activat.
@@ -451,6 +461,11 @@ Primera versió pública: rutines amb sèries per repeticions o per temps, compt
 ---
 
 ## English
+
+### [3.7.1] — 2026-11-07
+
+- Nostr on the web: sign in with your browser extension (Alby, nos2x…), as well as with a bunker.
+- Nostr with just your npub: read-only, your profile shows but there are no backups or posting.
 
 ### [3.7.0] — 2026-11-06
 

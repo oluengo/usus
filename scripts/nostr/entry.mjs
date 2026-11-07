@@ -1,5 +1,6 @@
 // Puente Nostr de Usus (se empaqueta en nostr.js con `npm run nostr`; la app lo carga solo al usar Nostr).
-// Firma y cifrado los hace un firmante externo: Amber (NIP-55, en el APK, como en Wavestr) o un bunker (NIP-46).
+// Firma y cifrado los hace un firmante externo: Amber (NIP-55, en el APK, como en Wavestr), una extensión del navegador
+// (NIP-07: Alby, nos2x…) o un bunker (NIP-46). Con solo la npub no se firma nada: es de solo lectura.
 // Usus no ve ni guarda la nsec. Con bunker se guarda solo la clave de esa conexión, para no tener que reconectar.
 import { BunkerSigner, parseBunkerInput } from "nostr-tools/nip46";
 import { SimplePool } from "nostr-tools/pool";
@@ -50,6 +51,33 @@ export async function amberLogin() {
   signer = amberSigner(pubkey, r.package || null);
   return { pubkey, pkg: r.package || null };
 }
+/* Extensión del navegador (NIP-07). También se comprueba cada firma. */
+const ext = () => window.nostr;
+function extSigner(pubkey) {
+  const n44 = () => { const n = ext()?.nip44; if (!n) throw new Error("la extensión no cifra con NIP-44"); return n; };
+  return {
+    async getPublicKey() { return pubkey; },
+    async signEvent(t) {
+      const out = await ext().signEvent({ kind: t.kind, created_at: t.created_at, tags: t.tags || [], content: t.content || "" });
+      if (!out || out.pubkey !== pubkey || out.kind !== t.kind || !verifyEvent(out)) throw new Error("firma no válida");
+      return out;
+    },
+    nip44Encrypt: (pk, t) => n44().encrypt(pk, t),
+    nip44Decrypt: (pk, t) => n44().decrypt(pk, t),
+    async close() {}
+  };
+}
+export const extAvailable = () => !!ext()?.getPublicKey;
+export async function extLogin() {
+  if (!extAvailable()) throw new Error("extensión");
+  const pubkey = toHex(await ext().getPublicKey());
+  if (!pubkey) throw new Error("extensión");
+  signer = extSigner(pubkey);
+  return { pubkey };
+}
+export function extResume(pubkey) { signer = extSigner(pubkey); return signer; }
+/* npub (o clave pública en hex) → hex; null si no vale */
+export const pubHex = v => toHex(v);
 export function amberResume(pubkey, pkg) { signer = amberSigner(pubkey, pkg); return signer; }
 export function resume(bp, skHex, onauth) { signer = BunkerSigner.fromBunker(hexToBytes(skHex), bp, { pool, onauth }); return signer; }
 export const active = () => !!signer;

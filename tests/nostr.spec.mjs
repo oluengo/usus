@@ -152,3 +152,38 @@ test("sin catálogo activado, el material de la rutina sale igual", async ({ pag
   await expect(page.locator(".premat")).toContainText("Barra");
   expect(errors).toEqual([]);
 });
+test("web: entrar con la extensión del navegador (NIP-07); la firma se comprueba", async ({ page }) => {
+  const { generateSecretKey, getPublicKey, finalizeEvent } = await import("nostr-tools/pure");
+  const sk = generateSecretKey(), pk = getPublicKey(sk);
+  let bad = false;
+  await page.exposeFunction("extSign", json => { const e = JSON.parse(json); const s = finalizeEvent(e, sk); return JSON.stringify(bad ? { ...s, content: "otra cosa" } : s); });
+  await page.addInitScript(pk => { window.nostr = { async getPublicKey() { return pk; }, async signEvent(e) { return JSON.parse(await window.extSign(JSON.stringify(e))); } }; }, pk);
+  const errors = await openApp(page, {});
+  await nav(page, "data"); await page.locator('[data-stab="nostr"]').click();
+  await expect(page.locator('[data-act="ns-amber"]')).toHaveCount(0);           // en la web no hay Amber
+  await page.locator('[data-act="ns-ext"]').click();
+  await expect(page.locator(".nsprof")).toContainText("Firma con la extensión", { timeout: 20000 });
+  const c = await ls(page, "wk.nostr"); expect([c.method, c.pubkey]).toEqual(["nip07", pk]);
+  const ev = await page.evaluate(() => window.UsusNostr.sign({ kind: 1, created_at: 1, tags: [], content: "hola" }));
+  expect(ev.pubkey).toBe(pk);
+  bad = true;
+  expect(await page.evaluate(() => window.UsusNostr.sign({ kind: 1, created_at: 1, tags: [], content: "hola" }).then(() => "ok", e => e.message))).toBe("firma no válida");
+  expect(errors).toEqual([]);
+});
+test("solo npub: se ve la cuenta, pero sin copias ni publicar", async ({ page }) => {
+  const { generateSecretKey, getPublicKey } = await import("nostr-tools/pure");
+  const { npubEncode } = await import("nostr-tools/nip19");
+  const pk = getPublicKey(generateSecretKey());
+  const errors = await openApp(page, { data: { "wk.routines": ROUTINES } });
+  await nav(page, "data"); await page.locator('[data-stab="nostr"]').click();
+  await page.locator(".nsro summary").click();
+  await page.fill("#nsNpub", "hola"); await page.locator('[data-act="ns-npub"]').click();
+  await expect(page.locator("#toast")).toContainText("npub1");
+  await page.fill("#nsNpub", npubEncode(pk)); await page.locator('[data-act="ns-npub"]').click();
+  await expect(page.locator(".nsprof")).toContainText("Solo lectura", { timeout: 20000 });
+  expect((await ls(page, "wk.nostr")).method).toBe("npub");
+  await nav(page, "data"); await page.locator('[data-stab="datos"]').click();
+  await expect(page.getByText("Con solo la npub no se pueden guardar")).toBeVisible();
+  await expect(page.locator('[data-act="ns-bk-save"]')).toHaveCount(0);
+  expect(errors).toEqual([]);
+});

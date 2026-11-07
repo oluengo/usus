@@ -502,6 +502,9 @@ msgstr ""
 msgid "Al vincular un nombre como «Fondos (bajada 3 s)», lo que va entre paréntesis pasa a ser la técnica."
 msgstr ""
 
+msgid "Alby, nos2x… u otra extensión de Nostr del navegador."
+msgstr ""
+
 msgid "Algo exigente"
 msgstr ""
 
@@ -1080,6 +1083,12 @@ msgstr ""
 msgid "Con nota"
 msgstr ""
 
+msgid "Con solo la npub no se puede publicar: entra con un firmante."
+msgstr ""
+
+msgid "Con solo la npub no se pueden guardar ni recuperar copias: entra con un firmante en Ajustes → Cuenta de Nostr."
+msgstr ""
+
 msgid "Con tu molestia no hay alternativa para todo: los ejercicios marcados con ⚠ la cargan y van en su versión fácil. Hazlos con cuidado o cámbialos."
 msgstr ""
 
@@ -1224,6 +1233,9 @@ msgid "Cuándo"
 msgstr ""
 
 msgid "Cuando la IA responda"
+msgstr ""
+
+msgid "Cuenta"
 msgstr ""
 
 msgid "Cuenta atrás"
@@ -1880,6 +1892,9 @@ msgstr ""
 msgid "Entrar con Amber"
 msgstr ""
 
+msgid "Entrar con extensión"
+msgstr ""
+
 msgid "Entrenado"
 msgstr ""
 
@@ -2020,6 +2035,9 @@ msgstr ""
 msgid "Exportar ahora"
 msgstr ""
 
+msgid "Extensión"
+msgstr ""
+
 msgid "Externa"
 msgstr ""
 
@@ -2076,6 +2094,12 @@ msgid "Firma con Amber. Usus no cambia tu perfil de Nostr: solo lo muestra."
 msgstr ""
 
 msgid "Firma con bunker"
+msgstr ""
+
+msgid "Firma con la extensión"
+msgstr ""
+
+msgid "Firma con la extensión del navegador. Usus no cambia tu perfil de Nostr: solo lo muestra."
 msgstr ""
 
 msgid "Firma con tu bunker. Usus no cambia tu perfil de Nostr: solo lo muestra."
@@ -2830,6 +2854,9 @@ msgstr ""
 msgid "No hay ninguna copia de Usus en Nostr con esta cuenta"
 msgstr ""
 
+msgid "No hay ninguna extensión de Nostr en este navegador."
+msgstr ""
+
 msgid "No hay sesiones para exportar"
 msgstr ""
 
@@ -2870,6 +2897,10 @@ msgid "No se pudo cargar el catálogo. Se volverá a intentar al abrir la app."
 msgstr ""
 
 #, python-brace-format
+msgid "No se pudo conectar: {x}"
+msgstr ""
+
+#, python-brace-format
 msgid "No se pudo conectar: {x}. Revisa la dirección y que tu firmante esté abierto."
 msgstr ""
 
@@ -2878,6 +2909,10 @@ msgstr ""
 
 #, python-brace-format
 msgid "No se pudo entrar con Amber: {x}"
+msgstr ""
+
+#, python-brace-format
+msgid "No se pudo entrar con la extensión: {x}"
 msgstr ""
 
 #, python-brace-format
@@ -2941,7 +2976,13 @@ msgstr ""
 msgid "Nostr (opcional): conecta tu cuenta con un bunker (Amber, nsec.app…) en Ajustes → Perfil; la copia está en Ajustes → Datos y copias. Usus no ve tu clave privada y, sin Nostr, no se conecta a nada."
 msgstr ""
 
+msgid "Nostr con solo tu npub: solo lectura, se ve tu perfil pero no hay copias ni publicar."
+msgstr ""
+
 msgid "Nostr en el APK: entra con Amber, el firmante de Nostr para Android, como en Wavestr; con la web o sin Amber, con un bunker."
+msgstr ""
+
+msgid "Nostr en la web: entra con la extensión del navegador (Alby, nos2x…), además de con un bunker."
 msgstr ""
 
 msgid "Nostr: copia automática al terminar cada sesión y, al abrir Usus, aviso si hay en Nostr una copia más nueva (de otro móvil o de la web). Se desactiva en Ajustes → Datos y copias."
@@ -3259,6 +3300,9 @@ msgid "Pega aquí la respuesta de la IA"
 msgstr ""
 
 msgid "Pega la dirección bunker://… de tu firmante (Amber, nsec.app…)."
+msgstr ""
+
+msgid "Pega tu npub1…"
 msgstr ""
 
 msgid "Pégalas en una conversación nueva de tu IA (ChatGPT, Claude, Gemini…) o sube el archivo."
@@ -4352,6 +4396,18 @@ msgstr ""
 msgid "Solo las rutinas. Ningún registro."
 msgstr ""
 
+msgid "Solo lectura"
+msgstr ""
+
+msgid "Solo lectura con tu npub: se ve tu perfil, pero no se pueden guardar copias ni publicar. Para eso, desconecta y entra con un firmante."
+msgstr ""
+
+msgid "solo lectura: entra con un firmante para esto"
+msgstr ""
+
+msgid "Solo lectura: sin copias ni publicar, porque sin firmante no se puede firmar ni descifrar."
+msgstr ""
+
 #, python-brace-format
 msgid "Solo los datos de {x}. Cada perfil tiene su propia copia."
 msgstr ""
@@ -4378,6 +4434,9 @@ msgid "Solo si influye en el entreno o la recuperación"
 msgstr ""
 
 msgid "Solo sonido"
+msgstr ""
+
+msgid "Solo ver mi perfil (npub)"
 msgstr ""
 
 msgid "Solo vibración"
@@ -4824,6 +4883,9 @@ msgid "Ventanas con un mismo diseño: título arriba con ✕ para cerrar siempre
 msgstr ""
 
 msgid "Ventanas: el título va pegado arriba del todo (al desplazar ya no asoma el contenido por encima) y con más aire respecto a lo que sigue."
+msgstr ""
+
+msgid "Ver"
 msgstr ""
 
 msgid "Ver el aviso"

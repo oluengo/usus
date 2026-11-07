@@ -1,5 +1,6 @@
 /* ---------- Nostr (3.6.0): cuenta con bunker, copia cifrada y publicar ----------
-   - Se entra con un bunker (NIP-46: Amber, nsec.app…). Usus no ve ni guarda la nsec; solo la clave de esta conexión.
+   - Se entra con Amber (APK), una extensión del navegador (NIP-07) o un bunker (NIP-46). Usus no ve ni guarda la nsec.
+   - Con solo la npub, solo lectura: se ve el perfil, pero no hay copias ni publicar (no se puede firmar ni descifrar).
    - Copia de seguridad: la misma copia completa del archivo, comprimida (gzip) y cifrada con NIP-44 para uno mismo,
      en eventos de datos de app (kind 30078): d=usus/backup (índice) y d=usus/backup/N (partes). Nadie más la puede leer.
    - Publicar: nota pública (kind 1) que se revisa antes; el entreno puede llevar su imagen (subida a Blossom).
@@ -25,7 +26,8 @@ const nsTime = (p, ms) => Promise.race([p, new Promise((_, ko) => setTimeout(() 
 const nsErr = e => String(e?.message || e || "").slice(0, 80);
 async function nsSigner() {
   const L = await nsLib(), c = NS.cfg(); if (!c) throw new Error(T("sin cuenta de Nostr"));
-  if (!L.active()) { if (c.method === "amber") L.amberResume(c.pubkey, c.pkg); else L.resume(c.bp, c.sk, nsAuth); }
+  if (c.method === "npub") throw new Error(T("solo lectura: entra con un firmante para esto"));
+  if (!L.active()) { if (c.method === "amber") L.amberResume(c.pubkey, c.pkg); else if (c.method === "nip07") L.extResume(c.pubkey); else L.resume(c.bp, c.sk, nsAuth); }
   return L;
 }
 const nsBusy = msg => { state.nsBusy = msg || null; render(); };
@@ -73,6 +75,30 @@ async function nsConnectAmber() {
   } catch (e) { toast(T("No se pudo entrar con Amber: {x}", { x: nsErr(e) }), 5000); }
   nsBusy(null);
 }
+/* Extensión del navegador (NIP-07: Alby, nos2x…), en la web */
+async function nsConnectExt() {
+  nsBusy(T("Conectando…"));
+  try {
+    const L = await nsLib();
+    if (!L.extAvailable()) { toast(T("No hay ninguna extensión de Nostr en este navegador."), 5000); nsBusy(null); return; }
+    const r = await L.extLogin();
+    await nsAfterLogin(L, r.pubkey, [], { method: "nip07" });
+  } catch (e) { toast(T("No se pudo entrar con la extensión: {x}", { x: nsErr(e) }), 5000); }
+  nsBusy(null);
+}
+/* Solo la npub: solo lectura (perfil), sin copias ni publicar */
+async function nsConnectNpub() {
+  const v = ($("#nsNpub")?.value || "").trim();
+  try {
+    const L = await nsLib(), pk = L.pubHex(v);
+    if (!pk) { toast(T("Pega tu npub1…")); $("#nsNpub")?.focus(); return; }
+    nsBusy(T("Conectando…"));
+    await nsAfterLogin(L, pk, [], { method: "npub" });
+  } catch (e) { toast(T("No se pudo conectar: {x}", { x: nsErr(e) }), 5000); }
+  nsBusy(null);
+}
+const nsRO = () => NS.cfg()?.method === "npub";
+const nsMethod = c => ({ amber: "Amber", nip07: T("Extensión"), npub: T("Solo lectura") })[c?.method] || "Bunker";
 async function nsDisconnect() {
   if (!confirm(T("¿Desconectar la cuenta de Nostr de este perfil? Tus copias en Nostr no se borran."))) return;
   try { if (window.UsusNostr) await window.UsusNostr.disconnect(); } catch {}
@@ -119,9 +145,9 @@ async function nsBackupLoad() {
 /* Sincronizar (3.7.0): copia sola al terminar cada sesión; al abrir, aviso si en Nostr hay una copia más nueva
    que la última que se guardó o recuperó aquí (se mira la fecha del índice, sin descifrar ni pedir nada al bunker). */
 const nsAutoOn = () => NS.cfg()?.auto !== false;
-function nsAutoBackup() { if (NS.cfg() && nsAutoOn() && !state.nsBusy) nsBackupSave(true); }
+function nsAutoBackup() { if (NS.cfg() && !nsRO() && nsAutoOn() && !state.nsBusy) nsBackupSave(true); }
 async function nsCheckNewer() {
-  const c = NS.cfg(); if (!c) return;
+  const c = NS.cfg(); if (!c || nsRO()) return;
   try {
     const L = await nsLib(), ev = await L.get(nsRelays(), { kinds: [30078], authors: [c.pubkey], "#d": ["usus/backup"] });
     if (ev && ev.created_at > (c.seen || 0) + 60 && ev.created_at * 1000 > (c.lastBk || 0) + 60e3) { state.nsNewer = { t: ev.created_at * 1000, at: ev.created_at }; render(); }
@@ -136,10 +162,12 @@ function nsNewerBanner() {
 
 /* Publicar: nota pública que se revisa antes; el entreno, con su imagen si se quiere */
 async function nsPostSess() {
+  if (nsRO()) return toast(T("Con solo la npub no se puede publicar: entra con un firmante."), 5000);
   const s = state.sessions.find(x => x.id === state.shareSess); if (!s) return;
   state.nsPost = { k: "sess", sid: s.id, text: sessText(s), img: !!SHOPT().img }; render();
 }
 async function nsPostRout() {
+  if (nsRO()) return toast(T("Con solo la npub no se puede publicar: entra con un firmante."), 5000);
   const sh = state.rshare; if (!sh?.sel.length) return;
   const pay = sharePayload(sh.sel, sh.plan), n = pay.routines.length;
   const head = n === 1 ? T("Mi rutina «{x}» para Usus. Abre el enlace para añadirla.", { x: pay.routines[0].name }) : T("{n} rutinas para Usus. Abre el enlace para añadirlas.", { n });
@@ -218,25 +246,29 @@ function nsAvatar(c, px) {
 function nostrAccount() {
   const c = NS.cfg();
   if (!c) return `<div class="panel"><b>${T("Sin cuenta")}</b><p class="muted" style="font-size:.88rem;margin:4px 0 12px">${T("Entra con tu cuenta de Nostr para guardar copias cifradas y publicar tus entrenos y rutinas. Usus no ve tu clave privada y solo se conecta cuando usas Nostr.")}</p>
-    ${isNative() ? `<button class="btn primary nsbtn" style="width:100%" data-act="ns-amber" ${state.nsBusy ? "disabled" : ""}>${NS_ICO}${T("Entrar con Amber")}</button><p class="muted" style="font-size:.82rem;margin:14px 0 4px">${T("O con un bunker (nsec.app, nsecBunker…):")}</p>` : ""}
+    ${isNative() ? `<button class="btn primary nsbtn" style="width:100%" data-act="ns-amber" ${state.nsBusy ? "disabled" : ""}>${NS_ICO}${T("Entrar con Amber")}</button><p class="muted" style="font-size:.82rem;margin:14px 0 4px">${T("O con un bunker (nsec.app, nsecBunker…):")}</p>`
+      : `<button class="btn primary nsbtn" style="width:100%" data-act="ns-ext" ${state.nsBusy ? "disabled" : ""}>${NS_ICO}${T("Entrar con extensión")}</button><p class="muted" style="font-size:.8rem;margin:4px 0 0">${T("Alby, nos2x… u otra extensión de Nostr del navegador.")}</p><p class="muted" style="font-size:.82rem;margin:14px 0 4px">${T("O con un bunker (nsec.app, nsecBunker…):")}</p>`}
     <label class="muted" for="nsBunker" style="font-size:.85rem">${T("Dirección del bunker")}</label>
     <div class="row" style="margin-top:4px;flex-wrap:nowrap"><input id="nsBunker" type="text" placeholder="bunker://…" autocomplete="off" autocapitalize="off" spellcheck="false" style="flex:1;min-width:0"><button class="btn primary" data-act="ns-connect" ${state.nsBusy ? "disabled" : ""}>${T("Conectar")}</button></div>
+    <details class="nsro"><summary>${T("Solo ver mi perfil (npub)")}</summary><p class="muted" style="font-size:.8rem;margin:4px 0 6px">${T("Solo lectura: sin copias ni publicar, porque sin firmante no se puede firmar ni descifrar.")}</p>
+    <div class="row" style="flex-wrap:nowrap"><input id="nsNpub" type="text" placeholder="npub1…" aria-label="npub" autocomplete="off" autocapitalize="off" spellcheck="false" style="flex:1;min-width:0"><button class="btn" data-act="ns-npub" ${state.nsBusy ? "disabled" : ""}>${T("Ver")}</button></div></details>
     ${nsBusyLine()}</div>`;
   setTimeout(() => nsRefreshProfile(), 0);
   const p = c.prof || {}, name = p.display || c.name || T("Tu cuenta");
-  const sub = [p.name ? "@" + esc(p.name) : "", p.nip05 ? `<span class="nip">✓ ${esc(p.nip05.replace(/^_@/, ""))}</span>` : ""].filter(Boolean).join(" · ") || (c.method === "amber" ? T("Firma con Amber") : T("Firma con bunker"));
+  const sub = [p.name ? "@" + esc(p.name) : "", p.nip05 ? `<span class="nip">✓ ${esc(p.nip05.replace(/^_@/, ""))}</span>` : ""].filter(Boolean).join(" · ") || ({ amber: T("Firma con Amber"), nip07: T("Firma con la extensión"), npub: T("Solo lectura") })[c.method] || T("Firma con bunker");
   const copy = (lab, val, shown) => `<div class="nslab">${lab}</div><div class="nscopy"><code>${esc(shown || val)}</code><button class="btn ghost small" data-nscopy="${esc(val)}">${T("Copiar")}</button></div>`;
   return `<div class="panel nsprof">
     <div class="nsacc">${nsAvatar(c, 48)}<span class="t"><b>${esc(name)}</b><small>${sub}</small></span></div>
     ${p.about ? `<p class="nsabout">${esc(p.about)}</p>` : ""}
     ${copy(T("Clave pública"), c.npub || "")}
     ${p.lud16 ? copy("Lightning", p.lud16, "⚡ " + p.lud16) : ""}
-    <p class="muted" style="font-size:.8rem;margin:10px 0 0">${c.method === "amber" ? T("Firma con Amber. Usus no cambia tu perfil de Nostr: solo lo muestra.") : T("Firma con tu bunker. Usus no cambia tu perfil de Nostr: solo lo muestra.")}</p>
+    <p class="muted" style="font-size:.8rem;margin:10px 0 0">${({ amber: T("Firma con Amber. Usus no cambia tu perfil de Nostr: solo lo muestra."), nip07: T("Firma con la extensión del navegador. Usus no cambia tu perfil de Nostr: solo lo muestra."), npub: T("Solo lectura con tu npub: se ve tu perfil, pero no se pueden guardar copias ni publicar. Para eso, desconecta y entra con un firmante.") })[c.method] || T("Firma con tu bunker. Usus no cambia tu perfil de Nostr: solo lo muestra.")}</p>
     <button class="btn" style="margin-top:10px" data-act="ns-off">${T("Desconectar")}</button>
     ${nsBusyLine()}</div>`;
 }
 function nostrBackup(item) {
   const c = NS.cfg(), when = t => new Date(t).toLocaleDateString(LOC(), { day: "numeric", month: "short", year: "numeric" });
+  if (c?.method === "npub") return `<h2>Nostr</h2><div class="panel">${item(T("Copia en Nostr"), T("Con solo la npub no se pueden guardar ni recuperar copias: entra con un firmante en Ajustes → Cuenta de Nostr."), "ns-go-set", T("Cuenta"))}</div>`;
   return `<h2>Nostr</h2><div class="panel">${c ? `
     ${item(T("Guardar copia en Nostr"), T("La copia completa, cifrada para que solo tú puedas leerla.") + (c.lastBk ? " " + T("Última: {d}.", { d: when(c.lastBk) }) : ""), "ns-bk-save", T("Guardar"), true)}
     ${item(T("Recuperar de Nostr"), T("Trae tu copia y la combina con lo que hay en este perfil."), "ns-bk-load", T("Recuperar"))}

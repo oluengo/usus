@@ -1,5 +1,9 @@
 /* ---------- Novedades (una vez por versión; historial al tocar la versión) ---------- */
 const CHANGES = [  // Novedades: solo en castellano; las traducciones, en i18n/*.po
+  ["3.7.1", [
+    N_("Nostr en la web: entra con la extensión del navegador (Alby, nos2x…), además de con un bunker."),
+    N_("Nostr con solo tu npub: solo lectura, se ve tu perfil pero no hay copias ni publicar.")
+  ]],
   ["3.7.0", [
     N_("Antes de empezar: debajo de «Iniciar», el material que necesita la rutina, en una línea. Lo que no tienes en «Mi material» sale marcado. Sale también sin el catálogo activado."),
     N_("⇄ Cambiar ejercicio: primero los de su progresión (más difícil y más fácil) y los de movimiento parecido y nivel cercano; el catálogo entero, plegado debajo."),

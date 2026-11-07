@@ -141,7 +141,7 @@ const SICO = {
 const SET_BLOCKS = [["perfil", "nostr"], ["entreno", "avisos", "apariencia"], ["datos"], ["acerca"]];
 function setSub(k, lastBk) {
   if (k === "perfil") return multiProf() ? esc(profName(curProf())) : T("Perfiles y datos personales");
-  if (k === "nostr") { const c = NS.cfg(); return c ? esc(c.name || nsShort(c)) + (c.method === "amber" ? " · Amber" : " · Bunker") : T("Sin conectar · copia cifrada y publicar"); }
+  if (k === "nostr") { const c = NS.cfg(); return c ? esc(c.name || nsShort(c)) + " · " + nsMethod(c) : T("Sin conectar · copia cifrada y publicar"); }
   if (k === "entreno") return T("Tiempos, esfuerzo, objetivos y catálogo");
   if (k === "avisos") return T((FX.find(x => x[0] === fxMode()) || FX[0])[1]);
   if (k === "apariencia") return `${T((THEMES.find(x => x[0] === curTheme()) || THEMES[3])[1])} · ${LANGS[LANG]?.name || LANG}`;

@@ -948,6 +948,7 @@ body:has(.sbar) .rest{bottom:calc(152px + env(safe-area-inset-bottom,0px))}
 .nsabout{margin:10px 0 0;font-size:.9rem;white-space:pre-line;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .nslab{margin:12px 0 4px;font-size:.75rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
 .nscopy{display:flex;align-items:center;gap:6px;background:var(--bg);border-radius:12px;padding-left:12px}.nscopy code{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:.78rem}
+.nsro{margin-top:14px}.nsro summary{cursor:pointer;font-size:.85rem;color:var(--muted)}
 /* Pantalla ancha: barra de secciones lateral */
 @media (min-width:1000px){
   body{padding-left:216px}
@@ -1166,7 +1167,7 @@ function lastSetsFor(ref) {
   }
   return null;
 }
-const APP_VERSION = "3.7.0";
+const APP_VERSION = "3.7.1";
 const THEMES = [["protector", "Protector", "Oscuro cálido, sin azul"], ["dark", "Oscuro", "Neutro"], ["light", "Claro", "Para el día"], ["auto", "Automático", "Sigue al sistema"]];
 const curTheme = () => document.documentElement.dataset.theme || "auto";
 function applyTheme(t) {
@@ -4475,7 +4476,7 @@ const SICO = {
 const SET_BLOCKS = [["perfil", "nostr"], ["entreno", "avisos", "apariencia"], ["datos"], ["acerca"]];
 function setSub(k, lastBk) {
   if (k === "perfil") return multiProf() ? esc(profName(curProf())) : T("Perfiles y datos personales");
-  if (k === "nostr") { const c = NS.cfg(); return c ? esc(c.name || nsShort(c)) + (c.method === "amber" ? " · Amber" : " · Bunker") : T("Sin conectar · copia cifrada y publicar"); }
+  if (k === "nostr") { const c = NS.cfg(); return c ? esc(c.name || nsShort(c)) + " · " + nsMethod(c) : T("Sin conectar · copia cifrada y publicar"); }
   if (k === "entreno") return T("Tiempos, esfuerzo, objetivos y catálogo");
   if (k === "avisos") return T((FX.find(x => x[0] === fxMode()) || FX[0])[1]);
   if (k === "apariencia") return `${T((THEMES.find(x => x[0] === curTheme()) || THEMES[3])[1])} · ${LANGS[LANG]?.name || LANG}`;
@@ -4533,6 +4534,10 @@ function installBlock() {
 }
 /* ---------- Novedades (una vez por versión; historial al tocar la versión) ---------- */
 const CHANGES = [  // Novedades: solo en castellano; las traducciones, en i18n/*.po
+  ["3.7.1", [
+    N_("Nostr en la web: entra con la extensión del navegador (Alby, nos2x…), además de con un bunker."),
+    N_("Nostr con solo tu npub: solo lectura, se ve tu perfil pero no hay copias ni publicar.")
+  ]],
   ["3.7.0", [
     N_("Antes de empezar: debajo de «Iniciar», el material que necesita la rutina, en una línea. Lo que no tienes en «Mi material» sale marcado. Sale también sin el catálogo activado."),
     N_("⇄ Cambiar ejercicio: primero los de su progresión (más difícil y más fácil) y los de movimiento parecido y nivel cercano; el catálogo entero, plegado debajo."),
@@ -5554,7 +5559,8 @@ function gpModal() {
 /* Nombre de un ejercicio que abre su ficha (si está vinculado al catálogo) */
 const xLink = (e, label) => e?.xid ? `<button class="xl" data-xinfo="${esc(e.xid)}">${label}</button>` : label;
 /* ---------- Nostr (3.6.0): cuenta con bunker, copia cifrada y publicar ----------
-   - Se entra con un bunker (NIP-46: Amber, nsec.app…). Usus no ve ni guarda la nsec; solo la clave de esta conexión.
+   - Se entra con Amber (APK), una extensión del navegador (NIP-07) o un bunker (NIP-46). Usus no ve ni guarda la nsec.
+   - Con solo la npub, solo lectura: se ve el perfil, pero no hay copias ni publicar (no se puede firmar ni descifrar).
    - Copia de seguridad: la misma copia completa del archivo, comprimida (gzip) y cifrada con NIP-44 para uno mismo,
      en eventos de datos de app (kind 30078): d=usus/backup (índice) y d=usus/backup/N (partes). Nadie más la puede leer.
    - Publicar: nota pública (kind 1) que se revisa antes; el entreno puede llevar su imagen (subida a Blossom).
@@ -5580,7 +5586,8 @@ const nsTime = (p, ms) => Promise.race([p, new Promise((_, ko) => setTimeout(() 
 const nsErr = e => String(e?.message || e || "").slice(0, 80);
 async function nsSigner() {
   const L = await nsLib(), c = NS.cfg(); if (!c) throw new Error(T("sin cuenta de Nostr"));
-  if (!L.active()) { if (c.method === "amber") L.amberResume(c.pubkey, c.pkg); else L.resume(c.bp, c.sk, nsAuth); }
+  if (c.method === "npub") throw new Error(T("solo lectura: entra con un firmante para esto"));
+  if (!L.active()) { if (c.method === "amber") L.amberResume(c.pubkey, c.pkg); else if (c.method === "nip07") L.extResume(c.pubkey); else L.resume(c.bp, c.sk, nsAuth); }
   return L;
 }
 const nsBusy = msg => { state.nsBusy = msg || null; render(); };
@@ -5628,6 +5635,30 @@ async function nsConnectAmber() {
   } catch (e) { toast(T("No se pudo entrar con Amber: {x}", { x: nsErr(e) }), 5000); }
   nsBusy(null);
 }
+/* Extensión del navegador (NIP-07: Alby, nos2x…), en la web */
+async function nsConnectExt() {
+  nsBusy(T("Conectando…"));
+  try {
+    const L = await nsLib();
+    if (!L.extAvailable()) { toast(T("No hay ninguna extensión de Nostr en este navegador."), 5000); nsBusy(null); return; }
+    const r = await L.extLogin();
+    await nsAfterLogin(L, r.pubkey, [], { method: "nip07" });
+  } catch (e) { toast(T("No se pudo entrar con la extensión: {x}", { x: nsErr(e) }), 5000); }
+  nsBusy(null);
+}
+/* Solo la npub: solo lectura (perfil), sin copias ni publicar */
+async function nsConnectNpub() {
+  const v = ($("#nsNpub")?.value || "").trim();
+  try {
+    const L = await nsLib(), pk = L.pubHex(v);
+    if (!pk) { toast(T("Pega tu npub1…")); $("#nsNpub")?.focus(); return; }
+    nsBusy(T("Conectando…"));
+    await nsAfterLogin(L, pk, [], { method: "npub" });
+  } catch (e) { toast(T("No se pudo conectar: {x}", { x: nsErr(e) }), 5000); }
+  nsBusy(null);
+}
+const nsRO = () => NS.cfg()?.method === "npub";
+const nsMethod = c => ({ amber: "Amber", nip07: T("Extensión"), npub: T("Solo lectura") })[c?.method] || "Bunker";
 async function nsDisconnect() {
   if (!confirm(T("¿Desconectar la cuenta de Nostr de este perfil? Tus copias en Nostr no se borran."))) return;
   try { if (window.UsusNostr) await window.UsusNostr.disconnect(); } catch {}
@@ -5674,9 +5705,9 @@ async function nsBackupLoad() {
 /* Sincronizar (3.7.0): copia sola al terminar cada sesión; al abrir, aviso si en Nostr hay una copia más nueva
    que la última que se guardó o recuperó aquí (se mira la fecha del índice, sin descifrar ni pedir nada al bunker). */
 const nsAutoOn = () => NS.cfg()?.auto !== false;
-function nsAutoBackup() { if (NS.cfg() && nsAutoOn() && !state.nsBusy) nsBackupSave(true); }
+function nsAutoBackup() { if (NS.cfg() && !nsRO() && nsAutoOn() && !state.nsBusy) nsBackupSave(true); }
 async function nsCheckNewer() {
-  const c = NS.cfg(); if (!c) return;
+  const c = NS.cfg(); if (!c || nsRO()) return;
   try {
     const L = await nsLib(), ev = await L.get(nsRelays(), { kinds: [30078], authors: [c.pubkey], "#d": ["usus/backup"] });
     if (ev && ev.created_at > (c.seen || 0) + 60 && ev.created_at * 1000 > (c.lastBk || 0) + 60e3) { state.nsNewer = { t: ev.created_at * 1000, at: ev.created_at }; render(); }
@@ -5691,10 +5722,12 @@ function nsNewerBanner() {
 
 /* Publicar: nota pública que se revisa antes; el entreno, con su imagen si se quiere */
 async function nsPostSess() {
+  if (nsRO()) return toast(T("Con solo la npub no se puede publicar: entra con un firmante."), 5000);
   const s = state.sessions.find(x => x.id === state.shareSess); if (!s) return;
   state.nsPost = { k: "sess", sid: s.id, text: sessText(s), img: !!SHOPT().img }; render();
 }
 async function nsPostRout() {
+  if (nsRO()) return toast(T("Con solo la npub no se puede publicar: entra con un firmante."), 5000);
   const sh = state.rshare; if (!sh?.sel.length) return;
   const pay = sharePayload(sh.sel, sh.plan), n = pay.routines.length;
   const head = n === 1 ? T("Mi rutina «{x}» para Usus. Abre el enlace para añadirla.", { x: pay.routines[0].name }) : T("{n} rutinas para Usus. Abre el enlace para añadirlas.", { n });
@@ -5773,25 +5806,29 @@ function nsAvatar(c, px) {
 function nostrAccount() {
   const c = NS.cfg();
   if (!c) return `<div class="panel"><b>${T("Sin cuenta")}</b><p class="muted" style="font-size:.88rem;margin:4px 0 12px">${T("Entra con tu cuenta de Nostr para guardar copias cifradas y publicar tus entrenos y rutinas. Usus no ve tu clave privada y solo se conecta cuando usas Nostr.")}</p>
-    ${isNative() ? `<button class="btn primary nsbtn" style="width:100%" data-act="ns-amber" ${state.nsBusy ? "disabled" : ""}>${NS_ICO}${T("Entrar con Amber")}</button><p class="muted" style="font-size:.82rem;margin:14px 0 4px">${T("O con un bunker (nsec.app, nsecBunker…):")}</p>` : ""}
+    ${isNative() ? `<button class="btn primary nsbtn" style="width:100%" data-act="ns-amber" ${state.nsBusy ? "disabled" : ""}>${NS_ICO}${T("Entrar con Amber")}</button><p class="muted" style="font-size:.82rem;margin:14px 0 4px">${T("O con un bunker (nsec.app, nsecBunker…):")}</p>`
+      : `<button class="btn primary nsbtn" style="width:100%" data-act="ns-ext" ${state.nsBusy ? "disabled" : ""}>${NS_ICO}${T("Entrar con extensión")}</button><p class="muted" style="font-size:.8rem;margin:4px 0 0">${T("Alby, nos2x… u otra extensión de Nostr del navegador.")}</p><p class="muted" style="font-size:.82rem;margin:14px 0 4px">${T("O con un bunker (nsec.app, nsecBunker…):")}</p>`}
     <label class="muted" for="nsBunker" style="font-size:.85rem">${T("Dirección del bunker")}</label>
     <div class="row" style="margin-top:4px;flex-wrap:nowrap"><input id="nsBunker" type="text" placeholder="bunker://…" autocomplete="off" autocapitalize="off" spellcheck="false" style="flex:1;min-width:0"><button class="btn primary" data-act="ns-connect" ${state.nsBusy ? "disabled" : ""}>${T("Conectar")}</button></div>
+    <details class="nsro"><summary>${T("Solo ver mi perfil (npub)")}</summary><p class="muted" style="font-size:.8rem;margin:4px 0 6px">${T("Solo lectura: sin copias ni publicar, porque sin firmante no se puede firmar ni descifrar.")}</p>
+    <div class="row" style="flex-wrap:nowrap"><input id="nsNpub" type="text" placeholder="npub1…" aria-label="npub" autocomplete="off" autocapitalize="off" spellcheck="false" style="flex:1;min-width:0"><button class="btn" data-act="ns-npub" ${state.nsBusy ? "disabled" : ""}>${T("Ver")}</button></div></details>
     ${nsBusyLine()}</div>`;
   setTimeout(() => nsRefreshProfile(), 0);
   const p = c.prof || {}, name = p.display || c.name || T("Tu cuenta");
-  const sub = [p.name ? "@" + esc(p.name) : "", p.nip05 ? `<span class="nip">✓ ${esc(p.nip05.replace(/^_@/, ""))}</span>` : ""].filter(Boolean).join(" · ") || (c.method === "amber" ? T("Firma con Amber") : T("Firma con bunker"));
+  const sub = [p.name ? "@" + esc(p.name) : "", p.nip05 ? `<span class="nip">✓ ${esc(p.nip05.replace(/^_@/, ""))}</span>` : ""].filter(Boolean).join(" · ") || ({ amber: T("Firma con Amber"), nip07: T("Firma con la extensión"), npub: T("Solo lectura") })[c.method] || T("Firma con bunker");
   const copy = (lab, val, shown) => `<div class="nslab">${lab}</div><div class="nscopy"><code>${esc(shown || val)}</code><button class="btn ghost small" data-nscopy="${esc(val)}">${T("Copiar")}</button></div>`;
   return `<div class="panel nsprof">
     <div class="nsacc">${nsAvatar(c, 48)}<span class="t"><b>${esc(name)}</b><small>${sub}</small></span></div>
     ${p.about ? `<p class="nsabout">${esc(p.about)}</p>` : ""}
     ${copy(T("Clave pública"), c.npub || "")}
     ${p.lud16 ? copy("Lightning", p.lud16, "⚡ " + p.lud16) : ""}
-    <p class="muted" style="font-size:.8rem;margin:10px 0 0">${c.method === "amber" ? T("Firma con Amber. Usus no cambia tu perfil de Nostr: solo lo muestra.") : T("Firma con tu bunker. Usus no cambia tu perfil de Nostr: solo lo muestra.")}</p>
+    <p class="muted" style="font-size:.8rem;margin:10px 0 0">${({ amber: T("Firma con Amber. Usus no cambia tu perfil de Nostr: solo lo muestra."), nip07: T("Firma con la extensión del navegador. Usus no cambia tu perfil de Nostr: solo lo muestra."), npub: T("Solo lectura con tu npub: se ve tu perfil, pero no se pueden guardar copias ni publicar. Para eso, desconecta y entra con un firmante.") })[c.method] || T("Firma con tu bunker. Usus no cambia tu perfil de Nostr: solo lo muestra.")}</p>
     <button class="btn" style="margin-top:10px" data-act="ns-off">${T("Desconectar")}</button>
     ${nsBusyLine()}</div>`;
 }
 function nostrBackup(item) {
   const c = NS.cfg(), when = t => new Date(t).toLocaleDateString(LOC(), { day: "numeric", month: "short", year: "numeric" });
+  if (c?.method === "npub") return `<h2>Nostr</h2><div class="panel">${item(T("Copia en Nostr"), T("Con solo la npub no se pueden guardar ni recuperar copias: entra con un firmante en Ajustes → Cuenta de Nostr."), "ns-go-set", T("Cuenta"))}</div>`;
   return `<h2>Nostr</h2><div class="panel">${c ? `
     ${item(T("Guardar copia en Nostr"), T("La copia completa, cifrada para que solo tú puedas leerla.") + (c.lastBk ? " " + T("Última: {d}.", { d: when(c.lastBk) }) : ""), "ns-bk-save", T("Guardar"), true)}
     ${item(T("Recuperar de Nostr"), T("Trae tu copia y la combina con lo que hay en este perfil."), "ns-bk-load", T("Recuperar"))}
@@ -6128,6 +6165,8 @@ document.addEventListener("click", async ev => {
     case "issue-go": { const u = issueURL(state.issue); state.issue = null; render(); openExt(u); break; }
     case "ns-connect": nsConnect(); break;
     case "ns-amber": nsConnectAmber(); break;
+    case "ns-ext": nsConnectExt(); break;
+    case "ns-npub": nsConnectNpub(); break;
     case "ns-off": nsDisconnect(); break;
     case "ns-bk-save": nsBackupSave(); break;
     case "ns-bk-load": nsBackupLoad(); break;
@@ -6506,6 +6545,7 @@ const I18N = {
     "Al terminar cada sesión, solo en ejercicios del catálogo": "En acabar cada sessió, només en exercicis del catàleg",
     "Al terminar cada sesión. Al abrir Usus, avisa si hay una copia más nueva.": "En acabar cada sessió. En obrir Usus, avisa si hi ha una còpia més nova.",
     "Al vincular un nombre como «Fondos (bajada 3 s)», lo que va entre paréntesis pasa a ser la técnica.": "En vincular un nom com «Fons (baixada 3 s)», el que va entre parèntesis passa a ser la tècnica.",
+    "Alby, nos2x… u otra extensión de Nostr del navegador.": "Alby, nos2x… o una altra extensió de Nostr del navegador.",
     "Algo exigente": "Una mica exigent",
     "Algo más": "Alguna cosa més",
     "Algo no funciona como debería": "Alguna cosa no funciona com hauria",
@@ -6695,6 +6735,8 @@ const I18N = {
     "Con la imagen del entreno": "Amb la imatge de l'entrenament",
     "con lastre": "amb llast",
     "Con nota": "Amb nota",
+    "Con solo la npub no se puede publicar: entra con un firmante.": "Només amb la npub no es pot publicar: entra amb un signant.",
+    "Con solo la npub no se pueden guardar ni recuperar copias: entra con un firmante en Ajustes → Cuenta de Nostr.": "Només amb la npub no es poden desar ni recuperar còpies: entra amb un signant a Ajustos → Compte de Nostr.",
     "Con tu molestia no hay alternativa para todo: los ejercicios marcados con ⚠ la cargan y van en su versión fácil. Hazlos con cuidado o cámbialos.": "Amb la teva molèstia no hi ha alternativa per a tot: els exercicis marcats amb ⚠ la carreguen i van en la versió fàcil. Fes-los amb compte o canvia'ls.",
     "Con tu molestia, algunos ejercicios se cambian por otros de la misma zona.": "Amb la teva molèstia, alguns exercicis es canvien per altres de la mateixa zona.",
     "Con variantes, Usus usa su plan de progresión: Hoy te dice qué toca cada semana.": "Amb variants, Usus fa servir el seu pla de progressió: Avui et diu què toca cada setmana.",
@@ -6742,6 +6784,7 @@ const I18N = {
     "Crear plan y rutinas": "Crea el pla i les rutines",
     "Cuándo": "Quan",
     "Cuando la IA responda": "Quan la IA respongui",
+    "Cuenta": "Compte",
     "Cuenta atrás": "Compte enrere",
     "Cuenta atrás rehecha desde cero con cinco tramos y una regla para cada uno: preparación, serie, cambio de lado (ahora ajustable), descanso entre series y entre ejercicios. Al acabar un descanso, si sigue una serie por tiempo con inicio automático, empieza sola sin otra cuenta atrás; si no, espera.": "Compte enrere refet des de zero amb cinc trams i una regla per a cadascun: preparació, sèrie, canvi de costat (ara ajustable), descans entre sèries i entre exercicis. En acabar un descans, si segueix una sèrie per temps amb inici automàtic, comença sola sense un altre compte enrere; si no, espera.",
     "Cuenta de Nostr": "Compte de Nostr",
@@ -6952,6 +6995,7 @@ const I18N = {
     "Entendido, empezar": "Entesos, començar",
     "Entra con tu cuenta de Nostr para guardar copias cifradas y publicar tus entrenos y rutinas. Usus no ve tu clave privada y solo se conecta cuando usas Nostr.": "Entra amb el teu compte de Nostr per desar còpies xifrades i publicar els teus entrenaments i rutines. Usus no veu la teva clau privada i només es connecta quan fas servir Nostr.",
     "Entrar con Amber": "Entra amb Amber",
+    "Entrar con extensión": "Entra amb extensió",
     "Entrenado": "Entrenat",
     "Entrenado 30 días": "Entrenat 30 dies",
     "Entrenando: cabecera fija con el tiempo y el avance, series más grandes y una barra abajo con la acción que toca (marcar la serie, empezar la cuenta atrás, siguiente ejercicio o terminar).": "Entrenant: capçalera fixa amb el temps i l'avanç, sèries més grans i una barra a baix amb l'acció que toca (marcar la sèrie, començar el compte enrere, exercici següent o acabar).",
@@ -6998,6 +7042,7 @@ const I18N = {
     "Exportar .zip": "Exportar .zip",
     "Exportar a .txt": "Exportar a .txt",
     "Exportar ahora": "Exporta ara",
+    "Extensión": "Extensió",
     "Externa": "Externa",
     "Fácil": "Fàcil",
     "falta una parte": "falta una part",
@@ -7017,6 +7062,8 @@ const I18N = {
     "Firma con Amber": "Signa amb Amber",
     "Firma con Amber. Usus no cambia tu perfil de Nostr: solo lo muestra.": "Signa amb Amber. Usus no canvia el teu perfil de Nostr: només el mostra.",
     "Firma con bunker": "Signa amb bunker",
+    "Firma con la extensión": "Signa amb l'extensió",
+    "Firma con la extensión del navegador. Usus no cambia tu perfil de Nostr: solo lo muestra.": "Signa amb l'extensió del navegador. Usus no canvia el teu perfil de Nostr: només el mostra.",
     "Firma con tu bunker. Usus no cambia tu perfil de Nostr: solo lo muestra.": "Signa amb el teu bunker. Usus no canvia el teu perfil de Nostr: només el mostra.",
     "Flexiones": "Flexions",
     "Folicular": "Fol·licular",
@@ -7263,6 +7310,7 @@ const I18N = {
     "No hay datos para exportar": "No hi ha dades per exportar",
     "No hay ejercicios por vincular.": "No hi ha exercicis per vincular.",
     "No hay ninguna copia de Usus en Nostr con esta cuenta": "No hi ha cap còpia d'Usus a Nostr amb aquest compte",
+    "No hay ninguna extensión de Nostr en este navegador.": "No hi ha cap extensió de Nostr en aquest navegador.",
     "No hay sesiones para exportar": "No hi ha sessions per exportar",
     "No hay suplementos activos.": "No hi ha suplements actius.",
     "no lo tienes": "no el tens",
@@ -7276,9 +7324,11 @@ const I18N = {
     "no se hizo": "no es va fer",
     "No se podrá cambiar una vez creado el perfil.": "No es podrà canviar un cop creat el perfil.",
     "No se pudo cargar el catálogo. Se volverá a intentar al abrir la app.": "No s'ha pogut carregar el catàleg. Es tornarà a provar en obrir l'app.",
+    "No se pudo conectar: {x}": "No s'ha pogut connectar: {x}",
     "No se pudo conectar: {x}. Revisa la dirección y que tu firmante esté abierto.": "No s'ha pogut connectar: {x}. Revisa l'adreça i que el teu signant estigui obert.",
     "No se pudo copiar": "No s'ha pogut copiar",
     "No se pudo entrar con Amber: {x}": "No s'ha pogut entrar amb Amber: {x}",
+    "No se pudo entrar con la extensión: {x}": "No s'ha pogut entrar amb l'extensió: {x}",
     "No se pudo guardar la copia en Nostr: {x}": "No s'ha pogut desar la còpia a Nostr: {x}",
     "No se pudo guardar: almacenamiento lleno": "No s'ha pogut desar: emmagatzematge ple",
     "No se pudo publicar: {x}": "No s'ha pogut publicar: {x}",
@@ -7298,7 +7348,9 @@ const I18N = {
     "Nombre del ejercicio": "Nom de l'exercici",
     "Normal": "Normal",
     "Nostr (opcional): conecta tu cuenta con un bunker (Amber, nsec.app…) en Ajustes → Perfil; la copia está en Ajustes → Datos y copias. Usus no ve tu clave privada y, sin Nostr, no se conecta a nada.": "Nostr (opcional): connecta el teu compte amb un bunker (Amber, nsec.app…) a Ajustos → Perfil; la còpia és a Ajustos → Dades i còpies. Usus no veu la teva clau privada i, sense Nostr, no es connecta a res.",
+    "Nostr con solo tu npub: solo lectura, se ve tu perfil pero no hay copias ni publicar.": "Nostr només amb la teva npub: només lectura, es veu el teu perfil però no hi ha còpies ni publicar.",
     "Nostr en el APK: entra con Amber, el firmante de Nostr para Android, como en Wavestr; con la web o sin Amber, con un bunker.": "Nostr a l'APK: entra amb Amber, el signant de Nostr per a Android, com a Wavestr; amb el web o sense Amber, amb un bunker.",
+    "Nostr en la web: entra con la extensión del navegador (Alby, nos2x…), además de con un bunker.": "Nostr al web: entra amb l'extensió del navegador (Alby, nos2x…), a més d'amb un bunker.",
     "Nostr: copia automática al terminar cada sesión y, al abrir Usus, aviso si hay en Nostr una copia más nueva (de otro móvil o de la web). Se desactiva en Ajustes → Datos y copias.": "Nostr: còpia automàtica en acabar cada sessió i, en obrir Usus, avís si hi ha a Nostr una còpia més nova (d'un altre mòbil o del web). Es desactiva a Ajustos → Dades i còpies.",
     "Nota": "Nota",
     "Nota (opcional)": "Nota (opcional)",
@@ -7400,6 +7452,7 @@ const I18N = {
     "Pecho": "Pit",
     "Pega aquí la respuesta de la IA": "Enganxa aquí la resposta de la IA",
     "Pega la dirección bunker://… de tu firmante (Amber, nsec.app…).": "Enganxa l'adreça bunker://… del teu signant (Amber, nsec.app…).",
+    "Pega tu npub1…": "Enganxa la teva npub1…",
     "Pégalas en una conversación nueva de tu IA (ChatGPT, Claude, Gemini…) o sube el archivo.": "Enganxa-les en una conversa nova de la teva IA (ChatGPT, Claude, Gemini…) o puja el fitxer.",
     "Pégalo en una conversación nueva de la IA que uses, o sube el archivo .txt. Si es muy largo para tu IA, prueba con menos semanas.": "Enganxa'l en una conversa nova de la IA que facis servir, o puja l'arxiu .txt. Si és massa llarg per a la teva IA, prova amb menys setmanes.",
     "Pegar respuesta de la IA": "Enganxa la resposta de la IA",
@@ -7746,6 +7799,10 @@ const I18N = {
     "Solo en este dispositivo. La fecha de nacimiento y la altura se usan en el análisis y en el plan con IA.": "Només en aquest dispositiu. La data de naixement i l'alçada es fan servir a l'anàlisi i al pla amb IA.",
     "Solo las rutinas de todas las semanas; el plan no avanza": "Només les rutines de totes les setmanes; el pla no avança",
     "Solo las rutinas. Ningún registro.": "Només les rutines. Cap registre.",
+    "Solo lectura": "Només lectura",
+    "Solo lectura con tu npub: se ve tu perfil, pero no se pueden guardar copias ni publicar. Para eso, desconecta y entra con un firmante.": "Només lectura amb la teva npub: es veu el teu perfil, però no es poden desar còpies ni publicar. Per fer-ho, desconnecta i entra amb un signant.",
+    "solo lectura: entra con un firmante para esto": "només lectura: entra amb un signant per a això",
+    "Solo lectura: sin copias ni publicar, porque sin firmante no se puede firmar ni descifrar.": "Només lectura: sense còpies ni publicar, perquè sense signant no es pot signar ni desxifrar.",
     "Solo los datos de {x}. Cada perfil tiene su propia copia.": "Només les dades de {x}. Cada perfil té la seva còpia.",
     "Solo recordatorio (↑)": "Només recordatori (↑)",
     "Solo rutinas": "Només rutines",
@@ -7755,6 +7812,7 @@ const I18N = {
     "Solo se usan al preparar un análisis con IA externa (Progreso → Resumen). Van en la copia de seguridad del perfil.": "Només es fan servir en preparar una anàlisi amb IA externa (Progrés → Resum). Van a la còpia de seguretat del perfil.",
     "Solo si influye en el entreno o la recuperación": "Només si influeix en l'entrenament o la recuperació",
     "Solo sonido": "Només so",
+    "Solo ver mi perfil (npub)": "Només veure el meu perfil (npub)",
     "Solo vibración": "Només vibració",
     "Sonido y vibración": "So i vibració",
     "Subiendo la imagen…": "Pujant la imatge…",
@@ -7898,6 +7956,7 @@ const I18N = {
     "Ventana fértil": "Finestra fèrtil",
     "Ventanas con un mismo diseño: título arriba con ✕ para cerrar siempre en el mismo sitio, pasos con barra de progreso y Atrás/Siguiente abajo. Al cerrar un proceso a medias, Usus avisa de si se pierde o se guarda lo hecho. En Crear plan con IA ya se puede elegir el sexo.": "Finestres amb un mateix disseny: títol a dalt amb ✕ per tancar sempre al mateix lloc, passos amb barra de progrés i Enrere/Següent a baix. En tancar un procés a mitges, Usus avisa de si es perd o es desa el que s'ha fet. A Crea un pla amb IA ja es pot triar el sexe.",
     "Ventanas: el título va pegado arriba del todo (al desplazar ya no asoma el contenido por encima) y con más aire respecto a lo que sigue.": "Finestres: el títol va enganxat a dalt de tot (en desplaçar ja no hi treu el cap el contingut per sobre) i amb més aire respecte al que segueix.",
+    "Ver": "Veure",
     "Ver el aviso": "Veure l'avís",
     "Ver el plan": "Veure el pla",
     "Ver en el Diario": "Veure al Diari",
@@ -8089,6 +8148,7 @@ const I18N = {
     "Al terminar cada sesión, solo en ejercicios del catálogo": "After each session, only for catalogue exercises",
     "Al terminar cada sesión. Al abrir Usus, avisa si hay una copia más nueva.": "After every session. When you open Usus, it tells you if there's a newer backup.",
     "Al vincular un nombre como «Fondos (bajada 3 s)», lo que va entre paréntesis pasa a ser la técnica.": "When linking a name like “Dips (3 s lowering)”, the part in brackets becomes the technique.",
+    "Alby, nos2x… u otra extensión de Nostr del navegador.": "Alby, nos2x… or another Nostr browser extension.",
     "Algo exigente": "Somewhat hard",
     "Algo más": "Anything else",
     "Algo no funciona como debería": "Something isn't working as it should",
@@ -8278,6 +8338,8 @@ const I18N = {
     "Con la imagen del entreno": "With the workout image",
     "con lastre": "weighted",
     "Con nota": "With a note",
+    "Con solo la npub no se puede publicar: entra con un firmante.": "With just the npub you can't post: sign in with a signer.",
+    "Con solo la npub no se pueden guardar ni recuperar copias: entra con un firmante en Ajustes → Cuenta de Nostr.": "With just the npub you can't save or restore backups: sign in with a signer in Settings → Nostr account.",
     "Con tu molestia no hay alternativa para todo: los ejercicios marcados con ⚠ la cargan y van en su versión fácil. Hazlos con cuidado o cámbialos.": "With your ache there isn't an alternative for everything: exercises marked ⚠ load it and come in their easy version. Do them carefully or swap them.",
     "Con tu molestia, algunos ejercicios se cambian por otros de la misma zona.": "Because of your ache, some exercises are replaced by others for the same area.",
     "Con variantes, Usus usa su plan de progresión: Hoy te dice qué toca cada semana.": "With variants, Usus uses its progression plan: Today tells you what's on each week.",
@@ -8325,6 +8387,7 @@ const I18N = {
     "Crear plan y rutinas": "Create plan and routines",
     "Cuándo": "When",
     "Cuando la IA responda": "When the AI replies",
+    "Cuenta": "Account",
     "Cuenta atrás": "Countdown",
     "Cuenta atrás rehecha desde cero con cinco tramos y una regla para cada uno: preparación, serie, cambio de lado (ahora ajustable), descanso entre series y entre ejercicios. Al acabar un descanso, si sigue una serie por tiempo con inicio automático, empieza sola sin otra cuenta atrás; si no, espera.": "Countdown rebuilt from scratch with five stages and one rule each: get-ready, set, side switch (now adjustable), rest between sets and between exercises. When a rest ends, if a timed set with auto start follows, it starts right away with no extra countdown; otherwise it waits.",
     "Cuenta de Nostr": "Nostr account",
@@ -8535,6 +8598,7 @@ const I18N = {
     "Entendido, empezar": "Got it, let's start",
     "Entra con tu cuenta de Nostr para guardar copias cifradas y publicar tus entrenos y rutinas. Usus no ve tu clave privada y solo se conecta cuando usas Nostr.": "Sign in with your Nostr account to save encrypted backups and post your workouts and routines. Usus never sees your private key and only connects when you use Nostr.",
     "Entrar con Amber": "Sign in with Amber",
+    "Entrar con extensión": "Sign in with extension",
     "Entrenado": "Trained",
     "Entrenado 30 días": "Trained, 30 days",
     "Entrenando: cabecera fija con el tiempo y el avance, series más grandes y una barra abajo con la acción que toca (marcar la serie, empezar la cuenta atrás, siguiente ejercicio o terminar).": "Training: a fixed header with time and progress, bigger sets and a bottom bar with the next action (mark the set, start the countdown, next exercise or finish).",
@@ -8581,6 +8645,7 @@ const I18N = {
     "Exportar .zip": "Export .zip",
     "Exportar a .txt": "Export as .txt",
     "Exportar ahora": "Export now",
+    "Extensión": "Extension",
     "Externa": "External",
     "Fácil": "Easy",
     "falta una parte": "a part is missing",
@@ -8600,6 +8665,8 @@ const I18N = {
     "Firma con Amber": "Signs with Amber",
     "Firma con Amber. Usus no cambia tu perfil de Nostr: solo lo muestra.": "Signs with Amber. Usus doesn't change your Nostr profile: it only shows it.",
     "Firma con bunker": "Signs with a bunker",
+    "Firma con la extensión": "Signs with the extension",
+    "Firma con la extensión del navegador. Usus no cambia tu perfil de Nostr: solo lo muestra.": "Signs with the browser extension. Usus doesn't change your Nostr profile: it only shows it.",
     "Firma con tu bunker. Usus no cambia tu perfil de Nostr: solo lo muestra.": "Signs with your bunker. Usus doesn't change your Nostr profile: it only shows it.",
     "Flexiones": "Push-ups",
     "Folicular": "Follicular",
@@ -8846,6 +8913,7 @@ const I18N = {
     "No hay datos para exportar": "No data to export",
     "No hay ejercicios por vincular.": "No exercises to link.",
     "No hay ninguna copia de Usus en Nostr con esta cuenta": "There's no Usus backup on Nostr for this account",
+    "No hay ninguna extensión de Nostr en este navegador.": "There's no Nostr extension in this browser.",
     "No hay sesiones para exportar": "No sessions to export",
     "No hay suplementos activos.": "No active supplements.",
     "no lo tienes": "you don't have it",
@@ -8859,9 +8927,11 @@ const I18N = {
     "no se hizo": "not done",
     "No se podrá cambiar una vez creado el perfil.": "Can't be changed once the profile is created.",
     "No se pudo cargar el catálogo. Se volverá a intentar al abrir la app.": "Couldn't load the catalogue. It will try again when you open the app.",
+    "No se pudo conectar: {x}": "Couldn't connect: {x}",
     "No se pudo conectar: {x}. Revisa la dirección y que tu firmante esté abierto.": "Couldn't connect: {x}. Check the address and that your signer is open.",
     "No se pudo copiar": "Couldn't copy",
     "No se pudo entrar con Amber: {x}": "Couldn't sign in with Amber: {x}",
+    "No se pudo entrar con la extensión: {x}": "Couldn't sign in with the extension: {x}",
     "No se pudo guardar la copia en Nostr: {x}": "Couldn't save the backup to Nostr: {x}",
     "No se pudo guardar: almacenamiento lleno": "Couldn't save: storage full",
     "No se pudo publicar: {x}": "Couldn't post: {x}",
@@ -8881,7 +8951,9 @@ const I18N = {
     "Nombre del ejercicio": "Exercise name",
     "Normal": "Normal",
     "Nostr (opcional): conecta tu cuenta con un bunker (Amber, nsec.app…) en Ajustes → Perfil; la copia está en Ajustes → Datos y copias. Usus no ve tu clave privada y, sin Nostr, no se conecta a nada.": "Nostr (optional): connect your account with a bunker (Amber, nsec.app…) in Settings → Profile; the backup is in Settings → Data and backups. Usus never sees your private key and, without Nostr, connects to nothing.",
+    "Nostr con solo tu npub: solo lectura, se ve tu perfil pero no hay copias ni publicar.": "Nostr with just your npub: read-only, your profile shows but there are no backups or posting.",
     "Nostr en el APK: entra con Amber, el firmante de Nostr para Android, como en Wavestr; con la web o sin Amber, con un bunker.": "Nostr in the APK: sign in with Amber, the Nostr signer for Android, like in Wavestr; on the web or without Amber, with a bunker.",
+    "Nostr en la web: entra con la extensión del navegador (Alby, nos2x…), además de con un bunker.": "Nostr on the web: sign in with your browser extension (Alby, nos2x…), as well as with a bunker.",
     "Nostr: copia automática al terminar cada sesión y, al abrir Usus, aviso si hay en Nostr una copia más nueva (de otro móvil o de la web). Se desactiva en Ajustes → Datos y copias.": "Nostr: automatic backup after every session and, when you open Usus, a notice if there's a newer backup on Nostr (from another phone or the web). Turn it off in Settings → Data and backups.",
     "Nota": "Note",
     "Nota (opcional)": "Note (optional)",
@@ -8983,6 +9055,7 @@ const I18N = {
     "Pecho": "Chest",
     "Pega aquí la respuesta de la IA": "Paste the AI's reply here",
     "Pega la dirección bunker://… de tu firmante (Amber, nsec.app…).": "Paste the bunker://… address from your signer (Amber, nsec.app…).",
+    "Pega tu npub1…": "Paste your npub1…",
     "Pégalas en una conversación nueva de tu IA (ChatGPT, Claude, Gemini…) o sube el archivo.": "Paste them into a new chat with your AI (ChatGPT, Claude, Gemini…) or upload the file.",
     "Pégalo en una conversación nueva de la IA que uses, o sube el archivo .txt. Si es muy largo para tu IA, prueba con menos semanas.": "Paste it into a new chat with the AI you use, or upload the .txt file. If it's too long for your AI, try fewer weeks.",
     "Pegar respuesta de la IA": "Paste the AI's reply",
@@ -9329,6 +9402,10 @@ const I18N = {
     "Solo en este dispositivo. La fecha de nacimiento y la altura se usan en el análisis y en el plan con IA.": "Only on this device. Date of birth and height are used in the AI analysis and plan.",
     "Solo las rutinas de todas las semanas; el plan no avanza": "Only every-week routines; the plan doesn't move on",
     "Solo las rutinas. Ningún registro.": "Routines only. No logs.",
+    "Solo lectura": "Read-only",
+    "Solo lectura con tu npub: se ve tu perfil, pero no se pueden guardar copias ni publicar. Para eso, desconecta y entra con un firmante.": "Read-only with your npub: your profile shows, but you can't save backups or post. For that, disconnect and sign in with a signer.",
+    "solo lectura: entra con un firmante para esto": "read-only: sign in with a signer for this",
+    "Solo lectura: sin copias ni publicar, porque sin firmante no se puede firmar ni descifrar.": "Read-only: no backups or posting, because without a signer nothing can be signed or decrypted.",
     "Solo los datos de {x}. Cada perfil tiene su propia copia.": "Only {x}'s data. Each profile has its own backup.",
     "Solo recordatorio (↑)": "Reminder only (↑)",
     "Solo rutinas": "Routines only",
@@ -9338,6 +9415,7 @@ const I18N = {
     "Solo se usan al preparar un análisis con IA externa (Progreso → Resumen). Van en la copia de seguridad del perfil.": "Only used when preparing an analysis with an external AI (Progress → Summary). Included in the profile backup.",
     "Solo si influye en el entreno o la recuperación": "Only if it affects training or recovery",
     "Solo sonido": "Sound only",
+    "Solo ver mi perfil (npub)": "Just view my profile (npub)",
     "Solo vibración": "Vibration only",
     "Sonido y vibración": "Sound and vibration",
     "Subiendo la imagen…": "Uploading the image…",
@@ -9481,6 +9559,7 @@ const I18N = {
     "Ventana fértil": "Fertile window",
     "Ventanas con un mismo diseño: título arriba con ✕ para cerrar siempre en el mismo sitio, pasos con barra de progreso y Atrás/Siguiente abajo. Al cerrar un proceso a medias, Usus avisa de si se pierde o se guarda lo hecho. En Crear plan con IA ya se puede elegir el sexo.": "Windows with one design: title at the top with ✕ to close, always in the same place; steps with a progress bar and Back/Next at the bottom. When you close a half-finished process, Usus tells you whether it's lost or saved. In Create plan with AI you can now choose your sex.",
     "Ventanas: el título va pegado arriba del todo (al desplazar ya no asoma el contenido por encima) y con más aire respecto a lo que sigue.": "Windows: the title sits right at the top (content no longer peeks above it when scrolling) and has more room before what follows.",
+    "Ver": "View",
     "Ver el aviso": "View the notice",
     "Ver el plan": "See the plan",
     "Ver en el Diario": "See in the Diary",

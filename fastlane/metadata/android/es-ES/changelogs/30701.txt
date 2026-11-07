@@ -1,0 +1,2 @@
+• Nostr en la web: entra con la extensión del navegador (Alby, nos2x…), además de con un bunker.
+• Nostr con solo tu npub: solo lectura, se ve tu perfil pero no hay copias ni publicar.
