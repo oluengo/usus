@@ -1,72 +1,66 @@
-# Usus para Android
+# Usus for Android
 
-La app Android es **la misma PWA** empaquetada con [Capacitor](https://capacitorjs.com): `index.html`, `ejercicios.json`, iconos y fuentes. No hay otro código de la app; solo un pequeño puente (`scripts/native.js`) que en el APK:
+The Android app is **the same PWA** packaged with [Capacitor](https://capacitorjs.com): `index.html`, `ejercicios.json`, icons and fonts. There is no other app code; only a small bridge (`scripts/native.js`) that, in the APK:
 
-- comparte archivos (copias, CSV, análisis) con la hoja nativa de Android;
-- mantiene la pantalla encendida durante el entreno;
-- hace que el botón Atrás cierre el diálogo abierto, vuelva a Hoy o minimice la app.
+- shares files (backups, CSV, analysis) through Android's native share sheet;
+- keeps the screen on while training;
+- makes the Back button close the open dialog, go back to Today or minimise the app.
 
-Dos permisos: **vibración** (avisos del descanso) e **Internet**, que solo se usa si conectas Nostr (copia cifrada y publicar). Sin permiso de almacenamiento: importar y exportar usan el selector de archivos y el menú de compartir de Android. Sin copia automática en la nube de Android. Cada compilación comprueba que el APK no pide otros permisos ([privacidad](PRIVACY.md)).
+Two permissions: **vibration** (rest alerts) and **Internet**, used only if you connect Nostr (encrypted backup and posting). No storage permission: import and export use Android's file picker and share menu. No Android cloud backup. Every build checks that the APK asks for no other permissions ([privacy](PRIVACY.md)).
 
-> **Los datos de la PWA y del APK están separados.** Para pasar de una a otra: Ajustes → Datos → exportar copia en la PWA e importarla en el APK.
+> **PWA and APK data are separate.** To move from one to the other: Settings → Data → export a backup in the PWA and import it in the APK.
 
-El APK va firmado. Huella SHA-256 del certificado: `28:B6:FF:4A:8F:61:F6:88:D4:B4:9D:C7:E8:B7:2D:95:D5:D9:44:45:D2:A2:30:07:1A:FA:72:B1:B2:D0:3E:C8`.
+The APK is signed. Certificate SHA-256 fingerprint: `28:B6:FF:4A:8F:61:F6:88:D4:B4:9D:C7:E8:B7:2D:95:D5:D9:44:45:D2:A2:30:07:1A:FA:72:B1:B2:D0:3E:C8`.
 
-## Cómo se compila
+## How it is built
 
-No hace falta ordenador: lo hace GitHub Actions (`.github/workflows/android.yml`).
+No computer needed: GitHub Actions does it (`.github/workflows/android.yml`).
 
-| Qué haces | Qué obtienes |
+| What you do | What you get |
 |---|---|
-| Publicar una Release con la etiqueta `vX.Y.Z` (igual que `APP_VERSION`) desde la web | El APK se adjunta a la **Release**, con las notas de CHANGELOG.md |
-| Push a la rama `android`, o «Run workflow» en Actions → Android | APK en *Artifacts* de esa ejecución (pruebas) |
+| Publish a Release tagged `vX.Y.Z` (matching `APP_VERSION`) on the web | The APK is attached to the **Release**, with the notes from CHANGELOG.md |
+| Push to the `android` branch, or "Run workflow" in Actions → Android | APK in that run's *Artifacts* (testing) |
 
-La versión del APK sale de `APP_VERSION`: `2.2.1` → `versionName 2.2.1`, `versionCode 20201`.
+The APK version comes from `APP_VERSION`: `2.2.1` → `versionName 2.2.1`, `versionCode 20201`.
 
-## Clave de firma (una vez)
+## Signing key (once)
 
-Android solo actualiza una app si la nueva versión está firmada **con la misma clave**. Si se pierde, no se puede publicar ninguna actualización con el mismo nombre de paquete (`io.github.oluengo.usus`).
+Android only updates an app if the new version is signed **with the same key**. If it is lost, no update can be published under the same package name (`io.github.oluengo.usus`).
 
-1. Crear la clave (en cualquier equipo con Java):
+1. Create the key (on any machine with Java):
    ```sh
    keytool -genkeypair -v -keystore usus.jks -alias usus -keyalg RSA -keysize 4096 -validity 10000
    base64 -w0 usus.jks > usus.jks.b64
    ```
-2. En GitHub → *Settings → Secrets and variables → Actions → New repository secret*:
-   - `ANDROID_KEYSTORE_BASE64`: contenido de `usus.jks.b64`
-   - `ANDROID_KEYSTORE_PASSWORD`: contraseña del almacén
+2. On GitHub → *Settings → Secrets and variables → Actions → New repository secret*:
+   - `ANDROID_KEYSTORE_BASE64`: contents of `usus.jks.b64`
+   - `ANDROID_KEYSTORE_PASSWORD`: keystore password
    - `ANDROID_KEY_ALIAS`: `usus`
-   - `ANDROID_KEY_PASSWORD`: contraseña de la clave (la misma si no pusiste otra)
-3. Guardar `usus.jks` y las contraseñas en un sitio seguro (gestor de contraseñas + copia). **Nunca** en el repositorio.
+   - `ANDROID_KEY_PASSWORD`: key password (the same one if you didn't set another)
+3. Keep `usus.jks` and the passwords somewhere safe (password manager + a copy). **Never** in the repository.
 
-Sin estos secretos el proceso genera un APK de depuración: se instala, pero no se puede actualizar después con la versión firmada (hay que desinstalar, y se pierden los datos si no hay copia).
+Without these secrets the build produces a debug APK: it installs, but it can't be updated later with the signed version (you have to uninstall, and data is lost without a backup).
 
-## Compilar en local (opcional)
+## Building locally (optional)
 
-Requiere Node 22, Java 21 y el SDK de Android (Android Studio).
+Requires Node 22, Java 21 and the Android SDK (Android Studio).
 
 ```sh
 npm ci
-npm run sync          # copia la PWA a www/ y la pasa al proyecto Android
-npx cap open android  # o: cd android && ./gradlew assembleDebug
+npm run sync          # copies the PWA to www/ and into the Android project
+npx cap open android  # or: cd android && ./gradlew assembleDebug
 ```
 
-## Dónde se publica
+## Where it is published
 
-- **GitHub Releases**: el APK de cada versión. Con [Obtainium](https://github.com/ImranR98/Obtainium) el móvil avisa de cada versión nueva.
-- **Zapstore** (sobre Nostr): `zapstore.yaml` apunta a las Releases de GitHub (solo `vX.Y.Z`, sin la beta) y toma la ficha de `fastlane/metadata/android/{es-ES,ca,en-US}/`. Tras publicar una Release: `zsp publish` con `SIGN_WITH=bunker://…` (mejor un bunker NIP-46 que la nsec). `zsp publish --check` muestra qué subiría sin publicar.
-- **Ficha**: al publicar una versión, `node scripts/fastlane.mjs X.Y.Z` crea sus novedades (`changelogs/<versionCode>.txt`, 3.5.1 → 30501) desde CHANGELOG.md. Las 4 capturas (Hoy, entrenando, cuenta atrás y progreso), con datos inventados y en los tres idiomas: `node scripts/capturas.mjs`.
+- **GitHub Releases**: the APK of each version. With [Obtainium](https://github.com/ImranR98/Obtainium) your phone is notified of every new version.
+- **Zapstore** (on Nostr): `zapstore.yaml` points to the GitHub Releases (only `vX.Y.Z`, not the beta) and takes the store listing from `fastlane/metadata/android/{es-ES,ca,en-US}/`. After publishing a Release: `zsp publish` with `SIGN_WITH=bunker://…` (a NIP-46 bunker is better than the nsec). `zsp publish --check` shows what would be uploaded without publishing.
+- **Store listing**: when a version is published, `node scripts/fastlane.mjs X.Y.Z` creates its release notes (`changelogs/<versionCode>.txt`, 3.5.1 → 30501) from CHANGELOG.md. The 4 screenshots (Today, training, countdown and progress), with made-up data and in all three languages: `node scripts/capturas.mjs`.
 
----
+## Test version (beta)
 
-## English
+New things are tested first on the `beta` branch, without touching the main version (`main`):
 
-The Android app is the **same PWA** packaged with Capacitor, plus a small bridge (`scripts/native.js`) for native file sharing, keeping the screen on while training and the Back button. GitHub Actions builds it: tag `vX.Y.Z` (matching `APP_VERSION`) or a Release published on the web → APK attached with notes from CHANGELOG.md; push to `android` or a manual run → APK in *Artifacts*. Two permissions: vibration and Internet (used only for the optional Nostr backup and posting); no storage permission. Signing uses the repository secrets `ANDROID_KEYSTORE_BASE64`, `ANDROID_KEYSTORE_PASSWORD`, `ANDROID_KEY_ALIAS` and `ANDROID_KEY_PASSWORD` (see the `keytool` commands above). Keep the key safe: without it, no updates can be published. PWA and APK data are separate; move them with an exported backup. Signing certificate SHA-256: `28:B6:FF:4A:8F:61:F6:88:D4:B4:9D:C7:E8:B7:2D:95:D5:D9:44:45:D2:A2:30:07:1A:FA:72:B1:B2:D0:3E:C8`.
-
-## Versión de pruebas (beta)
-
-Lo nuevo se prueba primero en la rama `beta`, sin tocar la versión principal (`main`):
-
-- **Web beta:** https://oluengo.github.io/usus/beta/ — guarda sus datos aparte de la web principal (para probar con tus datos, importa una copia de seguridad).
-- **App «Usus Beta»:** se instala junto a la Usus normal (otra app, `io.github.oluengo.usus.beta`, con sus propios datos). Cada push a `beta` publica la pre-release **Usus Beta** en Releases (versión `X.Y.Z-beta.N`). En Obtainium se puede añadir aparte activando «incluir pre-releases».
-- Cuando la beta está bien, se pasa a `main` y se publica la versión normal.
+- **Web beta:** https://oluengo.github.io/usus/beta/ — keeps its data separate from the main web app (to test with your data, import a backup).
+- **"Usus Beta" app:** installs next to the regular Usus (a separate app, `io.github.oluengo.usus.beta`, with its own data). Every push to `beta` publishes the **Usus Beta** pre-release in Releases (version `X.Y.Z-beta.N`). In Obtainium it can be added separately with "include pre-releases" on.
+- When the beta is good, it is merged into `main` and the regular version is published.
