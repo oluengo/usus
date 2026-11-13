@@ -1,11 +1,11 @@
-# Compila la app Android (APK) a partir de la PWA.
-# - Etiqueta v* (p. ej. v2.2.1, igual que APP_VERSION), o Release publicada desde la web de GitHub:
-#   adjunta a la Release el APK, con las notas de CHANGELOG.md.
-# - Push a la rama beta: «Usus Beta», otra app (io.github.oluengo.usus.beta) con sus propios datos, versión X.Y.Z-beta.N.
-#   Se publica como pre-release «Usus Beta» (etiqueta usus-beta, se sustituye en cada push) y queda en Artifacts.
-# - Lanzado a mano: deja los archivos en "Artifacts" de la ejecución.
-# Firma: secretos ANDROID_KEYSTORE_BASE64, ANDROID_KEYSTORE_PASSWORD, ANDROID_KEY_ALIAS, ANDROID_KEY_PASSWORD.
-# Sin ellos se genera un APK de depuración (instalable, pero no actualizable con la versión firmada).
+# Builds the Android app (APK) from the PWA.
+# - Tag v* (e.g. v2.2.1, matching APP_VERSION), or a Release published on GitHub:
+#   attaches the APK to the Release, with the notes from CHANGELOG.md.
+# - Push to the beta branch: "Usus Beta", a separate app (io.github.oluengo.usus.beta) with its own data, version X.Y.Z-beta.N.
+#   Published as the "Usus Beta" pre-release (tag usus-beta, replaced on every push) and kept in Artifacts.
+# - Run manually: leaves the files in the run's "Artifacts".
+# Signing: secrets ANDROID_KEYSTORE_BASE64, ANDROID_KEYSTORE_PASSWORD, ANDROID_KEY_ALIAS, ANDROID_KEY_PASSWORD.
+# Without them a debug APK is built (installable, but it can't be updated with the signed version).
 name: Android
 
 on:
@@ -33,7 +33,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      - name: Beta · nombre de la app
+      - name: Beta · app name
         if: env.USUS_BETA == '1'
         run: sed -i 's#<string name="app_name">Usus</string>#<string name="app_name">Usus Beta</string>#; s#<string name="title_activity_main">Usus</string>#<string name="title_activity_main">Usus Beta</string>#' android/app/src/main/res/values/strings.xml
 
@@ -49,25 +49,25 @@ jobs:
 
       - uses: gradle/actions/setup-gradle@v6
 
-      - name: Preparar web y proyecto Android
+      - name: Prepare web and Android project
         run: |
           npm ci
           npm run sync
 
-      - name: Versión
+      - name: Version
         id: v
         run: |
           v="$(cat www/version.txt)"
           if [ "$USUS_BETA" = "1" ]; then echo "version=$v-beta.$USUS_BETA_N" >> "$GITHUB_OUTPUT"; echo "file=usus-beta" >> "$GITHUB_OUTPUT"; else echo "version=$v" >> "$GITHUB_OUTPUT"; echo "file=usus" >> "$GITHUB_OUTPUT"; fi
 
-      - name: Comprobar que la etiqueta coincide con la versión
+      - name: Check that the tag matches the version
         if: startsWith(github.ref, 'refs/tags/v')
         run: |
           if [ "${GITHUB_REF_NAME#v}" != "${{ steps.v.outputs.version }}" ]; then
-            echo "La etiqueta $GITHUB_REF_NAME no coincide con APP_VERSION ${{ steps.v.outputs.version }}"; exit 1
+            echo "Tag $GITHUB_REF_NAME does not match APP_VERSION ${{ steps.v.outputs.version }}"; exit 1
           fi
 
-      - name: Clave de firma
+      - name: Signing key
         id: key
         env:
           KS: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
@@ -77,11 +77,11 @@ jobs:
             echo "USUS_KEYSTORE=$RUNNER_TEMP/usus.jks" >> "$GITHUB_ENV"
             echo "signed=true" >> "$GITHUB_OUTPUT"
           else
-            echo "::warning::Sin clave de firma: se genera un APK de depuración."
+            echo "::warning::No signing key: building a debug APK."
             echo "signed=false" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Compilar (firmado)
+      - name: Build (signed)
         if: steps.key.outputs.signed == 'true'
         working-directory: android
         env:
@@ -94,7 +94,7 @@ jobs:
           mkdir -p ../dist
           cp app/build/outputs/apk/release/app-release.apk "../dist/${{ steps.v.outputs.file }}-${{ steps.v.outputs.version }}.apk"
 
-      - name: Compilar (depuración)
+      - name: Build (debug)
         if: steps.key.outputs.signed != 'true'
         working-directory: android
         run: |
@@ -103,18 +103,18 @@ jobs:
           mkdir -p ../dist
           cp app/build/outputs/apk/debug/app-debug.apk "../dist/${{ steps.v.outputs.file }}-${{ steps.v.outputs.version }}-debug.apk"
 
-      - name: Huella SHA-256 del certificado
+      - name: Certificate SHA-256 fingerprint
         if: steps.key.outputs.signed == 'true'
         run: |
           f=$(ls dist/*.apk); bt=$(ls -d "$ANDROID_HOME"/build-tools/* | sort -V | tail -1)
           "$bt/apksigner" verify --print-certs "$f" | grep -i sha-256 | tee dist/firma-sha256.txt
           rm -f "$RUNNER_TEMP/usus.jks"
 
-      - name: Permisos del APK
+      - name: APK permissions
         run: |
           f=$(ls dist/*.apk); bt=$(ls -d "$ANDROID_HOME"/build-tools/* | sort -V | tail -1)
           "$bt/aapt2" dump permissions "$f" | tee dist/permisos.txt
-          if grep -E "STORAGE|LOCATION|CAMERA|RECORD_AUDIO|CONTACTS|ACCESS_NETWORK" dist/permisos.txt; then echo "::error::Permiso no esperado"; exit 1; fi
+          if grep -E "STORAGE|LOCATION|CAMERA|RECORD_AUDIO|CONTACTS|ACCESS_NETWORK" dist/permisos.txt; then echo "::error::Unexpected permission"; exit 1; fi
 
       - uses: actions/upload-artifact@v7
         with:
@@ -122,11 +122,11 @@ jobs:
           path: dist/
           if-no-files-found: error
 
-      - name: Notas de la versión
+      - name: Release notes
         if: startsWith(github.ref, 'refs/tags/v') && steps.key.outputs.signed == 'true'
         run: node scripts/notes.mjs "${{ steps.v.outputs.version }}" dist/firma-sha256.txt > "$RUNNER_TEMP/notas.md"
 
-      - name: Release de GitHub
+      - name: GitHub Release
         if: startsWith(github.ref, 'refs/tags/v') && steps.key.outputs.signed == 'true'
         uses: softprops/action-gh-release@v2
         with:
@@ -134,7 +134,7 @@ jobs:
           files: dist/*.apk
           body_path: ${{ runner.temp }}/notas.md
 
-      # Beta: una sola pre-release «Usus Beta» (etiqueta usus-beta) que se rehace en cada push; no cuenta como última versión.
+      # Beta: a single "Usus Beta" pre-release (tag usus-beta) rebuilt on every push; it doesn't count as the latest version.
       - name: Pre-release beta
         if: env.USUS_BETA == '1' && steps.key.outputs.signed == 'true'
         env:
@@ -142,7 +142,7 @@ jobs:
         run: |
           gh release delete usus-beta --cleanup-tag --yes || true
           gh release delete beta --cleanup-tag --yes || true
-          printf '%s\n\n%s\n\n%s\n' "**Versión de pruebas** ${{ steps.v.outputs.version }} · $(git log -1 --format=%s)" \
-            "Se instala como otra app, «Usus Beta», con sus propios datos: no toca la Usus normal. Puede tener fallos." \
-            "Web beta: https://oluengo.github.io/usus/beta/ (datos aparte de la web principal)." > "$RUNNER_TEMP/beta.md"
+          printf '%s\n\n%s\n\n%s\n' "**Test version** ${{ steps.v.outputs.version }} · $(git log -1 --format=%s)" \
+            "Installs as a separate app, \"Usus Beta\", with its own data: it doesn't touch the regular Usus. It may have bugs." \
+            "Web beta: https://oluengo.github.io/usus/beta/ (data separate from the main web app)." > "$RUNNER_TEMP/beta.md"
           gh release create usus-beta dist/*.apk --prerelease --target "$GITHUB_SHA" --title "Usus Beta ${{ steps.v.outputs.version }}" --notes-file "$RUNNER_TEMP/beta.md"

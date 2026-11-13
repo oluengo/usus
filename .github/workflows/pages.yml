@@ -1,10 +1,10 @@
-# Publica la web en GitHub Pages:
-# - landing/ → https://oluengo.github.io/usus/ (página de presentación)
-# - rama main → https://oluengo.github.io/usus/app/ (la app)
-# - rama beta → https://oluengo.github.io/usus/beta/ (versión de pruebas, con sus datos aparte)
-# Requiere Settings → Pages → Build and deployment → Source: «GitHub Actions».
-# El entorno github-pages solo admite publicar desde main: un push a beta relanza este flujo sobre main,
-# que monta las dos ramas (main en la raíz y beta en /beta/).
+# Publishes the website on GitHub Pages:
+# - landing/ → https://oluengo.github.io/usus/ (landing page)
+# - main branch → https://oluengo.github.io/usus/app/ (the app)
+# - beta branch → https://oluengo.github.io/usus/beta/ (test version, with separate data)
+# Requires Settings → Pages → Build and deployment → Source: "GitHub Actions".
+# The github-pages environment only allows deploying from main: a push to beta re-runs this workflow on main,
+# which assembles both branches (main at the root and beta in /beta/).
 name: Web
 
 on:
@@ -23,11 +23,11 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  relanzar:
+  rerun:
     if: github.ref == 'refs/heads/beta'
     runs-on: ubuntu-latest
     steps:
-      - name: Publicar desde main (incluye la beta)
+      - name: Deploy from main (includes the beta)
         env:
           GH_TOKEN: ${{ github.token }}
         run: gh workflow run pages.yml --repo "$GITHUB_REPOSITORY" --ref main
@@ -50,22 +50,22 @@ jobs:
         with:
           node-version: "22"
 
-      - name: Traducciones al día (desde i18n/*.po)
+      - name: Up-to-date translations (from i18n/*.po)
         run: |
           for d in main beta; do if [ -f "$d/scripts/i18n.mjs" ]; then (cd "$d" && node scripts/i18n.mjs build); fi; done
 
-      - name: Montar el sitio
+      - name: Assemble the site
         run: |
-          WEB="index.html sw.js nostr.js ejercicios.json manifest.webmanifest icon-192.png icon-512.png icon-maskable-512.png favicon-48.png LICENSE PRIVACY.md README.md ANDROID.md CHANGELOG.md fonts capturas"
+          WEB="index.html sw.js nostr.js ejercicios.json manifest.webmanifest icon-192.png icon-512.png icon-maskable-512.png favicon-48.png LICENSE PRIVACY.md README.md ANDROID.md CHANGELOG.md fonts screenshots"
           mkdir -p _site/app
           for f in $WEB; do if [ -e "main/$f" ]; then cp -r "main/$f" _site/app/; fi; done
-          # Página de presentación en la raíz; su sw.js retira el service worker antiguo de /usus/
+          # Landing page at the root; its sw.js removes the old /usus/ service worker
           cp -r main/landing/. _site/
           touch _site/.nojekyll
           if [ -f beta/index.html ]; then
             mkdir -p _site/beta
-            for f in $WEB; do if [ -e "beta/$f" ] && [ "$f" != "capturas" ]; then cp -r "beta/$f" _site/beta/; fi; done
-            # Caché propia de la beta y nombre propio al instalarla
+            for f in $WEB; do if [ -e "beta/$f" ] && [ "$f" != "screenshots" ]; then cp -r "beta/$f" _site/beta/; fi; done
+            # The beta's own cache and its own name when installed
             sed -i 's/const CACHE = "usus-/const CACHE = "usus-beta-/' _site/beta/sw.js
             node -e 'const f="_site/beta/manifest.webmanifest",fs=require("fs"),m=JSON.parse(fs.readFileSync(f,"utf8"));m.name="Usus Beta";m.short_name="Usus β";m.id="/usus/beta/";fs.writeFileSync(f,JSON.stringify(m,null,2))'
           fi

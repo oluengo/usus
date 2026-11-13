@@ -1,6 +1,6 @@
-# Zapstore (tienda sobre Nostr). Publica el APK de cada Release de GitHub (etiquetas vX.Y.Z, no la beta).
-# Ficha: la toma de fastlane/metadata/android. Publicar: `zsp publish` (o `zsp publish --check` para ver qué subiría)
-# con SIGN_WITH=bunker://… en el entorno. Nunca guardar aquí ni en el repositorio la clave nsec.
+# Zapstore (store on Nostr). Publishes the APK of each GitHub Release (tags vX.Y.Z, not the beta).
+# Listing: taken from fastlane/metadata/android. Publish: `zsp publish` (or `zsp publish --check` to see what would be uploaded)
+# with SIGN_WITH=bunker://… in the environment. Never store the nsec key here or in the repository.
 repository: https://github.com/oluengo/usus
 release_filter: ^v\d+\.\d+\.\d+$
 match: ^usus-\d+\.\d+\.\d+\.apk$

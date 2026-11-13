@@ -1,7 +1,7 @@
-# Comprueba el código y las traducciones en cada push a beta o main y en las propuestas de cambio:
-# index.html montado desde src/ (npm run build), plantilla al día con el código, huecos {n} iguales en todos los idiomas y cuántos textos faltan.
-# Si falla: ejecuta «npm run i18n» (o «npm run build») y sube los cambios.
-name: Textos
+# Checks the code and translations on every push to beta or main and on pull requests:
+# index.html built from src/ (npm run build), template up to date with the code, same {n} placeholders in every language and how many texts are missing.
+# If it fails: run "npm run i18n" (or "npm run build") and push the changes.
+name: Strings
 
 on:
   push:
@@ -22,13 +22,13 @@ jobs:
       - uses: actions/setup-node@v7
         with:
           node-version: "22"
-      - name: index.html al día con src/
+      - name: index.html up to date with src/
         run: node scripts/build.mjs --check
-      - name: Plantilla al día
+      - name: Template up to date
         run: |
           node scripts/i18n.mjs extract
           if ! git diff --quiet -- i18n/usus.pot; then
-            echo "::error::i18n/usus.pot no está al día con el código. Ejecuta: npm run i18n"; git diff --stat; exit 1
+            echo "::error::i18n/usus.pot is not up to date with the code. Run: npm run i18n"; git diff --stat; exit 1
           fi
-      - name: Traducciones
+      - name: Translations
         run: node scripts/i18n.mjs check

@@ -1,28 +1,28 @@
-# Pruebas
+# Tests
 
-Pruebas de la app con [Playwright](https://playwright.dev) en un Chromium con tamaño de móvil (Pixel 7). GitHub las ejecuta en cada cambio de `beta` y `main` (flujo «Pruebas»).
+App tests with [Playwright](https://playwright.dev) in a phone-sized Chromium (Pixel 7). GitHub runs them on every change to `beta` and `main` ("Tests" workflow).
 
 ```
 npm ci
-npx playwright install chromium   # la primera vez
-npm run www                        # genera www/ (lo usa la prueba del APK)
+npx playwright install chromium   # the first time
+npm run www                        # generates www/ (used by the APK test)
 npm test
 ```
 
-| Archivo | Qué comprueba |
+| File | What it checks |
 |---|---|
-| `arranque` | Abre en castellano, català e inglés y recorre todas las secciones sin errores |
-| `sesion` | Superseries, circuitos por tiempo, ejercicios por lado y avisos sin vibración |
-| `editor` | Secciones, agrupar, mover, guardar; catálogo al lado y arrastrar en pantalla ancha |
-| `planes` | Varios planes: duplicar, crear, activar, borrar |
-| `notas` | Terminar una sesión, añadir notas después y verlas en Stats |
-| `imprimir` | Hojas por ejercicio y hoja de semanas |
-| `compartir` | Enlace de rutina con secciones y superseries |
-| `datos` | Exportar la copia completa e importarla en otra instalación |
-| `beta` | La web beta guarda sus datos aparte |
-| `apk` | Puente de Android: compartir, imprimir y botón Atrás |
-| `plan-ia` | Crear plan con IA: pasos, indicaciones copiadas, respuesta revisada e importada; letras de variante libres |
-| `guiado` | Plan guiado: preguntas, propuesta con molestia, ajustar y crear rutinas A/B y plan; fichas desde las rutinas |
-| `catalogo` | Fichas del catálogo completas (es/ca/en, rol, rango, articulaciones) y progresiones coherentes |
+| `arranque` | Opens in Spanish, Catalan and English and goes through every section without errors |
+| `sesion` | Supersets, timed circuits, per-side exercises and alerts without vibration |
+| `editor` | Sections, grouping, moving, saving; catalogue alongside and dragging on wide screens |
+| `planes` | Several plans: duplicate, create, activate, delete |
+| `notas` | Finish a session, add notes afterwards and see them in Stats |
+| `imprimir` | Per-exercise sheets and weeks sheet |
+| `compartir` | Routine link with sections and supersets |
+| `datos` | Export the full backup and import it into another installation |
+| `beta` | The web beta keeps its data separate |
+| `apk` | Android bridge: sharing, printing and the Back button |
+| `plan-ia` | Create a plan with AI: steps, copied instructions, reviewed and imported answer; free variant letters |
+| `guiado` | Guided plan: questions, proposal with discomfort, adjust and create A/B routines and plan; cards from the routines |
+| `catalogo` | Complete catalogue cards (es/ca/en, role, range, joints) and consistent progressions |
 
-Los datos de las pruebas son inventados (`tests/helpers.mjs`).
+Test data is made up (`tests/helpers.mjs`).

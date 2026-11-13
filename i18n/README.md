@@ -1,53 +1,52 @@
-# Traducciones de Usus
+# Usus translations
 
-Usus está en **castellano** (idioma original), **català** y **English**: castellano e inglés por alcance internacional y catalán por cercanía. No está previsto añadir más idiomas. Las traducciones se editan a mano en los `.po`; para proponer una corrección, abre una [incidencia](https://github.com/oluengo/usus/issues).
+Usus is in **Spanish** (source language), **Catalan** and **English**: Spanish and English for international reach and Catalan for closeness. No more languages are planned. Translations are edited by hand in the `.po` files; to suggest a correction, open an [issue](https://github.com/oluengo/usus/issues).
 
-## Archivos
+## Files
 
-| Archivo | Qué es | ¿Se edita? |
+| File | What it is | Edited? |
 |---|---|---|
-| `usus.pot` | Plantilla con todos los textos de la app, en castellano | No: se genera con `npm run i18n` |
-| `ca.po`, `en.po` | Traducciones (formato gettext) | Sí, a mano |
+| `usus.pot` | Template with every text in the app, in Spanish | No: generated with `npm run i18n` |
+| `ca.po`, `en.po` | Translations (gettext format) | Yes, by hand |
 
-El catálogo de ejercicios se traduce aparte, en `ejercicios.json`.
+The exercise catalogue is translated separately, in `ejercicios.json`.
 
-## Cómo funciona
+## How it works
 
-1. En el código, todo texto visible va dentro de `T("…")` (o `TN(n, "singular", "plural")` si depende de un número). Los textos que se guardan en una lista y se traducen después llevan `N_("…")`.
-2. `npm run i18n` (o `node scripts/i18n.mjs all`):
-   - **extract**: lee el código (`src/js/`) y actualiza `usus.pot` y los `.po`. Los textos nuevos quedan sin traducir; si un texto cambia un poco, se conserva la traducción anterior marcada como *por revisar* (fuzzy).
-   - **build**: genera el diccionario `src/js/90-i18n.js` con las traducciones revisadas (las *por revisar* no se usan: se ve el castellano) y vuelve a montar `index.html`.
-   - **check**: cuenta lo que falta y comprueba que los huecos `{n}`, `{x}`… sean los mismos en todos los idiomas.
-3. Al publicar (web y APK) se ejecuta **build**, así que lo traducido llega a la siguiente versión sin más pasos.
-4. GitHub comprueba en cada cambio que la plantilla está al día y que no hay huecos mal (flujo «Textos»).
+1. In the code, every visible text goes inside `T("…")` (or `TN(n, "singular", "plural")` if it depends on a number). Texts stored in a list and translated later use `N_("…")`.
+2. `npm run i18n` (or `node scripts/i18n.mjs all`):
+   - **extract**: reads the code (`src/js/`) and updates `usus.pot` and the `.po` files. New texts stay untranslated; if a text changes slightly, the previous translation is kept and marked *needs review* (fuzzy).
+   - **build**: generates the dictionary `src/js/90-i18n.js` with the reviewed translations (those *needing review* aren't used: the Spanish text shows) and rebuilds `index.html`.
+   - **check**: counts what's missing and checks that the placeholders `{n}`, `{x}`… are the same in every language.
+3. Publishing (web and APK) runs **build**, so translations reach the next version with no extra steps.
+4. On every change GitHub checks that the template is up to date and that no placeholders are wrong ("Strings" workflow).
 
-## Glosario
+## Glossary
 
-Una palabra por concepto, en los tres idiomas:
+One word per concept, in the three languages:
 
-| Castellano | Català | English | Qué es |
+| Spanish | Catalan | English | What it is |
 |---|---|---|---|
-| Rutina | Rutina | Routine | Lista de ejercicios que se entrena |
-| Sesión | Sessió | Session | Una vez que entrenas |
-| Plan | Pla | Plan | Orden de variantes por semanas |
-| Variante | Variant | Variant | A, B, C… de un plan |
-| Semana de descarga | Setmana de descàrrega | Deload week | Semana suave dentro del plan |
+| Rutina | Rutina | Routine | List of exercises you train |
+| Sesión | Sessió | Session | One time you train |
+| Plan | Pla | Plan | Order of variants by week |
+| Variante | Variant | Variant | A, B, C… of a plan |
+| Semana de descarga | Setmana de descàrrega | Deload week | Easy week within the plan |
 | Serie | Sèrie | Set | |
 | Repeticiones (reps) | Repeticions (reps) | Reps | |
 | Descanso | Descans | Rest | |
-| Lastre | Llast | Added weight | Peso añadido |
+| Lastre | Llast | Added weight | |
 | Por lado | Per costat | Per side | |
 | Superserie | Supersèrie | Superset | |
 | Circuito | Circuit | Circuit | |
-| Vuelta | Volta | Round | De una superserie o circuito |
-| Sección | Secció | Section | Parte de una rutina (calentamiento…) |
-| Esfuerzo (PEM) | Esforç (PEM) | Effort (RPE) | Escala 1–10 |
-| RIR | RIR | RIR | Repeticiones en reserva |
-| Catálogo | Catàleg | Catalogue | Lista de ejercicios con ficha |
-| Ficha | Fitxa | Card | Detalle de un ejercicio |
+| Vuelta | Volta | Round | Of a superset or circuit |
+| Sección | Secció | Section | Part of a routine (warm-up…) |
+| Esfuerzo (PEM) | Esforç (PEM) | Effort (RPE) | 1–10 scale |
+| RIR | RIR | RIR | Reps in reserve |
+| Catálogo | Catàleg | Catalogue | List of exercises with cards |
+| Ficha | Fitxa | Card | An exercise's details |
 | Diario | Diari | Diary | |
 | Copia de seguridad | Còpia de seguretat | Backup | |
 | Perfil | Perfil | Profile | |
 
-Estilo: frase normal (solo la primera mayúscula), botones con verbo, tuteo (en català també, «tu»).
-
+Style: sentence case (only the first letter capitalised), buttons start with a verb, informal "you" (*tú* in Spanish, *tu* in Catalan).

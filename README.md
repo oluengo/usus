@@ -6,7 +6,7 @@
 
 <p align="center"><a href="https://oluengo.github.io/usus/">Website</a> · <a href="https://oluengo.github.io/usus/app/">Open the app</a> · <a href="https://github.com/oluengo/usus/releases/latest">Download for Android</a></p>
 
-<p align="center"><img src="capturas/portada.jpg" alt="Usus: Today, countdown, Diary and Progress" width="100%"></p>
+<p align="center"><img src="screenshots/cover.jpg" alt="Usus: Today, countdown, Diary and Progress" width="100%"></p>
 
 **Usus** (Latin: *practice, habit*) logs your workouts and habits. Built for calisthenics and home training; it works for any routine of sets and reps. Free, no ads. In Catalan, Spanish and English.
 
@@ -23,10 +23,10 @@
 - **Nostr** *(optional)*: a backup encrypted only for you and posting workouts and routines. Sign in with Amber, a bunker, a browser extension or your npub.
 
 <table><tr>
-<td width="25%"><img src="capturas/03-sesion.jpg" alt="Training"></td>
-<td width="25%"><img src="capturas/14-cuenta-atras.jpg" alt="Countdown"></td>
-<td width="25%"><img src="capturas/04-plan.jpg" alt="Plan"></td>
-<td width="25%"><img src="capturas/06-progreso.jpg" alt="Progress"></td>
+<td width="25%"><img src="screenshots/03-session.jpg" alt="Training"></td>
+<td width="25%"><img src="screenshots/14-countdown.jpg" alt="Countdown"></td>
+<td width="25%"><img src="screenshots/04-plan.jpg" alt="Plan"></td>
+<td width="25%"><img src="screenshots/06-progress.jpg" alt="Progress"></td>
 </tr></table>
 
 ## Install
