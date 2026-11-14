@@ -20,7 +20,7 @@ function migrateStored() {
 }
 /* Ajustes del perfil y su historial de progresión, que también viajan en la copia (3.7.2).
    No viajan: la cuenta de Nostr, la sesión en curso ni los avisos ya vistos. */
-const SET_KEYS = ["wk.catalog", "wk.equip", "wk.effort", "wk.fx", "wk.prog", "wk.restDefault", "wk.restExDefault", "wk.prep", "wk.switch", "wk.warn", "wk.autoStart", "wk.distUnit",
+const SET_KEYS = ["wk.catalog", "wk.equip", "wk.effort", "wk.fx", "wk.prog", "wk.restDefault", "wk.restExDefault", "wk.prep", "wk.switch", "wk.warn", "wk.autoStart", "wk.distUnit", "wk.tmrNotif",
   "wk.theme", "wk.lang", "wk.weighOn", "wk.weighDay", "wk.actGoalSteps", "wk.actGoalKm", "wk.statsCat", "wk.statsHidden", "wk.statsPer", "wk.statsOrder", "wk.shareOpt"];
 const PROG_KEYS = ["wk.progLog", "wk.progMute", "wk.planUpLog", "wk.planUpDone", "wk.planShift", "wk.linkOwn"];
 const pickLS = keys => Object.fromEntries(keys.map(k => [k, LS.get(k, null)]).filter(([, v]) => v !== null && v !== undefined));

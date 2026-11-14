@@ -115,16 +115,43 @@ function runTick() {
 const RING = 2 * Math.PI * 88;
 const fmtLeft = n => n >= 60 ? `${Math.floor(n / 60)}:${String(n % 60).padStart(2, "0")}` : String(n);
 /* Reanudar una serie en pausa: primero la cuenta atrás de inicio (Datos → Tiempos) y luego sigue donde estaba */
-function pauseRun() {
+function pauseRun(at) {
   if (!run) return;
-  const f = run.q[run.i];
+  const f = run.q[run.i], now = at || Date.now();                     // at: cuando se pulsó en la notificación (APK)
   if (run.lead) { run.lead = null; }                                  // cancelar la reanudación: sigue en pausa
   else if (run.paused) {
     if ((f.k === "work" || f.k === "switch") && prepSecs() > 0) { run.lead = Date.now() + prepSecs() * 1000; run.leadTick = null; }
-    else { run.end = Date.now() + run.rem; run.paused = false; run.tick = null; }
+    else { run.end = now + run.rem; run.paused = false; run.tick = null; }
   }
-  else { run.rem = Math.max(0, run.end - Date.now()); run.paused = true; }
+  else { run.rem = Math.max(0, run.end - now); run.paused = true; }
   render();
+}
+function runSkip() { if (run) { if (run.paused) { run.end = Date.now() + run.rem; run.paused = false; } run.lead = null; phaseDone(false); } }
+/* APK (3.8.0): notificación fija mientras hay una sesión, con la cuenta atrás del descanso o de la serie. La lleva Android
+   (UsusTimerService), así que sigue y avisa al acabar aunque Usus esté en segundo plano o con la pantalla apagada.
+   Botones Pausa/Seguir y Saltar. Se quita en Ajustes → Avisos. */
+const tmrPlug = () => (isNative() && window.Capacitor?.Plugins?.UsusTimer) || null;
+const tmrOn = () => !!tmrPlug() && LS.get("wk.tmrNotif", true) !== false;
+let tmrSig = "";
+function tmrSync() {
+  const P = tmrPlug(); if (!P) return;
+  const a = state.active;
+  if (!tmrOn() || !a || a.pre) { if (tmrSig) { tmrSig = ""; P.hide().catch(() => {}); } return; }
+  const name = ei => exOf(ei)?.name || "", fx = fxMode();
+  let o;
+  if (run) {
+    const f = run.q[run.i], nx = run.q.slice(run.i + 1).find(x => x.k === "work"), nxn = nx ? name(nx.ei) : f.k !== "work" ? name(f.ei) : "", nxt = nxn ? T("Siguiente: {x}", { x: nxn }) : "";
+    o = { title: run.lead ? T("Prepárate") : f.k === "work" ? name(f.ei) : f.k === "prep" ? T("Prepárate") : f.k === "switch" ? T("Cambia de lado") : T("Descanso"),
+      text: f.k === "work" ? (a.routine || "") : nxt, end: run.lead || run.end, paused: !!run.paused && !run.lead, rem: run.paused ? run.rem : 0, actions: true,
+      endTitle: f.k === "work" ? T("Serie terminada") : T("¡A por la siguiente serie!"), endText: nxt || T("Vuelve a Usus") };
+  } else o = { title: a.routine || T("Sesión libre"), text: a.pausedAt ? T("Sesión en pausa") : T("Sesión en curso"), start: a.pausedAt ? 0 : a.start + (a.pausedMs || 0) };
+  Object.assign(o, { sound: fx === "both" || fx === "sound", vib: fx === "both" || fx === "vib", lPause: T("Pausa"), lResume: T("Seguir"), lSkip: T("Saltar"), lPaused: T("En pausa") });
+  const sig = JSON.stringify(o); if (sig === tmrSig) return; tmrSig = sig;
+  const go = () => P.show(o).catch(() => { tmrSig = ""; });         // Android no deja empezarla desde segundo plano: se reintenta
+  if (!LS.get("wk.tmrAsked", false)) { LS.set("wk.tmrAsked", true); P.ask().catch(() => {}).then(go); } else go();
+}
+function tmrListen() {
+  tmrPlug()?.addListener?.("action", d => { if (!run) return; if (d?.a === "skip") runSkip(); else if (d?.a === "pause") pauseRun(d.at); });
 }
 /* −5 s / +5 s en directo durante un descanso (no cambia la configuración) */
 function adjRun(dl) {

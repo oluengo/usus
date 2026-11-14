@@ -262,7 +262,7 @@ document.addEventListener("click", async ev => {
     case "finish": await finishSession(); break;
     case "run-pause": pauseRun(); break;
     case "sess-pause": toggleSessionPause(); break;
-    case "run-skip": if (run) { if (run.paused) { run.end = Date.now() + run.rem; run.paused = false; } run.lead = null; phaseDone(false); } break;
+    case "run-skip": runSkip(); break;
     case "run-adj": adjRun(+d.d); break;
     case "sess-begin": a.pre = false; a.start = Date.now(); a.pausedMs = 0; a.pausedAt = null; state.exView = null; saveActive(); unlockAudio(); render(); window.scrollTo(0, 0); break;
     case "dsheet-close": state.dsheet = null; state.cycSymEdit = false; render(); break;
@@ -506,6 +506,7 @@ document.addEventListener("change", async ev => {
   const tg = ev.target, dk = state.day || dayKey(Date.now());
   if (tg.id === "progOn" || tg.id === "progUp" || tg.id === "progDown") { const P = PROG(); if (tg.id === "progOn") P.on = tg.checked; if (tg.id === "progUp") P.up = +tg.value; if (tg.id === "progDown") P.down = tg.value; LS.set("wk.prog", P); render(); return; }
   if (tg.dataset.nsbkp && state.nsBk) { state.nsBk.pick = tg.dataset.nsbkp; render(); return; }
+  if (tg.id === "tmrNotif") { LS.set("wk.tmrNotif", tg.checked); render(); return; }
   if (tg.id === "nsAuto") { const c = NS.cfg(); if (c) NS.save({ ...c, auto: tg.checked }); render(); return; }
   if (tg.id === "effPem" || tg.id === "effRir") { LS.set("wk.effort", { ...EFF(), [tg.id === "effPem" ? "pem" : "rir"]: tg.checked }); render(); return; }
   if (tg.id === "catOnly") { state.catOnly = tg.checked; const l = $("#catList"); if (l) l.innerHTML = catListHTML(); return; }

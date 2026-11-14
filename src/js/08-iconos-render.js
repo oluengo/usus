@@ -24,7 +24,7 @@ function renderTabs() {
 }
 
 function render() {
-  renderTabs(); syncAwake();
+  renderTabs(); syncAwake(); tmrSync();
   if (state.tab === "history") state.tab = "diary";
   const v = state.actForm ? viewActForm : state.tab === "data" && state.link ? viewLink : { train: viewTrain, routines: viewRoutines, diary: viewDiary, stats: viewStats, data: viewData }[state.tab];
   const mb = document.querySelector(".mbox.dsh"), mbTop = mb ? mb.scrollTop : 0;

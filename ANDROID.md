@@ -6,7 +6,7 @@ The Android app is **the same PWA** packaged with [Capacitor](https://capacitorj
 - keeps the screen on while training;
 - makes the Back button close the open dialog, go back to Today or minimise the app.
 
-Two permissions: **vibration** (rest alerts) and **Internet**, used only if you connect Nostr (encrypted backup and posting). No storage permission: import and export use Android's file picker and share menu. No Android cloud backup. Every build checks that the APK asks for no other permissions ([privacy](PRIVACY.md)).
+Permissions: **vibration** (rest alerts); **notifications** and a **foreground service** for the countdown notification while a session is in progress (Android 13+ asks once; you can turn it off in Settings → Alerts); and **Internet**, used only if you connect Nostr (encrypted backup and posting). No storage permission: import and export use Android's file picker and share menu. No Android cloud backup. Every build checks that the APK asks for no other permissions ([privacy](PRIVACY.md)).
 
 > **PWA and APK data are separate.** To move from one to the other: Settings → Data → export a backup in the PWA and import it in the APK.
 

@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="tmr_ch_run">Sessió en curs</string>
+    <string name="tmr_ch_sv">Fi del compte enrere (so i vibració)</string>
+    <string name="tmr_ch_v">Fi del compte enrere (només vibració)</string>
+</resources>

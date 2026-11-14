@@ -8,6 +8,9 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: es\n"
 
+msgid "¡A por la siguiente serie!"
+msgstr ""
+
 msgid "¿Alguna molestia?"
 msgstr ""
 
@@ -497,6 +500,9 @@ msgid "Al terminar cada sesión, solo en ejercicios del catálogo"
 msgstr ""
 
 msgid "Al terminar cada sesión. Al abrir Usus, avisa si hay una copia más nueva."
+msgstr ""
+
+msgid "Al terminar la sesión, «Publicar en Nostr» directamente, si tienes cuenta conectada."
 msgstr ""
 
 msgid "Al vincular un nombre como «Fondos (bajada 3 s)», lo que va entre paréntesis pasa a ser la técnica."
@@ -1349,6 +1355,9 @@ msgid "Desactivados"
 msgstr ""
 
 msgid "Desc."
+msgstr ""
+
+msgid "Descanso"
 msgstr ""
 
 msgid "Descanso (s)"
@@ -2305,6 +2314,9 @@ msgstr ""
 msgid "Hoy, más limpio: lo que toca, la semana del plan en una línea (toca para verla) y un menú ⋯ con descarga esta semana o pausar el plan 1 a 4 semanas. «Rutinas y días» se eligen dentro del propio plan."
 msgstr ""
 
+msgid "Hoy: «Semana 11 de 16» como título y la variante debajo, como etiqueta de color; todas las rutinas de hoy, también la Diaria, con el mismo botón «Empezar»."
+msgstr ""
+
 msgid "Hoy: lo que toca, arriba y con un único botón Empezar; accesos rápidos a otra rutina, sesión libre y actividad; los avisos, juntos en «Pendiente»."
 msgstr ""
 
@@ -2745,6 +2757,9 @@ msgstr ""
 msgid "Mi rutina «{x}» para Usus. Abre el enlace para añadirla."
 msgstr ""
 
+msgid "Mientras entrenas, la sesión y la cuenta atrás siguen en una notificación, con Pausa y Saltar, y avisa al acabar aunque salgas de Usus o apagues la pantalla."
+msgstr ""
+
 msgid "Minutos"
 msgstr ""
 
@@ -3059,6 +3074,12 @@ msgid "Notas en Stats: los días con nota llevan un punto naranja en Constancia,
 msgstr ""
 
 msgid "Notas y etiquetas del diario"
+msgstr ""
+
+msgid "Notificación con la cuenta atrás"
+msgstr ""
+
+msgid "Notificación con la cuenta atrás (APK): mientras entrenas, la sesión y el descanso o la serie por tiempo siguen en una notificación, con Pausa y Saltar, y avisa al acabar aunque salgas de Usus o apagues la pantalla. Android te pedirá permiso para notificaciones; se quita en Ajustes → Avisos."
 msgstr ""
 
 #, python-brace-format
@@ -4103,6 +4124,9 @@ msgstr ""
 msgid "Seguimiento del ciclo desactivado"
 msgstr ""
 
+msgid "Seguir"
+msgstr ""
+
 msgid "Seguir aquí"
 msgstr ""
 
@@ -4188,6 +4212,9 @@ msgstr ""
 msgid "Serie {n} hecha"
 msgstr ""
 
+msgid "Serie terminada"
+msgstr ""
+
 msgid "series"
 msgstr ""
 
@@ -4210,6 +4237,9 @@ msgid "Sesión"
 msgstr ""
 
 msgid "Sesión eliminada"
+msgstr ""
+
+msgid "Sesión en curso"
 msgstr ""
 
 msgid "Sesión en pausa"
@@ -5029,6 +5059,9 @@ msgid "Vueltas"
 msgstr ""
 
 msgid "Vuelve a funcionar sin conexión: desde la 1.2.1 la app no se guardaba en el móvil para usarla offline."
+msgstr ""
+
+msgid "Vuelve a Usus"
 msgstr ""
 
 msgid "X"

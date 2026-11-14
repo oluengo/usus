@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="tmr_ch_run">Sesión en curso</string>
+    <string name="tmr_ch_sv">Fin de la cuenta atrás (sonido y vibración)</string>
+    <string name="tmr_ch_v">Fin de la cuenta atrás (solo vibración)</string>
+</resources>

@@ -1,5 +1,10 @@
 /* ---------- Novedades (una vez por versión; historial al tocar la versión) ---------- */
 const CHANGES = [  // Novedades: solo en castellano; las traducciones, en i18n/*.po
+  ["3.8.0", [
+    N_("Notificación con la cuenta atrás (APK): mientras entrenas, la sesión y el descanso o la serie por tiempo siguen en una notificación, con Pausa y Saltar, y avisa al acabar aunque salgas de Usus o apagues la pantalla. Android te pedirá permiso para notificaciones; se quita en Ajustes → Avisos."),
+    N_("Al terminar la sesión, «Publicar en Nostr» directamente, si tienes cuenta conectada."),
+    N_("Hoy: «Semana 11 de 16» como título y la variante debajo, como etiqueta de color; todas las rutinas de hoy, también la Diaria, con el mismo botón «Empezar».")
+  ]],
   ["3.7.2", [
     N_("Copia en Nostr por apartados: rutinas y planes, entrenos y progreso, diario, peso y ciclo, y ajustes. Al guardar y al recuperar eliges cuáles."),
     N_("La copia, en Nostr y en archivo, lleva ahora también los ajustes (material, catálogo, tiempos, progresión, tema, idioma…) y el historial de subidas de ejercicio."),

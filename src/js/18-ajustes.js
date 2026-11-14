@@ -82,6 +82,7 @@ function viewData() {
     <div class="panel"><div class="seg" role="group" aria-label="${T("Avisos durante el entreno")}">${FX.map(([k, n]) => `<button data-fx="${k}" class="${fxMode() === k ? "on" : ""}" aria-pressed="${fxMode() === k}">${T(n)}</button>`).join("")}</div>
       <p class="muted" style="font-size:.85rem;margin:10px 0 0">${fxMode() === "off" ? T("Sin pitidos ni vibración: solo la cuenta atrás y el destello en pantalla.") : fxMode() === "vib" ? T("Útil con auriculares o si entrenas con gente al lado. Si no vibra, revisa No molestar y la vibración del sistema.") : T("El pitido usa el volumen multimedia. Si no vibra, revisa No molestar y la vibración del sistema.")}</p>
       ${fxMode() === "off" ? "" : `<button class="btn small" style="margin-top:10px" data-act="testfx">${T("Probar")}</button>`}</div>
+    ${isNative() ? `<div class="panel" style="margin-top:12px"><label class="shopt" style="border:0;padding:0"><span>${T("Notificación con la cuenta atrás")}<small class="muted" style="display:block;font-size:.8rem;font-weight:400">${T("Mientras entrenas, la sesión y la cuenta atrás siguen en una notificación, con Pausa y Saltar, y avisa al acabar aunque salgas de Usus o apagues la pantalla.")}</small></span><input type="checkbox" role="switch" id="tmrNotif" ${LS.get("wk.tmrNotif", true) !== false ? "checked" : ""}></label></div>` : ""}
 `,
     acerca: `
     <div class="panel">

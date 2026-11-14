@@ -9,6 +9,9 @@ msgstr ""
 "Language: en\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+msgid "¡A por la siguiente serie!"
+msgstr "On to the next set!"
+
 msgid "¿Alguna molestia?"
 msgstr "Any aches or pains?"
 
@@ -499,6 +502,9 @@ msgstr "After each session, only for catalogue exercises"
 
 msgid "Al terminar cada sesión. Al abrir Usus, avisa si hay una copia más nueva."
 msgstr "After every session. When you open Usus, it tells you if there's a newer backup."
+
+msgid "Al terminar la sesión, «Publicar en Nostr» directamente, si tienes cuenta conectada."
+msgstr "When a session ends, “Post on Nostr” right away, if you have an account connected."
 
 msgid "Al vincular un nombre como «Fondos (bajada 3 s)», lo que va entre paréntesis pasa a ser la técnica."
 msgstr "When linking a name like “Dips (3 s lowering)”, the part in brackets becomes the technique."
@@ -1351,6 +1357,9 @@ msgstr "Off"
 
 msgid "Desc."
 msgstr "Del."
+
+msgid "Descanso"
+msgstr "Rest"
 
 msgid "Descanso (s)"
 msgstr "Rest (s)"
@@ -2306,6 +2315,9 @@ msgstr "Weigh-in day"
 msgid "Hoy, más limpio: lo que toca, la semana del plan en una línea (toca para verla) y un menú ⋯ con descarga esta semana o pausar el plan 1 a 4 semanas. «Rutinas y días» se eligen dentro del propio plan."
 msgstr "Cleaner Today: what's on, the plan week in one line (tap to see it) and a ⋯ menu to deload this week or pause the plan for 1 to 4 weeks. “Routines and days” are chosen inside the plan itself."
 
+msgid "Hoy: «Semana 11 de 16» como título y la variante debajo, como etiqueta de color; todas las rutinas de hoy, también la Diaria, con el mismo botón «Empezar»."
+msgstr "Today: “Week 11 of 16” as the title with the variant below as a coloured label; all of today's routines, the Daily one too, with the same “Start” button."
+
 msgid "Hoy: lo que toca, arriba y con un único botón Empezar; accesos rápidos a otra rutina, sesión libre y actividad; los avisos, juntos en «Pendiente»."
 msgstr "Today: what's on, at the top with a single Start button; shortcuts to another routine, a free session and an activity; reminders together under “To do”."
 
@@ -2746,6 +2758,9 @@ msgstr "My equipment (Settings → Workout) and equipment for your own exercises
 msgid "Mi rutina «{x}» para Usus. Abre el enlace para añadirla."
 msgstr "My routine “{x}” for Usus. Open the link to add it."
 
+msgid "Mientras entrenas, la sesión y la cuenta atrás siguen en una notificación, con Pausa y Saltar, y avisa al acabar aunque salgas de Usus o apagues la pantalla."
+msgstr "While you train, the session and the countdown carry on in a notification, with Pause and Skip, and it alerts you when time is up even if you leave Usus or turn the screen off."
+
 msgid "Minutos"
 msgstr "Minutes"
 
@@ -3061,6 +3076,12 @@ msgstr "Notes in Stats: days with a note get an orange dot in Consistency, Load,
 
 msgid "Notas y etiquetas del diario"
 msgstr "Diary notes and tags"
+
+msgid "Notificación con la cuenta atrás"
+msgstr "Countdown notification"
+
+msgid "Notificación con la cuenta atrás (APK): mientras entrenas, la sesión y el descanso o la serie por tiempo siguen en una notificación, con Pausa y Saltar, y avisa al acabar aunque salgas de Usus o apagues la pantalla. Android te pedirá permiso para notificaciones; se quita en Ajustes → Avisos."
+msgstr "Countdown notification (APK): while you train, the session and the rest or timed set carry on in a notification, with Pause and Skip, and it alerts you when time is up even if you leave Usus or turn the screen off. Android will ask for notification permission; turn it off in Settings → Alerts."
 
 #, python-brace-format
 msgid "Novedades · versión {v}"
@@ -4104,6 +4125,9 @@ msgstr "Cycle tracking on"
 msgid "Seguimiento del ciclo desactivado"
 msgstr "Cycle tracking off"
 
+msgid "Seguir"
+msgstr "Resume"
+
 msgid "Seguir aquí"
 msgstr "Stay here"
 
@@ -4189,6 +4213,9 @@ msgstr "Set {n} of {m} · side {s}"
 msgid "Serie {n} hecha"
 msgstr "Set {n} done"
 
+msgid "Serie terminada"
+msgstr "Set done"
+
 msgid "series"
 msgstr "sets"
 
@@ -4212,6 +4239,9 @@ msgstr "Session"
 
 msgid "Sesión eliminada"
 msgstr "Session deleted"
+
+msgid "Sesión en curso"
+msgstr "Session in progress"
 
 msgid "Sesión en pausa"
 msgstr "Session paused"
@@ -5032,6 +5062,9 @@ msgstr "Rounds"
 msgid "Vuelve a funcionar sin conexión: desde la 1.2.1 la app no se guardaba en el móvil para usarla offline."
 msgstr "Works offline again: since 1.2.1 the app wasn't being stored on the phone for offline use."
 
+msgid "Vuelve a Usus"
+msgstr "Back to Usus"
+
 msgid "X"
 msgstr "W"
 
@@ -5460,9 +5493,6 @@ msgstr "Danger zone"
 
 #~ msgid "Una fila por serie. Para hojas de cálculo."
 #~ msgstr "One row per set. For spreadsheets."
-
-#~ msgid "Descanso"
-#~ msgstr "Rest"
 
 #~ msgid "Por defecto (s)"
 #~ msgstr "Default (s)"

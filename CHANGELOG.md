@@ -2,6 +2,12 @@
 
 All Usus versions. Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); [SemVer](https://semver.org/) numbering (MAJOR.MINOR.PATCH).
 
+## [3.8.0] — in testing (beta)
+
+- Countdown notification (APK): while you train, the session and the rest or timed set carry on in a notification, with Pause and Skip, and it alerts you when time is up even if you leave Usus or turn the screen off. Android will ask for notification permission; turn it off in Settings → Alerts.
+- When a session ends, “Post on Nostr” right away, if you have an account connected.
+- Today: “Week 11 of 16” as the title with the variant below as a coloured label; all of today's routines, the Daily one too, with the same “Start” button.
+
 ## [3.7.2] — 2026-11-07
 
 - Nostr backup by sections: routines and plans, workouts and progress, diary, weight and cycle, and settings. When saving and restoring you choose which.

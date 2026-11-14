@@ -236,6 +236,7 @@ const vib = p => {
 const buzz = vib;
 /* Tres avisos: tic (últimos segundos), inicio (empieza una serie) y fin (acaba una serie o un descanso sin nada detrás) */
 function sfx(k) {
+  if (document.hidden && tmrOn()) return;   // con Usus en segundo plano avisa la notificación (APK)
   if (k === "tick") { beep(660, 160, 0, 0.25); vib(40); }
   else if (k === "go") { beep(660, 160); beep(880, 600, 0.15); vib(300); }
   else { beep(880, 300); beep(660, 300, 0.25); beep(523, 700, 0.5); vib([300, 120, 300]); }
