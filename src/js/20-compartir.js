@@ -113,6 +113,7 @@ function savedModal() {
     <div class="svst"><div><b>${fmtDur(s.end - s.start)}</b><small>${T("duración")}</small></div><div><b>${s.exercises.length}</b><small>${T("ejercicios")}</small></div><div><b>${doneSets(s)}</b><small>${T("series")}</small></div></div>
     ${pemBlock(s)}${swapAskBlock(s)}${progCards()}
     <div class="row"><button class="btn" style="flex:1" data-act="saved-close">${T("Hecho")}</button><button class="btn primary shbtn" style="flex:1" data-shsess="${s.id}">${SHARE_ICO}${T("Compartir")}</button></div>
+    ${NS.cfg() && !nsRO() ? `<button class="btn nsbtn" style="width:100%;margin-top:8px" data-act="saved-nostr">${NS_ICO}${T("Publicar en Nostr")}</button>` : ""}
   </div></div>`;
 }
 function shareSessModal() {

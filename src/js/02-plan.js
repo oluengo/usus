@@ -146,15 +146,14 @@ function pendingBlock(w) {
 /* Tarjeta "Toca hoy": con plan, según la semana; sin plan, rutinas con hoy en sus días */
 function todayCard() {
   const today = new Date().getDay(), todayK = dayKey(Date.now()), pn = planNow();
-  let first = true;
-  const row = r => { const done = state.sessions.some(s => dayKey(s.start) === todayK && s.routine === r.name), pri = !done && first; if (pri) first = false;
-    return `<div class="sugr${pri ? " pri" : ""}">${vChip(normVar(r.variant))}<span class="sn">${esc(r.name)}${done ? ` <span style="color:var(--ok)">✓</span>` : ""}<small>${TN(r.exercises.length, "{n} ejercicio", "{n} ejercicios")} · ≈ ${routineMins(normRoutine(JSON.parse(JSON.stringify(r))))} min</small></span><button class="btn ${pri ? "primary" : ""} small" data-start="${r.id}">${done ? T("Repetir") : T("Empezar")}</button></div>`; };
+  const row = r => { const done = state.sessions.some(s => dayKey(s.start) === todayK && s.routine === r.name);
+    return `<div class="sugr pri">${vChip(normVar(r.variant))}<span class="sn">${esc(r.name)}${done ? ` <span style="color:var(--ok)">✓</span>` : ""}<small>${TN(r.exercises.length, "{n} ejercicio", "{n} ejercicios")} · ≈ ${routineMins(normRoutine(JSON.parse(JSON.stringify(r))))} min</small></span><button class="btn ${done ? "" : "primary"} small" data-start="${r.id}">${done ? T("Repetir") : T("Empezar")}</button></div>`; };
   const list = rs => rs.length ? rs.map(row).join("") : `<p class="muted" style="margin:6px 0 0">${T("Hoy no hay ninguna rutina prevista.")}</p>`;
   if (pn?.status === "on") {
     const w = pn.w, next = pn.ws.slice(pn.i + 1).find(x => weekLabel(x) !== weekLabel(w));
     const L = list(suggestedFor(w, today));
     return `<div class="panel plan-b today" style="border-color:${w.deload ? "var(--line)" : varColor(w.variant)}">
-      <div class="row" style="gap:8px">${w.deload ? `<span class="vchip vd">${T("Desc.")}</span>` : vChip(w.variant)}<b style="flex:1">${T("Semana {n} de {m}", { n: w.n, m: pn.ws.length })} · ${weekLabel(w)}</b><button class="btn icon ghost" data-act="pl-menu" aria-label="${T("Opciones del plan")}" title="${T("Opciones del plan")}">⋯</button></div>
+      <div class="row" style="gap:8px;align-items:flex-start"><div style="flex:1"><b class="tdwk">${T("Semana {n} de {m}", { n: w.n, m: pn.ws.length })}</b><span class="pvar" style="--vc:${w.deload || w.pause ? "var(--muted)" : varColor(w.variant)}">${weekLabel(w)}</span></div><button class="btn icon ghost" data-act="pl-menu" aria-label="${T("Opciones del plan")}" title="${T("Opciones del plan")}">⋯</button></div>
       ${w.up ? `<p class="muted" style="margin:6px 0 0">↑ ${upRuleOf(PL.get()) === "mark" ? T("Variante repetida: sube 1-2 reps o 1 serie si hay margen.") : T("Variante repetida: subida automática según tu plan.")}</p>` : ""}
       ${w.pause ? `<p class="muted" style="margin:6px 0 0">${T("Plan en pausa: solo rutinas de todas las semanas (p. ej. Diaria). Sigue el {d}.", { d: new Date((pn.ws.slice(pn.i).find(x => !x.pause) || { t: addDays(w.t, 7) }).t).toLocaleDateString(LOC(), { weekday: "long", day: "numeric", month: "long" }) })}</p>`
         : w.deload ? `<p class="muted" style="margin:6px 0 0">${T("Semana de descarga: solo rutinas sin variante (p. ej. Diaria).")}</p>` : ""}

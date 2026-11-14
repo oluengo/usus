@@ -335,6 +335,7 @@ document.addEventListener("click", async ev => {
     case "ns-bk-load": nsBackupLoad(); break;
     case "ns-newer-x": { const c = NS.cfg(); if (c && state.nsNewer) NS.save({ ...c, seen: state.nsNewer.at }); state.nsNewer = null; render(); break; }
     case "shsess-nostr": nsPostSess(); break;
+    case "saved-nostr": state.shareSess = state.savedSess; state.savedSess = null; nsPostSess(); break;
     case "rs-nostr": nsPostRout(); break;
     case "ns-post-go": nsPublish(); break;
     case "ns-post-close": if (state.nsBusy) break; if (state.nsPost && !state.nsPost.done && ($("#nsText")?.value || "").trim() !== state.nsPost.text.trim() && !confirm(T("¿Descartar la nota sin publicar?"))) break; state.nsPost = null; render(); break;
