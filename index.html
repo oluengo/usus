@@ -2915,9 +2915,9 @@ function startSession(rid) {
 let clockT;
 /* Duración efectiva de la sesión: sin el tiempo en pausa */
 const activeMs = (a, now = Date.now()) => Math.max(0, now - a.start - (a.pausedMs || 0) - (a.pausedAt ? now - a.pausedAt : 0));
-function toggleSessionPause(force) {
+function toggleSessionPause(force, at) {
   const a = state.active; if (!a) return;
-  const now = Date.now(), pause = force !== undefined ? force : !a.pausedAt;
+  const now = Math.min(Date.now(), at || Date.now()), pause = force !== undefined ? force : !a.pausedAt;
   if (pause && !a.pausedAt) a.pausedAt = now;
   else if (!pause && a.pausedAt) { a.pausedMs = (a.pausedMs || 0) + (now - a.pausedAt); a.pausedAt = null; }
   saveActive(); render();
@@ -3122,14 +3122,17 @@ function tmrSync() {
     o = { title: run.lead ? T("Prepárate") : f.k === "work" ? name(f.ei) : f.k === "prep" ? T("Prepárate") : f.k === "switch" ? T("Cambia de lado") : T("Descanso"),
       text: f.k === "work" ? (a.routine || "") : nxt, end: run.lead || run.end, paused: !!run.paused && !run.lead, rem: run.paused ? run.rem : 0, actions: true,
       endTitle: f.k === "work" ? T("Serie terminada") : T("¡A por la siguiente serie!"), endText: nxt || T("Vuelve a Usus") };
-  } else o = { title: a.routine || T("Sesión libre"), text: a.pausedAt ? T("Sesión en pausa") : T("Sesión en curso"), start: a.pausedAt ? 0 : a.start + (a.pausedMs || 0) };
+  } else o = { title: a.routine || T("Sesión libre"), text: a.pausedAt ? T("Sesión en pausa") : T("Sesión en curso"), start: a.start + (a.pausedMs || 0), paused: !!a.pausedAt, rem: a.pausedAt ? activeMs(a) : 0 };
   Object.assign(o, { sound: fx === "both" || fx === "sound", vib: fx === "both" || fx === "vib", lPause: T("Pausa"), lResume: T("Seguir"), lSkip: T("Saltar"), lPaused: T("En pausa") });
   const sig = JSON.stringify(o); if (sig === tmrSig) return; tmrSig = sig;
   const go = () => P.show(o).catch(() => { tmrSig = ""; });         // Android no deja empezarla desde segundo plano: se reintenta
   if (!LS.get("wk.tmrAsked", false)) { LS.set("wk.tmrAsked", true); P.ask().catch(() => {}).then(go); } else go();
 }
 function tmrListen() {
-  tmrPlug()?.addListener?.("action", d => { if (!run) return; if (d?.a === "skip") runSkip(); else if (d?.a === "pause") pauseRun(d.at); });
+  tmrPlug()?.addListener?.("action", d => {
+    if (d?.a === "skip") runSkip();
+    else if (d?.a === "pause") { if (run) pauseRun(d.at); else if (state.active && !state.active.pre) toggleSessionPause(undefined, d.at); }
+  });
 }
 /* −5 s / +5 s en directo durante un descanso (no cambia la configuración) */
 function adjRun(dl) {

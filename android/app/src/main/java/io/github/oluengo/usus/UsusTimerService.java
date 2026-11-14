@@ -33,7 +33,7 @@ public class UsusTimerService extends Service {
     /** Estado que manda la web */
     static class St {
         String title = "Usus", text = "", endTitle = "", endText = "", lPause = "Pause", lResume = "Resume", lSkip = "Skip", lPaused = "Paused";
-        long start = 0, end = 0, rem = 0;   // start: cronómetro hacia arriba (sesión); end: cuenta atrás; rem: en pausa
+        long start = 0, end = 0, rem = 0;   // start: tiempo de sesión (hacia arriba); end: cuenta atrás; rem: lo que queda (o lo que llevas) en pausa
         boolean paused = false, actions = false, sound = true, vib = true;
     }
     static St st = new St();
@@ -42,6 +42,12 @@ public class UsusTimerService extends Service {
 
     private final Handler h = new Handler(Looper.getMainLooper());
     private final Runnable onEnd = this::ended;
+    /** Cada segundo, el tiempo en el título de la notificación (aunque la web esté parada en segundo plano) */
+    private final Runnable tick = new Runnable() { @Override public void run() {
+        if (inst == null) return;
+        ((NotificationManager) getSystemService(NOTIFICATION_SERVICE)).notify(ID, build());
+        h.postDelayed(this, 1000 - (System.currentTimeMillis() % 1000) + 20);
+    } };
     private boolean done = false;
 
     static void apply(Context ctx, St s) {
@@ -62,8 +68,8 @@ public class UsusTimerService extends Service {
         String a = intent != null ? intent.getAction() : null;
         if (A_PAUSE.equals(a)) {                                   // en pausa ya, en la notificación; la web hace lo mismo
             long now = System.currentTimeMillis();
-            if (!st.paused && st.end > 0) { st.rem = Math.max(0, st.end - now); st.paused = true; }
-            else if (st.paused) { st.end = now + st.rem; st.paused = false; }
+            if (st.end > 0) { if (!st.paused) { st.rem = Math.max(0, st.end - now); st.paused = true; } else { st.end = now + st.rem; st.paused = false; } }
+            else if (!st.paused) { st.rem = Math.max(0, now - st.start); st.paused = true; } else { st.start = now - st.rem; st.paused = false; }
             UsusTimerPlugin.fire("pause", now);
         } else if (A_SKIP.equals(a)) UsusTimerPlugin.fire("skip", System.currentTimeMillis());
         Notification n = build();
@@ -72,7 +78,7 @@ public class UsusTimerService extends Service {
         schedule();
         return START_NOT_STICKY;
     }
-    @Override public void onDestroy() { h.removeCallbacks(onEnd); inst = null; super.onDestroy(); }
+    @Override public void onDestroy() { h.removeCallbacks(onEnd); h.removeCallbacks(tick); inst = null; super.onDestroy(); }
     @Override public IBinder onBind(Intent intent) { return null; }
 
     void refresh() {
@@ -81,7 +87,8 @@ public class UsusTimerService extends Service {
         schedule();
     }
     private void schedule() {
-        h.removeCallbacks(onEnd); done = false;
+        h.removeCallbacks(onEnd); h.removeCallbacks(tick); done = false;
+        h.postDelayed(tick, 1000 - (System.currentTimeMillis() % 1000) + 20);
         if (st.end > 0 && !st.paused) h.postAtTime(onEnd, SystemClock.uptimeMillis() + Math.max(0, st.end - System.currentTimeMillis()));
     }
     /** Fin de la cuenta atrás: la notificación lo dice y, si Usus no está a la vista, avisa con sonido o vibración */
@@ -105,29 +112,32 @@ public class UsusTimerService extends Service {
         return PendingIntent.getService(this, code, new Intent(this, UsusTimerService.class).setAction(a), PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
     }
     private Notification build() {
+        long now = System.currentTimeMillis();
         NotificationCompat.Builder b = new NotificationCompat.Builder(this, CH_RUN)
-            .setSmallIcon(R.drawable.ic_stat_usus).setOngoing(true).setOnlyAlertOnce(true).setSilent(true)
+            .setSmallIcon(R.drawable.ic_stat_usus).setOngoing(true).setOnlyAlertOnce(true).setSilent(true).setShowWhen(false)
             .setCategory(NotificationCompat.CATEGORY_STOPWATCH).setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
             .setContentIntent(open());
         if (Build.VERSION.SDK_INT >= 31) b.setForegroundServiceBehavior(NotificationCompat.FOREGROUND_SERVICE_IMMEDIATE);
-        if (done) {
-            b.setContentTitle(st.endTitle).setContentText(st.endText);
-        } else if (st.end > 0) {
-            b.setContentTitle(st.title).setContentText(st.text);
-            if (st.paused) b.setSubText(fmt(st.rem) + " · " + st.lPaused);
-            else b.setUsesChronometer(true).setChronometerCountDown(true).setWhen(st.end).setShowWhen(true);
-            if (st.actions) {
-                b.addAction(0, st.paused ? st.lResume : st.lPause, act(A_PAUSE, 1));
-                b.addAction(0, st.lSkip, act(A_SKIP, 2));
-            }
-        } else {
-            b.setContentTitle(st.title).setContentText(st.text);
-            if (st.start > 0) b.setUsesChronometer(true).setWhen(st.start).setShowWhen(true);
+        String time;
+        if (st.end > 0) {                                           // cuenta atrás: lo que queda; al acabar, 0:00
+            long left = done ? 0 : st.paused ? st.rem : Math.max(0, st.end - now);
+            time = fmt(left);
+            b.setContentTitle(time + " · " + (done ? st.endTitle : st.title)).setContentText(done ? st.endText : st.text);
+            if (!done) b.addAction(0, st.paused ? st.lResume : st.lPause, act(A_PAUSE, 1));
+            if (st.actions) b.addAction(0, st.lSkip, act(A_SKIP, 2));
+        } else {                                                    // entre series: el tiempo de sesión
+            long el = st.paused ? st.rem : st.start > 0 ? Math.max(0, now - st.start) : 0;
+            time = fmt(el);
+            b.setContentTitle(time + " · " + st.title).setContentText(st.text);
+            if (st.start > 0 || st.paused) b.addAction(0, st.paused ? st.lResume : st.lPause, act(A_PAUSE, 1));
         }
+        if (st.paused) b.setSubText(st.lPaused);
         return b.build();
     }
+    /** 1:05, 0:09; con horas, 1:02:03 */
     private static String fmt(long ms) {
-        long s = (ms + 999) / 1000; return s >= 60 ? (s / 60) + ":" + String.format("%02d", s % 60) : String.valueOf(s);
+        long s = (ms + 999) / 1000, hh = s / 3600, mm = (s % 3600) / 60, ss = s % 60;
+        return hh > 0 ? hh + ":" + String.format("%02d:%02d", mm, ss) : mm + ":" + String.format("%02d", ss);
     }
     private void channels() {
         if (Build.VERSION.SDK_INT < 26) return;

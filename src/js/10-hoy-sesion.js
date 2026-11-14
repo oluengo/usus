@@ -188,9 +188,9 @@ function startSession(rid) {
 let clockT;
 /* Duración efectiva de la sesión: sin el tiempo en pausa */
 const activeMs = (a, now = Date.now()) => Math.max(0, now - a.start - (a.pausedMs || 0) - (a.pausedAt ? now - a.pausedAt : 0));
-function toggleSessionPause(force) {
+function toggleSessionPause(force, at) {
   const a = state.active; if (!a) return;
-  const now = Date.now(), pause = force !== undefined ? force : !a.pausedAt;
+  const now = Math.min(Date.now(), at || Date.now()), pause = force !== undefined ? force : !a.pausedAt;
   if (pause && !a.pausedAt) a.pausedAt = now;
   else if (!pause && a.pausedAt) { a.pausedMs = (a.pausedMs || 0) + (now - a.pausedAt); a.pausedAt = null; }
   saveActive(); render();

@@ -32,7 +32,8 @@ public class UsusTimerPlugin extends Plugin {
         UsusTimerService.St s = new UsusTimerService.St();
         s.title = call.getString("title", "Usus"); s.text = call.getString("text", "");
         s.endTitle = call.getString("endTitle", ""); s.endText = call.getString("endText", "");
-        s.start = (long) (double) call.getDouble("start", 0d); s.end = (long) (double) call.getDouble("end", 0d); s.rem = (long) (double) call.getDouble("rem", 0d);
+        // optLong: las marcas de tiempo (Date.now()) llegan como Long y getDouble() las daría por 0
+        s.start = call.getData().optLong("start", 0); s.end = call.getData().optLong("end", 0); s.rem = call.getData().optLong("rem", 0);
         s.paused = call.getBoolean("paused", false); s.actions = call.getBoolean("actions", false);
         s.lPause = call.getString("lPause", s.lPause); s.lResume = call.getString("lResume", s.lResume); s.lSkip = call.getString("lSkip", s.lSkip); s.lPaused = call.getString("lPaused", s.lPaused);
         s.sound = call.getBoolean("sound", true); s.vib = call.getBoolean("vib", true);

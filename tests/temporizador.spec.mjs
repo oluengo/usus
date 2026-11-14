@@ -25,6 +25,10 @@ test("APK: notificación con la sesión y la cuenta atrás; Pausa y Saltar desde
   await expect.poll(async () => (await last(page))[1].paused).toBe(true);
   await page.evaluate(() => window.__tl({ a: "skip", at: Date.now() }));                 // Saltar
   await expect.poll(async () => (await last(page))[1].title).toBe("Temp");
+  await page.evaluate(() => window.__tl({ a: "pause", at: Date.now() }));                // entre series: pausa la sesión
+  await expect.poll(async () => (await last(page))[1]).toMatchObject({ paused: true, text: "Sesión en pausa" });
+  await page.evaluate(() => window.__tl({ a: "pause", at: Date.now() }));
+  await expect.poll(async () => (await last(page))[1]).toMatchObject({ paused: false, text: "Sesión en curso" });
   // Se puede quitar en Ajustes → Avisos
   await nav(page, "data"); await page.locator('[data-stab="avisos"]').click();
   await page.locator("#tmrNotif").uncheck();
