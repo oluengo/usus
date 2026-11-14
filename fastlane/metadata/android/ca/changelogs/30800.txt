@@ -1,0 +1,3 @@
+• Countdown notification: while you train, the session and the rest or timed set carry on in a notification, with Pause and Skip, and it alerts you when time is up even if you leave Usus or turn the screen off. Android will ask for notification permission; turn it off in Settings → Alerts.
+• When a session ends, “Post on Nostr” right away, if you have an account connected.
+…
