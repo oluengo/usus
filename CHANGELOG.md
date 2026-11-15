@@ -2,6 +2,12 @@
 
 All Usus versions. Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); [SemVer](https://semver.org/) numbering (MAJOR.MINOR.PATCH).
 
+## [3.9.0] — in testing (beta)
+
+- Meals, in the Diary: note breakfast, lunch, snack and dinner in your own words, no calories or grams.
+- “What should I eat?”: Usus writes the question for your AI (what's for dinner?, I'm having pizza…, breakfast or your own) with what you've eaten, the day's workout and your preferences; you copy or share it, and its answer goes into the day's notes.
+- Food, in Settings → Profile: intolerances and allergies, diet type, goals and what you don't like, with collapsible pickers. The AI plan uses them too.
+
 ## [3.8.0] — 2026-11-14
 
 - Countdown notification (APK): while you train, the session and the rest or timed set carry on in a notification, with Pause and Skip, and it alerts you when time is up even if you leave Usus or turn the screen off. Android will ask for notification permission; turn it off in Settings → Alerts.

@@ -284,7 +284,7 @@ function aipBuild(a) {
   L.push("", `## ${X.weekH}`, `${X.daysL}: ${WEEK_ORDER.filter(d => (f.days || []).includes(d)).map(dayShort).join(" ") || "—"}${f.mins ? ` · ${f.mins} ${X.minL}` : ""}${f.when ? ` · ${f.when}` : ""} · ${X.placeL}: ${T(AIP_PLACES.find(x => x[0] === f.place)?.[1] || f.place)}`,
     `${X.matL}: ${(f.mat || []).filter(k => MAT[k]).map(k => T(MAT[k][0])).join(", ") || X.noMat}`,
     o(f.activity || f.other, `${X.actL}: ${[f.activity ? T(AIP_ACT.find(x => x[0] === f.activity)?.[1]) : "", f.other].filter(Boolean).join(" · ")}`),
-    `${f.sleep ? `${X.sleepL}: ${f.sleep} · ` : ""}${X.enL}: ${T(AIP_EN.find(x => x[0] === f.energy)?.[1] || "Normal")}`, o(f.diet, `${X.dietL}: ${f.diet}`), o(f.extra, `${X.extraL}: ${f.extra}`));
+    `${f.sleep ? `${X.sleepL}: ${f.sleep} · ` : ""}${X.enL}: ${T(AIP_EN.find(x => x[0] === f.energy)?.[1] || "Normal")}`, o(f.diet || foodSummary(), `${X.dietL}: ${[foodSummary(), f.diet].filter(Boolean).join(". ")}`), o(f.extra, `${X.extraL}: ${f.extra}`));
   if (a.inc.hist && state.sessions.length) { const m = aipMarks();
     if (m.list.length) { L.push("", `## ${X.marksH}`, ...m.list.map(x => `- ${exLabel(x.e)}${x.e.xid ? ` (${x.e.xid})` : ""}: ${x.v}${isTime(x.e) ? " s" : " reps"}${sideReps(x.e) || (isTime(x.e) && x.e.sides) ? " ×2" : ""}${x.w ? ` @ ${x.w} kg` : ""} · ${X.ses(x.n)}`)); if (m.pem) L.push(`- ${X.pemL}: ${m.pem}`); } }
   if (a.inc.mine && state.routines.length) { L.push("", `## ${X.mineH}`);

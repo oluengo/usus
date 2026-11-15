@@ -91,7 +91,19 @@ msgstr ""
 msgid "¿Qué buscas?"
 msgstr ""
 
+msgid "¿Qué ceno?"
+msgstr ""
+
+msgid "¿Qué como?"
+msgstr ""
+
 msgid "¿Qué material tienes?"
+msgstr ""
+
+msgid "¿Qué me recomiendas para desayunar?"
+msgstr ""
+
+msgid "¿Qué puedo cenar para equilibrar el día?"
 msgstr ""
 
 msgid "¿Qué quieres conseguir? Cuanto más concreto, mejor"
@@ -135,6 +147,9 @@ msgstr ""
 msgid "‹ › cambia al ejercicio anterior o siguiente de su escalera. Toca un nombre para ver su ficha. Después podrás editar las rutinas en Biblioteca."
 msgstr ""
 
+msgid "«¿Qué como?»: Usus prepara la pregunta para tu IA (¿qué ceno?, voy a comer pizza…, desayuno u otra) con lo que has comido, el entreno del día y tus preferencias; la copias o compartes, y su respuesta se guarda en las notas del día."
+msgstr ""
+
 msgid "«Añadir app» y pega el enlace:"
 msgstr ""
 
@@ -167,6 +182,16 @@ msgstr[1] ""
 
 #, python-brace-format
 msgid "{n} año"
+msgstr ""
+
+#, python-brace-format
+msgid "{n} comida apuntada"
+msgid_plural "{n} comidas apuntadas"
+msgstr[0] ""
+msgstr[1] ""
+
+#, python-brace-format
+msgid "{n} comida apuntada"
 msgstr ""
 
 #, python-brace-format
@@ -523,6 +548,13 @@ msgstr ""
 msgid "Alimentación"
 msgstr ""
 
+msgid "Alimentación, en Ajustes → Perfil: intolerancias y alergias, tipo de alimentación, objetivos y lo que no te gusta, con selectores plegables. También las usa el plan con IA."
+msgstr ""
+
+#, python-brace-format
+msgid "Alimentación: {x}"
+msgstr ""
+
 msgid "Alternativas"
 msgstr ""
 
@@ -590,6 +622,9 @@ msgid "Añade al menos una fase con variante"
 msgstr ""
 
 msgid "Añade al menos una fase con variante y semanas."
+msgstr ""
+
+msgid "Añade intolerancias y preferencias en tu perfil"
 msgstr ""
 
 msgid "Añade tus suplementos en Diario → Gestionar."
@@ -839,6 +874,9 @@ msgstr ""
 msgid "Buscar en el catálogo"
 msgstr ""
 
+msgid "Cacahuete"
+msgstr ""
+
 msgid "Cada (semanas de entreno)"
 msgstr ""
 
@@ -986,6 +1024,9 @@ msgstr ""
 msgid "Catálogo desactivado"
 msgstr ""
 
+msgid "Cena"
+msgstr ""
+
 msgid "Cerrar"
 msgstr ""
 
@@ -1026,6 +1067,21 @@ msgid "Color"
 msgstr ""
 
 msgid "Comba"
+msgstr ""
+
+msgid "Comer más ligero"
+msgstr ""
+
+msgid "Comida"
+msgstr ""
+
+msgid "Comidas"
+msgstr ""
+
+msgid "Comidas, en el Diario: apunta desayuno, comida, merienda y cena con tus palabras, sin calorías ni gramos."
+msgstr ""
+
+msgid "Como de todo"
 msgstr ""
 
 msgid "Cómo ha ido, molestias, cambios…"
@@ -1283,6 +1339,9 @@ msgstr ""
 msgid "D"
 msgstr ""
 
+msgid "Dame 2 o 3 opciones saludables y sencillas, de casa, con ingredientes y pasos breves."
+msgstr ""
+
 msgid "datos"
 msgstr ""
 
@@ -1352,6 +1411,9 @@ msgid "Desactivado: solo tus ejercicios"
 msgstr ""
 
 msgid "Desactivados"
+msgstr ""
+
+msgid "Desayuno"
 msgstr ""
 
 msgid "Desc."
@@ -1642,6 +1704,9 @@ msgstr ""
 msgid "Editor de rutina más compacto en el móvil: cada ejercicio en una fila con su resumen; los detalles se abren al tocarla."
 msgstr ""
 
+msgid "Ej. ¿qué llevo al trabajo para picar?"
+msgstr ""
+
 msgid "Ej. 10 dominadas, perder 3 kg, dormir mejor"
 msgstr ""
 
@@ -1684,10 +1749,16 @@ msgstr ""
 msgid "Ej. pádel los sábados"
 msgstr ""
 
+msgid "Ej. pizza para cenar"
+msgstr ""
+
 msgid "Ej. rotura de menisco izquierdo (2019)"
 msgstr ""
 
 msgid "Ej. saltos, carrera, nada de rodillas en el suelo"
+msgstr ""
+
+msgid "Ej. setas, pescado azul"
 msgstr ""
 
 msgid "Ej. Torso A"
@@ -1725,6 +1796,10 @@ msgstr ""
 msgid "Ejercicios y series"
 msgstr ""
 
+#, python-brace-format
+msgid "El {d} comí:"
+msgstr ""
+
 msgid "El APK pide ahora permiso de Internet, que solo se usa con Nostr."
 msgstr ""
 
@@ -1738,6 +1813,9 @@ msgid "El catálogo de ejercicios no se copia: las indicaciones llevan el enlace
 msgstr ""
 
 msgid "El enlace no es válido o está incompleto"
+msgstr ""
+
+msgid "El entreno del día"
 msgstr ""
 
 msgid "El pitido usa el volumen multimedia. Si no vibra, revisa No molestar y la vibración del sistema."
@@ -1898,6 +1976,9 @@ msgstr ""
 msgid "En un ordenador o una tablet en horizontal, el editor se abre en modo amplio: cada ejercicio en una fila y el catálogo al lado para tocar o arrastrar."
 msgstr ""
 
+msgid "Energía para entrenar"
+msgstr ""
+
 msgid "Energía y estrés"
 msgstr ""
 
@@ -1976,6 +2057,9 @@ msgstr ""
 
 #, python-brace-format
 msgid "Escribe un peso válido, por ejemplo {v}"
+msgstr ""
+
+msgid "Ese día no entrené."
 msgstr ""
 
 msgid "Ese día ya está dentro de una regla registrada"
@@ -2141,6 +2225,9 @@ msgstr ""
 msgid "Flexiones"
 msgstr ""
 
+msgid "Flexitariana"
+msgstr ""
+
 msgid "Folicular"
 msgstr ""
 
@@ -2151,6 +2238,12 @@ msgid "Formato: separador «,» y punto decimal."
 msgstr ""
 
 msgid "Formato: separador «;» y coma decimal, para abrirlo directamente en Excel en castellano o català."
+msgstr ""
+
+msgid "Fructosa"
+msgstr ""
+
+msgid "Frutos secos"
 msgstr ""
 
 msgid "Fuerza"
@@ -2192,10 +2285,16 @@ msgstr ""
 msgid "Gimnasio"
 msgstr ""
 
+msgid "Gluten"
+msgstr ""
+
 msgid "Gran sesión"
 msgstr ""
 
 msgid "Guardado"
+msgstr ""
+
+msgid "Guardado en las notas del día"
 msgstr ""
 
 #, python-brace-format
@@ -2209,6 +2308,9 @@ msgid "Guardar actividad"
 msgstr ""
 
 msgid "Guardar copia en Nostr"
+msgstr ""
+
+msgid "Guardar en las notas del día"
 msgstr ""
 
 msgid "Guardar para próximas exportaciones"
@@ -2238,6 +2340,9 @@ msgstr ""
 msgid "Hago flexiones y sentadillas; dominadas todavía no o muy pocas."
 msgstr ""
 
+msgid "Halal"
+msgstr ""
+
 #, python-brace-format
 msgid "Han pasado {n} días desde tu última copia."
 msgstr ""
@@ -2246,6 +2351,10 @@ msgid "Hay app para Android"
 msgstr ""
 
 msgid "Hay una sesión en curso. Termínala o descártala para cambiar de perfil."
+msgstr ""
+
+#, python-brace-format
+msgid "He entrenado: {x}."
 msgstr ""
 
 msgid "Hecha con IA · probada por humanos."
@@ -2302,6 +2411,16 @@ msgstr ""
 msgid "Hoy es el último día: lo que falte contará como saltado."
 msgstr ""
 
+msgid "Hoy he comido:"
+msgstr ""
+
+#, python-brace-format
+msgid "Hoy me toca entrenar: {x}."
+msgstr ""
+
+msgid "Hoy no entreno."
+msgstr ""
+
 msgid "Hoy no hay ninguna rutina prevista."
 msgstr ""
 
@@ -2323,7 +2442,13 @@ msgstr ""
 msgid "Huella SHA-256 del certificado de firma:"
 msgstr ""
 
+msgid "Huevo"
+msgstr ""
+
 msgid "Icono nuevo."
+msgstr ""
+
+msgid "Ideas para comer"
 msgstr ""
 
 msgid "Ideas y peticiones"
@@ -2400,6 +2525,10 @@ msgstr ""
 msgid "Incluye un plan, que sustituirá al actual."
 msgstr ""
 
+#, python-brace-format
+msgid "Incluye: {x}."
+msgstr ""
+
 msgid "Indicaciones copiadas"
 msgstr ""
 
@@ -2439,6 +2568,13 @@ msgstr ""
 msgid "Intermedio (2–5 años)"
 msgstr ""
 
+#, python-brace-format
+msgid "Intolerancias o alergias: {x} (no las incluyas nunca)."
+msgstr ""
+
+msgid "Intolerancias y alergias"
+msgstr ""
+
 msgid "iPhone / iPad (Safari): botón Compartir → «Añadir a pantalla de inicio»."
 msgstr ""
 
@@ -2470,6 +2606,9 @@ msgid "J"
 msgstr ""
 
 msgid "JSON para compartir o pasar a otro móvil."
+msgstr ""
+
+msgid "Kosher"
 msgstr ""
 
 msgid "L"
@@ -2518,6 +2657,9 @@ msgid "La última vez lo cambiaste por {x}"
 msgstr ""
 
 msgid "Lactancia"
+msgstr ""
+
+msgid "Lactosa"
 msgstr ""
 
 msgid "Las fechas son una estimación aproximada a partir de tus ciclos anteriores. Los ciclos varían por estrés, enfermedad, viajes, medicación u otras causas. No sirve como método anticonceptivo, ni para buscar un embarazo con fiabilidad, ni como diagnóstico. Ante cualquier duda o cambio importante, consulta a un profesional sanitario."
@@ -2636,6 +2778,9 @@ msgstr ""
 msgid "Marcar ↑ cuando se repite una variante (recordatorio para progresar)"
 msgstr ""
 
+msgid "Marisco"
+msgstr ""
+
 msgid "Más"
 msgstr ""
 
@@ -2651,6 +2796,9 @@ msgstr ""
 msgid "Más fácil (su progresión)"
 msgstr ""
 
+msgid "Más proteína"
+msgstr ""
+
 msgid "Más reps en una sesión"
 msgstr ""
 
@@ -2658,6 +2806,9 @@ msgid "Más tarde"
 msgstr ""
 
 msgid "Más tiempo en una sesión"
+msgstr ""
+
+msgid "Más verdura y fruta"
 msgstr ""
 
 msgid "Material"
@@ -2735,7 +2886,16 @@ msgstr ""
 msgid "Menos"
 msgstr ""
 
+msgid "Menos azúcar"
+msgstr ""
+
+msgid "Menos ultraprocesados"
+msgstr ""
+
 msgid "Menstruación"
+msgstr ""
+
+msgid "Merienda"
 msgstr ""
 
 msgid "Mes anterior"
@@ -2745,6 +2905,10 @@ msgid "Mes siguiente"
 msgstr ""
 
 msgid "meta"
+msgstr ""
+
+#, python-brace-format
+msgid "Mi alimentación: {x}."
 msgstr ""
 
 msgid "Mi material"
@@ -2767,6 +2931,10 @@ msgid "Minutos por sesión"
 msgstr ""
 
 msgid "Mis marcas recientes"
+msgstr ""
+
+#, python-brace-format
+msgid "Mis objetivos: {x}."
 msgstr ""
 
 msgid "Mis planes"
@@ -2844,6 +3012,9 @@ msgstr ""
 msgid "Nada anotado este día"
 msgstr ""
 
+msgid "Nada apuntado todavía"
+msgstr ""
+
 msgid "Nada marcado = solo suelo."
 msgstr ""
 
@@ -2912,6 +3083,17 @@ msgid "No hay suplementos activos."
 msgstr ""
 
 msgid "no lo tienes"
+msgstr ""
+
+msgid "No me gusta"
+msgstr ""
+
+#, python-brace-format
+msgid "No me gusta: {x}"
+msgstr ""
+
+#, python-brace-format
+msgid "No me gusta: {x}."
 msgstr ""
 
 msgid "No proponer"
@@ -3185,6 +3367,10 @@ msgstr ""
 msgid "Objetivos semanales"
 msgstr ""
 
+#, python-brace-format
+msgid "Objetivos: {x}"
+msgstr ""
+
 msgid "Oculto"
 msgstr ""
 
@@ -3210,6 +3396,9 @@ msgid "Oscuro"
 msgstr ""
 
 msgid "Oscuro cálido, sin azul"
+msgstr ""
+
+msgid "Otra pregunta"
 msgstr ""
 
 msgid "Otra rutina"
@@ -3261,6 +3450,9 @@ msgid "Para elegir ejercicios al crear rutinas y saber cómo avanzar."
 msgstr ""
 
 msgid "Para la IA"
+msgstr ""
+
+msgid "Para las preguntas de comidas del Diario y el plan con IA. Solo en este dispositivo."
 msgstr ""
 
 msgid "Para publicar, conecta antes tu cuenta en Ajustes → Cuenta de Nostr."
@@ -3353,6 +3545,9 @@ msgstr ""
 msgid "Pecho"
 msgstr ""
 
+msgid "Pega antes la respuesta"
+msgstr ""
+
 msgid "Pega aquí la respuesta de la IA"
 msgstr ""
 
@@ -3362,6 +3557,9 @@ msgstr ""
 msgid "Pega tu npub1…"
 msgstr ""
 
+msgid "Pégala en tu IA (ChatGPT, Claude, Gemini…). Usus no envía nada; nunca lleva tu peso ni el ciclo."
+msgstr ""
+
 msgid "Pégalas en una conversación nueva de tu IA (ChatGPT, Claude, Gemini…) o sube el archivo."
 msgstr ""
 
@@ -3369,6 +3567,9 @@ msgid "Pégalo en una conversación nueva de la IA que uses, o sube el archivo .
 msgstr ""
 
 msgid "Pegar respuesta de la IA"
+msgstr ""
+
+msgid "Pegar respuesta en las notas del día"
 msgstr ""
 
 msgid "PEM"
@@ -3431,6 +3632,12 @@ msgid "Período"
 msgstr ""
 
 msgid "Pesajes"
+msgstr ""
+
+msgid "Pescado"
+msgstr ""
+
+msgid "Pescetariana"
 msgstr ""
 
 msgid "Peso"
@@ -3576,6 +3783,9 @@ msgstr ""
 msgid "Por ejercicio"
 msgstr ""
 
+msgid "Por favor:"
+msgstr ""
+
 msgid "por lado"
 msgstr ""
 
@@ -3589,6 +3799,15 @@ msgid "Predicciones en pausa"
 msgstr ""
 
 msgid "Predicciones en pausa."
+msgstr ""
+
+msgid "Pregunta"
+msgstr ""
+
+msgid "Pregunta copiada: pégala en tu IA"
+msgstr ""
+
+msgid "Pregunta para tu IA"
 msgstr ""
 
 msgid "Preguntar el esfuerzo al terminar"
@@ -3739,6 +3958,9 @@ msgstr ""
 msgid "Qué trae cada versión"
 msgstr ""
 
+msgid "Qué vas a comer y cuándo"
+msgstr ""
+
 #, python-brace-format
 msgid "Queda 1 serie de {x}."
 msgstr ""
@@ -3795,6 +4017,9 @@ msgid "Récords"
 msgstr ""
 
 msgid "Récords recientes"
+msgstr ""
+
+msgid "Recuerda que no es consejo médico ni nutricional."
 msgstr ""
 
 #, python-brace-format
@@ -3904,6 +4129,9 @@ msgid "Reps de las últimas 4 semanas. Aviso si un lado rinde más de un 10% men
 msgstr ""
 
 msgid "Resistencia"
+msgstr ""
+
+msgid "Respeta siempre mis intolerancias y lo que no como."
 msgstr ""
 
 msgid "Respiración marcada; aún bastante margen."
@@ -4230,6 +4458,9 @@ msgstr ""
 msgid "Ses."
 msgstr ""
 
+msgid "Sésamo"
+msgstr ""
+
 msgid "sesión"
 msgstr ""
 
@@ -4357,6 +4588,9 @@ msgstr ""
 msgid "Sin barra para dominadas: se usa remo en su lugar."
 msgstr ""
 
+msgid "Sin cerdo"
+msgstr ""
+
 msgid "Sin conectar · copia cifrada y publicar"
 msgstr ""
 
@@ -4373,6 +4607,9 @@ msgid "sin cuenta de Nostr"
 msgstr ""
 
 msgid "Sin descanso por defecto"
+msgstr ""
+
+msgid "Sin dietas, calorías ni pesos, y sin proponer saltarse comidas."
 msgstr ""
 
 msgid "Sin ejercicios"
@@ -4427,6 +4664,10 @@ msgstr ""
 msgid "Sin variante"
 msgstr ""
 
+#, python-brace-format
+msgid "Sin: {x}"
+msgstr ""
+
 msgid "Síntomas"
 msgstr ""
 
@@ -4446,6 +4687,9 @@ msgid "Sobre ti (para interpretar los datos)"
 msgstr ""
 
 msgid "Software libre bajo licencia MIT: puedes usarlo, copiarlo, modificarlo y distribuirlo, también con fines comerciales, manteniendo el aviso de copyright y de licencia."
+msgstr ""
+
+msgid "Soja"
 msgstr ""
 
 #, python-brace-format
@@ -4601,6 +4845,9 @@ msgstr ""
 msgid "Tema automático por defecto: sigue el modo claro u oscuro del móvil. Puedes cambiarlo en Ajustes → Apariencia."
 msgstr ""
 
+msgid "Ten en cuenta lo que ya he comido y el entreno."
+msgstr ""
+
 msgid "Tendencia (media de 3)"
 msgstr ""
 
@@ -4650,6 +4897,9 @@ msgid "Tiempos, esfuerzo, objetivos y catálogo"
 msgstr ""
 
 msgid "Tipo"
+msgstr ""
+
+msgid "Tipo de alimentación"
 msgstr ""
 
 msgid "Tipo de grupo"
@@ -4773,6 +5023,9 @@ msgstr ""
 msgid "Tu perfil"
 msgstr ""
 
+msgid "Tu pregunta"
+msgstr ""
+
 msgid "Tu progresión"
 msgstr ""
 
@@ -4786,6 +5039,9 @@ msgid "Tus datos se guardan solo en este dispositivo. Haz copias desde Ajustes: 
 msgstr ""
 
 msgid "Tus datos solo están en este móvil."
+msgstr ""
+
+msgid "Tus preferencias"
 msgstr ""
 
 #, python-brace-format
@@ -4948,6 +5204,12 @@ msgstr ""
 msgid "Vas a compartir datos de salud con un servicio externo"
 msgstr ""
 
+msgid "Vegana"
+msgstr ""
+
+msgid "Vegetariana"
+msgstr ""
+
 msgid "Ventana fértil"
 msgstr ""
 
@@ -4989,6 +5251,9 @@ msgstr ""
 
 #, python-brace-format
 msgid "Ver la ficha de {x}"
+msgstr ""
+
+msgid "Ver la pregunta"
 msgstr ""
 
 msgid "Ver mis planes"
@@ -5046,6 +5311,13 @@ msgid "Volver a proponer en todos ({n} silenciados)"
 msgstr ""
 
 msgid "Volver al paso anterior"
+msgstr ""
+
+#, python-brace-format
+msgid "Voy a comer esto: «{x}». ¿Qué me recomiendas en las otras comidas para que el día quede equilibrado?"
+msgstr ""
+
+msgid "Voy a comer…"
 msgstr ""
 
 #, python-brace-format

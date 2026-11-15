@@ -115,6 +115,8 @@ document.addEventListener("click", async ev => {
   if (d.cycSym) { const k = state.day || dayKey(Date.now()), ce = DY.get(k).cyc || {}, l = new Set(ce.sym || []); l.has(d.cycSym) ? l.delete(d.cycSym) : l.add(d.cycSym); DY.set(k, { cyc: { ...ce, sym: [...l] } }); render(); return; }
   if (d.cycSdel !== undefined) { const l = CYC.syms(); l.splice(+d.cycSdel, 1); CYC.saveSyms(l); render(); return; }
   if (d.dsh) { state.dsheet = d.dsh; render(); return; }
+  if (d.food) { foodToggle(t); return; }
+  if (d.fq) { state.foodQ = d.fq; render(); setTimeout(() => $("[data-fqx]")?.focus(), 0); return; }
   if (d.dgo) { const m = { sleep: ["hab", "sueno"], sup: ["hab", "suplementos"], ses: ["ent", "constancia"], steps: ["hab", "pasos"], act: ["hab", "actividad"], note: ["hab", "notas"], cyc: ["cue", "ciclo"], peso: ["cue", "peso"] }[d.dgo] || ["res"]; state.statsCat = m[0]; LS.set("wk.statsCat", m[0]); state.dsheet = null; state.tab = "stats"; render(); const el = m[1] && [...document.querySelectorAll("[data-sb]")].find(x => x.dataset.sb === m[1]); window.scrollTo(0, el ? Math.max(0, el.getBoundingClientRect().top + scrollY - 8) : 0); return; }
   if (d.scat) { state.statsCat = d.scat; LS.set("wk.statsCat", d.scat); render(); window.scrollTo(0, 0); return; }
   if (d.sper) { LS.set("wk.statsPer", +d.sper); render(); return; }
@@ -429,6 +431,12 @@ document.addEventListener("click", async ev => {
       addWeight(t, kg); toast(T("Peso guardado: {v}", { v: fmtW(kg) })); render(); break;
     }
     case "w-open": state.tab = "diary"; state.day = dayKey(Date.now()); state.dsheet = "peso"; render(); setTimeout(() => $("#wKg")?.focus(), 0); break;
+    case "food-copy": { const ok = await copyText(foodPrompt(state.day || dayKey(Date.now()))); toast(ok ? T("Pregunta copiada: pégala en tu IA") : T("No se pudo copiar")); break; }
+    case "food-share": shareOut({ title: T("Pregunta para tu IA"), text: foodPrompt(state.day || dayKey(Date.now())) }); break;
+    case "food-clip": { let x = ""; try { x = await navigator.clipboard.readText(); } catch {}
+      if (!x.trim()) { state.foodManual = true; render(); $("#foodPaste")?.focus(); toast(T("No se ha podido leer lo copiado: pégalo aquí")); break; }
+      foodSaveAnswer(state.day || dayKey(Date.now()), x); break; }
+    case "food-paste": foodSaveAnswer(state.day || dayKey(Date.now()), $("#foodPaste")?.value); break;
     case "go-perfil": state.dsheet = null; state.tab = "data"; state.setTab = "perfil"; render(); window.scrollTo(0, 0); break;
     case "w-skip": LS.set("wk.weightSkip", weekStart(Date.now())); render(); break;
     case "w-goal": { const v = $("#wGoal")?.value.trim(); if (!v) { LS.set("wk.weightGoal", null); toast(T("Objetivo quitado")); render(); break; }
@@ -452,6 +460,9 @@ document.addEventListener("click", async ev => {
 });
 document.addEventListener("input", ev => {
   if (ev.target.id === "dNote") { DY.set(state.day || dayKey(Date.now()), { note: ev.target.value }); return; }
+  if (ev.target.dataset.fmeal) { const k = state.day || dayKey(Date.now()); DY.set(k, { meals: { ...(DY.get(k).meals || {}), [ev.target.dataset.fmeal]: ev.target.value.slice(0, 200) } }); const p = $(".fprompt"); if (p) p.textContent = foodPrompt(k); return; }
+  if (ev.target.dataset.fqx) { state.foodX = { ...(state.foodX || {}), [ev.target.dataset.fqx]: ev.target.value }; const p = $(".fprompt"); if (p) p.textContent = foodPrompt(state.day || dayKey(Date.now())); return; }
+  if (ev.target.id === "foodNo") { FOOD.set({ no: ev.target.value.slice(0, 200) }); return; }
   const el = ev.target, a = state.active; if (!a) return;
   if (el.dataset.w || el.dataset.r || el.dataset.r2) {
     const [ei, si] = (el.dataset.w || el.dataset.r || el.dataset.r2).split(":").map(Number);

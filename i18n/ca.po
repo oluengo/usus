@@ -92,8 +92,20 @@ msgstr "Vols passar igualment a {x}? Les sèries pendents queden sense fer."
 msgid "¿Qué buscas?"
 msgstr "Què busques?"
 
+msgid "¿Qué ceno?"
+msgstr "Què sopo?"
+
+msgid "¿Qué como?"
+msgstr "Què menjo?"
+
 msgid "¿Qué material tienes?"
 msgstr "Quin material tens?"
+
+msgid "¿Qué me recomiendas para desayunar?"
+msgstr "Què em recomanes per esmorzar?"
+
+msgid "¿Qué puedo cenar para equilibrar el día?"
+msgstr "Què puc sopar per equilibrar el dia?"
 
 msgid "¿Qué quieres conseguir? Cuanto más concreto, mejor"
 msgstr "Què vols aconseguir? Com més concret, millor"
@@ -136,6 +148,9 @@ msgstr "Vols acabar i desar igualment? Només es desen les sèries fetes ({n} pe
 msgid "‹ › cambia al ejercicio anterior o siguiente de su escalera. Toca un nombre para ver su ficha. Después podrás editar las rutinas en Biblioteca."
 msgstr "‹ › canvia a l'exercici anterior o següent de la seva escala. Toca un nom per veure'n la fitxa. Després podràs editar les rutines a Biblioteca."
 
+msgid "«¿Qué como?»: Usus prepara la pregunta para tu IA (¿qué ceno?, voy a comer pizza…, desayuno u otra) con lo que has comido, el entreno del día y tus preferencias; la copias o compartes, y su respuesta se guarda en las notas del día."
+msgstr "«Què menjo?»: Usus prepara la pregunta per a la teva IA (què sopo?, menjaré pizza…, esmorzar o una altra) amb el que has menjat, l'entrenament del dia i les teves preferències; la copies o comparteixes, i la resposta es desa a les notes del dia."
+
 msgid "«Añadir app» y pega el enlace:"
 msgstr "«Afegeix app» i enganxa l'enllaç:"
 
@@ -169,6 +184,16 @@ msgstr[1] "{n} anys"
 #, python-brace-format
 msgid "{n} año"
 msgstr "{n} any"
+
+#, python-brace-format
+msgid "{n} comida apuntada"
+msgid_plural "{n} comidas apuntadas"
+msgstr[0] "{n} àpat apuntat"
+msgstr[1] "{n} àpats apuntats"
+
+#, python-brace-format
+msgid "{n} comida apuntada"
+msgstr ""
 
 #, python-brace-format
 msgid "{n} de {m} seleccionadas"
@@ -524,6 +549,13 @@ msgstr "Alguna cosa no funciona com hauria"
 msgid "Alimentación"
 msgstr "Alimentació"
 
+msgid "Alimentación, en Ajustes → Perfil: intolerancias y alergias, tipo de alimentación, objetivos y lo que no te gusta, con selectores plegables. También las usa el plan con IA."
+msgstr "Alimentació, a Ajustos → Perfil: intoleràncies i al·lèrgies, tipus d'alimentació, objectius i el que no t'agrada, amb selectors plegables. També les fa servir el pla amb IA."
+
+#, python-brace-format
+msgid "Alimentación: {x}"
+msgstr "Alimentació: {x}"
+
 msgid "Alternativas"
 msgstr "Alternatives"
 
@@ -592,6 +624,9 @@ msgstr "Afegeix almenys una fase amb variant"
 
 msgid "Añade al menos una fase con variante y semanas."
 msgstr "Afegeix almenys una fase amb variant i setmanes."
+
+msgid "Añade intolerancias y preferencias en tu perfil"
+msgstr "Afegeix intoleràncies i preferències al teu perfil"
 
 msgid "Añade tus suplementos en Diario → Gestionar."
 msgstr "Afegeix els suplements a Diari → Gestiona."
@@ -840,6 +875,9 @@ msgstr "Cerca exercici"
 msgid "Buscar en el catálogo"
 msgstr "Cerca al catàleg"
 
+msgid "Cacahuete"
+msgstr "Cacauet"
+
 msgid "Cada (semanas de entreno)"
 msgstr "Cada (setmanes d'entrenament)"
 
@@ -987,6 +1025,9 @@ msgstr "Catàleg d'exercicis opcional: cada perfil decideix si el fa servir. Fit
 msgid "Catálogo desactivado"
 msgstr "Catàleg desactivat"
 
+msgid "Cena"
+msgstr "Sopar"
+
 msgid "Cerrar"
 msgstr "Tanca"
 
@@ -1028,6 +1069,21 @@ msgstr "Color"
 
 msgid "Comba"
 msgstr "Corda"
+
+msgid "Comer más ligero"
+msgstr "Menjar més lleuger"
+
+msgid "Comida"
+msgstr "Dinar"
+
+msgid "Comidas"
+msgstr "Àpats"
+
+msgid "Comidas, en el Diario: apunta desayuno, comida, merienda y cena con tus palabras, sin calorías ni gramos."
+msgstr "Àpats, al Diari: apunta esmorzar, dinar, berenar i sopar amb les teves paraules, sense calories ni grams."
+
+msgid "Como de todo"
+msgstr "Menjo de tot"
 
 msgid "Cómo ha ido, molestias, cambios…"
 msgstr "Com ha anat, molèsties, canvis…"
@@ -1284,6 +1340,9 @@ msgstr "d"
 msgid "D"
 msgstr "Dg"
 
+msgid "Dame 2 o 3 opciones saludables y sencillas, de casa, con ingredientes y pasos breves."
+msgstr "Dona'm 2 o 3 opcions saludables i senzilles, de casa, amb ingredients i passos breus."
+
 msgid "datos"
 msgstr "dades"
 
@@ -1354,6 +1413,9 @@ msgstr "Desactivat: només els teus exercicis"
 
 msgid "Desactivados"
 msgstr "Desactivats"
+
+msgid "Desayuno"
+msgstr "Esmorzar"
 
 msgid "Desc."
 msgstr "Desc."
@@ -1643,6 +1705,9 @@ msgstr "Edita la rutina"
 msgid "Editor de rutina más compacto en el móvil: cada ejercicio en una fila con su resumen; los detalles se abren al tocarla."
 msgstr "Editor de rutina més compacte al mòbil: cada exercici en una fila amb el seu resum; els detalls s'obren en tocar-la."
 
+msgid "Ej. ¿qué llevo al trabajo para picar?"
+msgstr "Ex. què porto a la feina per picar?"
+
 msgid "Ej. 10 dominadas, perder 3 kg, dormir mejor"
 msgstr "P. ex. 10 dominades, perdre 3 kg, dormir millor"
 
@@ -1685,11 +1750,17 @@ msgstr "P. ex. molèstia al colze, banda verda, presa més oberta…"
 msgid "Ej. pádel los sábados"
 msgstr "P. ex. pàdel els dissabtes"
 
+msgid "Ej. pizza para cenar"
+msgstr "Ex. pizza per sopar"
+
 msgid "Ej. rotura de menisco izquierdo (2019)"
 msgstr "P. ex. trencament de menisc esquerre (2019)"
 
 msgid "Ej. saltos, carrera, nada de rodillas en el suelo"
 msgstr "P. ex. salts, córrer, res amb els genolls a terra"
+
+msgid "Ej. setas, pescado azul"
+msgstr "Ex. bolets, peix blau"
 
 msgid "Ej. Torso A"
 msgstr "Ex. Tors A"
@@ -1726,6 +1797,10 @@ msgstr "Exercicis vs objectiu"
 msgid "Ejercicios y series"
 msgstr "Exercicis i sèries"
 
+#, python-brace-format
+msgid "El {d} comí:"
+msgstr "El {d} vaig menjar:"
+
 msgid "El APK pide ahora permiso de Internet, que solo se usa con Nostr."
 msgstr "L'APK demana ara permís d'Internet, que només es fa servir amb Nostr."
 
@@ -1740,6 +1815,9 @@ msgstr "El catàleg d'exercicis no es copia: les indicacions porten l'enllaç pe
 
 msgid "El enlace no es válido o está incompleto"
 msgstr "L'enllaç no és vàlid o està incomplet"
+
+msgid "El entreno del día"
+msgstr "L'entrenament del dia"
 
 msgid "El pitido usa el volumen multimedia. Si no vibra, revisa No molestar y la vibración del sistema."
 msgstr "El xiulet fa servir el volum multimèdia. Si no vibra, revisa No molestis i la vibració del sistema."
@@ -1899,6 +1977,9 @@ msgstr "En perfils de dona, registre de la regla opcional, només en aquest mòb
 msgid "En un ordenador o una tablet en horizontal, el editor se abre en modo amplio: cada ejercicio en una fila y el catálogo al lado para tocar o arrastrar."
 msgstr "En un ordinador o una tauleta en horitzontal, l'editor s'obre en mode ampli: cada exercici en una fila i el catàleg al costat per tocar o arrossegar."
 
+msgid "Energía para entrenar"
+msgstr "Energia per entrenar"
+
 msgid "Energía y estrés"
 msgstr "Energia i estrès"
 
@@ -1978,6 +2059,9 @@ msgstr "Escriu un objectiu vàlid, per exemple {v}"
 #, python-brace-format
 msgid "Escribe un peso válido, por ejemplo {v}"
 msgstr "Escriu un pes vàlid, per exemple {v}"
+
+msgid "Ese día no entrené."
+msgstr "Aquell dia no vaig entrenar."
 
 msgid "Ese día ya está dentro de una regla registrada"
 msgstr "Aquest dia ja és dins d'una regla registrada"
@@ -2142,6 +2226,9 @@ msgstr "Signa amb el teu bunker. Usus no canvia el teu perfil de Nostr: només e
 msgid "Flexiones"
 msgstr "Flexions"
 
+msgid "Flexitariana"
+msgstr "Flexitariana"
+
 msgid "Folicular"
 msgstr "Fol·licular"
 
@@ -2153,6 +2240,12 @@ msgstr "Format: separador «,» i punt decimal."
 
 msgid "Formato: separador «;» y coma decimal, para abrirlo directamente en Excel en castellano o català."
 msgstr "Format: separador «;» i coma decimal, per obrir-lo directament a l'Excel en català o castellà."
+
+msgid "Fructosa"
+msgstr "Fructosa"
+
+msgid "Frutos secos"
+msgstr "Fruits secs"
 
 msgid "Fuerza"
 msgstr "Força"
@@ -2193,11 +2286,17 @@ msgstr "Gestiona"
 msgid "Gimnasio"
 msgstr "Gimnàs"
 
+msgid "Gluten"
+msgstr "Gluten"
+
 msgid "Gran sesión"
 msgstr "Gran sessió"
 
 msgid "Guardado"
 msgstr "Desat"
+
+msgid "Guardado en las notas del día"
+msgstr "Desat a les notes del dia"
 
 #, python-brace-format
 msgid "Guardando {k} de {n}… acepta en tu bunker si lo pide."
@@ -2211,6 +2310,9 @@ msgstr "Desa l'activitat"
 
 msgid "Guardar copia en Nostr"
 msgstr "Desar còpia a Nostr"
+
+msgid "Guardar en las notas del día"
+msgstr "Desa a les notes del dia"
 
 msgid "Guardar para próximas exportaciones"
 msgstr "Desar per a properes exportacions"
@@ -2239,6 +2341,9 @@ msgstr "Faig dominades i fons sense problema."
 msgid "Hago flexiones y sentadillas; dominadas todavía no o muy pocas."
 msgstr "Faig flexions i esquats; dominades encara no o molt poques."
 
+msgid "Halal"
+msgstr "Halal"
+
 #, python-brace-format
 msgid "Han pasado {n} días desde tu última copia."
 msgstr "Han passat {n} dies des de la teva última còpia."
@@ -2248,6 +2353,10 @@ msgstr "Hi ha app per a Android"
 
 msgid "Hay una sesión en curso. Termínala o descártala para cambiar de perfil."
 msgstr "Hi ha una sessió en curs. Acaba-la o descarta-la per canviar de perfil."
+
+#, python-brace-format
+msgid "He entrenado: {x}."
+msgstr "He entrenat: {x}."
 
 msgid "Hecha con IA · probada por humanos."
 msgstr "Feta amb IA · provada per humans."
@@ -2303,6 +2412,16 @@ msgstr "Avui"
 msgid "Hoy es el último día: lo que falte contará como saltado."
 msgstr "Avui és l'últim dia: el que falti comptarà com a saltat."
 
+msgid "Hoy he comido:"
+msgstr "Avui he menjat:"
+
+#, python-brace-format
+msgid "Hoy me toca entrenar: {x}."
+msgstr "Avui em toca entrenar: {x}."
+
+msgid "Hoy no entreno."
+msgstr "Avui no entreno."
+
 msgid "Hoy no hay ninguna rutina prevista."
 msgstr "Avui no hi ha cap rutina prevista."
 
@@ -2324,8 +2443,14 @@ msgstr "Avui: el que toca, a dalt i amb un sol botó Comença; accessos ràpids 
 msgid "Huella SHA-256 del certificado de firma:"
 msgstr "Empremta SHA-256 del certificat de signatura:"
 
+msgid "Huevo"
+msgstr "Ou"
+
 msgid "Icono nuevo."
 msgstr "Icona nova."
+
+msgid "Ideas para comer"
+msgstr "Idees per menjar"
 
 msgid "Ideas y peticiones"
 msgstr "Idees i peticions"
@@ -2401,6 +2526,10 @@ msgstr "Inclou els ajustos, que substituiran els actuals."
 msgid "Incluye un plan, que sustituirá al actual."
 msgstr "Inclou un pla, que substituirà l'actual."
 
+#, python-brace-format
+msgid "Incluye: {x}."
+msgstr "Inclou: {x}."
+
 msgid "Indicaciones copiadas"
 msgstr "Indicacions copiades"
 
@@ -2440,6 +2569,13 @@ msgstr "Instal·la-la al mòbil"
 msgid "Intermedio (2–5 años)"
 msgstr "Intermedi (2–5 anys)"
 
+#, python-brace-format
+msgid "Intolerancias o alergias: {x} (no las incluyas nunca)."
+msgstr "Intoleràncies o al·lèrgies: {x} (no les incloguis mai)."
+
+msgid "Intolerancias y alergias"
+msgstr "Intoleràncies i al·lèrgies"
+
 msgid "iPhone / iPad (Safari): botón Compartir → «Añadir a pantalla de inicio»."
 msgstr "iPhone / iPad (Safari): botó Compartir → «Afegeix a la pantalla d'inici»."
 
@@ -2472,6 +2608,9 @@ msgstr "Dj"
 
 msgid "JSON para compartir o pasar a otro móvil."
 msgstr "JSON per compartir o passar a un altre mòbil."
+
+msgid "Kosher"
+msgstr "Kosher"
 
 msgid "L"
 msgstr "Dl"
@@ -2520,6 +2659,9 @@ msgstr "L'última vegada el vas canviar per {x}"
 
 msgid "Lactancia"
 msgstr "Lactància"
+
+msgid "Lactosa"
+msgstr "Lactosa"
 
 msgid "Las fechas son una estimación aproximada a partir de tus ciclos anteriores. Los ciclos varían por estrés, enfermedad, viajes, medicación u otras causas. No sirve como método anticonceptivo, ni para buscar un embarazo con fiabilidad, ni como diagnóstico. Ante cualquier duda o cambio importante, consulta a un profesional sanitario."
 msgstr "Les dates són una estimació aproximada a partir dels teus cicles anteriors. Els cicles varien per estrès, malaltia, viatges, medicació o altres causes. No serveix com a mètode anticonceptiu, ni per buscar un embaràs amb fiabilitat, ni com a diagnòstic. Davant qualsevol dubte o canvi important, consulta un professional sanitari."
@@ -2637,6 +2779,9 @@ msgstr "Marca {x}"
 msgid "Marcar ↑ cuando se repite una variante (recordatorio para progresar)"
 msgstr "Marca ↑ quan es repeteix una variant (recordatori per progressar)"
 
+msgid "Marisco"
+msgstr "Marisc"
+
 msgid "Más"
 msgstr "Més"
 
@@ -2652,6 +2797,9 @@ msgstr "Més fàcil"
 msgid "Más fácil (su progresión)"
 msgstr "Més fàcil (la seva progressió)"
 
+msgid "Más proteína"
+msgstr "Més proteïna"
+
 msgid "Más reps en una sesión"
 msgstr "Més reps en una sessió"
 
@@ -2660,6 +2808,9 @@ msgstr "Més tard"
 
 msgid "Más tiempo en una sesión"
 msgstr "Més temps en una sessió"
+
+msgid "Más verdura y fruta"
+msgstr "Més verdura i fruita"
 
 msgid "Material"
 msgstr "Material"
@@ -2736,8 +2887,17 @@ msgstr "Millors sèries de les últimes 8 setmanes, per partir del teu nivell re
 msgid "Menos"
 msgstr "Menys"
 
+msgid "Menos azúcar"
+msgstr "Menys sucre"
+
+msgid "Menos ultraprocesados"
+msgstr "Menys ultraprocessats"
+
 msgid "Menstruación"
 msgstr "Menstruació"
+
+msgid "Merienda"
+msgstr "Berenar"
 
 msgid "Mes anterior"
 msgstr "Mes anterior"
@@ -2747,6 +2907,10 @@ msgstr "Mes següent"
 
 msgid "meta"
 msgstr "meta"
+
+#, python-brace-format
+msgid "Mi alimentación: {x}."
+msgstr "La meva alimentació: {x}."
 
 msgid "Mi material"
 msgstr "El meu material"
@@ -2769,6 +2933,10 @@ msgstr "Minuts per sessió"
 
 msgid "Mis marcas recientes"
 msgstr "Les meves marques recents"
+
+#, python-brace-format
+msgid "Mis objetivos: {x}."
+msgstr "Els meus objectius: {x}."
 
 msgid "Mis planes"
 msgstr "Els meus plans"
@@ -2845,6 +3013,9 @@ msgstr "Molt fàcil"
 msgid "Nada anotado este día"
 msgstr "Res anotat aquest dia"
 
+msgid "Nada apuntado todavía"
+msgstr "Res apuntat encara"
+
 msgid "Nada marcado = solo suelo."
 msgstr "Res marcat = només terra."
 
@@ -2914,6 +3085,17 @@ msgstr "No hi ha suplements actius."
 
 msgid "no lo tienes"
 msgstr "no el tens"
+
+msgid "No me gusta"
+msgstr "No m'agrada"
+
+#, python-brace-format
+msgid "No me gusta: {x}"
+msgstr "No m'agrada: {x}"
+
+#, python-brace-format
+msgid "No me gusta: {x}."
+msgstr "No m'agrada: {x}."
 
 msgid "No proponer"
 msgstr "No proposis"
@@ -3186,6 +3368,10 @@ msgstr "Objectius de la setmana"
 msgid "Objetivos semanales"
 msgstr "Objectius setmanals"
 
+#, python-brace-format
+msgid "Objetivos: {x}"
+msgstr "Objectius: {x}"
+
 msgid "Oculto"
 msgstr "Amagat"
 
@@ -3212,6 +3398,9 @@ msgstr "Fosc"
 
 msgid "Oscuro cálido, sin azul"
 msgstr "Fosc càlid, sense blau"
+
+msgid "Otra pregunta"
+msgstr "Una altra pregunta"
 
 msgid "Otra rutina"
 msgstr "Una altra rutina"
@@ -3263,6 +3452,9 @@ msgstr "Per triar exercicis en crear rutines i saber com avançar."
 
 msgid "Para la IA"
 msgstr "Per a la IA"
+
+msgid "Para las preguntas de comidas del Diario y el plan con IA. Solo en este dispositivo."
+msgstr "Per a les preguntes d'àpats del Diari i el pla amb IA. Només en aquest dispositiu."
 
 msgid "Para publicar, conecta antes tu cuenta en Ajustes → Cuenta de Nostr."
 msgstr "Per publicar, connecta abans el teu compte a Ajustos → Compte de Nostr."
@@ -3354,6 +3546,9 @@ msgstr "Pausa la sessió"
 msgid "Pecho"
 msgstr "Pit"
 
+msgid "Pega antes la respuesta"
+msgstr "Enganxa abans la resposta"
+
 msgid "Pega aquí la respuesta de la IA"
 msgstr "Enganxa aquí la resposta de la IA"
 
@@ -3363,6 +3558,9 @@ msgstr "Enganxa l'adreça bunker://… del teu signant (Amber, nsec.app…)."
 msgid "Pega tu npub1…"
 msgstr "Enganxa la teva npub1…"
 
+msgid "Pégala en tu IA (ChatGPT, Claude, Gemini…). Usus no envía nada; nunca lleva tu peso ni el ciclo."
+msgstr "Enganxa-la a la teva IA (ChatGPT, Claude, Gemini…). Usus no envia res; mai no porta el teu pes ni el cicle."
+
 msgid "Pégalas en una conversación nueva de tu IA (ChatGPT, Claude, Gemini…) o sube el archivo."
 msgstr "Enganxa-les en una conversa nova de la teva IA (ChatGPT, Claude, Gemini…) o puja el fitxer."
 
@@ -3371,6 +3569,9 @@ msgstr "Enganxa'l en una conversa nova de la IA que facis servir, o puja l'arxiu
 
 msgid "Pegar respuesta de la IA"
 msgstr "Enganxa la resposta de la IA"
+
+msgid "Pegar respuesta en las notas del día"
+msgstr "Enganxa la resposta a les notes del dia"
 
 msgid "PEM"
 msgstr "PEM"
@@ -3433,6 +3634,12 @@ msgstr "Període"
 
 msgid "Pesajes"
 msgstr "Pesades"
+
+msgid "Pescado"
+msgstr "Peix"
+
+msgid "Pescetariana"
+msgstr "Pescetariana"
 
 msgid "Peso"
 msgstr "Pes"
@@ -3577,6 +3784,9 @@ msgstr "Per sota del 60 % · 2 sessions"
 msgid "Por ejercicio"
 msgstr "Per exercici"
 
+msgid "Por favor:"
+msgstr "Si us plau:"
+
 msgid "por lado"
 msgstr "per costat"
 
@@ -3591,6 +3801,15 @@ msgstr "Prediccions en pausa"
 
 msgid "Predicciones en pausa."
 msgstr "Prediccions en pausa."
+
+msgid "Pregunta"
+msgstr "Pregunta"
+
+msgid "Pregunta copiada: pégala en tu IA"
+msgstr "Pregunta copiada: enganxa-la a la teva IA"
+
+msgid "Pregunta para tu IA"
+msgstr "Pregunta per a la teva IA"
 
 msgid "Preguntar el esfuerzo al terminar"
 msgstr "Preguntar l'esforç en acabar"
@@ -3740,6 +3959,9 @@ msgstr "Què t'agradaria"
 msgid "Qué trae cada versión"
 msgstr "Què porta cada versió"
 
+msgid "Qué vas a comer y cuándo"
+msgstr "Què menjaràs i quan"
+
 #, python-brace-format
 msgid "Queda 1 serie de {x}."
 msgstr "Queda 1 sèrie de {x}."
@@ -3797,6 +4019,9 @@ msgstr "Rècords"
 
 msgid "Récords recientes"
 msgstr "Rècords recents"
+
+msgid "Recuerda que no es consejo médico ni nutricional."
+msgstr "Recorda que no és consell mèdic ni nutricional."
 
 #, python-brace-format
 msgid "Recuperando {k} de {n}…"
@@ -3906,6 +4131,9 @@ msgstr "Reps de les últimes 4 setmanes. Avís si un costat rendeix més d'un 10
 
 msgid "Resistencia"
 msgstr "Resistència"
+
+msgid "Respeta siempre mis intolerancias y lo que no como."
+msgstr "Respecta sempre les meves intoleràncies i el que no menjo."
 
 msgid "Respiración marcada; aún bastante margen."
 msgstr "Respiració marcada; encara força marge."
@@ -4231,6 +4459,9 @@ msgstr "Sèries per temps: a «Quants segons te'n van faltar?» els números van
 msgid "Ses."
 msgstr "Ses."
 
+msgid "Sésamo"
+msgstr "Sèsam"
+
 msgid "sesión"
 msgstr "sessió"
 
@@ -4358,6 +4589,9 @@ msgstr "Sense barra ni anelles, l'esquena només es pot treballar amb banda o ex
 msgid "Sin barra para dominadas: se usa remo en su lugar."
 msgstr "Sense barra per a dominades: es fa servir rem al seu lloc."
 
+msgid "Sin cerdo"
+msgstr "Sense porc"
+
 msgid "Sin conectar · copia cifrada y publicar"
 msgstr "Sense connectar · còpia xifrada i publicar"
 
@@ -4375,6 +4609,9 @@ msgstr "sense compte de Nostr"
 
 msgid "Sin descanso por defecto"
 msgstr "Sense descans per defecte"
+
+msgid "Sin dietas, calorías ni pesos, y sin proponer saltarse comidas."
+msgstr "Sense dietes, calories ni pesos, i sense proposar saltar-se àpats."
 
 msgid "Sin ejercicios"
 msgstr "Sense exercicis"
@@ -4428,6 +4665,10 @@ msgstr "Sense suplements"
 msgid "Sin variante"
 msgstr "Sense variant"
 
+#, python-brace-format
+msgid "Sin: {x}"
+msgstr "Sense: {x}"
+
 msgid "Síntomas"
 msgstr "Símptomes"
 
@@ -4448,6 +4689,9 @@ msgstr "Sobre tu (per interpretar les dades)"
 
 msgid "Software libre bajo licencia MIT: puedes usarlo, copiarlo, modificarlo y distribuirlo, también con fines comerciales, manteniendo el aviso de copyright y de licencia."
 msgstr "Programari lliure amb llicència MIT: pots fer-lo servir, copiar-lo, modificar-lo i distribuir-lo, també amb finalitats comercials, mantenint l'avís de copyright i de llicència."
+
+msgid "Soja"
+msgstr "Soja"
 
 #, python-brace-format
 msgid "Solo afecta a {x}."
@@ -4602,6 +4846,9 @@ msgstr "Tema"
 msgid "Tema automático por defecto: sigue el modo claro u oscuro del móvil. Puedes cambiarlo en Ajustes → Apariencia."
 msgstr "Tema automàtic per defecte: segueix el mode clar o fosc del mòbil. El pots canviar a Ajustos → Aparença."
 
+msgid "Ten en cuenta lo que ya he comido y el entreno."
+msgstr "Tingues en compte el que ja he menjat i l'entrenament."
+
 msgid "Tendencia (media de 3)"
 msgstr "Tendència (mitjana de 3)"
 
@@ -4652,6 +4899,9 @@ msgstr "Temps, esforç, objectius i catàleg"
 
 msgid "Tipo"
 msgstr "Tipus"
+
+msgid "Tipo de alimentación"
+msgstr "Tipus d'alimentació"
 
 msgid "Tipo de grupo"
 msgstr "Tipus de grup"
@@ -4774,6 +5024,9 @@ msgstr "El teu nom"
 msgid "Tu perfil"
 msgstr "El teu perfil"
 
+msgid "Tu pregunta"
+msgstr "La teva pregunta"
+
 msgid "Tu progresión"
 msgstr "La teva progressió"
 
@@ -4788,6 +5041,9 @@ msgstr "Les teves dades es desen només en aquest dispositiu. Fes còpies des d'
 
 msgid "Tus datos solo están en este móvil."
 msgstr "Les teves dades només són en aquest mòbil."
+
+msgid "Tus preferencias"
+msgstr "Les teves preferències"
 
 #, python-brace-format
 msgid "Última confirmación: ¿borrar «{x}»?"
@@ -4949,6 +5205,12 @@ msgstr "Diversos llocs"
 msgid "Vas a compartir datos de salud con un servicio externo"
 msgstr "Compartiràs dades de salut amb un servei extern"
 
+msgid "Vegana"
+msgstr "Vegana"
+
+msgid "Vegetariana"
+msgstr "Vegetariana"
+
 msgid "Ventana fértil"
 msgstr "Finestra fèrtil"
 
@@ -4991,6 +5253,9 @@ msgstr "Veure la fitxa completa"
 #, python-brace-format
 msgid "Ver la ficha de {x}"
 msgstr "Veure la fitxa de {x}"
+
+msgid "Ver la pregunta"
+msgstr "Veure la pregunta"
 
 msgid "Ver mis planes"
 msgstr "Veure els meus plans"
@@ -5048,6 +5313,13 @@ msgstr "Torna a proposar a tots ({n} silenciats)"
 
 msgid "Volver al paso anterior"
 msgstr "Tornar al pas anterior"
+
+#, python-brace-format
+msgid "Voy a comer esto: «{x}». ¿Qué me recomiendas en las otras comidas para que el día quede equilibrado?"
+msgstr "Menjaré això: «{x}». Què em recomanes en els altres àpats perquè el dia quedi equilibrat?"
+
+msgid "Voy a comer…"
+msgstr "Menjaré…"
 
 #, python-brace-format
 msgid "vuelta {n} de {m}"

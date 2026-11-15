@@ -1,5 +1,10 @@
 /* ---------- Novedades (una vez por versión; historial al tocar la versión) ---------- */
 const CHANGES = [  // Novedades: solo en castellano; las traducciones, en i18n/*.po
+  ["3.9.0", [
+    N_("Comidas, en el Diario: apunta desayuno, comida, merienda y cena con tus palabras, sin calorías ni gramos."),
+    N_("«¿Qué como?»: Usus prepara la pregunta para tu IA (¿qué ceno?, voy a comer pizza…, desayuno u otra) con lo que has comido, el entreno del día y tus preferencias; la copias o compartes, y su respuesta se guarda en las notas del día."),
+    N_("Alimentación, en Ajustes → Perfil: intolerancias y alergias, tipo de alimentación, objetivos y lo que no te gusta, con selectores plegables. También las usa el plan con IA.")
+  ]],
   ["3.8.0", [
     N_("Notificación con la cuenta atrás (APK): mientras entrenas, la sesión y el descanso o la serie por tiempo siguen en una notificación, con Pausa y Saltar, y avisa al acabar aunque salgas de Usus o apagues la pantalla. Android te pedirá permiso para notificaciones; se quita en Ajustes → Avisos."),
     N_("Al terminar la sesión, «Publicar en Nostr» directamente, si tienes cuenta conectada."),

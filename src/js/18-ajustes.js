@@ -66,6 +66,7 @@ function viewData() {
     perfil: `
     ${profSettings()}
     ${persPanel()}
+    ${foodPanel()}
     ${curProf().sex === "m" ? "" : `<h2>${T("Ciclo")}</h2>
     ${cycSettings()}`}
     ${aiProfPanel()}
