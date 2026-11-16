@@ -2,7 +2,7 @@
 
 All Usus versions. Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); [SemVer](https://semver.org/) numbering (MAJOR.MINOR.PATCH).
 
-## [3.9.0] — in testing (beta)
+## [3.9.0] — 2026-11-16
 
 - Meals, in the Diary: note breakfast, lunch, snack and dinner in your own words, no calories or grams.
 - “What should I eat?”: Usus writes the question for your AI (what's for dinner?, I'm having pizza…, breakfast or your own) with what you've eaten, the day's workout and your preferences; you copy or share it, and its answer goes into the day's notes.

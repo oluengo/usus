@@ -1,0 +1,3 @@
+• Meals, in the Diary: note breakfast, lunch, snack and dinner in your own words, no calories or grams.
+• “What should I eat?”: Usus writes the question for your AI with what you've eaten, the day's workout and your preferences; you copy or share it, and its answer goes into the day's notes.
+• Food, in Settings → Profile: intolerances and allergies, diet type, goals and what you don't like, with collapsible pickers. The AI plan uses them too.
