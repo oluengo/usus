@@ -1,0 +1,1 @@
+• When a session ends, “Post on Nostr” posts the workout in one tap, after confirming, without the edit window. To change the text, use Share → Post on Nostr.

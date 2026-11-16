@@ -80,7 +80,8 @@ function foodPrompt(k) {
 }
 function foodSheet(k, e) {
   const m = e.meals || {}, q = state.foodQ || "cena", P = foodParts(), has = Object.keys(P).length;
-  const inc = [TN(FOOD_MEALS.filter(([x]) => (m[x] || "").trim()).length, "{n} comida apuntada", "{n} comidas apuntadas"), T("El entreno del día"), has ? T("Tus preferencias") : ""].filter(Boolean);
+  const nm = FOOD_MEALS.filter(([x]) => (m[x] || "").trim()).length;
+  const inc = [TN(nm, "{n} comida apuntada", "{n} comidas apuntadas"), T("El entreno del día"), has ? T("Tus preferencias") : ""].filter(Boolean);
   return `    <div class="panel fmeals">
       ${FOOD_MEALS.map(([x, n]) => `<label for="fm_${x}">${T(n)}</label><input type="text" id="fm_${x}" data-fmeal="${x}" value="${esc(m[x] || "")}" placeholder="—" maxlength="200">`).join("")}
     </div>

@@ -1,5 +1,8 @@
 /* ---------- Novedades (una vez por versión; historial al tocar la versión) ---------- */
 const CHANGES = [  // Novedades: solo en castellano; las traducciones, en i18n/*.po
+  ["3.9.1", [
+    N_("Al terminar, «Publicar en Nostr» publica el entreno en un toque, tras confirmar, sin la ventana de editar. Para cambiar el texto, Compartir → Publicar en Nostr.")
+  ]],
   ["3.9.0", [
     N_("Comidas, en el Diario: apunta desayuno, comida, merienda y cena con tus palabras, sin calorías ni gramos."),
     N_("«¿Qué como?»: Usus prepara la pregunta para tu IA (¿qué ceno?, voy a comer pizza…, desayuno u otra) con lo que has comido, el entreno del día y tus preferencias; la copias o compartes, y su respuesta se guarda en las notas del día."),

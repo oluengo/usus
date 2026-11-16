@@ -89,6 +89,9 @@ msgstr "Li pot servir a algú? Envia-li l'enllaç."
 msgid "¿Pasar igualmente a {x}? Las series pendientes quedan sin hacer."
 msgstr "Vols passar igualment a {x}? Les sèries pendents queden sense fer."
 
+msgid "¿Publicar el entreno en Nostr? Será una nota pública con tu cuenta."
+msgstr "Publicar l'entrenament a Nostr? Serà una nota pública amb el teu compte."
+
 msgid "¿Qué buscas?"
 msgstr "Què busques?"
 
@@ -530,6 +533,9 @@ msgstr "En acabar cada sessió. En obrir Usus, avisa si hi ha una còpia més no
 
 msgid "Al terminar la sesión, «Publicar en Nostr» directamente, si tienes cuenta conectada."
 msgstr "En acabar la sessió, «Publicar a Nostr» directament, si tens compte connectat."
+
+msgid "Al terminar, «Publicar en Nostr» publica el entreno en un toque, tras confirmar, sin la ventana de editar. Para cambiar el texto, Compartir → Publicar en Nostr."
+msgstr "En acabar, «Publicar a Nostr» publica l'entrenament d'un toc, després de confirmar, sense la finestra d'editar. Per canviar el text, Compartir → Publicar a Nostr."
 
 msgid "Al vincular un nombre como «Fondos (bajada 3 s)», lo que va entre paréntesis pasa a ser la técnica."
 msgstr "En vincular un nom com «Fons (baixada 3 s)», el que va entre parèntesis passa a ser la tècnica."
@@ -3916,6 +3922,9 @@ msgstr "Properes dates"
 
 msgid "Publicado en Nostr"
 msgstr "Publicat a Nostr"
+
+msgid "Publicando…"
+msgstr "Publicant…"
 
 msgid "Publicando… acepta en tu bunker si lo pide."
 msgstr "Publicant… accepta al teu bunker si t'ho demana."

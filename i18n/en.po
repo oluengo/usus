@@ -89,6 +89,9 @@ msgstr "Could it help someone? Send them the link."
 msgid "¿Pasar igualmente a {x}? Las series pendientes quedan sin hacer."
 msgstr "Move on to {x} anyway? Pending sets stay undone."
 
+msgid "¿Publicar el entreno en Nostr? Será una nota pública con tu cuenta."
+msgstr "Post the workout on Nostr? It will be a public note with your account."
+
 msgid "¿Qué buscas?"
 msgstr "What are you after?"
 
@@ -530,6 +533,9 @@ msgstr "After every session. When you open Usus, it tells you if there's a newer
 
 msgid "Al terminar la sesión, «Publicar en Nostr» directamente, si tienes cuenta conectada."
 msgstr "When a session ends, “Post on Nostr” right away, if you have an account connected."
+
+msgid "Al terminar, «Publicar en Nostr» publica el entreno en un toque, tras confirmar, sin la ventana de editar. Para cambiar el texto, Compartir → Publicar en Nostr."
+msgstr "When a session ends, “Post on Nostr” posts the workout in one tap, after confirming, without the edit window. To change the text, use Share → Post on Nostr."
 
 msgid "Al vincular un nombre como «Fondos (bajada 3 s)», lo que va entre paréntesis pasa a ser la técnica."
 msgstr "When linking a name like “Dips (3 s lowering)”, the part in brackets becomes the technique."
@@ -3916,6 +3922,9 @@ msgstr "Upcoming dates"
 
 msgid "Publicado en Nostr"
 msgstr "Posted on Nostr"
+
+msgid "Publicando…"
+msgstr "Posting…"
 
 msgid "Publicando… acepta en tu bunker si lo pide."
 msgstr "Posting… accept in your bunker if asked."

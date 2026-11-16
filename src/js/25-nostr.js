@@ -251,7 +251,7 @@ async function nsBlossom(L, blob) {
 }
 async function nsPublish() {
   const p = state.nsPost; if (!p) return;
-  const text = ($("#nsText")?.value || "").trim(), img = p.k === "sess" && $("#nsImg")?.checked;
+  const text = (p.quick ? p.text : $("#nsText")?.value || "").trim(), img = p.k === "sess" && (p.quick ? !!p.img : $("#nsImg")?.checked);
   if (!text) { toast(T("Escribe algo para publicar")); return; }
   p.text = text; p.img = img;
   nsBusy(T("Publicando… acepta en tu bunker si lo pide."));
@@ -265,8 +265,15 @@ async function nsPublish() {
     await nsTime(L.publish(rel, ev), 30000);
     state.nsPost = { k: p.k, done: L.nevent(ev.id, rel.slice(0, 2), ev.pubkey) };
     toast(T("Publicado en Nostr"));
-  } catch (e) { toast(T("No se pudo publicar: {x}", { x: nsErr(e) }), 5000); }
+  } catch (e) { toast(T("No se pudo publicar: {x}", { x: nsErr(e) }), 5000); if (p.quick) state.nsPost = null; }
   nsBusy(null);
+}
+/* Al terminar (3.9.1): publicar en un toque, con el texto del entreno (y la imagen, si la tienes marcada al compartir) */
+function nsPostQuick(sid) {
+  if (nsRO()) return toast(T("Con solo la npub no se puede publicar: entra con un firmante."), 5000);
+  const s = state.sessions.find(x => x.id === sid); if (!s || state.nsBusy) return;
+  if (!confirm(T("¿Publicar el entreno en Nostr? Será una nota pública con tu cuenta."))) return;
+  state.nsPost = { k: "sess", sid, text: sessText(s), img: !!SHOPT().img, quick: true }; nsPublish();
 }
 function nsPostModal() {
   const p = state.nsPost; if (!p) return "";
@@ -274,6 +281,7 @@ function nsPostModal() {
   return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="npT"><div class="mbox dsh">${mHead("npT", T("Publicar en Nostr"), "ns-post-close")}
     ${p.done ? `<div style="text-align:center"><div class="svok">${CHECK}</div><p style="margin:4px 0 0">${T("Publicado en Nostr")}</p></div>
       <div class="row" style="margin-top:14px"><a class="btn" style="flex:1;text-align:center" href="https://njump.me/${esc(p.done)}" target="_blank" rel="noopener">${T("Verla en njump.me")} ↗</a><button class="btn primary" style="flex:1" data-act="ns-post-close">${T("Hecho")}</button></div>`
+    : p.quick ? `<p class="nsbusy" role="status" style="text-align:center">${esc(b || T("Publicando…"))}</p>`
     : c ? `<p class="muted" style="font-size:.85rem;margin:0 0 10px">${T("Nota pública con tu cuenta {x}. Revisa el texto: lo verá cualquiera.", { x: `<b style="color:var(--ink)">${esc(c.name || nsShort(c))}</b>` })}</p>
       <textarea id="nsText" class="nstext" rows="9" aria-label="${T("Texto de la nota")}">${esc(p.text)}</textarea>
       ${p.k === "sess" ? `<label class="shopt"><span>${T("Con la imagen del entreno")}<small class="muted" style="display:block;font-size:.78rem">${T("Se sube a un servidor Blossom y queda pública.")}</small></span><input type="checkbox" role="switch" id="nsImg" ${p.img ? "checked" : ""}></label>` : ""}

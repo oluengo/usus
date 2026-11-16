@@ -88,6 +88,9 @@ msgstr ""
 msgid "¿Pasar igualmente a {x}? Las series pendientes quedan sin hacer."
 msgstr ""
 
+msgid "¿Publicar el entreno en Nostr? Será una nota pública con tu cuenta."
+msgstr ""
+
 msgid "¿Qué buscas?"
 msgstr ""
 
@@ -528,6 +531,9 @@ msgid "Al terminar cada sesión. Al abrir Usus, avisa si hay una copia más nuev
 msgstr ""
 
 msgid "Al terminar la sesión, «Publicar en Nostr» directamente, si tienes cuenta conectada."
+msgstr ""
+
+msgid "Al terminar, «Publicar en Nostr» publica el entreno en un toque, tras confirmar, sin la ventana de editar. Para cambiar el texto, Compartir → Publicar en Nostr."
 msgstr ""
 
 msgid "Al vincular un nombre como «Fondos (bajada 3 s)», lo que va entre paréntesis pasa a ser la técnica."
@@ -3914,6 +3920,9 @@ msgid "Próximas fechas"
 msgstr ""
 
 msgid "Publicado en Nostr"
+msgstr ""
+
+msgid "Publicando…"
 msgstr ""
 
 msgid "Publicando… acepta en tu bunker si lo pide."

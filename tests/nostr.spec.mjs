@@ -233,3 +233,16 @@ test("Nostr: la copia anterior (una pieza) se sigue pudiendo recuperar", async (
   await expect.poll(async () => ((await ls(page, "wk.routines")) || []).map(r => r.name)).toContain("Vieja");
   expect(errors).toEqual([]);
 });
+test("al terminar, «Publicar en Nostr» publica en un toque (tras confirmar)", async ({ page }) => {
+  await mockNostr(page);
+  const R = [{ id: "rn", name: "Corta", block: "full", variant: "", days: [0, 1, 2, 3, 4, 5, 6], exercises: [{ name: "Flexión", sets: 1, reps: 5, type: "reps" }] }];
+  const errors = await openApp(page, { data: { "wk.routines": R, "wk.nostr": { ...CFG, auto: false }, "wk.shareOpt": { img: false } } });
+  await page.locator('[data-start="rn"]:visible').first().click(); await page.locator('[data-act="sess-begin"]').click();
+  await page.locator('[data-done="0:0"]').click(); await page.locator('[data-act="finish"]').click();
+  await page.locator('[data-act="saved-nostr"]').click();
+  await expect(page.locator(".modal:has(#npT)")).toContainText("Publicado en Nostr");
+  await expect(page.locator("#nsText")).toHaveCount(0);                                   // sin ventana de editar
+  const note = (await page.evaluate(() => window.__ev)).find(e => e.kind === 1);
+  expect(note.content).toContain("Corta"); expect(note.tags).toContainEqual(["t", "usus"]);
+  expect(errors).toEqual([]);
+});

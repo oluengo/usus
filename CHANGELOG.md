@@ -2,6 +2,10 @@
 
 All Usus versions. Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); [SemVer](https://semver.org/) numbering (MAJOR.MINOR.PATCH).
 
+## [3.9.1] — 2026-11-16
+
+- When a session ends, “Post on Nostr” posts the workout in one tap, after confirming, without the edit window. To change the text, use Share → Post on Nostr.
+
 ## [3.9.0] — 2026-11-16
 
 - Meals, in the Diary: note breakfast, lunch, snack and dinner in your own words, no calories or grams.
