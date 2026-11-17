@@ -1,11 +1,46 @@
 # Zapstore (store on Nostr). Publishes the APK of each GitHub Release (tags vX.Y.Z, not the beta).
-# Listing: taken from fastlane/metadata/android. Publish: `zsp publish` (or `zsp publish --check` to see what would be uploaded)
-# with SIGN_WITH=bunker://… in the environment. Never store the nsec key here or in the repository.
+# Publish: `zsp publish` (check first with `zsp check`) with SIGN_WITH=bunker://… in the environment.
+# Never store the nsec key here or in the repository.
+# The listing is defined here (Markdown): fastlane/ uses HTML, which Zapstore shows as text.
 repository: https://github.com/oluengo/usus
 release_filter: ^v\d+\.\d+\.\d+$
 match: ^usus-\d+\.\d+\.\d+\.apk$
+metadata_sources: []
+
 name: Usus
 summary: Calisthenics workouts and habits. No accounts, no ads; your data stays on your phone.
+description: |
+  Usus (Latin: *practice, habit*) logs your workouts and habits. Built for calisthenics and home training; it works for any routine of sets and reps. Free, no accounts, no ads and works offline: everything is stored only on your phone. In English, Spanish and Catalan.
+
+  **What it does**
+
+  - **Routines** with sets, reps or time, per side, added weight, sections, supersets and circuits. Print them or save them as PDF.
+  - **Train hands-free:** one exercise per screen and a full-screen countdown with sound or vibration. It keeps going in a notification, even with the screen off.
+  - **Progression:** after a session, Usus suggests moving to the next exercise or back to the previous one. You decide.
+  - **Exercise catalogue** (optional): a card for each one, equipment and progression.
+  - **Guided plan**, or **with AI** (optional, external): routines at your level and a plan that rotates variants in order, with deloads and pauses.
+  - **Diary** for sleep, steps, weight, activity, meals and notes, and **Progress** with consistency, PRs and habits.
+  - **Profiles** for several people, optional **cycle** tracking and light, dark and protector themes.
+  - **Share** workouts and routines with no servers; backups and CSV.
+  - **Nostr** (optional): a backup encrypted only for you and posting workouts and routines. Sign in with Amber, a bunker or your npub.
+
+  **Privacy**
+
+  - Everything is stored only on your device. No accounts, servers, analytics, ads or trackers.
+  - Only what you export or share leaves. Without Nostr, Usus connects to nothing.
+  - Permissions: vibration, and Internet only for Nostr.
+
+  A logging tool, not medical advice. Built with AI · tested by humans.
 license: MIT
 website: https://oluengo.github.io/usus/
 tags: [fitness, calisthenics, workout, habits, health, privacy, offline]
+
+icon: ./fastlane/metadata/android/en-US/images/icon.png
+images:
+  - ./screenshots/03-session.jpg
+  - ./screenshots/14-countdown.jpg
+  - ./screenshots/04-plan.jpg
+  - ./screenshots/05-diary.jpg
+  - ./screenshots/06-progress.jpg
+  - ./screenshots/13-exercise-card.jpg
+release_notes: ./CHANGELOG.md

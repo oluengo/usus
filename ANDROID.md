@@ -54,7 +54,7 @@ npx cap open android  # or: cd android && ./gradlew assembleDebug
 ## Where it is published
 
 - **GitHub Releases**: the APK of each version. With [Obtainium](https://github.com/ImranR98/Obtainium) your phone is notified of every new version.
-- **Zapstore** (on Nostr): `zapstore.yaml` points to the GitHub Releases (only `vX.Y.Z`, not the beta) and takes the store listing from `fastlane/metadata/android/{es-ES,ca,en-US}/`. After publishing a Release: `zsp publish` with `SIGN_WITH=bunker://…` (a NIP-46 bunker is better than the nsec). `zsp publish --check` shows what would be uploaded without publishing.
+- **Zapstore** (on Nostr): `zapstore.yaml` points to the GitHub Releases (only `vX.Y.Z`, not the beta) and holds the store listing (Markdown description, icon and screenshots). After publishing a Release: `zsp publish` with `SIGN_WITH=bunker://…` (a NIP-46 bunker is better than the nsec). `zsp check` shows the state of the listing and what is missing.
 - **Store listing**: when a version is published, `node scripts/fastlane.mjs X.Y.Z` creates its release notes (`changelogs/<versionCode>.txt`, 3.5.1 → 30501) from CHANGELOG.md. The 4 screenshots (Today, training, countdown and progress), with made-up data and in all three languages: `node scripts/capturas.mjs`.
 
 ## Test version (beta)
