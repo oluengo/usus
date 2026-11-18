@@ -146,6 +146,17 @@ footer .links a:hover { color: var(--accent); }
 	.top nav .navlink { display: none; }
 }
 .top nav .navlink.more { display: inline-flex; white-space: nowrap; }
+.opts { list-style: none; padding-left: 0 !important; margin: .6rem 0 1.2rem; }
+.opts li { position: relative; padding-left: 2.1rem; margin: .55rem 0; }
+.opts .opt-logo { position: absolute; left: 0; top: .05rem; width: 1.5rem; height: 1.5rem; border-radius: .38rem; }
+.opts .opt-logo.dl { padding: .2rem; border: 1px solid currentColor; opacity: .7; box-sizing: border-box; }
+.btn img.logo { width: 1.3rem; height: 1.3rem; border-radius: .32rem; flex: none; }
+.btn svg.dlb, .btn svg.glb { width: 1.15rem; height: 1.15rem; flex: none; }
+.avail { display: flex; flex-wrap: wrap; align-items: center; gap: .45rem .9rem; margin-top: 1.1rem; font-size: .88rem; }
+.avail span { opacity: .65; }
+.avail a { display: inline-flex; align-items: center; gap: .4rem; color: inherit; text-decoration: none; font-weight: 600; opacity: .9; }
+.avail a:hover { opacity: 1; text-decoration: underline; }
+.avail img, .avail svg { width: 1.15rem; height: 1.15rem; border-radius: .28rem; flex: none; }
 </style>
 </head>
 <body>
@@ -179,6 +190,7 @@ footer .links a:hover { color: var(--accent); }
 						<span data-i="android"></span>
 					</a>
 				</div>
+				<div class="avail"><span>Available on</span><a href="https://zapstore.dev/apps/io.github.oluengo.usus"><img src="img/zapstore.png" alt="">Zapstore</a><a href="https://github.com/ImranR98/Obtainium"><img src="img/obtainium.png" alt="">Obtainium</a><a href="app/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3z"/></svg>Web</a></div>
 				<ul class="meta" data-list="meta"></ul>
 			</div>
 			<figure><img src="app/screenshots/cover.jpg" width="2000" height="1067" data-i-alt="heroAlt" alt=""></figure>
@@ -208,18 +220,18 @@ footer .links a:hover { color: var(--accent); }
 			<div class="install">
 				<div class="card">
 					<h3><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.6 9.5l1.8-3.1a.4.4 0 0 0-.7-.4l-1.8 3.2A11 11 0 0 0 12 8.2c-1.8 0-3.4.4-4.9 1L5.3 6a.4.4 0 0 0-.7.4l1.8 3.1A10.5 10.5 0 0 0 1 18h22a10.5 10.5 0 0 0-5.4-8.5zM7 15.3a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm10 0a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/></svg><span>Android</span></h3>
-					<ol data-list="androidSteps"></ol>
+					<ol class="opts" data-list="androidSteps"></ol>
 					<div class="actions">
-						<a class="btn primary" href="https://zapstore.dev/apps/io.github.oluengo.usus">Zapstore</a>
-						<a class="btn line" href="https://github.com/ImranR98/Obtainium">Obtainium</a>
-						<a class="btn line" href="https://github.com/oluengo/usus/releases/latest" data-i="apk"></a>
+						<a class="btn primary" href="https://zapstore.dev/apps/io.github.oluengo.usus"><img class="logo" src="img/zapstore.png" alt="">Zapstore</a>
+						<a class="btn line" href="https://github.com/ImranR98/Obtainium"><img class="logo" src="img/obtainium.png" alt="">Obtainium</a>
+						<a class="btn line" href="https://github.com/oluengo/usus/releases/latest"><svg class="dlb" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg><span data-i="apk"></span></a>
 					</div>
 				</div>
 				<div class="card">
 					<h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="14" height="11" rx="2"/><path d="M6 19h6M9 15v4"/><rect x="17" y="8" width="5" height="12" rx="1.5"/></svg><span data-i="webTitle"></span></h3>
 					<ol data-list="webSteps"></ol>
 					<div class="actions">
-						<a class="btn primary" href="app/" data-i="open"></a>
+						<a class="btn primary" href="app/"><svg class="glb" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3z"/></svg><span data-i="open"></span></a>
 						<a class="btn line" href="beta/" data-i="beta"></a>
 					</div>
 				</div>
@@ -296,7 +308,7 @@ const I = {
 		shotsTitle: "Take a look", shotsLead: "The app is in English, Spanish and Catalan.",
 		shots: [["03-session", "Training"], ["14-countdown", "Countdown"], ["02-routines", "Routines"], ["04-plan", "Plan"], ["05-diary", "Diary"], ["06-progress", "Progress"], ["13-exercise-card", "Exercise card"], ["11-cycle-today", "Cycle"]],
 		installTitle: "Install", installLead: "Choose how to use it. It's free everywhere.",
-		androidSteps: ["<b>Zapstore</b>: install Usus from the Nostr app store. Updates arrive there.", "<b>Obtainium</b>: add <code>github.com/oluengo/usus</code> to get updates from GitHub.", "<b>APK</b>: download it from the latest release and open it. Allow installing from that source if Android asks."],
+		androidSteps: ["<img class='opt-logo' src='img/zapstore.png' alt=''><b>Zapstore</b>: install Usus from the Nostr app store. Updates arrive there.", "<img class='opt-logo' src='img/obtainium.png' alt=''><b>Obtainium</b>: add <code>github.com/oluengo/usus</code> to get updates from GitHub.", "<svg class='opt-logo dl' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><path d='M12 4v11M7 10l5 5 5-5M5 20h14'/></svg><b>APK</b>: download it from the latest release and open it. Allow installing from that source if Android asks."],
 		apk: "Download APK",
 		webTitle: "iPhone or computer",
 		webSteps: ["Open Usus in your browser.", "iPhone (Safari): Share → “Add to Home Screen”.", "Chrome or Edge: the install icon in the address bar."],
