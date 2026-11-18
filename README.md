@@ -4,7 +4,7 @@
 
 <p align="center"><b>Calisthenics workout &amp; habit tracker. No accounts, works offline, your data stays on your phone.</b></p>
 
-<p align="center"><a href="https://oluengo.github.io/usus/">Website</a> · <a href="https://oluengo.github.io/usus/app/">Open the app</a> · <a href="https://github.com/oluengo/usus/releases/latest">Download for Android</a></p>
+<p align="center"><a href="https://oluengo.github.io/usus/">Website</a> · <a href="https://oluengo.github.io/usus/app/">Open the app</a> · <a href="https://github.com/oluengo/usus/releases/latest">Download for Android</a> · <a href="https://zapstore.dev/apps/io.github.oluengo.usus">Zapstore</a></p>
 
 <p align="center"><img src="screenshots/cover.jpg" alt="Usus: Today, countdown, Diary and Progress" width="100%"></p>
 
@@ -34,7 +34,7 @@
 | | How |
 |---|---|
 | **Web and PWA** (iPhone, computer, any phone) | Open <https://oluengo.github.io/usus/app/> and install it from the browser (Safari: Share → “Add to Home Screen”; Chrome/Edge: install icon). |
-| **Android** | The APK from the [latest release](https://github.com/oluengo/usus/releases/latest), or add `https://github.com/oluengo/usus` to [Obtainium](https://github.com/ImranR98/Obtainium) to get updates. Also on Zapstore. |
+| **Android** | From [Zapstore](https://zapstore.dev/apps/io.github.oluengo.usus), the Nostr app store; or add `https://github.com/oluengo/usus` to [Obtainium](https://github.com/ImranR98/Obtainium) to get updates from GitHub; or the APK from the [latest release](https://github.com/oluengo/usus/releases/latest). |
 | **Beta** | Web: <https://oluengo.github.io/usus/beta/>. Android: the [Usus Beta](https://github.com/oluengo/usus/releases/tag/usus-beta) pre-release (in Obtainium, “include pre-releases”). Installs separately, with its own data. |
 
 APK certificate SHA-256 fingerprint: `28:B6:FF:4A:8F:61:F6:88:D4:B4:9D:C7:E8:B7:2D:95:D5:D9:44:45:D2:A2:30:07:1A:FA:72:B1:B2:D0:3E:C8`
