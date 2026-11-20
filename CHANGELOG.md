@@ -2,9 +2,12 @@
 
 All Usus versions. Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); [SemVer](https://semver.org/) numbering (MAJOR.MINOR.PATCH).
 
-## [3.10.0] — in testing (beta)
+## [3.10.0] — 2026-11-20
 
+- Tabs in the order you use them: Today, Diary, Progress, Library and Settings.
 - Progress → Workout → Effort: each session's RPE over 12 weeks with its average, and per exercise the % of sets completed, how much was missing on average and whether it's improving versus the previous 6 weeks.
+- Meals, first of all a log: also “Between meals” and water in glasses. The question for your AI is folded below and can be turned off in Settings → Profile → Diet.
+- Meals and water are in the CSV (diary) and in the summary for AI.
 
 ## [3.9.1] — 2026-11-16
 

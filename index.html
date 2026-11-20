@@ -964,6 +964,11 @@ body:has(.sbar) .rest{bottom:calc(152px + env(safe-area-inset-bottom,0px))}
 .efrow{padding:8px 0;border-top:1px solid var(--line)}.efrow:first-of-type{border-top:0}
 .efbar{height:6px;border-radius:3px;background:var(--line);margin:6px 0 4px;overflow:hidden}.efbar i{display:block;height:100%;background:var(--ok);border-radius:3px}
 .eftr{font-size:.82rem;font-weight:600;white-space:nowrap}
+.fmeals .flab{font-size:.85rem;color:var(--muted)}
+.fwater{display:flex;align-items:center;gap:10px}.fwater b{min-width:72px;text-align:center;font-weight:600}.fwater .btn{min-width:44px}
+.aiq{margin-top:14px}.aiq>summary{list-style:none;cursor:pointer;display:flex;align-items:baseline;gap:8px;padding:10px 2px;font-weight:700;font-size:1rem}
+.aiq>summary::-webkit-details-marker{display:none}.aiq>summary small{font-weight:400;font-size:.82rem}.aiq>summary .fchev{align-self:center}
+.aiq[open] .fchev{transform:rotate(225deg);margin-top:4px}
 /* Pantalla ancha: barra de secciones lateral */
 @media (min-width:1000px){
   body{padding-left:216px}
@@ -2040,12 +2045,12 @@ es: {
   goalW: (a, b) => `Objetivo semanal: ${a} días de fuerza, ${b} días de rutina diaria`,
   sessions: n => `Sesiones (${n})`, sessFmt: "Formato: fecha hora · rutina · minutos · PEM (esfuerzo 1–10) | ejercicio (en lugar de…, si se cambió en la sesión): series (reps, o s si es por tiempo; izq/der si es por lado; @kg = lastre; (n) = RIR, repeticiones en reserva; (-n) = faltaron n para completar la serie, ya descontadas) ✎ nota", free: "libre",
   weight: "Peso (kg)", goal: "objetivo", noRec: "Sin registros en el período", supps: "Suplementos", diary: "Diario", fmt: "Formato: fecha",
-  colSleep: "sueño (acostarse–levantarse, calidad 1–5)", colSteps: "pasos", colSupp: "suplementos tomados", colNotes: "etiquetas y nota", colCyc: "ciclo (sangrado, síntomas)", none: "ninguno",
+  colSleep: "sueño (acostarse–levantarse, calidad 1–5)", colSteps: "pasos", colSupp: "suplementos tomados", colMeals: "comidas", water: "agua (vasos)", colNotes: "etiquetas y nota", colCyc: "ciclo (sangrado, síntomas)", none: "ninguno",
   tags: { skip: "no entrené", pain: "molestia", tired: "cansado", great: "gran sesión" }, flow: { l: "leve", m: "moderada", h: "abundante" },
   acts: "Actividades", periods: n => `Reglas (últimas ${n}, también anteriores al período para ver la regularidad)`, paused: "Seguimiento en pausa desde",
   csv: { tech: "tecnica", pem: "pem", load: "carga", rir: "rir", miss: "faltaron", from: "en_lugar_de", date: "fecha", time: "hora", routine: "rutina", block: "bloque", dur: "duracion_min", ex: "ejercicio", xid: "id_catalogo", type: "tipo", side: "por_lado", set: "serie", val: "reps_o_seg", r2: "reps_der", kg: "lastre_kg",
     id: "id", variant: "variante", days: "dias", order: "orden", sets: "series", target: "objetivo", rest: "descanso_s",
-    bed: "acostarse", wake: "levantarse", sleepH: "horas_sueno", q: "calidad_sueno", steps: "pasos", tags: "etiquetas", note: "nota",
+    bed: "acostarse", wake: "levantarse", sleepH: "horas_sueno", q: "calidad_sueno", steps: "pasos", mB: "desayuno", mL: "comida", mS: "merienda", mD: "cena", mX: "entre_horas", water: "agua_vasos", tags: "etiquetas", note: "nota",
     supp: "suplemento", taken: "tomado", amount: "cantidad", unit: "unidad", when: "momento", wkg: "kg", atype: "tipo", km: "km", min: "minutos",
     s: "inicio", e: "fin", plen: "dias_regla", clen: "dias_hasta_la_siguiente", flow: "sangrado", sym: "sintomas", yes: "sí", no: "no", tTime: "tiempo", tReps: "reps",
     files: { sesiones: "sesiones", rutinas: "rutinas", diario: "diario", suplementos: "suplementos", peso: "peso", actividades: "actividades", ciclo_reglas: "ciclo_reglas", ciclo_dias: "ciclo_dias" },
@@ -2116,12 +2121,12 @@ ca: {
   goalW: (a, b) => `Objectiu setmanal: ${a} dies de força, ${b} dies de rutina diària`,
   sessions: n => `Sessions (${n})`, sessFmt: "Format: data hora · rutina · minuts · PEM (esforç 1–10) | exercici (en lloc de…, si es va canviar a la sessió): sèries (reps, o s si és per temps; esq/dre si és per costat; @kg = llast; (n) = RIR, repeticions en reserva; (-n) = en faltaven n per completar la sèrie, ja descomptades) ✎ nota", free: "lliure",
   weight: "Pes (kg)", goal: "objectiu", noRec: "Sense registres en el període", supps: "Suplements", diary: "Diari", fmt: "Format: data",
-  colSleep: "son (anar a dormir–llevar-se, qualitat 1–5)", colSteps: "passos", colSupp: "suplements presos", colNotes: "etiquetes i nota", colCyc: "cicle (sagnat, símptomes)", none: "cap",
+  colSleep: "son (anar a dormir–llevar-se, qualitat 1–5)", colSteps: "passos", colSupp: "suplements presos", colMeals: "àpats", water: "aigua (gots)", colNotes: "etiquetes i nota", colCyc: "cicle (sagnat, símptomes)", none: "cap",
   tags: { skip: "no vaig entrenar", pain: "molèstia", tired: "cansat", great: "gran sessió" }, flow: { l: "lleu", m: "moderat", h: "abundant" },
   acts: "Activitats", periods: n => `Regles (últimes ${n}, també anteriors al període per veure'n la regularitat)`, paused: "Seguiment en pausa des de",
   csv: { tech: "tecnica", pem: "pem", load: "carrega", rir: "rir", miss: "faltaven", from: "en_lloc_de", date: "data", time: "hora", routine: "rutina", block: "bloc", dur: "durada_min", ex: "exercici", xid: "id_cataleg", type: "tipus", side: "per_costat", set: "serie", val: "reps_o_seg", r2: "reps_dre", kg: "llast_kg",
     id: "id", variant: "variant", days: "dies", order: "ordre", sets: "series", target: "objectiu", rest: "descans_s",
-    bed: "anar_a_dormir", wake: "llevar_se", sleepH: "hores_son", q: "qualitat_son", steps: "passos", tags: "etiquetes", note: "nota",
+    bed: "anar_a_dormir", wake: "llevar_se", sleepH: "hores_son", q: "qualitat_son", steps: "passos", mB: "esmorzar", mL: "dinar", mS: "berenar", mD: "sopar", mX: "entre_hores", water: "aigua_gots", tags: "etiquetes", note: "nota",
     supp: "suplement", taken: "pres", amount: "quantitat", unit: "unitat", when: "moment", wkg: "kg", atype: "tipus", km: "km", min: "minuts",
     s: "inici", e: "fi", plen: "dies_regla", clen: "dies_fins_a_la_seguent", flow: "sagnat", sym: "simptomes", yes: "sí", no: "no", tTime: "temps", tReps: "reps",
     files: { sesiones: "sessions", rutinas: "rutines", diario: "diari", suplementos: "suplements", peso: "pes", actividades: "activitats", ciclo_reglas: "cicle_regles", ciclo_dias: "cicle_dies" },
@@ -2192,12 +2197,12 @@ en: {
   goalW: (a, b) => `Weekly goal: ${a} strength days, ${b} daily-routine days`,
   sessions: n => `Sessions (${n})`, sessFmt: "Format: date time · routine · minutes · RPE (effort 1–10) | exercise (instead of…, if swapped in the session): sets (reps, or s if timed; left/right if per side; @kg = added weight; (n) = RIR, reps in reserve; (-n) = n missing to complete the set, already subtracted) ✎ note", free: "free",
   weight: "Weight (kg)", goal: "goal", noRec: "No entries in the period", supps: "Supplements", diary: "Diary", fmt: "Format: date",
-  colSleep: "sleep (bed–wake, quality 1–5)", colSteps: "steps", colSupp: "supplements taken", colNotes: "tags and note", colCyc: "cycle (bleeding, symptoms)", none: "none",
+  colSleep: "sleep (bed–wake, quality 1–5)", colSteps: "steps", colSupp: "supplements taken", colMeals: "meals", water: "water (glasses)", colNotes: "tags and note", colCyc: "cycle (bleeding, symptoms)", none: "none",
   tags: { skip: "didn't train", pain: "discomfort", tired: "tired", great: "great session" }, flow: { l: "light", m: "medium", h: "heavy" },
   acts: "Activities", periods: n => `Periods (last ${n}, including before the period to show regularity)`, paused: "Tracking paused since",
   csv: { tech: "technique", pem: "rpe", load: "load", rir: "rir", miss: "missed", from: "instead_of", date: "date", time: "time", routine: "routine", block: "block", dur: "duration_min", ex: "exercise", xid: "catalogue_id", type: "type", side: "per_side", set: "set", val: "reps_or_sec", r2: "reps_right", kg: "weight_kg",
     id: "id", variant: "variant", days: "days", order: "order", sets: "sets", target: "target", rest: "rest_s",
-    bed: "bedtime", wake: "wake_time", sleepH: "sleep_hours", q: "sleep_quality", steps: "steps", tags: "tags", note: "note",
+    bed: "bedtime", wake: "wake_time", sleepH: "sleep_hours", q: "sleep_quality", steps: "steps", mB: "breakfast", mL: "lunch", mS: "snack", mD: "dinner", mX: "between_meals", water: "water_glasses", tags: "tags", note: "note",
     supp: "supplement", taken: "taken", amount: "amount", unit: "unit", when: "when", wkg: "kg", atype: "type", km: "km", min: "minutes",
     s: "start", e: "end", plen: "period_days", clen: "days_to_next", flow: "bleeding", sym: "symptoms", yes: "yes", no: "no", tTime: "time", tReps: "reps",
     files: { sesiones: "sessions", rutinas: "routines", diario: "diary", suplementos: "supplements", peso: "weight", actividades: "activities", ciclo_reglas: "cycle_periods", ciclo_dias: "cycle_days" },
@@ -2215,7 +2220,7 @@ const XL = () => XT[LANG] || XT.es;
    Datos para el análisis (opcionales, por perfil): wk.aiProf = {birth, height, level, years, injuries, pains, conditions, meds, goals, other}.
    Solo se guardan si se marca «Guardar para próximas exportaciones»; en el texto sale la edad, nunca la fecha de nacimiento. */
 const AI_LEVELS = [["new", "Empiezo (menos de 6 meses)"], ["basic", "Básico (6 meses–2 años)"], ["mid", "Intermedio (2–5 años)"], ["adv", "Avanzado (más de 5 años o competición)"]];
-const AI_INC = [["train", "Entrenos, rutinas y plan"], ["weight", "Peso"], ["sleep", "Sueño"], ["supp", "Suplementos"], ["act", "Pasos y actividades"], ["notes", "Notas y etiquetas del diario"], ["cycle", "Ciclo (reglas y síntomas)"]];
+const AI_INC = [["train", "Entrenos, rutinas y plan"], ["weight", "Peso"], ["sleep", "Sueño"], ["supp", "Suplementos"], ["act", "Pasos y actividades"], ["meals", "Comidas y agua"], ["notes", "Notas y etiquetas del diario"], ["cycle", "Ciclo (reglas y síntomas)"]];
 const AI_F = [["years", "Detalle de la experiencia y otros deportes", "Ej. 2 años de calistenia, antes fútbol", 0], ["injuries", "Lesiones o cirugías previas", "Ej. rotura de menisco izquierdo (2019)", 1],
   ["pains", "Dolores o molestias actuales", "Ej. lumbar al levantarme por la mañana", 1], ["conditions", "Condiciones de salud relevantes", "Ej. asma, hipertensión, embarazo…", 1],
   ["meds", "Medicación relevante", "Solo si influye en el entreno o la recuperación", 0], ["goals", "Objetivos", "Ej. 10 dominadas, perder 3 kg, dormir mejor", 1], ["other", "Otros", "Lo que quieras que la IA tenga en cuenta", 1]];
@@ -2327,7 +2332,7 @@ function aiBuild(o) {
   }
   if (inc.weight) { const Wl = W.list().filter(x => inP(x.t)); L.push(`## ${X.weight}${W.goal() ? ` · ${X.goal} ${W.goal()}` : ""}`, Wl.length ? Wl.map(x => `${dayKey(x.t)} ${x.kg}`).join(" · ") : X.noRec, ""); }
   const D = DY.all(), sup = DY.supps(), days = Object.keys(D).filter(inK).sort();
-  const cols = [inc.sleep && X.colSleep, inc.act && X.colSteps, inc.supp && sup.length && X.colSupp, inc.notes && X.colNotes, cyc && X.colCyc].filter(Boolean);
+  const cols = [inc.sleep && X.colSleep, inc.act && X.colSteps, inc.supp && sup.length && X.colSupp, inc.meals && X.colMeals, inc.notes && X.colNotes, cyc && X.colCyc].filter(Boolean);
   if (cols.length) {
     if (inc.supp && sup.length) L.push(`## ${X.supps}`, sup.filter(s => !s.archived).map(s => `${s.name} ${s.dose || ""}${s.unit || ""}${s.when ? ` (${s.when})` : ""}`.trim()).join(" · "), "");
     L.push(`## ${X.diary}`, `${X.fmt} | ${cols.join(" | ")}`);
@@ -2336,6 +2341,7 @@ function aiBuild(o) {
       if (inc.sleep) f.push(e.sleep?.bed && e.sleep?.wake ? `${e.sleep.bed}–${e.sleep.wake}${e.sleep.q ? ` (${e.sleep.q})` : ""}` : "-");
       if (inc.act) f.push(e.steps ? String(e.steps) : "-");
       if (inc.supp && sup.length) { const tk = sup.filter(s => e.supp?.[s.id]?.taken).map(s => s.name); f.push(tk.length ? tk.join(", ") : X.none); }
+      if (inc.meals) { const m = e.meals || {}, l = FOOD_MEALS.filter(([x]) => (m[x] || "").trim()).map(([x, n]) => `${T(n)}: ${m[x].trim().replace(/\s+/g, " ")}`); if (+e.water) l.push(`${X.water} ${e.water}`); f.push(l.join("; ") || "-"); }
       if (inc.notes) f.push([...(e.tags || []).map(t => X.tags[t] || t), e.note ? `"${String(e.note).replace(/\s+/g, " ").trim()}"` : ""].filter(Boolean).join("; ") || "-");
       if (cyc) f.push(e.cyc ? [X.flow[e.cyc.flow], ...(e.cyc.sym || []).map(T)].filter(Boolean).join(", ") || "-" : "-");
       if (f.some(x => x !== "-" && x !== X.none)) L.push(`${k} | ${f.join(" | ")}`);
@@ -2527,7 +2533,7 @@ function csvBuild(weeks) {
   put("rutinas", [C.routine, C.id, C.block, C.variant, C.days, C.order, C.ex, C.xid, C.tech, C.sets, C.target, C.type, C.side, C.rest],
     state.routines.flatMap(r => r.exercises.map((e, i) => [r.name, r.oid || r.id, r.block || "", normVar(r.variant), WEEK_ORDER.filter(d => (r.days || []).includes(d)).map(d => X.dayL[d]).join(" "), i + 1, exName(e), e.xid || "", e.xid ? techOf(e) : "", +e.sets, +e.reps, isTime(e) ? C.tTime : C.tReps, yn(e.sides), +e.rest || null])));
   const D = DY.all(), days = Object.keys(D).filter(inK).sort();
-  put("diario", [C.date, C.bed, C.wake, C.sleepH, C.q, C.steps, C.tags, C.note], days.map(k => { const e = D[k], sl = e.sleep || {}; return [k, sl.bed || "", sl.wake || "", sleepHours(sl.bed, sl.wake), sl.q || null, e.steps || null, (e.tags || []).map(t => X.tags[t] || t).join(", "), e.note || ""]; }).filter(r => r.slice(1).some(v => v !== "" && v !== null)));
+  put("diario", [C.date, C.bed, C.wake, C.sleepH, C.q, C.steps, C.mB, C.mL, C.mS, C.mD, C.mX, C.water, C.tags, C.note], days.map(k => { const e = D[k], sl = e.sleep || {}, m = e.meals || {}; return [k, sl.bed || "", sl.wake || "", sleepHours(sl.bed, sl.wake), sl.q || null, e.steps || null, m.b || "", m.l || "", m.s || "", m.d || "", m.x || "", +e.water || null, (e.tags || []).map(t => X.tags[t] || t).join(", "), e.note || ""]; }).filter(r => r.slice(1).some(v => v !== "" && v !== null)));
   const sup = DY.supps();
   put("suplementos", [C.date, C.supp, C.taken, C.amount, C.unit, C.when, C.note], days.flatMap(k => sup.filter(s => D[k].supp?.[s.id]).map(s => { const x = D[k].supp[s.id]; return [k, s.name, yn(x.taken), x.amount ?? s.dose ?? "", s.unit || "", s.when || "", x.note || ""]; })));
   put("peso", [C.date, C.wkg], W.list().filter(x => inP(x.t)).map(x => [dayKey(x.t), +x.kg]));
@@ -2745,7 +2751,7 @@ const CHECK = '<svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg>';
 const PLAY = '<svg viewBox="0 0 24 24"><path d="M8 5.5l10 6.5-10 6.5z"/></svg>';
 
 function renderTabs() {
-  const items = [["train",T("Hoy")],["routines",T("Biblioteca")],["diary",T("Diario")],["stats",T("Progreso")],["data",T("Ajustes")]];
+  const items = [["train",T("Hoy")],["diary",T("Diario")],["stats",T("Progreso")],["routines",T("Biblioteca")],["data",T("Ajustes")]]  // 3.10.0: por uso diario;
   $("#tabs").innerHTML = items.map(([k, l]) =>
     `<button data-tab="${k}" ${state.tab === k ? 'aria-current="page"' : ""}>${ICON[k]}<span>${l}</span></button>`).join("");
 }
@@ -3950,7 +3956,7 @@ function viewDiary() {
       ${tile("sup", T("Suplementos"), sp.length ? `${nTaken}/${sp.length}` : "—", sp.length ? T("tomados") : T("Sin suplementos"), sp.length > 0 && nTaken === sp.length, false, sp.length > 0)}
       ${cr ? (() => { const kd = cycKind(k, cr), ce = e.cyc || {}, dd = cr.last && k >= cr.last.s ? kDiff(k, cr.last.s) + 1 : null, ph = CYC.cfg().phase && cr.last && k >= cr.last.s ? cycPhase(cr, k) : null;
         return tile("cyc", T("Ciclo"), kd === "per" ? T("Regla") : dd ? T("Día {n}", { n: dd }) : "—", (ce.sym || []).length ? ce.sym.map(x => esc(T(x))).join(", ") : (ph && kd !== "per" ? ph : ""), kd === "per" || !!(ce.sym || []).length, true, true); })() : ""}
-      ${(() => { const m = e.meals || {}, l = FOOD_MEALS.filter(([x]) => (m[x] || "").trim()); return tile("food", T("Comidas"), l.length ? `${l.length}/4` : "—", l.map(([x]) => esc(m[x].trim())).join(" · ").slice(0, 70), l.length > 0); })()}
+      ${tile("food", T("Comidas"), ...foodTile(e))}
       ${tile("note", T("Notas del día"), "", [(e.note || "").trim() ? esc(e.note.trim().slice(0, 60)) + (e.note.trim().length > 60 ? "…" : "") : "", (e.tags || []).map(x => T((TAGS.find(z => z[0] === x) || [0, x])[1])).join(" · ")].filter(Boolean).join(" · "), !!(e.note || "").trim() || !!(e.tags || []).length)}`;
       return `${tl.trim() ? `<div class="lgroup dlist">${tl}</div>` : `<p class="muted" style="margin:14px 4px 0">${T("Nada anotado este día")}</p>`}
       ${miss.length ? `<p class="addh">${T("Añadir a este día")}</p><div class="lgroup dlist dadd" role="group" aria-label="${T("Añadir a este día")}">${miss.map(([kk, l]) => `<button class="srow drow" data-dsh="${kk}"><span class="dic"><svg viewBox="0 0 24 24" aria-hidden="true">${DICO[kk] || DICO.note}</svg></span><span class="t">${l}</span><span class="dplus" aria-hidden="true">+</span></button>`).join("")}</div>` : ""}`; })()}
@@ -4623,7 +4629,10 @@ function installBlock() {
 /* ---------- Novedades (una vez por versión; historial al tocar la versión) ---------- */
 const CHANGES = [  // Novedades: solo en castellano; las traducciones, en i18n/*.po
   ["3.10.0", [
-    N_("Progreso → Entreno → Esfuerzo: la PEM de cada sesión en 12 semanas, con su media, y por ejercicio el % de series completas, lo que faltó de media y si mejora frente a las 6 semanas anteriores.")
+    N_("Pestañas en el orden de uso: Hoy, Diario, Progreso, Biblioteca y Ajustes."),
+    N_("Progreso → Entreno → Esfuerzo: la PEM de cada sesión en 12 semanas, con su media, y por ejercicio el % de series completas, lo que faltó de media y si mejora frente a las 6 semanas anteriores."),
+    N_("Comidas, ante todo un registro: también «Entre horas» y el agua en vasos. La pregunta para tu IA va plegada debajo y se puede quitar en Ajustes → Perfil → Alimentación."),
+    N_("Las comidas y el agua salen en el CSV (diario) y en el resumen para la IA.")
   ]],
   ["3.9.1", [
     N_("Al terminar, «Publicar en Nostr» publica el entreno en un toque, tras confirmar, sin la ventana de editar. Para cambiar el texto, Compartir → Publicar en Nostr.")
@@ -6052,17 +6061,19 @@ const NS_ICO = '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="
 /* ---------- Comidas (3.9.0): lo que comes cada día y preguntas para tu IA («¿qué ceno?») ----------
    Como el plan con IA: Usus solo prepara la pregunta, con lo comido, el entreno del día y tus preferencias, y la
    copias o compartes tú. Sin calorías, pesos ni dietas. Las intolerancias y preferencias van en Ajustes → Perfil
-   (wk.food, por perfil y en la copia, apartado Ajustes); lo comido, en el diario (e.meals, apartado Diario). */
+   (wk.food, por perfil y en la copia, apartado Ajustes); lo comido, en el diario (e.meals, apartado Diario).
+   3.10.0: es ante todo un registro (también «entre horas» y agua en vasos, e.water); la pregunta para la IA va plegada
+   debajo y se puede quitar en Perfil → Alimentación (wk.food.ai). Lo comido sale en el CSV y en el resumen para la IA. */
 const FOOD_AL = [["lactosa", N_("Lactosa")], ["gluten", N_("Gluten")], ["huevo", N_("Huevo")], ["frutos", N_("Frutos secos")], ["cacahuete", N_("Cacahuete")],
   ["marisco", N_("Marisco")], ["pescado", N_("Pescado")], ["soja", N_("Soja")], ["sesamo", N_("Sésamo")], ["fructosa", N_("Fructosa")]];
 const FOOD_DIET = [["todo", N_("Como de todo")], ["flex", N_("Flexitariana")], ["vegetariana", N_("Vegetariana")], ["vegana", N_("Vegana")], ["pesce", N_("Pescetariana")],
   ["sincerdo", N_("Sin cerdo")], ["halal", N_("Halal")], ["kosher", N_("Kosher")]];
 const FOOD_GOAL = [["prot", N_("Más proteína")], ["verdura", N_("Más verdura y fruta")], ["ligero", N_("Comer más ligero")], ["energia", N_("Energía para entrenar")],
   ["musculo", N_("Ganar músculo")], ["procesados", N_("Menos ultraprocesados")], ["azucar", N_("Menos azúcar")]];
-const FOOD_MEALS = [["b", N_("Desayuno")], ["l", N_("Comida")], ["s", N_("Merienda")], ["d", N_("Cena")]];
+const FOOD_MEALS = [["b", N_("Desayuno")], ["l", N_("Comida")], ["s", N_("Merienda")], ["d", N_("Cena")], ["x", N_("Entre horas")]];   // x: picoteo (3.10.0)
 const FOOD_Q = [["cena", N_("¿Qué ceno?")], ["antes", N_("Voy a comer…")], ["desayuno", N_("Desayuno")], ["libre", N_("Otra pregunta")]];
 const FOOD = {
-  get: () => ({ al: [], diet: "", goals: [], no: "", ...(LS.get("wk.food", null) || {}) }),
+  get: () => ({ al: [], diet: "", goals: [], no: "", ai: true, ...(LS.get("wk.food", null) || {}) }),
   set(p) { LS.set("wk.food", { ...FOOD.get(), ...p }); }
 };
 const foodLab = (L, k) => T((L.find(x => x[0] === k) || [k, k])[1]);
@@ -6092,6 +6103,7 @@ function foodPanel() {
     ${fold("diet", T("Tipo de alimentación"), esc(foodLab(FOOD_DIET, f.diet || "todo")), chips(FOOD_DIET, "diet", f.diet || "todo", true))}
     ${fold("goals", T("Objetivos"), esc(P.goals || T("Ninguno")), chips(FOOD_GOAL, "goals", f.goals))}
     <div class="srow"><label class="t" for="foodNo">${T("No me gusta")}</label><input id="foodNo" type="text" value="${esc(f.no)}" placeholder="${T("Ej. setas, pescado azul")}" style="flex:1;min-width:0;max-width:60%"></div>
+    <label class="srow"><span class="t">${T("Preguntas para tu IA")}<small>${T("«¿Qué como?» en Diario → Comidas")}</small></span><input type="checkbox" role="switch" id="foodAi" ${f.ai !== false ? "checked" : ""}></label>
   </div><p class="note">${T("Para las preguntas de comidas del Diario y el plan con IA. Solo en este dispositivo.")}</p>`;
 }
 /* Pulsar un selector: se guarda y se actualiza sin volver a pintar (así el apartado sigue abierto) */
@@ -6121,7 +6133,7 @@ function foodPrompt(k) {
     libre: (state.foodX?.libre || "").trim() || "…"
   }[q];
   const L = [ask, "", today ? T("Hoy he comido:") : T("El {d} comí:", { d: new Date(keyTime(k)).toLocaleDateString(LOC(), { weekday: "long", day: "numeric", month: "long" }) }),
-    ...(eaten.length ? eaten : [`- ${T("Nada apuntado todavía")}`]), "", foodTrain(k)];
+    ...(eaten.length ? eaten : [`- ${T("Nada apuntado todavía")}`]), ...(+e.water ? [TN(+e.water, "Agua: {n} vaso", "Agua: {n} vasos")] : []), "", foodTrain(k)];
   const pr = [P.diet && T("Mi alimentación: {x}.", { x: foodLower(P.diet) }), P.al && T("Intolerancias o alergias: {x} (no las incluyas nunca).", { x: P.al.toLowerCase() }),
     P.no && T("No me gusta: {x}.", { x: P.no }), P.goals && T("Mis objetivos: {x}.", { x: P.goals.toLowerCase() })].filter(Boolean);
   if (pr.length) L.push(...pr);
@@ -6130,14 +6142,12 @@ function foodPrompt(k) {
   return L.join("\n");
 }
 function foodSheet(k, e) {
-  const m = e.meals || {}, q = state.foodQ || "cena", P = foodParts(), has = Object.keys(P).length;
+  const m = e.meals || {}, q = state.foodQ || "cena", P = foodParts(), has = Object.keys(P).length, wv = +e.water || 0;
   const nm = FOOD_MEALS.filter(([x]) => (m[x] || "").trim()).length;
   const inc = [TN(nm, "{n} comida apuntada", "{n} comidas apuntadas"), T("El entreno del día"), has ? T("Tus preferencias") : ""].filter(Boolean);
-  return `    <div class="panel fmeals">
-      ${FOOD_MEALS.map(([x, n]) => `<label for="fm_${x}">${T(n)}</label><input type="text" id="fm_${x}" data-fmeal="${x}" value="${esc(m[x] || "")}" placeholder="—" maxlength="200">`).join("")}
-    </div>
-    <h3 class="wh">${T("¿Qué como?")}</h3>
-    <div class="panel">
+  const ai = FOOD.get().ai !== false ? `
+    <details class="aiq"${state.foodAiOpen ? " open" : ""}><summary><span>${T("¿Qué como?")}</span><small class="muted">${T("con tu IA")}</small><span class="fchev" aria-hidden="true"></span></summary>
+    <div class="panel" style="margin-top:8px">
       <div class="chips fchips" role="group" aria-label="${T("Pregunta")}" style="margin-top:0">${FOOD_Q.map(([x, n]) => `<button data-fq="${x}" class="${q === x ? "on" : ""}" aria-pressed="${q === x}">${T(n)}</button>`).join("")}</div>
       ${q === "antes" ? `<input type="text" id="fqAntes" data-fqx="antes" value="${esc(state.foodX?.antes || "")}" placeholder="${T("Ej. pizza para cenar")}" aria-label="${T("Qué vas a comer y cuándo")}" style="margin-top:10px">` : ""}
       ${q === "libre" ? `<input type="text" id="fqLibre" data-fqx="libre" value="${esc(state.foodX?.libre || "")}" placeholder="${T("Ej. ¿qué llevo al trabajo para picar?")}" aria-label="${T("Tu pregunta")}" style="margin-top:10px">` : ""}
@@ -6150,8 +6160,17 @@ function foodSheet(k, e) {
       <details class="aimanual"${state.foodManual ? " open" : ""}><summary>${T("O pégala a mano")}</summary>
         <textarea id="foodPaste" rows="3" placeholder="${T("Pega aquí la respuesta de la IA")}"></textarea>
         <button class="btn" style="width:100%;margin-top:8px" data-act="food-paste">${T("Guardar en las notas del día")}</button></details>
-    </div>`;
+    </div></details>` : "";
+  return `    <div class="panel fmeals">
+      ${FOOD_MEALS.map(([x, n]) => `<label for="fm_${x}">${T(n)}</label><input type="text" id="fm_${x}" data-fmeal="${x}" value="${esc(m[x] || "")}" placeholder="—" maxlength="200">`).join("")}
+      <span class="flab">${T("Agua")}</span><div class="fwater"><button class="btn small" data-act="food-water-" aria-label="${T("Un vaso menos")}" ${wv ? "" : "disabled"}>−</button><b aria-live="polite">${TN(wv, "{n} vaso", "{n} vasos")}</b><button class="btn small" data-act="food-water+" aria-label="${T("Un vaso más")}">+</button></div>
+    </div>${ai}
+`;
 }
+/* El plegable de la IA recuerda si está abierto (al cambiar de pregunta se vuelve a pintar) */
+document.addEventListener("toggle", ev => { if (ev.target?.classList?.contains("aiq")) state.foodAiOpen = ev.target.open; }, true);
+const foodTile = e => { const m = e.meals || {}, l = FOOD_MEALS.filter(([x]) => (m[x] || "").trim()), w = +e.water || 0;
+  return [l.length ? String(l.length) : w ? TN(w, "{n} vaso", "{n} vasos") : "—", [l.map(([x]) => esc(m[x].trim())).join(" · ").slice(0, 70), l.length && w ? TN(w, "Agua: {n} vaso", "Agua: {n} vasos") : ""].filter(Boolean).join(" · "), l.length > 0 || w > 0]; };
 function foodSaveAnswer(k, t) {
   t = (t || "").trim().slice(0, 4000); if (!t) { toast(T("Pega antes la respuesta")); return false; }
   const n = (DY.get(k).note || "").trim();
@@ -6591,6 +6610,7 @@ document.addEventListener("click", async ev => {
       addWeight(t, kg); toast(T("Peso guardado: {v}", { v: fmtW(kg) })); render(); break;
     }
     case "w-open": state.tab = "diary"; state.day = dayKey(Date.now()); state.dsheet = "peso"; render(); setTimeout(() => $("#wKg")?.focus(), 0); break;
+    case "food-water+": case "food-water-": { const k = state.day || dayKey(Date.now()), w = Math.max(0, Math.min(30, (+DY.get(k).water || 0) + (d.act === "food-water+" ? 1 : -1))); DY.set(k, { water: w || undefined }); render(); break; }
     case "food-copy": { const ok = await copyText(foodPrompt(state.day || dayKey(Date.now()))); toast(ok ? T("Pregunta copiada: pégala en tu IA") : T("No se pudo copiar")); break; }
     case "food-share": shareOut({ title: T("Pregunta para tu IA"), text: foodPrompt(state.day || dayKey(Date.now())) }); break;
     case "food-clip": { let x = ""; try { x = await navigator.clipboard.readText(); } catch {}
@@ -6677,6 +6697,7 @@ document.addEventListener("change", async ev => {
   const tg = ev.target, dk = state.day || dayKey(Date.now());
   if (tg.id === "progOn" || tg.id === "progUp" || tg.id === "progDown") { const P = PROG(); if (tg.id === "progOn") P.on = tg.checked; if (tg.id === "progUp") P.up = +tg.value; if (tg.id === "progDown") P.down = tg.value; LS.set("wk.prog", P); render(); return; }
   if (tg.dataset.nsbkp && state.nsBk) { state.nsBk.pick = tg.dataset.nsbkp; render(); return; }
+  if (tg.id === "foodAi") { FOOD.set({ ai: tg.checked }); return; }
   if (tg.id === "tmrNotif") { LS.set("wk.tmrNotif", tg.checked); render(); return; }
   if (tg.id === "nsAuto") { const c = NS.cfg(); if (c) NS.save({ ...c, auto: tg.checked }); render(); return; }
   if (tg.id === "effPem" || tg.id === "effRir") { LS.set("wk.effort", { ...EFF(), [tg.id === "effPem" ? "pem" : "rir"]: tg.checked }); render(); return; }
@@ -6783,6 +6804,7 @@ const I18N = {
     "¿Salir sin guardar tus respuestas?": "Vols sortir sense desar les teves respostes?",
     "¿Terminar y guardar igualmente? Se guardan solo las series hechas ({n} pendientes en total).": "Vols acabar i desar igualment? Només es desen les sèries fetes ({n} pendents en total).",
     "‹ › cambia al ejercicio anterior o siguiente de su escalera. Toca un nombre para ver su ficha. Después podrás editar las rutinas en Biblioteca.": "‹ › canvia a l'exercici anterior o següent de la seva escala. Toca un nom per veure'n la fitxa. Després podràs editar les rutines a Biblioteca.",
+    "«¿Qué como?» en Diario → Comidas": "«Què menjo?» a Diari → Àpats",
     "«¿Qué como?»: Usus prepara la pregunta para tu IA (¿qué ceno?, voy a comer pizza…, desayuno u otra) con lo que has comido, el entreno del día y tus preferencias; la copias o compartes, y su respuesta se guarda en las notas del día.": "«Què menjo?»: Usus prepara la pregunta per a la teva IA (què sopo?, menjaré pizza…, esmorzar o una altra) amb el que has menjat, l'entrenament del dia i les teves preferències; la copies o comparteixes, i la resposta es desa a les notes del dia.",
     "«Añadir app» y pega el enlace:": "«Afegeix app» i enganxa l'enllaç:",
     "«Ejercicio hecho» bien visible, con el descanso que viene y el botón al siguiente.": "«Exercici fet» ben visible, amb el descans que ve i el botó al següent.",
@@ -6823,6 +6845,7 @@ const I18N = {
     "{n} sesión": "{n} sessió",
     "{n} sesiones": "{n} sessions",
     "{n} usos": "{n} usos",
+    "{n} vaso\u0004{n} vasos": ["{n} got","{n} gots"],
     "{n} vueltas": "{n} voltes",
     "{x} en lugar de {y}.": "{x} en lloc de {y}.",
     "{x} hecho": "{x} fet",
@@ -6872,6 +6895,8 @@ const I18N = {
     "Actualizaciones": "Actualitzacions",
     "Actualizar": "Actualitzar",
     "Agrupar": "Agrupa",
+    "Agua": "Aigua",
+    "Agua: {n} vaso\u0004Agua: {n} vasos": ["Aigua: {n} got","Aigua: {n} gots"],
     "ahora": "ara",
     "Ahora": "Ara",
     "Ahora no": "Ara no",
@@ -7073,6 +7098,7 @@ const I18N = {
     "Comer más ligero": "Menjar més lleuger",
     "Comida": "Dinar",
     "Comidas": "Àpats",
+    "Comidas, ante todo un registro: también «Entre horas» y el agua en vasos. La pregunta para tu IA va plegada debajo y se puede quitar en Ajustes → Perfil → Alimentación.": "Àpats, sobretot un registre: també «Entre hores» i l'aigua en gots. La pregunta per a la teva IA va plegada a sota i es pot treure a Ajustos → Perfil → Alimentació.",
     "Comidas, en el Diario: apunta desayuno, comida, merienda y cena con tus palabras, sin calorías ni gramos.": "Àpats, al Diari: apunta esmorzar, dinar, berenar i sopar amb les teves paraules, sense calories ni grams.",
     "Como de todo": "Menjo de tot",
     "Cómo ha ido, molestias, cambios…": "Com ha anat, molèsties, canvis…",
@@ -7099,6 +7125,7 @@ const I18N = {
     "Con nota": "Amb nota",
     "Con solo la npub no se puede publicar: entra con un firmante.": "Només amb la npub no es pot publicar: entra amb un signant.",
     "Con solo la npub no se pueden guardar ni recuperar copias: entra con un firmante en Ajustes → Cuenta de Nostr.": "Només amb la npub no es poden desar ni recuperar còpies: entra amb un signant a Ajustos → Compte de Nostr.",
+    "con tu IA": "amb la teva IA",
     "Con tu molestia no hay alternativa para todo: los ejercicios marcados con ⚠ la cargan y van en su versión fácil. Hazlos con cuidado o cámbialos.": "Amb la teva molèstia no hi ha alternativa per a tot: els exercicis marcats amb ⚠ la carreguen i van en la versió fàcil. Fes-los amb compte o canvia'ls.",
     "Con tu molestia, algunos ejercicios se cambian por otros de la misma zona.": "Amb la teva molèstia, alguns exercicis es canvien per altres de la mateixa zona.",
     "Con variantes, Usus usa su plan de progresión: Hoy te dice qué toca cada semana.": "Amb variants, Usus fa servir el seu pla de progressió: Avui et diu què toca cada setmana.",
@@ -7372,6 +7399,7 @@ const I18N = {
     "Entra con tu cuenta de Nostr para guardar copias cifradas y publicar tus entrenos y rutinas. Usus no ve tu clave privada y solo se conecta cuando usas Nostr.": "Entra amb el teu compte de Nostr per desar còpies xifrades i publicar els teus entrenaments i rutines. Usus no veu la teva clau privada i només es connecta quan fas servir Nostr.",
     "Entrar con Amber": "Entra amb Amber",
     "Entrar con extensión": "Entra amb extensió",
+    "Entre horas": "Entre hores",
     "Entrenado": "Entrenat",
     "Entrenado 30 días": "Entrenat 30 dies",
     "Entrenando: cabecera fija con el tiempo y el avance, series más grandes y una barra abajo con la acción que toca (marcar la serie, empezar la cuenta atrás, siguiente ejercicio o terminar).": "Entrenant: capçalera fixa amb el temps i l'avanç, sèries més grans i una barra a baix amb l'acció que toca (marcar la sèrie, començar el compte enrere, exercici següent o acabar).",
@@ -7589,6 +7617,7 @@ const I18N = {
     "La última vez lo cambiaste por {x}": "L'última vegada el vas canviar per {x}",
     "Lactancia": "Lactància",
     "Lactosa": "Lactosa",
+    "Las comidas y el agua salen en el CSV (diario) y en el resumen para la IA.": "Els àpats i l'aigua surten al CSV (diari) i al resum per a la IA.",
     "Las fechas son una estimación aproximada a partir de tus ciclos anteriores. Los ciclos varían por estrés, enfermedad, viajes, medicación u otras causas. No sirve como método anticonceptivo, ni para buscar un embarazo con fiabilidad, ni como diagnóstico. Ante cualquier duda o cambio importante, consulta a un profesional sanitario.": "Les dates són una estimació aproximada a partir dels teus cicles anteriors. Els cicles varien per estrès, malaltia, viatges, medicació o altres causes. No serveix com a mètode anticonceptiu, ni per buscar un embaràs amb fiabilitat, ni com a diagnòstic. Davant qualsevol dubte o canvi important, consulta un professional sanitari.",
     "Las rutinas sin días no se sugieren. Ponles días al editarlas.": "Les rutines sense dies no es suggereixen. Posa'ls dies en editar-les.",
     "Las sesiones van en orden: hoy toca la siguiente que falte, sea el día que sea, y la semana del plan pasa al hacerlas todas.": "Les sessions van en ordre: avui toca la següent que falti, sigui el dia que sigui, i la setmana del pla passa en fer-les totes.",
@@ -7914,6 +7943,7 @@ const I18N = {
     "Peso objetivo (kg)": "Pes objectiu (kg)",
     "Peso semanal": "Pes setmanal",
     "Peso serie {n}": "Pes sèrie {n}",
+    "Pestañas en el orden de uso: Hoy, Diario, Progreso, Biblioteca y Ajustes.": "Pestanyes en l'ordre d'ús: Avui, Diari, Progrés, Biblioteca i Ajustos.",
     "pierna": "cama",
     "Pierna": "Cama",
     "Pierna · cadera": "Cama · maluc",
@@ -7962,6 +7992,7 @@ const I18N = {
     "Pregunta copiada: pégala en tu IA": "Pregunta copiada: enganxa-la a la teva IA",
     "Pregunta para tu IA": "Pregunta per a la teva IA",
     "Preguntar el esfuerzo al terminar": "Preguntar l'esforç en acabar",
+    "Preguntas para tu IA": "Preguntes per a la teva IA",
     "Preparación (s)": "Preparació (s)",
     "Preparación: {n} s": "Preparació: {n} s",
     "Preparando la copia…": "Preparant la còpia…",
@@ -8370,6 +8401,8 @@ const I18N = {
     "Un archivo .json de Usus: una copia de seguridad o rutinas que te han pasado.": "Un fitxer .json d'Usus: una còpia de seguretat o rutines que t'han passat.",
     "Un archivo .zip con una tabla por tipo de dato (sesiones, rutinas, diario, suplementos, peso, actividades y ciclo) y un archivo que explica cada columna. Para analizarlos a tu manera en una hoja de cálculo.": "Un arxiu .zip amb una taula per tipus de dada (sessions, rutines, diari, suplements, pes, activitats i cicle) i un arxiu que explica cada columna. Per analitzar-les a la teva manera en un full de càlcul.",
     "Un plan rota variantes de tus rutinas por semanas (por ejemplo A, B, C cada 2 semanas) con semanas de descarga, y Hoy te dice qué rutina toca cada día.": "Un pla fa rotar variants de les teves rutines per setmanes (per exemple A, B, C cada 2 setmanes) amb setmanes de descàrrega, i Avui et diu quina rutina toca cada dia.",
+    "Un vaso más": "Un got més",
+    "Un vaso menos": "Un got menys",
     "Una columna por sesión: apunta lo hecho (p. ej. 8·8·7·6)": "Una columna per sessió: apunta el que has fet (p. ex. 8·8·7·6)",
     "Una hoja por ejercicio con muchas fechas para ver su progresión.": "Un full per exercici amb moltes dates per veure'n la progressió.",
     "Una IA no es un entrenador ni un profesional sanitario. Si tienes lesiones, dolor, una condición de salud, estás embarazada o hace tiempo que no entrenas, consulta antes con un profesional. Todo es opcional.": "Una IA no és un entrenador ni un professional sanitari. Si tens lesions, dolor, una condició de salut, estàs embarassada o fa temps que no entrenes, consulta abans un professional. Tot és opcional.",
@@ -8510,6 +8543,7 @@ const I18N = {
     "¿Salir sin guardar tus respuestas?": "Leave without saving your answers?",
     "¿Terminar y guardar igualmente? Se guardan solo las series hechas ({n} pendientes en total).": "Finish and save anyway? Only completed sets are saved ({n} pending in total).",
     "‹ › cambia al ejercicio anterior o siguiente de su escalera. Toca un nombre para ver su ficha. Después podrás editar las rutinas en Biblioteca.": "‹ › switches to the previous or next exercise in its progression. Tap a name to see its card. You can edit the routines later in Library.",
+    "«¿Qué como?» en Diario → Comidas": "“What should I eat?” in Diary → Meals",
     "«¿Qué como?»: Usus prepara la pregunta para tu IA (¿qué ceno?, voy a comer pizza…, desayuno u otra) con lo que has comido, el entreno del día y tus preferencias; la copias o compartes, y su respuesta se guarda en las notas del día.": "“What should I eat?”: Usus writes the question for your AI (what's for dinner?, I'm having pizza…, breakfast or your own) with what you've eaten, the day's workout and your preferences; you copy or share it, and its answer goes into the day's notes.",
     "«Añadir app» y pega el enlace:": "“Add app” and paste the link:",
     "«Ejercicio hecho» bien visible, con el descanso que viene y el botón al siguiente.": "A clearly visible “Exercise done” card with the upcoming rest and a button to the next one.",
@@ -8550,6 +8584,7 @@ const I18N = {
     "{n} sesión": "{n} session",
     "{n} sesiones": "{n} sessions",
     "{n} usos": "{n} uses",
+    "{n} vaso\u0004{n} vasos": ["{n} glass","{n} glasses"],
     "{n} vueltas": "{n} rounds",
     "{x} en lugar de {y}.": "{x} instead of {y}.",
     "{x} hecho": "{x} done",
@@ -8599,6 +8634,8 @@ const I18N = {
     "Actualizaciones": "Updates",
     "Actualizar": "Update",
     "Agrupar": "Group",
+    "Agua": "Water",
+    "Agua: {n} vaso\u0004Agua: {n} vasos": ["Water: {n} glass","Water: {n} glasses"],
     "ahora": "now",
     "Ahora": "Now",
     "Ahora no": "Not now",
@@ -8800,6 +8837,7 @@ const I18N = {
     "Comer más ligero": "Eat lighter",
     "Comida": "Lunch",
     "Comidas": "Meals",
+    "Comidas, ante todo un registro: también «Entre horas» y el agua en vasos. La pregunta para tu IA va plegada debajo y se puede quitar en Ajustes → Perfil → Alimentación.": "Meals, first of all a log: also “Between meals” and water in glasses. The question for your AI is folded below and can be turned off in Settings → Profile → Diet.",
     "Comidas, en el Diario: apunta desayuno, comida, merienda y cena con tus palabras, sin calorías ni gramos.": "Meals, in the Diary: note breakfast, lunch, snack and dinner in your own words, no calories or grams.",
     "Como de todo": "I eat everything",
     "Cómo ha ido, molestias, cambios…": "How it went, aches, changes…",
@@ -8826,6 +8864,7 @@ const I18N = {
     "Con nota": "With a note",
     "Con solo la npub no se puede publicar: entra con un firmante.": "With just the npub you can't post: sign in with a signer.",
     "Con solo la npub no se pueden guardar ni recuperar copias: entra con un firmante en Ajustes → Cuenta de Nostr.": "With just the npub you can't save or restore backups: sign in with a signer in Settings → Nostr account.",
+    "con tu IA": "with your AI",
     "Con tu molestia no hay alternativa para todo: los ejercicios marcados con ⚠ la cargan y van en su versión fácil. Hazlos con cuidado o cámbialos.": "With your ache there isn't an alternative for everything: exercises marked ⚠ load it and come in their easy version. Do them carefully or swap them.",
     "Con tu molestia, algunos ejercicios se cambian por otros de la misma zona.": "Because of your ache, some exercises are replaced by others for the same area.",
     "Con variantes, Usus usa su plan de progresión: Hoy te dice qué toca cada semana.": "With variants, Usus uses its progression plan: Today tells you what's on each week.",
@@ -9099,6 +9138,7 @@ const I18N = {
     "Entra con tu cuenta de Nostr para guardar copias cifradas y publicar tus entrenos y rutinas. Usus no ve tu clave privada y solo se conecta cuando usas Nostr.": "Sign in with your Nostr account to save encrypted backups and post your workouts and routines. Usus never sees your private key and only connects when you use Nostr.",
     "Entrar con Amber": "Sign in with Amber",
     "Entrar con extensión": "Sign in with extension",
+    "Entre horas": "Between meals",
     "Entrenado": "Trained",
     "Entrenado 30 días": "Trained, 30 days",
     "Entrenando: cabecera fija con el tiempo y el avance, series más grandes y una barra abajo con la acción que toca (marcar la serie, empezar la cuenta atrás, siguiente ejercicio o terminar).": "Training: a fixed header with time and progress, bigger sets and a bottom bar with the next action (mark the set, start the countdown, next exercise or finish).",
@@ -9316,6 +9356,7 @@ const I18N = {
     "La última vez lo cambiaste por {x}": "Last time you swapped it for {x}",
     "Lactancia": "Breastfeeding",
     "Lactosa": "Lactose",
+    "Las comidas y el agua salen en el CSV (diario) y en el resumen para la IA.": "Meals and water are in the CSV (diary) and in the summary for AI.",
     "Las fechas son una estimación aproximada a partir de tus ciclos anteriores. Los ciclos varían por estrés, enfermedad, viajes, medicación u otras causas. No sirve como método anticonceptivo, ni para buscar un embarazo con fiabilidad, ni como diagnóstico. Ante cualquier duda o cambio importante, consulta a un profesional sanitario.": "Dates are an approximate estimate based on your previous cycles. Cycles vary with stress, illness, travel, medication and other causes. This is not a contraceptive method, not a reliable way to plan a pregnancy, and not a diagnosis. If you have any doubt or notice a significant change, see a healthcare professional.",
     "Las rutinas sin días no se sugieren. Ponles días al editarlas.": "Routines without days aren't suggested. Add days when editing them.",
     "Las sesiones van en orden: hoy toca la siguiente que falte, sea el día que sea, y la semana del plan pasa al hacerlas todas.": "Sessions go in order: today is the next one still to do, whatever the day, and the plan week moves on when all are done.",
@@ -9641,6 +9682,7 @@ const I18N = {
     "Peso objetivo (kg)": "Goal weight (kg)",
     "Peso semanal": "Weekly weight",
     "Peso serie {n}": "Weight set {n}",
+    "Pestañas en el orden de uso: Hoy, Diario, Progreso, Biblioteca y Ajustes.": "Tabs in the order you use them: Today, Diary, Progress, Library and Settings.",
     "pierna": "legs",
     "Pierna": "Legs",
     "Pierna · cadera": "Legs · hip",
@@ -9689,6 +9731,7 @@ const I18N = {
     "Pregunta copiada: pégala en tu IA": "Question copied: paste it into your AI",
     "Pregunta para tu IA": "Question for your AI",
     "Preguntar el esfuerzo al terminar": "Ask for effort at the end",
+    "Preguntas para tu IA": "Questions for your AI",
     "Preparación (s)": "Get ready (s)",
     "Preparación: {n} s": "Get ready: {n} s",
     "Preparando la copia…": "Preparing the backup…",
@@ -10097,6 +10140,8 @@ const I18N = {
     "Un archivo .json de Usus: una copia de seguridad o rutinas que te han pasado.": "A Usus .json file: a backup or routines someone sent you.",
     "Un archivo .zip con una tabla por tipo de dato (sesiones, rutinas, diario, suplementos, peso, actividades y ciclo) y un archivo que explica cada columna. Para analizarlos a tu manera en una hoja de cálculo.": "A .zip file with one table per data type (sessions, routines, diary, supplements, weight, activities and cycle) and a file explaining each column. To analyse it your way in a spreadsheet.",
     "Un plan rota variantes de tus rutinas por semanas (por ejemplo A, B, C cada 2 semanas) con semanas de descarga, y Hoy te dice qué rutina toca cada día.": "A plan rotates variants of your routines by week (for example A, B, C every 2 weeks) with deload weeks, and Today tells you which routine is due each day.",
+    "Un vaso más": "One more glass",
+    "Un vaso menos": "One glass less",
     "Una columna por sesión: apunta lo hecho (p. ej. 8·8·7·6)": "One column per session: write what you did (e.g. 8·8·7·6)",
     "Una hoja por ejercicio con muchas fechas para ver su progresión.": "One sheet per exercise with many dates to track its progress.",
     "Una IA no es un entrenador ni un profesional sanitario. Si tienes lesiones, dolor, una condición de salud, estás embarazada o hace tiempo que no entrenas, consulta antes con un profesional. Todo es opcional.": "An AI is not a coach or a health professional. If you have injuries, pain, a health condition, are pregnant or haven't trained in a while, check with a professional first. Everything is optional.",

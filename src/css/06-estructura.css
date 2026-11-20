@@ -306,3 +306,8 @@ body:has(.sbar) .rest{bottom:calc(152px + env(safe-area-inset-bottom,0px))}
 .efrow{padding:8px 0;border-top:1px solid var(--line)}.efrow:first-of-type{border-top:0}
 .efbar{height:6px;border-radius:3px;background:var(--line);margin:6px 0 4px;overflow:hidden}.efbar i{display:block;height:100%;background:var(--ok);border-radius:3px}
 .eftr{font-size:.82rem;font-weight:600;white-space:nowrap}
+.fmeals .flab{font-size:.85rem;color:var(--muted)}
+.fwater{display:flex;align-items:center;gap:10px}.fwater b{min-width:72px;text-align:center;font-weight:600}.fwater .btn{min-width:44px}
+.aiq{margin-top:14px}.aiq>summary{list-style:none;cursor:pointer;display:flex;align-items:baseline;gap:8px;padding:10px 2px;font-weight:700;font-size:1rem}
+.aiq>summary::-webkit-details-marker{display:none}.aiq>summary small{font-weight:400;font-size:.82rem}.aiq>summary .fchev{align-self:center}
+.aiq[open] .fchev{transform:rotate(225deg);margin-top:4px}

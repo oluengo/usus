@@ -151,6 +151,9 @@ msgstr "Vols acabar i desar igualment? Només es desen les sèries fetes ({n} pe
 msgid "‹ › cambia al ejercicio anterior o siguiente de su escalera. Toca un nombre para ver su ficha. Después podrás editar las rutinas en Biblioteca."
 msgstr "‹ › canvia a l'exercici anterior o següent de la seva escala. Toca un nom per veure'n la fitxa. Després podràs editar les rutines a Biblioteca."
 
+msgid "«¿Qué como?» en Diario → Comidas"
+msgstr "«Què menjo?» a Diari → Àpats"
+
 msgid "«¿Qué como?»: Usus prepara la pregunta para tu IA (¿qué ceno?, voy a comer pizza…, desayuno u otra) con lo que has comido, el entreno del día y tus preferencias; la copias o compartes, y su respuesta se guarda en las notas del día."
 msgstr "«Què menjo?»: Usus prepara la pregunta per a la teva IA (què sopo?, menjaré pizza…, esmorzar o una altra) amb el que has menjat, l'entrenament del dia i les teves preferències; la copies o comparteixes, i la resposta es desa a les notes del dia."
 
@@ -337,6 +340,16 @@ msgid "{n} usos"
 msgstr "{n} usos"
 
 #, python-brace-format
+msgid "{n} vaso"
+msgid_plural "{n} vasos"
+msgstr[0] "{n} got"
+msgstr[1] "{n} gots"
+
+#, python-brace-format
+msgid "{n} vaso"
+msgstr ""
+
+#, python-brace-format
 msgid "{n} vueltas"
 msgstr "{n} voltes"
 
@@ -489,6 +502,19 @@ msgstr "Actualitzar"
 
 msgid "Agrupar"
 msgstr "Agrupa"
+
+msgid "Agua"
+msgstr "Aigua"
+
+#, python-brace-format
+msgid "Agua: {n} vaso"
+msgid_plural "Agua: {n} vasos"
+msgstr[0] "Aigua: {n} got"
+msgstr[1] "Aigua: {n} gots"
+
+#, python-brace-format
+msgid "Agua: {n} vaso"
+msgstr ""
 
 msgid "ahora"
 msgstr "ara"
@@ -1104,6 +1130,9 @@ msgstr "Dinar"
 msgid "Comidas"
 msgstr "Àpats"
 
+msgid "Comidas, ante todo un registro: también «Entre horas» y el agua en vasos. La pregunta para tu IA va plegada debajo y se puede quitar en Ajustes → Perfil → Alimentación."
+msgstr "Àpats, sobretot un registre: també «Entre hores» i l'aigua en gots. La pregunta per a la teva IA va plegada a sota i es pot treure a Ajustos → Perfil → Alimentació."
+
 msgid "Comidas, en el Diario: apunta desayuno, comida, merienda y cena con tus palabras, sin calorías ni gramos."
 msgstr "Àpats, al Diari: apunta esmorzar, dinar, berenar i sopar amb les teves paraules, sense calories ni grams."
 
@@ -1182,6 +1211,9 @@ msgstr "Només amb la npub no es pot publicar: entra amb un signant."
 
 msgid "Con solo la npub no se pueden guardar ni recuperar copias: entra con un firmante en Ajustes → Cuenta de Nostr."
 msgstr "Només amb la npub no es poden desar ni recuperar còpies: entra amb un signant a Ajustos → Compte de Nostr."
+
+msgid "con tu IA"
+msgstr "amb la teva IA"
 
 msgid "Con tu molestia no hay alternativa para todo: los ejercicios marcados con ⚠ la cargan y van en su versión fácil. Hazlos con cuidado o cámbialos."
 msgstr "Amb la teva molèstia no hi ha alternativa per a tot: els exercicis marcats amb ⚠ la carreguen i van en la versió fàcil. Fes-los amb compte o canvia'ls."
@@ -2032,6 +2064,9 @@ msgstr "Entra amb Amber"
 msgid "Entrar con extensión"
 msgstr "Entra amb extensió"
 
+msgid "Entre horas"
+msgstr "Entre hores"
+
 msgid "Entrenado"
 msgstr "Entrenat"
 
@@ -2697,6 +2732,9 @@ msgstr "Lactància"
 
 msgid "Lactosa"
 msgstr "Lactosa"
+
+msgid "Las comidas y el agua salen en el CSV (diario) y en el resumen para la IA."
+msgstr "Els àpats i l'aigua surten al CSV (diari) i al resum per a la IA."
 
 msgid "Las fechas son una estimación aproximada a partir de tus ciclos anteriores. Los ciclos varían por estrés, enfermedad, viajes, medicación u otras causas. No sirve como método anticonceptivo, ni para buscar un embarazo con fiabilidad, ni como diagnóstico. Ante cualquier duda o cambio importante, consulta a un profesional sanitario."
 msgstr "Les dates són una estimació aproximada a partir dels teus cicles anteriors. Els cicles varien per estrès, malaltia, viatges, medicació o altres causes. No serveix com a mètode anticonceptiu, ni per buscar un embaràs amb fiabilitat, ni com a diagnòstic. Davant qualsevol dubte o canvi important, consulta un professional sanitari."
@@ -3711,6 +3749,9 @@ msgstr "Pes setmanal"
 msgid "Peso serie {n}"
 msgstr "Pes sèrie {n}"
 
+msgid "Pestañas en el orden de uso: Hoy, Diario, Progreso, Biblioteca y Ajustes."
+msgstr "Pestanyes en l'ordre d'ús: Avui, Diari, Progrés, Biblioteca i Ajustos."
+
 msgid "pierna"
 msgstr "cama"
 
@@ -3857,6 +3898,9 @@ msgstr "Pregunta per a la teva IA"
 
 msgid "Preguntar el esfuerzo al terminar"
 msgstr "Preguntar l'esforç en acabar"
+
+msgid "Preguntas para tu IA"
+msgstr "Preguntes per a la teva IA"
 
 msgid "Preparación (s)"
 msgstr "Preparació (s)"
@@ -5141,6 +5185,12 @@ msgstr "Un arxiu .zip amb una taula per tipus de dada (sessions, rutines, diari,
 
 msgid "Un plan rota variantes de tus rutinas por semanas (por ejemplo A, B, C cada 2 semanas) con semanas de descarga, y Hoy te dice qué rutina toca cada día."
 msgstr "Un pla fa rotar variants de les teves rutines per setmanes (per exemple A, B, C cada 2 setmanes) amb setmanes de descàrrega, i Avui et diu quina rutina toca cada dia."
+
+msgid "Un vaso más"
+msgstr "Un got més"
+
+msgid "Un vaso menos"
+msgstr "Un got menys"
 
 msgid "Una columna por sesión: apunta lo hecho (p. ej. 8·8·7·6)"
 msgstr "Una columna per sessió: apunta el que has fet (p. ex. 8·8·7·6)"

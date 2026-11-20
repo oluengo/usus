@@ -3,7 +3,7 @@
    Datos para el análisis (opcionales, por perfil): wk.aiProf = {birth, height, level, years, injuries, pains, conditions, meds, goals, other}.
    Solo se guardan si se marca «Guardar para próximas exportaciones»; en el texto sale la edad, nunca la fecha de nacimiento. */
 const AI_LEVELS = [["new", "Empiezo (menos de 6 meses)"], ["basic", "Básico (6 meses–2 años)"], ["mid", "Intermedio (2–5 años)"], ["adv", "Avanzado (más de 5 años o competición)"]];
-const AI_INC = [["train", "Entrenos, rutinas y plan"], ["weight", "Peso"], ["sleep", "Sueño"], ["supp", "Suplementos"], ["act", "Pasos y actividades"], ["notes", "Notas y etiquetas del diario"], ["cycle", "Ciclo (reglas y síntomas)"]];
+const AI_INC = [["train", "Entrenos, rutinas y plan"], ["weight", "Peso"], ["sleep", "Sueño"], ["supp", "Suplementos"], ["act", "Pasos y actividades"], ["meals", "Comidas y agua"], ["notes", "Notas y etiquetas del diario"], ["cycle", "Ciclo (reglas y síntomas)"]];
 const AI_F = [["years", "Detalle de la experiencia y otros deportes", "Ej. 2 años de calistenia, antes fútbol", 0], ["injuries", "Lesiones o cirugías previas", "Ej. rotura de menisco izquierdo (2019)", 1],
   ["pains", "Dolores o molestias actuales", "Ej. lumbar al levantarme por la mañana", 1], ["conditions", "Condiciones de salud relevantes", "Ej. asma, hipertensión, embarazo…", 1],
   ["meds", "Medicación relevante", "Solo si influye en el entreno o la recuperación", 0], ["goals", "Objetivos", "Ej. 10 dominadas, perder 3 kg, dormir mejor", 1], ["other", "Otros", "Lo que quieras que la IA tenga en cuenta", 1]];
@@ -115,7 +115,7 @@ function aiBuild(o) {
   }
   if (inc.weight) { const Wl = W.list().filter(x => inP(x.t)); L.push(`## ${X.weight}${W.goal() ? ` · ${X.goal} ${W.goal()}` : ""}`, Wl.length ? Wl.map(x => `${dayKey(x.t)} ${x.kg}`).join(" · ") : X.noRec, ""); }
   const D = DY.all(), sup = DY.supps(), days = Object.keys(D).filter(inK).sort();
-  const cols = [inc.sleep && X.colSleep, inc.act && X.colSteps, inc.supp && sup.length && X.colSupp, inc.notes && X.colNotes, cyc && X.colCyc].filter(Boolean);
+  const cols = [inc.sleep && X.colSleep, inc.act && X.colSteps, inc.supp && sup.length && X.colSupp, inc.meals && X.colMeals, inc.notes && X.colNotes, cyc && X.colCyc].filter(Boolean);
   if (cols.length) {
     if (inc.supp && sup.length) L.push(`## ${X.supps}`, sup.filter(s => !s.archived).map(s => `${s.name} ${s.dose || ""}${s.unit || ""}${s.when ? ` (${s.when})` : ""}`.trim()).join(" · "), "");
     L.push(`## ${X.diary}`, `${X.fmt} | ${cols.join(" | ")}`);
@@ -124,6 +124,7 @@ function aiBuild(o) {
       if (inc.sleep) f.push(e.sleep?.bed && e.sleep?.wake ? `${e.sleep.bed}–${e.sleep.wake}${e.sleep.q ? ` (${e.sleep.q})` : ""}` : "-");
       if (inc.act) f.push(e.steps ? String(e.steps) : "-");
       if (inc.supp && sup.length) { const tk = sup.filter(s => e.supp?.[s.id]?.taken).map(s => s.name); f.push(tk.length ? tk.join(", ") : X.none); }
+      if (inc.meals) { const m = e.meals || {}, l = FOOD_MEALS.filter(([x]) => (m[x] || "").trim()).map(([x, n]) => `${T(n)}: ${m[x].trim().replace(/\s+/g, " ")}`); if (+e.water) l.push(`${X.water} ${e.water}`); f.push(l.join("; ") || "-"); }
       if (inc.notes) f.push([...(e.tags || []).map(t => X.tags[t] || t), e.note ? `"${String(e.note).replace(/\s+/g, " ").trim()}"` : ""].filter(Boolean).join("; ") || "-");
       if (cyc) f.push(e.cyc ? [X.flow[e.cyc.flow], ...(e.cyc.sym || []).map(T)].filter(Boolean).join(", ") || "-" : "-");
       if (f.some(x => x !== "-" && x !== X.none)) L.push(`${k} | ${f.join(" | ")}`);
@@ -315,7 +316,7 @@ function csvBuild(weeks) {
   put("rutinas", [C.routine, C.id, C.block, C.variant, C.days, C.order, C.ex, C.xid, C.tech, C.sets, C.target, C.type, C.side, C.rest],
     state.routines.flatMap(r => r.exercises.map((e, i) => [r.name, r.oid || r.id, r.block || "", normVar(r.variant), WEEK_ORDER.filter(d => (r.days || []).includes(d)).map(d => X.dayL[d]).join(" "), i + 1, exName(e), e.xid || "", e.xid ? techOf(e) : "", +e.sets, +e.reps, isTime(e) ? C.tTime : C.tReps, yn(e.sides), +e.rest || null])));
   const D = DY.all(), days = Object.keys(D).filter(inK).sort();
-  put("diario", [C.date, C.bed, C.wake, C.sleepH, C.q, C.steps, C.tags, C.note], days.map(k => { const e = D[k], sl = e.sleep || {}; return [k, sl.bed || "", sl.wake || "", sleepHours(sl.bed, sl.wake), sl.q || null, e.steps || null, (e.tags || []).map(t => X.tags[t] || t).join(", "), e.note || ""]; }).filter(r => r.slice(1).some(v => v !== "" && v !== null)));
+  put("diario", [C.date, C.bed, C.wake, C.sleepH, C.q, C.steps, C.mB, C.mL, C.mS, C.mD, C.mX, C.water, C.tags, C.note], days.map(k => { const e = D[k], sl = e.sleep || {}, m = e.meals || {}; return [k, sl.bed || "", sl.wake || "", sleepHours(sl.bed, sl.wake), sl.q || null, e.steps || null, m.b || "", m.l || "", m.s || "", m.d || "", m.x || "", +e.water || null, (e.tags || []).map(t => X.tags[t] || t).join(", "), e.note || ""]; }).filter(r => r.slice(1).some(v => v !== "" && v !== null)));
   const sup = DY.supps();
   put("suplementos", [C.date, C.supp, C.taken, C.amount, C.unit, C.when, C.note], days.flatMap(k => sup.filter(s => D[k].supp?.[s.id]).map(s => { const x = D[k].supp[s.id]; return [k, s.name, yn(x.taken), x.amount ?? s.dose ?? "", s.unit || "", s.when || "", x.note || ""]; })));
   put("peso", [C.date, C.wkg], W.list().filter(x => inP(x.t)).map(x => [dayKey(x.t), +x.kg]));

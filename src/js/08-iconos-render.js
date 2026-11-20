@@ -18,7 +18,7 @@ const CHECK = '<svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg>';
 const PLAY = '<svg viewBox="0 0 24 24"><path d="M8 5.5l10 6.5-10 6.5z"/></svg>';
 
 function renderTabs() {
-  const items = [["train",T("Hoy")],["routines",T("Biblioteca")],["diary",T("Diario")],["stats",T("Progreso")],["data",T("Ajustes")]];
+  const items = [["train",T("Hoy")],["diary",T("Diario")],["stats",T("Progreso")],["routines",T("Biblioteca")],["data",T("Ajustes")]]  // 3.10.0: por uso diario;
   $("#tabs").innerHTML = items.map(([k, l]) =>
     `<button data-tab="${k}" ${state.tab === k ? 'aria-current="page"' : ""}>${ICON[k]}<span>${l}</span></button>`).join("");
 }

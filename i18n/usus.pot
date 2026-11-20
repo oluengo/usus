@@ -150,6 +150,9 @@ msgstr ""
 msgid "‹ › cambia al ejercicio anterior o siguiente de su escalera. Toca un nombre para ver su ficha. Después podrás editar las rutinas en Biblioteca."
 msgstr ""
 
+msgid "«¿Qué como?» en Diario → Comidas"
+msgstr ""
+
 msgid "«¿Qué como?»: Usus prepara la pregunta para tu IA (¿qué ceno?, voy a comer pizza…, desayuno u otra) con lo que has comido, el entreno del día y tus preferencias; la copias o compartes, y su respuesta se guarda en las notas del día."
 msgstr ""
 
@@ -336,6 +339,16 @@ msgid "{n} usos"
 msgstr ""
 
 #, python-brace-format
+msgid "{n} vaso"
+msgid_plural "{n} vasos"
+msgstr[0] ""
+msgstr[1] ""
+
+#, python-brace-format
+msgid "{n} vaso"
+msgstr ""
+
+#, python-brace-format
 msgid "{n} vueltas"
 msgstr ""
 
@@ -487,6 +500,19 @@ msgid "Actualizar"
 msgstr ""
 
 msgid "Agrupar"
+msgstr ""
+
+msgid "Agua"
+msgstr ""
+
+#, python-brace-format
+msgid "Agua: {n} vaso"
+msgid_plural "Agua: {n} vasos"
+msgstr[0] ""
+msgstr[1] ""
+
+#, python-brace-format
+msgid "Agua: {n} vaso"
 msgstr ""
 
 msgid "ahora"
@@ -1103,6 +1129,9 @@ msgstr ""
 msgid "Comidas"
 msgstr ""
 
+msgid "Comidas, ante todo un registro: también «Entre horas» y el agua en vasos. La pregunta para tu IA va plegada debajo y se puede quitar en Ajustes → Perfil → Alimentación."
+msgstr ""
+
 msgid "Comidas, en el Diario: apunta desayuno, comida, merienda y cena con tus palabras, sin calorías ni gramos."
 msgstr ""
 
@@ -1180,6 +1209,9 @@ msgid "Con solo la npub no se puede publicar: entra con un firmante."
 msgstr ""
 
 msgid "Con solo la npub no se pueden guardar ni recuperar copias: entra con un firmante en Ajustes → Cuenta de Nostr."
+msgstr ""
+
+msgid "con tu IA"
 msgstr ""
 
 msgid "Con tu molestia no hay alternativa para todo: los ejercicios marcados con ⚠ la cargan y van en su versión fácil. Hazlos con cuidado o cámbialos."
@@ -2031,6 +2063,9 @@ msgstr ""
 msgid "Entrar con extensión"
 msgstr ""
 
+msgid "Entre horas"
+msgstr ""
+
 msgid "Entrenado"
 msgstr ""
 
@@ -2695,6 +2730,9 @@ msgid "Lactancia"
 msgstr ""
 
 msgid "Lactosa"
+msgstr ""
+
+msgid "Las comidas y el agua salen en el CSV (diario) y en el resumen para la IA."
 msgstr ""
 
 msgid "Las fechas son una estimación aproximada a partir de tus ciclos anteriores. Los ciclos varían por estrés, enfermedad, viajes, medicación u otras causas. No sirve como método anticonceptivo, ni para buscar un embarazo con fiabilidad, ni como diagnóstico. Ante cualquier duda o cambio importante, consulta a un profesional sanitario."
@@ -3710,6 +3748,9 @@ msgstr ""
 msgid "Peso serie {n}"
 msgstr ""
 
+msgid "Pestañas en el orden de uso: Hoy, Diario, Progreso, Biblioteca y Ajustes."
+msgstr ""
+
 msgid "pierna"
 msgstr ""
 
@@ -3855,6 +3896,9 @@ msgid "Pregunta para tu IA"
 msgstr ""
 
 msgid "Preguntar el esfuerzo al terminar"
+msgstr ""
+
+msgid "Preguntas para tu IA"
 msgstr ""
 
 msgid "Preparación (s)"
@@ -5139,6 +5183,12 @@ msgid "Un archivo .zip con una tabla por tipo de dato (sesiones, rutinas, diario
 msgstr ""
 
 msgid "Un plan rota variantes de tus rutinas por semanas (por ejemplo A, B, C cada 2 semanas) con semanas de descarga, y Hoy te dice qué rutina toca cada día."
+msgstr ""
+
+msgid "Un vaso más"
+msgstr ""
+
+msgid "Un vaso menos"
 msgstr ""
 
 msgid "Una columna por sesión: apunta lo hecho (p. ej. 8·8·7·6)"

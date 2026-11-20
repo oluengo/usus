@@ -1,7 +1,10 @@
 /* ---------- Novedades (una vez por versión; historial al tocar la versión) ---------- */
 const CHANGES = [  // Novedades: solo en castellano; las traducciones, en i18n/*.po
   ["3.10.0", [
-    N_("Progreso → Entreno → Esfuerzo: la PEM de cada sesión en 12 semanas, con su media, y por ejercicio el % de series completas, lo que faltó de media y si mejora frente a las 6 semanas anteriores.")
+    N_("Pestañas en el orden de uso: Hoy, Diario, Progreso, Biblioteca y Ajustes."),
+    N_("Progreso → Entreno → Esfuerzo: la PEM de cada sesión en 12 semanas, con su media, y por ejercicio el % de series completas, lo que faltó de media y si mejora frente a las 6 semanas anteriores."),
+    N_("Comidas, ante todo un registro: también «Entre horas» y el agua en vasos. La pregunta para tu IA va plegada debajo y se puede quitar en Ajustes → Perfil → Alimentación."),
+    N_("Las comidas y el agua salen en el CSV (diario) y en el resumen para la IA.")
   ]],
   ["3.9.1", [
     N_("Al terminar, «Publicar en Nostr» publica el entreno en un toque, tras confirmar, sin la ventana de editar. Para cambiar el texto, Compartir → Publicar en Nostr.")

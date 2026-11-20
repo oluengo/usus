@@ -151,6 +151,9 @@ msgstr "Finish and save anyway? Only completed sets are saved ({n} pending in to
 msgid "‹ › cambia al ejercicio anterior o siguiente de su escalera. Toca un nombre para ver su ficha. Después podrás editar las rutinas en Biblioteca."
 msgstr "‹ › switches to the previous or next exercise in its progression. Tap a name to see its card. You can edit the routines later in Library."
 
+msgid "«¿Qué como?» en Diario → Comidas"
+msgstr "“What should I eat?” in Diary → Meals"
+
 msgid "«¿Qué como?»: Usus prepara la pregunta para tu IA (¿qué ceno?, voy a comer pizza…, desayuno u otra) con lo que has comido, el entreno del día y tus preferencias; la copias o compartes, y su respuesta se guarda en las notas del día."
 msgstr "“What should I eat?”: Usus writes the question for your AI (what's for dinner?, I'm having pizza…, breakfast or your own) with what you've eaten, the day's workout and your preferences; you copy or share it, and its answer goes into the day's notes."
 
@@ -337,6 +340,16 @@ msgid "{n} usos"
 msgstr "{n} uses"
 
 #, python-brace-format
+msgid "{n} vaso"
+msgid_plural "{n} vasos"
+msgstr[0] "{n} glass"
+msgstr[1] "{n} glasses"
+
+#, python-brace-format
+msgid "{n} vaso"
+msgstr ""
+
+#, python-brace-format
 msgid "{n} vueltas"
 msgstr "{n} rounds"
 
@@ -489,6 +502,19 @@ msgstr "Update"
 
 msgid "Agrupar"
 msgstr "Group"
+
+msgid "Agua"
+msgstr "Water"
+
+#, python-brace-format
+msgid "Agua: {n} vaso"
+msgid_plural "Agua: {n} vasos"
+msgstr[0] "Water: {n} glass"
+msgstr[1] "Water: {n} glasses"
+
+#, python-brace-format
+msgid "Agua: {n} vaso"
+msgstr ""
 
 msgid "ahora"
 msgstr "now"
@@ -1104,6 +1130,9 @@ msgstr "Lunch"
 msgid "Comidas"
 msgstr "Meals"
 
+msgid "Comidas, ante todo un registro: también «Entre horas» y el agua en vasos. La pregunta para tu IA va plegada debajo y se puede quitar en Ajustes → Perfil → Alimentación."
+msgstr "Meals, first of all a log: also “Between meals” and water in glasses. The question for your AI is folded below and can be turned off in Settings → Profile → Diet."
+
 msgid "Comidas, en el Diario: apunta desayuno, comida, merienda y cena con tus palabras, sin calorías ni gramos."
 msgstr "Meals, in the Diary: note breakfast, lunch, snack and dinner in your own words, no calories or grams."
 
@@ -1182,6 +1211,9 @@ msgstr "With just the npub you can't post: sign in with a signer."
 
 msgid "Con solo la npub no se pueden guardar ni recuperar copias: entra con un firmante en Ajustes → Cuenta de Nostr."
 msgstr "With just the npub you can't save or restore backups: sign in with a signer in Settings → Nostr account."
+
+msgid "con tu IA"
+msgstr "with your AI"
 
 msgid "Con tu molestia no hay alternativa para todo: los ejercicios marcados con ⚠ la cargan y van en su versión fácil. Hazlos con cuidado o cámbialos."
 msgstr "With your ache there isn't an alternative for everything: exercises marked ⚠ load it and come in their easy version. Do them carefully or swap them."
@@ -2032,6 +2064,9 @@ msgstr "Sign in with Amber"
 msgid "Entrar con extensión"
 msgstr "Sign in with extension"
 
+msgid "Entre horas"
+msgstr "Between meals"
+
 msgid "Entrenado"
 msgstr "Trained"
 
@@ -2697,6 +2732,9 @@ msgstr "Breastfeeding"
 
 msgid "Lactosa"
 msgstr "Lactose"
+
+msgid "Las comidas y el agua salen en el CSV (diario) y en el resumen para la IA."
+msgstr "Meals and water are in the CSV (diary) and in the summary for AI."
 
 msgid "Las fechas son una estimación aproximada a partir de tus ciclos anteriores. Los ciclos varían por estrés, enfermedad, viajes, medicación u otras causas. No sirve como método anticonceptivo, ni para buscar un embarazo con fiabilidad, ni como diagnóstico. Ante cualquier duda o cambio importante, consulta a un profesional sanitario."
 msgstr "Dates are an approximate estimate based on your previous cycles. Cycles vary with stress, illness, travel, medication and other causes. This is not a contraceptive method, not a reliable way to plan a pregnancy, and not a diagnosis. If you have any doubt or notice a significant change, see a healthcare professional."
@@ -3711,6 +3749,9 @@ msgstr "Weekly weight"
 msgid "Peso serie {n}"
 msgstr "Weight set {n}"
 
+msgid "Pestañas en el orden de uso: Hoy, Diario, Progreso, Biblioteca y Ajustes."
+msgstr "Tabs in the order you use them: Today, Diary, Progress, Library and Settings."
+
 msgid "pierna"
 msgstr "legs"
 
@@ -3857,6 +3898,9 @@ msgstr "Question for your AI"
 
 msgid "Preguntar el esfuerzo al terminar"
 msgstr "Ask for effort at the end"
+
+msgid "Preguntas para tu IA"
+msgstr "Questions for your AI"
 
 msgid "Preparación (s)"
 msgstr "Get ready (s)"
@@ -5141,6 +5185,12 @@ msgstr "A .zip file with one table per data type (sessions, routines, diary, sup
 
 msgid "Un plan rota variantes de tus rutinas por semanas (por ejemplo A, B, C cada 2 semanas) con semanas de descarga, y Hoy te dice qué rutina toca cada día."
 msgstr "A plan rotates variants of your routines by week (for example A, B, C every 2 weeks) with deload weeks, and Today tells you which routine is due each day."
+
+msgid "Un vaso más"
+msgstr "One more glass"
+
+msgid "Un vaso menos"
+msgstr "One glass less"
 
 msgid "Una columna por sesión: apunta lo hecho (p. ej. 8·8·7·6)"
 msgstr "One column per session: write what you did (e.g. 8·8·7·6)"

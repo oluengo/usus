@@ -1,7 +1,7 @@
 // La app abre sin errores en los tres idiomas y todas las secciones se ven
 import { test, expect } from "@playwright/test";
 import { openApp, nav, ROUTINES } from "./helpers.mjs";
-const LABELS = { es: ["Hoy", "Biblioteca", "Diario", "Progreso", "Ajustes"], ca: ["Avui", "Biblioteca", "Diari", "Progrés", "Ajustos"], en: ["Today", "Library", "Diary", "Progress", "Settings"] };
+const LABELS = { es: ["Hoy", "Diario", "Progreso", "Biblioteca", "Ajustes"], ca: ["Avui", "Diari", "Progrés", "Biblioteca", "Ajustos"], en: ["Today", "Diary", "Progress", "Library", "Settings"] };   // 3.10.0
 for (const lang of ["es", "ca", "en"]) {
   test(`abre en ${lang} y recorre las secciones`, async ({ page }) => {
     const errors = await openApp(page, { lang, data: { "wk.routines": ROUTINES } });

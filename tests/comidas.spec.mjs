@@ -17,19 +17,32 @@ test("preferencias de comida en el perfil, comidas del día y pregunta para la I
   await expect(page.locator('[data-food="diet:todo"]')).toHaveAttribute("aria-pressed", "false");
   await page.locator('[data-ffold="goals"] summary').click(); await page.locator('[data-food="goals:prot"]').click();
   await page.fill("#foodNo", "setas");
-  expect(await ls(page, "wk.food")).toEqual({ al: ["lactosa", "gluten"], diet: "vegana", goals: ["prot"], no: "setas" });
+  expect(await ls(page, "wk.food")).toEqual({ al: ["lactosa", "gluten"], diet: "vegana", goals: ["prot"], no: "setas", ai: true });
   // Diario: comidas y pregunta
   await nav(page, "diary"); await page.locator('[data-dsh="food"]').click();
-  await page.fill("#fm_d", "Pizza");
-  expect((await ls(page, "wk.diary"))[k].meals).toEqual({ b: "Tostada con tomate", d: "Pizza" });
-  await page.locator('[data-fq="antes"]').click(); await page.fill("#fqAntes", "pizza para cenar");
+  await page.fill("#fm_d", "Pizza"); await page.fill("#fm_x", "Una manzana");
+  await page.locator('[data-act="food-water+"]').click(); await page.locator('[data-act="food-water+"]').click();
+  await expect(page.locator(".fwater b")).toHaveText("2 vasos");
+  const dy = (await ls(page, "wk.diary"))[k];
+  expect(dy.meals).toEqual({ b: "Tostada con tomate", d: "Pizza", x: "Una manzana" }); expect(dy.water).toBe(2);
+  await expect(page.locator('[data-fq="antes"]')).toBeHidden();                         // la IA, plegada
+  await page.locator(".aiq > summary").click();
+  await page.locator('[data-fq="antes"]').click();
+  await expect(page.locator(".aiq")).toHaveAttribute("open", "");                       // sigue abierta al cambiar de pregunta
+  await page.fill("#fqAntes", "pizza para cenar");
   await page.locator('[data-act="food-copy"]').click();
   const p = await page.evaluate(() => navigator.clipboard.readText());
-  for (const x of ["«pizza para cenar»", "- Desayuno: Tostada con tomate", "- Cena: Pizza", "Hoy me toca entrenar", "vegana", "lactosa, gluten (no las incluyas nunca)", "No me gusta: setas", "más proteína", "Sin dietas, calorías ni pesos"]) expect(p).toContain(x);
+  for (const x of ["«pizza para cenar»", "- Desayuno: Tostada con tomate", "- Cena: Pizza", "- Entre horas: Una manzana", "Agua: 2 vasos", "Hoy me toca entrenar", "vegana", "lactosa, gluten (no las incluyas nunca)", "No me gusta: setas", "más proteína", "Sin dietas, calorías ni pesos"]) expect(p).toContain(x);
   // Respuesta de la IA → notas del día
   await page.evaluate(() => navigator.clipboard.writeText("1. Ensalada de garbanzos"));
   await page.locator('[data-act="food-clip"]').click();
   await expect(page.locator("#toast")).toContainText("Guardado en las notas del día");
   expect((await ls(page, "wk.diary"))[k].note).toBe("Bien\n\nIdeas para comer:\n1. Ensalada de garbanzos");
+  // Sin la IA: solo el registro
+  await page.locator(".modal [data-act='dsheet-close'], .modal .mx").first().click().catch(() => {});
+  await nav(page, "data"); await page.locator('[data-stab="perfil"]').click(); await page.locator("#foodAi").uncheck();
+  expect((await ls(page, "wk.food")).ai).toBe(false);
+  await nav(page, "diary"); await page.locator('[data-dsh="food"]').click();
+  await expect(page.locator("#fm_b")).toBeVisible(); await expect(page.locator(".aiq")).toHaveCount(0);
   expect(errors).toEqual([]);
 });
