@@ -308,6 +308,16 @@ msgid "{n} semanas"
 msgstr ""
 
 #, python-brace-format
+msgid "{n} serie"
+msgid_plural "{n} series"
+msgstr[0] ""
+msgstr[1] ""
+
+#, python-brace-format
+msgid "{n} serie"
+msgstr ""
+
+#, python-brace-format
 msgid "{n} sesión"
 msgid_plural "{n} sesiones"
 msgstr[0] ""
@@ -346,6 +356,9 @@ msgid "{x}: por debajo del {p} % del objetivo {n} sesiones seguidas."
 msgstr ""
 
 msgid "% = última sesión sobre el objetivo de la rutina. Flecha = respecto a la sesión anterior. Toca para ver el gráfico."
+msgstr ""
+
+msgid "% de series completas en 12 semanas. La flecha compara las 6 últimas con las 6 anteriores."
 msgstr ""
 
 msgid "↑ = subir reps · barra = días de fuerza hechos"
@@ -747,6 +760,9 @@ msgstr ""
 msgid "Aún no has hecho ninguna copia."
 msgstr ""
 
+msgid "Aún no hay esfuerzo apuntado. Activa en Ajustes → Entreno preguntar el esfuerzo al terminar y «¿Cuántas te faltaron?»."
+msgstr ""
+
 msgid "Aún no hay objetivos. Fija los de fuerza y diaria en Ajustes, y los de distancia y pasos en Actividad → Unidad y objetivos."
 msgstr ""
 
@@ -896,6 +912,9 @@ msgid "Cada perfil guarda su copia de Nostr aparte: la de otro perfil o la de la
 msgstr ""
 
 msgid "Cada perfil tiene sus propios datos y ajustes."
+msgstr ""
+
+msgid "Cada sesión (color según PEM)"
 msgstr ""
 
 msgid "cadera"
@@ -2080,6 +2099,9 @@ msgstr ""
 msgid "Esfuerzo (PEM 1–10)"
 msgstr ""
 
+msgid "Esfuerzo de cada sesión"
+msgstr ""
+
 msgid "Esfuerzo de la sesión (PEM, 1–10) al terminar, opcional. Con la duración da la carga semanal, nuevo bloque en Stats → Entreno con aviso si una semana sube de golpe."
 msgstr ""
 
@@ -2170,6 +2192,10 @@ msgstr ""
 msgid "falta una parte"
 msgstr ""
 
+#, python-brace-format
+msgid "faltaron {m}{u} de media cuando no salió"
+msgstr ""
+
 msgid "Fases (se repiten en orden)"
 msgstr ""
 
@@ -2244,6 +2270,9 @@ msgid "Formato: separador «,» y punto decimal."
 msgstr ""
 
 msgid "Formato: separador «;» y coma decimal, para abrirlo directamente en Excel en castellano o català."
+msgstr ""
+
+msgid "frente a las 6 anteriores"
 msgstr ""
 
 msgid "Fructosa"
@@ -2725,6 +2754,9 @@ msgstr ""
 msgid "Lo que faltó en cada serie: la pregunta ahora es «¿Cuántas te faltaron?» (o cuántos segundos, en las series por tiempo) y se resta de lo hecho. Así la propuesta de subir de ejercicio y el resumen cuentan lo que hiciste de verdad. Sin contestar, la serie cuenta como completa."
 msgstr ""
 
+msgid "Lo que faltó, por ejercicio"
+msgstr ""
+
 msgid "Lo que pase después depende de la IA que elijas: revisa su política de privacidad. El análisis lo hace una IA, no un profesional sanitario."
 msgstr ""
 
@@ -2845,6 +2877,9 @@ msgid "Media 30 días"
 msgstr ""
 
 msgid "Media 7 días"
+msgstr ""
+
+msgid "Media de 4"
 msgstr ""
 
 msgid "Media de series por sesión en cada fase. Solo informativo."
@@ -3590,6 +3625,9 @@ msgstr ""
 msgid "PEM media · 4 semanas"
 msgstr ""
 
+msgid "PEM media · 6 semanas"
+msgstr ""
+
 msgid "pendiente"
 msgstr ""
 
@@ -3876,6 +3914,9 @@ msgid "Progresión: al terminar una sesión, propuesta de subir al siguiente eje
 msgstr ""
 
 msgid "Progreso"
+msgstr ""
+
+msgid "Progreso → Entreno → Esfuerzo: la PEM de cada sesión en 12 semanas, con su media, y por ejercicio el % de series completas, lo que faltó de media y si mejora frente a las 6 semanas anteriores."
 msgstr ""
 
 msgid "Progreso: el Resumen queda en cuatro tarjetas (esta semana, constancia, récords y peso), cada una con un enlace a su detalle; cifras y gráficos con un mismo estilo, y las notas del periodo pasan a Hábitos."
@@ -4513,6 +4554,9 @@ msgstr[1] ""
 msgid "Sesiones aplazadas {n} día desde el {d}."
 msgstr ""
 
+msgid "sesiones con PEM"
+msgstr ""
+
 msgid "Sesiones por semana"
 msgstr ""
 
@@ -4949,6 +4993,9 @@ msgid "Toca una semana para ver sus rutinas."
 msgstr ""
 
 msgid "Todas"
+msgstr ""
+
+msgid "todas completas"
 msgstr ""
 
 msgid "Todas las semanas"

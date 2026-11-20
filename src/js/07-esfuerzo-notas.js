@@ -116,3 +116,40 @@ function sbCarga(S, now) {
     ${pm ? `<div class="row" style="justify-content:space-between;font-size:.85rem;margin-top:10px"><span class="muted">${T("PEM media · 4 semanas")}</span><b>${fmtNum(pm)}</b></div>` : ""}</div>`;
 }
 
+/* Stats → Entreno: esfuerzo (3.10.0). PEM de cada sesión (12 semanas) con su media de 4, y por ejercicio cuántas series
+   salieron completas y cuánto faltó de media (set.miss; antes de la 3.5.2 no se apuntaba), comparando las 6 últimas
+   semanas con las 6 anteriores para ver si cada vez falta menos. */
+function sbEsfuerzo(S, now) {
+  const from = now - 84 * 864e5, mid = now - 42 * 864e5, P = S.filter(s => s.start >= from && +s.pem > 0).sort((a, b) => a.start - b.start);
+  let chart = "";
+  if (P.length >= 2) {
+    const WD = 640, H = 190, pl = 30, pr = 12, pt = 12, pb = 26, X = t => pl + (t - from) / (now - from) * (WD - pl - pr), Y = v => pt + (1 - (v - 1) / 9) * (H - pt - pb);
+    const avg = P.map((s, i) => { const w = P.slice(Math.max(0, i - 3), i + 1); return w.reduce((a, x) => a + +x.pem, 0) / w.length; });
+    let sv = `<svg viewBox="0 0 ${WD} ${H}" role="img" aria-label="${T("Esfuerzo de cada sesión")}">`;
+    [1, 4, 7, 10].forEach(v => { sv += `<line x1="${pl}" x2="${WD - pr}" y1="${Y(v)}" y2="${Y(v)}" style="stroke:var(--line)"/><text x="${pl - 8}" y="${Y(v) + 4}" text-anchor="end" font-size="11" style="fill:var(--muted)">${v}</text>`; });
+    sv += `<polyline fill="none" stroke-width="2.5" stroke-linejoin="round" style="stroke:var(--accent)" points="${P.map((s, i) => `${X(s.start)},${Y(avg[i])}`).join(" ")}"/>`;
+    P.forEach(s => { sv += `<circle cx="${X(s.start)}" cy="${Y(+s.pem)}" r="4.5" fill="${PEM_C[s.pem - 1]}" style="stroke:var(--surface)" stroke-width="1.5"><title>${new Date(s.start).toLocaleDateString(LOC())} · ${esc(s.routine || T("Sesión libre"))} · ${T("PEM")} ${s.pem}</title></circle>`; });
+    [from, mid, now].forEach((t, i) => { const d = new Date(t); sv += `<text x="${X(t)}" y="${H - 6}" text-anchor="${["start", "middle", "end"][i]}" font-size="11" style="fill:var(--muted)">${d.getDate()} ${MESES[d.getMonth()]}</text>`; });
+    chart = `<div class="chart" style="margin-top:8px">${sv}</svg></div><div class="legend"><span><i style="background:${PEM_C[5]};border-radius:50%"></i>${T("Cada sesión (color según PEM)")}</span><span><i style="background:var(--accent)"></i>${T("Media de 4")}</span></div>`;
+  }
+  const pm = a => a.length ? a.reduce((x, s) => x + +s.pem, 0) / a.length : 0, p1 = pm(P.filter(s => s.start < mid)), p2 = pm(P.filter(s => s.start >= mid));
+  const kp = P.length ? `<div class="kpr"><div><b>${fmtNum(p2 || p1)}</b><span>${T("PEM media · 6 semanas")}</span></div><div><b>${p1 && p2 ? `${p2 > p1 ? "+" : p2 < p1 ? "−" : ""}${fmtNum(Math.abs(p2 - p1))}` : "—"}</b><span>${T("frente a las 6 anteriores")}</span></div><div><b>${P.length}</b><span>${T("sesiones con PEM")}</span></div></div>` : "";
+  // Por ejercicio: series hechas con lo que faltó apuntado (sin contestar = completa)
+  const M = new Map();
+  S.filter(s => s.start >= from).forEach(s => s.exercises.forEach(e => e.sets.forEach(x => {
+    if (!x.done) return;
+    const k = exKey(e), o = M.get(k) || { e, a: [0, 0, 0], b: [0, 0, 0] }, h = s.start >= mid ? o.b : o.a, m = +x.miss || 0;
+    h[0]++; if (!m) h[1]++; h[2] += m; M.set(k, o);
+  })));
+  const rows = [...M.values()].filter(o => o.a[0] + o.b[0] >= 3 && (o.a[2] + o.b[2] > 0 || o.a[0] + o.b[0] >= 6)).sort((x, y) => (y.a[2] + y.b[2]) - (x.a[2] + x.b[2]) || (y.a[0] + y.b[0]) - (x.a[0] + x.b[0])).slice(0, 6);
+  const pc = h => h[0] ? Math.round(h[1] / h[0] * 100) : null, un = e => isTime(e) ? " s" : "";
+  const list = rows.length ? `<h3 class="wh" style="margin:16px 0 6px">${T("Lo que faltó, por ejercicio")}</h3>${rows.map(o => {
+    const t = [o.a[0] + o.b[0], o.a[1] + o.b[1], o.a[2] + o.b[2]], c = pc(t), ca = pc(o.a), cb = pc(o.b), fails = t[0] - t[1];
+    const tr = ca !== null && cb !== null && o.a[0] >= 2 && o.b[0] >= 2 ? (cb > ca ? `<span class="eftr" style="color:var(--ok)">↑ ${cb - ca} %</span>` : cb < ca ? `<span class="eftr" style="color:#C9A227">↓ ${ca - cb} %</span>` : `<span class="eftr muted">=</span>`) : "";
+    return `<div class="efrow"><div class="row" style="justify-content:space-between;gap:8px"><span style="flex:1;min-width:0">${xLink(o.e, esc(exLabel(o.e)))}</span>${tr}<b style="white-space:nowrap">${c} %</b></div>
+      <div class="efbar"><i style="width:${c}%"></i></div>
+      <small class="muted">${TN(t[0], "{n} serie", "{n} series")} · ${fails ? T("faltaron {m}{u} de media cuando no salió", { m: (v => v % 1 ? fmtNum(v) : String(v))(Math.round(t[2] / fails * 10) / 10), u: un(o.e) }) : T("todas completas")}</small></div>`; }).join("")}
+    <p class="muted" style="font-size:.78rem;margin:8px 0 0">${T("% de series completas en 12 semanas. La flecha compara las 6 últimas con las 6 anteriores.")}</p>` : "";
+  if (!P.length && !rows.length) return `<div class="panel muted">${T("Aún no hay esfuerzo apuntado. Activa en Ajustes → Entreno preguntar el esfuerzo al terminar y «¿Cuántas te faltaron?».")}</div>`;
+  return `<div class="panel">${kp}${chart}${list}</div>`;
+}

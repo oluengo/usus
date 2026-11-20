@@ -321,7 +321,7 @@ function sbNotas(now) {
     ${items.map(o => `<button class="noteb" data-dnote="${o.k}"><span class="muted" style="font-size:.8rem">${new Date(keyTime(o.k)).toLocaleDateString(LOC(), { weekday: "short", day: "numeric", month: "short" })}</span><span>${tagChips(o.tags)} ${esc((x => x.length > 140 ? x.slice(0, 140) + "…" : x)(noteSnip(o)))}</span></button>`).join("")}
     ${keys.length > 8 ? `<p class="muted" style="font-size:.8rem;margin:8px 0 0">${T("Y {n} días más en el Diario.", { n: keys.length - 8 })}</p>` : ""}</div>`;
 }
-const SB_CAT = { carga: "ent", ciclo: "cue", objetivos: "ent", resumen: "ent", records: "ent", constancia: "ent", ejercicios: "ent", equilibrio: "ent", reparto: "ent", horario: "ent", peso: "cue", sueno: "hab", pasos: "hab", actividad: "hab", suplementos: "hab", notas: "hab" };
+const SB_CAT = { carga: "ent", esfuerzo: "ent", ciclo: "cue", objetivos: "ent", resumen: "ent", records: "ent", constancia: "ent", ejercicios: "ent", equilibrio: "ent", reparto: "ent", horario: "ent", peso: "cue", sueno: "hab", pasos: "hab", actividad: "hab", suplementos: "hab", notas: "hab" };
 const SB_TABS = [["res", "Resumen"], ["ent", "Entreno"], ["cue", "Cuerpo"], ["hab", "Hábitos"]];
 const SBLOCKS = {
   objetivos: ["Objetivos de la semana", (S, IX, n) => sbObjetivos(S, n)],
@@ -335,6 +335,7 @@ const SBLOCKS = {
   resumen: ["Resumen", (S, IX, n) => sbResumen(S, n)],
   constancia: ["Constancia · 12 semanas", (S, IX, n) => sbConstancia(S, n)],
   carga: ["Carga semanal", (S, IX, n) => sbCarga(S, n)],
+  esfuerzo: ["Esfuerzo", (S, IX, n) => sbEsfuerzo(S, n)],
   records: ["Récords recientes", (S, IX, n) => sbRecords(IX, n)],
   ejercicios: ["Ejercicios vs objetivo", (S, IX, n) => sbEjercicios(IX, n)],
   equilibrio: ["Equilibrio izq. / der.", (S, IX, n) => sbEquilibrio(S, n)],
@@ -343,7 +344,7 @@ const SBLOCKS = {
 };
 function statsOrder() {
   const saved = LS.get("wk.statsOrder", null);
-  if (!saved) return ["constancia", "ejercicios", "records", "objetivos", "resumen", "carga", "equilibrio", "reparto", "horario", "peso", "ciclo", "sueno", "pasos", "actividad", "suplementos", "notas"];
+  if (!saved) return ["constancia", "ejercicios", "records", "objetivos", "resumen", "carga", "esfuerzo", "equilibrio", "reparto", "horario", "peso", "ciclo", "sueno", "pasos", "actividad", "suplementos", "notas"];
   const o = saved.filter(k => SBLOCKS[k]);
   Object.keys(SBLOCKS).forEach(k => { if (!o.includes(k)) o.push(k); });
   return o;

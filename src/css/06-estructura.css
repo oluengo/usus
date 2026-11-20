@@ -303,3 +303,6 @@ body:has(.sbar) .rest{bottom:calc(152px + env(safe-area-inset-bottom,0px))}
 .fchips button{min-height:36px}
 .fmeals{display:grid;grid-template-columns:auto 1fr;gap:8px 12px;align-items:center}.fmeals label{font-size:.85rem;color:var(--muted)}.fmeals input{min-width:0}
 .fprompt{white-space:pre-wrap;font:inherit;font-size:.8rem;line-height:1.45;background:var(--bg);border-radius:10px;padding:10px;margin:8px 0 0;max-height:260px;overflow:auto}
+.efrow{padding:8px 0;border-top:1px solid var(--line)}.efrow:first-of-type{border-top:0}
+.efbar{height:6px;border-radius:3px;background:var(--line);margin:6px 0 4px;overflow:hidden}.efbar i{display:block;height:100%;background:var(--ok);border-radius:3px}
+.eftr{font-size:.82rem;font-weight:600;white-space:nowrap}

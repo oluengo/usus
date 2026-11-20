@@ -309,6 +309,16 @@ msgid "{n} semanas"
 msgstr "{n} weeks"
 
 #, python-brace-format
+msgid "{n} serie"
+msgid_plural "{n} series"
+msgstr[0] ""
+msgstr[1] ""
+
+#, python-brace-format
+msgid "{n} serie"
+msgstr ""
+
+#, python-brace-format
 msgid "{n} sesión"
 msgid_plural "{n} sesiones"
 msgstr[0] "{n} session"
@@ -348,6 +358,9 @@ msgstr "{x}: below {p}% of the target {n} sessions in a row."
 
 msgid "% = última sesión sobre el objetivo de la rutina. Flecha = respecto a la sesión anterior. Toca para ver el gráfico."
 msgstr "% = last session against the routine target. Arrow = compared with the previous session. Tap to see the chart."
+
+msgid "% de series completas en 12 semanas. La flecha compara las 6 últimas con las 6 anteriores."
+msgstr "% of sets completed in 12 weeks. The arrow compares the last 6 with the previous 6."
 
 msgid "↑ = subir reps · barra = días de fuerza hechos"
 msgstr "↑ = add reps · bar = strength days done"
@@ -748,6 +761,9 @@ msgstr "Not started yet"
 msgid "Aún no has hecho ninguna copia."
 msgstr "You haven't made a backup yet."
 
+msgid "Aún no hay esfuerzo apuntado. Activa en Ajustes → Entreno preguntar el esfuerzo al terminar y «¿Cuántas te faltaron?»."
+msgstr "No effort logged yet. In Settings → Training, turn on asking for effort at the end and “How many were you short?”."
+
 msgid "Aún no hay objetivos. Fija los de fuerza y diaria en Ajustes, y los de distancia y pasos en Actividad → Unidad y objetivos."
 msgstr "No goals yet. Set strength and daily goals in Settings, and distance and steps in Activity → Unit and goals."
 
@@ -898,6 +914,9 @@ msgstr "Each profile keeps its own Nostr backup: another profile's or the web's 
 
 msgid "Cada perfil tiene sus propios datos y ajustes."
 msgstr "Each profile has its own data and settings."
+
+msgid "Cada sesión (color según PEM)"
+msgstr "Each session (colour by RPE)"
 
 msgid "cadera"
 msgstr "hips"
@@ -2081,6 +2100,9 @@ msgstr "Effort"
 msgid "Esfuerzo (PEM 1–10)"
 msgstr "Effort (RPE 1–10)"
 
+msgid "Esfuerzo de cada sesión"
+msgstr "Effort of each session"
+
 msgid "Esfuerzo de la sesión (PEM, 1–10) al terminar, opcional. Con la duración da la carga semanal, nuevo bloque en Stats → Entreno con aviso si una semana sube de golpe."
 msgstr "Session effort (RPE, 1–10) at the end, optional. With the duration it gives the weekly load, a new block in Stats → Workout that warns about sudden jumps."
 
@@ -2171,6 +2193,10 @@ msgstr "Easy"
 msgid "falta una parte"
 msgstr "a part is missing"
 
+#, python-brace-format
+msgid "faltaron {m}{u} de media cuando no salió"
+msgstr "{m}{u} short on average when it didn't go"
+
 msgid "Fases (se repiten en orden)"
 msgstr "Phases (repeat in order)"
 
@@ -2246,6 +2272,9 @@ msgstr "Format: “,” separator and decimal point."
 
 msgid "Formato: separador «;» y coma decimal, para abrirlo directamente en Excel en castellano o català."
 msgstr "Format: “;” separator and decimal comma, to open directly in Excel in Spanish or Catalan."
+
+msgid "frente a las 6 anteriores"
+msgstr "vs the previous 6"
 
 msgid "Fructosa"
 msgstr "Fructose"
@@ -2726,6 +2755,9 @@ msgstr "What was missing in each set"
 msgid "Lo que faltó en cada serie: la pregunta ahora es «¿Cuántas te faltaron?» (o cuántos segundos, en las series por tiempo) y se resta de lo hecho. Así la propuesta de subir de ejercicio y el resumen cuentan lo que hiciste de verdad. Sin contestar, la serie cuenta como completa."
 msgstr "What was missing in each set: the question is now “How many were you short?” (or how many seconds, in timed sets) and it's subtracted from what you did. So the suggestion to move up and the summary count what you really did. Unanswered, the set counts as complete."
 
+msgid "Lo que faltó, por ejercicio"
+msgstr "What was missing, per exercise"
+
 msgid "Lo que pase después depende de la IA que elijas: revisa su política de privacidad. El análisis lo hace una IA, no un profesional sanitario."
 msgstr "What happens next depends on the AI you choose: check its privacy policy. The analysis is done by an AI, not a health professional."
 
@@ -2847,6 +2879,9 @@ msgstr "30-day average"
 
 msgid "Media 7 días"
 msgstr "7-day average"
+
+msgid "Media de 4"
+msgstr "Average of 4"
 
 msgid "Media de series por sesión en cada fase. Solo informativo."
 msgstr "Average sets per session in each phase. For information only."
@@ -3591,6 +3626,9 @@ msgstr "RPE from 1 to 10, optional each session"
 msgid "PEM media · 4 semanas"
 msgstr "Average RPE · 4 weeks"
 
+msgid "PEM media · 6 semanas"
+msgstr "Average RPE · 6 weeks"
+
 msgid "pendiente"
 msgstr "to do"
 
@@ -3878,6 +3916,9 @@ msgstr "Progression: after a session, a suggestion to move on to the next exerci
 
 msgid "Progreso"
 msgstr "Progress"
+
+msgid "Progreso → Entreno → Esfuerzo: la PEM de cada sesión en 12 semanas, con su media, y por ejercicio el % de series completas, lo que faltó de media y si mejora frente a las 6 semanas anteriores."
+msgstr "Progress → Workout → Effort: each session's RPE over 12 weeks with its average, and per exercise the % of sets completed, how much was missing on average and whether it's improving versus the previous 6 weeks."
 
 msgid "Progreso: el Resumen queda en cuatro tarjetas (esta semana, constancia, récords y peso), cada una con un enlace a su detalle; cifras y gráficos con un mismo estilo, y las notas del periodo pasan a Hábitos."
 msgstr "Progress: the Summary is now four cards (this week, consistency, records and weight), each linking to its details; figures and charts share one style, and period notes move to Habits."
@@ -4514,6 +4555,9 @@ msgstr[1] "Sessions moved {n} days from {d}."
 msgid "Sesiones aplazadas {n} día desde el {d}."
 msgstr "Sessions moved {n} day from {d}."
 
+msgid "sesiones con PEM"
+msgstr "sessions with RPE"
+
 msgid "Sesiones por semana"
 msgstr "Sessions per week"
 
@@ -4951,6 +4995,9 @@ msgstr "Tap a week to see its routines."
 
 msgid "Todas"
 msgstr "All"
+
+msgid "todas completas"
+msgstr "all completed"
 
 msgid "Todas las semanas"
 msgstr "Every week"

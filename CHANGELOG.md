@@ -2,6 +2,10 @@
 
 All Usus versions. Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); [SemVer](https://semver.org/) numbering (MAJOR.MINOR.PATCH).
 
+## [3.10.0] — in testing (beta)
+
+- Progress → Workout → Effort: each session's RPE over 12 weeks with its average, and per exercise the % of sets completed, how much was missing on average and whether it's improving versus the previous 6 weeks.
+
 ## [3.9.1] — 2026-11-16
 
 - When a session ends, “Post on Nostr” posts the workout in one tap, after confirming, without the edit window. To change the text, use Share → Post on Nostr.

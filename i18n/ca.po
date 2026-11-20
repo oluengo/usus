@@ -309,6 +309,16 @@ msgid "{n} semanas"
 msgstr "{n} setmanes"
 
 #, python-brace-format
+msgid "{n} serie"
+msgid_plural "{n} series"
+msgstr[0] ""
+msgstr[1] ""
+
+#, python-brace-format
+msgid "{n} serie"
+msgstr ""
+
+#, python-brace-format
 msgid "{n} sesión"
 msgid_plural "{n} sesiones"
 msgstr[0] "{n} sessió"
@@ -348,6 +358,9 @@ msgstr "{x}: per sota del {p} % de l'objectiu {n} sessions seguides."
 
 msgid "% = última sesión sobre el objetivo de la rutina. Flecha = respecto a la sesión anterior. Toca para ver el gráfico."
 msgstr "% = última sessió respecte a l'objectiu de la rutina. Fletxa = respecte a la sessió anterior. Toca per veure el gràfic."
+
+msgid "% de series completas en 12 semanas. La flecha compara las 6 últimas con las 6 anteriores."
+msgstr "% de sèries completes en 12 setmanes. La fletxa compara les 6 últimes amb les 6 anteriors."
 
 msgid "↑ = subir reps · barra = días de fuerza hechos"
 msgstr "↑ = pujar reps · barra = dies de força fets"
@@ -748,6 +761,9 @@ msgstr "Encara no ha començat"
 msgid "Aún no has hecho ninguna copia."
 msgstr "Encara no has fet cap còpia."
 
+msgid "Aún no hay esfuerzo apuntado. Activa en Ajustes → Entreno preguntar el esfuerzo al terminar y «¿Cuántas te faltaron?»."
+msgstr "Encara no hi ha esforç apuntat. Activa a Ajustos → Entrenament preguntar l'esforç en acabar i «Quantes te'n van faltar?»."
+
 msgid "Aún no hay objetivos. Fija los de fuerza y diaria en Ajustes, y los de distancia y pasos en Actividad → Unidad y objetivos."
 msgstr "Encara no hi ha objectius. Fixa els de força i diària a Ajustos, i els de distància i passos a Activitat → Unitat i objectius."
 
@@ -898,6 +914,9 @@ msgstr "Cada perfil desa la seva còpia de Nostr a part: la d'un altre perfil o 
 
 msgid "Cada perfil tiene sus propios datos y ajustes."
 msgstr "Cada perfil té les seves pròpies dades i ajustos."
+
+msgid "Cada sesión (color según PEM)"
+msgstr "Cada sessió (color segons PEM)"
 
 msgid "cadera"
 msgstr "maluc"
@@ -2081,6 +2100,9 @@ msgstr "Esforç"
 msgid "Esfuerzo (PEM 1–10)"
 msgstr "Esforç (PEM 1–10)"
 
+msgid "Esfuerzo de cada sesión"
+msgstr "Esforç de cada sessió"
+
 msgid "Esfuerzo de la sesión (PEM, 1–10) al terminar, opcional. Con la duración da la carga semanal, nuevo bloque en Stats → Entreno con aviso si una semana sube de golpe."
 msgstr "Esforç de la sessió (PEM, 1–10) en acabar, opcional. Amb la durada dona la càrrega setmanal, nou bloc a Stats → Entrenament amb avís si una setmana puja de cop."
 
@@ -2171,6 +2193,10 @@ msgstr "Fàcil"
 msgid "falta una parte"
 msgstr "falta una part"
 
+#, python-brace-format
+msgid "faltaron {m}{u} de media cuando no salió"
+msgstr "en van faltar {m}{u} de mitjana quan no va sortir"
+
 msgid "Fases (se repiten en orden)"
 msgstr "Fases (es repeteixen en ordre)"
 
@@ -2246,6 +2272,9 @@ msgstr "Format: separador «,» i punt decimal."
 
 msgid "Formato: separador «;» y coma decimal, para abrirlo directamente en Excel en castellano o català."
 msgstr "Format: separador «;» i coma decimal, per obrir-lo directament a l'Excel en català o castellà."
+
+msgid "frente a las 6 anteriores"
+msgstr "respecte a les 6 anteriors"
 
 msgid "Fructosa"
 msgstr "Fructosa"
@@ -2726,6 +2755,9 @@ msgstr "El que va faltar a cada sèrie"
 msgid "Lo que faltó en cada serie: la pregunta ahora es «¿Cuántas te faltaron?» (o cuántos segundos, en las series por tiempo) y se resta de lo hecho. Así la propuesta de subir de ejercicio y el resumen cuentan lo que hiciste de verdad. Sin contestar, la serie cuenta como completa."
 msgstr "El que va faltar a cada sèrie: la pregunta ara és «Quantes te'n van faltar?» (o quants segons, a les sèries per temps) i es resta del que s'ha fet. Així la proposta de pujar d'exercici i el resum compten el que vas fer de debò. Sense respondre, la sèrie compta com a completa."
 
+msgid "Lo que faltó, por ejercicio"
+msgstr "El que va faltar, per exercici"
+
 msgid "Lo que pase después depende de la IA que elijas: revisa su política de privacidad. El análisis lo hace una IA, no un profesional sanitario."
 msgstr "El que passi després depèn de la IA que triïs: revisa'n la política de privacitat. L'anàlisi la fa una IA, no un professional sanitari."
 
@@ -2847,6 +2879,9 @@ msgstr "Mitjana 30 dies"
 
 msgid "Media 7 días"
 msgstr "Mitjana 7 dies"
+
+msgid "Media de 4"
+msgstr "Mitjana de 4"
 
 msgid "Media de series por sesión en cada fase. Solo informativo."
 msgstr "Mitjana de sèries per sessió en cada fase. Només informatiu."
@@ -3591,6 +3626,9 @@ msgstr "PEM de l'1 al 10, opcional a cada sessió"
 msgid "PEM media · 4 semanas"
 msgstr "PEM mitjana · 4 setmanes"
 
+msgid "PEM media · 6 semanas"
+msgstr "PEM mitjana · 6 setmanes"
+
 msgid "pendiente"
 msgstr "pendent"
 
@@ -3878,6 +3916,9 @@ msgstr "Progressió: en acabar una sessió, proposta de pujar a l'exercici segü
 
 msgid "Progreso"
 msgstr "Progrés"
+
+msgid "Progreso → Entreno → Esfuerzo: la PEM de cada sesión en 12 semanas, con su media, y por ejercicio el % de series completas, lo que faltó de media y si mejora frente a las 6 semanas anteriores."
+msgstr "Progrés → Entrenament → Esforç: la PEM de cada sessió en 12 setmanes, amb la mitjana, i per exercici el % de sèries completes, el que va faltar de mitjana i si millora respecte a les 6 setmanes anteriors."
 
 msgid "Progreso: el Resumen queda en cuatro tarjetas (esta semana, constancia, récords y peso), cada una con un enlace a su detalle; cifras y gráficos con un mismo estilo, y las notas del periodo pasan a Hábitos."
 msgstr "Progrés: el Resum queda en quatre targetes (aquesta setmana, constància, rècords i pes), cadascuna amb un enllaç al seu detall; xifres i gràfics amb un mateix estil, i les notes del període passen a Hàbits."
@@ -4514,6 +4555,9 @@ msgstr[1] "Sessions ajornades {n} dies des del {d}."
 msgid "Sesiones aplazadas {n} día desde el {d}."
 msgstr "Sessions ajornades {n} dia des del {d}."
 
+msgid "sesiones con PEM"
+msgstr "sessions amb PEM"
+
 msgid "Sesiones por semana"
 msgstr "Sessions per setmana"
 
@@ -4951,6 +4995,9 @@ msgstr "Toca una setmana per veure'n les rutines."
 
 msgid "Todas"
 msgstr "Totes"
+
+msgid "todas completas"
+msgstr "totes completes"
 
 msgid "Todas las semanas"
 msgstr "Totes les setmanes"

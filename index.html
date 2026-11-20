@@ -961,6 +961,9 @@ body:has(.sbar) .rest{bottom:calc(152px + env(safe-area-inset-bottom,0px))}
 .fchips button{min-height:36px}
 .fmeals{display:grid;grid-template-columns:auto 1fr;gap:8px 12px;align-items:center}.fmeals label{font-size:.85rem;color:var(--muted)}.fmeals input{min-width:0}
 .fprompt{white-space:pre-wrap;font:inherit;font-size:.8rem;line-height:1.45;background:var(--bg);border-radius:10px;padding:10px;margin:8px 0 0;max-height:260px;overflow:auto}
+.efrow{padding:8px 0;border-top:1px solid var(--line)}.efrow:first-of-type{border-top:0}
+.efbar{height:6px;border-radius:3px;background:var(--line);margin:6px 0 4px;overflow:hidden}.efbar i{display:block;height:100%;background:var(--ok);border-radius:3px}
+.eftr{font-size:.82rem;font-weight:600;white-space:nowrap}
 /* Pantalla ancha: barra de secciones lateral */
 @media (min-width:1000px){
   body{padding-left:216px}
@@ -1179,7 +1182,7 @@ function lastSetsFor(ref) {
   }
   return null;
 }
-const APP_VERSION = "3.9.1";
+const APP_VERSION = "3.10.0";
 const THEMES = [["protector", "Protector", "Oscuro cálido, sin azul"], ["dark", "Oscuro", "Neutro"], ["light", "Claro", "Para el día"], ["auto", "Automático", "Sigue al sistema"]];
 const curTheme = () => document.documentElement.dataset.theme || "auto";
 function applyTheme(t) {
@@ -2685,6 +2688,43 @@ function sbCarga(S, now) {
     ${pm ? `<div class="row" style="justify-content:space-between;font-size:.85rem;margin-top:10px"><span class="muted">${T("PEM media · 4 semanas")}</span><b>${fmtNum(pm)}</b></div>` : ""}</div>`;
 }
 
+/* Stats → Entreno: esfuerzo (3.10.0). PEM de cada sesión (12 semanas) con su media de 4, y por ejercicio cuántas series
+   salieron completas y cuánto faltó de media (set.miss; antes de la 3.5.2 no se apuntaba), comparando las 6 últimas
+   semanas con las 6 anteriores para ver si cada vez falta menos. */
+function sbEsfuerzo(S, now) {
+  const from = now - 84 * 864e5, mid = now - 42 * 864e5, P = S.filter(s => s.start >= from && +s.pem > 0).sort((a, b) => a.start - b.start);
+  let chart = "";
+  if (P.length >= 2) {
+    const WD = 640, H = 190, pl = 30, pr = 12, pt = 12, pb = 26, X = t => pl + (t - from) / (now - from) * (WD - pl - pr), Y = v => pt + (1 - (v - 1) / 9) * (H - pt - pb);
+    const avg = P.map((s, i) => { const w = P.slice(Math.max(0, i - 3), i + 1); return w.reduce((a, x) => a + +x.pem, 0) / w.length; });
+    let sv = `<svg viewBox="0 0 ${WD} ${H}" role="img" aria-label="${T("Esfuerzo de cada sesión")}">`;
+    [1, 4, 7, 10].forEach(v => { sv += `<line x1="${pl}" x2="${WD - pr}" y1="${Y(v)}" y2="${Y(v)}" style="stroke:var(--line)"/><text x="${pl - 8}" y="${Y(v) + 4}" text-anchor="end" font-size="11" style="fill:var(--muted)">${v}</text>`; });
+    sv += `<polyline fill="none" stroke-width="2.5" stroke-linejoin="round" style="stroke:var(--accent)" points="${P.map((s, i) => `${X(s.start)},${Y(avg[i])}`).join(" ")}"/>`;
+    P.forEach(s => { sv += `<circle cx="${X(s.start)}" cy="${Y(+s.pem)}" r="4.5" fill="${PEM_C[s.pem - 1]}" style="stroke:var(--surface)" stroke-width="1.5"><title>${new Date(s.start).toLocaleDateString(LOC())} · ${esc(s.routine || T("Sesión libre"))} · ${T("PEM")} ${s.pem}</title></circle>`; });
+    [from, mid, now].forEach((t, i) => { const d = new Date(t); sv += `<text x="${X(t)}" y="${H - 6}" text-anchor="${["start", "middle", "end"][i]}" font-size="11" style="fill:var(--muted)">${d.getDate()} ${MESES[d.getMonth()]}</text>`; });
+    chart = `<div class="chart" style="margin-top:8px">${sv}</svg></div><div class="legend"><span><i style="background:${PEM_C[5]};border-radius:50%"></i>${T("Cada sesión (color según PEM)")}</span><span><i style="background:var(--accent)"></i>${T("Media de 4")}</span></div>`;
+  }
+  const pm = a => a.length ? a.reduce((x, s) => x + +s.pem, 0) / a.length : 0, p1 = pm(P.filter(s => s.start < mid)), p2 = pm(P.filter(s => s.start >= mid));
+  const kp = P.length ? `<div class="kpr"><div><b>${fmtNum(p2 || p1)}</b><span>${T("PEM media · 6 semanas")}</span></div><div><b>${p1 && p2 ? `${p2 > p1 ? "+" : p2 < p1 ? "−" : ""}${fmtNum(Math.abs(p2 - p1))}` : "—"}</b><span>${T("frente a las 6 anteriores")}</span></div><div><b>${P.length}</b><span>${T("sesiones con PEM")}</span></div></div>` : "";
+  // Por ejercicio: series hechas con lo que faltó apuntado (sin contestar = completa)
+  const M = new Map();
+  S.filter(s => s.start >= from).forEach(s => s.exercises.forEach(e => e.sets.forEach(x => {
+    if (!x.done) return;
+    const k = exKey(e), o = M.get(k) || { e, a: [0, 0, 0], b: [0, 0, 0] }, h = s.start >= mid ? o.b : o.a, m = +x.miss || 0;
+    h[0]++; if (!m) h[1]++; h[2] += m; M.set(k, o);
+  })));
+  const rows = [...M.values()].filter(o => o.a[0] + o.b[0] >= 3 && (o.a[2] + o.b[2] > 0 || o.a[0] + o.b[0] >= 6)).sort((x, y) => (y.a[2] + y.b[2]) - (x.a[2] + x.b[2]) || (y.a[0] + y.b[0]) - (x.a[0] + x.b[0])).slice(0, 6);
+  const pc = h => h[0] ? Math.round(h[1] / h[0] * 100) : null, un = e => isTime(e) ? " s" : "";
+  const list = rows.length ? `<h3 class="wh" style="margin:16px 0 6px">${T("Lo que faltó, por ejercicio")}</h3>${rows.map(o => {
+    const t = [o.a[0] + o.b[0], o.a[1] + o.b[1], o.a[2] + o.b[2]], c = pc(t), ca = pc(o.a), cb = pc(o.b), fails = t[0] - t[1];
+    const tr = ca !== null && cb !== null && o.a[0] >= 2 && o.b[0] >= 2 ? (cb > ca ? `<span class="eftr" style="color:var(--ok)">↑ ${cb - ca} %</span>` : cb < ca ? `<span class="eftr" style="color:#C9A227">↓ ${ca - cb} %</span>` : `<span class="eftr muted">=</span>`) : "";
+    return `<div class="efrow"><div class="row" style="justify-content:space-between;gap:8px"><span style="flex:1;min-width:0">${xLink(o.e, esc(exLabel(o.e)))}</span>${tr}<b style="white-space:nowrap">${c} %</b></div>
+      <div class="efbar"><i style="width:${c}%"></i></div>
+      <small class="muted">${TN(t[0], "{n} serie", "{n} series")} · ${fails ? T("faltaron {m}{u} de media cuando no salió", { m: (v => v % 1 ? fmtNum(v) : String(v))(Math.round(t[2] / fails * 10) / 10), u: un(o.e) }) : T("todas completas")}</small></div>`; }).join("")}
+    <p class="muted" style="font-size:.78rem;margin:8px 0 0">${T("% de series completas en 12 semanas. La flecha compara las 6 últimas con las 6 anteriores.")}</p>` : "";
+  if (!P.length && !rows.length) return `<div class="panel muted">${T("Aún no hay esfuerzo apuntado. Activa en Ajustes → Entreno preguntar el esfuerzo al terminar y «¿Cuántas te faltaron?».")}</div>`;
+  return `<div class="panel">${kp}${chart}${list}</div>`;
+}
 /* ---------- Iconos ---------- */
 const ICON = {
   train: '<svg viewBox="0 0 24 24"><path d="M6 7v10M18 7v10M3 10v4M21 10v4M6 12h12"/></svg>',
@@ -4240,7 +4280,7 @@ function sbNotas(now) {
     ${items.map(o => `<button class="noteb" data-dnote="${o.k}"><span class="muted" style="font-size:.8rem">${new Date(keyTime(o.k)).toLocaleDateString(LOC(), { weekday: "short", day: "numeric", month: "short" })}</span><span>${tagChips(o.tags)} ${esc((x => x.length > 140 ? x.slice(0, 140) + "…" : x)(noteSnip(o)))}</span></button>`).join("")}
     ${keys.length > 8 ? `<p class="muted" style="font-size:.8rem;margin:8px 0 0">${T("Y {n} días más en el Diario.", { n: keys.length - 8 })}</p>` : ""}</div>`;
 }
-const SB_CAT = { carga: "ent", ciclo: "cue", objetivos: "ent", resumen: "ent", records: "ent", constancia: "ent", ejercicios: "ent", equilibrio: "ent", reparto: "ent", horario: "ent", peso: "cue", sueno: "hab", pasos: "hab", actividad: "hab", suplementos: "hab", notas: "hab" };
+const SB_CAT = { carga: "ent", esfuerzo: "ent", ciclo: "cue", objetivos: "ent", resumen: "ent", records: "ent", constancia: "ent", ejercicios: "ent", equilibrio: "ent", reparto: "ent", horario: "ent", peso: "cue", sueno: "hab", pasos: "hab", actividad: "hab", suplementos: "hab", notas: "hab" };
 const SB_TABS = [["res", "Resumen"], ["ent", "Entreno"], ["cue", "Cuerpo"], ["hab", "Hábitos"]];
 const SBLOCKS = {
   objetivos: ["Objetivos de la semana", (S, IX, n) => sbObjetivos(S, n)],
@@ -4254,6 +4294,7 @@ const SBLOCKS = {
   resumen: ["Resumen", (S, IX, n) => sbResumen(S, n)],
   constancia: ["Constancia · 12 semanas", (S, IX, n) => sbConstancia(S, n)],
   carga: ["Carga semanal", (S, IX, n) => sbCarga(S, n)],
+  esfuerzo: ["Esfuerzo", (S, IX, n) => sbEsfuerzo(S, n)],
   records: ["Récords recientes", (S, IX, n) => sbRecords(IX, n)],
   ejercicios: ["Ejercicios vs objetivo", (S, IX, n) => sbEjercicios(IX, n)],
   equilibrio: ["Equilibrio izq. / der.", (S, IX, n) => sbEquilibrio(S, n)],
@@ -4262,7 +4303,7 @@ const SBLOCKS = {
 };
 function statsOrder() {
   const saved = LS.get("wk.statsOrder", null);
-  if (!saved) return ["constancia", "ejercicios", "records", "objetivos", "resumen", "carga", "equilibrio", "reparto", "horario", "peso", "ciclo", "sueno", "pasos", "actividad", "suplementos", "notas"];
+  if (!saved) return ["constancia", "ejercicios", "records", "objetivos", "resumen", "carga", "esfuerzo", "equilibrio", "reparto", "horario", "peso", "ciclo", "sueno", "pasos", "actividad", "suplementos", "notas"];
   const o = saved.filter(k => SBLOCKS[k]);
   Object.keys(SBLOCKS).forEach(k => { if (!o.includes(k)) o.push(k); });
   return o;
@@ -4581,6 +4622,9 @@ function installBlock() {
 }
 /* ---------- Novedades (una vez por versión; historial al tocar la versión) ---------- */
 const CHANGES = [  // Novedades: solo en castellano; las traducciones, en i18n/*.po
+  ["3.10.0", [
+    N_("Progreso → Entreno → Esfuerzo: la PEM de cada sesión en 12 semanas, con su media, y por ejercicio el % de series completas, lo que faltó de media y si mejora frente a las 6 semanas anteriores.")
+  ]],
   ["3.9.1", [
     N_("Al terminar, «Publicar en Nostr» publica el entreno en un toque, tras confirmar, sin la ventana de editar. Para cambiar el texto, Compartir → Publicar en Nostr.")
   ]],
@@ -6785,6 +6829,7 @@ const I18N = {
     "{x}: objetivo cumplido {n} sesiones seguidas.": "{x}: objectiu complert {n} sessions seguides.",
     "{x}: por debajo del {p} % del objetivo {n} sesiones seguidas.": "{x}: per sota del {p} % de l'objectiu {n} sessions seguides.",
     "% = última sesión sobre el objetivo de la rutina. Flecha = respecto a la sesión anterior. Toca para ver el gráfico.": "% = última sessió respecte a l'objectiu de la rutina. Fletxa = respecte a la sessió anterior. Toca per veure el gràfic.",
+    "% de series completas en 12 semanas. La flecha compara las 6 últimas con las 6 anteriores.": "% de sèries completes en 12 setmanes. La fletxa compara les 6 últimes amb les 6 anteriors.",
     "↑ = subir reps · barra = días de fuerza hechos": "↑ = pujar reps · barra = dies de força fets",
     "⇄ Cambiar ejercicio: primero los de su progresión (más difícil y más fácil) y los de movimiento parecido y nivel cercano; el catálogo entero, plegado debajo.": "⇄ Canviar l'exercici: primer els de la seva progressió (més difícil i més fàcil) i els de moviment semblant i nivell proper; el catàleg sencer, plegat a sota.",
     "+1 repetición por serie (+5 s)": "+1 repetició per sèrie (+5 s)",
@@ -6916,6 +6961,7 @@ const I18N = {
     "Atrás": "Enrere",
     "Aún no ha empezado": "Encara no ha començat",
     "Aún no has hecho ninguna copia.": "Encara no has fet cap còpia.",
+    "Aún no hay esfuerzo apuntado. Activa en Ajustes → Entreno preguntar el esfuerzo al terminar y «¿Cuántas te faltaron?».": "Encara no hi ha esforç apuntat. Activa a Ajustos → Entrenament preguntar l'esforç en acabar i «Quantes te'n van faltar?».",
     "Aún no hay objetivos. Fija los de fuerza y diaria en Ajustes, y los de distancia y pasos en Actividad → Unidad y objetivos.": "Encara no hi ha objectius. Fixa els de força i diària a Ajustos, i els de distància i passos a Activitat → Unitat i objectius.",
     "Aún no hay récords en los últimos 60 días. Aparecen solos al superar tu mejor marca.": "Encara no hi ha rècords en els últims 60 dies. Apareixen sols quan superes la teva millor marca.",
     "Aún no hay sesiones con esfuerzo (PEM). Se pregunta al terminar cada sesión.": "Encara no hi ha sessions amb esforç (PEM). Es pregunta en acabar cada sessió.",
@@ -6965,6 +7011,7 @@ const I18N = {
     "Cada perfil decide. Se puede cambiar en Ajustes → App.": "Cada perfil decideix. Es pot canviar a Ajustos → App.",
     "Cada perfil guarda su copia de Nostr aparte: la de otro perfil o la de la web ya no pisa la tuya. La copia automática solo guarda lo que ha cambiado.": "Cada perfil desa la seva còpia de Nostr a part: la d'un altre perfil o la del web ja no trepitja la teva. La còpia automàtica només desa el que ha canviat.",
     "Cada perfil tiene sus propios datos y ajustes.": "Cada perfil té les seves pròpies dades i ajustos.",
+    "Cada sesión (color según PEM)": "Cada sessió (color segons PEM)",
     "cadera": "maluc",
     "Caja / banco": "Caixa / banc",
     "Calendario": "Calendari",
@@ -7347,6 +7394,7 @@ const I18N = {
     "Ese perfil no tiene rutinas.": "Aquest perfil no té rutines.",
     "Esfuerzo": "Esforç",
     "Esfuerzo (PEM 1–10)": "Esforç (PEM 1–10)",
+    "Esfuerzo de cada sesión": "Esforç de cada sessió",
     "Esfuerzo de la sesión (PEM, 1–10) al terminar, opcional. Con la duración da la carga semanal, nuevo bloque en Stats → Entreno con aviso si una semana sube de golpe.": "Esforç de la sessió (PEM, 1–10) en acabar, opcional. Amb la durada dona la càrrega setmanal, nou bloc a Stats → Entrenament amb avís si una setmana puja de cop.",
     "Esfuerzo de la sesión (PEM)": "Esforç de la sessió (PEM)",
     "Esfuerzo percibido de toda la sesión (PEM).": "Esforç percebut de tota la sessió (PEM).",
@@ -7377,6 +7425,7 @@ const I18N = {
     "Externa": "Externa",
     "Fácil": "Fàcil",
     "falta una parte": "falta una part",
+    "faltaron {m}{u} de media cuando no salió": "en van faltar {m}{u} de mitjana quan no va sortir",
     "Fases (se repiten en orden)": "Fases (es repeteixen en ordre)",
     "Fases, semanas y descargas. No tu fecha de inicio ni la de revisión.": "Fases, setmanes i descàrregues. No la teva data d'inici ni la de revisió.",
     "Fecha": "Data",
@@ -7402,6 +7451,7 @@ const I18N = {
     "Formato": "Format",
     "Formato: separador «,» y punto decimal.": "Format: separador «,» i punt decimal.",
     "Formato: separador «;» y coma decimal, para abrirlo directamente en Excel en castellano o català.": "Format: separador «;» i coma decimal, per obrir-lo directament a l'Excel en català o castellà.",
+    "frente a las 6 anteriores": "respecte a les 6 anteriors",
     "Fructosa": "Fructosa",
     "Frutos secos": "Fruits secs",
     "Fuerza": "Força",
@@ -7558,6 +7608,7 @@ const I18N = {
     "Lo copiado no tiene rutinas de Usus. Copia la respuesta de la IA (o su bloque de código) y vuelve a probar.": "El que has copiat no té rutines d'Usus. Copia la resposta de la IA (o el seu bloc de codi) i torna-ho a provar.",
     "Lo que faltó en cada serie": "El que va faltar a cada sèrie",
     "Lo que faltó en cada serie: la pregunta ahora es «¿Cuántas te faltaron?» (o cuántos segundos, en las series por tiempo) y se resta de lo hecho. Así la propuesta de subir de ejercicio y el resumen cuentan lo que hiciste de verdad. Sin contestar, la serie cuenta como completa.": "El que va faltar a cada sèrie: la pregunta ara és «Quantes te'n van faltar?» (o quants segons, a les sèries per temps) i es resta del que s'ha fet. Així la proposta de pujar d'exercici i el resum compten el que vas fer de debò. Sense respondre, la sèrie compta com a completa.",
+    "Lo que faltó, por ejercicio": "El que va faltar, per exercici",
     "Lo que pase después depende de la IA que elijas: revisa su política de privacidad. El análisis lo hace una IA, no un profesional sanitario.": "El que passi després depèn de la IA que triïs: revisa'n la política de privacitat. L'anàlisi la fa una IA, no un professional sanitari.",
     "Lo que quieras que la IA tenga en cuenta": "El que vulguis que la IA tingui en compte",
     "Los datos del ciclo se guardan solo en este dispositivo y van en la copia de seguridad completa.": "Les dades del cicle es desen només en aquest dispositiu i van a la còpia de seguretat completa.",
@@ -7597,6 +7648,7 @@ const I18N = {
     "Media": "Mitjana",
     "Media 30 días": "Mitjana 30 dies",
     "Media 7 días": "Mitjana 7 dies",
+    "Media de 4": "Mitjana de 4",
     "Media de series por sesión en cada fase. Solo informativo.": "Mitjana de sèries per sessió en cada fase. Només informatiu.",
     "Media diaria": "Mitjana diària",
     "Media diaria de pasos por semana.": "Mitjana diària de passos per setmana.",
@@ -7835,6 +7887,7 @@ const I18N = {
     "PEM × minutos de cada sesión, sumado por semana.": "PEM × minuts de cada sessió, sumat per setmana.",
     "PEM del 1 al 10, opcional en cada sesión": "PEM de l'1 al 10, opcional a cada sessió",
     "PEM media · 4 semanas": "PEM mitjana · 4 setmanes",
+    "PEM media · 6 semanas": "PEM mitjana · 6 setmanes",
     "pendiente": "pendent",
     "Pendiente": "Pendent",
     "Pendiente desde el {d}": "Pendent des de {d}",
@@ -7928,6 +7981,7 @@ const I18N = {
     "Progresión": "Progressió",
     "Progresión: al terminar una sesión, propuesta de subir al siguiente ejercicio o de volver al anterior. Se ajusta en Ajustes → Entreno.": "Progressió: en acabar una sessió, proposta de pujar a l'exercici següent o de tornar a l'anterior. S'ajusta a Ajustos → Entrenament.",
     "Progreso": "Progrés",
+    "Progreso → Entreno → Esfuerzo: la PEM de cada sesión en 12 semanas, con su media, y por ejercicio el % de series completas, lo que faltó de media y si mejora frente a las 6 semanas anteriores.": "Progrés → Entrenament → Esforç: la PEM de cada sessió en 12 setmanes, amb la mitjana, i per exercici el % de sèries completes, el que va faltar de mitjana i si millora respecte a les 6 setmanes anteriors.",
     "Progreso: el Resumen queda en cuatro tarjetas (esta semana, constancia, récords y peso), cada una con un enlace a su detalle; cifras y gráficos con un mismo estilo, y las notas del periodo pasan a Hábitos.": "Progrés: el Resum queda en quatre targetes (aquesta setmana, constància, rècords i pes), cadascuna amb un enllaç al seu detall; xifres i gràfics amb un mateix estil, i les notes del període passen a Hàbits.",
     "propio": "propi",
     "Proponer cambios de paso": "Proposa canvis de pas",
@@ -8128,6 +8182,7 @@ const I18N = {
     "Sesiones": "Sessions",
     "Sesiones aplazadas {n} día desde el {d}.\u0004Sesiones aplazadas {n} días desde el {d}.": ["Sessions ajornades {n} dia des del {d}.","Sessions ajornades {n} dies des del {d}."],
     "Sesiones aplazadas {n} día desde el {d}.": "Sessions ajornades {n} dia des del {d}.",
+    "sesiones con PEM": "sessions amb PEM",
     "Sesiones por semana": "Sessions per setmana",
     "Sexo": "Sexe",
     "Sexo: {x} (del perfil).": "Sexe: {x} (del perfil).",
@@ -8268,6 +8323,7 @@ const I18N = {
     "Toca un día para abrirlo en el Diario.": "Toca un dia per obrir-lo al Diari.",
     "Toca una semana para ver sus rutinas.": "Toca una setmana per veure'n les rutines.",
     "Todas": "Totes",
+    "todas completas": "totes completes",
     "Todas las semanas": "Totes les setmanes",
     "Todo": "Tot",
     "Todo el catálogo": "Tot el catàleg",
@@ -8500,6 +8556,7 @@ const I18N = {
     "{x}: objetivo cumplido {n} sesiones seguidas.": "{x}: target hit {n} sessions in a row.",
     "{x}: por debajo del {p} % del objetivo {n} sesiones seguidas.": "{x}: below {p}% of the target {n} sessions in a row.",
     "% = última sesión sobre el objetivo de la rutina. Flecha = respecto a la sesión anterior. Toca para ver el gráfico.": "% = last session against the routine target. Arrow = compared with the previous session. Tap to see the chart.",
+    "% de series completas en 12 semanas. La flecha compara las 6 últimas con las 6 anteriores.": "% of sets completed in 12 weeks. The arrow compares the last 6 with the previous 6.",
     "↑ = subir reps · barra = días de fuerza hechos": "↑ = add reps · bar = strength days done",
     "⇄ Cambiar ejercicio: primero los de su progresión (más difícil y más fácil) y los de movimiento parecido y nivel cercano; el catálogo entero, plegado debajo.": "⇄ Swap exercise: first those in its progression (harder and easier) and similar movements at a close level; the whole catalogue, folded below.",
     "+1 repetición por serie (+5 s)": "+1 rep per set (+5 s)",
@@ -8631,6 +8688,7 @@ const I18N = {
     "Atrás": "Back",
     "Aún no ha empezado": "Not started yet",
     "Aún no has hecho ninguna copia.": "You haven't made a backup yet.",
+    "Aún no hay esfuerzo apuntado. Activa en Ajustes → Entreno preguntar el esfuerzo al terminar y «¿Cuántas te faltaron?».": "No effort logged yet. In Settings → Training, turn on asking for effort at the end and “How many were you short?”.",
     "Aún no hay objetivos. Fija los de fuerza y diaria en Ajustes, y los de distancia y pasos en Actividad → Unidad y objetivos.": "No goals yet. Set strength and daily goals in Settings, and distance and steps in Activity → Unit and goals.",
     "Aún no hay récords en los últimos 60 días. Aparecen solos al superar tu mejor marca.": "No records in the last 60 days yet. They appear automatically when you beat your best.",
     "Aún no hay sesiones con esfuerzo (PEM). Se pregunta al terminar cada sesión.": "No sessions with effort (RPE) yet. It's asked at the end of each session.",
@@ -8680,6 +8738,7 @@ const I18N = {
     "Cada perfil decide. Se puede cambiar en Ajustes → App.": "Each profile decides. You can change it in Settings → App.",
     "Cada perfil guarda su copia de Nostr aparte: la de otro perfil o la de la web ya no pisa la tuya. La copia automática solo guarda lo que ha cambiado.": "Each profile keeps its own Nostr backup: another profile's or the web's no longer overwrites yours. The automatic backup only saves what has changed.",
     "Cada perfil tiene sus propios datos y ajustes.": "Each profile has its own data and settings.",
+    "Cada sesión (color según PEM)": "Each session (colour by RPE)",
     "cadera": "hips",
     "Caja / banco": "Box / bench",
     "Calendario": "Calendar",
@@ -9062,6 +9121,7 @@ const I18N = {
     "Ese perfil no tiene rutinas.": "That profile has no routines.",
     "Esfuerzo": "Effort",
     "Esfuerzo (PEM 1–10)": "Effort (RPE 1–10)",
+    "Esfuerzo de cada sesión": "Effort of each session",
     "Esfuerzo de la sesión (PEM, 1–10) al terminar, opcional. Con la duración da la carga semanal, nuevo bloque en Stats → Entreno con aviso si una semana sube de golpe.": "Session effort (RPE, 1–10) at the end, optional. With the duration it gives the weekly load, a new block in Stats → Workout that warns about sudden jumps.",
     "Esfuerzo de la sesión (PEM)": "Session effort (RPE)",
     "Esfuerzo percibido de toda la sesión (PEM).": "Perceived effort for the whole session (RPE).",
@@ -9092,6 +9152,7 @@ const I18N = {
     "Externa": "External",
     "Fácil": "Easy",
     "falta una parte": "a part is missing",
+    "faltaron {m}{u} de media cuando no salió": "{m}{u} short on average when it didn't go",
     "Fases (se repiten en orden)": "Phases (repeat in order)",
     "Fases, semanas y descargas. No tu fecha de inicio ni la de revisión.": "Phases, weeks and deloads. Not your start or review date.",
     "Fecha": "Date",
@@ -9117,6 +9178,7 @@ const I18N = {
     "Formato": "Format",
     "Formato: separador «,» y punto decimal.": "Format: “,” separator and decimal point.",
     "Formato: separador «;» y coma decimal, para abrirlo directamente en Excel en castellano o català.": "Format: “;” separator and decimal comma, to open directly in Excel in Spanish or Catalan.",
+    "frente a las 6 anteriores": "vs the previous 6",
     "Fructosa": "Fructose",
     "Frutos secos": "Tree nuts",
     "Fuerza": "Strength",
@@ -9273,6 +9335,7 @@ const I18N = {
     "Lo copiado no tiene rutinas de Usus. Copia la respuesta de la IA (o su bloque de código) y vuelve a probar.": "What you copied has no Usus routines. Copy the AI's reply (or its code block) and try again.",
     "Lo que faltó en cada serie": "What was missing in each set",
     "Lo que faltó en cada serie: la pregunta ahora es «¿Cuántas te faltaron?» (o cuántos segundos, en las series por tiempo) y se resta de lo hecho. Así la propuesta de subir de ejercicio y el resumen cuentan lo que hiciste de verdad. Sin contestar, la serie cuenta como completa.": "What was missing in each set: the question is now “How many were you short?” (or how many seconds, in timed sets) and it's subtracted from what you did. So the suggestion to move up and the summary count what you really did. Unanswered, the set counts as complete.",
+    "Lo que faltó, por ejercicio": "What was missing, per exercise",
     "Lo que pase después depende de la IA que elijas: revisa su política de privacidad. El análisis lo hace una IA, no un profesional sanitario.": "What happens next depends on the AI you choose: check its privacy policy. The analysis is done by an AI, not a health professional.",
     "Lo que quieras que la IA tenga en cuenta": "Anything you want the AI to take into account",
     "Los datos del ciclo se guardan solo en este dispositivo y van en la copia de seguridad completa.": "Cycle data is stored only on this device and is included in the full backup.",
@@ -9312,6 +9375,7 @@ const I18N = {
     "Media": "Average",
     "Media 30 días": "30-day average",
     "Media 7 días": "7-day average",
+    "Media de 4": "Average of 4",
     "Media de series por sesión en cada fase. Solo informativo.": "Average sets per session in each phase. For information only.",
     "Media diaria": "Daily average",
     "Media diaria de pasos por semana.": "Daily step average per week.",
@@ -9550,6 +9614,7 @@ const I18N = {
     "PEM × minutos de cada sesión, sumado por semana.": "RPE × minutes of each session, summed per week.",
     "PEM del 1 al 10, opcional en cada sesión": "RPE from 1 to 10, optional each session",
     "PEM media · 4 semanas": "Average RPE · 4 weeks",
+    "PEM media · 6 semanas": "Average RPE · 6 weeks",
     "pendiente": "to do",
     "Pendiente": "To do",
     "Pendiente desde el {d}": "Due since {d}",
@@ -9643,6 +9708,7 @@ const I18N = {
     "Progresión": "Progression",
     "Progresión: al terminar una sesión, propuesta de subir al siguiente ejercicio o de volver al anterior. Se ajusta en Ajustes → Entreno.": "Progression: after a session, a suggestion to move on to the next exercise or go back to the previous one. Set it up in Settings → Workout.",
     "Progreso": "Progress",
+    "Progreso → Entreno → Esfuerzo: la PEM de cada sesión en 12 semanas, con su media, y por ejercicio el % de series completas, lo que faltó de media y si mejora frente a las 6 semanas anteriores.": "Progress → Workout → Effort: each session's RPE over 12 weeks with its average, and per exercise the % of sets completed, how much was missing on average and whether it's improving versus the previous 6 weeks.",
     "Progreso: el Resumen queda en cuatro tarjetas (esta semana, constancia, récords y peso), cada una con un enlace a su detalle; cifras y gráficos con un mismo estilo, y las notas del periodo pasan a Hábitos.": "Progress: the Summary is now four cards (this week, consistency, records and weight), each linking to its details; figures and charts share one style, and period notes move to Habits.",
     "propio": "own",
     "Proponer cambios de paso": "Suggest step changes",
@@ -9843,6 +9909,7 @@ const I18N = {
     "Sesiones": "Sessions",
     "Sesiones aplazadas {n} día desde el {d}.\u0004Sesiones aplazadas {n} días desde el {d}.": ["Sessions moved {n} day from {d}.","Sessions moved {n} days from {d}."],
     "Sesiones aplazadas {n} día desde el {d}.": "Sessions moved {n} day from {d}.",
+    "sesiones con PEM": "sessions with RPE",
     "Sesiones por semana": "Sessions per week",
     "Sexo": "Sex",
     "Sexo: {x} (del perfil).": "Sex: {x} (from the profile).",
@@ -9983,6 +10050,7 @@ const I18N = {
     "Toca un día para abrirlo en el Diario.": "Tap a day to open it in the Diary.",
     "Toca una semana para ver sus rutinas.": "Tap a week to see its routines.",
     "Todas": "All",
+    "todas completas": "all completed",
     "Todas las semanas": "Every week",
     "Todo": "All",
     "Todo el catálogo": "Whole catalogue",
