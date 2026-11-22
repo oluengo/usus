@@ -40,6 +40,15 @@ test("menú: crear con la IA, seguir la semana, compra y análisis", async ({ pa
   await page.locator('[data-act="menu-shop-clear"]').click();
   const shop = (await ls(page, "wk.menu")).shop;
   expect(shop.flatMap(g => g.items.map(x => x.t))).toEqual(["1 kg tomates", "500 g lentejas", "Pan integral"]);
+  // Exportar: Markdown y PDF
+  await page.locator('[data-mshop="0:0"]').check();
+  let dl = page.waitForEvent("download"); await page.locator('[data-act="menu-shop-md"]').click();
+  const md = await (await dl).createReadStream().then(s => new Promise(r => { let t = ""; s.on("data", c => t += c); s.on("end", () => r(t)); }));
+  expect(md).toContain("# Lista de la compra"); expect(md).toContain("## Fruta y verdura\n\n- [x] 1 kg tomates"); expect(md).toContain("- [ ] Pan integral");
+  dl = page.waitForEvent("download"); await page.locator('[data-act="menu-shop-pdf"]').click();
+  const d2 = await dl; expect(d2.suggestedFilename()).toMatch(/\.pdf$/);
+  const pdf = await d2.createReadStream().then(s => new Promise(r => { const b = []; s.on("data", c => b.push(c)); s.on("end", () => r(Buffer.concat(b).toString("latin1"))); }));
+  expect(pdf.startsWith("%PDF-1.4")).toBe(true); expect(pdf).toContain("(Despensa) Tj"); expect(pdf).toContain("(Pan integral) Tj"); expect(pdf.trimEnd().endsWith("%%EOF")).toBe(true);
   // Análisis: lleva el seguimiento; «PARA EL PRÓXIMO MENÚ» se guarda y entra en la siguiente pregunta
   await page.locator('[data-mtab="week"]').click();
   await page.locator('[data-act="menu-an-copy"]').click();

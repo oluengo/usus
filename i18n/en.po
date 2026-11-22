@@ -1280,6 +1280,9 @@ msgstr "done"
 msgid "Completar serie {n}"
 msgstr "Complete set {n}"
 
+msgid "compra"
+msgstr "shopping"
+
 msgid "Compra"
 msgstr "Shopping"
 
@@ -3163,8 +3166,8 @@ msgstr "Menstruation"
 msgid "Menú de la semana"
 msgstr "Weekly menu"
 
-msgid "Menú de la semana, en el Diario: lo crea tu IA (con tus preferencias, intolerancias y días de entreno) o lo rellenas a mano, con recetas breves y lista de la compra con casillas. En cada plato marcas si lo comiste, no o lo cambiaste (por qué y por qué plato); lo comido pasa a Comidas, y «Analizar la semana» prepara la pregunta para que tu IA ajuste el siguiente menú."
-msgstr "Weekly menu, in the Diary: your AI creates it (with your preferences, intolerances and training days) or you fill it in by hand, with short recipes and a shopping list with checkboxes. For each dish you mark whether you ate it, didn't, or swapped it (for what and why); what you ate goes into Meals, and “Analyse the week” writes the question so your AI adjusts the next menu."
+msgid "Menú de la semana, en el Diario: lo crea tu IA (con tus preferencias, intolerancias y días de entreno) o lo rellenas a mano, con recetas breves y lista de la compra con casillas, que se puede exportar en Markdown o PDF. En cada plato marcas si lo comiste, no o lo cambiaste (por qué y por qué plato); lo comido pasa a Comidas, y «Analizar la semana» prepara la pregunta para que tu IA ajuste el siguiente menú."
+msgstr "Weekly menu, in the Diary: your AI creates it (with your preferences, intolerances and training days) or you fill it in by hand, with short recipes and a shopping list with checkboxes that you can export as Markdown or PDF. For each dish you mark whether you ate it, didn't, or swapped it (for what and why); what you ate goes into Meals, and “Analyse the week” writes the question so your AI adjusts the next menu."
 
 msgid "Menú guardado"
 msgstr "Menu saved"
@@ -4787,6 +4790,10 @@ msgid "Semana de subida · variante {v}"
 msgstr "Step-up week · variant {v}"
 
 #, python-brace-format
+msgid "Semana del {a} al {b}"
+msgstr "Week of {a} to {b}"
+
+#, python-brace-format
 msgid "Semana del {d}: +{p} %"
 msgstr "Week of {d}: +{p}%"
 
@@ -5835,6 +5842,9 @@ msgstr "Lower back"
 
 msgid "Zona peligrosa"
 msgstr "Danger zone"
+
+#~ msgid "Menú de la semana, en el Diario: lo crea tu IA (con tus preferencias, intolerancias y días de entreno) o lo rellenas a mano, con recetas breves y lista de la compra con casillas. En cada plato marcas si lo comiste, no o lo cambiaste (por qué y por qué plato); lo comido pasa a Comidas, y «Analizar la semana» prepara la pregunta para que tu IA ajuste el siguiente menú."
+#~ msgstr "Weekly menu, in the Diary: your AI creates it (with your preferences, intolerances and training days) or you fill it in by hand, with short recipes and a shopping list with checkboxes. For each dish you mark whether you ate it, didn't, or swapped it (for what and why); what you ate goes into Meals, and “Analyse the week” writes the question so your AI adjusts the next menu."
 
 #~ msgid "Cuerpo"
 #~ msgstr "Body"

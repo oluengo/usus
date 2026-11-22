@@ -1279,6 +1279,9 @@ msgstr ""
 msgid "Completar serie {n}"
 msgstr ""
 
+msgid "compra"
+msgstr ""
+
 msgid "Compra"
 msgstr ""
 
@@ -3161,7 +3164,7 @@ msgstr ""
 msgid "Menú de la semana"
 msgstr ""
 
-msgid "Menú de la semana, en el Diario: lo crea tu IA (con tus preferencias, intolerancias y días de entreno) o lo rellenas a mano, con recetas breves y lista de la compra con casillas. En cada plato marcas si lo comiste, no o lo cambiaste (por qué y por qué plato); lo comido pasa a Comidas, y «Analizar la semana» prepara la pregunta para que tu IA ajuste el siguiente menú."
+msgid "Menú de la semana, en el Diario: lo crea tu IA (con tus preferencias, intolerancias y días de entreno) o lo rellenas a mano, con recetas breves y lista de la compra con casillas, que se puede exportar en Markdown o PDF. En cada plato marcas si lo comiste, no o lo cambiaste (por qué y por qué plato); lo comido pasa a Comidas, y «Analizar la semana» prepara la pregunta para que tu IA ajuste el siguiente menú."
 msgstr ""
 
 msgid "Menú guardado"
@@ -4782,6 +4785,10 @@ msgstr ""
 
 #, python-brace-format
 msgid "Semana de subida · variante {v}"
+msgstr ""
+
+#, python-brace-format
+msgid "Semana del {a} al {b}"
 msgstr ""
 
 #, python-brace-format

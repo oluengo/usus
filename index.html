@@ -4664,7 +4664,7 @@ function installBlock() {
 /* ---------- Novedades (una vez por versión; historial al tocar la versión) ---------- */
 const CHANGES = [  // Novedades: solo en castellano; las traducciones, en i18n/*.po
   ["3.11.0", [
-    N_("Menú de la semana, en el Diario: lo crea tu IA (con tus preferencias, intolerancias y días de entreno) o lo rellenas a mano, con recetas breves y lista de la compra con casillas. En cada plato marcas si lo comiste, no o lo cambiaste (por qué y por qué plato); lo comido pasa a Comidas, y «Analizar la semana» prepara la pregunta para que tu IA ajuste el siguiente menú."),
+    N_("Menú de la semana, en el Diario: lo crea tu IA (con tus preferencias, intolerancias y días de entreno) o lo rellenas a mano, con recetas breves y lista de la compra con casillas, que se puede exportar en Markdown o PDF. En cada plato marcas si lo comiste, no o lo cambiaste (por qué y por qué plato); lo comido pasa a Comidas, y «Analizar la semana» prepara la pregunta para que tu IA ajuste el siguiente menú."),
     N_("Progreso: «Analizar con IA externa» y «Crear plan con IA», lo primero de Resumen."),
     N_("Progreso sin la pestaña Cuerpo: la evolución completa del peso se abre desde Resumen → Peso → Evolución, y el ciclo pasa a Hábitos."),
     N_("Material nuevo: kettlebell, con swing, peso muerto, sentadilla goblet, press, remo, cargada, levantada turca y paseo del granjero."),
@@ -6401,7 +6401,8 @@ function menuSheet(k) {
     return `${tabs}<p class="muted" style="font-size:.85rem;margin:8px 0">${n ? T("{a} de {b} en el carro", { a: dn, b: n }) : T("La lista está vacía.")}</p>
       ${m.shop.map((g, gi) => `<div class="panel mshop"><h3 class="wh" style="margin:0 0 4px">${esc(g.g)}</h3>${g.items.map((x, ii) => `<div class="mitem"><label><input type="checkbox" data-mshop="${gi}:${ii}" ${x.done ? "checked" : ""}><span class="${x.done ? "mdone" : ""}">${esc(x.t)}</span></label><button class="mx" data-mshopx="${gi}:${ii}" aria-label="${T("Quitar")} ${esc(x.t)}">×</button></div>`).join("")}</div>`).join("")}
       <div class="row" style="margin-top:10px;flex-wrap:nowrap"><input id="mshopNew" type="text" placeholder="${T("Añadir a la lista")}" maxlength="120" style="flex:1;min-width:0"><button class="btn" data-act="menu-shop-add">${T("Añadir")}</button></div>
-      ${n ? `<div class="row" style="margin-top:10px"><button class="btn shbtn" style="flex:1" data-act="menu-shop-share">${SHARE_ICO}${T("Compartir lista")}</button>${dn ? `<button class="btn ghost" style="flex:1" data-act="menu-shop-clear">${T("Quitar lo marcado")}</button>` : ""}</div>` : ""}`;
+      ${n ? `<div class="row" style="margin-top:10px"><button class="btn shbtn" style="flex:1" data-act="menu-shop-share">${SHARE_ICO}${T("Compartir lista")}</button>${dn ? `<button class="btn ghost" style="flex:1" data-act="menu-shop-clear">${T("Quitar lo marcado")}</button>` : ""}</div>
+      <div class="row" style="margin-top:8px;align-items:center"><span class="muted" style="font-size:.85rem">${T("Exportar")}:</span><button class="btn small" data-act="menu-shop-md">Markdown (.md)</button><button class="btn small" data-act="menu-shop-pdf">PDF</button></div>` : ""}`;
   }
   const strip = `<div class="mdays" role="tablist" aria-label="${T("Día del menú")}">${m.days.map((x, i) => { const dt = new Date(keyTime(x.date)), done = MENU_MEALS.every(([y]) => !x.meals[y].name || x.meals[y].st);
     return `<button role="tab" data-mday="${i}" class="${i === di ? "on" : ""}${x.date === dayKey(Date.now()) ? " today" : ""}" aria-selected="${i === di}"><span>${dt.toLocaleDateString(LOC(), { weekday: "narrow" })}</span><b>${dt.getDate()}</b><i class="${x.train ? "tr" : ""}${done ? " ok" : ""}"></i></button>`; }).join("")}</div>`;
@@ -6432,6 +6433,52 @@ function menuSheet(k) {
       ${m.an ? `<details class="aimanual"><summary>${T("Último análisis")}</summary><pre class="fprompt">${esc(m.an)}</pre></details>` : ""}
     </div>
     <button class="btn ghost danger" style="width:100%;margin-top:10px" data-act="menu-new">${T("Nuevo menú…")}</button>`;
+}
+/* Lista de la compra en Markdown y en PDF (3.11.0). El PDF se escribe a mano (A4, Helvetica, casillas dibujadas),
+   sin librerías: texto en WinAnsi (castellano, catalán e inglés caben). */
+function menuShopMd(m) {
+  const a = new Date(keyTime(m.start)), b = new Date(addDays(keyTime(m.start), 6)), f = d => d.toLocaleDateString(LOC(), { day: "numeric", month: "long" });
+  return `# ${T("Lista de la compra")}\n\n${T("Semana del {a} al {b}", { a: f(a), b: f(b) })}\n\n${m.shop.map(g => `## ${g.g}\n\n${g.items.map(x => `- [${x.done ? "x" : " "}] ${x.t}`).join("\n")}`).join("\n\n")}\n`;
+}
+function pdfText(lines) {   // lines: [{ t, bold, size, box, done, gap }]
+  const W = 595, H = 842, M = 56, CP = { "€": 128, "‚": 130, "„": 132, "…": 133, "‘": 145, "’": 146, "“": 147, "”": 148, "•": 149, "–": 150, "—": 151, "·": 183 };
+  const enc = s => [...s].map(ch => { const c = ch.charCodeAt(0); return c < 256 ? ch : CP[ch] ? String.fromCharCode(CP[ch]) : "?"; }).join("").replace(/[\\()]/g, "\\$&");
+  const wrap = (t, size, w) => { const max = Math.floor(w / (size * 0.5)), out = []; let cur = "";
+    String(t).split(/\s+/).forEach(word => { if ((cur + " " + word).trim().length > max && cur) { out.push(cur); cur = word; } else cur = (cur + " " + word).trim(); }); if (cur) out.push(cur); return out.length ? out : [""]; };
+  const pages = []; let ops = [], y = H - M;
+  const newPage = () => { pages.push(ops); ops = []; y = H - M; };
+  lines.forEach(l => {
+    const size = l.size || 11, lead = size * 1.45, x = M + (l.box ? 20 : 0), parts = wrap(l.t, size, W - M - x);
+    y -= l.gap || 0;
+    if (y - lead * parts.length < M) newPage();
+    parts.forEach((p, i) => {
+      y -= lead;
+      if (l.box && i === 0) { ops.push(`0.4 w ${M} ${y - 1} 11 11 re S`); if (l.done) ops.push(`1 w ${M + 2} ${y + 4} m ${M + 4.5} ${y + 1.5} l ${M + 9} ${y + 8} l S`); }
+      ops.push(`BT /${l.bold ? "F2" : "F1"} ${size} Tf ${x} ${y} Td (${enc(p)}) Tj ET`);
+    });
+  });
+  pages.push(ops);
+  const objs = [], add = s => { objs.push(s); return objs.length; };
+  const cat = add(""), pg = add(""), f1 = add("<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>"), f2 = add("<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>");
+  const kids = pages.map(o => { const st = o.join("\n"), c = add(`<< /Length ${st.length} >>\nstream\n${st}\nendstream`); return add(`<< /Type /Page /Parent ${pg} 0 R /MediaBox [0 0 ${W} ${H}] /Resources << /Font << /F1 ${f1} 0 R /F2 ${f2} 0 R >> >> /Contents ${c} 0 R >>`); });
+  objs[cat - 1] = `<< /Type /Catalog /Pages ${pg} 0 R >>`; objs[pg - 1] = `<< /Type /Pages /Kids [${kids.map(k => `${k} 0 R`).join(" ")}] /Count ${kids.length} >>`;
+  let out = "%PDF-1.4\n", off = [];
+  objs.forEach((o, i) => { off.push(out.length); out += `${i + 1} 0 obj\n${o}\nendobj\n`; });
+  const xref = out.length;
+  out += `xref\n0 ${objs.length + 1}\n0000000000 65535 f \n${off.map(o => String(o).padStart(10, "0") + " 00000 n \n").join("")}trailer\n<< /Size ${objs.length + 1} /Root ${cat} 0 R >>\nstartxref\n${xref}\n%%EOF`;
+  return Uint8Array.from(out, ch => ch.charCodeAt(0) & 255);
+}
+function menuShopPdf(m) {
+  const a = new Date(keyTime(m.start)), b = new Date(addDays(keyTime(m.start), 6)), f = d => d.toLocaleDateString(LOC(), { day: "numeric", month: "long" });
+  return pdfText([{ t: T("Lista de la compra"), bold: true, size: 18 }, { t: T("Semana del {a} al {b}", { a: f(a), b: f(b) }), size: 11, gap: 2 },
+    ...m.shop.flatMap(g => [{ t: g.g, bold: true, size: 13, gap: 14 }, ...g.items.map(x => ({ t: x.t, box: true, done: x.done, gap: 2 }))]),
+    { t: "Usus", size: 8, gap: 24 }]);
+}
+function menuShopExport(kind) {
+  const m = MENU.get(); if (!m?.shop.length) return;
+  const name = `usus-${T("compra")}-${m.start}.${kind}`;
+  const file = kind === "pdf" ? new File([menuShopPdf(m)], name, { type: "application/pdf" }) : new File([menuShopMd(m)], name, { type: "text/markdown" });
+  shareOut({ title: T("Lista de la compra"), file });
 }
 /* ---------- Eventos ---------- */
 document.addEventListener("toggle", ev => { const g = ev.target; if (g?.dataset?.rg === undefined) return; const op = LS.get("wk.rgOpen", {}) || {}; if (op[g.dataset.rg] !== g.open) { op[g.dataset.rg] = g.open; LS.set("wk.rgOpen", op); } }, true);
@@ -6894,6 +6941,8 @@ document.addEventListener("click", async ev => {
     case "menu-new": if (confirm(T("¿Empezar un menú nuevo? Este se borra (lo comido sigue en el Diario)."))) { MENU.set(null); state.menuTab = "week"; render(); } break;
     case "menu-fill": menuFill(state.day || dayKey(Date.now())); break;
     case "menu-shop-add": { const v = ($("#mshopNew")?.value || "").trim().slice(0, 120); if (!v) break; const m = MENU.get(), og = T("Otros"); let g = m.shop.find(x => x.g === og); if (!g) m.shop.push(g = { g: og, items: [] }); g.items.push({ t: v, done: false }); MENU.set(m); render(); setTimeout(() => $("#mshopNew")?.focus(), 0); break; }
+    case "menu-shop-md": menuShopExport("md"); break;
+    case "menu-shop-pdf": menuShopExport("pdf"); break;
     case "menu-shop-share": shareOut({ title: T("Lista de la compra"), text: menuShopText(MENU.get()) }); break;
     case "menu-shop-clear": { const m = MENU.get(); m.shop.forEach(g => { g.items = g.items.filter(x => !x.done); }); m.shop = m.shop.filter(g => g.items.length); MENU.set(m); render(); break; }
     case "food-copy": { const ok = await copyText(foodPrompt(state.day || dayKey(Date.now()))); toast(ok ? T("Pregunta copiada: pégala en tu IA") : T("No se pudo copiar")); break; }
@@ -7431,6 +7480,7 @@ const I18N = {
     "Completa tu primera sesión para ver tu progreso.": "Completa la primera sessió per veure el teu progrés.",
     "completada": "completada",
     "Completar serie {n}": "Completa la sèrie {n}",
+    "compra": "compra",
     "Compra": "Compra",
     "Comprobar que el APK es original": "Comprovar que l'APK és original",
     "Con dos reglas registradas verás aquí la duración de cada ciclo.": "Amb dues regles registrades veuràs aquí la durada de cada cicle.",
@@ -8039,7 +8089,7 @@ const I18N = {
     "Menos ultraprocesados": "Menys ultraprocessats",
     "Menstruación": "Menstruació",
     "Menú de la semana": "Menú de la setmana",
-    "Menú de la semana, en el Diario: lo crea tu IA (con tus preferencias, intolerancias y días de entreno) o lo rellenas a mano, con recetas breves y lista de la compra con casillas. En cada plato marcas si lo comiste, no o lo cambiaste (por qué y por qué plato); lo comido pasa a Comidas, y «Analizar la semana» prepara la pregunta para que tu IA ajuste el siguiente menú.": "Menú de la setmana, al Diari: el crea la teva IA (amb les teves preferències, intoleràncies i dies d'entrenament) o l'omples a mà, amb receptes breus i llista de la compra amb caselles. A cada plat marques si el vas menjar, no o el vas canviar (per què i per quin plat); el que has menjat passa a Àpats, i «Analitzar la setmana» prepara la pregunta perquè la teva IA ajusti el menú següent.",
+    "Menú de la semana, en el Diario: lo crea tu IA (con tus preferencias, intolerancias y días de entreno) o lo rellenas a mano, con recetas breves y lista de la compra con casillas, que se puede exportar en Markdown o PDF. En cada plato marcas si lo comiste, no o lo cambiaste (por qué y por qué plato); lo comido pasa a Comidas, y «Analizar la semana» prepara la pregunta para que tu IA ajuste el siguiente menú.": "Menú de la setmana, al Diari: el crea la teva IA (amb les teves preferències, intoleràncies i dies d'entrenament) o l'omples a mà, amb receptes breus i llista de la compra amb caselles, que es pot exportar en Markdown o PDF. A cada plat marques si el vas menjar, no o el vas canviar (per què i per quin plat); el que has menjat passa a Àpats, i «Analitzar la setmana» prepara la pregunta perquè la teva IA ajusti el menú següent.",
     "Menú guardado": "Menú desat",
     "Merienda": "Berenar",
     "Mes anterior": "Mes anterior",
@@ -8558,6 +8608,7 @@ const I18N = {
     "Semana de descarga: solo rutinas sin variante (p. ej. Diaria).": "Setmana de descàrrega: només rutines sense variant (p. ex. Diària).",
     "Semana de fuerza completa": "Setmana de força completa",
     "Semana de subida · variante {v}": "Setmana de pujada · variant {v}",
+    "Semana del {a} al {b}": "Setmana del {a} al {b}",
     "Semana del {d}: +{p} %": "Setmana del {d}: +{p} %",
     "Semana en la que vas": "Setmana on vas",
     "Semana: del {a} al {b} (lunes a domingo).": "Setmana: del {a} al {b} (dilluns a diumenge).",
@@ -9277,6 +9328,7 @@ const I18N = {
     "Completa tu primera sesión para ver tu progreso.": "Complete your first session to see your progress.",
     "completada": "done",
     "Completar serie {n}": "Complete set {n}",
+    "compra": "shopping",
     "Compra": "Shopping",
     "Comprobar que el APK es original": "Check that the APK is genuine",
     "Con dos reglas registradas verás aquí la duración de cada ciclo.": "Once two periods are logged you'll see each cycle's length here.",
@@ -9885,7 +9937,7 @@ const I18N = {
     "Menos ultraprocesados": "Fewer ultra-processed foods",
     "Menstruación": "Menstruation",
     "Menú de la semana": "Weekly menu",
-    "Menú de la semana, en el Diario: lo crea tu IA (con tus preferencias, intolerancias y días de entreno) o lo rellenas a mano, con recetas breves y lista de la compra con casillas. En cada plato marcas si lo comiste, no o lo cambiaste (por qué y por qué plato); lo comido pasa a Comidas, y «Analizar la semana» prepara la pregunta para que tu IA ajuste el siguiente menú.": "Weekly menu, in the Diary: your AI creates it (with your preferences, intolerances and training days) or you fill it in by hand, with short recipes and a shopping list with checkboxes. For each dish you mark whether you ate it, didn't, or swapped it (for what and why); what you ate goes into Meals, and “Analyse the week” writes the question so your AI adjusts the next menu.",
+    "Menú de la semana, en el Diario: lo crea tu IA (con tus preferencias, intolerancias y días de entreno) o lo rellenas a mano, con recetas breves y lista de la compra con casillas, que se puede exportar en Markdown o PDF. En cada plato marcas si lo comiste, no o lo cambiaste (por qué y por qué plato); lo comido pasa a Comidas, y «Analizar la semana» prepara la pregunta para que tu IA ajuste el siguiente menú.": "Weekly menu, in the Diary: your AI creates it (with your preferences, intolerances and training days) or you fill it in by hand, with short recipes and a shopping list with checkboxes that you can export as Markdown or PDF. For each dish you mark whether you ate it, didn't, or swapped it (for what and why); what you ate goes into Meals, and “Analyse the week” writes the question so your AI adjusts the next menu.",
     "Menú guardado": "Menu saved",
     "Merienda": "Snack",
     "Mes anterior": "Previous month",
@@ -10404,6 +10456,7 @@ const I18N = {
     "Semana de descarga: solo rutinas sin variante (p. ej. Diaria).": "Deload week: only routines without a variant (e.g. Daily).",
     "Semana de fuerza completa": "Strength week complete",
     "Semana de subida · variante {v}": "Step-up week · variant {v}",
+    "Semana del {a} al {b}": "Week of {a} to {b}",
     "Semana del {d}: +{p} %": "Week of {d}: +{p}%",
     "Semana en la que vas": "Week you're on",
     "Semana: del {a} al {b} (lunes a domingo).": "Week: {a} to {b} (Monday to Sunday).",

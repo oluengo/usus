@@ -1280,6 +1280,9 @@ msgstr "completada"
 msgid "Completar serie {n}"
 msgstr "Completa la sèrie {n}"
 
+msgid "compra"
+msgstr "compra"
+
 msgid "Compra"
 msgstr "Compra"
 
@@ -3163,8 +3166,8 @@ msgstr "Menstruació"
 msgid "Menú de la semana"
 msgstr "Menú de la setmana"
 
-msgid "Menú de la semana, en el Diario: lo crea tu IA (con tus preferencias, intolerancias y días de entreno) o lo rellenas a mano, con recetas breves y lista de la compra con casillas. En cada plato marcas si lo comiste, no o lo cambiaste (por qué y por qué plato); lo comido pasa a Comidas, y «Analizar la semana» prepara la pregunta para que tu IA ajuste el siguiente menú."
-msgstr "Menú de la setmana, al Diari: el crea la teva IA (amb les teves preferències, intoleràncies i dies d'entrenament) o l'omples a mà, amb receptes breus i llista de la compra amb caselles. A cada plat marques si el vas menjar, no o el vas canviar (per què i per quin plat); el que has menjat passa a Àpats, i «Analitzar la setmana» prepara la pregunta perquè la teva IA ajusti el menú següent."
+msgid "Menú de la semana, en el Diario: lo crea tu IA (con tus preferencias, intolerancias y días de entreno) o lo rellenas a mano, con recetas breves y lista de la compra con casillas, que se puede exportar en Markdown o PDF. En cada plato marcas si lo comiste, no o lo cambiaste (por qué y por qué plato); lo comido pasa a Comidas, y «Analizar la semana» prepara la pregunta para que tu IA ajuste el siguiente menú."
+msgstr "Menú de la setmana, al Diari: el crea la teva IA (amb les teves preferències, intoleràncies i dies d'entrenament) o l'omples a mà, amb receptes breus i llista de la compra amb caselles, que es pot exportar en Markdown o PDF. A cada plat marques si el vas menjar, no o el vas canviar (per què i per quin plat); el que has menjat passa a Àpats, i «Analitzar la setmana» prepara la pregunta perquè la teva IA ajusti el menú següent."
 
 msgid "Menú guardado"
 msgstr "Menú desat"
@@ -4787,6 +4790,10 @@ msgid "Semana de subida · variante {v}"
 msgstr "Setmana de pujada · variant {v}"
 
 #, python-brace-format
+msgid "Semana del {a} al {b}"
+msgstr "Setmana del {a} al {b}"
+
+#, python-brace-format
 msgid "Semana del {d}: +{p} %"
 msgstr "Setmana del {d}: +{p} %"
 
@@ -5835,6 +5842,9 @@ msgstr "Zona lumbar"
 
 msgid "Zona peligrosa"
 msgstr "Zona perillosa"
+
+#~ msgid "Menú de la semana, en el Diario: lo crea tu IA (con tus preferencias, intolerancias y días de entreno) o lo rellenas a mano, con recetas breves y lista de la compra con casillas. En cada plato marcas si lo comiste, no o lo cambiaste (por qué y por qué plato); lo comido pasa a Comidas, y «Analizar la semana» prepara la pregunta para que tu IA ajuste el siguiente menú."
+#~ msgstr "Menú de la setmana, al Diari: el crea la teva IA (amb les teves preferències, intoleràncies i dies d'entrenament) o l'omples a mà, amb receptes breus i llista de la compra amb caselles. A cada plat marques si el vas menjar, no o el vas canviar (per què i per quin plat); el que has menjat passa a Àpats, i «Analitzar la setmana» prepara la pregunta perquè la teva IA ajusti el menú següent."
 
 #~ msgid "Cuerpo"
 #~ msgstr "Cos"

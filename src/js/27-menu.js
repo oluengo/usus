@@ -177,7 +177,8 @@ function menuSheet(k) {
     return `${tabs}<p class="muted" style="font-size:.85rem;margin:8px 0">${n ? T("{a} de {b} en el carro", { a: dn, b: n }) : T("La lista está vacía.")}</p>
       ${m.shop.map((g, gi) => `<div class="panel mshop"><h3 class="wh" style="margin:0 0 4px">${esc(g.g)}</h3>${g.items.map((x, ii) => `<div class="mitem"><label><input type="checkbox" data-mshop="${gi}:${ii}" ${x.done ? "checked" : ""}><span class="${x.done ? "mdone" : ""}">${esc(x.t)}</span></label><button class="mx" data-mshopx="${gi}:${ii}" aria-label="${T("Quitar")} ${esc(x.t)}">×</button></div>`).join("")}</div>`).join("")}
       <div class="row" style="margin-top:10px;flex-wrap:nowrap"><input id="mshopNew" type="text" placeholder="${T("Añadir a la lista")}" maxlength="120" style="flex:1;min-width:0"><button class="btn" data-act="menu-shop-add">${T("Añadir")}</button></div>
-      ${n ? `<div class="row" style="margin-top:10px"><button class="btn shbtn" style="flex:1" data-act="menu-shop-share">${SHARE_ICO}${T("Compartir lista")}</button>${dn ? `<button class="btn ghost" style="flex:1" data-act="menu-shop-clear">${T("Quitar lo marcado")}</button>` : ""}</div>` : ""}`;
+      ${n ? `<div class="row" style="margin-top:10px"><button class="btn shbtn" style="flex:1" data-act="menu-shop-share">${SHARE_ICO}${T("Compartir lista")}</button>${dn ? `<button class="btn ghost" style="flex:1" data-act="menu-shop-clear">${T("Quitar lo marcado")}</button>` : ""}</div>
+      <div class="row" style="margin-top:8px;align-items:center"><span class="muted" style="font-size:.85rem">${T("Exportar")}:</span><button class="btn small" data-act="menu-shop-md">Markdown (.md)</button><button class="btn small" data-act="menu-shop-pdf">PDF</button></div>` : ""}`;
   }
   const strip = `<div class="mdays" role="tablist" aria-label="${T("Día del menú")}">${m.days.map((x, i) => { const dt = new Date(keyTime(x.date)), done = MENU_MEALS.every(([y]) => !x.meals[y].name || x.meals[y].st);
     return `<button role="tab" data-mday="${i}" class="${i === di ? "on" : ""}${x.date === dayKey(Date.now()) ? " today" : ""}" aria-selected="${i === di}"><span>${dt.toLocaleDateString(LOC(), { weekday: "narrow" })}</span><b>${dt.getDate()}</b><i class="${x.train ? "tr" : ""}${done ? " ok" : ""}"></i></button>`; }).join("")}</div>`;
@@ -208,4 +209,50 @@ function menuSheet(k) {
       ${m.an ? `<details class="aimanual"><summary>${T("Último análisis")}</summary><pre class="fprompt">${esc(m.an)}</pre></details>` : ""}
     </div>
     <button class="btn ghost danger" style="width:100%;margin-top:10px" data-act="menu-new">${T("Nuevo menú…")}</button>`;
+}
+/* Lista de la compra en Markdown y en PDF (3.11.0). El PDF se escribe a mano (A4, Helvetica, casillas dibujadas),
+   sin librerías: texto en WinAnsi (castellano, catalán e inglés caben). */
+function menuShopMd(m) {
+  const a = new Date(keyTime(m.start)), b = new Date(addDays(keyTime(m.start), 6)), f = d => d.toLocaleDateString(LOC(), { day: "numeric", month: "long" });
+  return `# ${T("Lista de la compra")}\n\n${T("Semana del {a} al {b}", { a: f(a), b: f(b) })}\n\n${m.shop.map(g => `## ${g.g}\n\n${g.items.map(x => `- [${x.done ? "x" : " "}] ${x.t}`).join("\n")}`).join("\n\n")}\n`;
+}
+function pdfText(lines) {   // lines: [{ t, bold, size, box, done, gap }]
+  const W = 595, H = 842, M = 56, CP = { "€": 128, "‚": 130, "„": 132, "…": 133, "‘": 145, "’": 146, "“": 147, "”": 148, "•": 149, "–": 150, "—": 151, "·": 183 };
+  const enc = s => [...s].map(ch => { const c = ch.charCodeAt(0); return c < 256 ? ch : CP[ch] ? String.fromCharCode(CP[ch]) : "?"; }).join("").replace(/[\\()]/g, "\\$&");
+  const wrap = (t, size, w) => { const max = Math.floor(w / (size * 0.5)), out = []; let cur = "";
+    String(t).split(/\s+/).forEach(word => { if ((cur + " " + word).trim().length > max && cur) { out.push(cur); cur = word; } else cur = (cur + " " + word).trim(); }); if (cur) out.push(cur); return out.length ? out : [""]; };
+  const pages = []; let ops = [], y = H - M;
+  const newPage = () => { pages.push(ops); ops = []; y = H - M; };
+  lines.forEach(l => {
+    const size = l.size || 11, lead = size * 1.45, x = M + (l.box ? 20 : 0), parts = wrap(l.t, size, W - M - x);
+    y -= l.gap || 0;
+    if (y - lead * parts.length < M) newPage();
+    parts.forEach((p, i) => {
+      y -= lead;
+      if (l.box && i === 0) { ops.push(`0.4 w ${M} ${y - 1} 11 11 re S`); if (l.done) ops.push(`1 w ${M + 2} ${y + 4} m ${M + 4.5} ${y + 1.5} l ${M + 9} ${y + 8} l S`); }
+      ops.push(`BT /${l.bold ? "F2" : "F1"} ${size} Tf ${x} ${y} Td (${enc(p)}) Tj ET`);
+    });
+  });
+  pages.push(ops);
+  const objs = [], add = s => { objs.push(s); return objs.length; };
+  const cat = add(""), pg = add(""), f1 = add("<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>"), f2 = add("<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>");
+  const kids = pages.map(o => { const st = o.join("\n"), c = add(`<< /Length ${st.length} >>\nstream\n${st}\nendstream`); return add(`<< /Type /Page /Parent ${pg} 0 R /MediaBox [0 0 ${W} ${H}] /Resources << /Font << /F1 ${f1} 0 R /F2 ${f2} 0 R >> >> /Contents ${c} 0 R >>`); });
+  objs[cat - 1] = `<< /Type /Catalog /Pages ${pg} 0 R >>`; objs[pg - 1] = `<< /Type /Pages /Kids [${kids.map(k => `${k} 0 R`).join(" ")}] /Count ${kids.length} >>`;
+  let out = "%PDF-1.4\n", off = [];
+  objs.forEach((o, i) => { off.push(out.length); out += `${i + 1} 0 obj\n${o}\nendobj\n`; });
+  const xref = out.length;
+  out += `xref\n0 ${objs.length + 1}\n0000000000 65535 f \n${off.map(o => String(o).padStart(10, "0") + " 00000 n \n").join("")}trailer\n<< /Size ${objs.length + 1} /Root ${cat} 0 R >>\nstartxref\n${xref}\n%%EOF`;
+  return Uint8Array.from(out, ch => ch.charCodeAt(0) & 255);
+}
+function menuShopPdf(m) {
+  const a = new Date(keyTime(m.start)), b = new Date(addDays(keyTime(m.start), 6)), f = d => d.toLocaleDateString(LOC(), { day: "numeric", month: "long" });
+  return pdfText([{ t: T("Lista de la compra"), bold: true, size: 18 }, { t: T("Semana del {a} al {b}", { a: f(a), b: f(b) }), size: 11, gap: 2 },
+    ...m.shop.flatMap(g => [{ t: g.g, bold: true, size: 13, gap: 14 }, ...g.items.map(x => ({ t: x.t, box: true, done: x.done, gap: 2 }))]),
+    { t: "Usus", size: 8, gap: 24 }]);
+}
+function menuShopExport(kind) {
+  const m = MENU.get(); if (!m?.shop.length) return;
+  const name = `usus-${T("compra")}-${m.start}.${kind}`;
+  const file = kind === "pdf" ? new File([menuShopPdf(m)], name, { type: "application/pdf" }) : new File([menuShopMd(m)], name, { type: "text/markdown" });
+  shareOut({ title: T("Lista de la compra"), file });
 }
