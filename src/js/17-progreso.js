@@ -321,8 +321,8 @@ function sbNotas(now) {
     ${items.map(o => `<button class="noteb" data-dnote="${o.k}"><span class="muted" style="font-size:.8rem">${new Date(keyTime(o.k)).toLocaleDateString(LOC(), { weekday: "short", day: "numeric", month: "short" })}</span><span>${tagChips(o.tags)} ${esc((x => x.length > 140 ? x.slice(0, 140) + "…" : x)(noteSnip(o)))}</span></button>`).join("")}
     ${keys.length > 8 ? `<p class="muted" style="font-size:.8rem;margin:8px 0 0">${T("Y {n} días más en el Diario.", { n: keys.length - 8 })}</p>` : ""}</div>`;
 }
-const SB_CAT = { carga: "ent", esfuerzo: "ent", ciclo: "cue", objetivos: "ent", resumen: "ent", records: "ent", constancia: "ent", ejercicios: "ent", equilibrio: "ent", reparto: "ent", horario: "ent", peso: "cue", sueno: "hab", pasos: "hab", actividad: "hab", suplementos: "hab", notas: "hab" };
-const SB_TABS = [["res", "Resumen"], ["ent", "Entreno"], ["cue", "Cuerpo"], ["hab", "Hábitos"]];
+const SB_CAT = { carga: "ent", esfuerzo: "ent", ciclo: "hab", objetivos: "ent", resumen: "ent", records: "ent", constancia: "ent", ejercicios: "ent", equilibrio: "ent", reparto: "ent", horario: "ent", peso: "-", sueno: "hab", pasos: "hab", actividad: "hab", suplementos: "hab", notas: "hab" };
+const SB_TABS = [["res", "Resumen"], ["ent", "Entreno"], ["hab", "Hábitos"]];   // 3.11.0: sin «Cuerpo»; el peso, en Resumen → Evolución; el ciclo, en Hábitos
 const SBLOCKS = {
   objetivos: ["Objetivos de la semana", (S, IX, n) => sbObjetivos(S, n)],
   pasos: ["Pasos", (S, IX, n) => sbPasos(n)],
@@ -344,14 +344,14 @@ const SBLOCKS = {
 };
 function statsOrder() {
   const saved = LS.get("wk.statsOrder", null);
-  if (!saved) return ["constancia", "ejercicios", "records", "objetivos", "resumen", "carga", "esfuerzo", "equilibrio", "reparto", "horario", "peso", "ciclo", "sueno", "pasos", "actividad", "suplementos", "notas"];
+  if (!saved) return ["constancia", "ejercicios", "records", "objetivos", "resumen", "carga", "esfuerzo", "equilibrio", "reparto", "horario", "peso", "sueno", "pasos", "actividad", "suplementos", "notas", "ciclo"];
   const o = saved.filter(k => SBLOCKS[k]);
   Object.keys(SBLOCKS).forEach(k => { if (!o.includes(k)) o.push(k); });
   return o;
 }
 /* Resumen: cuatro tarjetas fijas (semana, constancia, récords y peso); el detalle, en sus pestañas */
 function viewResumen(S, IX, now) {
-  const card = (t, body, to, more) => `<section class="rcard"><div class="rch"><h2>${t}</h2>${to ? `<button class="lnk" data-scat="${to}">${more} ›</button>` : ""}</div>${body}</section>`;
+  const card = (t, body, to, more) => `<section class="rcard"><div class="rch"><h2>${t}</h2>${to ? `<button class="lnk" ${to === "peso" ? `data-act="peso-open"` : `data-scat="${to}"`}>${more} ›</button>` : ""}</div>${body}</section>`;
   const kp = l => `<div class="kpr">${l.map(([v, t]) => `<div><b>${v}</b><span>${t}</span></div>`).join("")}</div>`;
   /* Esta semana */
   const wk = weekStart(now), inWk = S.filter(s => s.start >= wk), tW = inWk.reduce((a, s) => a + Math.max(0, (s.end || s.start) - s.start), 0);
@@ -383,8 +383,8 @@ function viewResumen(S, IX, now) {
     peso = `<div class="kpr wsp">${[[fmtW(last.kg), T("Último")], [dv === null ? "—" : `${dv > 0 ? "+" : dv < 0 ? "−" : ""}${fmtW(Math.abs(dv))}`, T("4 semanas")], ...(g ? [[last.kg > g ? fmtW(last.kg - g) : T("Conseguido"), T("Para el objetivo ({g})", { g: fmtW(g) })]] : [])].map(([v, t]) => `<div><b>${v}</b><span>${t}</span></div>`).join("")}</div>
       ${wl.length > 1 ? `<div class="rspark">${spark(wl.slice(-12).map(x => ({ v: x.kg })), "var(--accent)").replace('width="72" height="24"', 'preserveAspectRatio="none"')}</div>` : ""}`;
   }
-  return `<div class="rgrid">${card(T("Esta semana"), semana, "", "")}${card(T("Constancia"), constancia, "ent", T("Calendario"))}${card(T("Récords recientes"), records, "ent", T("Ejercicios"))}${peso ? card(T("Peso"), peso, "cue", T("Detalle")) : ""}</div>
-    <div class="aimini"><span>✦ ${T("Analizar con IA externa")} <span class="aibadge">${T("Externa")}</span></span><span class="row" style="gap:6px;flex-wrap:wrap"><button class="btn small" data-act="ai-open">${T("Preparar análisis")}</button><button class="btn small aibtn" data-act="aip-open">✦ ${T("Crear plan con IA")}</button></span></div>`;
+  return `<div class="aimini"><span>✦ ${T("Analizar con IA externa")} <span class="aibadge">${T("Externa")}</span></span><span class="row" style="gap:6px;flex-wrap:wrap"><button class="btn small" data-act="ai-open">${T("Preparar análisis")}</button><button class="btn small aibtn" data-act="aip-open">✦ ${T("Crear plan con IA")}</button></span></div>
+<div class="rgrid">${card(T("Esta semana"), semana, "", "")}${card(T("Constancia"), constancia, "ent", T("Calendario"))}${card(T("Récords recientes"), records, "ent", T("Ejercicios"))}${peso ? card(T("Peso"), peso, "peso", T("Evolución")) : ""}</div>`;
 }
 function viewStats() {
   const S = state.sessions;
@@ -460,3 +460,9 @@ function exerciseProgress(key, name) {
   return `<p class="muted" style="margin:14px 0 6px;font-size:.85rem">${M.label}</p><div class="chart">${svg}</div>${legend}${prs}${notesHtml}`;
 }
 
+
+/* Resumen → Peso → Evolución (3.11.0): el detalle que estaba en la pestaña Cuerpo */
+function pesoModal() {
+  if (!state.pesoOpen) return "";
+  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="pzT"><div class="mbox dsh">${mHead("pzT", T("Peso"), "peso-close")}${sbPeso(Date.now())}</div></div>`;
+}

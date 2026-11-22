@@ -1,5 +1,12 @@
 /* ---------- Novedades (una vez por versión; historial al tocar la versión) ---------- */
 const CHANGES = [  // Novedades: solo en castellano; las traducciones, en i18n/*.po
+  ["3.11.0", [
+    N_("Progreso: «Analizar con IA externa» y «Crear plan con IA», lo primero de Resumen."),
+    N_("Progreso sin la pestaña Cuerpo: la evolución completa del peso se abre desde Resumen → Peso → Evolución, y el ciclo pasa a Hábitos."),
+    N_("Material nuevo: kettlebell, con swing, peso muerto, sentadilla goblet, press, remo, cargada, levantada turca y paseo del granjero."),
+    N_("Más ejercicios con lastre: flexión, remo invertido, sentadilla, zancada, sentadilla búlgara y hip thrust, como siguiente paso de su progresión."),
+    N_("Ajustes → App → Actualizaciones: también Zapstore, además de Obtainium.")
+  ]],
   ["3.10.0", [
     N_("Pestañas en el orden de uso: Hoy, Diario, Progreso, Biblioteca y Ajustes."),
     N_("Progreso → Entreno → Esfuerzo: la PEM de cada sesión en 12 semanas, con su media, y por ejercicio el % de series completas, lo que faltó de media y si mejora frente a las 6 semanas anteriores."),

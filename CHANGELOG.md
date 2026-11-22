@@ -2,6 +2,14 @@
 
 All Usus versions. Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); [SemVer](https://semver.org/) numbering (MAJOR.MINOR.PATCH).
 
+## [3.11.0] — in testing (beta)
+
+- Progress: “Analyse with external AI” and “Create a plan with AI” now come first in Summary.
+- Progress without the Body tab: the full weight history opens from Summary → Weight → History, and the cycle moves to Habits.
+- New equipment: kettlebell, with swing, deadlift, goblet squat, press, row, clean, Turkish get-up and farmer's carry.
+- More weighted exercises: push-up, inverted row, squat, lunge, Bulgarian split squat and hip thrust, as the next step in their progression.
+- Settings → App → Updates: Zapstore too, as well as Obtainium.
+
 ## [3.10.0] — 2026-11-20
 
 - Tabs in the order you use them: Today, Diary, Progress, Library and Settings.

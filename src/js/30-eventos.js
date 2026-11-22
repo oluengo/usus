@@ -117,7 +117,7 @@ document.addEventListener("click", async ev => {
   if (d.dsh) { state.dsheet = d.dsh; render(); return; }
   if (d.food) { foodToggle(t); return; }
   if (d.fq) { state.foodQ = d.fq; render(); setTimeout(() => $("[data-fqx]")?.focus(), 0); return; }
-  if (d.dgo) { const m = { sleep: ["hab", "sueno"], sup: ["hab", "suplementos"], ses: ["ent", "constancia"], steps: ["hab", "pasos"], act: ["hab", "actividad"], note: ["hab", "notas"], cyc: ["cue", "ciclo"], peso: ["cue", "peso"] }[d.dgo] || ["res"]; state.statsCat = m[0]; LS.set("wk.statsCat", m[0]); state.dsheet = null; state.tab = "stats"; render(); const el = m[1] && [...document.querySelectorAll("[data-sb]")].find(x => x.dataset.sb === m[1]); window.scrollTo(0, el ? Math.max(0, el.getBoundingClientRect().top + scrollY - 8) : 0); return; }
+  if (d.dgo) { const m = { sleep: ["hab", "sueno"], sup: ["hab", "suplementos"], ses: ["ent", "constancia"], steps: ["hab", "pasos"], act: ["hab", "actividad"], note: ["hab", "notas"], cyc: ["hab", "ciclo"], peso: ["res"] }[d.dgo] || ["res"]; if (d.dgo === "peso") state.pesoOpen = true; state.statsCat = m[0]; LS.set("wk.statsCat", m[0]); state.dsheet = null; state.tab = "stats"; render(); const el = m[1] && [...document.querySelectorAll("[data-sb]")].find(x => x.dataset.sb === m[1]); window.scrollTo(0, el ? Math.max(0, el.getBoundingClientRect().top + scrollY - 8) : 0); return; }
   if (d.scat) { state.statsCat = d.scat; LS.set("wk.statsCat", d.scat); render(); window.scrollTo(0, 0); return; }
   if (d.sper) { LS.set("wk.statsPer", +d.sper); render(); return; }
   if (d.dmove) { const k = state.day || dayKey(Date.now()); state.day = d.dmove === "today" ? dayKey(Date.now()) : dayKey(addDays(keyTime(k), +d.dmove)); if (state.day > dayKey(Date.now())) state.day = dayKey(Date.now()); render(); return; }
@@ -432,6 +432,8 @@ document.addEventListener("click", async ev => {
     }
     case "w-open": state.tab = "diary"; state.day = dayKey(Date.now()); state.dsheet = "peso"; render(); setTimeout(() => $("#wKg")?.focus(), 0); break;
     case "food-water+": case "food-water-": { const k = state.day || dayKey(Date.now()), w = Math.max(0, Math.min(30, (+DY.get(k).water || 0) + (d.act === "food-water+" ? 1 : -1))); DY.set(k, { water: w || undefined }); render(); break; }
+    case "peso-open": state.pesoOpen = true; render(); break;
+    case "peso-close": state.pesoOpen = false; render(); break;
     case "food-copy": { const ok = await copyText(foodPrompt(state.day || dayKey(Date.now()))); toast(ok ? T("Pregunta copiada: pégala en tu IA") : T("No se pudo copiar")); break; }
     case "food-share": shareOut({ title: T("Pregunta para tu IA"), text: foodPrompt(state.day || dayKey(Date.now())) }); break;
     case "food-clip": { let x = ""; try { x = await navigator.clipboard.readText(); } catch {}

@@ -500,6 +500,9 @@ msgstr "Updates"
 msgid "Actualizar"
 msgstr "Update"
 
+msgid "Actualizar con Zapstore"
+msgstr "Update with Zapstore"
+
 msgid "Agrupar"
 msgstr "Group"
 
@@ -533,6 +536,9 @@ msgstr "Settings → About: source code, and report problems or suggest improvem
 
 msgid "Ajustes → App → Acerca de: «Hecha con IA · probada por humanos»."
 msgstr "Settings → App → About: “Built with AI · tested by humans”."
+
+msgid "Ajustes → App → Actualizaciones: también Zapstore, además de Obtainium."
+msgstr "Settings → App → Updates: Zapstore too, as well as Obtainium."
 
 msgid "Ajustes en grupos, cada uno con su pantalla: Perfil, Entreno, Avisos, Apariencia e idioma, Datos y copias, y Acerca de. Interruptores para activar opciones."
 msgstr "Settings in groups, each with its own screen: Profile, Workout, Alerts, Appearance and language, Data and backups, and About. Switches to turn options on."
@@ -1385,9 +1391,6 @@ msgstr "Nostr account connected"
 msgid "Cuenta de Nostr desconectada"
 msgstr "Nostr account disconnected"
 
-msgid "Cuerpo"
-msgstr "Body"
-
 msgid "Cuesta, pero lo controlas bien."
 msgstr "It's tough, but well under control."
 
@@ -1580,9 +1583,6 @@ msgstr "Clear"
 #, python-brace-format
 msgid "Después: {x}"
 msgstr "Then: {x}"
-
-msgid "Detalle"
-msgstr "Details"
 
 msgid "Detalle de la experiencia y otros deportes"
 msgstr "Experience details and other sports"
@@ -2153,8 +2153,8 @@ msgstr "Back"
 msgid "Esta app es una herramienta de registro, no un consejo médico ni un plan de entrenamiento. Consulta con un profesional antes de empezar o cambiar tu actividad física."
 msgstr "This app is a logging tool, not medical advice or a training plan. Talk to a professional before starting or changing your physical activity."
 
-msgid "Esta app no busca versiones nuevas por su cuenta (solo se conecta a Internet si usas Nostr). Se publican en GitHub; al instalar una nueva encima, tus datos se mantienen."
-msgstr "This app doesn't look for new versions on its own (it only goes online if you use Nostr). They're published on GitHub; installing a new one on top keeps your data."
+msgid "Esta app no busca versiones nuevas por su cuenta (solo se conecta a Internet si usas Nostr). Se publican en GitHub y en Zapstore; al instalar una nueva encima, tus datos se mantienen."
+msgstr "This app doesn't look for new versions by itself (it only goes online if you use Nostr). They're published on GitHub and Zapstore; installing a new one on top keeps your data."
 
 msgid "Esta copia es de una versión más nueva de Usus. Actualiza la app para importarla completa. ¿Importar igualmente lo que se pueda?"
 msgstr "This backup is from a newer version of Usus. Update the app to import it fully. Import what's possible anyway?"
@@ -2188,6 +2188,9 @@ msgstr "Unified style: one kind of tabs, buttons with fixed sizes and dialogs as
 
 msgid "Estimación aproximada a partir de tus ciclos anteriores. No sirve como anticonceptivo ni como diagnóstico."
 msgstr "Approximate estimate based on your previous cycles. Not a contraceptive method or a diagnosis."
+
+msgid "Evolución"
+msgstr "History"
 
 msgid "Evolución del peso"
 msgstr "Weight trend"
@@ -2679,6 +2682,9 @@ msgstr "T"
 msgid "JSON para compartir o pasar a otro móvil."
 msgstr "JSON to share or move to another phone."
 
+msgid "Kettlebell"
+msgstr "Kettlebell"
+
 msgid "Kosher"
 msgstr "Kosher"
 
@@ -2722,6 +2728,9 @@ msgstr "The review must be after the start"
 
 msgid "La rutina entera en una hoja, con 6 sesiones."
 msgstr "The whole routine on one sheet, with 6 sessions."
+
+msgid "La tienda de apps de Nostr: instala Usus desde ella y te avisa de cada versión nueva."
+msgstr "The Nostr app store: install Usus from it and it lets you know about every new version."
 
 #, python-brace-format
 msgid "La última vez lo cambiaste por {x}"
@@ -2867,6 +2876,9 @@ msgstr "Harder"
 msgid "Más difícil (su progresión)"
 msgstr "Harder (its progression)"
 
+msgid "Más ejercicios con lastre: flexión, remo invertido, sentadilla, zancada, sentadilla búlgara y hip thrust, como siguiente paso de su progresión."
+msgstr "More weighted exercises: push-up, inverted row, squat, lunge, Bulgarian split squat and hip thrust, as the next step in their progression."
+
 msgid "Más fácil"
 msgstr "Easier"
 
@@ -2890,6 +2902,9 @@ msgstr "More vegetables and fruit"
 
 msgid "Material"
 msgstr "Equipment"
+
+msgid "Material nuevo: kettlebell, con swing, peso muerto, sentadilla goblet, press, remo, cargada, levantada turca y paseo del granjero."
+msgstr "New equipment: kettlebell, with swing, deadlift, goblet squat, press, row, clean, Turkish get-up and farmer's carry."
 
 msgid "Máximo"
 msgstr "Maximal"
@@ -3963,6 +3978,12 @@ msgstr "Progress"
 
 msgid "Progreso → Entreno → Esfuerzo: la PEM de cada sesión en 12 semanas, con su media, y por ejercicio el % de series completas, lo que faltó de media y si mejora frente a las 6 semanas anteriores."
 msgstr "Progress → Workout → Effort: each session's RPE over 12 weeks with its average, and per exercise the % of sets completed, how much was missing on average and whether it's improving versus the previous 6 weeks."
+
+msgid "Progreso sin la pestaña Cuerpo: la evolución completa del peso se abre desde Resumen → Peso → Evolución, y el ciclo pasa a Hábitos."
+msgstr "Progress without the Body tab: the full weight history opens from Summary → Weight → History, and the cycle moves to Habits."
+
+msgid "Progreso: «Analizar con IA externa» y «Crear plan con IA», lo primero de Resumen."
+msgstr "Progress: “Analyse with external AI” and “Create a plan with AI” now come first in Summary."
 
 msgid "Progreso: el Resumen queda en cuatro tarjetas (esta semana, constancia, récords y peso), cada una con un enlace a su detalle; cifras y gráficos con un mismo estilo, y las notas del periodo pasan a Hábitos."
 msgstr "Progress: the Summary is now four cards (this week, consistency, records and weight), each linking to its details; figures and charts share one style, and period notes move to Habits."
@@ -5229,6 +5250,9 @@ msgstr "One after another; rest between rounds: {n} s"
 msgid "Usar el catálogo"
 msgstr "Use the catalogue"
 
+msgid "Usus en Zapstore"
+msgstr "Usus on Zapstore"
+
 msgid "Usus es una app web (PWA): se instala desde el navegador, sin tienda, y funciona sin conexión."
 msgstr "Usus is a web app (PWA): you install it from the browser, no app store, and it works offline."
 
@@ -5484,6 +5508,15 @@ msgstr "Lower back"
 
 msgid "Zona peligrosa"
 msgstr "Danger zone"
+
+#~ msgid "Cuerpo"
+#~ msgstr "Body"
+
+#~ msgid "Detalle"
+#~ msgstr "Details"
+
+#~ msgid "Esta app no busca versiones nuevas por su cuenta (solo se conecta a Internet si usas Nostr). Se publican en GitHub; al instalar una nueva encima, tus datos se mantienen."
+#~ msgstr "This app doesn't look for new versions on its own (it only goes online if you use Nostr). They're published on GitHub; installing a new one on top keeps your data."
 
 #, python-brace-format
 #~ msgid "Copia del {d} ({p}). Se combina con lo que hay en este perfil, como al importar un archivo. ¿Recuperarla?"

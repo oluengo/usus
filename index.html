@@ -1187,7 +1187,7 @@ function lastSetsFor(ref) {
   }
   return null;
 }
-const APP_VERSION = "3.10.0";
+const APP_VERSION = "3.11.0";
 const THEMES = [["protector", "Protector", "Oscuro cálido, sin azul"], ["dark", "Oscuro", "Neutro"], ["light", "Claro", "Para el día"], ["auto", "Automático", "Sigue al sistema"]];
 const curTheme = () => document.documentElement.dataset.theme || "auto";
 function applyTheme(t) {
@@ -1568,6 +1568,7 @@ const MAT = {
   pared: ["Pared", '<path d="M4 4h16v16H4zM4 9h16M4 14h16M10 4v5M14 9v5M10 14v6"/>'],
   banda: ["Banda elástica", '<path d="M6 4c-3 6-3 10 0 16M18 4c3 6 3 10 0 16M6 4c4 3 8 3 12 0M6 20c4-3 8-3 12 0"/>'],
   lastre: ["Lastre", '<path d="M8 8h8l2 12H6z"/><path d="M10 8a2 2 0 1 1 4 0"/>'],
+  kettlebell: [N_("Kettlebell"), '<path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5"/><circle cx="12" cy="15" r="5.5"/>'],
   rueda: ["Rueda abdominal", '<circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/><path d="M2 12h4M18 12h4"/>'],
   comba: [N_("Comba"), '<path d="M5 3h2v6H5zM17 3h2v6h-2z"/><path d="M6 9c0 11 12 11 12 0"/>']
 };
@@ -2761,7 +2762,7 @@ function render() {
   if (state.tab === "history") state.tab = "diary";
   const v = state.actForm ? viewActForm : state.tab === "data" && state.link ? viewLink : { train: viewTrain, routines: viewRoutines, diary: viewDiary, stats: viewStats, data: viewData }[state.tab];
   const mb = document.querySelector(".mbox.dsh"), mbTop = mb ? mb.scrollTop : 0;
-  $("#app").innerHTML = v() + focusView() + welcomeModal() + noticeModal() + planWeekModal() + planMenuModal() + newsModal() + nsBkModal() + cycAckModal() + savedModal() + shareSessModal() + shareRoutModal() + incomingModal() + profPickModal() + profFormModal() + profEditModal() + profCopyModal() + issueModal() + gpModal() + xpickModal() + ownMatModal() + catAskModal() + progChangeModal() + aiModal() + aipModal() + csvModal() + swapModal() + dayNoteModal() + nsPostModal() + exInfoModal();
+  $("#app").innerHTML = v() + focusView() + welcomeModal() + noticeModal() + planWeekModal() + planMenuModal() + newsModal() + nsBkModal() + pesoModal() + cycAckModal() + savedModal() + shareSessModal() + shareRoutModal() + incomingModal() + profPickModal() + profFormModal() + profEditModal() + profCopyModal() + issueModal() + gpModal() + xpickModal() + ownMatModal() + catAskModal() + progChangeModal() + aiModal() + aipModal() + csvModal() + swapModal() + dayNoteModal() + nsPostModal() + exInfoModal();
   if (mb) { const nb = document.querySelector(".mbox.dsh"); if (nb) nb.scrollTop = mbTop; }
   if (state.tab === "train" && state.active && !state.actForm) tick();
   if (state.shareSess && SHOPT().img) sessPreview();
@@ -4286,8 +4287,8 @@ function sbNotas(now) {
     ${items.map(o => `<button class="noteb" data-dnote="${o.k}"><span class="muted" style="font-size:.8rem">${new Date(keyTime(o.k)).toLocaleDateString(LOC(), { weekday: "short", day: "numeric", month: "short" })}</span><span>${tagChips(o.tags)} ${esc((x => x.length > 140 ? x.slice(0, 140) + "…" : x)(noteSnip(o)))}</span></button>`).join("")}
     ${keys.length > 8 ? `<p class="muted" style="font-size:.8rem;margin:8px 0 0">${T("Y {n} días más en el Diario.", { n: keys.length - 8 })}</p>` : ""}</div>`;
 }
-const SB_CAT = { carga: "ent", esfuerzo: "ent", ciclo: "cue", objetivos: "ent", resumen: "ent", records: "ent", constancia: "ent", ejercicios: "ent", equilibrio: "ent", reparto: "ent", horario: "ent", peso: "cue", sueno: "hab", pasos: "hab", actividad: "hab", suplementos: "hab", notas: "hab" };
-const SB_TABS = [["res", "Resumen"], ["ent", "Entreno"], ["cue", "Cuerpo"], ["hab", "Hábitos"]];
+const SB_CAT = { carga: "ent", esfuerzo: "ent", ciclo: "hab", objetivos: "ent", resumen: "ent", records: "ent", constancia: "ent", ejercicios: "ent", equilibrio: "ent", reparto: "ent", horario: "ent", peso: "-", sueno: "hab", pasos: "hab", actividad: "hab", suplementos: "hab", notas: "hab" };
+const SB_TABS = [["res", "Resumen"], ["ent", "Entreno"], ["hab", "Hábitos"]];   // 3.11.0: sin «Cuerpo»; el peso, en Resumen → Evolución; el ciclo, en Hábitos
 const SBLOCKS = {
   objetivos: ["Objetivos de la semana", (S, IX, n) => sbObjetivos(S, n)],
   pasos: ["Pasos", (S, IX, n) => sbPasos(n)],
@@ -4309,14 +4310,14 @@ const SBLOCKS = {
 };
 function statsOrder() {
   const saved = LS.get("wk.statsOrder", null);
-  if (!saved) return ["constancia", "ejercicios", "records", "objetivos", "resumen", "carga", "esfuerzo", "equilibrio", "reparto", "horario", "peso", "ciclo", "sueno", "pasos", "actividad", "suplementos", "notas"];
+  if (!saved) return ["constancia", "ejercicios", "records", "objetivos", "resumen", "carga", "esfuerzo", "equilibrio", "reparto", "horario", "peso", "sueno", "pasos", "actividad", "suplementos", "notas", "ciclo"];
   const o = saved.filter(k => SBLOCKS[k]);
   Object.keys(SBLOCKS).forEach(k => { if (!o.includes(k)) o.push(k); });
   return o;
 }
 /* Resumen: cuatro tarjetas fijas (semana, constancia, récords y peso); el detalle, en sus pestañas */
 function viewResumen(S, IX, now) {
-  const card = (t, body, to, more) => `<section class="rcard"><div class="rch"><h2>${t}</h2>${to ? `<button class="lnk" data-scat="${to}">${more} ›</button>` : ""}</div>${body}</section>`;
+  const card = (t, body, to, more) => `<section class="rcard"><div class="rch"><h2>${t}</h2>${to ? `<button class="lnk" ${to === "peso" ? `data-act="peso-open"` : `data-scat="${to}"`}>${more} ›</button>` : ""}</div>${body}</section>`;
   const kp = l => `<div class="kpr">${l.map(([v, t]) => `<div><b>${v}</b><span>${t}</span></div>`).join("")}</div>`;
   /* Esta semana */
   const wk = weekStart(now), inWk = S.filter(s => s.start >= wk), tW = inWk.reduce((a, s) => a + Math.max(0, (s.end || s.start) - s.start), 0);
@@ -4348,8 +4349,8 @@ function viewResumen(S, IX, now) {
     peso = `<div class="kpr wsp">${[[fmtW(last.kg), T("Último")], [dv === null ? "—" : `${dv > 0 ? "+" : dv < 0 ? "−" : ""}${fmtW(Math.abs(dv))}`, T("4 semanas")], ...(g ? [[last.kg > g ? fmtW(last.kg - g) : T("Conseguido"), T("Para el objetivo ({g})", { g: fmtW(g) })]] : [])].map(([v, t]) => `<div><b>${v}</b><span>${t}</span></div>`).join("")}</div>
       ${wl.length > 1 ? `<div class="rspark">${spark(wl.slice(-12).map(x => ({ v: x.kg })), "var(--accent)").replace('width="72" height="24"', 'preserveAspectRatio="none"')}</div>` : ""}`;
   }
-  return `<div class="rgrid">${card(T("Esta semana"), semana, "", "")}${card(T("Constancia"), constancia, "ent", T("Calendario"))}${card(T("Récords recientes"), records, "ent", T("Ejercicios"))}${peso ? card(T("Peso"), peso, "cue", T("Detalle")) : ""}</div>
-    <div class="aimini"><span>✦ ${T("Analizar con IA externa")} <span class="aibadge">${T("Externa")}</span></span><span class="row" style="gap:6px;flex-wrap:wrap"><button class="btn small" data-act="ai-open">${T("Preparar análisis")}</button><button class="btn small aibtn" data-act="aip-open">✦ ${T("Crear plan con IA")}</button></span></div>`;
+  return `<div class="aimini"><span>✦ ${T("Analizar con IA externa")} <span class="aibadge">${T("Externa")}</span></span><span class="row" style="gap:6px;flex-wrap:wrap"><button class="btn small" data-act="ai-open">${T("Preparar análisis")}</button><button class="btn small aibtn" data-act="aip-open">✦ ${T("Crear plan con IA")}</button></span></div>
+<div class="rgrid">${card(T("Esta semana"), semana, "", "")}${card(T("Constancia"), constancia, "ent", T("Calendario"))}${card(T("Récords recientes"), records, "ent", T("Ejercicios"))}${peso ? card(T("Peso"), peso, "peso", T("Evolución")) : ""}</div>`;
 }
 function viewStats() {
   const S = state.sessions;
@@ -4425,6 +4426,12 @@ function exerciseProgress(key, name) {
   return `<p class="muted" style="margin:14px 0 6px;font-size:.85rem">${M.label}</p><div class="chart">${svg}</div>${legend}${prs}${notesHtml}`;
 }
 
+
+/* Resumen → Peso → Evolución (3.11.0): el detalle que estaba en la pestaña Cuerpo */
+function pesoModal() {
+  if (!state.pesoOpen) return "";
+  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="pzT"><div class="mbox dsh">${mHead("pzT", T("Peso"), "peso-close")}${sbPeso(Date.now())}</div></div>`;
+}
 /* ---------- Vista: Datos ---------- */
 const MIT = `MIT License
 
@@ -4608,8 +4615,11 @@ const SIGN_FP = "28:B6:FF:4A:8F:61:F6:88:D4:B4:9D:C7:E8:B7:2D:95:D5:D9:44:45:D2:
 function updatesBlock() {
   return `<h2>${T("Actualizaciones")}</h2>
     <div class="panel"><div class="row" style="justify-content:space-between;align-items:baseline"><b style="font-size:1.05rem">Usus ${APP_VERSION}${BETA ? " beta" : ""}</b><span class="badge-ok">${T("App Android")}</span></div>
-      <p class="muted" style="font-size:.85rem;margin:6px 0 0">${T("Esta app no busca versiones nuevas por su cuenta (solo se conecta a Internet si usas Nostr). Se publican en GitHub; al instalar una nueva encima, tus datos se mantienen.")}</p>
+      <p class="muted" style="font-size:.85rem;margin:6px 0 0">${T("Esta app no busca versiones nuevas por su cuenta (solo se conecta a Internet si usas Nostr). Se publican en GitHub y en Zapstore; al instalar una nueva encima, tus datos se mantienen.")}</p>
       <div class="row" style="margin-top:12px;flex-wrap:wrap"><a class="btn small primary" href="${REL_URL}" target="_blank" rel="noopener">${T("Ver versiones")} ↗</a><button class="btn small" data-act="news-open">${T("Novedades de la {v}", { v: APP_VERSION })}</button></div></div>
+    <div class="panel" style="margin-top:10px"><b>${T("Actualizar con Zapstore")}</b>
+      <p class="muted" style="font-size:.85rem;margin:4px 0 0">${T("La tienda de apps de Nostr: instala Usus desde ella y te avisa de cada versión nueva.")}</p>
+      <div class="row" style="margin-top:10px;flex-wrap:wrap"><a class="btn small" href="https://zapstore.dev/apps/io.github.oluengo.usus" target="_blank" rel="noopener">${T("Usus en Zapstore")} ↗</a></div></div>
     <div class="panel" style="margin-top:10px"><b>${T("Avisos automáticos con Obtainium")}</b>
       <p class="muted" style="font-size:.85rem;margin:4px 0 0">${T("App gratuita que vigila GitHub y te avisa o instala cada versión nueva. Es opcional.")}</p>
       <ol class="muted" style="font-size:.85rem;margin:8px 0 0;padding-left:20px"><li>${T("Instala Obtainium.")}</li><li>${T("«Añadir app» y pega el enlace:")} <code>github.com/oluengo/usus</code></li></ol>
@@ -4628,6 +4638,13 @@ function installBlock() {
 }
 /* ---------- Novedades (una vez por versión; historial al tocar la versión) ---------- */
 const CHANGES = [  // Novedades: solo en castellano; las traducciones, en i18n/*.po
+  ["3.11.0", [
+    N_("Progreso: «Analizar con IA externa» y «Crear plan con IA», lo primero de Resumen."),
+    N_("Progreso sin la pestaña Cuerpo: la evolución completa del peso se abre desde Resumen → Peso → Evolución, y el ciclo pasa a Hábitos."),
+    N_("Material nuevo: kettlebell, con swing, peso muerto, sentadilla goblet, press, remo, cargada, levantada turca y paseo del granjero."),
+    N_("Más ejercicios con lastre: flexión, remo invertido, sentadilla, zancada, sentadilla búlgara y hip thrust, como siguiente paso de su progresión."),
+    N_("Ajustes → App → Actualizaciones: también Zapstore, además de Obtainium.")
+  ]],
   ["3.10.0", [
     N_("Pestañas en el orden de uso: Hoy, Diario, Progreso, Biblioteca y Ajustes."),
     N_("Progreso → Entreno → Esfuerzo: la PEM de cada sesión en 12 semanas, con su media, y por ejercicio el % de series completas, lo que faltó de media y si mejora frente a las 6 semanas anteriores."),
@@ -6296,7 +6313,7 @@ document.addEventListener("click", async ev => {
   if (d.dsh) { state.dsheet = d.dsh; render(); return; }
   if (d.food) { foodToggle(t); return; }
   if (d.fq) { state.foodQ = d.fq; render(); setTimeout(() => $("[data-fqx]")?.focus(), 0); return; }
-  if (d.dgo) { const m = { sleep: ["hab", "sueno"], sup: ["hab", "suplementos"], ses: ["ent", "constancia"], steps: ["hab", "pasos"], act: ["hab", "actividad"], note: ["hab", "notas"], cyc: ["cue", "ciclo"], peso: ["cue", "peso"] }[d.dgo] || ["res"]; state.statsCat = m[0]; LS.set("wk.statsCat", m[0]); state.dsheet = null; state.tab = "stats"; render(); const el = m[1] && [...document.querySelectorAll("[data-sb]")].find(x => x.dataset.sb === m[1]); window.scrollTo(0, el ? Math.max(0, el.getBoundingClientRect().top + scrollY - 8) : 0); return; }
+  if (d.dgo) { const m = { sleep: ["hab", "sueno"], sup: ["hab", "suplementos"], ses: ["ent", "constancia"], steps: ["hab", "pasos"], act: ["hab", "actividad"], note: ["hab", "notas"], cyc: ["hab", "ciclo"], peso: ["res"] }[d.dgo] || ["res"]; if (d.dgo === "peso") state.pesoOpen = true; state.statsCat = m[0]; LS.set("wk.statsCat", m[0]); state.dsheet = null; state.tab = "stats"; render(); const el = m[1] && [...document.querySelectorAll("[data-sb]")].find(x => x.dataset.sb === m[1]); window.scrollTo(0, el ? Math.max(0, el.getBoundingClientRect().top + scrollY - 8) : 0); return; }
   if (d.scat) { state.statsCat = d.scat; LS.set("wk.statsCat", d.scat); render(); window.scrollTo(0, 0); return; }
   if (d.sper) { LS.set("wk.statsPer", +d.sper); render(); return; }
   if (d.dmove) { const k = state.day || dayKey(Date.now()); state.day = d.dmove === "today" ? dayKey(Date.now()) : dayKey(addDays(keyTime(k), +d.dmove)); if (state.day > dayKey(Date.now())) state.day = dayKey(Date.now()); render(); return; }
@@ -6611,6 +6628,8 @@ document.addEventListener("click", async ev => {
     }
     case "w-open": state.tab = "diary"; state.day = dayKey(Date.now()); state.dsheet = "peso"; render(); setTimeout(() => $("#wKg")?.focus(), 0); break;
     case "food-water+": case "food-water-": { const k = state.day || dayKey(Date.now()), w = Math.max(0, Math.min(30, (+DY.get(k).water || 0) + (d.act === "food-water+" ? 1 : -1))); DY.set(k, { water: w || undefined }); render(); break; }
+    case "peso-open": state.pesoOpen = true; render(); break;
+    case "peso-close": state.pesoOpen = false; render(); break;
     case "food-copy": { const ok = await copyText(foodPrompt(state.day || dayKey(Date.now()))); toast(ok ? T("Pregunta copiada: pégala en tu IA") : T("No se pudo copiar")); break; }
     case "food-share": shareOut({ title: T("Pregunta para tu IA"), text: foodPrompt(state.day || dayKey(Date.now())) }); break;
     case "food-clip": { let x = ""; try { x = await navigator.clipboard.readText(); } catch {}
@@ -6894,6 +6913,7 @@ const I18N = {
     "actual": "actual",
     "Actualizaciones": "Actualitzacions",
     "Actualizar": "Actualitzar",
+    "Actualizar con Zapstore": "Actualitzar amb Zapstore",
     "Agrupar": "Agrupa",
     "Agua": "Aigua",
     "Agua: {n} vaso\u0004Agua: {n} vasos": ["Aigua: {n} got","Aigua: {n} gots"],
@@ -6903,6 +6923,7 @@ const I18N = {
     "Ajustes": "Ajustos",
     "Ajustes → Acerca de: código fuente e informar de problemas o proponer mejoras en GitHub.": "Ajustos → Quant a: codi font i informar de problemes o proposar millores a GitHub.",
     "Ajustes → App → Acerca de: «Hecha con IA · probada por humanos».": "Ajustos → App → Quant a: «Feta amb IA · provada per humans».",
+    "Ajustes → App → Actualizaciones: también Zapstore, además de Obtainium.": "Ajustos → App → Actualitzacions: també Zapstore, a més d'Obtainium.",
     "Ajustes en grupos, cada uno con su pantalla: Perfil, Entreno, Avisos, Apariencia e idioma, Datos y copias, y Acerca de. Interruptores para activar opciones.": "Ajustos en grups, cadascun amb la seva pantalla: Perfil, Entrenament, Avisos, Aparença i idioma, Dades i còpies, i Quant a. Interruptors per activar opcions.",
     "Ajustes reorganizado en pestañas: Entreno, Cuerpo, App y Datos. El perfil queda arriba; para cambiar o añadir perfiles, botón «Perfiles».": "Ajustos reorganitzat en pestanyes: Entrenament, Cos, App i Dades. El perfil queda a dalt; per canviar o afegir perfils, botó «Perfils».",
     "Ajustes, ordenados en bloques como en Wavestr, con un apartado nuevo «Cuenta de Nostr»: tu foto, nombre y verificación, y la clave pública y Lightning para copiar.": "Ajustos, ordenats en blocs com a Wavestr, amb un apartat nou «Compte de Nostr»: la teva foto, nom i verificació, i la clau pública i Lightning per copiar.",
@@ -7181,7 +7202,6 @@ const I18N = {
     "Cuenta de Nostr": "Compte de Nostr",
     "Cuenta de Nostr conectada": "Compte de Nostr connectat",
     "Cuenta de Nostr desconectada": "Compte de Nostr desconnectat",
-    "Cuerpo": "Cos",
     "Cuesta, pero lo controlas bien.": "Costa, però ho controles bé.",
     "d": "d",
     "D": "Dg",
@@ -7243,7 +7263,6 @@ const I18N = {
     "Deshacer": "Desfés",
     "Desmarcar": "Desmarca",
     "Después: {x}": "Després: {x}",
-    "Detalle": "Detall",
     "Detalle de la experiencia y otros deportes": "Detall de l'experiència i altres esports",
     "Detalles de {x}": "Detalls de {x}",
     "día": "dia",
@@ -7428,7 +7447,7 @@ const I18N = {
     "Esfuerzo percibido de toda la sesión (PEM).": "Esforç percebut de tota la sessió (PEM).",
     "Espalda": "Esquena",
     "Esta app es una herramienta de registro, no un consejo médico ni un plan de entrenamiento. Consulta con un profesional antes de empezar o cambiar tu actividad física.": "Aquesta app és una eina de registre, no un consell mèdic ni un pla d'entrenament. Consulta un professional abans de començar o canviar la teva activitat física.",
-    "Esta app no busca versiones nuevas por su cuenta (solo se conecta a Internet si usas Nostr). Se publican en GitHub; al instalar una nueva encima, tus datos se mantienen.": "Aquesta app no cerca versions noves pel seu compte (només es connecta a Internet si fas servir Nostr). Es publiquen a GitHub; en instal·lar-ne una de nova a sobre, les teves dades es mantenen.",
+    "Esta app no busca versiones nuevas por su cuenta (solo se conecta a Internet si usas Nostr). Se publican en GitHub y en Zapstore; al instalar una nueva encima, tus datos se mantienen.": "Aquesta app no busca versions noves pel seu compte (només es connecta a Internet si fas servir Nostr). Es publiquen a GitHub i a Zapstore; en instal·lar-ne una de nova a sobre, les teves dades es mantenen.",
     "Esta copia es de una versión más nueva de Usus. Actualiza la app para importarla completa. ¿Importar igualmente lo que se pueda?": "Aquesta còpia és d'una versió més nova d'Usus. Actualitza l'app per importar-la completa. Vols importar igualment el que es pugui?",
     "esta sem.": "aquesta",
     "esta semana": "aquesta setmana",
@@ -7440,6 +7459,7 @@ const I18N = {
     "Este perfil": "Aquest perfil",
     "Estilo unificado: un solo tipo de pestañas, botones con tamaños fijos y ventanas como hoja inferior en el móvil. El morado queda solo para la IA.": "Estil unificat: un sol tipus de pestanyes, botons amb mides fixes i finestres com a full inferior al mòbil. El lila queda només per a la IA.",
     "Estimación aproximada a partir de tus ciclos anteriores. No sirve como anticonceptivo ni como diagnóstico.": "Estimació aproximada a partir dels teus cicles anteriors. No serveix com a anticonceptiu ni com a diagnòstic.",
+    "Evolución": "Evolució",
     "Evolución del peso": "Evolució del pes",
     "Exigente": "Exigent",
     "Experiencia entrenando": "Experiència entrenant",
@@ -7600,6 +7620,7 @@ const I18N = {
     "Izquierdo": "Esquerre",
     "J": "Dj",
     "JSON para compartir o pasar a otro móvil.": "JSON per compartir o passar a un altre mòbil.",
+    "Kettlebell": "Kettlebell",
     "Kosher": "Kosher",
     "L": "Dl",
     "L,M,X,J,V,S,D": "Dl,Dt,Dc,Dj,Dv,Ds,Dg",
@@ -7614,6 +7635,7 @@ const I18N = {
     "La regla se retrasa {n} días respecto a la previsión ({d}).": "La regla s'endarrereix {n} dies respecte a la previsió ({d}).",
     "La revisión debe ser posterior al inicio": "La revisió ha de ser posterior a l'inici",
     "La rutina entera en una hoja, con 6 sesiones.": "Tota la rutina en un full, amb 6 sessions.",
+    "La tienda de apps de Nostr: instala Usus desde ella y te avisa de cada versión nueva.": "La botiga d'apps de Nostr: instal·la Usus des d'allà i t'avisa de cada versió nova.",
     "La última vez lo cambiaste por {x}": "L'última vegada el vas canviar per {x}",
     "Lactancia": "Lactància",
     "Lactosa": "Lactosa",
@@ -7660,6 +7682,7 @@ const I18N = {
     "Más": "Més",
     "Más difícil": "Més difícil",
     "Más difícil (su progresión)": "Més difícil (la seva progressió)",
+    "Más ejercicios con lastre: flexión, remo invertido, sentadilla, zancada, sentadilla búlgara y hip thrust, como siguiente paso de su progresión.": "Més exercicis amb llast: flexió, rem invertit, esquat, gambada, esquat búlgar i hip thrust, com a pas següent de la seva progressió.",
     "Más fácil": "Més fàcil",
     "Más fácil (su progresión)": "Més fàcil (la seva progressió)",
     "Más proteína": "Més proteïna",
@@ -7668,6 +7691,7 @@ const I18N = {
     "Más tiempo en una sesión": "Més temps en una sessió",
     "Más verdura y fruta": "Més verdura i fruita",
     "Material": "Material",
+    "Material nuevo: kettlebell, con swing, peso muerto, sentadilla goblet, press, remo, cargada, levantada turca y paseo del granjero.": "Material nou: kettlebell, amb swing, pes mort, esquat goblet, press, rem, arrencada a rack, aixecada turca i passeig del granger.",
     "Máximo": "Màxim",
     "Máximo seguidas": "Màxim seguides",
     "Máximo seguidas (0 si no puedes)": "Màxim seguides (0 si no en pots fer)",
@@ -8013,6 +8037,8 @@ const I18N = {
     "Progresión: al terminar una sesión, propuesta de subir al siguiente ejercicio o de volver al anterior. Se ajusta en Ajustes → Entreno.": "Progressió: en acabar una sessió, proposta de pujar a l'exercici següent o de tornar a l'anterior. S'ajusta a Ajustos → Entrenament.",
     "Progreso": "Progrés",
     "Progreso → Entreno → Esfuerzo: la PEM de cada sesión en 12 semanas, con su media, y por ejercicio el % de series completas, lo que faltó de media y si mejora frente a las 6 semanas anteriores.": "Progrés → Entrenament → Esforç: la PEM de cada sessió en 12 setmanes, amb la mitjana, i per exercici el % de sèries completes, el que va faltar de mitjana i si millora respecte a les 6 setmanes anteriors.",
+    "Progreso sin la pestaña Cuerpo: la evolución completa del peso se abre desde Resumen → Peso → Evolución, y el ciclo pasa a Hábitos.": "Progrés sense la pestanya Cos: l'evolució completa del pes s'obre des de Resum → Pes → Evolució, i el cicle passa a Hàbits.",
+    "Progreso: «Analizar con IA externa» y «Crear plan con IA», lo primero de Resumen.": "Progrés: «Analitzar amb IA externa» i «Crear pla amb IA», el primer del Resum.",
     "Progreso: el Resumen queda en cuatro tarjetas (esta semana, constancia, récords y peso), cada una con un enlace a su detalle; cifras y gráficos con un mismo estilo, y las notas del periodo pasan a Hábitos.": "Progrés: el Resum queda en quatre targetes (aquesta setmana, constància, rècords i pes), cadascuna amb un enllaç al seu detall; xifres i gràfics amb un mateix estil, i les notes del període passen a Hàbits.",
     "propio": "propi",
     "Proponer cambios de paso": "Proposa canvis de pas",
@@ -8415,6 +8441,7 @@ const I18N = {
     "Unidad y objetivos": "Unitat i objectius",
     "Uno tras otro; descanso entre vueltas: {n} s": "Un darrere l'altre; descans entre voltes: {n} s",
     "Usar el catálogo": "Fes servir el catàleg",
+    "Usus en Zapstore": "Usus a Zapstore",
     "Usus es una app web (PWA): se instala desde el navegador, sin tienda, y funciona sin conexión.": "Usus és una app web (PWA): s'instal·la des del navegador, sense botiga, i funciona sense connexió.",
     "Usus incluye un catálogo opcional de {n} ejercicios de calistenia, cada uno con su ficha: para qué sirve, cómo se hace, errores típicos, material y progresión.": "Usus inclou un catàleg opcional de {n} exercicis de calistènia, cadascun amb la seva fitxa: per a què serveix, com es fa, errors típics, material i progressió.",
     "Usus no envía nada: lo copias o compartes tú. Lo que pase después depende de la IA que elijas; revisa su política de privacidad. El plan lo hace una IA, no un entrenador ni un profesional sanitario: revísalo y escucha a tu cuerpo.": "Usus no envia res: ho copies o comparteixes tu. El que passi després depèn de la IA que triïs; revisa'n la política de privacitat. El pla el fa una IA, no un entrenador ni un professional sanitari: revisa'l i escolta el teu cos.",
@@ -8633,6 +8660,7 @@ const I18N = {
     "actual": "current",
     "Actualizaciones": "Updates",
     "Actualizar": "Update",
+    "Actualizar con Zapstore": "Update with Zapstore",
     "Agrupar": "Group",
     "Agua": "Water",
     "Agua: {n} vaso\u0004Agua: {n} vasos": ["Water: {n} glass","Water: {n} glasses"],
@@ -8642,6 +8670,7 @@ const I18N = {
     "Ajustes": "Settings",
     "Ajustes → Acerca de: código fuente e informar de problemas o proponer mejoras en GitHub.": "Settings → About: source code, and report problems or suggest improvements on GitHub.",
     "Ajustes → App → Acerca de: «Hecha con IA · probada por humanos».": "Settings → App → About: “Built with AI · tested by humans”.",
+    "Ajustes → App → Actualizaciones: también Zapstore, además de Obtainium.": "Settings → App → Updates: Zapstore too, as well as Obtainium.",
     "Ajustes en grupos, cada uno con su pantalla: Perfil, Entreno, Avisos, Apariencia e idioma, Datos y copias, y Acerca de. Interruptores para activar opciones.": "Settings in groups, each with its own screen: Profile, Workout, Alerts, Appearance and language, Data and backups, and About. Switches to turn options on.",
     "Ajustes reorganizado en pestañas: Entreno, Cuerpo, App y Datos. El perfil queda arriba; para cambiar o añadir perfiles, botón «Perfiles».": "Settings reorganised into tabs: Workout, Body, App and Data. Your profile stays on top; to switch or add profiles, use the “Profiles” button.",
     "Ajustes, ordenados en bloques como en Wavestr, con un apartado nuevo «Cuenta de Nostr»: tu foto, nombre y verificación, y la clave pública y Lightning para copiar.": "Settings grouped in blocks like in Wavestr, with a new “Nostr account” section: your picture, name and verification, plus the public key and Lightning to copy.",
@@ -8920,7 +8949,6 @@ const I18N = {
     "Cuenta de Nostr": "Nostr account",
     "Cuenta de Nostr conectada": "Nostr account connected",
     "Cuenta de Nostr desconectada": "Nostr account disconnected",
-    "Cuerpo": "Body",
     "Cuesta, pero lo controlas bien.": "It's tough, but well under control.",
     "d": "d",
     "D": "S",
@@ -8982,7 +9010,6 @@ const I18N = {
     "Deshacer": "Undo",
     "Desmarcar": "Clear",
     "Después: {x}": "Then: {x}",
-    "Detalle": "Details",
     "Detalle de la experiencia y otros deportes": "Experience details and other sports",
     "Detalles de {x}": "Details of {x}",
     "día": "day",
@@ -9167,7 +9194,7 @@ const I18N = {
     "Esfuerzo percibido de toda la sesión (PEM).": "Perceived effort for the whole session (RPE).",
     "Espalda": "Back",
     "Esta app es una herramienta de registro, no un consejo médico ni un plan de entrenamiento. Consulta con un profesional antes de empezar o cambiar tu actividad física.": "This app is a logging tool, not medical advice or a training plan. Talk to a professional before starting or changing your physical activity.",
-    "Esta app no busca versiones nuevas por su cuenta (solo se conecta a Internet si usas Nostr). Se publican en GitHub; al instalar una nueva encima, tus datos se mantienen.": "This app doesn't look for new versions on its own (it only goes online if you use Nostr). They're published on GitHub; installing a new one on top keeps your data.",
+    "Esta app no busca versiones nuevas por su cuenta (solo se conecta a Internet si usas Nostr). Se publican en GitHub y en Zapstore; al instalar una nueva encima, tus datos se mantienen.": "This app doesn't look for new versions by itself (it only goes online if you use Nostr). They're published on GitHub and Zapstore; installing a new one on top keeps your data.",
     "Esta copia es de una versión más nueva de Usus. Actualiza la app para importarla completa. ¿Importar igualmente lo que se pueda?": "This backup is from a newer version of Usus. Update the app to import it fully. Import what's possible anyway?",
     "esta sem.": "this wk",
     "esta semana": "this week",
@@ -9179,6 +9206,7 @@ const I18N = {
     "Este perfil": "This profile",
     "Estilo unificado: un solo tipo de pestañas, botones con tamaños fijos y ventanas como hoja inferior en el móvil. El morado queda solo para la IA.": "Unified style: one kind of tabs, buttons with fixed sizes and dialogs as bottom sheets on phones. Purple is now only for AI.",
     "Estimación aproximada a partir de tus ciclos anteriores. No sirve como anticonceptivo ni como diagnóstico.": "Approximate estimate based on your previous cycles. Not a contraceptive method or a diagnosis.",
+    "Evolución": "History",
     "Evolución del peso": "Weight trend",
     "Exigente": "Hard",
     "Experiencia entrenando": "Training experience",
@@ -9339,6 +9367,7 @@ const I18N = {
     "Izquierdo": "Left",
     "J": "T",
     "JSON para compartir o pasar a otro móvil.": "JSON to share or move to another phone.",
+    "Kettlebell": "Kettlebell",
     "Kosher": "Kosher",
     "L": "M",
     "L,M,X,J,V,S,D": "M,T,W,T,F,S,S",
@@ -9353,6 +9382,7 @@ const I18N = {
     "La regla se retrasa {n} días respecto a la previsión ({d}).": "Your period is {n} days later than estimated ({d}).",
     "La revisión debe ser posterior al inicio": "The review must be after the start",
     "La rutina entera en una hoja, con 6 sesiones.": "The whole routine on one sheet, with 6 sessions.",
+    "La tienda de apps de Nostr: instala Usus desde ella y te avisa de cada versión nueva.": "The Nostr app store: install Usus from it and it lets you know about every new version.",
     "La última vez lo cambiaste por {x}": "Last time you swapped it for {x}",
     "Lactancia": "Breastfeeding",
     "Lactosa": "Lactose",
@@ -9399,6 +9429,7 @@ const I18N = {
     "Más": "More",
     "Más difícil": "Harder",
     "Más difícil (su progresión)": "Harder (its progression)",
+    "Más ejercicios con lastre: flexión, remo invertido, sentadilla, zancada, sentadilla búlgara y hip thrust, como siguiente paso de su progresión.": "More weighted exercises: push-up, inverted row, squat, lunge, Bulgarian split squat and hip thrust, as the next step in their progression.",
     "Más fácil": "Easier",
     "Más fácil (su progresión)": "Easier (its progression)",
     "Más proteína": "More protein",
@@ -9407,6 +9438,7 @@ const I18N = {
     "Más tiempo en una sesión": "Most time in a session",
     "Más verdura y fruta": "More vegetables and fruit",
     "Material": "Equipment",
+    "Material nuevo: kettlebell, con swing, peso muerto, sentadilla goblet, press, remo, cargada, levantada turca y paseo del granjero.": "New equipment: kettlebell, with swing, deadlift, goblet squat, press, row, clean, Turkish get-up and farmer's carry.",
     "Máximo": "Maximal",
     "Máximo seguidas": "Max in a row",
     "Máximo seguidas (0 si no puedes)": "Max in a row (0 if you can't)",
@@ -9752,6 +9784,8 @@ const I18N = {
     "Progresión: al terminar una sesión, propuesta de subir al siguiente ejercicio o de volver al anterior. Se ajusta en Ajustes → Entreno.": "Progression: after a session, a suggestion to move on to the next exercise or go back to the previous one. Set it up in Settings → Workout.",
     "Progreso": "Progress",
     "Progreso → Entreno → Esfuerzo: la PEM de cada sesión en 12 semanas, con su media, y por ejercicio el % de series completas, lo que faltó de media y si mejora frente a las 6 semanas anteriores.": "Progress → Workout → Effort: each session's RPE over 12 weeks with its average, and per exercise the % of sets completed, how much was missing on average and whether it's improving versus the previous 6 weeks.",
+    "Progreso sin la pestaña Cuerpo: la evolución completa del peso se abre desde Resumen → Peso → Evolución, y el ciclo pasa a Hábitos.": "Progress without the Body tab: the full weight history opens from Summary → Weight → History, and the cycle moves to Habits.",
+    "Progreso: «Analizar con IA externa» y «Crear plan con IA», lo primero de Resumen.": "Progress: “Analyse with external AI” and “Create a plan with AI” now come first in Summary.",
     "Progreso: el Resumen queda en cuatro tarjetas (esta semana, constancia, récords y peso), cada una con un enlace a su detalle; cifras y gráficos con un mismo estilo, y las notas del periodo pasan a Hábitos.": "Progress: the Summary is now four cards (this week, consistency, records and weight), each linking to its details; figures and charts share one style, and period notes move to Habits.",
     "propio": "own",
     "Proponer cambios de paso": "Suggest step changes",
@@ -10154,6 +10188,7 @@ const I18N = {
     "Unidad y objetivos": "Unit and goals",
     "Uno tras otro; descanso entre vueltas: {n} s": "One after another; rest between rounds: {n} s",
     "Usar el catálogo": "Use the catalogue",
+    "Usus en Zapstore": "Usus on Zapstore",
     "Usus es una app web (PWA): se instala desde el navegador, sin tienda, y funciona sin conexión.": "Usus is a web app (PWA): you install it from the browser, no app store, and it works offline.",
     "Usus incluye un catálogo opcional de {n} ejercicios de calistenia, cada uno con su ficha: para qué sirve, cómo se hace, errores típicos, material y progresión.": "Usus includes an optional catalogue of {n} calisthenics exercises, each with its own card: what it's for, how to do it, common mistakes, equipment and progression.",
     "Usus no envía nada: lo copias o compartes tú. Lo que pase después depende de la IA que elijas; revisa su política de privacidad. El plan lo hace una IA, no un entrenador ni un profesional sanitario: revísalo y escucha a tu cuerpo.": "Usus sends nothing: you copy or share it yourself. What happens next depends on the AI you choose; check its privacy policy. The plan is made by an AI, not a coach or a health professional: review it and listen to your body.",

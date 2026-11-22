@@ -181,8 +181,11 @@ const SIGN_FP = "28:B6:FF:4A:8F:61:F6:88:D4:B4:9D:C7:E8:B7:2D:95:D5:D9:44:45:D2:
 function updatesBlock() {
   return `<h2>${T("Actualizaciones")}</h2>
     <div class="panel"><div class="row" style="justify-content:space-between;align-items:baseline"><b style="font-size:1.05rem">Usus ${APP_VERSION}${BETA ? " beta" : ""}</b><span class="badge-ok">${T("App Android")}</span></div>
-      <p class="muted" style="font-size:.85rem;margin:6px 0 0">${T("Esta app no busca versiones nuevas por su cuenta (solo se conecta a Internet si usas Nostr). Se publican en GitHub; al instalar una nueva encima, tus datos se mantienen.")}</p>
+      <p class="muted" style="font-size:.85rem;margin:6px 0 0">${T("Esta app no busca versiones nuevas por su cuenta (solo se conecta a Internet si usas Nostr). Se publican en GitHub y en Zapstore; al instalar una nueva encima, tus datos se mantienen.")}</p>
       <div class="row" style="margin-top:12px;flex-wrap:wrap"><a class="btn small primary" href="${REL_URL}" target="_blank" rel="noopener">${T("Ver versiones")} ↗</a><button class="btn small" data-act="news-open">${T("Novedades de la {v}", { v: APP_VERSION })}</button></div></div>
+    <div class="panel" style="margin-top:10px"><b>${T("Actualizar con Zapstore")}</b>
+      <p class="muted" style="font-size:.85rem;margin:4px 0 0">${T("La tienda de apps de Nostr: instala Usus desde ella y te avisa de cada versión nueva.")}</p>
+      <div class="row" style="margin-top:10px;flex-wrap:wrap"><a class="btn small" href="https://zapstore.dev/apps/io.github.oluengo.usus" target="_blank" rel="noopener">${T("Usus en Zapstore")} ↗</a></div></div>
     <div class="panel" style="margin-top:10px"><b>${T("Avisos automáticos con Obtainium")}</b>
       <p class="muted" style="font-size:.85rem;margin:4px 0 0">${T("App gratuita que vigila GitHub y te avisa o instala cada versión nueva. Es opcional.")}</p>
       <ol class="muted" style="font-size:.85rem;margin:8px 0 0;padding-left:20px"><li>${T("Instala Obtainium.")}</li><li>${T("«Añadir app» y pega el enlace:")} <code>github.com/oluengo/usus</code></li></ol>

@@ -499,6 +499,9 @@ msgstr ""
 msgid "Actualizar"
 msgstr ""
 
+msgid "Actualizar con Zapstore"
+msgstr ""
+
 msgid "Agrupar"
 msgstr ""
 
@@ -531,6 +534,9 @@ msgid "Ajustes → Acerca de: código fuente e informar de problemas o proponer 
 msgstr ""
 
 msgid "Ajustes → App → Acerca de: «Hecha con IA · probada por humanos»."
+msgstr ""
+
+msgid "Ajustes → App → Actualizaciones: también Zapstore, además de Obtainium."
 msgstr ""
 
 msgid "Ajustes en grupos, cada uno con su pantalla: Perfil, Entreno, Avisos, Apariencia e idioma, Datos y copias, y Acerca de. Interruptores para activar opciones."
@@ -1384,9 +1390,6 @@ msgstr ""
 msgid "Cuenta de Nostr desconectada"
 msgstr ""
 
-msgid "Cuerpo"
-msgstr ""
-
 msgid "Cuesta, pero lo controlas bien."
 msgstr ""
 
@@ -1578,9 +1581,6 @@ msgstr ""
 
 #, python-brace-format
 msgid "Después: {x}"
-msgstr ""
-
-msgid "Detalle"
 msgstr ""
 
 msgid "Detalle de la experiencia y otros deportes"
@@ -2152,7 +2152,7 @@ msgstr ""
 msgid "Esta app es una herramienta de registro, no un consejo médico ni un plan de entrenamiento. Consulta con un profesional antes de empezar o cambiar tu actividad física."
 msgstr ""
 
-msgid "Esta app no busca versiones nuevas por su cuenta (solo se conecta a Internet si usas Nostr). Se publican en GitHub; al instalar una nueva encima, tus datos se mantienen."
+msgid "Esta app no busca versiones nuevas por su cuenta (solo se conecta a Internet si usas Nostr). Se publican en GitHub y en Zapstore; al instalar una nueva encima, tus datos se mantienen."
 msgstr ""
 
 msgid "Esta copia es de una versión más nueva de Usus. Actualiza la app para importarla completa. ¿Importar igualmente lo que se pueda?"
@@ -2186,6 +2186,9 @@ msgid "Estilo unificado: un solo tipo de pestañas, botones con tamaños fijos y
 msgstr ""
 
 msgid "Estimación aproximada a partir de tus ciclos anteriores. No sirve como anticonceptivo ni como diagnóstico."
+msgstr ""
+
+msgid "Evolución"
 msgstr ""
 
 msgid "Evolución del peso"
@@ -2678,6 +2681,9 @@ msgstr ""
 msgid "JSON para compartir o pasar a otro móvil."
 msgstr ""
 
+msgid "Kettlebell"
+msgstr ""
+
 msgid "Kosher"
 msgstr ""
 
@@ -2720,6 +2726,9 @@ msgid "La revisión debe ser posterior al inicio"
 msgstr ""
 
 msgid "La rutina entera en una hoja, con 6 sesiones."
+msgstr ""
+
+msgid "La tienda de apps de Nostr: instala Usus desde ella y te avisa de cada versión nueva."
 msgstr ""
 
 #, python-brace-format
@@ -2866,6 +2875,9 @@ msgstr ""
 msgid "Más difícil (su progresión)"
 msgstr ""
 
+msgid "Más ejercicios con lastre: flexión, remo invertido, sentadilla, zancada, sentadilla búlgara y hip thrust, como siguiente paso de su progresión."
+msgstr ""
+
 msgid "Más fácil"
 msgstr ""
 
@@ -2888,6 +2900,9 @@ msgid "Más verdura y fruta"
 msgstr ""
 
 msgid "Material"
+msgstr ""
+
+msgid "Material nuevo: kettlebell, con swing, peso muerto, sentadilla goblet, press, remo, cargada, levantada turca y paseo del granjero."
 msgstr ""
 
 msgid "Máximo"
@@ -3961,6 +3976,12 @@ msgid "Progreso"
 msgstr ""
 
 msgid "Progreso → Entreno → Esfuerzo: la PEM de cada sesión en 12 semanas, con su media, y por ejercicio el % de series completas, lo que faltó de media y si mejora frente a las 6 semanas anteriores."
+msgstr ""
+
+msgid "Progreso sin la pestaña Cuerpo: la evolución completa del peso se abre desde Resumen → Peso → Evolución, y el ciclo pasa a Hábitos."
+msgstr ""
+
+msgid "Progreso: «Analizar con IA externa» y «Crear plan con IA», lo primero de Resumen."
 msgstr ""
 
 msgid "Progreso: el Resumen queda en cuatro tarjetas (esta semana, constancia, récords y peso), cada una con un enlace a su detalle; cifras y gráficos con un mismo estilo, y las notas del periodo pasan a Hábitos."
@@ -5226,6 +5247,9 @@ msgid "Uno tras otro; descanso entre vueltas: {n} s"
 msgstr ""
 
 msgid "Usar el catálogo"
+msgstr ""
+
+msgid "Usus en Zapstore"
 msgstr ""
 
 msgid "Usus es una app web (PWA): se instala desde el navegador, sin tienda, y funciona sin conexión."

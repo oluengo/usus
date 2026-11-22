@@ -12,7 +12,7 @@ const hex = sig && existsSync(sig) ? (readFileSync(sig, "utf8").replace(/:/g, ""
 const fp = hex.toUpperCase().replace(/(..)(?!$)/g, "$1:");
 const out = [
   abs(en).replace(/^### /gm, "#### "), "",
-  "**Install:** download `usus-" + v + ".apk` (below, under *Assets*) and open it on your phone, or add `https://github.com/oluengo/usus` to [Obtainium](https://github.com/ImranR98/Obtainium) to get notified of every version. APK and PWA data are separate: move them with a backup. [More details](https://github.com/oluengo/usus#install).",
+  "**Install:** from [Zapstore](https://zapstore.dev/apps/io.github.oluengo.usus), the Nostr app store; download `usus-" + v + ".apk` (below, under *Assets*) and open it on your phone; or add `https://github.com/oluengo/usus` to [Obtainium](https://github.com/ImranR98/Obtainium). Zapstore and Obtainium notify you of every version. APK and PWA data are separate: move them with a backup. [More details](https://github.com/oluengo/usus#install).",
 ];
 if (fp) out.push("", "<sub>Signing certificate SHA-256: `" + fp + "`</sub>");
 console.log(out.join("\n"));

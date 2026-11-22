@@ -11,6 +11,7 @@ const MAT = {
   pared: ["Pared", '<path d="M4 4h16v16H4zM4 9h16M4 14h16M10 4v5M14 9v5M10 14v6"/>'],
   banda: ["Banda elástica", '<path d="M6 4c-3 6-3 10 0 16M18 4c3 6 3 10 0 16M6 4c4 3 8 3 12 0M6 20c4-3 8-3 12 0"/>'],
   lastre: ["Lastre", '<path d="M8 8h8l2 12H6z"/><path d="M10 8a2 2 0 1 1 4 0"/>'],
+  kettlebell: [N_("Kettlebell"), '<path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5"/><circle cx="12" cy="15" r="5.5"/>'],
   rueda: ["Rueda abdominal", '<circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/><path d="M2 12h4M18 12h4"/>'],
   comba: [N_("Comba"), '<path d="M5 3h2v6H5zM17 3h2v6h-2z"/><path d="M6 9c0 11 12 11 12 0"/>']
 };
