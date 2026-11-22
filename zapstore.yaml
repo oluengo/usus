@@ -22,7 +22,7 @@ description: |
   - **Guided plan**, or **with AI** (optional, external): routines at your level and a plan that rotates variants in order, with deloads and pauses.
   - **Diary** for sleep, steps, weight, activity, meals and water, and notes, and **Progress** with consistency, PRs, effort and habits.
   - **Meals:** a simple log in your own words (no calories) and, if you want, a ready-made question for your AI: "what should I have for dinner?", with your intolerances and preferences.
-  - **Weekly menu:** created by your AI or by hand, with short recipes, a shopping list (export to Markdown or PDF) and a weekly review of what you ate.
+  - **Weekly menu:** created by your AI or by hand, with short recipes, a shopping list (export to Markdown or PDF), optional intermittent fasting and a weekly review of what you ate; share it like routines.
   - **Profiles** for several people, optional **cycle** tracking and light, dark and protector themes.
   - **Share** workouts and routines with no servers; backups and CSV.
   - **Nostr** (optional): a backup encrypted only for you and posting workouts and routines. Sign in with Amber, a bunker or your npub.

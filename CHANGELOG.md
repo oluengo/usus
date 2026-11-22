@@ -2,9 +2,11 @@
 
 All Usus versions. Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); [SemVer](https://semver.org/) numbering (MAJOR.MINOR.PATCH).
 
-## [3.11.1] — in testing (beta)
+## [3.11.1] — 2026-11-22
 
+- Intermittent fasting (12:12, 14:10 or 16:8), in Settings → Profile → Diet: what time you start eating and on which days. The menu puts every meal inside the window, with its time; each day you mark whether you kept it or when and why you broke it, and it goes into “Analyse the week”. “What should I eat?” and Meals take it into account too.
 - Weekly menu, like routines: share it by link, .json file or Nostr, and export it to Markdown or PDF. Import it by opening the link, from the file (in the menu itself or Settings → Import) or by sharing the AI's reply with Usus. It travels without what you've marked, and a menu from a past week is moved to the current one.
+- Menu: tabs like the rest of the app and tidier share and export buttons; Catalan and English texts reviewed.
 
 ## [3.11.0] — 2026-11-22
 

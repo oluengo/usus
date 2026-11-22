@@ -114,3 +114,37 @@ test("menú: compartir por enlace y archivo, importar (archivo, Ajustes, Compart
   await expect(page.locator('[data-act="ns-connect"]')).toBeVisible();
   expect(errors).toEqual([]);
 });
+test("ayuno intermitente: en el perfil, en el menú (ventana, seguimiento y análisis) y en Comidas", async ({ page, context }) => {
+  await context.grantPermissions(["clipboard-read", "clipboard-write"]);
+  const errors = await openApp(page, {});
+  await nav(page, "data"); await page.locator('[data-stab="perfil"]').click();
+  await page.locator('[data-ffold="fast"] summary').click(); await page.locator('[data-fastt="16:8"]').click();
+  await expect(page.locator('[data-ffold="fast"]')).toHaveAttribute("open", "");               // sigue abierto
+  await page.fill("#fastFrom", "13:00"); await page.locator("#fastFrom").dispatchEvent("change");
+  await expect(page.locator('[data-fsum="fast"]')).toContainText("16:8 · 13:00–21:00");
+  expect((await ls(page, "wk.food")).fast).toEqual({ type: "16:8", from: "13:00", days: "all" });
+  // La pregunta del menú lleva la ventana y sus reglas
+  await nav(page, "diary"); await page.locator('[data-dsh="menu"]').click();
+  await page.locator('[data-act="menu-copy"]').click();
+  const q = await page.evaluate(() => navigator.clipboard.readText());
+  for (const x of ["Ayuno intermitente: 16:8. Ventana para comer: de 13:00 a 21:00. Días con ayuno: todos.", "TODAS las comidas dentro de la ventana", "\"fasting\":{\"type\":\"16:8\"", "\"fast\":true"]) expect(q).toContain(x);
+  // Menú de la IA con ayuno: sin desayuno, hora de cada comida
+  const j = JSON.parse(aiMenu().replace(/^[^{]*/, "").replace(/```\s*$/, ""));
+  j.days.forEach(d => { d.fast = true; d.window = { from: "13:00", to: "21:00" }; d.meals.b.name = ""; d.meals.l.at = "13:15"; });
+  await page.evaluate(t => navigator.clipboard.writeText(t), JSON.stringify(j)); await page.locator('[data-act="menu-clip"]').click();
+  const today = (new Date().getDay() + 6) % 7;
+  await expect(page.locator(".mfast")).toContainText("13:00 a 21:00");
+  await expect(page.locator(`[data-mname="${today}:b"]`)).toHaveCount(0);                     // el hueco vacío no sale
+  await expect(page.locator(".mmeal").first()).toContainText("13:15");
+  await page.locator(`[data-fst="${today}:no"]`).click(); await page.fill(`[data-fbat="${today}"]`, "11:30"); await page.locator(`[data-fbat="${today}"]`).dispatchEvent("change");
+  await page.locator(`[data-fbr="${today}:hambre"]`).click();
+  await page.locator('[data-act="menu-an-copy"]').click();
+  const a = await page.evaluate(() => navigator.clipboard.readText());
+  expect(a).toContain("AYUNO"); expect(a).toMatch(/\(13:00–21:00\): ✗ roto a las 11:30 · hambre/);
+  // Comidas: la ventana como referencia y en «¿Qué como?»
+  await page.locator('[data-act="dsheet-close"]').first().click(); await page.locator('[data-dsh="food"]').click();
+  await expect(page.locator(".fwin")).toContainText("Ayuno 16:8 · comes de 13:00 a 21:00");
+  await page.locator(".aiq > summary").click(); await page.locator('[data-act="food-copy"]').click();
+  expect(await page.evaluate(() => navigator.clipboard.readText())).toContain("como solo de 13:00 a 21:00");
+  expect(errors).toEqual([]);
+});

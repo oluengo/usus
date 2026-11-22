@@ -30,7 +30,8 @@ function menuTrain(start) {
 }
 function menuPrompt() {
   const c = MENU.cfg(), start = menuWeek(), end = dayKey(addDays(keyTime(start), 6)), P = foodParts(), tr = menuTrain(start).filter(x => x.rs.length);
-  const next = (LS.get("wk.menuNext", "") || "").trim(), bud = foodLab(MENU_BUD, c.budget);
+  const next = (LS.get("wk.menuNext", "") || "").trim(), bud = foodLab(MENU_BUD, c.budget), fw = fastWin(), th = trainHour();
+  const fdays = fw ? Array.from({ length: 7 }, (_, i) => dayKey(addDays(keyTime(start), i))).filter(fastOn) : [];
   return [T("Eres un asistente de cocina saludable y sencilla. Crea un menú semanal para mí, siguiendo estas reglas y devolviendo SOLO el JSON del final."), "",
     T("MIS DATOS"),
     `- ${T("Semana: del {a} al {b} (lunes a domingo).", { a: start, b: end })}`,
@@ -43,6 +44,8 @@ function menuPrompt() {
     `- ${T("Tiempo para cocinar entre semana: {n} min (el fin de semana, algo más).", { n: c.time })}`,
     `- ${T("Presupuesto: {x}", { x: foodLower(bud) })}`,
     `- ${T("Comidas por día: desayuno, comida, merienda y cena.")}`,
+    ...(fw ? [`- ${T("Ayuno intermitente: {t}. Ventana para comer: de {a} a {b}. Días con ayuno: {d}.", { t: fw.type, a: fw.from, b: fw.to, d: fdays.length === 7 ? T("todos") : fdays.map(wdName).join(", ") || T("ninguno") })}`] : []),
+    ...(th ? [`- ${T("Hora habitual de entreno: {h}.", { h: th })}`] : []),
     ...(next ? [`- ${T("Cambios pedidos tras la semana anterior: {x}", { x: next })}`] : []), "",
     T("REGLAS"),
     `1. ${T("Comida casera, saludable y variada: verdura en comida y cena, legumbre 2–3 veces por semana, pescado o alternativa vegetal 2–3 veces, fruta a diario, poco ultraprocesado y poco azúcar.")}`,
@@ -52,17 +55,23 @@ function menuPrompt() {
     `5. ${T("Nada de calorías, macros ni pesos corporales. Sin dietas ni saltarse comidas.")}`,
     `6. ${T("Respeta SIEMPRE las intolerancias y lo que no me gusta.")}`,
     `7. ${T("Lista de la compra con TODO lo necesario para la semana, agrupada por sección y sin repetir ingredientes (suma cantidades).")}`,
-    `8. ${T("Nombres de platos cortos (máx. 40 caracteres), en el idioma de esta pregunta.")}`, "",
+    `8. ${T("Nombres de platos cortos (máx. 40 caracteres), en el idioma de esta pregunta.")}`,
+    ...(fw ? [`9. ${T("Ayuno: los días con ayuno, TODAS las comidas dentro de la ventana; fuera de ella solo agua, café o infusiones sin azúcar. No acortes la ventana ni propongas días sin comer.")}`,
+      `10. ${T("Con ventana de 8 horas o menos, reparte en 2 comidas y 1 tentempié: la primera rompe el ayuno (proteína, verdura y algo de hidratos; nada muy pesado ni solo dulce) y la última cierra la ventana. Deja sin nombre («name» vacío) el hueco que no se use, normalmente el desayuno.")}`,
+      `11. ${T("Reparte la proteína entre las comidas de la ventana, que no se concentre en una sola.")}`,
+      `12. ${T("Si el entreno cae fuera de la ventana, pon una comida con proteína lo antes posible al abrirla; si cae dentro, una comida o tentempié 1–2 h antes o después.")}`,
+      `13. ${T("Los días sin ayuno, menú normal con las cuatro comidas.")}`] : []), "",
     T("FORMATO: responde SOLO con este JSON (sin texto antes ni después):"),
-    `{"app":"usus","kind":"menu","version":1,"start":"${start}","people":${c.people},`,
-    ` "days":[{"date":"${start}","train":${tr.some(x => x.k === start)},"meals":{`,
-    `   "b":{"name":"…","time":10,"ingredients":["…"],"steps":["…"]},`,
-    `   "l":{"name":"…","time":25,"ingredients":["…"],"steps":["…"]},`,
-    `   "s":{"name":"…","time":5,"ingredients":["…"],"steps":["…"]},`,
-    `   "d":{"name":"…","time":20,"ingredients":["…"],"steps":["…"]}}}],`,
+    `{"app":"usus","kind":"menu","version":1,"start":"${start}","people":${c.people},${fw ? `"fasting":{"type":"${fw.type}","from":"${fw.from}","to":"${fw.to}"},` : ""}`,
+    ` "days":[{"date":"${start}","train":${tr.some(x => x.k === start)},${fw ? `"fast":${fastOn(start)},"window":${fastOn(start) ? `{"from":"${fw.from}","to":"${fw.to}"}` : "null"},` : ""}"meals":{`,
+    `   "b":{"name":"…","at":"08:00","time":10,"ingredients":["…"],"steps":["…"]},`,
+    `   "l":{"name":"…","at":"14:00","time":25,"ingredients":["…"],"steps":["…"]},`,
+    `   "s":{"name":"…","at":"17:30","time":5,"ingredients":["…"],"steps":["…"]},`,
+    `   "d":{"name":"…","at":"21:00","time":20,"ingredients":["…"],"steps":["…"]}}}],`,
     ` "shopping":[{"group":"${T("Fruta y verdura")}","items":["…"]}],`,
     ` "tips":["…"]}`,
-    `- ${T("«days»: exactamente 7, de lunes a domingo, con «date» correlativa desde «start». «train»: true solo los días que entreno. «time»: minutos de preparación. Máximo 3 «tips».")}`].join("\n");
+    `- ${T("«days»: exactamente 7, de lunes a domingo, con «date» correlativa desde «start». «train»: true solo los días que entreno. «time»: minutos de preparación. «at»: hora aproximada de cada comida. Máximo 3 «tips».")}`,
+    ...(fw ? [`- ${T("«fast»: true solo los días con ayuno; «window»: null los demás. Los días con ayuno, «at» siempre dentro de «window».")}`] : [])].join("\n");
 }
 /* Lee el JSON de la IA (con o sin ```), lo comprueba y lo deja limpio */
 function menuParse(text) {
@@ -74,8 +83,9 @@ function menuParse(text) {
   const start = /^\d{4}-\d{2}-\d{2}$/.test(j.start) ? dayKey(weekStart(keyTime(j.start))) : menuWeek();
   const days = Array.from({ length: 7 }, (_, i) => {
     const d = j.days[i] || {}, m = d.meals || {};
-    return { date: dayKey(addDays(keyTime(start), i)), train: !!d.train,
-      meals: Object.fromEntries(MENU_MEALS.map(([x]) => { const p = m[x] || {}; return [x, { name: str(p.name, 60), time: Math.max(0, Math.min(240, Math.round(+p.time || 0))) || null, ing: arr(p.ingredients || p.ing, 30), steps: arr(p.steps, 8) }]; })) };
+    const hm = v => /^\d{1,2}:\d{2}$/.test(String(v || "")) ? String(v).padStart(5, "0") : null, win = d.window && hm(d.window.from) && hm(d.window.to) ? { from: hm(d.window.from), to: hm(d.window.to) } : null;
+    return { date: dayKey(addDays(keyTime(start), i)), train: !!d.train, fast: !!d.fast && !!win, win: d.fast ? win : null,
+      meals: Object.fromEntries(MENU_MEALS.map(([x]) => { const p = m[x] || {}; return [x, { name: str(p.name, 60), at: hm(p.at), time: Math.max(0, Math.min(240, Math.round(+p.time || 0))) || null, ing: arr(p.ingredients || p.ing, 30), steps: arr(p.steps, 8) }]; })) };
   });
   if (!days.some(d => MENU_MEALS.some(([x]) => d.meals[x].name))) return null;
   const shop = (Array.isArray(j.shopping) ? j.shopping : []).map(g => ({ g: str(g?.group, 40) || T("Otros"), items: arr(g?.items, 60).map(t => ({ t, done: false })) })).filter(g => g.items.length).slice(0, 12);
@@ -89,7 +99,9 @@ function menuSave(text) {
 }
 function menuHand() {
   const start = menuWeek();
+  const fw = fastWin();
   MENU.set({ start, people: MENU.cfg().people, days: Array.from({ length: 7 }, (_, i) => ({ date: dayKey(addDays(keyTime(start), i)), train: false,
+    ...(fw && fastOn(dayKey(addDays(keyTime(start), i))) ? { fast: true, win: { from: fw.from, to: fw.to } } : {}),
     meals: Object.fromEntries(MENU_MEALS.map(([x]) => [x, { name: "", time: null, ing: [], steps: [] }])) })), shop: [], tips: [], created: Date.now() });
   state.menuDay = Math.max(0, menuDayOf(dayKey(Date.now()))); state.menuTab = "week"; render();
 }
@@ -125,8 +137,10 @@ function menuAnalysisPrompt() {
     `- ${T("Días que entrené: {x}", { x: trained.join(", ") || T("ninguno") })}`, "",
     T("CÓMO FUE (plato planificado → lo que pasó · motivo)"), ...L, "",
     T("Resumen: {a} de {t} platos como estaban, {b} cambiados, {c} sin comer.", { a: ok, t: tot, b: sw, c: no }), "",
+    ...(m.days.some(d => d.fast) ? [T("AYUNO"), ...m.days.filter(d => d.fast).map(d => `- ${wdName(d.date)} (${d.win.from}–${d.win.to}): ${d.fst === "ok" ? "✓ " + T("cumplido") : d.fst === "no" ? `✗ ${T("roto")}${d.fat ? " " + T("a las {h}", { h: d.fat }) : ""}${d.fwhy ? ` · ${foodLab(FAST_WHY, d.fwhy).toLowerCase()}` : ""}` : T("sin marcar")}`), ""] : []),
     T("POR FAVOR"), `1. ${T("Qué ha ido bien (2–3 puntos).")}`, `2. ${T("Patrones en lo que no se siguió y su causa probable según mis motivos.")}`,
-    `3. ${T("3–5 cambios concretos para el próximo menú (tiempos, platos, cantidades, días).")}`, `4. ${T("Sin calorías, pesos ni dietas; respeta mis intolerancias.")}`,
+    `3. ${T("3–5 cambios concretos para el próximo menú (tiempos, platos, cantidades, días).")}`,
+    ...(m.days.some(d => d.fast) ? [`- ${T("Valora si la ventana de ayuno encaja con mis horarios y entrenos según lo que pasó, y propón ajustes (moverla, ampliarla, distinta los días de entreno). Si lo rompí a menudo por hambre o por encontrarme mal, propón una ventana más amplia.")}`] : []), `4. ${T("Sin calorías, pesos ni dietas; respeta mis intolerancias.")}`,
     `5. ${T("Al final, una línea que empiece por «PARA EL PRÓXIMO MENÚ:» con los cambios resumidos en una frase.")}`].join("\n");
 }
 function menuSaveAnalysis(t) {
@@ -154,13 +168,13 @@ function menuSheet(k) {
     const chip = (attr, v, cur, l) => `<button data-${attr}="${v}" class="${cur ? "on" : ""}" aria-pressed="${cur}">${l}</button>`;
     return `<p class="muted" style="font-size:.88rem;margin:0 0 10px">${T("Planifica la semana: desayuno, comida, merienda y cena. Lo crea tu IA con tus preferencias, intolerancias y entrenos, o lo rellenas a mano; luego puedes cambiarlo todo.")}</p>
     <div class="panel">
-      <div class="mcfg"><span>${T("Semana")}</span><div class="chips fchips">${chip("mwk", 0, !(state.menuWk || 0), T("Esta"))}${chip("mwk", 1, state.menuWk === 1, T("La próxima"))}</div>
+      <div class="mcfg"><span>${T("Semana")}</span><div class="chips fchips">${chip("mwk", 0, !(state.menuWk || 0), T("Esta semana"))}${chip("mwk", 1, state.menuWk === 1, T("La próxima"))}</div>
       <span>${T("Comensales")}</span><div class="fwater"><button class="btn small" data-act="menu-ppl-" ${c.people > 1 ? "" : "disabled"} aria-label="${T("Uno menos")}">−</button><b>${c.people}</b><button class="btn small" data-act="menu-ppl+" aria-label="${T("Uno más")}">+</button></div>
       <span>${T("Tiempo entre semana")}</span><div class="chips fchips">${MENU_TIME.map(t => chip("mtime", t, c.time === t, `${t} min`)).join("")}</div>
       <span>${T("Presupuesto")}</span><div class="chips fchips">${MENU_BUD.map(([b, l]) => chip("mbud", b, c.budget === b, T(l))).join("")}</div></div>
       ${Object.keys(foodParts()).length ? `<p class="muted" style="font-size:.8rem;margin:10px 0 0">${T("Con tus preferencias: {x}.", { x: esc(foodSummary()) })}</p>` : `<p class="muted" style="font-size:.8rem;margin:10px 0 0"><button class="verb" data-act="go-perfil">${T("Añade intolerancias y preferencias en tu perfil")}</button></p>`}
       ${(LS.get("wk.menuNext", "") || "").trim() ? `<p class="muted" style="font-size:.8rem;margin:6px 0 0">${T("Y lo que pediste tras la semana anterior: {x}", { x: esc(LS.get("wk.menuNext", "")) })}</p>` : ""}
-      <div class="row" style="margin-top:12px"><button class="btn primary" style="flex:1" data-act="menu-copy">${T("Copiar pregunta")}</button><button class="btn shbtn" style="flex:1" data-act="menu-share">${SHARE_ICO}${T("Compartir")}</button></div>
+      <div class="row" style="margin-top:12px"><button class="btn primary" style="flex:1" data-act="menu-copy">${T("Copiar")}</button><button class="btn shbtn" style="flex:1" data-act="menu-share">${SHARE_ICO}${T("Compartir")}</button></div>
       <details class="aimanual"><summary>${T("Ver la pregunta")}</summary><pre class="fprompt">${esc(menuPrompt())}</pre></details>
       <h3 class="wh">${T("Cuando la IA responda")}</h3>
       <button class="btn" style="width:100%" data-act="menu-clip">${T("Pegar el menú")}</button>
@@ -168,25 +182,25 @@ function menuSheet(k) {
         <textarea id="menuPaste" rows="4" placeholder="${T("Pega aquí la respuesta de la IA")}"></textarea>
         <button class="btn" style="width:100%;margin-top:8px" data-act="menu-paste">${T("Guardar menú")}</button></details>
     </div>
-    <div class="row" style="margin-top:10px"><button class="btn ghost" style="flex:1" data-act="menu-hand">${T("Rellenarlo a mano")}</button><button class="btn ghost" style="flex:1" data-act="menu-imp">${T("Importar archivo")}</button></div>
+    <div class="bgrid2" style="margin-top:10px"><button class="btn" data-act="menu-hand">${T("Rellenarlo a mano")}</button><button class="btn" data-act="menu-imp">${T("Importar archivo")}</button></div>
     <input type="file" id="menuFile" accept="application/json,.json,text/plain,.txt" hidden>`;
   }
   const tab = state.menuTab === "shop" ? "shop" : "week", di = Math.max(0, Math.min(6, state.menuDay ?? Math.max(0, menuDayOf(k)))), d = m.days[di];
-  const tabs = `<div class="chips fchips mtabs" role="tablist">${[["week", T("Semana")], ["shop", T("Compra")]].map(([t, l]) => `<button role="tab" data-mtab="${t}" class="${tab === t ? "on" : ""}" aria-selected="${tab === t}">${l}</button>`).join("")}</div>`;
+  const tabs = utabs([["week", T("Semana")], ["shop", T("Compra")]], tab, "mtab", T("Menú de la semana"));
   if (tab === "shop") {
     const n = m.shop.reduce((a, g) => a + g.items.length, 0), dn = m.shop.reduce((a, g) => a + g.items.filter(x => x.done).length, 0);
     return `${tabs}<p class="muted" style="font-size:.85rem;margin:8px 0">${n ? T("{a} de {b} en el carro", { a: dn, b: n }) : T("La lista está vacía.")}</p>
       ${m.shop.map((g, gi) => `<div class="panel mshop"><h3 class="wh" style="margin:0 0 4px">${esc(g.g)}</h3>${g.items.map((x, ii) => `<div class="mitem"><label><input type="checkbox" data-mshop="${gi}:${ii}" ${x.done ? "checked" : ""}><span class="${x.done ? "mdone" : ""}">${esc(x.t)}</span></label><button class="mx" data-mshopx="${gi}:${ii}" aria-label="${T("Quitar")} ${esc(x.t)}">×</button></div>`).join("")}</div>`).join("")}
       <div class="row" style="margin-top:10px;flex-wrap:nowrap"><input id="mshopNew" type="text" placeholder="${T("Añadir a la lista")}" maxlength="120" style="flex:1;min-width:0"><button class="btn" data-act="menu-shop-add">${T("Añadir")}</button></div>
-      ${n ? `<div class="row" style="margin-top:10px"><button class="btn shbtn" style="flex:1" data-act="menu-shop-share">${SHARE_ICO}${T("Compartir lista")}</button>${dn ? `<button class="btn ghost" style="flex:1" data-act="menu-shop-clear">${T("Quitar lo marcado")}</button>` : ""}</div>
-      <div class="row" style="margin-top:8px;align-items:center"><span class="muted" style="font-size:.85rem">${T("Exportar")}:</span><button class="btn small" data-act="menu-shop-md">Markdown (.md)</button><button class="btn small" data-act="menu-shop-pdf">PDF</button></div>` : ""}`;
+      ${n ? `<div class="panel" style="margin-top:10px"><p class="flab" style="margin:0 0 6px">${T("Compartir o exportar la lista")}</p><div class="bgrid3"><button class="btn small shbtn" data-act="menu-shop-share">${SHARE_ICO}${T("Texto")}</button><button class="btn small" data-act="menu-shop-md">Markdown</button><button class="btn small" data-act="menu-shop-pdf">PDF</button></div>
+        ${dn ? `<button class="btn small" style="width:100%;margin-top:8px" data-act="menu-shop-clear">${T("Quitar lo marcado")}</button>` : ""}</div>` : ""}`;
   }
   const strip = `<div class="mdays" role="tablist" aria-label="${T("Día del menú")}">${m.days.map((x, i) => { const dt = new Date(keyTime(x.date)), done = MENU_MEALS.every(([y]) => !x.meals[y].name || x.meals[y].st);
     return `<button role="tab" data-mday="${i}" class="${i === di ? "on" : ""}${x.date === dayKey(Date.now()) ? " today" : ""}" aria-selected="${i === di}"><span>${dt.toLocaleDateString(LOC(), { weekday: "narrow" })}</span><b>${dt.getDate()}</b><i class="${x.train ? "tr" : ""}${done ? " ok" : ""}"></i></button>`; }).join("")}</div>`;
   const meal = ([x, n]) => { const p = d.meals[x], id = `${di}:${x}`;
     const why = `<div class="chips fchips mwhy">${MENU_WHY.map(([w, l]) => `<button data-mwhy="${id}:${w}" class="${p.why === w ? "on" : ""}" aria-pressed="${p.why === w}">${T(l)}</button>`).join("")}</div>`;
     return `<div class="panel mmeal${p.st ? " st-" + p.st : ""}">
-      <div class="row" style="justify-content:space-between"><span class="mlab">${T(n)}</span>${p.time ? `<span class="muted" style="font-size:.8rem">${p.time} min</span>` : ""}</div>
+      <div class="row" style="justify-content:space-between"><span class="mlab">${T(n)}${p.at ? ` · ${p.at}` : ""}</span>${p.time ? `<span class="muted" style="font-size:.8rem">${p.time} min</span>` : ""}</div>
       <input type="text" class="mname" data-mname="${id}" value="${esc(p.name)}" placeholder="${T("Plato")}" maxlength="60" aria-label="${T(n)}">
       <div class="mst" role="group" aria-label="${T("¿Cómo fue?")}">${[["ok", "✓ " + T("Comido")], ["no", "✗ " + T("No")], ["sw", "⇄ " + T("Cambiado")]].map(([s, l]) => `<button data-mst="${id}:${s}" class="${p.st === s ? "on" : ""}" aria-pressed="${p.st === s}">${l}</button>`).join("")}</div>
       ${p.st === "sw" ? `<input type="text" data-msw="${id}" value="${esc(p.sw || "")}" placeholder="${T("¿Qué comiste en su lugar?")}" maxlength="80" style="margin-top:8px">` : ""}
@@ -197,21 +211,25 @@ function menuSheet(k) {
     </div>`; };
   const marked = m.days.reduce((a, x) => a + MENU_MEALS.filter(([y]) => x.meals[y].name && x.meals[y].st).length, 0), total = m.days.reduce((a, x) => a + MENU_MEALS.filter(([y]) => x.meals[y].name).length, 0);
   return `${tabs}${strip}
-    <p class="mdh">${(() => { const s = new Date(keyTime(d.date)).toLocaleDateString(LOC(), { weekday: "long", day: "numeric", month: "long" }); return s.charAt(0).toUpperCase() + s.slice(1); })()}${d.train ? ` · <span class="mtr">${T("Entreno")}</span>` : ""}</p>
-    ${MENU_MEALS.map(meal).join("")}
+    <p class="mdh">${(() => { const s = new Date(keyTime(d.date)).toLocaleDateString(LOC(), { weekday: "long", day: "numeric", month: "long" }); return s.charAt(0).toUpperCase() + s.slice(1); })()}${d.train ? ` · <span class="mtr">${T("Entreno")}</span>` : ""}${d.fast ? ` · <span class="mtr">${T("Ayuno")}</span>` : ""}</p>
+    ${d.fast ? `<div class="panel mfast"><div class="row" style="justify-content:space-between"><span class="mlab">${T("Ayuno")}</span><span class="muted" style="font-size:.8rem">${T("comes de {a} a {b}", { a: d.win.from, b: d.win.to })}</span></div>
+      <div class="mst" role="group" aria-label="${T("Ayuno")}">${[["ok", "✓ " + T("Cumplido")], ["no", "✗ " + T("Roto")]].map(([s, l]) => `<button data-fst="${di}:${s}" class="${d.fst === s ? "on" : ""}" aria-pressed="${d.fst === s}">${l}</button>`).join("")}</div>
+      ${d.fst === "no" ? `<div class="row" style="margin-top:8px;gap:10px"><label class="flab" for="fbat${di}" style="margin:0">${T("¿A qué hora?")}</label><input type="time" id="fbat${di}" data-fbat="${di}" value="${d.fat || ""}" style="width:auto"></div>
+        <div class="chips fchips mwhy">${FAST_WHY.map(([w, l]) => `<button data-fbr="${di}:${w}" class="${d.fwhy === w ? "on" : ""}" aria-pressed="${d.fwhy === w}">${T(l)}</button>`).join("")}</div>` : ""}</div>` : ""}
+    ${MENU_MEALS.filter(([x]) => !d.fast || d.meals[x].name).map(meal).join("")}
     ${m.tips.length ? `<details class="aimanual"><summary>${T("Consejos de la semana")}</summary><ul class="muted" style="font-size:.85rem;margin:6px 0 0;padding-left:20px">${m.tips.map(t => `<li>${esc(t)}</li>`).join("")}</ul></details>` : ""}
     <h3 class="wh">${T("Analizar la semana")}</h3>
     <div class="panel">
       <p class="muted" style="font-size:.85rem;margin:0">${T("{a} de {b} platos marcados. Tu IA verá qué se comió, qué no y por qué, y te dirá qué cambiar; eso entra en el próximo menú.", { a: marked, b: total })}</p>
-      <div class="row" style="margin-top:10px"><button class="btn" style="flex:1" data-act="menu-an-copy">${T("Copiar pregunta")}</button><button class="btn shbtn" style="flex:1" data-act="menu-an-share">${SHARE_ICO}${T("Compartir")}</button></div>
+      <div class="row" style="margin-top:10px"><button class="btn" style="flex:1" data-act="menu-an-copy">${T("Copiar")}</button><button class="btn shbtn" style="flex:1" data-act="menu-an-share">${SHARE_ICO}${T("Compartir")}</button></div>
       <button class="btn" style="width:100%;margin-top:8px" data-act="menu-an-clip">${T("Pegar el análisis")}</button>
       <details class="aimanual"${state.menuAnManual ? " open" : ""}><summary>${T("O pégalo a mano")}</summary><textarea id="menuAnPaste" rows="3" placeholder="${T("Pega aquí la respuesta de la IA")}"></textarea>
         <button class="btn" style="width:100%;margin-top:8px" data-act="menu-an-paste">${T("Guardar análisis")}</button></details>
       ${m.an ? `<details class="aimanual"><summary>${T("Último análisis")}</summary><pre class="fprompt">${esc(m.an)}</pre></details>` : ""}
     </div>
     <h3 class="wh">${T("Compartir y exportar")}</h3>
-    <div class="panel"><div class="row" style="flex-wrap:wrap;gap:6px"><button class="btn small shbtn" data-act="menu-sh-link">${SHARE_ICO}${T("Enlace")}</button><button class="btn small" data-act="menu-sh-file">${T("Archivo")} (.json)</button><button class="btn small nsbtn" data-act="menu-sh-nostr">${NS_ICO}Nostr</button></div>
-      <div class="row" style="margin-top:8px;align-items:center;flex-wrap:wrap;gap:6px"><span class="muted" style="font-size:.85rem">${T("Para leer o imprimir")}:</span><button class="btn small" data-act="menu-sh-md">Markdown</button><button class="btn small" data-act="menu-sh-pdf">PDF</button></div>
+    <div class="panel"><p class="flab" style="margin:0 0 6px">${T("Para pasarlo a otro Usus")}</p><div class="bgrid3"><button class="btn small shbtn" data-act="menu-sh-link">${SHARE_ICO}${T("Enlace")}</button><button class="btn small" data-act="menu-sh-file">JSON</button><button class="btn small nsbtn" data-act="menu-sh-nostr">${NS_ICO}Nostr</button></div>
+      <p class="flab" style="margin:12px 0 6px">${T("Para leer o imprimir")}</p><div class="bgrid2"><button class="btn small" data-act="menu-sh-md">Markdown</button><button class="btn small" data-act="menu-sh-pdf">PDF</button></div>
       <p class="muted" style="font-size:.78rem;margin:8px 0 0">${T("Se comparte sin lo que has marcado (✓ ✗ ⇄). La copia de seguridad, también en Nostr, lo guarda todo.")}</p></div>
     <button class="btn ghost danger" style="width:100%;margin-top:10px" data-act="menu-new">${T("Nuevo menú…")}</button>`;
 }
@@ -267,7 +285,7 @@ function menuShopExport(kind) {
    semana ya pasada se trae a esta semana. */
 function menuExportObj(m) {
   return { app: "usus", kind: "menu", version: 1, start: m.start, people: m.people,
-    days: m.days.map(d => ({ date: d.date, train: d.train, meals: Object.fromEntries(MENU_MEALS.map(([x]) => { const p = d.meals[x]; return [x, { name: p.name, time: p.time, ingredients: p.ing, steps: p.steps }]; })) })),
+    days: m.days.map(d => ({ date: d.date, train: d.train, fast: !!d.fast, window: d.fast ? d.win : null, meals: Object.fromEntries(MENU_MEALS.map(([x]) => { const p = d.meals[x]; return [x, { name: p.name, at: p.at || null, time: p.time, ingredients: p.ing, steps: p.steps }]; })) })),
     shopping: m.shop.map(g => ({ group: g.g, items: g.items.map(i => i.t) })), tips: m.tips };
 }
 const menuRange = m => { const f = d => new Date(d).toLocaleDateString(LOC(), { day: "numeric", month: "long" }); return T("Semana del {a} al {b}", { a: f(keyTime(m.start)), b: f(addDays(keyTime(m.start), 6)) }); };

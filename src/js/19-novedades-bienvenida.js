@@ -1,7 +1,9 @@
 /* ---------- Novedades (una vez por versión; historial al tocar la versión) ---------- */
 const CHANGES = [  // Novedades: solo en castellano; las traducciones, en i18n/*.po
   ["3.11.1", [
-    N_("Menú de la semana, como las rutinas: se comparte por enlace, archivo .json o Nostr, y se exporta a Markdown o PDF. Se importa abriendo el enlace, desde el archivo (en el propio menú o en Ajustes → Importar) o compartiendo con Usus la respuesta de la IA. Va sin lo que has marcado, y un menú de una semana pasada se trae a la actual.")
+    N_("Ayuno intermitente (12:12, 14:10 o 16:8), en Ajustes → Perfil → Alimentación: a qué hora empiezas a comer y qué días. El menú pone todas las comidas dentro de la ventana, con su hora; cada día marcas si lo cumpliste o a qué hora y por qué lo rompiste, y entra en «Analizar la semana». «¿Qué como?» y Comidas también lo tienen en cuenta."),
+    N_("Menú de la semana, como las rutinas: se comparte por enlace, archivo .json o Nostr, y se exporta a Markdown o PDF. Se importa abriendo el enlace, desde el archivo (en el propio menú o en Ajustes → Importar) o compartiendo con Usus la respuesta de la IA. Va sin lo que has marcado, y un menú de una semana pasada se trae a la actual."),
+    N_("Menú: pestañas como en el resto de la app y botones de compartir y exportar ordenados; textos en catalán e inglés revisados.")
   ]],
   ["3.11.0", [
     N_("Menú de la semana, en el Diario: lo crea tu IA (con tus preferencias, intolerancias y días de entreno) o lo rellenas a mano, con recetas breves y lista de la compra con casillas, que se puede exportar en Markdown o PDF. En cada plato marcas si lo comiste, no o lo cambiaste (por qué y por qué plato); lo comido pasa a Comidas, y «Analizar la semana» prepara la pregunta para que tu IA ajuste el siguiente menú."),

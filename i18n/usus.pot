@@ -11,6 +11,9 @@ msgstr ""
 msgid "¡A por la siguiente serie!"
 msgstr ""
 
+msgid "¿A qué hora?"
+msgstr ""
+
 msgid "¿Alguna molestia?"
 msgstr ""
 
@@ -168,10 +171,13 @@ msgstr ""
 msgid "«Añadir app» y pega el enlace:"
 msgstr ""
 
-msgid "«days»: exactamente 7, de lunes a domingo, con «date» correlativa desde «start». «train»: true solo los días que entreno. «time»: minutos de preparación. Máximo 3 «tips»."
+msgid "«days»: exactamente 7, de lunes a domingo, con «date» correlativa desde «start». «train»: true solo los días que entreno. «time»: minutos de preparación. «at»: hora aproximada de cada comida. Máximo 3 «tips»."
 msgstr ""
 
 msgid "«Ejercicio hecho» bien visible, con el descanso que viene y el botón al siguiente."
+msgstr ""
+
+msgid "«fast»: true solo los días con ayuno; «window»: null los demás. Los días con ayuno, «at» siempre dentro de «window»."
 msgstr ""
 
 msgid "«Notas del periodo» en todas las pestañas de Stats, y las notas de cada ejercicio en su historial."
@@ -454,6 +460,10 @@ msgid "30 días"
 msgstr ""
 
 msgid "4 semanas"
+msgstr ""
+
+#, python-brace-format
+msgid "a las {h}"
 msgstr ""
 
 msgid "A, B… = orden. A1, A2 = superserie o circuito: se hacen seguidos y se repite la vuelta."
@@ -920,6 +930,29 @@ msgstr ""
 msgid "Ayer"
 msgstr ""
 
+msgid "Ayuno"
+msgstr ""
+
+msgid "AYUNO"
+msgstr ""
+
+#, python-brace-format
+msgid "Ayuno {t} · comes de {a} a {b}"
+msgstr ""
+
+msgid "Ayuno intermitente"
+msgstr ""
+
+msgid "Ayuno intermitente (12:12, 14:10 o 16:8), en Ajustes → Perfil → Alimentación: a qué hora empiezas a comer y qué días. El menú pone todas las comidas dentro de la ventana, con su hora; cada día marcas si lo cumpliste o a qué hora y por qué lo rompiste, y entra en «Analizar la semana». «¿Qué como?» y Comidas también lo tienen en cuenta."
+msgstr ""
+
+#, python-brace-format
+msgid "Ayuno intermitente: {t}. Ventana para comer: de {a} a {b}. Días con ayuno: {d}."
+msgstr ""
+
+msgid "Ayuno: los días con ayuno, TODAS las comidas dentro de la ventana; fuera de ella solo agua, café o infusiones sin azúcar. No acortes la ventana ni propongas días sin comer."
+msgstr ""
+
 msgid "Bajar"
 msgstr ""
 
@@ -1203,6 +1236,10 @@ msgstr ""
 msgid "comer sano y variado"
 msgstr ""
 
+#, python-brace-format
+msgid "comes de {a} a {b}"
+msgstr ""
+
 msgid "Comí fuera"
 msgstr ""
 
@@ -1210,6 +1247,9 @@ msgid "Comida"
 msgstr ""
 
 msgid "Comida casera, saludable y variada: verdura en comida y cena, legumbre 2–3 veces por semana, pescado o alternativa vegetal 2–3 veces, fruta a diario, poco ultraprocesado y poco azúcar."
+msgstr ""
+
+msgid "Comida social"
 msgstr ""
 
 msgid "Comidas"
@@ -1257,7 +1297,7 @@ msgstr ""
 msgid "Compartir entreno"
 msgstr ""
 
-msgid "Compartir lista"
+msgid "Compartir o exportar la lista"
 msgstr ""
 
 msgid "Compartir rutinas"
@@ -1332,6 +1372,9 @@ msgid "Con tus preferencias: {x}."
 msgstr ""
 
 msgid "Con variantes, Usus usa su plan de progresión: Hoy te dice qué toca cada semana."
+msgstr ""
+
+msgid "Con ventana de 8 horas o menos, reparte en 2 comidas y 1 tentempié: la primera rompe el ayuno (proteína, verdura y algo de hidratos; nada muy pesado ni solo dulce) y la última cierra la ventana. Deja sin nombre («name» vacío) el hueco que no se use, normalmente el desayuno."
 msgstr ""
 
 msgid "Condiciones de salud relevantes"
@@ -1433,9 +1476,6 @@ msgstr ""
 msgid "Copiar indicaciones"
 msgstr ""
 
-msgid "Copiar pregunta"
-msgstr ""
-
 msgid "Copiar rutinas a otro perfil"
 msgstr ""
 
@@ -1502,6 +1542,12 @@ msgid "Cuenta de Nostr desconectada"
 msgstr ""
 
 msgid "Cuesta, pero lo controlas bien."
+msgstr ""
+
+msgid "cumplido"
+msgstr ""
+
+msgid "Cumplido"
 msgstr ""
 
 msgid "d"
@@ -1752,6 +1798,9 @@ msgstr ""
 msgid "días"
 msgstr ""
 
+msgid "Días"
+msgstr ""
+
 msgid "Días con Diaria"
 msgstr ""
 
@@ -1997,6 +2046,9 @@ msgstr ""
 msgid "El entreno del día"
 msgstr ""
 
+msgid "El menú pone todas las comidas dentro de la ventana y «¿Qué como?» la tiene en cuenta. Fuera de ella: agua, café o infusiones sin azúcar."
+msgstr ""
+
 msgid "El pitido usa el volumen multimedia. Si no vibra, revisa No molestar y la vibración del sistema."
 msgstr ""
 
@@ -2027,6 +2079,9 @@ msgid "El texto legal válido es el original en inglés."
 msgstr ""
 
 msgid "El tiempo en pausa no cuenta en la duración del entreno."
+msgstr ""
+
+msgid "Elegir"
 msgstr ""
 
 msgid "Elegir archivo"
@@ -2088,6 +2143,9 @@ msgid "Empieza hoy."
 msgstr ""
 
 msgid "empieza sola"
+msgstr ""
+
+msgid "Empiezas a comer"
 msgstr ""
 
 msgid "Empiezo (menos de 6 meses)"
@@ -2275,9 +2333,6 @@ msgid "Esfuerzo percibido de toda la sesión (PEM)."
 msgstr ""
 
 msgid "Espalda"
-msgstr ""
-
-msgid "Esta"
 msgstr ""
 
 msgid "Esta app es una herramienta de registro, no un consejo médico ni un plan de entrenamiento. Consulta con un profesional antes de empezar o cambiar tu actividad física."
@@ -2556,6 +2611,10 @@ msgstr ""
 msgid "Hábitos"
 msgstr ""
 
+#, python-brace-format
+msgid "Hago ayuno intermitente {t}: como solo de {a} a {b}; fuera de esa ventana, nada (solo agua, café o infusiones sin azúcar)."
+msgstr ""
+
 msgid "Hago dominadas y fondos sin problema."
 msgstr ""
 
@@ -2565,8 +2624,15 @@ msgstr ""
 msgid "Halal"
 msgstr ""
 
+msgid "Hambre"
+msgstr ""
+
 #, python-brace-format
 msgid "Han pasado {n} días desde tu última copia."
+msgstr ""
+
+#, python-brace-format
+msgid "hasta las {h}"
 msgstr ""
 
 msgid "Hay app para Android"
@@ -2610,6 +2676,10 @@ msgid "Hombro"
 msgstr ""
 
 msgid "Hombros"
+msgstr ""
+
+#, python-brace-format
+msgid "Hora habitual de entreno: {h}."
 msgstr ""
 
 msgid "Horario por bloque"
@@ -2994,6 +3064,12 @@ msgstr ""
 msgid "Los días de entreno, más energía antes y proteína después. Los días sin entreno, algo más ligero."
 msgstr ""
 
+msgid "Los días sin ayuno, menú normal con las cuatro comidas."
+msgstr ""
+
+msgid "los días sin entreno"
+msgstr ""
+
 #, python-brace-format
 msgid "Luego: {x}"
 msgstr ""
@@ -3095,6 +3171,9 @@ msgstr ""
 msgid "Máximo seguidas, bien hechas"
 msgstr ""
 
+msgid "Me encontraba mal"
+msgstr ""
+
 msgid "Me ha bajado hoy"
 msgstr ""
 
@@ -3180,6 +3259,9 @@ msgid "Menú de la semana, en el Diario: lo crea tu IA (con tus preferencias, in
 msgstr ""
 
 msgid "Menú guardado"
+msgstr ""
+
+msgid "Menú: pestañas como en el resto de la app y botones de compartir y exportar ordenados; textos en catalán e inglés revisados."
 msgstr ""
 
 msgid "Merienda"
@@ -3785,6 +3867,9 @@ msgid "Para las preguntas de comidas del Diario y el plan con IA. Solo en este d
 msgstr ""
 
 msgid "Para leer o imprimir"
+msgstr ""
+
+msgid "Para pasarlo a otro Usus"
 msgstr ""
 
 msgid "Para publicar, conecta antes tu cuenta en Ajustes → Cuenta de Nostr."
@@ -4498,6 +4583,9 @@ msgstr ""
 msgid "Rellenarlo a mano"
 msgstr ""
 
+msgid "Reparte la proteína entre las comidas de la ventana, que no se concentre en una sola."
+msgstr ""
+
 msgid "Reparto por bloque"
 msgstr ""
 
@@ -4595,6 +4683,12 @@ msgid "RIR también en series por tiempo: cuánto más habrías aguantado (0, 5,
 msgstr ""
 
 msgid "Rodilla"
+msgstr ""
+
+msgid "roto"
+msgstr ""
+
+msgid "Roto"
 msgstr ""
 
 msgid "Rueda abdominal"
@@ -4941,6 +5035,9 @@ msgstr ""
 msgid "Sexo: {x} (del perfil)."
 msgstr ""
 
+msgid "Si el entreno cae fuera de la ventana, pon una comida con proteína lo antes posible al abrirla; si cae dentro, una comida o tentempié 1–2 h antes o después."
+msgstr ""
+
 msgid "Si es una lesión o un dolor que no se va, consulta antes con un profesional."
 msgstr ""
 
@@ -5052,6 +5149,9 @@ msgid "Sin ejercicios por lado en las últimas 4 semanas."
 msgstr ""
 
 msgid "Sin entrenar"
+msgstr ""
+
+msgid "Sin entreno"
 msgstr ""
 
 msgid "Sin entrenos este día."
@@ -5410,6 +5510,9 @@ msgstr ""
 msgid "Todo"
 msgstr ""
 
+msgid "Todo dentro de mi ventana para comer, con la hora de cada opción."
+msgstr ""
+
 msgid "Todo el catálogo"
 msgstr ""
 
@@ -5423,6 +5526,9 @@ msgid "Todo lo que tenías."
 msgstr ""
 
 msgid "Todo opcional, pero ayuda: no es lo mismo 5 flexiones de alguien que empieza que de alguien con dolor lumbar."
+msgstr ""
+
+msgid "todos"
 msgstr ""
 
 msgid "Todos"
@@ -5638,6 +5744,9 @@ msgid "Vacía: añade o arrastra aquí ejercicios."
 msgstr ""
 
 msgid "Vacío"
+msgstr ""
+
+msgid "Valora si la ventana de ayuno encaja con mis horarios y entrenos según lo que pasó, y propón ajustes (moverla, ampliarla, distinta los días de entreno). Si lo rompí a menudo por hambre o por encontrarme mal, propón una ventana más amplia."
 msgstr ""
 
 msgid "Valores típicos (mediana) de las últimas 4 semanas: un día suelto a otra hora no los desvía."

@@ -12,6 +12,9 @@ msgstr ""
 msgid "¡A por la siguiente serie!"
 msgstr "On to the next set!"
 
+msgid "¿A qué hora?"
+msgstr "At what time?"
+
 msgid "¿Alguna molestia?"
 msgstr "Any aches or pains?"
 
@@ -169,11 +172,14 @@ msgstr "“What should I eat?”: Usus writes the question for your AI (what's f
 msgid "«Añadir app» y pega el enlace:"
 msgstr "“Add app” and paste the link:"
 
-msgid "«days»: exactamente 7, de lunes a domingo, con «date» correlativa desde «start». «train»: true solo los días que entreno. «time»: minutos de preparación. Máximo 3 «tips»."
-msgstr "“days”: exactly 7, Monday to Sunday, with consecutive “date” from “start”. “train”: true only on days I train. “time”: preparation minutes. At most 3 “tips”."
+msgid "«days»: exactamente 7, de lunes a domingo, con «date» correlativa desde «start». «train»: true solo los días que entreno. «time»: minutos de preparación. «at»: hora aproximada de cada comida. Máximo 3 «tips»."
+msgstr "“days”: exactly 7, Monday to Sunday, with consecutive “date” from “start”. “train”: true only on days I train. “time”: preparation minutes. “at”: approximate time of each meal. At most 3 “tips”."
 
 msgid "«Ejercicio hecho» bien visible, con el descanso que viene y el botón al siguiente."
 msgstr "A clearly visible “Exercise done” card with the upcoming rest and a button to the next one."
+
+msgid "«fast»: true solo los días con ayuno; «window»: null los demás. Los días con ayuno, «at» siempre dentro de «window»."
+msgstr "“fast”: true only on fasting days; “window”: null on the others. On fasting days, “at” always inside “window”."
 
 msgid "«Notas del periodo» en todas las pestañas de Stats, y las notas de cada ejercicio en su historial."
 msgstr "“Notes for the period” in every Stats tab, and each exercise's notes in its history."
@@ -258,8 +264,8 @@ msgstr "{n} sheets"
 #, python-brace-format
 msgid "{n} ingrediente"
 msgid_plural "{n} ingredientes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{n} ingredient"
+msgstr[1] "{n} ingredients"
 
 #, python-brace-format
 msgid "{n} ingrediente"
@@ -344,8 +350,8 @@ msgstr "{n} weeks"
 #, python-brace-format
 msgid "{n} serie"
 msgid_plural "{n} series"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{n} set"
+msgstr[1] "{n} sets"
 
 #, python-brace-format
 msgid "{n} serie"
@@ -456,6 +462,10 @@ msgstr "30 days"
 
 msgid "4 semanas"
 msgstr "4 weeks"
+
+#, python-brace-format
+msgid "a las {h}"
+msgstr "at {h}"
 
 msgid "A, B… = orden. A1, A2 = superserie o circuito: se hacen seguidos y se repite la vuelta."
 msgstr "A, B… = order. A1, A2 = superset or circuit: done back to back, then the round repeats."
@@ -921,6 +931,29 @@ msgstr "Training alerts in Settings → App: sound and vibration, sound only, vi
 msgid "Ayer"
 msgstr "Yesterday"
 
+msgid "Ayuno"
+msgstr "Fasting"
+
+msgid "AYUNO"
+msgstr "FASTING"
+
+#, python-brace-format
+msgid "Ayuno {t} · comes de {a} a {b}"
+msgstr "Fasting {t} · you eat from {a} to {b}"
+
+msgid "Ayuno intermitente"
+msgstr "Intermittent fasting"
+
+msgid "Ayuno intermitente (12:12, 14:10 o 16:8), en Ajustes → Perfil → Alimentación: a qué hora empiezas a comer y qué días. El menú pone todas las comidas dentro de la ventana, con su hora; cada día marcas si lo cumpliste o a qué hora y por qué lo rompiste, y entra en «Analizar la semana». «¿Qué como?» y Comidas también lo tienen en cuenta."
+msgstr "Intermittent fasting (12:12, 14:10 or 16:8), in Settings → Profile → Diet: what time you start eating and on which days. The menu puts every meal inside the window, with its time; each day you mark whether you kept it or when and why you broke it, and it goes into “Analyse the week”. “What should I eat?” and Meals take it into account too."
+
+#, python-brace-format
+msgid "Ayuno intermitente: {t}. Ventana para comer: de {a} a {b}. Días con ayuno: {d}."
+msgstr "Intermittent fasting: {t}. Eating window: {a} to {b}. Fasting days: {d}."
+
+msgid "Ayuno: los días con ayuno, TODAS las comidas dentro de la ventana; fuera de ella solo agua, café o infusiones sin azúcar. No acortes la ventana ni propongas días sin comer."
+msgstr "Fasting: on fasting days, ALL meals inside the window; outside it only water, coffee or unsweetened tea. Don't shorten the window or suggest days without eating."
+
 msgid "Bajar"
 msgstr "Move down"
 
@@ -1204,6 +1237,10 @@ msgstr "Eat lighter"
 msgid "comer sano y variado"
 msgstr "eat healthy and varied"
 
+#, python-brace-format
+msgid "comes de {a} a {b}"
+msgstr "you eat from {a} to {b}"
+
 msgid "Comí fuera"
 msgstr "Ate out"
 
@@ -1212,6 +1249,9 @@ msgstr "Lunch"
 
 msgid "Comida casera, saludable y variada: verdura en comida y cena, legumbre 2–3 veces por semana, pescado o alternativa vegetal 2–3 veces, fruta a diario, poco ultraprocesado y poco azúcar."
 msgstr "Home-cooked, healthy and varied food: vegetables at lunch and dinner, legumes 2–3 times a week, fish or a plant-based alternative 2–3 times, fruit daily, little ultra-processed food and little sugar."
+
+msgid "Comida social"
+msgstr "Social meal"
 
 msgid "Comidas"
 msgstr "Meals"
@@ -1258,8 +1298,8 @@ msgstr "Share to Usus: from your AI app, Share menu → Usus takes its reply (te
 msgid "Compartir entreno"
 msgstr "Share workout"
 
-msgid "Compartir lista"
-msgstr "Share list"
+msgid "Compartir o exportar la lista"
+msgstr "Share or export the list"
 
 msgid "Compartir rutinas"
 msgstr "Share routines"
@@ -1334,6 +1374,9 @@ msgstr "With your preferences: {x}."
 
 msgid "Con variantes, Usus usa su plan de progresión: Hoy te dice qué toca cada semana."
 msgstr "With variants, Usus uses its progression plan: Today tells you what's on each week."
+
+msgid "Con ventana de 8 horas o menos, reparte en 2 comidas y 1 tentempié: la primera rompe el ayuno (proteína, verdura y algo de hidratos; nada muy pesado ni solo dulce) y la última cierra la ventana. Deja sin nombre («name» vacío) el hueco que no se use, normalmente el desayuno."
+msgstr "With a window of 8 hours or less, split into 2 meals and 1 snack: the first breaks the fast (protein, vegetables and some carbs; nothing too heavy or only sweet) and the last closes the window. Leave the unused slot without a name (empty “name”), usually breakfast."
 
 msgid "Condiciones de salud relevantes"
 msgstr "Relevant health conditions"
@@ -1434,9 +1477,6 @@ msgstr "Copy link"
 msgid "Copiar indicaciones"
 msgstr "Copy instructions"
 
-msgid "Copiar pregunta"
-msgstr "Copy question"
-
 msgid "Copiar rutinas a otro perfil"
 msgstr "Copy routines to another profile"
 
@@ -1504,6 +1544,12 @@ msgstr "Nostr account disconnected"
 
 msgid "Cuesta, pero lo controlas bien."
 msgstr "It's tough, but well under control."
+
+msgid "cumplido"
+msgstr "kept"
+
+msgid "Cumplido"
+msgstr "Kept"
 
 msgid "d"
 msgstr "d"
@@ -1753,6 +1799,9 @@ msgstr "Diary: session note and each exercise's note can be edited after finishi
 msgid "días"
 msgstr "days"
 
+msgid "Días"
+msgstr "Days"
+
 msgid "Días con Diaria"
 msgstr "Days with Daily"
 
@@ -1998,6 +2047,9 @@ msgstr "The link is invalid or incomplete"
 msgid "El entreno del día"
 msgstr "The day's workout"
 
+msgid "El menú pone todas las comidas dentro de la ventana y «¿Qué como?» la tiene en cuenta. Fuera de ella: agua, café o infusiones sin azúcar."
+msgstr "The menu puts every meal inside the window and “What should I eat?” takes it into account. Outside it: water, coffee or unsweetened tea."
+
 msgid "El pitido usa el volumen multimedia. Si no vibra, revisa No molestar y la vibración del sistema."
 msgstr "The beep uses media volume. If it doesn't vibrate, check Do Not Disturb and system vibration."
 
@@ -2029,6 +2081,9 @@ msgstr "The legally binding text is the English original."
 
 msgid "El tiempo en pausa no cuenta en la duración del entreno."
 msgstr "Paused time doesn't count toward the workout duration."
+
+msgid "Elegir"
+msgstr "Choose"
 
 msgid "Elegir archivo"
 msgstr "Choose file"
@@ -2090,6 +2145,9 @@ msgstr "It starts today."
 
 msgid "empieza sola"
 msgstr "starts on its own"
+
+msgid "Empiezas a comer"
+msgstr "You start eating"
 
 msgid "Empiezo (menos de 6 meses)"
 msgstr "Starting out (under 6 months)"
@@ -2277,10 +2335,6 @@ msgstr "Perceived effort for the whole session (RPE)."
 
 msgid "Espalda"
 msgstr "Back"
-
-#, fuzzy
-msgid "Esta"
-msgstr "this one"
 
 msgid "Esta app es una herramienta de registro, no un consejo médico ni un plan de entrenamiento. Consulta con un profesional antes de empezar o cambiar tu actividad física."
 msgstr "This app is a logging tool, not medical advice or a training plan. Talk to a professional before starting or changing your physical activity."
@@ -2558,6 +2612,10 @@ msgstr "Skills (pull-ups, handstand, muscle-up…)"
 msgid "Hábitos"
 msgstr "Habits"
 
+#, python-brace-format
+msgid "Hago ayuno intermitente {t}: como solo de {a} a {b}; fuera de esa ventana, nada (solo agua, café o infusiones sin azúcar)."
+msgstr "I do intermittent fasting {t}: I only eat from {a} to {b}; outside that window, nothing (just water, coffee or unsweetened tea)."
+
 msgid "Hago dominadas y fondos sin problema."
 msgstr "I do pull-ups and dips with no trouble."
 
@@ -2567,9 +2625,16 @@ msgstr "I do push-ups and squats; no pull-ups yet, or very few."
 msgid "Halal"
 msgstr "Halal"
 
+msgid "Hambre"
+msgstr "Hunger"
+
 #, python-brace-format
 msgid "Han pasado {n} días desde tu última copia."
 msgstr "It's been {n} days since your last backup."
+
+#, python-brace-format
+msgid "hasta las {h}"
+msgstr "until {h}"
 
 msgid "Hay app para Android"
 msgstr "There's an Android app"
@@ -2613,6 +2678,10 @@ msgstr "Shoulder"
 
 msgid "Hombros"
 msgstr "Shoulders"
+
+#, python-brace-format
+msgid "Hora habitual de entreno: {h}."
+msgstr "Usual training time: {h}."
 
 msgid "Horario por bloque"
 msgstr "Timing by block"
@@ -2996,6 +3065,12 @@ msgstr "Rests apply to exercises without their own rest. 0 = no rest."
 msgid "Los días de entreno, más energía antes y proteína después. Los días sin entreno, algo más ligero."
 msgstr "On training days, more energy before and protein after. On rest days, something lighter."
 
+msgid "Los días sin ayuno, menú normal con las cuatro comidas."
+msgstr "On non-fasting days, a normal menu with all four meals."
+
+msgid "los días sin entreno"
+msgstr "rest days"
+
 #, python-brace-format
 msgid "Luego: {x}"
 msgstr "Then: {x}"
@@ -3097,6 +3172,9 @@ msgstr "Max in a row (0 if you can't)"
 msgid "Máximo seguidas, bien hechas"
 msgstr "Max in a row, with good form"
 
+msgid "Me encontraba mal"
+msgstr "Felt unwell"
+
 msgid "Me ha bajado hoy"
 msgstr "Started today"
 
@@ -3183,6 +3261,9 @@ msgstr "Weekly menu, in the Diary: your AI creates it (with your preferences, in
 
 msgid "Menú guardado"
 msgstr "Menu saved"
+
+msgid "Menú: pestañas como en el resto de la app y botones de compartir y exportar ordenados; textos en catalán e inglés revisados."
+msgstr "Menu: tabs like the rest of the app and tidier share and export buttons; Catalan and English texts reviewed."
 
 msgid "Merienda"
 msgstr "Snack"
@@ -3788,6 +3869,9 @@ msgstr "For the meal questions in the Diary and the AI plan. Only on this device
 
 msgid "Para leer o imprimir"
 msgstr "To read or print"
+
+msgid "Para pasarlo a otro Usus"
+msgstr "To pass it to another Usus"
 
 msgid "Para publicar, conecta antes tu cuenta en Ajustes → Cuenta de Nostr."
 msgstr "To post, first connect your account in Settings → Nostr account."
@@ -4500,6 +4584,9 @@ msgstr "Restart the plan: from the plan's ⋯ menu in Today or in Library → Pl
 msgid "Rellenarlo a mano"
 msgstr "Fill it in by hand"
 
+msgid "Reparte la proteína entre las comidas de la ventana, que no se concentre en una sola."
+msgstr "Spread protein across the meals in the window rather than in just one."
+
 msgid "Reparto por bloque"
 msgstr "Split by block"
 
@@ -4598,6 +4685,12 @@ msgstr "RIR for timed sets too: how much longer you could have held (0, 5, 10, 1
 
 msgid "Rodilla"
 msgstr "Knee"
+
+msgid "roto"
+msgstr "broken"
+
+msgid "Roto"
+msgstr "Broken"
 
 msgid "Rueda abdominal"
 msgstr "Ab wheel"
@@ -4943,6 +5036,9 @@ msgstr "Sex"
 msgid "Sexo: {x} (del perfil)."
 msgstr "Sex: {x} (from the profile)."
 
+msgid "Si el entreno cae fuera de la ventana, pon una comida con proteína lo antes posible al abrirla; si cae dentro, una comida o tentempié 1–2 h antes o después."
+msgstr "If training falls outside the window, put a protein meal as soon as it opens; if it falls inside, a meal or snack 1–2 h before or after."
+
 msgid "Si es una lesión o un dolor que no se va, consulta antes con un profesional."
 msgstr "If it's an injury or pain that won't go away, check with a professional first."
 
@@ -5055,6 +5151,9 @@ msgstr "No per-side exercises in the last 4 weeks."
 
 msgid "Sin entrenar"
 msgstr "No training"
+
+msgid "Sin entreno"
+msgstr "Rest days"
 
 msgid "Sin entrenos este día."
 msgstr "No workouts this day."
@@ -5412,6 +5511,9 @@ msgstr "Every week"
 msgid "Todo"
 msgstr "All"
 
+msgid "Todo dentro de mi ventana para comer, con la hora de cada opción."
+msgstr "Everything inside my eating window, with the time for each option."
+
 msgid "Todo el catálogo"
 msgstr "Whole catalogue"
 
@@ -5426,6 +5528,9 @@ msgstr "Everything you had."
 
 msgid "Todo opcional, pero ayuda: no es lo mismo 5 flexiones de alguien que empieza que de alguien con dolor lumbar."
 msgstr "All optional, but it helps: 5 push-ups mean something different for a beginner than for someone with low back pain."
+
+msgid "todos"
+msgstr "all"
 
 msgid "Todos"
 msgstr "All"
@@ -5641,6 +5746,9 @@ msgstr "Empty: add or drag exercises here."
 
 msgid "Vacío"
 msgstr "Empty"
+
+msgid "Valora si la ventana de ayuno encaja con mis horarios y entrenos según lo que pasó, y propón ajustes (moverla, ampliarla, distinta los días de entreno). Si lo rompí a menudo por hambre o por encontrarme mal, propón una ventana más amplia."
+msgstr "Assess whether the fasting window fits my schedule and workouts based on what happened, and suggest adjustments (move it, widen it, different on training days). If I often broke it from hunger or feeling unwell, suggest a wider window."
 
 msgid "Valores típicos (mediana) de las últimas 4 semanas: un día suelto a otra hora no los desvía."
 msgstr "Typical values (median) over the last 4 weeks: a one-off day at another time doesn't skew them."
@@ -5869,6 +5977,19 @@ msgstr "Lower back"
 
 msgid "Zona peligrosa"
 msgstr "Danger zone"
+
+#~ msgid "«days»: exactamente 7, de lunes a domingo, con «date» correlativa desde «start». «train»: true solo los días que entreno. «time»: minutos de preparación. Máximo 3 «tips»."
+#~ msgstr "“days”: exactly 7, Monday to Sunday, with consecutive “date” from “start”. “train”: true only on days I train. “time”: preparation minutes. At most 3 “tips”."
+
+#~ msgid "Compartir lista"
+#~ msgstr "Share list"
+
+#~ msgid "Copiar pregunta"
+#~ msgstr "Copy question"
+
+#, fuzzy
+#~ msgid "Esta"
+#~ msgstr "this one"
 
 #~ msgid "Prefiero rellenarlo a mano"
 #~ msgstr "I'd rather fill it in by hand"

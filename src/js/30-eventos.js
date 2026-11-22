@@ -116,6 +116,11 @@ document.addEventListener("click", async ev => {
   if (d.cycSdel !== undefined) { const l = CYC.syms(); l.splice(+d.cycSdel, 1); CYC.saveSyms(l); render(); return; }
   if (d.dsh) { state.dsheet = d.dsh; render(); return; }
   if (d.food) { foodToggle(t); return; }
+  if (d.fastt) { fastSet({ type: d.fastt === "no" ? "" : d.fastt }); return; }
+  if (d.fastd) { fastSet({ days: d.fastd === "pick" ? (Array.isArray(fastCfg().days) ? fastCfg().days : [1, 2, 3, 4, 5]) : d.fastd }); return; }
+  if (d.fastwd !== undefined) { const c = fastCfg(), v = +d.fastwd, l = Array.isArray(c.days) ? c.days : []; fastSet({ days: l.includes(v) ? l.filter(x => x !== v) : [...l, v] }); return; }
+  if (d.fbr) { const [i, w] = d.fbr.split(":"); const m = MENU.get(); if (m?.days[+i]) { m.days[+i].fwhy = m.days[+i].fwhy === w ? null : w; MENU.set(m); render(); } return; }
+  if (d.fst) { const [i, s] = d.fst.split(":"); const m = MENU.get(); if (m?.days[+i]) { const dd = m.days[+i]; dd.fst = dd.fst === s ? null : s; MENU.set(m); render(); } return; }
   if (d.mtab) { state.menuTab = d.mtab; render(); return; }
   if (d.mday !== undefined) { state.menuDay = +d.mday; render(); return; }
   if (d.mwk !== undefined) { state.menuWk = +d.mwk; render(); return; }
@@ -558,6 +563,8 @@ document.addEventListener("change", async ev => {
   if (tg.id === "progOn" || tg.id === "progUp" || tg.id === "progDown") { const P = PROG(); if (tg.id === "progOn") P.on = tg.checked; if (tg.id === "progUp") P.up = +tg.value; if (tg.id === "progDown") P.down = tg.value; LS.set("wk.prog", P); render(); return; }
   if (tg.dataset.nsbkp && state.nsBk) { state.nsBk.pick = tg.dataset.nsbkp; render(); return; }
   if (tg.dataset.mshop) { const [g, i] = tg.dataset.mshop.split(":").map(Number), m = MENU.get(); if (m?.shop[g]?.items[i]) { m.shop[g].items[i].done = tg.checked; MENU.set(m); render(); } return; }
+  if (tg.id === "fastFrom" && /^\d{2}:\d{2}$/.test(tg.value)) { fastSet({ from: tg.value }); return; }
+  if (tg.dataset.fbat) { const m = MENU.get(), i = +tg.dataset.fbat; if (m?.days[i]) { m.days[i].fat = tg.value || null; MENU.set(m); } return; }
   if (tg.id === "foodAi") { FOOD.set({ ai: tg.checked }); return; }
   if (tg.id === "tmrNotif") { LS.set("wk.tmrNotif", tg.checked); render(); return; }
   if (tg.id === "nsAuto") { const c = NS.cfg(); if (c) NS.save({ ...c, auto: tg.checked }); render(); return; }
