@@ -1,5 +1,8 @@
 /* ---------- Novedades (una vez por versión; historial al tocar la versión) ---------- */
 const CHANGES = [  // Novedades: solo en castellano; las traducciones, en i18n/*.po
+  ["3.11.1", [
+    N_("Menú de la semana, como las rutinas: se comparte por enlace, archivo .json o Nostr, y se exporta a Markdown o PDF. Se importa abriendo el enlace, desde el archivo (en el propio menú o en Ajustes → Importar) o compartiendo con Usus la respuesta de la IA. Va sin lo que has marcado, y un menú de una semana pasada se trae a la actual.")
+  ]],
   ["3.11.0", [
     N_("Menú de la semana, en el Diario: lo crea tu IA (con tus preferencias, intolerancias y días de entreno) o lo rellenas a mano, con recetas breves y lista de la compra con casillas, que se puede exportar en Markdown o PDF. En cada plato marcas si lo comiste, no o lo cambiaste (por qué y por qué plato); lo comido pasa a Comidas, y «Analizar la semana» prepara la pregunta para que tu IA ajuste el siguiente menú."),
     N_("Progreso: «Analizar con IA externa» y «Crear plan con IA», lo primero de Resumen."),

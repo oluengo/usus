@@ -50,6 +50,7 @@ function importExtras(j) {
   ["wk.planUpLog", "wk.planShift"].forEach(k => { if (p[k] && LS.get(k, null) === null) LS.set(k, p[k]); });
 }
 async function importJSON(text) {
+  if (isMenuText(text)) { let k = null; try { k = JSON.parse(text).kind; } catch {} if (k === "menu" || k === null) { menuImport(text); return; } }   // un menú (archivo o respuesta de la IA)
   let j; try { j = JSON.parse(text); } catch { const inc = aiParse(text); if (inc) { state.incoming = { ...inc, ai: true }; render(); return; } toast(T("El archivo no es un JSON válido")); return; }
   // Respuesta de la IA guardada como archivo (rutinas y plan sin fecha de inicio): a la revisión, como al pegarla
   if (j && j.app === "usus" && !j.shared && !j.exported && !Array.isArray(j.sessions) && Array.isArray(j.routines) && j.plan && !j.plan.start) { const inc = aiParse(text); if (inc) { state.incoming = { ...inc, ai: true }; render(); return; } }

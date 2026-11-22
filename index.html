@@ -1209,7 +1209,7 @@ function lastSetsFor(ref) {
   }
   return null;
 }
-const APP_VERSION = "3.11.0";
+const APP_VERSION = "3.11.1";
 const THEMES = [["protector", "Protector", "Oscuro cálido, sin azul"], ["dark", "Oscuro", "Neutro"], ["light", "Claro", "Para el día"], ["auto", "Automático", "Sigue al sistema"]];
 const curTheme = () => document.documentElement.dataset.theme || "auto";
 function applyTheme(t) {
@@ -4663,6 +4663,9 @@ function installBlock() {
 }
 /* ---------- Novedades (una vez por versión; historial al tocar la versión) ---------- */
 const CHANGES = [  // Novedades: solo en castellano; las traducciones, en i18n/*.po
+  ["3.11.1", [
+    N_("Menú de la semana, como las rutinas: se comparte por enlace, archivo .json o Nostr, y se exporta a Markdown o PDF. Se importa abriendo el enlace, desde el archivo (en el propio menú o en Ajustes → Importar) o compartiendo con Usus la respuesta de la IA. Va sin lo que has marcado, y un menú de una semana pasada se trae a la actual.")
+  ]],
   ["3.11.0", [
     N_("Menú de la semana, en el Diario: lo crea tu IA (con tus preferencias, intolerancias y días de entreno) o lo rellenas a mano, con recetas breves y lista de la compra con casillas, que se puede exportar en Markdown o PDF. En cada plato marcas si lo comiste, no o lo cambiaste (por qué y por qué plato); lo comido pasa a Comidas, y «Analizar la semana» prepara la pregunta para que tu IA ajuste el siguiente menú."),
     N_("Progreso: «Analizar con IA externa» y «Crear plan con IA», lo primero de Resumen."),
@@ -5190,6 +5193,7 @@ window.addEventListener("hashchange", () => { readShareHash(); });
 async function receiveShared(text) {
   text = String(text || "").trim(); if (!text) return;
   if (state.active) { toast(T("Termina o descarta antes la sesión en curso")); return; }
+  if (isMenuText(text)) { menuImport(text); return; }   // un menú de Usus o la respuesta de la IA con el menú
   let json = false; try { JSON.parse(text); json = true; } catch {}
   if (json) { await importJSON(text); return; }
   const inc = aiParse(text);
@@ -5505,6 +5509,7 @@ function importExtras(j) {
   ["wk.planUpLog", "wk.planShift"].forEach(k => { if (p[k] && LS.get(k, null) === null) LS.set(k, p[k]); });
 }
 async function importJSON(text) {
+  if (isMenuText(text)) { let k = null; try { k = JSON.parse(text).kind; } catch {} if (k === "menu" || k === null) { menuImport(text); return; } }   // un menú (archivo o respuesta de la IA)
   let j; try { j = JSON.parse(text); } catch { const inc = aiParse(text); if (inc) { state.incoming = { ...inc, ai: true }; render(); return; } toast(T("El archivo no es un JSON válido")); return; }
   // Respuesta de la IA guardada como archivo (rutinas y plan sin fecha de inicio): a la revisión, como al pegarla
   if (j && j.app === "usus" && !j.shared && !j.exported && !Array.isArray(j.sessions) && Array.isArray(j.routines) && j.plan && !j.plan.start) { const inc = aiParse(text); if (inc) { state.incoming = { ...inc, ai: true }; render(); return; } }
@@ -6392,7 +6397,8 @@ function menuSheet(k) {
         <textarea id="menuPaste" rows="4" placeholder="${T("Pega aquí la respuesta de la IA")}"></textarea>
         <button class="btn" style="width:100%;margin-top:8px" data-act="menu-paste">${T("Guardar menú")}</button></details>
     </div>
-    <button class="btn ghost" style="width:100%;margin-top:10px" data-act="menu-hand">${T("Prefiero rellenarlo a mano")}</button>`;
+    <div class="row" style="margin-top:10px"><button class="btn ghost" style="flex:1" data-act="menu-hand">${T("Rellenarlo a mano")}</button><button class="btn ghost" style="flex:1" data-act="menu-imp">${T("Importar archivo")}</button></div>
+    <input type="file" id="menuFile" accept="application/json,.json,text/plain,.txt" hidden>`;
   }
   const tab = state.menuTab === "shop" ? "shop" : "week", di = Math.max(0, Math.min(6, state.menuDay ?? Math.max(0, menuDayOf(k)))), d = m.days[di];
   const tabs = `<div class="chips fchips mtabs" role="tablist">${[["week", T("Semana")], ["shop", T("Compra")]].map(([t, l]) => `<button role="tab" data-mtab="${t}" class="${tab === t ? "on" : ""}" aria-selected="${tab === t}">${l}</button>`).join("")}</div>`;
@@ -6432,6 +6438,10 @@ function menuSheet(k) {
         <button class="btn" style="width:100%;margin-top:8px" data-act="menu-an-paste">${T("Guardar análisis")}</button></details>
       ${m.an ? `<details class="aimanual"><summary>${T("Último análisis")}</summary><pre class="fprompt">${esc(m.an)}</pre></details>` : ""}
     </div>
+    <h3 class="wh">${T("Compartir y exportar")}</h3>
+    <div class="panel"><div class="row" style="flex-wrap:wrap;gap:6px"><button class="btn small shbtn" data-act="menu-sh-link">${SHARE_ICO}${T("Enlace")}</button><button class="btn small" data-act="menu-sh-file">${T("Archivo")} (.json)</button><button class="btn small nsbtn" data-act="menu-sh-nostr">${NS_ICO}Nostr</button></div>
+      <div class="row" style="margin-top:8px;align-items:center;flex-wrap:wrap;gap:6px"><span class="muted" style="font-size:.85rem">${T("Para leer o imprimir")}:</span><button class="btn small" data-act="menu-sh-md">Markdown</button><button class="btn small" data-act="menu-sh-pdf">PDF</button></div>
+      <p class="muted" style="font-size:.78rem;margin:8px 0 0">${T("Se comparte sin lo que has marcado (✓ ✗ ⇄). La copia de seguridad, también en Nostr, lo guarda todo.")}</p></div>
     <button class="btn ghost danger" style="width:100%;margin-top:10px" data-act="menu-new">${T("Nuevo menú…")}</button>`;
 }
 /* Lista de la compra en Markdown y en PDF (3.11.0). El PDF se escribe a mano (A4, Helvetica, casillas dibujadas),
@@ -6480,6 +6490,60 @@ function menuShopExport(kind) {
   const file = kind === "pdf" ? new File([menuShopPdf(m)], name, { type: "application/pdf" }) : new File([menuShopMd(m)], name, { type: "text/markdown" });
   shareOut({ title: T("Lista de la compra"), file });
 }
+/* Compartir e importar el menú, como las rutinas (3.11.1): enlace (#m=, comprimido, no pasa por ningún servidor),
+   archivo .json, Nostr, Markdown y PDF de la semana. Se importa desde el enlace, el archivo (aquí o en Ajustes →
+   Importar), «Compartir con Usus» o pegando. Viaja sin el seguimiento (✓ ✗ ⇄): es de quien lo come. Un menú de una
+   semana ya pasada se trae a esta semana. */
+function menuExportObj(m) {
+  return { app: "usus", kind: "menu", version: 1, start: m.start, people: m.people,
+    days: m.days.map(d => ({ date: d.date, train: d.train, meals: Object.fromEntries(MENU_MEALS.map(([x]) => { const p = d.meals[x]; return [x, { name: p.name, time: p.time, ingredients: p.ing, steps: p.steps }]; })) })),
+    shopping: m.shop.map(g => ({ group: g.g, items: g.items.map(i => i.t) })), tips: m.tips };
+}
+const menuRange = m => { const f = d => new Date(d).toLocaleDateString(LOC(), { day: "numeric", month: "long" }); return T("Semana del {a} al {b}", { a: f(keyTime(m.start)), b: f(addDays(keyTime(m.start), 6)) }); };
+function menuMd(m) {
+  return `# ${T("Menú de la semana")}\n\n${menuRange(m)}\n\n${m.days.map(d => { const s = wdName(d.date); return `## ${s.charAt(0).toUpperCase() + s.slice(1)}${d.train ? ` · ${T("Entreno")}` : ""}\n\n${MENU_MEALS.filter(([x]) => d.meals[x].name).map(([x, n]) => { const p = d.meals[x];
+    return `### ${T(n)}: ${p.name}${p.time ? ` (${p.time} min)` : ""}${p.ing.length ? `\n\n${p.ing.map(i => `- ${i}`).join("\n")}` : ""}${p.steps.length ? `\n\n${p.steps.map((st, i) => `${i + 1}. ${st}`).join("\n")}` : ""}`; }).join("\n\n")}`; }).join("\n\n")}${m.shop.length ? `\n\n${menuShopMd(m).replace(/^# /, "## ").replace(/^## (?!#)/gm, (s, o) => o ? "### " : s)}` : ""}\n`;
+}
+function menuPdf(m) {
+  const L = [{ t: T("Menú de la semana"), bold: true, size: 18 }, { t: menuRange(m), size: 11, gap: 2 }];
+  m.days.forEach(d => { const s = wdName(d.date); L.push({ t: `${s.charAt(0).toUpperCase() + s.slice(1)}${d.train ? ` · ${T("Entreno")}` : ""}`, bold: true, size: 13, gap: 14 });
+    MENU_MEALS.forEach(([x, n]) => { const p = d.meals[x]; if (!p.name) return; L.push({ t: `${T(n)}: ${p.name}${p.time ? ` · ${p.time} min` : ""}`, bold: true, size: 10.5, gap: 4 });
+      if (p.ing.length) L.push({ t: p.ing.join(" · "), size: 9.5 }); p.steps.forEach((st, i) => L.push({ t: `${i + 1}. ${st}`, size: 9.5 })); }); });
+  if (m.shop.length) { L.push({ t: T("Lista de la compra"), bold: true, size: 15, gap: 20 }); m.shop.forEach(g => { L.push({ t: g.g, bold: true, size: 12, gap: 10 }); g.items.forEach(x => L.push({ t: x.t, box: true, done: x.done, gap: 2 })); }); }
+  L.push({ t: "Usus", size: 8, gap: 24 });
+  return pdfText(L);
+}
+async function menuShare(how) {
+  const m = MENU.get(); if (!m) return;
+  const base = `usus-${T("menu")}-${m.start}`;
+  if (how === "file") return shareOut({ title: base + ".json", file: new File([JSON.stringify(menuExportObj(m), null, 2)], base + ".json", { type: "application/json" }) });
+  if (how === "md") return shareOut({ title: T("Menú de la semana"), file: new File([menuMd(m)], base + ".md", { type: "text/markdown" }) });
+  if (how === "pdf") return shareOut({ title: T("Menú de la semana"), file: new File([menuPdf(m)], base + ".pdf", { type: "application/pdf" }) });
+  const url = `${appURL()}#m=${await packShare(menuExportObj(m))}`;
+  if (how === "nostr") { if (nsRO()) return toast(T("Con solo la npub no se puede publicar: entra con un firmante."), 5000);
+    if (!NS.cfg()) { state.dsheet = null; state.tab = "data"; state.setTab = "nostr"; render(); return; }
+    state.nsPost = { k: "menu", text: `${T("Mi menú de la semana para Usus. Abre el enlace para añadirlo.")}\n\n${url}` }; render(); return; }
+  return shareOut({ title: "Usus", text: T("Te paso un menú de la semana para Usus. Abre el enlace para añadirlo."), url });
+}
+/* Importar: confirma si ya hay uno; uno de una semana pasada se trae a esta */
+function menuImport(text) {
+  const m = menuParse(text); if (!m) { toast(T("No parece un menú de Usus: copia la respuesta entera de la IA."), 5000); return false; }
+  const now = dayKey(weekStart(Date.now()));
+  if (m.start < now) { m.start = now; m.days.forEach((d, i) => { d.date = dayKey(addDays(keyTime(now), i)); }); }
+  if (MENU.get() && !confirm(T("Ya tienes un menú. ¿Sustituirlo por este? (lo comido sigue en el Diario)"))) return false;
+  MENU.set(m); state.menuDay = Math.max(0, menuDayOf(dayKey(Date.now()))); state.menuTab = "week";
+  state.tab = "diary"; state.dsheet = "menu"; toast(T("Menú guardado")); render(); return true;
+}
+const isMenuText = t => /"kind"\s*:\s*"menu"/.test(String(t || ""));
+async function readMenuHash() {
+  if (!location.hash.startsWith("#m=")) return;
+  const h = location.hash.slice(3);
+  try { history.replaceState(null, "", location.pathname + location.search); } catch {}
+  let j = null; try { j = await unpackShare(h); } catch {}
+  if (!j || j.kind !== "menu") { toast(T("El enlace no es válido o está incompleto")); return; }
+  menuImport(JSON.stringify(j));
+}
+window.addEventListener("hashchange", () => { readMenuHash(); });
 /* ---------- Eventos ---------- */
 document.addEventListener("toggle", ev => { const g = ev.target; if (g?.dataset?.rg === undefined) return; const op = LS.get("wk.rgOpen", {}) || {}; if (op[g.dataset.rg] !== g.open) { op[g.dataset.rg] = g.open; LS.set("wk.rgOpen", op); } }, true);
 document.addEventListener("click", async ev => {
@@ -6941,6 +7005,12 @@ document.addEventListener("click", async ev => {
     case "menu-new": if (confirm(T("¿Empezar un menú nuevo? Este se borra (lo comido sigue en el Diario)."))) { MENU.set(null); state.menuTab = "week"; render(); } break;
     case "menu-fill": menuFill(state.day || dayKey(Date.now())); break;
     case "menu-shop-add": { const v = ($("#mshopNew")?.value || "").trim().slice(0, 120); if (!v) break; const m = MENU.get(), og = T("Otros"); let g = m.shop.find(x => x.g === og); if (!g) m.shop.push(g = { g: og, items: [] }); g.items.push({ t: v, done: false }); MENU.set(m); render(); setTimeout(() => $("#mshopNew")?.focus(), 0); break; }
+    case "menu-sh-link": menuShare("link"); break;
+    case "menu-sh-file": menuShare("file"); break;
+    case "menu-sh-nostr": menuShare("nostr"); break;
+    case "menu-sh-md": menuShare("md"); break;
+    case "menu-sh-pdf": menuShare("pdf"); break;
+    case "menu-imp": $("#menuFile").click(); break;
     case "menu-shop-md": menuShopExport("md"); break;
     case "menu-shop-pdf": menuShopExport("pdf"); break;
     case "menu-shop-share": shareOut({ title: T("Lista de la compra"), text: menuShopText(MENU.get()) }); break;
@@ -7080,6 +7150,7 @@ document.addEventListener("change", async ev => {
   if (ev.target.id === "wDay") { LS.set("wk.weighDay", +ev.target.value); toast(T("Día de pesaje: {d}", { d: DIAS[+ev.target.value] })); }
   if (ev.target.id === "statEx") { state.statEx = ev.target.value; render(); }
   if (ev.target.id === "wizFile" && ev.target.files[0]) { const t = await ev.target.files[0].text(); wizDone(); state.tab = "routines"; render(); await importJSON(t); return; }
+  if (ev.target.id === "menuFile" && ev.target.files[0]) { menuImport(await ev.target.files[0].text()); ev.target.value = ""; return; }
   if (ev.target.id === "impFile" && ev.target.files[0]) { await importJSON(await ev.target.files[0].text()); ev.target.value = ""; }
 });
 document.addEventListener("click", ev => { const n = ev.target.closest("[data-dnote]"); if (n) { state.dnote = n.dataset.dnote.split(","); render(); return; } const c = ev.target.closest("span[data-day]"); if (c) { state.day = c.dataset.day; state.tab = "diary"; render(); window.scrollTo(0, 0); } });
@@ -7333,7 +7404,7 @@ const I18N = {
     "Aprender habilidades": "Aprendre habilitats",
     "Aprovecha ingredientes entre días (cocina una vez, come dos) para gastar menos y tirar menos.": "Aprofita ingredients entre dies (cuina un cop, menja'n dos) per gastar menys i llençar menys.",
     "Apuntar lo del menú": "Apuntar el del menú",
-    "Archivo": "Fitxer",
+    "Archivo": "Arxiu",
     "Archivo guardado": "Fitxer desat",
     "Arrastrar": "Arrossega",
     "Arreglo: al añadir un plan recibido se conserva su regla de subida, y el plan activo anterior queda guardado en Mis planes.": "Correcció: en afegir un pla rebut es conserva la seva regla de pujada, i el pla actiu anterior queda desat a Els meus plans.",
@@ -7476,6 +7547,7 @@ const I18N = {
     "Compartir lista": "Compartir llista",
     "Compartir rutinas": "Compartir rutines",
     "Compartir Usus": "Compartir Usus",
+    "Compartir y exportar": "Compartir i exportar",
     "Compartir: la app desde Ajustes, un entreno como imagen o texto (al terminar o desde el Diario) y tus rutinas o el programa entero con su plan, por enlace o archivo. Quien abre el enlace elige qué añadir. Nada pasa por ningún servidor.": "Compartir: l'app des d'Ajustos, un entrenament com a imatge o text (en acabar o des del Diari) i les teves rutines o el programa sencer amb el seu pla, per enllaç o fitxer. Qui obre l'enllaç tria què afegir. Res passa per cap servidor.",
     "Completa tu primera sesión para ver tu progreso.": "Completa la primera sessió per veure el teu progrés.",
     "completada": "completada",
@@ -7938,6 +8010,7 @@ const I18N = {
     "impacto": "impacte",
     "Importar": "Importa",
     "Importar {r} rutinas, {s} sesiones, {w} pesos y {d} días de diario. Se combinarán con tus datos actuales. ¿Continuar?": "S'importaran {r} rutines, {s} sessions, {w} pesos i {d} dies de diari, combinats amb les teves dades actuals. Vols continuar?",
+    "Importar archivo": "Importar arxiu",
     "Importar el plan de progresión. Sustituirá al plan actual, si lo hay. ¿Continuar?": "Vols importar el pla de progressió? Substituirà el pla actual, si n'hi ha.",
     "Importar JSON": "Importa JSON",
     "Importar los ajustes y el historial de progresión de la copia. ¿Continuar?": "Importar els ajustos i l'historial de progressió de la còpia. Continuar?",
@@ -8088,7 +8161,9 @@ const I18N = {
     "Menos azúcar": "Menys sucre",
     "Menos ultraprocesados": "Menys ultraprocessats",
     "Menstruación": "Menstruació",
+    "menu": "menu",
     "Menú de la semana": "Menú de la setmana",
+    "Menú de la semana, como las rutinas: se comparte por enlace, archivo .json o Nostr, y se exporta a Markdown o PDF. Se importa abriendo el enlace, desde el archivo (en el propio menú o en Ajustes → Importar) o compartiendo con Usus la respuesta de la IA. Va sin lo que has marcado, y un menú de una semana pasada se trae a la actual.": "Menú de la setmana, com les rutines: es comparteix per enllaç, arxiu .json o Nostr, i s'exporta a Markdown o PDF. S'importa obrint l'enllaç, des de l'arxiu (al mateix menú o a Ajustos → Importar) o compartint amb Usus la resposta de la IA. Va sense el que has marcat, i un menú d'una setmana passada es porta a l'actual.",
     "Menú de la semana, en el Diario: lo crea tu IA (con tus preferencias, intolerancias y días de entreno) o lo rellenas a mano, con recetas breves y lista de la compra con casillas, que se puede exportar en Markdown o PDF. En cada plato marcas si lo comiste, no o lo cambiaste (por qué y por qué plato); lo comido pasa a Comidas, y «Analizar la semana» prepara la pregunta para que tu IA ajuste el siguiente menú.": "Menú de la setmana, al Diari: el crea la teva IA (amb les teves preferències, intoleràncies i dies d'entrenament) o l'omples a mà, amb receptes breus i llista de la compra amb caselles, que es pot exportar en Markdown o PDF. A cada plat marques si el vas menjar, no o el vas canviar (per què i per quin plat); el que has menjat passa a Àpats, i «Analitzar la setmana» prepara la pregunta perquè la teva IA ajusti el menú següent.",
     "Menú guardado": "Menú desat",
     "Merienda": "Berenar",
@@ -8098,6 +8173,7 @@ const I18N = {
     "Mi alimentación: {x}.": "La meva alimentació: {x}.",
     "Mi material": "El meu material",
     "Mi material (Ajustes → Entreno) y material en tus ejercicios propios.": "El meu material (Ajustos → Entrenament) i material als teus exercicis propis.",
+    "Mi menú de la semana para Usus. Abre el enlace para añadirlo.": "El meu menú de la setmana per a Usus. Obre l'enllaç per afegir-lo.",
     "Mi rutina «{x}» para Usus. Abre el enlace para añadirla.": "La meva rutina «{x}» per a Usus. Obre l'enllaç per afegir-la.",
     "Mientras entrenas, la sesión y la cuenta atrás siguen en una notificación, con Pausa y Saltar, y avisa al acabar aunque salgas de Usus o apagues la pantalla.": "Mentre entrenes, la sessió i el compte enrere segueixen en una notificació, amb Pausa i Salta, i avisa en acabar encara que surtis d'Usus o apaguis la pantalla.",
     "Minutos": "Minuts",
@@ -8282,6 +8358,7 @@ const I18N = {
     "Para elegir ejercicios al crear rutinas y saber cómo avanzar.": "Per triar exercicis en crear rutines i saber com avançar.",
     "Para la IA": "Per a la IA",
     "Para las preguntas de comidas del Diario y el plan con IA. Solo en este dispositivo.": "Per a les preguntes d'àpats del Diari i el pla amb IA. Només en aquest dispositiu.",
+    "Para leer o imprimir": "Per llegir o imprimir",
     "Para publicar, conecta antes tu cuenta en Ajustes → Cuenta de Nostr.": "Per publicar, connecta abans el teu compte a Ajustos → Compte de Nostr.",
     "Para que las mejore o las respete (p. ej. una rutina diaria).": "Perquè les millori o les respecti (p. ex. una rutina diària).",
     "Para qué lo usarías": "Per a què ho faries servir",
@@ -8404,7 +8481,6 @@ const I18N = {
     "por tiempo": "per temps",
     "Predicciones en pausa": "Prediccions en pausa",
     "Predicciones en pausa.": "Prediccions en pausa.",
-    "Prefiero rellenarlo a mano": "Prefereixo omplir-lo a mà",
     "Pregunta": "Pregunta",
     "Pregunta copiada: pégala en tu IA": "Pregunta copiada: enganxa-la a la teva IA",
     "Pregunta para tu IA": "Pregunta per a la teva IA",
@@ -8511,6 +8587,7 @@ const I18N = {
     "Reiniciar": "Reiniciar",
     "Reiniciar el plan": "Reiniciar el pla",
     "Reiniciar el plan: en el menú ⋯ del plan en Hoy o en Biblioteca → Plan, vuelve a la semana 1 desde hoy, sin semana elegida ni pausas. Tus rutinas, sesiones e historial no se tocan. Al terminar un plan, Hoy lo ofrece.": "Reiniciar el pla: al menú ⋯ del pla a Avui o a Biblioteca → Pla, torna a la setmana 1 des d'avui, sense setmana triada ni pauses. Les teves rutines, sessions i historial no es toquen. En acabar un pla, Avui ho ofereix.",
+    "Rellenarlo a mano": "Omplir-lo a mà",
     "Reparto por bloque": "Repartiment per bloc",
     "repeticiones": "repeticions",
     "Repeticiones lado derecho serie {n}": "Repeticions costat dret sèrie {n}",
@@ -8577,6 +8654,7 @@ const I18N = {
     "Se borrarán todas las rutinas, sesiones y pesos de este dispositivo. ¿Has hecho una copia?": "S'esborraran totes les rutines, sessions i pesos d'aquest dispositiu. Has fet una còpia?",
     "Se borrarán todos los datos de «{x}» en este dispositivo. Los demás perfiles no se tocan. ¿Has hecho una copia?": "S'esborraran totes les dades de «{x}» en aquest dispositiu. Els altres perfils no es toquen. Has fet una còpia?",
     "Se combina con lo que hay en este perfil, como al importar un archivo. Los ajustes sustituyen a los actuales.": "Es combina amb el que hi ha en aquest perfil, com en importar un arxiu. Els ajustos substitueixen els actuals.",
+    "Se comparte sin lo que has marcado (✓ ✗ ⇄). La copia de seguridad, también en Nostr, lo guarda todo.": "Es comparteix sense el que has marcat (✓ ✗ ⇄). La còpia de seguretat, també a Nostr, ho desa tot.",
     "Se evitan los ejercicios que más cargan esa zona.": "S'eviten els exercicis que més carreguen aquesta zona.",
     "Se guarda únicamente en este móvil, dentro de este perfil.": "Es desa únicament en aquest mòbil, dins d'aquest perfil.",
     "Se ha aplicado la regla de tu plan: {x}.": "S'ha aplicat la regla del teu pla: {x}.",
@@ -8755,6 +8833,7 @@ const I18N = {
     "Te lo recuerdo en {n} días": "T'ho recordaré d'aquí a {n} dies",
     "Te paso {n} rutinas para Usus. Abre el enlace para añadirlas.": "Et passo {n} rutines per a Usus. Obre l'enllaç per afegir-les.",
     "Te paso la rutina «{x}» para Usus. Abre el enlace para añadirla.": "Et passo la rutina «{x}» per a Usus. Obre l'enllaç per afegir-la.",
+    "Te paso un menú de la semana para Usus. Abre el enlace para añadirlo.": "Et passo un menú de la setmana per a Usus. Obre l'enllaç per afegir-lo.",
     "Técnica (opcional)": "Tècnica (opcional)",
     "Técnica de un ejercicio (tempo, pausa, rango, agarre…): misma ficha del catálogo, pero su historial y su progresión van aparte. Se pone en el editor de rutina; en Stats, las variantes salen juntas bajo su ejercicio.": "Tècnica d'un exercici (tempo, pausa, rang, presa…): mateixa fitxa del catàleg, però l'historial i la progressió van a part. Es posa a l'editor de rutina; a Stats, les variants surten juntes sota el seu exercici.",
     "Tema": "Tema",
@@ -8938,6 +9017,7 @@ const I18N = {
     "Ya la tienes: «{x}»": "Ja la tens: «{x}»",
     "Ya tienes esta rutina, igual.": "Ja tens aquesta rutina, igual.",
     "Ya tienes todas estas rutinas, iguales.": "Ja tens totes aquestes rutines, iguals.",
+    "Ya tienes un menú. ¿Sustituirlo por este? (lo comido sigue en el Diario)": "Ja tens un menú. El substitueixes per aquest? (el que has menjat continua al Diari)",
     "Ya tienes una sesión en curso. ¿Descartarla y empezar otra?": "Ja tens una sessió en curs. La vols descartar i començar-ne una altra?",
     "Yo": "Jo",
     "Zona lumbar": "Zona lumbar",
@@ -9324,6 +9404,7 @@ const I18N = {
     "Compartir lista": "Share list",
     "Compartir rutinas": "Share routines",
     "Compartir Usus": "Share Usus",
+    "Compartir y exportar": "Share and export",
     "Compartir: la app desde Ajustes, un entreno como imagen o texto (al terminar o desde el Diario) y tus rutinas o el programa entero con su plan, por enlace o archivo. Quien abre el enlace elige qué añadir. Nada pasa por ningún servidor.": "Sharing: the app from Settings, a workout as an image or text (when you finish or from the Diary) and your routines or whole programme with its plan, by link or file. Whoever opens the link chooses what to add. Nothing goes through any server.",
     "Completa tu primera sesión para ver tu progreso.": "Complete your first session to see your progress.",
     "completada": "done",
@@ -9786,6 +9867,7 @@ const I18N = {
     "impacto": "impact",
     "Importar": "Import",
     "Importar {r} rutinas, {s} sesiones, {w} pesos y {d} días de diario. Se combinarán con tus datos actuales. ¿Continuar?": "Import {r} routines, {s} sessions, {w} weights and {d} diary days? They'll be merged with your current data.",
+    "Importar archivo": "Import file",
     "Importar el plan de progresión. Sustituirá al plan actual, si lo hay. ¿Continuar?": "Import the progression plan? It will replace the current plan, if any.",
     "Importar JSON": "Import JSON",
     "Importar los ajustes y el historial de progresión de la copia. ¿Continuar?": "Import the settings and progression history from the backup. Continue?",
@@ -9936,7 +10018,9 @@ const I18N = {
     "Menos azúcar": "Less sugar",
     "Menos ultraprocesados": "Fewer ultra-processed foods",
     "Menstruación": "Menstruation",
+    "menu": "menu",
     "Menú de la semana": "Weekly menu",
+    "Menú de la semana, como las rutinas: se comparte por enlace, archivo .json o Nostr, y se exporta a Markdown o PDF. Se importa abriendo el enlace, desde el archivo (en el propio menú o en Ajustes → Importar) o compartiendo con Usus la respuesta de la IA. Va sin lo que has marcado, y un menú de una semana pasada se trae a la actual.": "Weekly menu, like routines: share it by link, .json file or Nostr, and export it to Markdown or PDF. Import it by opening the link, from the file (in the menu itself or Settings → Import) or by sharing the AI's reply with Usus. It travels without what you've marked, and a menu from a past week is moved to the current one.",
     "Menú de la semana, en el Diario: lo crea tu IA (con tus preferencias, intolerancias y días de entreno) o lo rellenas a mano, con recetas breves y lista de la compra con casillas, que se puede exportar en Markdown o PDF. En cada plato marcas si lo comiste, no o lo cambiaste (por qué y por qué plato); lo comido pasa a Comidas, y «Analizar la semana» prepara la pregunta para que tu IA ajuste el siguiente menú.": "Weekly menu, in the Diary: your AI creates it (with your preferences, intolerances and training days) or you fill it in by hand, with short recipes and a shopping list with checkboxes that you can export as Markdown or PDF. For each dish you mark whether you ate it, didn't, or swapped it (for what and why); what you ate goes into Meals, and “Analyse the week” writes the question so your AI adjusts the next menu.",
     "Menú guardado": "Menu saved",
     "Merienda": "Snack",
@@ -9946,6 +10030,7 @@ const I18N = {
     "Mi alimentación: {x}.": "My diet: {x}.",
     "Mi material": "My equipment",
     "Mi material (Ajustes → Entreno) y material en tus ejercicios propios.": "My equipment (Settings → Workout) and equipment for your own exercises.",
+    "Mi menú de la semana para Usus. Abre el enlace para añadirlo.": "My weekly menu for Usus. Open the link to add it.",
     "Mi rutina «{x}» para Usus. Abre el enlace para añadirla.": "My routine “{x}” for Usus. Open the link to add it.",
     "Mientras entrenas, la sesión y la cuenta atrás siguen en una notificación, con Pausa y Saltar, y avisa al acabar aunque salgas de Usus o apagues la pantalla.": "While you train, the session and the countdown carry on in a notification, with Pause and Skip, and it alerts you when time is up even if you leave Usus or turn the screen off.",
     "Minutos": "Minutes",
@@ -10130,6 +10215,7 @@ const I18N = {
     "Para elegir ejercicios al crear rutinas y saber cómo avanzar.": "To pick exercises when building routines and know how to progress.",
     "Para la IA": "For the AI",
     "Para las preguntas de comidas del Diario y el plan con IA. Solo en este dispositivo.": "For the meal questions in the Diary and the AI plan. Only on this device.",
+    "Para leer o imprimir": "To read or print",
     "Para publicar, conecta antes tu cuenta en Ajustes → Cuenta de Nostr.": "To post, first connect your account in Settings → Nostr account.",
     "Para que las mejore o las respete (p. ej. una rutina diaria).": "So it improves or keeps them (e.g. a daily routine).",
     "Para qué lo usarías": "What you'd use it for",
@@ -10252,7 +10338,6 @@ const I18N = {
     "por tiempo": "timed",
     "Predicciones en pausa": "Predictions paused",
     "Predicciones en pausa.": "Predictions paused.",
-    "Prefiero rellenarlo a mano": "I'd rather fill it in by hand",
     "Pregunta": "Question",
     "Pregunta copiada: pégala en tu IA": "Question copied: paste it into your AI",
     "Pregunta para tu IA": "Question for your AI",
@@ -10359,6 +10444,7 @@ const I18N = {
     "Reiniciar": "Restart",
     "Reiniciar el plan": "Restart the plan",
     "Reiniciar el plan: en el menú ⋯ del plan en Hoy o en Biblioteca → Plan, vuelve a la semana 1 desde hoy, sin semana elegida ni pausas. Tus rutinas, sesiones e historial no se tocan. Al terminar un plan, Hoy lo ofrece.": "Restart the plan: from the plan's ⋯ menu in Today or in Library → Plan, it goes back to week 1 from today, with no chosen week or pauses. Your routines, sessions and history are not touched. When a plan ends, Today offers it.",
+    "Rellenarlo a mano": "Fill it in by hand",
     "Reparto por bloque": "Split by block",
     "repeticiones": "reps",
     "Repeticiones lado derecho serie {n}": "Right side reps set {n}",
@@ -10425,6 +10511,7 @@ const I18N = {
     "Se borrarán todas las rutinas, sesiones y pesos de este dispositivo. ¿Has hecho una copia?": "All routines, sessions and weights on this device will be deleted. Have you made a backup?",
     "Se borrarán todos los datos de «{x}» en este dispositivo. Los demás perfiles no se tocan. ¿Has hecho una copia?": "All of “{x}”'s data on this device will be deleted. Other profiles aren't touched. Have you made a backup?",
     "Se combina con lo que hay en este perfil, como al importar un archivo. Los ajustes sustituyen a los actuales.": "It's merged with what's in this profile, as when importing a file. Settings replace the current ones.",
+    "Se comparte sin lo que has marcado (✓ ✗ ⇄). La copia de seguridad, también en Nostr, lo guarda todo.": "It's shared without what you've marked (✓ ✗ ⇄). The backup, on Nostr too, keeps everything.",
     "Se evitan los ejercicios que más cargan esa zona.": "Exercises that load that area most are avoided.",
     "Se guarda únicamente en este móvil, dentro de este perfil.": "It's stored only on this phone, inside this profile.",
     "Se ha aplicado la regla de tu plan: {x}.": "Your plan's rule was applied: {x}.",
@@ -10603,6 +10690,7 @@ const I18N = {
     "Te lo recuerdo en {n} días": "I'll remind you in {n} days",
     "Te paso {n} rutinas para Usus. Abre el enlace para añadirlas.": "Here are {n} routines for Usus. Open the link to add them.",
     "Te paso la rutina «{x}» para Usus. Abre el enlace para añadirla.": "Here's the routine “{x}” for Usus. Open the link to add it.",
+    "Te paso un menú de la semana para Usus. Abre el enlace para añadirlo.": "Here's a weekly menu for Usus. Open the link to add it.",
     "Técnica (opcional)": "Technique (optional)",
     "Técnica de un ejercicio (tempo, pausa, rango, agarre…): misma ficha del catálogo, pero su historial y su progresión van aparte. Se pone en el editor de rutina; en Stats, las variantes salen juntas bajo su ejercicio.": "Exercise technique (tempo, pause, range, grip…): same catalogue card, but its own history and progression. Set it in the routine editor; in Stats, variations are grouped under their exercise.",
     "Tema": "Theme",
@@ -10786,6 +10874,7 @@ const I18N = {
     "Ya la tienes: «{x}»": "You already have it: “{x}”",
     "Ya tienes esta rutina, igual.": "You already have this routine, identical.",
     "Ya tienes todas estas rutinas, iguales.": "You already have all these routines, identical.",
+    "Ya tienes un menú. ¿Sustituirlo por este? (lo comido sigue en el Diario)": "You already have a menu. Replace it with this one? (what you ate stays in the Diary)",
     "Ya tienes una sesión en curso. ¿Descartarla y empezar otra?": "You already have a session in progress. Discard it and start another?",
     "Yo": "Me",
     "Zona lumbar": "Lower back",
@@ -10809,7 +10898,7 @@ const I18N = {
   if (LS.get("wk.catalog", null) === null) state.catAsk = true;
   if (catOn()) loadCatalog().then(c => { planUpCheck(); render(); }); else planUpCheck();
   render();
-  await readShareHash();
+  await readShareHash(); await readMenuHash();
   readShareTarget(); tmrListen();
   if (NS.cfg()) setTimeout(nsCheckNewer, 1500);   // con cuenta de Nostr: ¿hay una copia más nueva?
   if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});

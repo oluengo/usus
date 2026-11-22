@@ -1267,6 +1267,9 @@ msgstr "Share routines"
 msgid "Compartir Usus"
 msgstr "Share Usus"
 
+msgid "Compartir y exportar"
+msgstr "Share and export"
+
 msgid "Compartir: la app desde Ajustes, un entreno como imagen o texto (al terminar o desde el Diario) y tus rutinas o el programa entero con su plan, por enlace o archivo. Quien abre el enlace elige qué añadir. Nada pasa por ningún servidor."
 msgstr "Sharing: the app from Settings, a workout as an image or text (when you finish or from the Diary) and your routines or whole programme with its plan, by link or file. Whoever opens the link chooses what to add. Nothing goes through any server."
 
@@ -2701,6 +2704,9 @@ msgstr "Import"
 msgid "Importar {r} rutinas, {s} sesiones, {w} pesos y {d} días de diario. Se combinarán con tus datos actuales. ¿Continuar?"
 msgstr "Import {r} routines, {s} sessions, {w} weights and {d} diary days? They'll be merged with your current data."
 
+msgid "Importar archivo"
+msgstr "Import file"
+
 msgid "Importar el plan de progresión. Sustituirá al plan actual, si lo hay. ¿Continuar?"
 msgstr "Import the progression plan? It will replace the current plan, if any."
 
@@ -3163,8 +3169,14 @@ msgstr "Fewer ultra-processed foods"
 msgid "Menstruación"
 msgstr "Menstruation"
 
+msgid "menu"
+msgstr "menu"
+
 msgid "Menú de la semana"
 msgstr "Weekly menu"
+
+msgid "Menú de la semana, como las rutinas: se comparte por enlace, archivo .json o Nostr, y se exporta a Markdown o PDF. Se importa abriendo el enlace, desde el archivo (en el propio menú o en Ajustes → Importar) o compartiendo con Usus la respuesta de la IA. Va sin lo que has marcado, y un menú de una semana pasada se trae a la actual."
+msgstr "Weekly menu, like routines: share it by link, .json file or Nostr, and export it to Markdown or PDF. Import it by opening the link, from the file (in the menu itself or Settings → Import) or by sharing the AI's reply with Usus. It travels without what you've marked, and a menu from a past week is moved to the current one."
 
 msgid "Menú de la semana, en el Diario: lo crea tu IA (con tus preferencias, intolerancias y días de entreno) o lo rellenas a mano, con recetas breves y lista de la compra con casillas, que se puede exportar en Markdown o PDF. En cada plato marcas si lo comiste, no o lo cambiaste (por qué y por qué plato); lo comido pasa a Comidas, y «Analizar la semana» prepara la pregunta para que tu IA ajuste el siguiente menú."
 msgstr "Weekly menu, in the Diary: your AI creates it (with your preferences, intolerances and training days) or you fill it in by hand, with short recipes and a shopping list with checkboxes that you can export as Markdown or PDF. For each dish you mark whether you ate it, didn't, or swapped it (for what and why); what you ate goes into Meals, and “Analyse the week” writes the question so your AI adjusts the next menu."
@@ -3193,6 +3205,9 @@ msgstr "My equipment"
 
 msgid "Mi material (Ajustes → Entreno) y material en tus ejercicios propios."
 msgstr "My equipment (Settings → Workout) and equipment for your own exercises."
+
+msgid "Mi menú de la semana para Usus. Abre el enlace para añadirlo."
+msgstr "My weekly menu for Usus. Open the link to add it."
 
 #, python-brace-format
 msgid "Mi rutina «{x}» para Usus. Abre el enlace para añadirla."
@@ -3771,6 +3786,9 @@ msgstr "For the AI"
 msgid "Para las preguntas de comidas del Diario y el plan con IA. Solo en este dispositivo."
 msgstr "For the meal questions in the Diary and the AI plan. Only on this device."
 
+msgid "Para leer o imprimir"
+msgstr "To read or print"
+
 msgid "Para publicar, conecta antes tu cuenta en Ajustes → Cuenta de Nostr."
 msgstr "To post, first connect your account in Settings → Nostr account."
 
@@ -4147,9 +4165,6 @@ msgstr "Predictions paused"
 msgid "Predicciones en pausa."
 msgstr "Predictions paused."
 
-msgid "Prefiero rellenarlo a mano"
-msgstr "I'd rather fill it in by hand"
-
 msgid "Pregunta"
 msgstr "Question"
 
@@ -4482,6 +4497,9 @@ msgstr "Restart the plan"
 msgid "Reiniciar el plan: en el menú ⋯ del plan en Hoy o en Biblioteca → Plan, vuelve a la semana 1 desde hoy, sin semana elegida ni pausas. Tus rutinas, sesiones e historial no se tocan. Al terminar un plan, Hoy lo ofrece."
 msgstr "Restart the plan: from the plan's ⋯ menu in Today or in Library → Plan, it goes back to week 1 from today, with no chosen week or pauses. Your routines, sessions and history are not touched. When a plan ends, Today offers it."
 
+msgid "Rellenarlo a mano"
+msgstr "Fill it in by hand"
+
 msgid "Reparto por bloque"
 msgstr "Split by block"
 
@@ -4688,6 +4706,9 @@ msgstr "All of “{x}”'s data on this device will be deleted. Other profiles a
 
 msgid "Se combina con lo que hay en este perfil, como al importar un archivo. Los ajustes sustituyen a los actuales."
 msgstr "It's merged with what's in this profile, as when importing a file. Settings replace the current ones."
+
+msgid "Se comparte sin lo que has marcado (✓ ✗ ⇄). La copia de seguridad, también en Nostr, lo guarda todo."
+msgstr "It's shared without what you've marked (✓ ✗ ⇄). The backup, on Nostr too, keeps everything."
 
 msgid "Se evitan los ejercicios que más cargan esa zona."
 msgstr "Exercises that load that area most are avoided."
@@ -5258,6 +5279,9 @@ msgstr "Here are {n} routines for Usus. Open the link to add them."
 #, python-brace-format
 msgid "Te paso la rutina «{x}» para Usus. Abre el enlace para añadirla."
 msgstr "Here's the routine “{x}” for Usus. Open the link to add it."
+
+msgid "Te paso un menú de la semana para Usus. Abre el enlace para añadirlo."
+msgstr "Here's a weekly menu for Usus. Open the link to add it."
 
 msgid "Técnica (opcional)"
 msgstr "Technique (optional)"
@@ -5831,6 +5855,9 @@ msgstr "You already have this routine, identical."
 msgid "Ya tienes todas estas rutinas, iguales."
 msgstr "You already have all these routines, identical."
 
+msgid "Ya tienes un menú. ¿Sustituirlo por este? (lo comido sigue en el Diario)"
+msgstr "You already have a menu. Replace it with this one? (what you ate stays in the Diary)"
+
 msgid "Ya tienes una sesión en curso. ¿Descartarla y empezar otra?"
 msgstr "You already have a session in progress. Discard it and start another?"
 
@@ -5842,6 +5869,9 @@ msgstr "Lower back"
 
 msgid "Zona peligrosa"
 msgstr "Danger zone"
+
+#~ msgid "Prefiero rellenarlo a mano"
+#~ msgstr "I'd rather fill it in by hand"
 
 #~ msgid "Menú de la semana, en el Diario: lo crea tu IA (con tus preferencias, intolerancias y días de entreno) o lo rellenas a mano, con recetas breves y lista de la compra con casillas. En cada plato marcas si lo comiste, no o lo cambiaste (por qué y por qué plato); lo comido pasa a Comidas, y «Analizar la semana» prepara la pregunta para que tu IA ajuste el siguiente menú."
 #~ msgstr "Weekly menu, in the Diary: your AI creates it (with your preferences, intolerances and training days) or you fill it in by hand, with short recipes and a shopping list with checkboxes. For each dish you mark whether you ate it, didn't, or swapped it (for what and why); what you ate goes into Meals, and “Analyse the week” writes the question so your AI adjusts the next menu."

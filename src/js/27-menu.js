@@ -168,7 +168,8 @@ function menuSheet(k) {
         <textarea id="menuPaste" rows="4" placeholder="${T("Pega aquí la respuesta de la IA")}"></textarea>
         <button class="btn" style="width:100%;margin-top:8px" data-act="menu-paste">${T("Guardar menú")}</button></details>
     </div>
-    <button class="btn ghost" style="width:100%;margin-top:10px" data-act="menu-hand">${T("Prefiero rellenarlo a mano")}</button>`;
+    <div class="row" style="margin-top:10px"><button class="btn ghost" style="flex:1" data-act="menu-hand">${T("Rellenarlo a mano")}</button><button class="btn ghost" style="flex:1" data-act="menu-imp">${T("Importar archivo")}</button></div>
+    <input type="file" id="menuFile" accept="application/json,.json,text/plain,.txt" hidden>`;
   }
   const tab = state.menuTab === "shop" ? "shop" : "week", di = Math.max(0, Math.min(6, state.menuDay ?? Math.max(0, menuDayOf(k)))), d = m.days[di];
   const tabs = `<div class="chips fchips mtabs" role="tablist">${[["week", T("Semana")], ["shop", T("Compra")]].map(([t, l]) => `<button role="tab" data-mtab="${t}" class="${tab === t ? "on" : ""}" aria-selected="${tab === t}">${l}</button>`).join("")}</div>`;
@@ -208,6 +209,10 @@ function menuSheet(k) {
         <button class="btn" style="width:100%;margin-top:8px" data-act="menu-an-paste">${T("Guardar análisis")}</button></details>
       ${m.an ? `<details class="aimanual"><summary>${T("Último análisis")}</summary><pre class="fprompt">${esc(m.an)}</pre></details>` : ""}
     </div>
+    <h3 class="wh">${T("Compartir y exportar")}</h3>
+    <div class="panel"><div class="row" style="flex-wrap:wrap;gap:6px"><button class="btn small shbtn" data-act="menu-sh-link">${SHARE_ICO}${T("Enlace")}</button><button class="btn small" data-act="menu-sh-file">${T("Archivo")} (.json)</button><button class="btn small nsbtn" data-act="menu-sh-nostr">${NS_ICO}Nostr</button></div>
+      <div class="row" style="margin-top:8px;align-items:center;flex-wrap:wrap;gap:6px"><span class="muted" style="font-size:.85rem">${T("Para leer o imprimir")}:</span><button class="btn small" data-act="menu-sh-md">Markdown</button><button class="btn small" data-act="menu-sh-pdf">PDF</button></div>
+      <p class="muted" style="font-size:.78rem;margin:8px 0 0">${T("Se comparte sin lo que has marcado (✓ ✗ ⇄). La copia de seguridad, también en Nostr, lo guarda todo.")}</p></div>
     <button class="btn ghost danger" style="width:100%;margin-top:10px" data-act="menu-new">${T("Nuevo menú…")}</button>`;
 }
 /* Lista de la compra en Markdown y en PDF (3.11.0). El PDF se escribe a mano (A4, Helvetica, casillas dibujadas),
@@ -256,3 +261,57 @@ function menuShopExport(kind) {
   const file = kind === "pdf" ? new File([menuShopPdf(m)], name, { type: "application/pdf" }) : new File([menuShopMd(m)], name, { type: "text/markdown" });
   shareOut({ title: T("Lista de la compra"), file });
 }
+/* Compartir e importar el menú, como las rutinas (3.11.1): enlace (#m=, comprimido, no pasa por ningún servidor),
+   archivo .json, Nostr, Markdown y PDF de la semana. Se importa desde el enlace, el archivo (aquí o en Ajustes →
+   Importar), «Compartir con Usus» o pegando. Viaja sin el seguimiento (✓ ✗ ⇄): es de quien lo come. Un menú de una
+   semana ya pasada se trae a esta semana. */
+function menuExportObj(m) {
+  return { app: "usus", kind: "menu", version: 1, start: m.start, people: m.people,
+    days: m.days.map(d => ({ date: d.date, train: d.train, meals: Object.fromEntries(MENU_MEALS.map(([x]) => { const p = d.meals[x]; return [x, { name: p.name, time: p.time, ingredients: p.ing, steps: p.steps }]; })) })),
+    shopping: m.shop.map(g => ({ group: g.g, items: g.items.map(i => i.t) })), tips: m.tips };
+}
+const menuRange = m => { const f = d => new Date(d).toLocaleDateString(LOC(), { day: "numeric", month: "long" }); return T("Semana del {a} al {b}", { a: f(keyTime(m.start)), b: f(addDays(keyTime(m.start), 6)) }); };
+function menuMd(m) {
+  return `# ${T("Menú de la semana")}\n\n${menuRange(m)}\n\n${m.days.map(d => { const s = wdName(d.date); return `## ${s.charAt(0).toUpperCase() + s.slice(1)}${d.train ? ` · ${T("Entreno")}` : ""}\n\n${MENU_MEALS.filter(([x]) => d.meals[x].name).map(([x, n]) => { const p = d.meals[x];
+    return `### ${T(n)}: ${p.name}${p.time ? ` (${p.time} min)` : ""}${p.ing.length ? `\n\n${p.ing.map(i => `- ${i}`).join("\n")}` : ""}${p.steps.length ? `\n\n${p.steps.map((st, i) => `${i + 1}. ${st}`).join("\n")}` : ""}`; }).join("\n\n")}`; }).join("\n\n")}${m.shop.length ? `\n\n${menuShopMd(m).replace(/^# /, "## ").replace(/^## (?!#)/gm, (s, o) => o ? "### " : s)}` : ""}\n`;
+}
+function menuPdf(m) {
+  const L = [{ t: T("Menú de la semana"), bold: true, size: 18 }, { t: menuRange(m), size: 11, gap: 2 }];
+  m.days.forEach(d => { const s = wdName(d.date); L.push({ t: `${s.charAt(0).toUpperCase() + s.slice(1)}${d.train ? ` · ${T("Entreno")}` : ""}`, bold: true, size: 13, gap: 14 });
+    MENU_MEALS.forEach(([x, n]) => { const p = d.meals[x]; if (!p.name) return; L.push({ t: `${T(n)}: ${p.name}${p.time ? ` · ${p.time} min` : ""}`, bold: true, size: 10.5, gap: 4 });
+      if (p.ing.length) L.push({ t: p.ing.join(" · "), size: 9.5 }); p.steps.forEach((st, i) => L.push({ t: `${i + 1}. ${st}`, size: 9.5 })); }); });
+  if (m.shop.length) { L.push({ t: T("Lista de la compra"), bold: true, size: 15, gap: 20 }); m.shop.forEach(g => { L.push({ t: g.g, bold: true, size: 12, gap: 10 }); g.items.forEach(x => L.push({ t: x.t, box: true, done: x.done, gap: 2 })); }); }
+  L.push({ t: "Usus", size: 8, gap: 24 });
+  return pdfText(L);
+}
+async function menuShare(how) {
+  const m = MENU.get(); if (!m) return;
+  const base = `usus-${T("menu")}-${m.start}`;
+  if (how === "file") return shareOut({ title: base + ".json", file: new File([JSON.stringify(menuExportObj(m), null, 2)], base + ".json", { type: "application/json" }) });
+  if (how === "md") return shareOut({ title: T("Menú de la semana"), file: new File([menuMd(m)], base + ".md", { type: "text/markdown" }) });
+  if (how === "pdf") return shareOut({ title: T("Menú de la semana"), file: new File([menuPdf(m)], base + ".pdf", { type: "application/pdf" }) });
+  const url = `${appURL()}#m=${await packShare(menuExportObj(m))}`;
+  if (how === "nostr") { if (nsRO()) return toast(T("Con solo la npub no se puede publicar: entra con un firmante."), 5000);
+    if (!NS.cfg()) { state.dsheet = null; state.tab = "data"; state.setTab = "nostr"; render(); return; }
+    state.nsPost = { k: "menu", text: `${T("Mi menú de la semana para Usus. Abre el enlace para añadirlo.")}\n\n${url}` }; render(); return; }
+  return shareOut({ title: "Usus", text: T("Te paso un menú de la semana para Usus. Abre el enlace para añadirlo."), url });
+}
+/* Importar: confirma si ya hay uno; uno de una semana pasada se trae a esta */
+function menuImport(text) {
+  const m = menuParse(text); if (!m) { toast(T("No parece un menú de Usus: copia la respuesta entera de la IA."), 5000); return false; }
+  const now = dayKey(weekStart(Date.now()));
+  if (m.start < now) { m.start = now; m.days.forEach((d, i) => { d.date = dayKey(addDays(keyTime(now), i)); }); }
+  if (MENU.get() && !confirm(T("Ya tienes un menú. ¿Sustituirlo por este? (lo comido sigue en el Diario)"))) return false;
+  MENU.set(m); state.menuDay = Math.max(0, menuDayOf(dayKey(Date.now()))); state.menuTab = "week";
+  state.tab = "diary"; state.dsheet = "menu"; toast(T("Menú guardado")); render(); return true;
+}
+const isMenuText = t => /"kind"\s*:\s*"menu"/.test(String(t || ""));
+async function readMenuHash() {
+  if (!location.hash.startsWith("#m=")) return;
+  const h = location.hash.slice(3);
+  try { history.replaceState(null, "", location.pathname + location.search); } catch {}
+  let j = null; try { j = await unpackShare(h); } catch {}
+  if (!j || j.kind !== "menu") { toast(T("El enlace no es válido o está incompleto")); return; }
+  menuImport(JSON.stringify(j));
+}
+window.addEventListener("hashchange", () => { readMenuHash(); });

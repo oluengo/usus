@@ -13,7 +13,7 @@
   if (LS.get("wk.catalog", null) === null) state.catAsk = true;
   if (catOn()) loadCatalog().then(c => { planUpCheck(); render(); }); else planUpCheck();
   render();
-  await readShareHash();
+  await readShareHash(); await readMenuHash();
   readShareTarget(); tmrListen();
   if (NS.cfg()) setTimeout(nsCheckNewer, 1500);   // con cuenta de Nostr: ¿hay una copia más nueva?
   if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});

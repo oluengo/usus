@@ -274,6 +274,7 @@ window.addEventListener("hashchange", () => { readShareHash(); });
 async function receiveShared(text) {
   text = String(text || "").trim(); if (!text) return;
   if (state.active) { toast(T("Termina o descarta antes la sesión en curso")); return; }
+  if (isMenuText(text)) { menuImport(text); return; }   // un menú de Usus o la respuesta de la IA con el menú
   let json = false; try { JSON.parse(text); json = true; } catch {}
   if (json) { await importJSON(text); return; }
   const inc = aiParse(text);

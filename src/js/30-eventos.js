@@ -459,6 +459,12 @@ document.addEventListener("click", async ev => {
     case "menu-new": if (confirm(T("¿Empezar un menú nuevo? Este se borra (lo comido sigue en el Diario)."))) { MENU.set(null); state.menuTab = "week"; render(); } break;
     case "menu-fill": menuFill(state.day || dayKey(Date.now())); break;
     case "menu-shop-add": { const v = ($("#mshopNew")?.value || "").trim().slice(0, 120); if (!v) break; const m = MENU.get(), og = T("Otros"); let g = m.shop.find(x => x.g === og); if (!g) m.shop.push(g = { g: og, items: [] }); g.items.push({ t: v, done: false }); MENU.set(m); render(); setTimeout(() => $("#mshopNew")?.focus(), 0); break; }
+    case "menu-sh-link": menuShare("link"); break;
+    case "menu-sh-file": menuShare("file"); break;
+    case "menu-sh-nostr": menuShare("nostr"); break;
+    case "menu-sh-md": menuShare("md"); break;
+    case "menu-sh-pdf": menuShare("pdf"); break;
+    case "menu-imp": $("#menuFile").click(); break;
     case "menu-shop-md": menuShopExport("md"); break;
     case "menu-shop-pdf": menuShopExport("pdf"); break;
     case "menu-shop-share": shareOut({ title: T("Lista de la compra"), text: menuShopText(MENU.get()) }); break;
@@ -598,6 +604,7 @@ document.addEventListener("change", async ev => {
   if (ev.target.id === "wDay") { LS.set("wk.weighDay", +ev.target.value); toast(T("Día de pesaje: {d}", { d: DIAS[+ev.target.value] })); }
   if (ev.target.id === "statEx") { state.statEx = ev.target.value; render(); }
   if (ev.target.id === "wizFile" && ev.target.files[0]) { const t = await ev.target.files[0].text(); wizDone(); state.tab = "routines"; render(); await importJSON(t); return; }
+  if (ev.target.id === "menuFile" && ev.target.files[0]) { menuImport(await ev.target.files[0].text()); ev.target.value = ""; return; }
   if (ev.target.id === "impFile" && ev.target.files[0]) { await importJSON(await ev.target.files[0].text()); ev.target.value = ""; }
 });
 document.addEventListener("click", ev => { const n = ev.target.closest("[data-dnote]"); if (n) { state.dnote = n.dataset.dnote.split(","); render(); return; } const c = ev.target.closest("span[data-day]"); if (c) { state.day = c.dataset.day; state.tab = "diary"; render(); window.scrollTo(0, 0); } });

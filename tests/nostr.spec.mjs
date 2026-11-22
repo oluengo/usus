@@ -246,3 +246,17 @@ test("al terminar, «Publicar en Nostr» publica en un toque (tras confirmar)", 
   expect(note.content).toContain("Corta"); expect(note.tags).toContainEqual(["t", "usus"]);
   expect(errors).toEqual([]);
 });
+test("menú de la semana: publicarlo en Nostr con su enlace", async ({ page }) => {
+  await mockNostr(page);
+  const d = new Date(); d.setHours(0, 0, 0, 0); d.setDate(d.getDate() - (d.getDay() + 6) % 7);
+  const k = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+  const meal = n => ({ name: n, time: 10, ing: ["a"], steps: ["b"] });
+  const menu = { start: k, people: 1, days: Array.from({ length: 7 }, () => ({ date: k, train: false, meals: { b: meal("Avena"), l: meal("Lentejas"), s: meal("Fruta"), d: meal("Tortilla") } })), shop: [], tips: [] };
+  const errors = await openApp(page, { data: { "wk.nostr": { ...CFG, auto: false }, "wk.menu": menu } });
+  await nav(page, "diary"); await page.locator('[data-dsh="menu"]').click();
+  await page.locator('[data-act="menu-sh-nostr"]').click();
+  await expect(page.locator("#nsText")).toHaveValue(/#m=/);
+  await page.locator('[data-act="ns-post-go"]').click(); await expect(page.locator(".modal:has(#npT)")).toContainText("Publicado en Nostr");
+  const note = (await page.evaluate(() => window.__ev)).find(e => e.kind === 1); expect(note.content).toContain("#m=");
+  expect(errors).toEqual([]);
+});

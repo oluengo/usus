@@ -1,4 +1,5 @@
 // Diario → Menú de la semana: pregunta para la IA, pegar el JSON, seguimiento (✓ ✗ ⇄ y motivo), lista de la compra y análisis
+import { createRequire } from "node:module"; const require = createRequire(import.meta.url);
 import { test, expect } from "@playwright/test";
 import { openApp, nav, ls } from "./helpers.mjs";
 const pad = n => String(n).padStart(2, "0"), key = d => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
@@ -72,5 +73,44 @@ test("menú a mano y «Apuntar lo del menú» en Comidas", async ({ page }) => {
   await expect(page.locator('[data-dsh="menu"]')).toContainText("Avena · Garbanzos");
   await page.locator('[data-dsh="food"]').click(); await page.locator('[data-act="menu-fill"]').click();
   await expect(page.locator("#fm_b")).toHaveValue("Avena"); await expect(page.locator("#fm_l")).toHaveValue("Garbanzos");
+  expect(errors).toEqual([]);
+});
+test("menú: compartir por enlace y archivo, importar (archivo, Ajustes, Compartir con Usus) y publicar en Nostr", async ({ page, context, browser }) => {
+  await context.grantPermissions(["clipboard-read", "clipboard-write"]);
+  const errors = await openApp(page, {});
+  await nav(page, "diary"); await page.locator('[data-dsh="menu"]').click();
+  await page.evaluate(t => navigator.clipboard.writeText(t), aiMenu()); await page.locator('[data-act="menu-clip"]').click();
+  const today = (new Date().getDay() + 6) % 7;
+  await page.locator(`[data-mst="${today}:l:ok"]`).click();                                   // el seguimiento no viaja
+  // Archivo .json
+  let dl = page.waitForEvent("download"); await page.locator('[data-act="menu-sh-file"]').click();
+  const file = await (await dl).path(); const j = JSON.parse(require("node:fs").readFileSync(file, "utf8"));
+  expect(j.kind).toBe("menu"); expect(j.days).toHaveLength(7); expect(JSON.stringify(j)).not.toContain('"st"');
+  // Enlace (#m=): en otro móvil, abrirlo añade el menú
+  await page.evaluate(() => { navigator.share = async d => { window.__sh = d; }; });
+  await page.locator('[data-act="menu-sh-link"]').click();
+  await expect.poll(() => page.evaluate(() => window.__sh?.url || "")).toContain("#m=");
+  const link = await page.evaluate(() => window.__sh.url);
+  const p2 = await context.newPage(); const e2 = await openApp(p2, {});
+  await p2.goto(link.slice(link.indexOf("http"))); await p2.waitForTimeout(800);
+  await expect.poll(async () => ((await ls(p2, "wk.menu")) || {}).days?.length).toBe(7);
+  await expect(p2.locator("[data-mname$=\":l\"]")).toHaveValue(/Lentejas/);
+  expect(e2).toEqual([]);
+  // Archivo en Ajustes → Importar (otro perfil vacío) y Compartir con Usus (la respuesta de la IA tal cual)
+  const p3 = await context.newPage(); await openApp(p3, {});
+  await p3.evaluate(t => window.ususReceive(t), aiMenu());
+  await expect.poll(async () => ((await ls(p3, "wk.menu")) || {}).days?.length).toBe(7);
+  const p4 = await context.newPage(); await openApp(p4, {});
+  await nav(p4, "data"); await p4.locator('[data-stab="datos"]').click();
+  await p4.locator("#impFile").setInputFiles(file);
+  await expect.poll(async () => ((await ls(p4, "wk.menu")) || {}).days?.length).toBe(7);
+  // Markdown y PDF de la semana
+  dl = page.waitForEvent("download"); await page.locator('[data-act="menu-sh-md"]').click();
+  const md = require("node:fs").readFileSync(await (await dl).path(), "utf8"); expect(md).toContain("# Menú de la semana"); expect(md).toContain("### Comida: Lentejas"); expect(md).toContain("## Lista de la compra");
+  dl = page.waitForEvent("download"); await page.locator('[data-act="menu-sh-pdf"]').click();
+  expect(require("node:fs").readFileSync(await (await dl).path(), "latin1").startsWith("%PDF")).toBe(true);
+  // Nostr sin cuenta: lleva a conectarla
+  await page.locator('[data-act="menu-sh-nostr"]').click();
+  await expect(page.locator('[data-act="ns-connect"]')).toBeVisible();
   expect(errors).toEqual([]);
 });

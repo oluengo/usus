@@ -830,7 +830,7 @@ msgid "Apuntar lo del menú"
 msgstr "Apuntar el del menú"
 
 msgid "Archivo"
-msgstr "Fitxer"
+msgstr "Arxiu"
 
 msgid "Archivo guardado"
 msgstr "Fitxer desat"
@@ -1266,6 +1266,9 @@ msgstr "Compartir rutines"
 
 msgid "Compartir Usus"
 msgstr "Compartir Usus"
+
+msgid "Compartir y exportar"
+msgstr "Compartir i exportar"
 
 msgid "Compartir: la app desde Ajustes, un entreno como imagen o texto (al terminar o desde el Diario) y tus rutinas o el programa entero con su plan, por enlace o archivo. Quien abre el enlace elige qué añadir. Nada pasa por ningún servidor."
 msgstr "Compartir: l'app des d'Ajustos, un entrenament com a imatge o text (en acabar o des del Diari) i les teves rutines o el programa sencer amb el seu pla, per enllaç o fitxer. Qui obre l'enllaç tria què afegir. Res passa per cap servidor."
@@ -2701,6 +2704,9 @@ msgstr "Importa"
 msgid "Importar {r} rutinas, {s} sesiones, {w} pesos y {d} días de diario. Se combinarán con tus datos actuales. ¿Continuar?"
 msgstr "S'importaran {r} rutines, {s} sessions, {w} pesos i {d} dies de diari, combinats amb les teves dades actuals. Vols continuar?"
 
+msgid "Importar archivo"
+msgstr "Importar arxiu"
+
 msgid "Importar el plan de progresión. Sustituirá al plan actual, si lo hay. ¿Continuar?"
 msgstr "Vols importar el pla de progressió? Substituirà el pla actual, si n'hi ha."
 
@@ -3163,8 +3169,14 @@ msgstr "Menys ultraprocessats"
 msgid "Menstruación"
 msgstr "Menstruació"
 
+msgid "menu"
+msgstr "menu"
+
 msgid "Menú de la semana"
 msgstr "Menú de la setmana"
+
+msgid "Menú de la semana, como las rutinas: se comparte por enlace, archivo .json o Nostr, y se exporta a Markdown o PDF. Se importa abriendo el enlace, desde el archivo (en el propio menú o en Ajustes → Importar) o compartiendo con Usus la respuesta de la IA. Va sin lo que has marcado, y un menú de una semana pasada se trae a la actual."
+msgstr "Menú de la setmana, com les rutines: es comparteix per enllaç, arxiu .json o Nostr, i s'exporta a Markdown o PDF. S'importa obrint l'enllaç, des de l'arxiu (al mateix menú o a Ajustos → Importar) o compartint amb Usus la resposta de la IA. Va sense el que has marcat, i un menú d'una setmana passada es porta a l'actual."
 
 msgid "Menú de la semana, en el Diario: lo crea tu IA (con tus preferencias, intolerancias y días de entreno) o lo rellenas a mano, con recetas breves y lista de la compra con casillas, que se puede exportar en Markdown o PDF. En cada plato marcas si lo comiste, no o lo cambiaste (por qué y por qué plato); lo comido pasa a Comidas, y «Analizar la semana» prepara la pregunta para que tu IA ajuste el siguiente menú."
 msgstr "Menú de la setmana, al Diari: el crea la teva IA (amb les teves preferències, intoleràncies i dies d'entrenament) o l'omples a mà, amb receptes breus i llista de la compra amb caselles, que es pot exportar en Markdown o PDF. A cada plat marques si el vas menjar, no o el vas canviar (per què i per quin plat); el que has menjat passa a Àpats, i «Analitzar la setmana» prepara la pregunta perquè la teva IA ajusti el menú següent."
@@ -3193,6 +3205,9 @@ msgstr "El meu material"
 
 msgid "Mi material (Ajustes → Entreno) y material en tus ejercicios propios."
 msgstr "El meu material (Ajustos → Entrenament) i material als teus exercicis propis."
+
+msgid "Mi menú de la semana para Usus. Abre el enlace para añadirlo."
+msgstr "El meu menú de la setmana per a Usus. Obre l'enllaç per afegir-lo."
 
 #, python-brace-format
 msgid "Mi rutina «{x}» para Usus. Abre el enlace para añadirla."
@@ -3771,6 +3786,9 @@ msgstr "Per a la IA"
 msgid "Para las preguntas de comidas del Diario y el plan con IA. Solo en este dispositivo."
 msgstr "Per a les preguntes d'àpats del Diari i el pla amb IA. Només en aquest dispositiu."
 
+msgid "Para leer o imprimir"
+msgstr "Per llegir o imprimir"
+
 msgid "Para publicar, conecta antes tu cuenta en Ajustes → Cuenta de Nostr."
 msgstr "Per publicar, connecta abans el teu compte a Ajustos → Compte de Nostr."
 
@@ -4147,9 +4165,6 @@ msgstr "Prediccions en pausa"
 msgid "Predicciones en pausa."
 msgstr "Prediccions en pausa."
 
-msgid "Prefiero rellenarlo a mano"
-msgstr "Prefereixo omplir-lo a mà"
-
 msgid "Pregunta"
 msgstr "Pregunta"
 
@@ -4482,6 +4497,9 @@ msgstr "Reiniciar el pla"
 msgid "Reiniciar el plan: en el menú ⋯ del plan en Hoy o en Biblioteca → Plan, vuelve a la semana 1 desde hoy, sin semana elegida ni pausas. Tus rutinas, sesiones e historial no se tocan. Al terminar un plan, Hoy lo ofrece."
 msgstr "Reiniciar el pla: al menú ⋯ del pla a Avui o a Biblioteca → Pla, torna a la setmana 1 des d'avui, sense setmana triada ni pauses. Les teves rutines, sessions i historial no es toquen. En acabar un pla, Avui ho ofereix."
 
+msgid "Rellenarlo a mano"
+msgstr "Omplir-lo a mà"
+
 msgid "Reparto por bloque"
 msgstr "Repartiment per bloc"
 
@@ -4688,6 +4706,9 @@ msgstr "S'esborraran totes les dades de «{x}» en aquest dispositiu. Els altres
 
 msgid "Se combina con lo que hay en este perfil, como al importar un archivo. Los ajustes sustituyen a los actuales."
 msgstr "Es combina amb el que hi ha en aquest perfil, com en importar un arxiu. Els ajustos substitueixen els actuals."
+
+msgid "Se comparte sin lo que has marcado (✓ ✗ ⇄). La copia de seguridad, también en Nostr, lo guarda todo."
+msgstr "Es comparteix sense el que has marcat (✓ ✗ ⇄). La còpia de seguretat, també a Nostr, ho desa tot."
 
 msgid "Se evitan los ejercicios que más cargan esa zona."
 msgstr "S'eviten els exercicis que més carreguen aquesta zona."
@@ -5258,6 +5279,9 @@ msgstr "Et passo {n} rutines per a Usus. Obre l'enllaç per afegir-les."
 #, python-brace-format
 msgid "Te paso la rutina «{x}» para Usus. Abre el enlace para añadirla."
 msgstr "Et passo la rutina «{x}» per a Usus. Obre l'enllaç per afegir-la."
+
+msgid "Te paso un menú de la semana para Usus. Abre el enlace para añadirlo."
+msgstr "Et passo un menú de la setmana per a Usus. Obre l'enllaç per afegir-lo."
 
 msgid "Técnica (opcional)"
 msgstr "Tècnica (opcional)"
@@ -5831,6 +5855,9 @@ msgstr "Ja tens aquesta rutina, igual."
 msgid "Ya tienes todas estas rutinas, iguales."
 msgstr "Ja tens totes aquestes rutines, iguals."
 
+msgid "Ya tienes un menú. ¿Sustituirlo por este? (lo comido sigue en el Diario)"
+msgstr "Ja tens un menú. El substitueixes per aquest? (el que has menjat continua al Diari)"
+
 msgid "Ya tienes una sesión en curso. ¿Descartarla y empezar otra?"
 msgstr "Ja tens una sessió en curs. La vols descartar i començar-ne una altra?"
 
@@ -5842,6 +5869,9 @@ msgstr "Zona lumbar"
 
 msgid "Zona peligrosa"
 msgstr "Zona perillosa"
+
+#~ msgid "Prefiero rellenarlo a mano"
+#~ msgstr "Prefereixo omplir-lo a mà"
 
 #~ msgid "Menú de la semana, en el Diario: lo crea tu IA (con tus preferencias, intolerancias y días de entreno) o lo rellenas a mano, con recetas breves y lista de la compra con casillas. En cada plato marcas si lo comiste, no o lo cambiaste (por qué y por qué plato); lo comido pasa a Comidas, y «Analizar la semana» prepara la pregunta para que tu IA ajuste el siguiente menú."
 #~ msgstr "Menú de la setmana, al Diari: el crea la teva IA (amb les teves preferències, intoleràncies i dies d'entrenament) o l'omples a mà, amb receptes breus i llista de la compra amb caselles. A cada plat marques si el vas menjar, no o el vas canviar (per què i per quin plat); el que has menjat passa a Àpats, i «Analitzar la setmana» prepara la pregunta perquè la teva IA ajusti el menú següent."
