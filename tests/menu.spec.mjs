@@ -148,3 +148,53 @@ test("ayuno intermitente: en el perfil, en el menú (ventana, seguimiento y aná
   expect(await page.evaluate(() => navigator.clipboard.readText())).toContain("como solo de 13:00 a 21:00");
   expect(errors).toEqual([]);
 });
+test("menú de 4 semanas: la IA escribe 2 que se repiten, compra por semanas con despensa, análisis por semana", async ({ page, context }) => {
+  await context.grantPermissions(["clipboard-read", "clipboard-write"]);
+  const errors = await openApp(page);
+  await nav(page, "diary"); await page.locator('[data-dsh="menu"]').click();
+  await page.locator('[data-mweeks="4"]').click();
+  await expect(page.locator('[data-mweeks="4"]')).toHaveAttribute("aria-pressed", "true");
+  await page.locator('[data-act="menu-copy"]').click();
+  const q = await page.evaluate(() => navigator.clipboard.readText());
+  for (const x of ["menú de 4 semanas", "(4 semanas, de lunes a domingo)", "\"weeks\":4", "\"repeat\":true", "exactamente 14", "\"week\":0", "POR SEMANAS"]) expect(q).toContain(x);
+  const m = monday(), days = Array.from({ length: 14 }, (_, i) => { const d = new Date(m); d.setDate(m.getDate() + i);
+    return { date: key(d), train: false, meals: { b: { name: "Desayuno " + i }, l: { name: "Comida " + i }, s: { name: "" }, d: { name: "Cena " + i } } }; });
+  const json = JSON.stringify({ app: "usus", kind: "menu", version: 1, start: key(m), weeks: 4, repeat: true, people: 1, days,
+    shopping: [{ week: 0, group: "Despensa", items: ["1 kg arroz"] }, { week: 1, group: "Fruta", items: ["Manzanas"] }, { week: 2, group: "Fruta", items: ["Peras"] }] });
+  await page.evaluate(t => navigator.clipboard.writeText(t), json);
+  await page.locator('[data-act="menu-clip"]').click();
+  await expect(page.locator("#toast")).toContainText("Menú guardado");
+  const st = await ls(page, "wk.menu");
+  expect(st.days.length).toBe(28);
+  expect(st.days[16].meals.l.name).toBe("Comida 2"); expect(st.days[27].meals.d.name).toBe("Cena 13");
+  expect(st.shop.map(g => `${g.w}:${g.items[0].t}`)).toEqual(["0:1 kg arroz", "1:Manzanas", "2:Peras", "3:Manzanas", "4:Peras"]);
+  // Selector de semana: la 3 enseña sus 7 días
+  await page.locator('[data-mw="2"]').click();
+  await expect(page.locator("[data-mday]")).toHaveCount(7);
+  await expect(page.locator('[data-mday="14"]')).toHaveAttribute("aria-selected", "true");
+  await expect(page.locator('[data-mname="14:l"]')).toHaveValue("Comida 0");
+  await page.locator('[data-mst="14:l:ok"]').click();
+  await expect(page.locator(".wh", { hasText: "Analizar la semana 3" })).toBeVisible();
+  await page.locator('[data-act="menu-an-copy"]').click();
+  const a = await page.evaluate(() => navigator.clipboard.readText());
+  expect(a).toContain("Semana 3 de 4 del menú"); expect(a).toContain("Comida 0 → ✓"); expect(a).not.toContain("Comida 7");
+  // Compra por semanas
+  await page.locator('[data-mtab="shop"]').click();
+  await page.locator('[data-mshw="0"]').click(); await expect(page.locator(".mshop")).toHaveCount(1); await expect(page.locator(".mshop")).toContainText("1 kg arroz");
+  await page.locator('[data-mshw="4"]').click(); await expect(page.locator(".mshop")).toContainText("Peras");
+  await page.fill("#mshopNew", "Pan"); await page.locator('[data-act="menu-shop-add"]').click();
+  expect((await ls(page, "wk.menu")).shop.find(g => g.g === "Otros").w).toBe(4);
+  let dl = page.waitForEvent("download"); await page.locator('[data-act="menu-shop-md"]').click();
+  const md = await (await dl).createReadStream().then(s => new Promise(r => { let t = ""; s.on("data", c => t += c); s.on("end", () => r(t)); }));
+  expect(md).toContain("Semana 4 ·"); expect(md).toContain("- [ ] Peras"); expect(md).not.toContain("arroz");
+  // Menú entero en Markdown: un apartado por semana y todas las listas
+  await page.locator('[data-mtab="week"]').click();
+  dl = page.waitForEvent("download"); await page.locator('[data-act="menu-sh-md"]').click();
+  const all = await (await dl).createReadStream().then(s => new Promise(r => { let t = ""; s.on("data", c => t += c); s.on("end", () => r(t)); }));
+  for (const x of ["# Menú de 4 semanas", "## Semana 1 ·", "## Semana 4 ·", "### Despensa", "### Semana 2", "- [ ] 1 kg arroz"]) expect(all).toContain(x);
+  // El JSON que se comparte lleva las 4 semanas y vuelve a entrar igual
+  dl = page.waitForEvent("download"); await page.locator('[data-act="menu-sh-file"]').click();
+  const j = JSON.parse(await (await dl).createReadStream().then(s => new Promise(r => { let t = ""; s.on("data", c => t += c); s.on("end", () => r(t)); })));
+  expect(j.weeks).toBe(4); expect(j.days.length).toBe(28); expect(j.shopping.filter(g => g.week === 0).length).toBe(1);
+  expect(errors).toEqual([]);
+});

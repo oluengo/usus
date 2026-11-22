@@ -1,5 +1,9 @@
 /* ---------- Novedades (una vez por versión; historial al tocar la versión) ---------- */
 const CHANGES = [  // Novedades: solo en castellano; las traducciones, en i18n/*.po
+  ["3.12.0", [
+    N_("Menú de 1, 2 o 4 semanas: eliges la duración antes de pedírselo a tu IA. Con 4 semanas escribe 2 distintas que se repiten, para que la respuesta no sea demasiado larga. Un selector de semana encima de los días, y «Analizar la semana» se hace semana a semana."),
+    N_("Lista de la compra por semanas, con lo fresco de cada una, y una despensa con lo que aguanta todo el menú. Cada lista se comparte o exporta por separado; el Markdown y el PDF del menú las llevan todas.")
+  ]],
   ["3.11.1", [
     N_("Ayuno intermitente (12:12, 14:10 o 16:8), en Ajustes → Perfil → Alimentación: a qué hora empiezas a comer y qué días. El menú pone todas las comidas dentro de la ventana, con su hora; cada día marcas si lo cumpliste o a qué hora y por qué lo rompiste, y entra en «Analizar la semana». «¿Qué como?» y Comidas también lo tienen en cuenta."),
     N_("Menú de la semana, como las rutinas: se comparte por enlace, archivo .json o Nostr, y se exporta a Markdown o PDF. Se importa abriendo el enlace, desde el archivo (en el propio menú o en Ajustes → Importar) o compartiendo con Usus la respuesta de la IA. Va sin lo que has marcado, y un menú de una semana pasada se trae a la actual."),

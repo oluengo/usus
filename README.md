@@ -17,7 +17,7 @@
 - **Progression:** after a session, Usus suggests moving to the next exercise or back to the previous one. You decide.
 - **Exercise catalogue** *(optional)*: a card for each one, equipment and progression.
 - **Guided plan**, or **with AI** *(optional, external)*: routines at your level and a plan that rotates variants in order, with deloads and pauses.
-- **Diary** for sleep, steps, weight, activity, meals and notes, a **weekly menu** (by your AI or by hand, with a shopping list), and **Progress** with consistency, PRs, effort and habits.
+- **Diary** for sleep, steps, weight, activity, meals and notes, a **menu** for 1, 2 or 4 weeks (by your AI or by hand, with a shopping list by week), and **Progress** with consistency, PRs, effort and habits.
 - **Profiles** for several people, optional **cycle** tracking and light, dark and protector themes.
 - **Share** workouts, routines and the weekly menu with no servers (link, file or Nostr); import them the same way, or share your AI's reply with Usus. Backups and CSV.
 - **Nostr** *(optional)*: a backup encrypted only for you and posting workouts and routines. Sign in with Amber, a bunker, a browser extension or your npub.

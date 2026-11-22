@@ -1,0 +1,2 @@
+• Menu for 1, 2 or 4 weeks: choose the length before asking your AI. With 4 weeks it writes 2 different weeks that repeat, so the reply isn't too long. A week selector above the days, and “Analyse the week” works week by week.
+• Shopping list by week, with each week's fresh food, plus a pantry list with what lasts the whole menu. Each list is shared or exported on its own; the menu's Markdown and PDF include them all.

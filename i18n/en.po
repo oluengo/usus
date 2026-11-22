@@ -172,6 +172,10 @@ msgstr "“What should I eat?”: Usus writes the question for your AI (what's f
 msgid "«Añadir app» y pega el enlace:"
 msgstr "“Add app” and paste the link:"
 
+#, python-brace-format
+msgid "«days»: exactamente {n}, de lunes a domingo, con «date» correlativa desde «start». «train»: true solo los días que entreno. «time»: minutos de preparación. «at»: hora aproximada de cada comida. Máximo 3 «tips»."
+msgstr "“days”: exactly {n}, Monday to Sunday, with consecutive “date” from “start”. “train”: true only on days I train. “time”: preparation minutes. “at”: approximate time of each meal. At most 3 “tips”."
+
 msgid "«days»: exactamente 7, de lunes a domingo, con «date» correlativa desde «start». «train»: true solo los días que entreno. «time»: minutos de preparación. «at»: hora aproximada de cada comida. Máximo 3 «tips»."
 msgstr "“days”: exactly 7, Monday to Sunday, with consecutive “date” from “start”. “train”: true only on days I train. “time”: preparation minutes. “at”: approximate time of each meal. At most 3 “tips”."
 
@@ -346,6 +350,10 @@ msgstr "{n} week"
 #, python-brace-format
 msgid "{n} semanas"
 msgstr "{n} weeks"
+
+#, python-brace-format
+msgid "{n} semanas, {r}"
+msgstr "{n} weeks, {r}"
 
 #, python-brace-format
 msgid "{n} serie"
@@ -679,6 +687,10 @@ msgstr "Analyse with external AI (Stats → Summary): Usus prepares a text with 
 
 msgid "Analizar la semana"
 msgstr "Analyse the week"
+
+#, python-brace-format
+msgid "Analizar la semana {n}"
+msgstr "Analyse week {n}"
 
 msgid "Android (Chrome): menú ⋮ → «Instalar aplicación» o «Añadir a pantalla de inicio»."
 msgstr "Android (Chrome): ⋮ menu → “Install app” or “Add to Home screen”."
@@ -1607,6 +1619,10 @@ msgid "Dejar como propio"
 msgstr "Keep as my own"
 
 #, python-brace-format
+msgid "del {a} al {b}"
+msgstr "{a} to {b}"
+
+#, python-brace-format
 msgid "Del {d}, guardada desde otro dispositivo o la web."
 msgstr "From {d}, saved from another device or the web."
 
@@ -1736,6 +1752,12 @@ msgstr "Undo"
 
 msgid "Desmarcar"
 msgstr "Clear"
+
+msgid "despensa"
+msgstr "pantry"
+
+msgid "Despensa"
+msgstr "Pantry"
 
 #, python-brace-format
 msgid "Después: {x}"
@@ -2276,6 +2298,10 @@ msgstr "Workouts, routines and plan"
 
 msgid "Equilibrio izq. / der."
 msgstr "Left / right balance"
+
+#, python-brace-format
+msgid "Eres un asistente de cocina saludable y sencilla. Crea un menú de {n} semanas para mí, siguiendo estas reglas y devolviendo SOLO el JSON del final."
+msgstr "You are a healthy, simple cooking assistant. Create a {n}-week menu for me, following these rules and returning ONLY the JSON at the end."
 
 msgid "Eres un asistente de cocina saludable y sencilla. Crea un menú semanal para mí, siguiendo estas reglas y devolviendo SOLO el JSON del final."
 msgstr "You are a healthy, simple cooking assistant. Create a weekly menu for me, following these rules and returning ONLY the JSON at the end."
@@ -3038,11 +3064,24 @@ msgstr "Shopping list"
 msgid "Lista de la compra con TODO lo necesario para la semana, agrupada por sección y sin repetir ingredientes (suma cantidades)."
 msgstr "A shopping list with EVERYTHING needed for the week, grouped by section and without repeating ingredients (add up amounts)."
 
+msgid "Lista de la compra POR SEMANAS, cada grupo con «week»: 0 para la despensa (lo que aguanta todo el periodo: legumbre seca, arroz, pasta, aceite, especias, conservas, congelados) y 1, 2… para lo fresco que se compra esa semana (fruta, verdura, carne, pescado, huevos, lácteos, pan). Agrupada por sección y sin repetir ingredientes dentro de cada lista (suma cantidades)."
+msgstr "Shopping list BY WEEK, each group with “week”: 0 for the pantry (what lasts the whole period: dried pulses, rice, pasta, oil, spices, tins, frozen food) and 1, 2… for the fresh food bought that week (fruit, vegetables, meat, fish, eggs, dairy, bread). Grouped by section, with no repeated ingredients within each list (add up quantities)."
+
+msgid "Lista de la compra por semanas, con lo fresco de cada una, y una despensa con lo que aguanta todo el menú. Cada lista se comparte o exporta por separado; el Markdown y el PDF del menú las llevan todas."
+msgstr "Shopping list by week, with each week's fresh food, plus a pantry list with what lasts the whole menu. Each list is shared or exported on its own; the menu's Markdown and PDF include them all."
+
 msgid "Listo para subir"
 msgstr "Ready to step up"
 
 msgid "Lo copiado no tiene rutinas de Usus. Copia la respuesta de la IA (o su bloque de código) y vuelve a probar."
 msgstr "What you copied has no Usus routines. Copy the AI's reply (or its code block) and try again."
+
+#, python-brace-format
+msgid "Lo fresco de la semana {n}, {r}."
+msgstr "Fresh food for week {n}, {r}."
+
+msgid "Lo que aguanta todo el menú: se compra una vez."
+msgstr "What lasts the whole menu: buy it once."
 
 msgid "Lo que faltó en cada serie"
 msgstr "What was missing in each set"
@@ -3252,6 +3291,13 @@ msgstr "Menstruation"
 
 msgid "menu"
 msgstr "menu"
+
+#, python-brace-format
+msgid "Menú de {n} semanas"
+msgstr "{n}-week menu"
+
+msgid "Menú de 1, 2 o 4 semanas: eliges la duración antes de pedírselo a tu IA. Con 4 semanas escribe 2 distintas que se repiten, para que la respuesta no sea demasiado larga. Un selector de semana encima de los días, y «Analizar la semana» se hace semana a semana."
+msgstr "Menu for 1, 2 or 4 weeks: choose the length before asking your AI. With 4 weeks it writes 2 different weeks that repeat, so the reply isn't too long. A week selector above the days, and “Analyse the week” works week by week."
 
 msgid "Menú de la semana"
 msgstr "Weekly menu"
@@ -3879,6 +3925,9 @@ msgstr "To pass it to another Usus"
 msgid "Para publicar, conecta antes tu cuenta en Ajustes → Cuenta de Nostr."
 msgstr "To post, first connect your account in Settings → Nostr account."
 
+msgid "Para que la respuesta no sea demasiado larga, escribe solo 2 semanas distintas (14 días) y pon «repeat»: true: Usus repite la semana 1 en la 3 y la 2 en la 4. La despensa («week»: 0), para las 4 semanas; lo fresco, solo para las semanas 1 y 2 (se repite igual)."
+msgstr "So the reply isn't too long, write only 2 different weeks (14 days) and set “repeat”: true: Usus repeats week 1 as week 3 and week 2 as week 4. The pantry (“week”: 0) covers all 4 weeks; fresh food only weeks 1 and 2 (it repeats the same)."
+
 msgid "Para que las mejore o las respete (p. ej. una rutina diaria)."
 msgstr "So it improves or keeps them (e.g. a daily routine)."
 
@@ -4066,6 +4115,10 @@ msgstr "Period"
 
 msgid "Período"
 msgstr "Period"
+
+#, python-brace-format
+msgid "Periodo: del {a} al {b} ({n} semanas, de lunes a domingo)."
+msgstr "Period: {a} to {b} ({n} weeks, Monday to Sunday)."
 
 msgid "Pesajes"
 msgstr "Weigh-ins"
@@ -4422,6 +4475,9 @@ msgstr "What happened"
 msgid "Qué hay de nuevo"
 msgstr "What's new"
 
+msgid "Que las dos semanas sean distintas; un plato que guste puede repetirse, como mucho dos veces."
+msgstr "Make the two weeks different; a dish I like can repeat, at most twice."
+
 msgid "Qué recuperar"
 msgstr "What to restore"
 
@@ -4489,6 +4545,10 @@ msgstr "Recipe"
 #, python-brace-format
 msgid "Recetas breves: ingredientes con cantidades para {n} persona(s) y de 2 a 4 pasos cortos. Tiempo realista."
 msgstr "Short recipes: ingredients with amounts for {n} person(s) and 2 to 4 short steps. Realistic times."
+
+#, python-brace-format
+msgid "Recetas muy breves: ingredientes con cantidades para {n} persona(s) y de 2 a 3 pasos cortos. Tiempo realista."
+msgstr "Very short recipes: ingredients with quantities for {n} person(s) and 2 to 3 short steps. Realistic time."
 
 msgid "récord"
 msgstr "PR"
@@ -4893,6 +4953,10 @@ msgstr "Week {n}"
 msgid "Semana {n} de {m}"
 msgstr "Week {n} of {m}"
 
+#, python-brace-format
+msgid "Semana {n} de {t} del menú, {r}."
+msgstr "Week {n} of {t} of the menu, {r}."
+
 msgid "Semana de descarga"
 msgstr "Deload week"
 
@@ -4913,6 +4977,9 @@ msgstr "Week of {a} to {b}"
 #, python-brace-format
 msgid "Semana del {d}: +{p} %"
 msgstr "Week of {d}: +{p}%"
+
+msgid "Semana del menú"
+msgstr "Menu week"
 
 msgid "Semana en la que vas"
 msgstr "Week you're on"

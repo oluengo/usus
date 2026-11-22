@@ -972,6 +972,7 @@ body:has(.sbar) .rest{bottom:calc(152px + env(safe-area-inset-bottom,0px))}
 .mrowg{margin-top:12px}
 .mcfg{display:grid;grid-template-columns:auto 1fr;gap:10px 12px;align-items:center}.mcfg>span{font-size:.85rem;color:var(--muted)}.mcfg .fchips{margin:0}
 .mtabs{margin:0 0 4px}
+.mwsel{margin:10px 0 0}
 .mdays{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin:8px 0 4px}
 .mdays button{border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:6px 0 8px;display:flex;flex-direction:column;align-items:center;gap:1px;color:inherit;font:inherit;min-height:56px;cursor:pointer}
 .mdays button span{font-size:.72rem;color:var(--muted);text-transform:uppercase}.mdays button b{font-size:1rem}
@@ -1214,7 +1215,7 @@ function lastSetsFor(ref) {
   }
   return null;
 }
-const APP_VERSION = "3.11.1";
+const APP_VERSION = "3.12.0";
 const THEMES = [["protector", "Protector", "Oscuro cálido, sin azul"], ["dark", "Oscuro", "Neutro"], ["light", "Claro", "Para el día"], ["auto", "Automático", "Sigue al sistema"]];
 const curTheme = () => document.documentElement.dataset.theme || "auto";
 function applyTheme(t) {
@@ -4669,6 +4670,10 @@ function installBlock() {
 }
 /* ---------- Novedades (una vez por versión; historial al tocar la versión) ---------- */
 const CHANGES = [  // Novedades: solo en castellano; las traducciones, en i18n/*.po
+  ["3.12.0", [
+    N_("Menú de 1, 2 o 4 semanas: eliges la duración antes de pedírselo a tu IA. Con 4 semanas escribe 2 distintas que se repiten, para que la respuesta no sea demasiado larga. Un selector de semana encima de los días, y «Analizar la semana» se hace semana a semana."),
+    N_("Lista de la compra por semanas, con lo fresco de cada una, y una despensa con lo que aguanta todo el menú. Cada lista se comparte o exporta por separado; el Markdown y el PDF del menú las llevan todas.")
+  ]],
   ["3.11.1", [
     N_("Ayuno intermitente (12:12, 14:10 o 16:8), en Ajustes → Perfil → Alimentación: a qué hora empiezas a comer y qué días. El menú pone todas las comidas dentro de la ventana, con su hora; cada día marcas si lo cumpliste o a qué hora y por qué lo rompiste, y entra en «Analizar la semana». «¿Qué como?» y Comidas también lo tienen en cuenta."),
     N_("Menú de la semana, como las rutinas: se comparte por enlace, archivo .json o Nostr, y se exporta a Markdown o PDF. Se importa abriendo el enlace, desde el archivo (en el propio menú o en Ajustes → Importar) o compartiendo con Usus la respuesta de la IA. Va sin lo que has marcado, y un menú de una semana pasada se trae a la actual."),
@@ -6287,38 +6292,59 @@ function fastSet(p) { FOOD.set({ fast: { ...fastCfg(), ...p } }); render(); }
    cambiar. Cada plato: receta breve, y si se comió (✓), no (✗) o se cambió (⇄) con qué y por qué. Lo comido pasa a
    Comidas del día. «Analizar la semana» prepara otra pregunta con ese seguimiento; su línea «PARA EL PRÓXIMO MENÚ»
    se guarda (wk.menuNext) y entra en el siguiente menú. Lista de la compra con casillas.
+   3.12.0: 1, 2 o 4 semanas (wk.menuCfg.weeks); days tiene 7 × semanas y cada lista de la compra lleva w (0 despensa, 1… semana).
    wk.menu = { start, people, days: [{ date, train, meals: { b|l|s|d: { name, time, ing[], steps[], st, sw, why } } }],
                shop: [{ g, items: [{ t, done }] }], tips[], an } · wk.menuCfg = { people, time, budget }. Por perfil. */
 const MENU_MEALS = FOOD_MEALS.filter(([k]) => k !== "x");
 const MENU_WHY = [["tiempo", N_("Sin tiempo")], ["apetecia", N_("No me apetecía")], ["faltaba", N_("Faltaba un ingrediente")], ["fuera", N_("Comí fuera")], ["hambre", N_("Sin hambre")], ["otro", N_("Otro motivo")]];
-const MENU_TIME = ["15", "20", "30", "45"], MENU_BUD = [["ajustado", N_("Ajustado")], ["normal", N_("Normal")], ["libre", N_("Sin límite")]];
+const MENU_TIME = ["15", "20", "30", "45"], MENU_WEEKS = [1, 2, 4], MENU_BUD = [["ajustado", N_("Ajustado")], ["normal", N_("Normal")], ["libre", N_("Sin límite")]];
 const MENU = {
   get: () => { const m = LS.get("wk.menu", null); return m && Array.isArray(m.days) ? m : null; },
   set: m => LS.set("wk.menu", m),
-  cfg: () => ({ people: 1, time: "20", budget: "normal", ...(LS.get("wk.menuCfg", null) || {}) }),
+  cfg: () => { const c = { people: 1, time: "20", budget: "normal", weeks: 1, ...(LS.get("wk.menuCfg", null) || {}) }; if (!MENU_WEEKS.includes(+c.weeks)) c.weeks = 1; c.weeks = +c.weeks; return c; },
   setCfg: p => LS.set("wk.menuCfg", { ...MENU.cfg(), ...p })
 };
 const menuWeek = () => dayKey(addDays(weekStart(Date.now()), 7 * (state.menuWk || 0)));
+/* 1, 2 o 4 semanas (3.12.0): days tiene 7 × semanas; la compra va por listas (w: 0 despensa, 1… cada semana) */
+const menuW = m => Math.max(1, Math.round((m?.days.length || 7) / 7));
+const menuTitle = m => menuW(m) > 1 ? T("Menú de {n} semanas", { n: menuW(m) }) : T("Menú de la semana");
 const menuDayOf = k => { const m = MENU.get(); return m ? m.days.findIndex(d => d.date === k) : -1; };
 const wdName = k => new Date(keyTime(k)).toLocaleDateString(LOC(), { weekday: "long" });
 const lines = a => (a || []).join("\n"), unlines = t => String(t || "").split("\n").map(s => s.trim()).filter(Boolean).slice(0, 30);
 /* Qué toca entrenar cada día de esa semana (plan si está en marcha; si no, los días de cada rutina) */
-function menuTrain(start) {
+function menuTrain(start, n = 7) {
   const pn = planNow();
-  return Array.from({ length: 7 }, (_, i) => {
+  return Array.from({ length: n }, (_, i) => {
     const k = dayKey(addDays(keyTime(start), i)), wd = new Date(keyTime(k)).getDay();
     const rs = pn?.status === "on" ? suggestedFor(pn.w, wd) : state.routines.filter(r => (r.days || []).includes(wd));
     return { k, rs };
   });
 }
 function menuPrompt() {
-  const c = MENU.cfg(), start = menuWeek(), end = dayKey(addDays(keyTime(start), 6)), P = foodParts(), tr = menuTrain(start).filter(x => x.rs.length);
+  const c = MENU.cfg(), W = c.weeks, D = W === 4 ? 2 : W, start = menuWeek(), end = dayKey(addDays(keyTime(start), 7 * W - 1)), P = foodParts();
+  const tr = menuTrain(start, 7 * D).filter(x => x.rs.length), dn = k => W > 1 ? `${wdName(k)} ${k}` : wdName(k);
   const next = (LS.get("wk.menuNext", "") || "").trim(), bud = foodLab(MENU_BUD, c.budget), fw = fastWin(), th = trainHour();
-  const fdays = fw ? Array.from({ length: 7 }, (_, i) => dayKey(addDays(keyTime(start), i))).filter(fastOn) : [];
-  return [T("Eres un asistente de cocina saludable y sencilla. Crea un menú semanal para mí, siguiendo estas reglas y devolviendo SOLO el JSON del final."), "",
+  const fdays = fw ? Array.from({ length: 7 * D }, (_, i) => dayKey(addDays(keyTime(start), i))).filter(fastOn) : [];
+  const rules = [T("Comida casera, saludable y variada: verdura en comida y cena, legumbre 2–3 veces por semana, pescado o alternativa vegetal 2–3 veces, fruta a diario, poco ultraprocesado y poco azúcar."),
+    T("Los días de entreno, más energía antes y proteína después. Los días sin entreno, algo más ligero."),
+    T("Aprovecha ingredientes entre días (cocina una vez, come dos) para gastar menos y tirar menos."),
+    W > 1 ? T("Recetas muy breves: ingredientes con cantidades para {n} persona(s) y de 2 a 3 pasos cortos. Tiempo realista.", { n: c.people }) : T("Recetas breves: ingredientes con cantidades para {n} persona(s) y de 2 a 4 pasos cortos. Tiempo realista.", { n: c.people }),
+    T("Nada de calorías, macros ni pesos corporales. Sin dietas ni saltarse comidas."),
+    T("Respeta SIEMPRE las intolerancias y lo que no me gusta."),
+    W > 1 ? T("Lista de la compra POR SEMANAS, cada grupo con «week»: 0 para la despensa (lo que aguanta todo el periodo: legumbre seca, arroz, pasta, aceite, especias, conservas, congelados) y 1, 2… para lo fresco que se compra esa semana (fruta, verdura, carne, pescado, huevos, lácteos, pan). Agrupada por sección y sin repetir ingredientes dentro de cada lista (suma cantidades).")
+      : T("Lista de la compra con TODO lo necesario para la semana, agrupada por sección y sin repetir ingredientes (suma cantidades)."),
+    T("Nombres de platos cortos (máx. 40 caracteres), en el idioma de esta pregunta."),
+    ...(W === 2 ? [T("Que las dos semanas sean distintas; un plato que guste puede repetirse, como mucho dos veces.")] : []),
+    ...(W === 4 ? [T("Para que la respuesta no sea demasiado larga, escribe solo 2 semanas distintas (14 días) y pon «repeat»: true: Usus repite la semana 1 en la 3 y la 2 en la 4. La despensa («week»: 0), para las 4 semanas; lo fresco, solo para las semanas 1 y 2 (se repite igual).")] : []),
+    ...(fw ? [T("Ayuno: los días con ayuno, TODAS las comidas dentro de la ventana; fuera de ella solo agua, café o infusiones sin azúcar. No acortes la ventana ni propongas días sin comer."),
+      T("Con ventana de 8 horas o menos, reparte en 2 comidas y 1 tentempié: la primera rompe el ayuno (proteína, verdura y algo de hidratos; nada muy pesado ni solo dulce) y la última cierra la ventana. Deja sin nombre («name» vacío) el hueco que no se use, normalmente el desayuno."),
+      T("Reparte la proteína entre las comidas de la ventana, que no se concentre en una sola."),
+      T("Si el entreno cae fuera de la ventana, pon una comida con proteína lo antes posible al abrirla; si cae dentro, una comida o tentempié 1–2 h antes o después."),
+      T("Los días sin ayuno, menú normal con las cuatro comidas.")] : [])];
+  return [W > 1 ? T("Eres un asistente de cocina saludable y sencilla. Crea un menú de {n} semanas para mí, siguiendo estas reglas y devolviendo SOLO el JSON del final.", { n: W }) : T("Eres un asistente de cocina saludable y sencilla. Crea un menú semanal para mí, siguiendo estas reglas y devolviendo SOLO el JSON del final."), "",
     T("MIS DATOS"),
-    `- ${T("Semana: del {a} al {b} (lunes a domingo).", { a: start, b: end })}`,
-    `- ${T("Días que entreno: {x}", { x: tr.length ? tr.map(x => `${wdName(x.k)} ${x.rs.map(r => `«${r.name}»`).join(", ")}`).join("; ") : T("ninguno previsto") })}`,
+    `- ${W > 1 ? T("Periodo: del {a} al {b} ({n} semanas, de lunes a domingo).", { a: start, b: end, n: W }) : T("Semana: del {a} al {b} (lunes a domingo).", { a: start, b: end })}`,
+    `- ${T("Días que entreno: {x}", { x: tr.length ? tr.map(x => `${dn(x.k)} ${x.rs.map(r => `«${r.name}»`).join(", ")}`).join("; ") : T("ninguno previsto") })}`,
     `- ${T("Tipo de alimentación: {x}", { x: foodLower(P.diet || foodLab(FOOD_DIET, "todo")) })}`,
     `- ${T("Intolerancias y alergias (no las incluyas NUNCA, tampoco como traza o ingrediente secundario): {x}", { x: P.al ? P.al.toLowerCase() : T("ninguna") })}`,
     `- ${T("No me gusta: {x}", { x: P.no || T("nada en especial") })}`,
@@ -6327,36 +6353,24 @@ function menuPrompt() {
     `- ${T("Tiempo para cocinar entre semana: {n} min (el fin de semana, algo más).", { n: c.time })}`,
     `- ${T("Presupuesto: {x}", { x: foodLower(bud) })}`,
     `- ${T("Comidas por día: desayuno, comida, merienda y cena.")}`,
-    ...(fw ? [`- ${T("Ayuno intermitente: {t}. Ventana para comer: de {a} a {b}. Días con ayuno: {d}.", { t: fw.type, a: fw.from, b: fw.to, d: fdays.length === 7 ? T("todos") : fdays.map(wdName).join(", ") || T("ninguno") })}`] : []),
+    ...(fw ? [`- ${T("Ayuno intermitente: {t}. Ventana para comer: de {a} a {b}. Días con ayuno: {d}.", { t: fw.type, a: fw.from, b: fw.to, d: fdays.length === 7 * D ? T("todos") : fdays.map(dn).join(", ") || T("ninguno") })}`] : []),
     ...(th ? [`- ${T("Hora habitual de entreno: {h}.", { h: th })}`] : []),
     ...(next ? [`- ${T("Cambios pedidos tras la semana anterior: {x}", { x: next })}`] : []), "",
-    T("REGLAS"),
-    `1. ${T("Comida casera, saludable y variada: verdura en comida y cena, legumbre 2–3 veces por semana, pescado o alternativa vegetal 2–3 veces, fruta a diario, poco ultraprocesado y poco azúcar.")}`,
-    `2. ${T("Los días de entreno, más energía antes y proteína después. Los días sin entreno, algo más ligero.")}`,
-    `3. ${T("Aprovecha ingredientes entre días (cocina una vez, come dos) para gastar menos y tirar menos.")}`,
-    `4. ${T("Recetas breves: ingredientes con cantidades para {n} persona(s) y de 2 a 4 pasos cortos. Tiempo realista.", { n: c.people })}`,
-    `5. ${T("Nada de calorías, macros ni pesos corporales. Sin dietas ni saltarse comidas.")}`,
-    `6. ${T("Respeta SIEMPRE las intolerancias y lo que no me gusta.")}`,
-    `7. ${T("Lista de la compra con TODO lo necesario para la semana, agrupada por sección y sin repetir ingredientes (suma cantidades).")}`,
-    `8. ${T("Nombres de platos cortos (máx. 40 caracteres), en el idioma de esta pregunta.")}`,
-    ...(fw ? [`9. ${T("Ayuno: los días con ayuno, TODAS las comidas dentro de la ventana; fuera de ella solo agua, café o infusiones sin azúcar. No acortes la ventana ni propongas días sin comer.")}`,
-      `10. ${T("Con ventana de 8 horas o menos, reparte en 2 comidas y 1 tentempié: la primera rompe el ayuno (proteína, verdura y algo de hidratos; nada muy pesado ni solo dulce) y la última cierra la ventana. Deja sin nombre («name» vacío) el hueco que no se use, normalmente el desayuno.")}`,
-      `11. ${T("Reparte la proteína entre las comidas de la ventana, que no se concentre en una sola.")}`,
-      `12. ${T("Si el entreno cae fuera de la ventana, pon una comida con proteína lo antes posible al abrirla; si cae dentro, una comida o tentempié 1–2 h antes o después.")}`,
-      `13. ${T("Los días sin ayuno, menú normal con las cuatro comidas.")}`] : []), "",
+    T("REGLAS"), ...rules.map((r, i) => `${i + 1}. ${r}`), "",
     T("FORMATO: responde SOLO con este JSON (sin texto antes ni después):"),
-    `{"app":"usus","kind":"menu","version":1,"start":"${start}","people":${c.people},${fw ? `"fasting":{"type":"${fw.type}","from":"${fw.from}","to":"${fw.to}"},` : ""}`,
+    `{"app":"usus","kind":"menu","version":1,"start":"${start}",${W > 1 ? `"weeks":${W},` : ""}${W === 4 ? `"repeat":true,` : ""}"people":${c.people},${fw ? `"fasting":{"type":"${fw.type}","from":"${fw.from}","to":"${fw.to}"},` : ""}`,
     ` "days":[{"date":"${start}","train":${tr.some(x => x.k === start)},${fw ? `"fast":${fastOn(start)},"window":${fastOn(start) ? `{"from":"${fw.from}","to":"${fw.to}"}` : "null"},` : ""}"meals":{`,
     `   "b":{"name":"…","at":"08:00","time":10,"ingredients":["…"],"steps":["…"]},`,
     `   "l":{"name":"…","at":"14:00","time":25,"ingredients":["…"],"steps":["…"]},`,
     `   "s":{"name":"…","at":"17:30","time":5,"ingredients":["…"],"steps":["…"]},`,
     `   "d":{"name":"…","at":"21:00","time":20,"ingredients":["…"],"steps":["…"]}}}],`,
-    ` "shopping":[{"group":"${T("Fruta y verdura")}","items":["…"]}],`,
+    W > 1 ? ` "shopping":[{"week":0,"group":"${T("Despensa")}","items":["…"]},{"week":1,"group":"${T("Fruta y verdura")}","items":["…"]}],` : ` "shopping":[{"group":"${T("Fruta y verdura")}","items":["…"]}],`,
     ` "tips":["…"]}`,
-    `- ${T("«days»: exactamente 7, de lunes a domingo, con «date» correlativa desde «start». «train»: true solo los días que entreno. «time»: minutos de preparación. «at»: hora aproximada de cada comida. Máximo 3 «tips».")}`,
+    `- ${W > 1 ? T("«days»: exactamente {n}, de lunes a domingo, con «date» correlativa desde «start». «train»: true solo los días que entreno. «time»: minutos de preparación. «at»: hora aproximada de cada comida. Máximo 3 «tips».", { n: 7 * D }) : T("«days»: exactamente 7, de lunes a domingo, con «date» correlativa desde «start». «train»: true solo los días que entreno. «time»: minutos de preparación. «at»: hora aproximada de cada comida. Máximo 3 «tips».")}`,
     ...(fw ? [`- ${T("«fast»: true solo los días con ayuno; «window»: null los demás. Los días con ayuno, «at» siempre dentro de «window».")}`] : [])].join("\n");
 }
-/* Lee el JSON de la IA (con o sin ```), lo comprueba y lo deja limpio */
+/* Lee el JSON de la IA (con o sin ```), lo comprueba y lo deja limpio. Con «weeks» 2 o 4; si trae menos días
+   (4 semanas con «repeat»), repite las semanas que trae, también su compra fresca. */
 function menuParse(text) {
   const s = String(text || ""), a = s.indexOf("{"), b = s.lastIndexOf("}");
   if (a < 0 || b <= a) return null;
@@ -6364,26 +6378,29 @@ function menuParse(text) {
   if (!j || !Array.isArray(j.days) || !j.days.length) return null;
   const str = (x, n) => String(x ?? "").trim().slice(0, n), arr = (x, n) => (Array.isArray(x) ? x : []).map(y => str(y, 160)).filter(Boolean).slice(0, n);
   const start = /^\d{4}-\d{2}-\d{2}$/.test(j.start) ? dayKey(weekStart(keyTime(j.start))) : menuWeek();
-  const days = Array.from({ length: 7 }, (_, i) => {
-    const d = j.days[i] || {}, m = d.meals || {};
+  const n = j.days.length, W = MENU_WEEKS.includes(+j.weeks) ? +j.weeks : n > 14 ? 4 : n > 7 ? 2 : 1, L = Math.min(n, 7 * W), Pd = Math.ceil(L / 7) * 7, D = Pd / 7;
+  const days = Array.from({ length: 7 * W }, (_, i) => {
+    const d = (i < L ? j.days[i] : j.days[i % Pd]) || {}, m = d.meals || {};
     const hm = v => /^\d{1,2}:\d{2}$/.test(String(v || "")) ? String(v).padStart(5, "0") : null, win = d.window && hm(d.window.from) && hm(d.window.to) ? { from: hm(d.window.from), to: hm(d.window.to) } : null;
     return { date: dayKey(addDays(keyTime(start), i)), train: !!d.train, fast: !!d.fast && !!win, win: d.fast ? win : null,
       meals: Object.fromEntries(MENU_MEALS.map(([x]) => { const p = m[x] || {}; return [x, { name: str(p.name, 60), at: hm(p.at), time: Math.max(0, Math.min(240, Math.round(+p.time || 0))) || null, ing: arr(p.ingredients || p.ing, 30), steps: arr(p.steps, 8) }]; })) };
   });
   if (!days.some(d => MENU_MEALS.some(([x]) => d.meals[x].name))) return null;
-  const shop = (Array.isArray(j.shopping) ? j.shopping : []).map(g => ({ g: str(g?.group, 40) || T("Otros"), items: arr(g?.items, 60).map(t => ({ t, done: false })) })).filter(g => g.items.length).slice(0, 12);
+  let shop = (Array.isArray(j.shopping) ? j.shopping : []).map(g => { const w = Number.isInteger(+g?.week) && +g.week >= 0 && +g.week <= W ? +g.week : 1;
+    return { g: str(g?.group, 40) || T("Otros"), ...(W > 1 ? { w } : {}), items: arr(g?.items, 60).map(t => ({ t, done: false })) }; }).filter(g => g.items.length).slice(0, 60);
+  if (W > 1 && D < W) shop = [...shop, ...shop.filter(g => g.w >= 1 && g.w <= D).flatMap(g => Array.from({ length: Math.ceil(W / D) - 1 }, (_, r) => ({ ...g, w: g.w + D * (r + 1), items: g.items.map(x => ({ ...x })) }))).filter(g => g.w <= W)];
   return { start, people: Math.max(1, Math.min(12, +j.people || MENU.cfg().people)), days, shop, tips: arr(j.tips, 3), created: Date.now() };
 }
 function menuSave(text) {
   const m = menuParse(text);
   if (!m) { toast(T("No parece un menú de Usus: copia la respuesta entera de la IA."), 5000); return false; }
-  MENU.set(m); state.menuDay = Math.max(0, menuDayOf(dayKey(Date.now()))); state.menuTab = "week"; state.menuManual = false;
+  MENU.set(m); state.menuDay = Math.max(0, menuDayOf(dayKey(Date.now()))); state.menuTab = "week"; state.menuManual = false; state.menuShopW = null;
   toast(T("Menú guardado")); render(); return true;
 }
 function menuHand() {
   const start = menuWeek();
   const fw = fastWin();
-  MENU.set({ start, people: MENU.cfg().people, days: Array.from({ length: 7 }, (_, i) => ({ date: dayKey(addDays(keyTime(start), i)), train: false,
+  MENU.set({ start, people: MENU.cfg().people, days: Array.from({ length: 7 * MENU.cfg().weeks }, (_, i) => ({ date: dayKey(addDays(keyTime(start), i)), train: false,
     ...(fw && fastOn(dayKey(addDays(keyTime(start), i))) ? { fast: true, win: { from: fw.from, to: fw.to } } : {}),
     meals: Object.fromEntries(MENU_MEALS.map(([x]) => [x, { name: "", time: null, ing: [], steps: [] }])) })), shop: [], tips: [], created: Date.now() });
   state.menuDay = Math.max(0, menuDayOf(dayKey(Date.now()))); state.menuTab = "week"; render();
@@ -6407,8 +6424,9 @@ function menuFill(k) {   // Comidas → «Apuntar lo del menú»
   DY.set(k, { meals }); MENU.set(m); toast(TN(n, "{n} comida apuntada", "{n} comidas apuntadas")); render();
 }
 /* Seguimiento para la IA */
-function menuAnalysisPrompt() {
-  const m = MENU.get(); if (!m) return "";
+function menuAnalysisPrompt(w = menuWkSel()) {
+  const m0 = MENU.get(); if (!m0) return "";
+  const W = menuW(m0), m = { ...m0, start: m0.days[w * 7]?.date || m0.start, days: m0.days.slice(w * 7, w * 7 + 7) };
   const P = foodParts(), st = { ok: "✓", no: "✗", sw: "⇄" }, why = k => k ? foodLab(MENU_WHY, k).toLowerCase() : "";
   let ok = 0, no = 0, sw = 0, tot = 0;
   const L = []; m.days.forEach(d => MENU_MEALS.forEach(([x, n]) => { const p = d.meals[x]; if (!p.name) return; tot++;
@@ -6416,6 +6434,7 @@ function menuAnalysisPrompt() {
     L.push(`- ${wdName(d.date)} · ${T(n)}: ${p.name} → ${p.st ? st[p.st] : T("sin marcar")}${p.st === "sw" && p.sw ? ` ${p.sw}` : ""}${p.why && p.st !== "ok" ? ` · ${why(p.why)}` : ""}`); }));
   const trained = [...new Set(state.sessions.filter(s => s.start >= keyTime(m.start) && s.start < addDays(keyTime(m.start), 7)).map(s => wdName(dayKey(s.start))))];
   return [T("Eres un asistente de cocina saludable. Analiza cómo he seguido el menú de esta semana y dime qué cambiar para la siguiente. Responde breve y concreto."), "",
+    ...(W > 1 ? [T("Semana {n} de {t} del menú, {r}.", { n: w + 1, t: W, r: menuSpan(m.start, 7) }), ""] : []),
     T("MIS DATOS"), `- ${[P.diet && T("Tipo de alimentación: {x}", { x: foodLower(P.diet) }), T("Intolerancias: {x}", { x: P.al ? P.al.toLowerCase() : T("ninguna") }), P.no && T("No me gusta: {x}", { x: P.no }), P.goals && T("Objetivos: {x}", { x: P.goals.toLowerCase() })].filter(Boolean).join(" · ")}`,
     `- ${T("Días que entrené: {x}", { x: trained.join(", ") || T("ninguno") })}`, "",
     T("CÓMO FUE (plato planificado → lo que pasó · motivo)"), ...L, "",
@@ -6435,14 +6454,19 @@ function menuSaveAnalysis(t) {
   state.menuAnManual = false;
   toast(next ? T("Análisis guardado: se tendrá en cuenta en el próximo menú") : T("Análisis guardado")); render();
 }
-const menuShopText = m => m.shop.map(g => `${g.g}\n${g.items.map(x => `${x.done ? "☑" : "☐"} ${x.t}`).join("\n")}`).join("\n\n");
+/* Semana del menú que se ve (0…) y lista de la compra que se ve (0 despensa, 1… cada semana) */
+function menuWkSel(m = MENU.get()) { const W = menuW(m), di = state.menuDay ?? Math.max(0, menuDayOf(dayKey(Date.now()))); return Math.max(0, Math.min(W - 1, Math.floor(di / 7))); }
+function menuShopSel(m = MENU.get()) { if (menuW(m) === 1) return null; const v = state.menuShopW; return Number.isInteger(v) && v >= 0 && v <= menuW(m) ? v : menuWkSel(m) + 1; }
+const menuShopOf = (m, sw = menuShopSel(m)) => m.shop.map((g, gi) => ({ ...g, gi })).filter(g => sw === null || (g.w ?? 1) === sw);
+const menuShopName = (m, sw) => sw === null ? "" : sw === 0 ? T("Despensa") : T("Semana {n}", { n: sw });
+const menuShopText = (m, sw = menuShopSel(m)) => (sw === null ? "" : `${menuShopName(m, sw)}\n\n`) + menuShopOf(m, sw).map(g => `${g.g}\n${g.items.map(x => `${x.done ? "☑" : "☐"} ${x.t}`).join("\n")}`).join("\n\n");
 
 /* La fila del Diario */
 function menuRow(k) {
   const m = MENU.get(), i = menuDayOf(k), d = i >= 0 ? m.days[i] : null;
   const sub = d ? MENU_MEALS.filter(([x]) => d.meals[x].name).map(([x]) => `${d.meals[x].st === "ok" ? "✓ " : d.meals[x].st === "no" ? "✗ " : d.meals[x].st === "sw" ? "⇄ " : ""}${esc(d.meals[x].name)}`).join(" · ").slice(0, 90) || T("Sin platos este día")
     : m ? T("Este día no está en el menú") : T("Planifica la semana con tu IA o a mano");
-  return `<div class="lgroup dlist mrowg"><button class="srow drow" data-dsh="menu"><span class="dic"><svg viewBox="0 0 24 24" aria-hidden="true">${DICO.menu}</svg></span><span class="t">${T("Menú de la semana")}<small>${sub}</small></span><span class="chev" aria-hidden="true">›</span></button></div>`;
+  return `<div class="lgroup dlist mrowg"><button class="srow drow" data-dsh="menu"><span class="dic"><svg viewBox="0 0 24 24" aria-hidden="true">${DICO.menu}</svg></span><span class="t">${m ? menuTitle(m) : T("Menú de la semana")}<small>${sub}</small></span><span class="chev" aria-hidden="true">›</span></button></div>`;
 }
 /* La ventana del menú */
 function menuSheet(k) {
@@ -6452,6 +6476,7 @@ function menuSheet(k) {
     return `<p class="muted" style="font-size:.88rem;margin:0 0 10px">${T("Planifica la semana: desayuno, comida, merienda y cena. Lo crea tu IA con tus preferencias, intolerancias y entrenos, o lo rellenas a mano; luego puedes cambiarlo todo.")}</p>
     <div class="panel">
       <div class="mcfg"><span>${T("Semana")}</span><div class="chips fchips">${chip("mwk", 0, !(state.menuWk || 0), T("Esta semana"))}${chip("mwk", 1, state.menuWk === 1, T("La próxima"))}</div>
+      <span>${T("Duración")}</span><div class="chips fchips">${MENU_WEEKS.map(n => chip("mweeks", n, c.weeks === n, TN(n, "{n} semana", "{n} semanas"))).join("")}</div>
       <span>${T("Comensales")}</span><div class="fwater"><button class="btn small" data-act="menu-ppl-" ${c.people > 1 ? "" : "disabled"} aria-label="${T("Uno menos")}">−</button><b>${c.people}</b><button class="btn small" data-act="menu-ppl+" aria-label="${T("Uno más")}">+</button></div>
       <span>${T("Tiempo entre semana")}</span><div class="chips fchips">${MENU_TIME.map(t => chip("mtime", t, c.time === t, `${t} min`)).join("")}</div>
       <span>${T("Presupuesto")}</span><div class="chips fchips">${MENU_BUD.map(([b, l]) => chip("mbud", b, c.budget === b, T(l))).join("")}</div></div>
@@ -6469,17 +6494,19 @@ function menuSheet(k) {
     <div class="bgrid2" style="margin-top:10px"><button class="btn" data-act="menu-hand">${T("Rellenarlo a mano")}</button><button class="btn" data-act="menu-imp">${T("Importar archivo")}</button></div>
     <input type="file" id="menuFile" accept="application/json,.json,text/plain,.txt" hidden>`;
   }
-  const tab = state.menuTab === "shop" ? "shop" : "week", di = Math.max(0, Math.min(6, state.menuDay ?? Math.max(0, menuDayOf(k)))), d = m.days[di];
-  const tabs = utabs([["week", T("Semana")], ["shop", T("Compra")]], tab, "mtab", T("Menú de la semana"));
+  const W = menuW(m), tab = state.menuTab === "shop" ? "shop" : "week", di = Math.max(0, Math.min(m.days.length - 1, state.menuDay ?? Math.max(0, menuDayOf(k)))), d = m.days[di], wk = Math.floor(di / 7);
+  const tabs = utabs([["week", W > 1 ? T("Días") : T("Semana")], ["shop", T("Compra")]], tab, "mtab", menuTitle(m));
+  const wsel = (attr, list, cur, lab) => `<div class="chips fchips mwsel" role="group" aria-label="${lab}">${list.map(([v, l]) => `<button data-${attr}="${v}" class="${v === cur ? "on" : ""}" aria-pressed="${v === cur}">${l}</button>`).join("")}</div>`;
   if (tab === "shop") {
-    const n = m.shop.reduce((a, g) => a + g.items.length, 0), dn = m.shop.reduce((a, g) => a + g.items.filter(x => x.done).length, 0);
-    return `${tabs}<p class="muted" style="font-size:.85rem;margin:8px 0">${n ? T("{a} de {b} en el carro", { a: dn, b: n }) : T("La lista está vacía.")}</p>
-      ${m.shop.map((g, gi) => `<div class="panel mshop"><h3 class="wh" style="margin:0 0 4px">${esc(g.g)}</h3>${g.items.map((x, ii) => `<div class="mitem"><label><input type="checkbox" data-mshop="${gi}:${ii}" ${x.done ? "checked" : ""}><span class="${x.done ? "mdone" : ""}">${esc(x.t)}</span></label><button class="mx" data-mshopx="${gi}:${ii}" aria-label="${T("Quitar")} ${esc(x.t)}">×</button></div>`).join("")}</div>`).join("")}
+    const sw = menuShopSel(m), G = menuShopOf(m, sw), n = G.reduce((a, g) => a + g.items.length, 0), dn = G.reduce((a, g) => a + g.items.filter(x => x.done).length, 0);
+    return `${tabs}${W > 1 ? wsel("mshw", [[0, T("Despensa")], ...Array.from({ length: W }, (_, i) => [i + 1, T("Semana {n}", { n: i + 1 })])], sw, T("Lista de la compra")) + `<p class="muted" style="font-size:.78rem;margin:6px 0 0">${sw === 0 ? T("Lo que aguanta todo el menú: se compra una vez.") : T("Lo fresco de la semana {n}, {r}.", { n: sw, r: menuSpan(m.days[(sw - 1) * 7].date, 7) })}</p>` : ""}
+      <p class="muted" style="font-size:.85rem;margin:8px 0">${n ? T("{a} de {b} en el carro", { a: dn, b: n }) : T("La lista está vacía.")}</p>
+      ${G.map(({ gi, ...g }) => `<div class="panel mshop"><h3 class="wh" style="margin:0 0 4px">${esc(g.g)}</h3>${g.items.map((x, ii) => `<div class="mitem"><label><input type="checkbox" data-mshop="${gi}:${ii}" ${x.done ? "checked" : ""}><span class="${x.done ? "mdone" : ""}">${esc(x.t)}</span></label><button class="mx" data-mshopx="${gi}:${ii}" aria-label="${T("Quitar")} ${esc(x.t)}">×</button></div>`).join("")}</div>`).join("")}
       <div class="row" style="margin-top:10px;flex-wrap:nowrap"><input id="mshopNew" type="text" placeholder="${T("Añadir a la lista")}" maxlength="120" style="flex:1;min-width:0"><button class="btn" data-act="menu-shop-add">${T("Añadir")}</button></div>
       ${n ? `<div class="panel" style="margin-top:10px"><p class="flab" style="margin:0 0 6px">${T("Compartir o exportar la lista")}</p><div class="bgrid3"><button class="btn small shbtn" data-act="menu-shop-share">${SHARE_ICO}${T("Texto")}</button><button class="btn small" data-act="menu-shop-md">Markdown</button><button class="btn small" data-act="menu-shop-pdf">PDF</button></div>
         ${dn ? `<button class="btn small" style="width:100%;margin-top:8px" data-act="menu-shop-clear">${T("Quitar lo marcado")}</button>` : ""}</div>` : ""}`;
   }
-  const strip = `<div class="mdays" role="tablist" aria-label="${T("Día del menú")}">${m.days.map((x, i) => { const dt = new Date(keyTime(x.date)), done = MENU_MEALS.every(([y]) => !x.meals[y].name || x.meals[y].st);
+  const strip = `${W > 1 ? wsel("mw", Array.from({ length: W }, (_, i) => [i, T("Semana {n}", { n: i + 1 })]), wk, T("Semana del menú")) : ""}<div class="mdays" role="tablist" aria-label="${T("Día del menú")}">${m.days.map((x, i) => { if (Math.floor(i / 7) !== wk) return ""; const dt = new Date(keyTime(x.date)), done = MENU_MEALS.every(([y]) => !x.meals[y].name || x.meals[y].st);
     return `<button role="tab" data-mday="${i}" class="${i === di ? "on" : ""}${x.date === dayKey(Date.now()) ? " today" : ""}" aria-selected="${i === di}"><span>${dt.toLocaleDateString(LOC(), { weekday: "narrow" })}</span><b>${dt.getDate()}</b><i class="${x.train ? "tr" : ""}${done ? " ok" : ""}"></i></button>`; }).join("")}</div>`;
   const meal = ([x, n]) => { const p = d.meals[x], id = `${di}:${x}`;
     const why = `<div class="chips fchips mwhy">${MENU_WHY.map(([w, l]) => `<button data-mwhy="${id}:${w}" class="${p.why === w ? "on" : ""}" aria-pressed="${p.why === w}">${T(l)}</button>`).join("")}</div>`;
@@ -6493,7 +6520,7 @@ function menuSheet(k) {
         <label class="flab" for="mi_${di}${x}">${T("Ingredientes (uno por línea)")}</label><textarea id="mi_${di}${x}" data-ming="${id}" rows="${Math.min(8, Math.max(2, p.ing.length))}">${esc(lines(p.ing))}</textarea>
         <label class="flab" for="ms_${di}${x}">${T("Pasos (uno por línea)")}</label><textarea id="ms_${di}${x}" data-mstep="${id}" rows="${Math.min(6, Math.max(2, p.steps.length))}">${esc(lines(p.steps))}</textarea></details>
     </div>`; };
-  const marked = m.days.reduce((a, x) => a + MENU_MEALS.filter(([y]) => x.meals[y].name && x.meals[y].st).length, 0), total = m.days.reduce((a, x) => a + MENU_MEALS.filter(([y]) => x.meals[y].name).length, 0);
+  const wd = m.days.slice(wk * 7, wk * 7 + 7), marked = wd.reduce((a, x) => a + MENU_MEALS.filter(([y]) => x.meals[y].name && x.meals[y].st).length, 0), total = wd.reduce((a, x) => a + MENU_MEALS.filter(([y]) => x.meals[y].name).length, 0);
   return `${tabs}${strip}
     <p class="mdh">${(() => { const s = new Date(keyTime(d.date)).toLocaleDateString(LOC(), { weekday: "long", day: "numeric", month: "long" }); return s.charAt(0).toUpperCase() + s.slice(1); })()}${d.train ? ` · <span class="mtr">${T("Entreno")}</span>` : ""}${d.fast ? ` · <span class="mtr">${T("Ayuno")}</span>` : ""}</p>
     ${d.fast ? `<div class="panel mfast"><div class="row" style="justify-content:space-between"><span class="mlab">${T("Ayuno")}</span><span class="muted" style="font-size:.8rem">${T("comes de {a} a {b}", { a: d.win.from, b: d.win.to })}</span></div>
@@ -6502,7 +6529,7 @@ function menuSheet(k) {
         <div class="chips fchips mwhy">${FAST_WHY.map(([w, l]) => `<button data-fbr="${di}:${w}" class="${d.fwhy === w ? "on" : ""}" aria-pressed="${d.fwhy === w}">${T(l)}</button>`).join("")}</div>` : ""}</div>` : ""}
     ${MENU_MEALS.filter(([x]) => !d.fast || d.meals[x].name).map(meal).join("")}
     ${m.tips.length ? `<details class="aimanual"><summary>${T("Consejos de la semana")}</summary><ul class="muted" style="font-size:.85rem;margin:6px 0 0;padding-left:20px">${m.tips.map(t => `<li>${esc(t)}</li>`).join("")}</ul></details>` : ""}
-    <h3 class="wh">${T("Analizar la semana")}</h3>
+    <h3 class="wh">${W > 1 ? T("Analizar la semana {n}", { n: wk + 1 }) : T("Analizar la semana")}</h3>
     <div class="panel">
       <p class="muted" style="font-size:.85rem;margin:0">${T("{a} de {b} platos marcados. Tu IA verá qué se comió, qué no y por qué, y te dirá qué cambiar; eso entra en el próximo menú.", { a: marked, b: total })}</p>
       <div class="row" style="margin-top:10px"><button class="btn" style="flex:1" data-act="menu-an-copy">${T("Copiar")}</button><button class="btn shbtn" style="flex:1" data-act="menu-an-share">${SHARE_ICO}${T("Compartir")}</button></div>
@@ -6519,9 +6546,10 @@ function menuSheet(k) {
 }
 /* Lista de la compra en Markdown y en PDF (3.11.0). El PDF se escribe a mano (A4, Helvetica, casillas dibujadas),
    sin librerías: texto en WinAnsi (castellano, catalán e inglés caben). */
-function menuShopMd(m) {
-  const a = new Date(keyTime(m.start)), b = new Date(addDays(keyTime(m.start), 6)), f = d => d.toLocaleDateString(LOC(), { day: "numeric", month: "long" });
-  return `# ${T("Lista de la compra")}\n\n${T("Semana del {a} al {b}", { a: f(a), b: f(b) })}\n\n${m.shop.map(g => `## ${g.g}\n\n${g.items.map(x => `- [${x.done ? "x" : " "}] ${x.t}`).join("\n")}`).join("\n\n")}\n`;
+/* Subtítulo de una lista: la semana (o todo el menú si es la despensa o si es de una semana) */
+const menuShopSub = (m, sw) => sw === null ? menuRange(m) : sw === 0 ? `${T("Despensa")} · ${menuRange(m)}` : `${T("Semana {n}", { n: sw })} · ${menuSpan(m.days[(sw - 1) * 7].date, 7)}`;
+function menuShopMd(m, sw = menuShopSel(m)) {
+  return `# ${T("Lista de la compra")}\n\n${menuShopSub(m, sw)}\n\n${menuShopOf(m, sw).map(g => `## ${g.g}\n\n${g.items.map(x => `- [${x.done ? "x" : " "}] ${x.t}`).join("\n")}`).join("\n\n")}\n`;
 }
 function pdfText(lines) {   // lines: [{ t, bold, size, box, done, gap }]
   const W = 595, H = 842, M = 56, CP = { "€": 128, "‚": 130, "„": 132, "…": 133, "‘": 145, "’": 146, "“": 147, "”": 148, "•": 149, "–": 150, "—": 151, "·": 183 };
@@ -6551,15 +6579,14 @@ function pdfText(lines) {   // lines: [{ t, bold, size, box, done, gap }]
   out += `xref\n0 ${objs.length + 1}\n0000000000 65535 f \n${off.map(o => String(o).padStart(10, "0") + " 00000 n \n").join("")}trailer\n<< /Size ${objs.length + 1} /Root ${cat} 0 R >>\nstartxref\n${xref}\n%%EOF`;
   return Uint8Array.from(out, ch => ch.charCodeAt(0) & 255);
 }
-function menuShopPdf(m) {
-  const a = new Date(keyTime(m.start)), b = new Date(addDays(keyTime(m.start), 6)), f = d => d.toLocaleDateString(LOC(), { day: "numeric", month: "long" });
-  return pdfText([{ t: T("Lista de la compra"), bold: true, size: 18 }, { t: T("Semana del {a} al {b}", { a: f(a), b: f(b) }), size: 11, gap: 2 },
-    ...m.shop.flatMap(g => [{ t: g.g, bold: true, size: 13, gap: 14 }, ...g.items.map(x => ({ t: x.t, box: true, done: x.done, gap: 2 }))]),
+function menuShopPdf(m, sw = menuShopSel(m)) {
+  return pdfText([{ t: T("Lista de la compra"), bold: true, size: 18 }, { t: menuShopSub(m, sw), size: 11, gap: 2 },
+    ...menuShopOf(m, sw).flatMap(g => [{ t: g.g, bold: true, size: 13, gap: 14 }, ...g.items.map(x => ({ t: x.t, box: true, done: x.done, gap: 2 }))]),
     { t: "Usus", size: 8, gap: 24 }]);
 }
 function menuShopExport(kind) {
   const m = MENU.get(); if (!m?.shop.length) return;
-  const name = `usus-${T("compra")}-${m.start}.${kind}`;
+  const sw = menuShopSel(m), name = `usus-${T("compra")}-${sw === null ? m.start : sw === 0 ? T("despensa") : m.days[(sw - 1) * 7].date}.${kind}`;
   const file = kind === "pdf" ? new File([menuShopPdf(m)], name, { type: "application/pdf" }) : new File([menuShopMd(m)], name, { type: "text/markdown" });
   shareOut({ title: T("Lista de la compra"), file });
 }
@@ -6568,21 +6595,33 @@ function menuShopExport(kind) {
    Importar), «Compartir con Usus» o pegando. Viaja sin el seguimiento (✓ ✗ ⇄): es de quien lo come. Un menú de una
    semana ya pasada se trae a esta semana. */
 function menuExportObj(m) {
-  return { app: "usus", kind: "menu", version: 1, start: m.start, people: m.people,
+  return { app: "usus", kind: "menu", version: 1, start: m.start, ...(menuW(m) > 1 ? { weeks: menuW(m) } : {}), people: m.people,
     days: m.days.map(d => ({ date: d.date, train: d.train, fast: !!d.fast, window: d.fast ? d.win : null, meals: Object.fromEntries(MENU_MEALS.map(([x]) => { const p = d.meals[x]; return [x, { name: p.name, at: p.at || null, time: p.time, ingredients: p.ing, steps: p.steps }]; })) })),
-    shopping: m.shop.map(g => ({ group: g.g, items: g.items.map(i => i.t) })), tips: m.tips };
+    shopping: m.shop.map(g => ({ ...(g.w !== undefined ? { week: g.w } : {}), group: g.g, items: g.items.map(i => i.t) })), tips: m.tips };
 }
-const menuRange = m => { const f = d => new Date(d).toLocaleDateString(LOC(), { day: "numeric", month: "long" }); return T("Semana del {a} al {b}", { a: f(keyTime(m.start)), b: f(addDays(keyTime(m.start), 6)) }); };
+const menuSpan = (start, n) => { const f = d => new Date(d).toLocaleDateString(LOC(), { day: "numeric", month: "long" }); return T("del {a} al {b}", { a: f(keyTime(start)), b: f(addDays(keyTime(start), n - 1)) }); };
+const menuRange = m => { const f = d => new Date(d).toLocaleDateString(LOC(), { day: "numeric", month: "long" }), W = menuW(m);
+  return W > 1 ? T("{n} semanas, {r}", { n: W, r: menuSpan(m.start, 7 * W) }) : T("Semana del {a} al {b}", { a: f(keyTime(m.start)), b: f(addDays(keyTime(m.start), 6)) }); };
+/* Markdown y PDF de todo el menú; con varias semanas, un apartado por semana y una lista por semana más la despensa */
+const menuDayTitle = d => { const s = wdName(d.date); return `${s.charAt(0).toUpperCase() + s.slice(1)} ${new Date(keyTime(d.date)).getDate()}${d.train ? ` · ${T("Entreno")}` : ""}${d.fast ? ` · ${T("Ayuno")}` : ""}`; };
+const menuShopLists = m => menuW(m) === 1 ? [null] : Array.from({ length: menuW(m) + 1 }, (_, i) => i).filter(sw => menuShopOf(m, sw).length);
 function menuMd(m) {
-  return `# ${T("Menú de la semana")}\n\n${menuRange(m)}\n\n${m.days.map(d => { const s = wdName(d.date); return `## ${s.charAt(0).toUpperCase() + s.slice(1)}${d.train ? ` · ${T("Entreno")}` : ""}\n\n${MENU_MEALS.filter(([x]) => d.meals[x].name).map(([x, n]) => { const p = d.meals[x];
-    return `### ${T(n)}: ${p.name}${p.time ? ` (${p.time} min)` : ""}${p.ing.length ? `\n\n${p.ing.map(i => `- ${i}`).join("\n")}` : ""}${p.steps.length ? `\n\n${p.steps.map((st, i) => `${i + 1}. ${st}`).join("\n")}` : ""}`; }).join("\n\n")}`; }).join("\n\n")}${m.shop.length ? `\n\n${menuShopMd(m).replace(/^# /, "## ").replace(/^## (?!#)/gm, (s, o) => o ? "### " : s)}` : ""}\n`;
+  const W = menuW(m), h = W > 1 ? "#" : "";
+  const day = d => `${h}## ${menuDayTitle(d)}\n\n${MENU_MEALS.filter(([x]) => d.meals[x].name).map(([x, n]) => { const p = d.meals[x];
+    return `${h}### ${T(n)}: ${p.name}${p.time ? ` (${p.time} min)` : ""}${p.ing.length ? `\n\n${p.ing.map(i => `- ${i}`).join("\n")}` : ""}${p.steps.length ? `\n\n${p.steps.map((st, i) => `${i + 1}. ${st}`).join("\n")}` : ""}`; }).join("\n\n")}`;
+  const weeks = Array.from({ length: W }, (_, w) => `${W > 1 ? `## ${T("Semana {n}", { n: w + 1 })} · ${menuSpan(m.days[w * 7].date, 7)}\n\n` : ""}${m.days.slice(w * 7, w * 7 + 7).map(day).join("\n\n")}`).join("\n\n");
+  const shop = m.shop.length ? `\n\n## ${T("Lista de la compra")}\n\n${menuShopLists(m).map(sw => `${sw === null ? "" : `### ${menuShopName(m, sw)}\n\n`}${menuShopOf(m, sw).map(g => `${sw === null ? "###" : "####"} ${g.g}\n\n${g.items.map(x => `- [${x.done ? "x" : " "}] ${x.t}`).join("\n")}`).join("\n\n")}`).join("\n\n")}` : "";
+  return `# ${menuTitle(m)}\n\n${menuRange(m)}\n\n${weeks}${shop}\n`;
 }
 function menuPdf(m) {
-  const L = [{ t: T("Menú de la semana"), bold: true, size: 18 }, { t: menuRange(m), size: 11, gap: 2 }];
-  m.days.forEach(d => { const s = wdName(d.date); L.push({ t: `${s.charAt(0).toUpperCase() + s.slice(1)}${d.train ? ` · ${T("Entreno")}` : ""}`, bold: true, size: 13, gap: 14 });
+  const W = menuW(m), L = [{ t: menuTitle(m), bold: true, size: 18 }, { t: menuRange(m), size: 11, gap: 2 }];
+  m.days.forEach((d, i) => { if (W > 1 && i % 7 === 0) L.push({ t: `${T("Semana {n}", { n: i / 7 + 1 })} · ${menuSpan(d.date, 7)}`, bold: true, size: 15, gap: 20 });
+    L.push({ t: menuDayTitle(d), bold: true, size: 13, gap: 14 });
     MENU_MEALS.forEach(([x, n]) => { const p = d.meals[x]; if (!p.name) return; L.push({ t: `${T(n)}: ${p.name}${p.time ? ` · ${p.time} min` : ""}`, bold: true, size: 10.5, gap: 4 });
       if (p.ing.length) L.push({ t: p.ing.join(" · "), size: 9.5 }); p.steps.forEach((st, i) => L.push({ t: `${i + 1}. ${st}`, size: 9.5 })); }); });
-  if (m.shop.length) { L.push({ t: T("Lista de la compra"), bold: true, size: 15, gap: 20 }); m.shop.forEach(g => { L.push({ t: g.g, bold: true, size: 12, gap: 10 }); g.items.forEach(x => L.push({ t: x.t, box: true, done: x.done, gap: 2 })); }); }
+  if (m.shop.length) { L.push({ t: T("Lista de la compra"), bold: true, size: 15, gap: 20 });
+    menuShopLists(m).forEach(sw => { if (sw !== null) L.push({ t: menuShopName(m, sw), bold: true, size: 13, gap: 12 });
+      menuShopOf(m, sw).forEach(g => { L.push({ t: g.g, bold: true, size: 12, gap: 10 }); g.items.forEach(x => L.push({ t: x.t, box: true, done: x.done, gap: 2 })); }); }); }
   L.push({ t: "Usus", size: 8, gap: 24 });
   return pdfText(L);
 }
@@ -6590,8 +6629,8 @@ async function menuShare(how) {
   const m = MENU.get(); if (!m) return;
   const base = `usus-${T("menu")}-${m.start}`;
   if (how === "file") return shareOut({ title: base + ".json", file: new File([JSON.stringify(menuExportObj(m), null, 2)], base + ".json", { type: "application/json" }) });
-  if (how === "md") return shareOut({ title: T("Menú de la semana"), file: new File([menuMd(m)], base + ".md", { type: "text/markdown" }) });
-  if (how === "pdf") return shareOut({ title: T("Menú de la semana"), file: new File([menuPdf(m)], base + ".pdf", { type: "application/pdf" }) });
+  if (how === "md") return shareOut({ title: menuTitle(m), file: new File([menuMd(m)], base + ".md", { type: "text/markdown" }) });
+  if (how === "pdf") return shareOut({ title: menuTitle(m), file: new File([menuPdf(m)], base + ".pdf", { type: "application/pdf" }) });
   const url = `${appURL()}#m=${await packShare(menuExportObj(m))}`;
   if (how === "nostr") { if (nsRO()) return toast(T("Con solo la npub no se puede publicar: entra con un firmante."), 5000);
     if (!NS.cfg()) { state.dsheet = null; state.tab = "data"; state.setTab = "nostr"; render(); return; }
@@ -6604,7 +6643,7 @@ function menuImport(text) {
   const now = dayKey(weekStart(Date.now()));
   if (m.start < now) { m.start = now; m.days.forEach((d, i) => { d.date = dayKey(addDays(keyTime(now), i)); }); }
   if (MENU.get() && !confirm(T("Ya tienes un menú. ¿Sustituirlo por este? (lo comido sigue en el Diario)"))) return false;
-  MENU.set(m); state.menuDay = Math.max(0, menuDayOf(dayKey(Date.now()))); state.menuTab = "week";
+  MENU.set(m); state.menuDay = Math.max(0, menuDayOf(dayKey(Date.now()))); state.menuTab = "week"; state.menuShopW = null;
   state.tab = "diary"; state.dsheet = "menu"; toast(T("Menú guardado")); render(); return true;
 }
 const isMenuText = t => /"kind"\s*:\s*"menu"/.test(String(t || ""));
@@ -6744,6 +6783,9 @@ document.addEventListener("click", async ev => {
   if (d.mday !== undefined) { state.menuDay = +d.mday; render(); return; }
   if (d.mwk !== undefined) { state.menuWk = +d.mwk; render(); return; }
   if (d.mtime) { MENU.setCfg({ time: d.mtime }); render(); return; }
+  if (d.mweeks) { MENU.setCfg({ weeks: +d.mweeks }); render(); return; }
+  if (d.mw !== undefined) { const w = +d.mw, t = menuDayOf(dayKey(Date.now())); state.menuDay = t >= 0 && Math.floor(t / 7) === w ? t : w * 7; render(); return; }
+  if (d.mshw !== undefined) { state.menuShopW = +d.mshw; render(); return; }
   if (d.mbud) { MENU.setCfg({ budget: d.mbud }); render(); return; }
   if (d.mst) { const [i, x, s] = d.mst.split(":"); menuEdit(+i, x, p => { p.st = p.st === s ? null : s; if (p.st !== "sw") p.sw = p.sw || ""; if (p.st === "ok") p.why = null; }); menuToDiary(+i, x); render(); return; }
   if (d.mwhy) { const [i, x, w] = d.mwhy.split(":"); menuEdit(+i, x, p => { p.why = p.why === w ? null : w; }); render(); return; }
@@ -7082,7 +7124,7 @@ document.addEventListener("click", async ev => {
     case "menu-an-paste": menuSaveAnalysis($("#menuAnPaste")?.value); break;
     case "menu-new": if (confirm(T("¿Empezar un menú nuevo? Este se borra (lo comido sigue en el Diario)."))) { MENU.set(null); state.menuTab = "week"; render(); } break;
     case "menu-fill": menuFill(state.day || dayKey(Date.now())); break;
-    case "menu-shop-add": { const v = ($("#mshopNew")?.value || "").trim().slice(0, 120); if (!v) break; const m = MENU.get(), og = T("Otros"); let g = m.shop.find(x => x.g === og); if (!g) m.shop.push(g = { g: og, items: [] }); g.items.push({ t: v, done: false }); MENU.set(m); render(); setTimeout(() => $("#mshopNew")?.focus(), 0); break; }
+    case "menu-shop-add": { const v = ($("#mshopNew")?.value || "").trim().slice(0, 120); if (!v) break; const m = MENU.get(), og = T("Otros"), sw = menuShopSel(m); let g = m.shop.find(x => x.g === og && (sw === null || (x.w ?? 1) === sw)); if (!g) m.shop.push(g = { g: og, ...(sw === null ? {} : { w: sw }), items: [] }); g.items.push({ t: v, done: false }); MENU.set(m); render(); setTimeout(() => $("#mshopNew")?.focus(), 0); break; }
     case "menu-sh-link": menuShare("link"); break;
     case "menu-sh-file": menuShare("file"); break;
     case "menu-sh-nostr": menuShare("nostr"); break;
@@ -7092,7 +7134,7 @@ document.addEventListener("click", async ev => {
     case "menu-shop-md": menuShopExport("md"); break;
     case "menu-shop-pdf": menuShopExport("pdf"); break;
     case "menu-shop-share": shareOut({ title: T("Lista de la compra"), text: menuShopText(MENU.get()) }); break;
-    case "menu-shop-clear": { const m = MENU.get(); m.shop.forEach(g => { g.items = g.items.filter(x => !x.done); }); m.shop = m.shop.filter(g => g.items.length); MENU.set(m); render(); break; }
+    case "menu-shop-clear": { const m = MENU.get(), sw = menuShopSel(m); m.shop.forEach(g => { if (sw === null || (g.w ?? 1) === sw) g.items = g.items.filter(x => !x.done); }); m.shop = m.shop.filter(g => g.items.length); MENU.set(m); render(); break; }
     case "food-copy": { const ok = await copyText(foodPrompt(state.day || dayKey(Date.now()))); toast(ok ? T("Pregunta copiada: pégala en tu IA") : T("No se pudo copiar")); break; }
     case "food-share": shareOut({ title: T("Pregunta para tu IA"), text: foodPrompt(state.day || dayKey(Date.now())) }); break;
     case "food-clip": { let x = ""; try { x = await navigator.clipboard.readText(); } catch {}
@@ -7299,6 +7341,7 @@ const I18N = {
     "«¿Qué como?» en Diario → Comidas": "«Què menjo?» a Diari → Àpats",
     "«¿Qué como?»: Usus prepara la pregunta para tu IA (¿qué ceno?, voy a comer pizza…, desayuno u otra) con lo que has comido, el entreno del día y tus preferencias; la copias o compartes, y su respuesta se guarda en las notas del día.": "«Què menjo?»: Usus prepara la pregunta per a la teva IA (què sopo?, menjaré pizza…, esmorzar o una altra) amb el que has menjat, l'entrenament del dia i les teves preferències; la copies o comparteixes, i la resposta es desa a les notes del dia.",
     "«Añadir app» y pega el enlace:": "«Afegeix app» i enganxa l'enllaç:",
+    "«days»: exactamente {n}, de lunes a domingo, con «date» correlativa desde «start». «train»: true solo los días que entreno. «time»: minutos de preparación. «at»: hora aproximada de cada comida. Máximo 3 «tips».": "«days»: exactament {n}, de dilluns a diumenge, amb «date» correlativa des de «start». «train»: true només els dies que entreno. «time»: minuts de preparació. «at»: hora aproximada de cada àpat. Màxim 3 «tips».",
     "«days»: exactamente 7, de lunes a domingo, con «date» correlativa desde «start». «train»: true solo los días que entreno. «time»: minutos de preparación. «at»: hora aproximada de cada comida. Máximo 3 «tips».": "«days»: exactament 7, de dilluns a diumenge, amb «date» correlativa des de «start». «train»: true només els dies que entreno. «time»: minuts de preparació. «at»: hora aproximada de cada àpat. Màxim 3 «tips».",
     "«Ejercicio hecho» bien visible, con el descanso que viene y el botón al siguiente.": "«Exercici fet» ben visible, amb el descans que ve i el botó al següent.",
     "«fast»: true solo los días con ayuno; «window»: null los demás. Los días con ayuno, «at» siempre dentro de «window».": "«fast»: true només els dies amb dejuni; «window»: null els altres. Els dies amb dejuni, «at» sempre dins de «window».",
@@ -7338,6 +7381,7 @@ const I18N = {
     "{n} semana\u0004{n} semanas": ["{n} setmana","{n} setmanes"],
     "{n} semana": "{n} setmana",
     "{n} semanas": "{n} setmanes",
+    "{n} semanas, {r}": "{n} setmanes, {r}",
     "{n} serie\u0004{n} series": ["{n} sèrie","{n} sèries"],
     "{n} sesión\u0004{n} sesiones": ["{n} sessió","{n} sessions"],
     "{n} sesión": "{n} sessió",
@@ -7437,6 +7481,7 @@ const I18N = {
     "Analizar con IA externa": "Analitzar amb IA externa",
     "Analizar con IA externa (Stats → Resumen): Usus prepara un texto con tus datos y las instrucciones para que la IA que uses (ChatGPT, Claude, Gemini…) haga un informe con gráficos, listo para imprimir en A4. Usus no envía nada.": "Analitzar amb IA externa (Stats → Resum): Usus prepara un text amb les teves dades i les instruccions perquè la IA que facis servir (ChatGPT, Claude, Gemini…) faci un informe amb gràfics, a punt per imprimir en A4. Usus no envia res.",
     "Analizar la semana": "Analitzar la setmana",
+    "Analizar la semana {n}": "Analitzar la setmana {n}",
     "Android (Chrome): menú ⋮ → «Instalar aplicación» o «Añadir a pantalla de inicio».": "Android (Chrome): menú ⋮ → «Instal·la l'aplicació» o «Afegeix a la pantalla d'inici».",
     "Android, como app (APK):": "Android, com a app (APK):",
     "Anillas": "Anelles",
@@ -7738,6 +7783,7 @@ const I18N = {
     "de Mi material": "del Meu material",
     "deben estar en la misma sección": "han d'estar a la mateixa secció",
     "Dejar como propio": "Deixa'l com a propi",
+    "del {a} al {b}": "del {a} al {b}",
     "Del {d}, guardada desde otro dispositivo o la web.": "Del {d}, desada des d'un altre dispositiu o el web.",
     "del diario": "del diari",
     "del registro": "del registre",
@@ -7779,6 +7825,8 @@ const I18N = {
     "Desde la semana 1, hoy. Tu historial no se toca": "Des de la setmana 1, avui. El teu historial no es toca",
     "Deshacer": "Desfés",
     "Desmarcar": "Desmarca",
+    "despensa": "rebost",
+    "Despensa": "Rebost",
     "Después: {x}": "Després: {x}",
     "Detalle de la experiencia y otros deportes": "Detall de l'experiència i altres esports",
     "Detalles de {x}": "Detalls de {x}",
@@ -7953,6 +8001,7 @@ const I18N = {
     "Entrenos y progreso": "Entrenaments i progrés",
     "Entrenos, rutinas y plan": "Entrenaments, rutines i pla",
     "Equilibrio izq. / der.": "Equilibri esq. / dre.",
+    "Eres un asistente de cocina saludable y sencilla. Crea un menú de {n} semanas para mí, siguiendo estas reglas y devolviendo SOLO el JSON del final.": "Ets un assistent de cuina saludable i senzilla. Crea un menú de {n} setmanes per a mi, seguint aquestes regles i retornant NOMÉS el JSON del final.",
     "Eres un asistente de cocina saludable y sencilla. Crea un menú semanal para mí, siguiendo estas reglas y devolviendo SOLO el JSON del final.": "Ets un assistent de cuina saludable i senzilla. Crea un menú setmanal per a mi, seguint aquestes regles i retornant NOMÉS el JSON del final.",
     "Eres un asistente de cocina saludable. Analiza cómo he seguido el menú de esta semana y dime qué cambiar para la siguiente. Responde breve y concreto.": "Ets un assistent de cuina saludable. Analitza com he seguit el menú d'aquesta setmana i digues-me què canviar per a la següent. Respon breu i concret.",
     "Errores típicos": "Errors típics",
@@ -8200,8 +8249,12 @@ const I18N = {
     "Línea y barras verdes: objetivo.": "Línia i barres verdes: objectiu.",
     "Lista de la compra": "Llista de la compra",
     "Lista de la compra con TODO lo necesario para la semana, agrupada por sección y sin repetir ingredientes (suma cantidades).": "Llista de la compra amb TOT el necessari per a la setmana, agrupada per secció i sense repetir ingredients (suma quantitats).",
+    "Lista de la compra POR SEMANAS, cada grupo con «week»: 0 para la despensa (lo que aguanta todo el periodo: legumbre seca, arroz, pasta, aceite, especias, conservas, congelados) y 1, 2… para lo fresco que se compra esa semana (fruta, verdura, carne, pescado, huevos, lácteos, pan). Agrupada por sección y sin repetir ingredientes dentro de cada lista (suma cantidades).": "Llista de la compra PER SETMANES, cada grup amb «week»: 0 per al rebost (el que aguanta tot el període: llegum sec, arròs, pasta, oli, espècies, conserves, congelats) i 1, 2… per al que és fresc i es compra aquella setmana (fruita, verdura, carn, peix, ous, làctics, pa). Agrupada per secció i sense repetir ingredients dins de cada llista (suma quantitats).",
+    "Lista de la compra por semanas, con lo fresco de cada una, y una despensa con lo que aguanta todo el menú. Cada lista se comparte o exporta por separado; el Markdown y el PDF del menú las llevan todas.": "Llista de la compra per setmanes, amb el que és fresc de cadascuna, i un rebost amb el que aguanta tot el menú. Cada llista es comparteix o s'exporta per separat; el Markdown i el PDF del menú les porten totes.",
     "Listo para subir": "A punt per pujar",
     "Lo copiado no tiene rutinas de Usus. Copia la respuesta de la IA (o su bloque de código) y vuelve a probar.": "El que has copiat no té rutines d'Usus. Copia la resposta de la IA (o el seu bloc de codi) i torna-ho a provar.",
+    "Lo fresco de la semana {n}, {r}.": "El que és fresc de la setmana {n}, {r}.",
+    "Lo que aguanta todo el menú: se compra una vez.": "El que aguanta tot el menú: es compra una vegada.",
     "Lo que faltó en cada serie": "El que va faltar a cada sèrie",
     "Lo que faltó en cada serie: la pregunta ahora es «¿Cuántas te faltaron?» (o cuántos segundos, en las series por tiempo) y se resta de lo hecho. Así la propuesta de subir de ejercicio y el resumen cuentan lo que hiciste de verdad. Sin contestar, la serie cuenta como completa.": "El que va faltar a cada sèrie: la pregunta ara és «Quantes te'n van faltar?» (o quants segons, a les sèries per temps) i es resta del que s'ha fet. Així la proposta de pujar d'exercici i el resum compten el que vas fer de debò. Sense respondre, la sèrie compta com a completa.",
     "Lo que faltó, por ejercicio": "El que va faltar, per exercici",
@@ -8270,6 +8323,8 @@ const I18N = {
     "Menos ultraprocesados": "Menys ultraprocessats",
     "Menstruación": "Menstruació",
     "menu": "menu",
+    "Menú de {n} semanas": "Menú de {n} setmanes",
+    "Menú de 1, 2 o 4 semanas: eliges la duración antes de pedírselo a tu IA. Con 4 semanas escribe 2 distintas que se repiten, para que la respuesta no sea demasiado larga. Un selector de semana encima de los días, y «Analizar la semana» se hace semana a semana.": "Menú d'1, 2 o 4 setmanes: tries la durada abans de demanar-lo a la teva IA. Amb 4 setmanes n'escriu 2 de diferents que es repeteixen, perquè la resposta no sigui massa llarga. Un selector de setmana damunt dels dies, i «Analitzar la setmana» es fa setmana a setmana.",
     "Menú de la semana": "Menú de la setmana",
     "Menú de la semana, como las rutinas: se comparte por enlace, archivo .json o Nostr, y se exporta a Markdown o PDF. Se importa abriendo el enlace, desde el archivo (en el propio menú o en Ajustes → Importar) o compartiendo con Usus la respuesta de la IA. Va sin lo que has marcado, y un menú de una semana pasada se trae a la actual.": "Menú de la setmana, com les rutines: es comparteix per enllaç, arxiu .json o Nostr, i s'exporta a Markdown o PDF. S'importa obrint l'enllaç, des de l'arxiu (al mateix menú o a Ajustos → Importar) o compartint amb Usus la resposta de la IA. Va sense el que has marcat, i un menú d'una setmana passada es porta a l'actual.",
     "Menú de la semana, en el Diario: lo crea tu IA (con tus preferencias, intolerancias y días de entreno) o lo rellenas a mano, con recetas breves y lista de la compra con casillas, que se puede exportar en Markdown o PDF. En cada plato marcas si lo comiste, no o lo cambiaste (por qué y por qué plato); lo comido pasa a Comidas, y «Analizar la semana» prepara la pregunta para que tu IA ajuste el siguiente menú.": "Menú de la setmana, al Diari: el crea la teva IA (amb les teves preferències, intoleràncies i dies d'entrenament) o l'omples a mà, amb receptes breus i llista de la compra amb caselles, que es pot exportar en Markdown o PDF. A cada plat marques si el vas menjar, no o el vas canviar (per què i per quin plat); el que has menjat passa a Àpats, i «Analitzar la setmana» prepara la pregunta perquè la teva IA ajusti el menú següent.",
@@ -8470,6 +8525,7 @@ const I18N = {
     "Para leer o imprimir": "Per llegir o imprimir",
     "Para pasarlo a otro Usus": "Per passar-lo a un altre Usus",
     "Para publicar, conecta antes tu cuenta en Ajustes → Cuenta de Nostr.": "Per publicar, connecta abans el teu compte a Ajustos → Compte de Nostr.",
+    "Para que la respuesta no sea demasiado larga, escribe solo 2 semanas distintas (14 días) y pon «repeat»: true: Usus repite la semana 1 en la 3 y la 2 en la 4. La despensa («week»: 0), para las 4 semanas; lo fresco, solo para las semanas 1 y 2 (se repite igual).": "Perquè la resposta no sigui massa llarga, escriu només 2 setmanes diferents (14 dies) i posa «repeat»: true: Usus repeteix la setmana 1 a la 3 i la 2 a la 4. El rebost («week»: 0), per a les 4 setmanes; el que és fresc, només per a les setmanes 1 i 2 (es repeteix igual).",
     "Para que las mejore o las respete (p. ej. una rutina diaria).": "Perquè les millori o les respecti (p. ex. una rutina diària).",
     "Para qué lo usarías": "Per a què ho faries servir",
     "Para qué sirve": "Per a què serveix",
@@ -8531,6 +8587,7 @@ const I18N = {
     "Perimenopausia o menopausia": "Perimenopausa o menopausa",
     "Periodo": "Període",
     "Período": "Període",
+    "Periodo: del {a} al {b} ({n} semanas, de lunes a domingo).": "Període: del {a} al {b} ({n} setmanes, de dilluns a diumenge).",
     "Pesajes": "Pesades",
     "Pescado": "Peix",
     "Pescetariana": "Pescetariana",
@@ -8646,6 +8703,7 @@ const I18N = {
     "Qué ha ido bien (2–3 puntos).": "Què ha anat bé (2–3 punts).",
     "Qué ha pasado": "Què ha passat",
     "Qué hay de nuevo": "Què hi ha de nou",
+    "Que las dos semanas sean distintas; un plato que guste puede repetirse, como mucho dos veces.": "Que les dues setmanes siguin diferents; un plat que agradi es pot repetir, com a molt dues vegades.",
     "Qué recuperar": "Què recuperar",
     "Qué rutinas entran en cada variante y qué días tocan. «Todas las semanas» se sugiere siempre, también en descarga (como la Diaria).": "Quines rutines entren a cada variant i quins dies toquen. «Totes les setmanes» se suggereix sempre, també en descàrrega (com la Diària).",
     "Qué te gustaría": "Què t'agradaria",
@@ -8667,6 +8725,7 @@ const I18N = {
     "Reanudar": "Reprèn",
     "Receta": "Recepta",
     "Recetas breves: ingredientes con cantidades para {n} persona(s) y de 2 a 4 pasos cortos. Tiempo realista.": "Receptes breus: ingredients amb quantitats per a {n} persona(es) i de 2 a 4 passos curts. Temps realista.",
+    "Recetas muy breves: ingredientes con cantidades para {n} persona(s) y de 2 a 3 pasos cortos. Tiempo realista.": "Receptes molt breus: ingredients amb quantitats per a {n} persona(es) i de 2 a 3 passos curts. Temps realista.",
     "récord": "rècord",
     "Recordar mis respuestas": "Recordar les meves respostes",
     "Recordarme pesarme": "Recorda'm que em pesi",
@@ -8795,12 +8854,14 @@ const I18N = {
     "Semana": "Setmana",
     "Semana {n}": "Setmana {n}",
     "Semana {n} de {m}": "Setmana {n} de {m}",
+    "Semana {n} de {t} del menú, {r}.": "Setmana {n} de {t} del menú, {r}.",
     "Semana de descarga": "Setmana de descàrrega",
     "Semana de descarga: solo rutinas sin variante (p. ej. Diaria).": "Setmana de descàrrega: només rutines sense variant (p. ex. Diària).",
     "Semana de fuerza completa": "Setmana de força completa",
     "Semana de subida · variante {v}": "Setmana de pujada · variant {v}",
     "Semana del {a} al {b}": "Setmana del {a} al {b}",
     "Semana del {d}: +{p} %": "Setmana del {d}: +{p} %",
+    "Semana del menú": "Setmana del menú",
     "Semana en la que vas": "Setmana on vas",
     "Semana: del {a} al {b} (lunes a domingo).": "Setmana: del {a} al {b} (dilluns a diumenge).",
     "Semanas": "Setmanes",
@@ -9195,6 +9256,7 @@ const I18N = {
     "«¿Qué como?» en Diario → Comidas": "“What should I eat?” in Diary → Meals",
     "«¿Qué como?»: Usus prepara la pregunta para tu IA (¿qué ceno?, voy a comer pizza…, desayuno u otra) con lo que has comido, el entreno del día y tus preferencias; la copias o compartes, y su respuesta se guarda en las notas del día.": "“What should I eat?”: Usus writes the question for your AI (what's for dinner?, I'm having pizza…, breakfast or your own) with what you've eaten, the day's workout and your preferences; you copy or share it, and its answer goes into the day's notes.",
     "«Añadir app» y pega el enlace:": "“Add app” and paste the link:",
+    "«days»: exactamente {n}, de lunes a domingo, con «date» correlativa desde «start». «train»: true solo los días que entreno. «time»: minutos de preparación. «at»: hora aproximada de cada comida. Máximo 3 «tips».": "“days”: exactly {n}, Monday to Sunday, with consecutive “date” from “start”. “train”: true only on days I train. “time”: preparation minutes. “at”: approximate time of each meal. At most 3 “tips”.",
     "«days»: exactamente 7, de lunes a domingo, con «date» correlativa desde «start». «train»: true solo los días que entreno. «time»: minutos de preparación. «at»: hora aproximada de cada comida. Máximo 3 «tips».": "“days”: exactly 7, Monday to Sunday, with consecutive “date” from “start”. “train”: true only on days I train. “time”: preparation minutes. “at”: approximate time of each meal. At most 3 “tips”.",
     "«Ejercicio hecho» bien visible, con el descanso que viene y el botón al siguiente.": "A clearly visible “Exercise done” card with the upcoming rest and a button to the next one.",
     "«fast»: true solo los días con ayuno; «window»: null los demás. Los días con ayuno, «at» siempre dentro de «window».": "“fast”: true only on fasting days; “window”: null on the others. On fasting days, “at” always inside “window”.",
@@ -9234,6 +9296,7 @@ const I18N = {
     "{n} semana\u0004{n} semanas": ["{n} week","{n} weeks"],
     "{n} semana": "{n} week",
     "{n} semanas": "{n} weeks",
+    "{n} semanas, {r}": "{n} weeks, {r}",
     "{n} serie\u0004{n} series": ["{n} set","{n} sets"],
     "{n} sesión\u0004{n} sesiones": ["{n} session","{n} sessions"],
     "{n} sesión": "{n} session",
@@ -9333,6 +9396,7 @@ const I18N = {
     "Analizar con IA externa": "Analyse with external AI",
     "Analizar con IA externa (Stats → Resumen): Usus prepara un texto con tus datos y las instrucciones para que la IA que uses (ChatGPT, Claude, Gemini…) haga un informe con gráficos, listo para imprimir en A4. Usus no envía nada.": "Analyse with external AI (Stats → Summary): Usus prepares a text with your data and instructions for the AI you use (ChatGPT, Claude, Gemini…) to write a report with charts, ready to print on A4. Usus sends nothing.",
     "Analizar la semana": "Analyse the week",
+    "Analizar la semana {n}": "Analyse week {n}",
     "Android (Chrome): menú ⋮ → «Instalar aplicación» o «Añadir a pantalla de inicio».": "Android (Chrome): ⋮ menu → “Install app” or “Add to Home screen”.",
     "Android, como app (APK):": "Android, as an app (APK):",
     "Anillas": "Rings",
@@ -9634,6 +9698,7 @@ const I18N = {
     "de Mi material": "from My equipment",
     "deben estar en la misma sección": "they must be in the same section",
     "Dejar como propio": "Keep as my own",
+    "del {a} al {b}": "{a} to {b}",
     "Del {d}, guardada desde otro dispositivo o la web.": "From {d}, saved from another device or the web.",
     "del diario": "from diary",
     "del registro": "from log",
@@ -9675,6 +9740,8 @@ const I18N = {
     "Desde la semana 1, hoy. Tu historial no se toca": "From week 1, today. Your history is not touched",
     "Deshacer": "Undo",
     "Desmarcar": "Clear",
+    "despensa": "pantry",
+    "Despensa": "Pantry",
     "Después: {x}": "Then: {x}",
     "Detalle de la experiencia y otros deportes": "Experience details and other sports",
     "Detalles de {x}": "Details of {x}",
@@ -9849,6 +9916,7 @@ const I18N = {
     "Entrenos y progreso": "Workouts and progress",
     "Entrenos, rutinas y plan": "Workouts, routines and plan",
     "Equilibrio izq. / der.": "Left / right balance",
+    "Eres un asistente de cocina saludable y sencilla. Crea un menú de {n} semanas para mí, siguiendo estas reglas y devolviendo SOLO el JSON del final.": "You are a healthy, simple cooking assistant. Create a {n}-week menu for me, following these rules and returning ONLY the JSON at the end.",
     "Eres un asistente de cocina saludable y sencilla. Crea un menú semanal para mí, siguiendo estas reglas y devolviendo SOLO el JSON del final.": "You are a healthy, simple cooking assistant. Create a weekly menu for me, following these rules and returning ONLY the JSON at the end.",
     "Eres un asistente de cocina saludable. Analiza cómo he seguido el menú de esta semana y dime qué cambiar para la siguiente. Responde breve y concreto.": "You are a healthy cooking assistant. Analyse how I followed this week's menu and tell me what to change for the next one. Keep it short and specific.",
     "Errores típicos": "Common mistakes",
@@ -10096,8 +10164,12 @@ const I18N = {
     "Línea y barras verdes: objetivo.": "Line and green bars: goal.",
     "Lista de la compra": "Shopping list",
     "Lista de la compra con TODO lo necesario para la semana, agrupada por sección y sin repetir ingredientes (suma cantidades).": "A shopping list with EVERYTHING needed for the week, grouped by section and without repeating ingredients (add up amounts).",
+    "Lista de la compra POR SEMANAS, cada grupo con «week»: 0 para la despensa (lo que aguanta todo el periodo: legumbre seca, arroz, pasta, aceite, especias, conservas, congelados) y 1, 2… para lo fresco que se compra esa semana (fruta, verdura, carne, pescado, huevos, lácteos, pan). Agrupada por sección y sin repetir ingredientes dentro de cada lista (suma cantidades).": "Shopping list BY WEEK, each group with “week”: 0 for the pantry (what lasts the whole period: dried pulses, rice, pasta, oil, spices, tins, frozen food) and 1, 2… for the fresh food bought that week (fruit, vegetables, meat, fish, eggs, dairy, bread). Grouped by section, with no repeated ingredients within each list (add up quantities).",
+    "Lista de la compra por semanas, con lo fresco de cada una, y una despensa con lo que aguanta todo el menú. Cada lista se comparte o exporta por separado; el Markdown y el PDF del menú las llevan todas.": "Shopping list by week, with each week's fresh food, plus a pantry list with what lasts the whole menu. Each list is shared or exported on its own; the menu's Markdown and PDF include them all.",
     "Listo para subir": "Ready to step up",
     "Lo copiado no tiene rutinas de Usus. Copia la respuesta de la IA (o su bloque de código) y vuelve a probar.": "What you copied has no Usus routines. Copy the AI's reply (or its code block) and try again.",
+    "Lo fresco de la semana {n}, {r}.": "Fresh food for week {n}, {r}.",
+    "Lo que aguanta todo el menú: se compra una vez.": "What lasts the whole menu: buy it once.",
     "Lo que faltó en cada serie": "What was missing in each set",
     "Lo que faltó en cada serie: la pregunta ahora es «¿Cuántas te faltaron?» (o cuántos segundos, en las series por tiempo) y se resta de lo hecho. Así la propuesta de subir de ejercicio y el resumen cuentan lo que hiciste de verdad. Sin contestar, la serie cuenta como completa.": "What was missing in each set: the question is now “How many were you short?” (or how many seconds, in timed sets) and it's subtracted from what you did. So the suggestion to move up and the summary count what you really did. Unanswered, the set counts as complete.",
     "Lo que faltó, por ejercicio": "What was missing, per exercise",
@@ -10166,6 +10238,8 @@ const I18N = {
     "Menos ultraprocesados": "Fewer ultra-processed foods",
     "Menstruación": "Menstruation",
     "menu": "menu",
+    "Menú de {n} semanas": "{n}-week menu",
+    "Menú de 1, 2 o 4 semanas: eliges la duración antes de pedírselo a tu IA. Con 4 semanas escribe 2 distintas que se repiten, para que la respuesta no sea demasiado larga. Un selector de semana encima de los días, y «Analizar la semana» se hace semana a semana.": "Menu for 1, 2 or 4 weeks: choose the length before asking your AI. With 4 weeks it writes 2 different weeks that repeat, so the reply isn't too long. A week selector above the days, and “Analyse the week” works week by week.",
     "Menú de la semana": "Weekly menu",
     "Menú de la semana, como las rutinas: se comparte por enlace, archivo .json o Nostr, y se exporta a Markdown o PDF. Se importa abriendo el enlace, desde el archivo (en el propio menú o en Ajustes → Importar) o compartiendo con Usus la respuesta de la IA. Va sin lo que has marcado, y un menú de una semana pasada se trae a la actual.": "Weekly menu, like routines: share it by link, .json file or Nostr, and export it to Markdown or PDF. Import it by opening the link, from the file (in the menu itself or Settings → Import) or by sharing the AI's reply with Usus. It travels without what you've marked, and a menu from a past week is moved to the current one.",
     "Menú de la semana, en el Diario: lo crea tu IA (con tus preferencias, intolerancias y días de entreno) o lo rellenas a mano, con recetas breves y lista de la compra con casillas, que se puede exportar en Markdown o PDF. En cada plato marcas si lo comiste, no o lo cambiaste (por qué y por qué plato); lo comido pasa a Comidas, y «Analizar la semana» prepara la pregunta para que tu IA ajuste el siguiente menú.": "Weekly menu, in the Diary: your AI creates it (with your preferences, intolerances and training days) or you fill it in by hand, with short recipes and a shopping list with checkboxes that you can export as Markdown or PDF. For each dish you mark whether you ate it, didn't, or swapped it (for what and why); what you ate goes into Meals, and “Analyse the week” writes the question so your AI adjusts the next menu.",
@@ -10366,6 +10440,7 @@ const I18N = {
     "Para leer o imprimir": "To read or print",
     "Para pasarlo a otro Usus": "To pass it to another Usus",
     "Para publicar, conecta antes tu cuenta en Ajustes → Cuenta de Nostr.": "To post, first connect your account in Settings → Nostr account.",
+    "Para que la respuesta no sea demasiado larga, escribe solo 2 semanas distintas (14 días) y pon «repeat»: true: Usus repite la semana 1 en la 3 y la 2 en la 4. La despensa («week»: 0), para las 4 semanas; lo fresco, solo para las semanas 1 y 2 (se repite igual).": "So the reply isn't too long, write only 2 different weeks (14 days) and set “repeat”: true: Usus repeats week 1 as week 3 and week 2 as week 4. The pantry (“week”: 0) covers all 4 weeks; fresh food only weeks 1 and 2 (it repeats the same).",
     "Para que las mejore o las respete (p. ej. una rutina diaria).": "So it improves or keeps them (e.g. a daily routine).",
     "Para qué lo usarías": "What you'd use it for",
     "Para qué sirve": "What it's for",
@@ -10427,6 +10502,7 @@ const I18N = {
     "Perimenopausia o menopausia": "Perimenopause or menopause",
     "Periodo": "Period",
     "Período": "Period",
+    "Periodo: del {a} al {b} ({n} semanas, de lunes a domingo).": "Period: {a} to {b} ({n} weeks, Monday to Sunday).",
     "Pesajes": "Weigh-ins",
     "Pescado": "Fish",
     "Pescetariana": "Pescatarian",
@@ -10542,6 +10618,7 @@ const I18N = {
     "Qué ha ido bien (2–3 puntos).": "What went well (2–3 points).",
     "Qué ha pasado": "What happened",
     "Qué hay de nuevo": "What's new",
+    "Que las dos semanas sean distintas; un plato que guste puede repetirse, como mucho dos veces.": "Make the two weeks different; a dish I like can repeat, at most twice.",
     "Qué recuperar": "What to restore",
     "Qué rutinas entran en cada variante y qué días tocan. «Todas las semanas» se sugiere siempre, también en descarga (como la Diaria).": "Which routines go in each variant and on which days. “Every week” is always suggested, deload weeks included (like the Daily).",
     "Qué te gustaría": "What you'd like",
@@ -10563,6 +10640,7 @@ const I18N = {
     "Reanudar": "Resume",
     "Receta": "Recipe",
     "Recetas breves: ingredientes con cantidades para {n} persona(s) y de 2 a 4 pasos cortos. Tiempo realista.": "Short recipes: ingredients with amounts for {n} person(s) and 2 to 4 short steps. Realistic times.",
+    "Recetas muy breves: ingredientes con cantidades para {n} persona(s) y de 2 a 3 pasos cortos. Tiempo realista.": "Very short recipes: ingredients with quantities for {n} person(s) and 2 to 3 short steps. Realistic time.",
     "récord": "PR",
     "Recordar mis respuestas": "Remember my answers",
     "Recordarme pesarme": "Remind me to weigh in",
@@ -10691,12 +10769,14 @@ const I18N = {
     "Semana": "Week",
     "Semana {n}": "Week {n}",
     "Semana {n} de {m}": "Week {n} of {m}",
+    "Semana {n} de {t} del menú, {r}.": "Week {n} of {t} of the menu, {r}.",
     "Semana de descarga": "Deload week",
     "Semana de descarga: solo rutinas sin variante (p. ej. Diaria).": "Deload week: only routines without a variant (e.g. Daily).",
     "Semana de fuerza completa": "Strength week complete",
     "Semana de subida · variante {v}": "Step-up week · variant {v}",
     "Semana del {a} al {b}": "Week of {a} to {b}",
     "Semana del {d}: +{p} %": "Week of {d}: +{p}%",
+    "Semana del menú": "Menu week",
     "Semana en la que vas": "Week you're on",
     "Semana: del {a} al {b} (lunes a domingo).": "Week: {a} to {b} (Monday to Sunday).",
     "Semanas": "Weeks",

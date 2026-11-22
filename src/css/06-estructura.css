@@ -314,6 +314,7 @@ body:has(.sbar) .rest{bottom:calc(152px + env(safe-area-inset-bottom,0px))}
 .mrowg{margin-top:12px}
 .mcfg{display:grid;grid-template-columns:auto 1fr;gap:10px 12px;align-items:center}.mcfg>span{font-size:.85rem;color:var(--muted)}.mcfg .fchips{margin:0}
 .mtabs{margin:0 0 4px}
+.mwsel{margin:10px 0 0}
 .mdays{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin:8px 0 4px}
 .mdays button{border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:6px 0 8px;display:flex;flex-direction:column;align-items:center;gap:1px;color:inherit;font:inherit;min-height:56px;cursor:pointer}
 .mdays button span{font-size:.72rem;color:var(--muted);text-transform:uppercase}.mdays button b{font-size:1rem}

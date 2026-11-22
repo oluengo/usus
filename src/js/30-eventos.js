@@ -125,6 +125,9 @@ document.addEventListener("click", async ev => {
   if (d.mday !== undefined) { state.menuDay = +d.mday; render(); return; }
   if (d.mwk !== undefined) { state.menuWk = +d.mwk; render(); return; }
   if (d.mtime) { MENU.setCfg({ time: d.mtime }); render(); return; }
+  if (d.mweeks) { MENU.setCfg({ weeks: +d.mweeks }); render(); return; }
+  if (d.mw !== undefined) { const w = +d.mw, t = menuDayOf(dayKey(Date.now())); state.menuDay = t >= 0 && Math.floor(t / 7) === w ? t : w * 7; render(); return; }
+  if (d.mshw !== undefined) { state.menuShopW = +d.mshw; render(); return; }
   if (d.mbud) { MENU.setCfg({ budget: d.mbud }); render(); return; }
   if (d.mst) { const [i, x, s] = d.mst.split(":"); menuEdit(+i, x, p => { p.st = p.st === s ? null : s; if (p.st !== "sw") p.sw = p.sw || ""; if (p.st === "ok") p.why = null; }); menuToDiary(+i, x); render(); return; }
   if (d.mwhy) { const [i, x, w] = d.mwhy.split(":"); menuEdit(+i, x, p => { p.why = p.why === w ? null : w; }); render(); return; }
@@ -463,7 +466,7 @@ document.addEventListener("click", async ev => {
     case "menu-an-paste": menuSaveAnalysis($("#menuAnPaste")?.value); break;
     case "menu-new": if (confirm(T("¿Empezar un menú nuevo? Este se borra (lo comido sigue en el Diario)."))) { MENU.set(null); state.menuTab = "week"; render(); } break;
     case "menu-fill": menuFill(state.day || dayKey(Date.now())); break;
-    case "menu-shop-add": { const v = ($("#mshopNew")?.value || "").trim().slice(0, 120); if (!v) break; const m = MENU.get(), og = T("Otros"); let g = m.shop.find(x => x.g === og); if (!g) m.shop.push(g = { g: og, items: [] }); g.items.push({ t: v, done: false }); MENU.set(m); render(); setTimeout(() => $("#mshopNew")?.focus(), 0); break; }
+    case "menu-shop-add": { const v = ($("#mshopNew")?.value || "").trim().slice(0, 120); if (!v) break; const m = MENU.get(), og = T("Otros"), sw = menuShopSel(m); let g = m.shop.find(x => x.g === og && (sw === null || (x.w ?? 1) === sw)); if (!g) m.shop.push(g = { g: og, ...(sw === null ? {} : { w: sw }), items: [] }); g.items.push({ t: v, done: false }); MENU.set(m); render(); setTimeout(() => $("#mshopNew")?.focus(), 0); break; }
     case "menu-sh-link": menuShare("link"); break;
     case "menu-sh-file": menuShare("file"); break;
     case "menu-sh-nostr": menuShare("nostr"); break;
@@ -473,7 +476,7 @@ document.addEventListener("click", async ev => {
     case "menu-shop-md": menuShopExport("md"); break;
     case "menu-shop-pdf": menuShopExport("pdf"); break;
     case "menu-shop-share": shareOut({ title: T("Lista de la compra"), text: menuShopText(MENU.get()) }); break;
-    case "menu-shop-clear": { const m = MENU.get(); m.shop.forEach(g => { g.items = g.items.filter(x => !x.done); }); m.shop = m.shop.filter(g => g.items.length); MENU.set(m); render(); break; }
+    case "menu-shop-clear": { const m = MENU.get(), sw = menuShopSel(m); m.shop.forEach(g => { if (sw === null || (g.w ?? 1) === sw) g.items = g.items.filter(x => !x.done); }); m.shop = m.shop.filter(g => g.items.length); MENU.set(m); render(); break; }
     case "food-copy": { const ok = await copyText(foodPrompt(state.day || dayKey(Date.now()))); toast(ok ? T("Pregunta copiada: pégala en tu IA") : T("No se pudo copiar")); break; }
     case "food-share": shareOut({ title: T("Pregunta para tu IA"), text: foodPrompt(state.day || dayKey(Date.now())) }); break;
     case "food-clip": { let x = ""; try { x = await navigator.clipboard.readText(); } catch {}

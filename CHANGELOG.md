@@ -2,6 +2,11 @@
 
 All Usus versions. Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); [SemVer](https://semver.org/) numbering (MAJOR.MINOR.PATCH).
 
+## [3.12.0] — 2026-11-22
+
+- Menu for 1, 2 or 4 weeks: choose the length before asking your AI. With 4 weeks it writes 2 different weeks that repeat, so the reply isn't too long. A week selector above the days, and “Analyse the week” works week by week.
+- Shopping list by week, with each week's fresh food, plus a pantry list with what lasts the whole menu. Each list is shared or exported on its own; the menu's Markdown and PDF include them all.
+
 ## [3.11.1] — 2026-11-22
 
 - Intermittent fasting (12:12, 14:10 or 16:8), in Settings → Profile → Diet: what time you start eating and on which days. The menu puts every meal inside the window, with its time; each day you mark whether you kept it or when and why you broke it, and it goes into “Analyse the week”. “What should I eat?” and Meals take it into account too.

@@ -172,6 +172,10 @@ msgstr "«Què menjo?»: Usus prepara la pregunta per a la teva IA (què sopo?, 
 msgid "«Añadir app» y pega el enlace:"
 msgstr "«Afegeix app» i enganxa l'enllaç:"
 
+#, python-brace-format
+msgid "«days»: exactamente {n}, de lunes a domingo, con «date» correlativa desde «start». «train»: true solo los días que entreno. «time»: minutos de preparación. «at»: hora aproximada de cada comida. Máximo 3 «tips»."
+msgstr "«days»: exactament {n}, de dilluns a diumenge, amb «date» correlativa des de «start». «train»: true només els dies que entreno. «time»: minuts de preparació. «at»: hora aproximada de cada àpat. Màxim 3 «tips»."
+
 msgid "«days»: exactamente 7, de lunes a domingo, con «date» correlativa desde «start». «train»: true solo los días que entreno. «time»: minutos de preparación. «at»: hora aproximada de cada comida. Máximo 3 «tips»."
 msgstr "«days»: exactament 7, de dilluns a diumenge, amb «date» correlativa des de «start». «train»: true només els dies que entreno. «time»: minuts de preparació. «at»: hora aproximada de cada àpat. Màxim 3 «tips»."
 
@@ -346,6 +350,10 @@ msgstr "{n} setmana"
 #, python-brace-format
 msgid "{n} semanas"
 msgstr "{n} setmanes"
+
+#, python-brace-format
+msgid "{n} semanas, {r}"
+msgstr "{n} setmanes, {r}"
 
 #, python-brace-format
 msgid "{n} serie"
@@ -679,6 +687,10 @@ msgstr "Analitzar amb IA externa (Stats → Resum): Usus prepara un text amb les
 
 msgid "Analizar la semana"
 msgstr "Analitzar la setmana"
+
+#, python-brace-format
+msgid "Analizar la semana {n}"
+msgstr "Analitzar la setmana {n}"
 
 msgid "Android (Chrome): menú ⋮ → «Instalar aplicación» o «Añadir a pantalla de inicio»."
 msgstr "Android (Chrome): menú ⋮ → «Instal·la l'aplicació» o «Afegeix a la pantalla d'inici»."
@@ -1607,6 +1619,10 @@ msgid "Dejar como propio"
 msgstr "Deixa'l com a propi"
 
 #, python-brace-format
+msgid "del {a} al {b}"
+msgstr "del {a} al {b}"
+
+#, python-brace-format
 msgid "Del {d}, guardada desde otro dispositivo o la web."
 msgstr "Del {d}, desada des d'un altre dispositiu o el web."
 
@@ -1736,6 +1752,12 @@ msgstr "Desfés"
 
 msgid "Desmarcar"
 msgstr "Desmarca"
+
+msgid "despensa"
+msgstr "rebost"
+
+msgid "Despensa"
+msgstr "Rebost"
 
 #, python-brace-format
 msgid "Después: {x}"
@@ -2276,6 +2298,10 @@ msgstr "Entrenaments, rutines i pla"
 
 msgid "Equilibrio izq. / der."
 msgstr "Equilibri esq. / dre."
+
+#, python-brace-format
+msgid "Eres un asistente de cocina saludable y sencilla. Crea un menú de {n} semanas para mí, siguiendo estas reglas y devolviendo SOLO el JSON del final."
+msgstr "Ets un assistent de cuina saludable i senzilla. Crea un menú de {n} setmanes per a mi, seguint aquestes regles i retornant NOMÉS el JSON del final."
 
 msgid "Eres un asistente de cocina saludable y sencilla. Crea un menú semanal para mí, siguiendo estas reglas y devolviendo SOLO el JSON del final."
 msgstr "Ets un assistent de cuina saludable i senzilla. Crea un menú setmanal per a mi, seguint aquestes regles i retornant NOMÉS el JSON del final."
@@ -3038,11 +3064,24 @@ msgstr "Llista de la compra"
 msgid "Lista de la compra con TODO lo necesario para la semana, agrupada por sección y sin repetir ingredientes (suma cantidades)."
 msgstr "Llista de la compra amb TOT el necessari per a la setmana, agrupada per secció i sense repetir ingredients (suma quantitats)."
 
+msgid "Lista de la compra POR SEMANAS, cada grupo con «week»: 0 para la despensa (lo que aguanta todo el periodo: legumbre seca, arroz, pasta, aceite, especias, conservas, congelados) y 1, 2… para lo fresco que se compra esa semana (fruta, verdura, carne, pescado, huevos, lácteos, pan). Agrupada por sección y sin repetir ingredientes dentro de cada lista (suma cantidades)."
+msgstr "Llista de la compra PER SETMANES, cada grup amb «week»: 0 per al rebost (el que aguanta tot el període: llegum sec, arròs, pasta, oli, espècies, conserves, congelats) i 1, 2… per al que és fresc i es compra aquella setmana (fruita, verdura, carn, peix, ous, làctics, pa). Agrupada per secció i sense repetir ingredients dins de cada llista (suma quantitats)."
+
+msgid "Lista de la compra por semanas, con lo fresco de cada una, y una despensa con lo que aguanta todo el menú. Cada lista se comparte o exporta por separado; el Markdown y el PDF del menú las llevan todas."
+msgstr "Llista de la compra per setmanes, amb el que és fresc de cadascuna, i un rebost amb el que aguanta tot el menú. Cada llista es comparteix o s'exporta per separat; el Markdown i el PDF del menú les porten totes."
+
 msgid "Listo para subir"
 msgstr "A punt per pujar"
 
 msgid "Lo copiado no tiene rutinas de Usus. Copia la respuesta de la IA (o su bloque de código) y vuelve a probar."
 msgstr "El que has copiat no té rutines d'Usus. Copia la resposta de la IA (o el seu bloc de codi) i torna-ho a provar."
+
+#, python-brace-format
+msgid "Lo fresco de la semana {n}, {r}."
+msgstr "El que és fresc de la setmana {n}, {r}."
+
+msgid "Lo que aguanta todo el menú: se compra una vez."
+msgstr "El que aguanta tot el menú: es compra una vegada."
 
 msgid "Lo que faltó en cada serie"
 msgstr "El que va faltar a cada sèrie"
@@ -3252,6 +3291,13 @@ msgstr "Menstruació"
 
 msgid "menu"
 msgstr "menu"
+
+#, python-brace-format
+msgid "Menú de {n} semanas"
+msgstr "Menú de {n} setmanes"
+
+msgid "Menú de 1, 2 o 4 semanas: eliges la duración antes de pedírselo a tu IA. Con 4 semanas escribe 2 distintas que se repiten, para que la respuesta no sea demasiado larga. Un selector de semana encima de los días, y «Analizar la semana» se hace semana a semana."
+msgstr "Menú d'1, 2 o 4 setmanes: tries la durada abans de demanar-lo a la teva IA. Amb 4 setmanes n'escriu 2 de diferents que es repeteixen, perquè la resposta no sigui massa llarga. Un selector de setmana damunt dels dies, i «Analitzar la setmana» es fa setmana a setmana."
 
 msgid "Menú de la semana"
 msgstr "Menú de la setmana"
@@ -3879,6 +3925,9 @@ msgstr "Per passar-lo a un altre Usus"
 msgid "Para publicar, conecta antes tu cuenta en Ajustes → Cuenta de Nostr."
 msgstr "Per publicar, connecta abans el teu compte a Ajustos → Compte de Nostr."
 
+msgid "Para que la respuesta no sea demasiado larga, escribe solo 2 semanas distintas (14 días) y pon «repeat»: true: Usus repite la semana 1 en la 3 y la 2 en la 4. La despensa («week»: 0), para las 4 semanas; lo fresco, solo para las semanas 1 y 2 (se repite igual)."
+msgstr "Perquè la resposta no sigui massa llarga, escriu només 2 setmanes diferents (14 dies) i posa «repeat»: true: Usus repeteix la setmana 1 a la 3 i la 2 a la 4. El rebost («week»: 0), per a les 4 setmanes; el que és fresc, només per a les setmanes 1 i 2 (es repeteix igual)."
+
 msgid "Para que las mejore o las respete (p. ej. una rutina diaria)."
 msgstr "Perquè les millori o les respecti (p. ex. una rutina diària)."
 
@@ -4066,6 +4115,10 @@ msgstr "Període"
 
 msgid "Período"
 msgstr "Període"
+
+#, python-brace-format
+msgid "Periodo: del {a} al {b} ({n} semanas, de lunes a domingo)."
+msgstr "Període: del {a} al {b} ({n} setmanes, de dilluns a diumenge)."
 
 msgid "Pesajes"
 msgstr "Pesades"
@@ -4422,6 +4475,9 @@ msgstr "Què ha passat"
 msgid "Qué hay de nuevo"
 msgstr "Què hi ha de nou"
 
+msgid "Que las dos semanas sean distintas; un plato que guste puede repetirse, como mucho dos veces."
+msgstr "Que les dues setmanes siguin diferents; un plat que agradi es pot repetir, com a molt dues vegades."
+
 msgid "Qué recuperar"
 msgstr "Què recuperar"
 
@@ -4489,6 +4545,10 @@ msgstr "Recepta"
 #, python-brace-format
 msgid "Recetas breves: ingredientes con cantidades para {n} persona(s) y de 2 a 4 pasos cortos. Tiempo realista."
 msgstr "Receptes breus: ingredients amb quantitats per a {n} persona(es) i de 2 a 4 passos curts. Temps realista."
+
+#, python-brace-format
+msgid "Recetas muy breves: ingredientes con cantidades para {n} persona(s) y de 2 a 3 pasos cortos. Tiempo realista."
+msgstr "Receptes molt breus: ingredients amb quantitats per a {n} persona(es) i de 2 a 3 passos curts. Temps realista."
 
 msgid "récord"
 msgstr "rècord"
@@ -4893,6 +4953,10 @@ msgstr "Setmana {n}"
 msgid "Semana {n} de {m}"
 msgstr "Setmana {n} de {m}"
 
+#, python-brace-format
+msgid "Semana {n} de {t} del menú, {r}."
+msgstr "Setmana {n} de {t} del menú, {r}."
+
 msgid "Semana de descarga"
 msgstr "Setmana de descàrrega"
 
@@ -4913,6 +4977,9 @@ msgstr "Setmana del {a} al {b}"
 #, python-brace-format
 msgid "Semana del {d}: +{p} %"
 msgstr "Setmana del {d}: +{p} %"
+
+msgid "Semana del menú"
+msgstr "Setmana del menú"
 
 msgid "Semana en la que vas"
 msgstr "Setmana on vas"
