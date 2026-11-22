@@ -2,7 +2,7 @@
 
 All Usus versions. Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); [SemVer](https://semver.org/) numbering (MAJOR.MINOR.PATCH).
 
-## [3.11.0] — in testing (beta)
+## [3.11.0] — 2026-11-22
 
 - Weekly menu, in the Diary: your AI creates it (with your preferences, intolerances and training days) or you fill it in by hand, with short recipes and a shopping list with checkboxes that you can export as Markdown or PDF. For each dish you mark whether you ate it, didn't, or swapped it (for what and why); what you ate goes into Meals, and “Analyse the week” writes the question so your AI adjusts the next menu.
 - Progress: “Analyse with external AI” and “Create a plan with AI” now come first in Summary.

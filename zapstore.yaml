@@ -18,10 +18,11 @@ description: |
   - **Routines** with sets, reps or time, per side, added weight, sections, supersets and circuits. Print them or save them as PDF.
   - **Train hands-free:** one exercise per screen and a full-screen countdown with sound or vibration. It keeps going in a notification, even with the screen off.
   - **Progression:** after a session, Usus suggests moving to the next exercise or back to the previous one. You decide.
-  - **Exercise catalogue** (optional): a card for each one, equipment and progression.
+  - **Exercise catalogue** (optional): a card for each one, equipment (bar, rings, weights, kettlebell…) and progression.
   - **Guided plan**, or **with AI** (optional, external): routines at your level and a plan that rotates variants in order, with deloads and pauses.
   - **Diary** for sleep, steps, weight, activity, meals and water, and notes, and **Progress** with consistency, PRs, effort and habits.
   - **Meals:** a simple log in your own words (no calories) and, if you want, a ready-made question for your AI: "what should I have for dinner?", with your intolerances and preferences.
+  - **Weekly menu:** created by your AI or by hand, with short recipes, a shopping list (export to Markdown or PDF) and a weekly review of what you ate.
   - **Profiles** for several people, optional **cycle** tracking and light, dark and protector themes.
   - **Share** workouts and routines with no servers; backups and CSV.
   - **Nostr** (optional): a backup encrypted only for you and posting workouts and routines. Sign in with Amber, a bunker or your npub.
@@ -35,7 +36,7 @@ description: |
   A logging tool, not medical advice. Built with AI · tested by humans.
 license: MIT
 website: https://oluengo.github.io/usus/
-tags: [fitness, calisthenics, workout, habits, health, meals, privacy, offline, nostr]
+tags: [fitness, calisthenics, workout, habits, health, meals, meal-plan, privacy, offline, nostr]
 supported_nips: ["44", "46", "78"]
 
 icon: https://raw.githubusercontent.com/oluengo/usus/main/fastlane/metadata/android/en-US/images/icon.png
