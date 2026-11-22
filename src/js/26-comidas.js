@@ -101,7 +101,8 @@ function foodSheet(k, e) {
         <textarea id="foodPaste" rows="3" placeholder="${T("Pega aquí la respuesta de la IA")}"></textarea>
         <button class="btn" style="width:100%;margin-top:8px" data-act="food-paste">${T("Guardar en las notas del día")}</button></details>
     </div></details>` : "";
-  return `    <div class="panel fmeals">
+  const mi = menuDayOf(k), md = mi >= 0 ? MENU.get().days[mi] : null, canFill = md && MENU_MEALS.some(([x]) => md.meals[x].name && md.meals[x].st !== "no" && !(m[x] || "").trim());
+  return `${canFill ? `<button class="btn" style="width:100%;margin-bottom:10px" data-act="menu-fill">${T("Apuntar lo del menú")}</button>` : ""}    <div class="panel fmeals">
       ${FOOD_MEALS.map(([x, n]) => `<label for="fm_${x}">${T(n)}</label><input type="text" id="fm_${x}" data-fmeal="${x}" value="${esc(m[x] || "")}" placeholder="—" maxlength="200">`).join("")}
       <span class="flab">${T("Agua")}</span><div class="fwater"><button class="btn small" data-act="food-water-" aria-label="${T("Un vaso menos")}" ${wv ? "" : "disabled"}>−</button><b aria-live="polite">${TN(wv, "{n} vaso", "{n} vasos")}</b><button class="btn small" data-act="food-water+" aria-label="${T("Un vaso más")}">+</button></div>
     </div>${ai}

@@ -116,6 +116,14 @@ document.addEventListener("click", async ev => {
   if (d.cycSdel !== undefined) { const l = CYC.syms(); l.splice(+d.cycSdel, 1); CYC.saveSyms(l); render(); return; }
   if (d.dsh) { state.dsheet = d.dsh; render(); return; }
   if (d.food) { foodToggle(t); return; }
+  if (d.mtab) { state.menuTab = d.mtab; render(); return; }
+  if (d.mday !== undefined) { state.menuDay = +d.mday; render(); return; }
+  if (d.mwk !== undefined) { state.menuWk = +d.mwk; render(); return; }
+  if (d.mtime) { MENU.setCfg({ time: d.mtime }); render(); return; }
+  if (d.mbud) { MENU.setCfg({ budget: d.mbud }); render(); return; }
+  if (d.mst) { const [i, x, s] = d.mst.split(":"); menuEdit(+i, x, p => { p.st = p.st === s ? null : s; if (p.st !== "sw") p.sw = p.sw || ""; if (p.st === "ok") p.why = null; }); menuToDiary(+i, x); render(); return; }
+  if (d.mwhy) { const [i, x, w] = d.mwhy.split(":"); menuEdit(+i, x, p => { p.why = p.why === w ? null : w; }); render(); return; }
+  if (d.mshopx) { const [g, i] = d.mshopx.split(":").map(Number), m = MENU.get(); m.shop[g].items.splice(i, 1); if (!m.shop[g].items.length) m.shop.splice(g, 1); MENU.set(m); render(); return; }
   if (d.fq) { state.foodQ = d.fq; render(); setTimeout(() => $("[data-fqx]")?.focus(), 0); return; }
   if (d.dgo) { const m = { sleep: ["hab", "sueno"], sup: ["hab", "suplementos"], ses: ["ent", "constancia"], steps: ["hab", "pasos"], act: ["hab", "actividad"], note: ["hab", "notas"], cyc: ["hab", "ciclo"], peso: ["res"] }[d.dgo] || ["res"]; if (d.dgo === "peso") state.pesoOpen = true; state.statsCat = m[0]; LS.set("wk.statsCat", m[0]); state.dsheet = null; state.tab = "stats"; render(); const el = m[1] && [...document.querySelectorAll("[data-sb]")].find(x => x.dataset.sb === m[1]); window.scrollTo(0, el ? Math.max(0, el.getBoundingClientRect().top + scrollY - 8) : 0); return; }
   if (d.scat) { state.statsCat = d.scat; LS.set("wk.statsCat", d.scat); render(); window.scrollTo(0, 0); return; }
@@ -434,6 +442,25 @@ document.addEventListener("click", async ev => {
     case "food-water+": case "food-water-": { const k = state.day || dayKey(Date.now()), w = Math.max(0, Math.min(30, (+DY.get(k).water || 0) + (d.act === "food-water+" ? 1 : -1))); DY.set(k, { water: w || undefined }); render(); break; }
     case "peso-open": state.pesoOpen = true; render(); break;
     case "peso-close": state.pesoOpen = false; render(); break;
+    case "menu-copy": { const ok = await copyText(menuPrompt()); toast(ok ? T("Pregunta copiada: pégala en tu IA") : T("No se pudo copiar")); break; }
+    case "menu-share": shareOut({ title: T("Menú de la semana"), text: menuPrompt() }); break;
+    case "menu-clip": { let x = ""; try { x = await navigator.clipboard.readText(); } catch {}
+      if (!x.trim()) { state.menuManual = true; render(); $("#menuPaste")?.focus(); toast(T("No se ha podido leer lo copiado: pégalo aquí")); break; }
+      menuSave(x); break; }
+    case "menu-paste": menuSave($("#menuPaste")?.value); break;
+    case "menu-hand": menuHand(); break;
+    case "menu-ppl+": case "menu-ppl-": MENU.setCfg({ people: Math.max(1, Math.min(12, MENU.cfg().people + (d.act === "menu-ppl+" ? 1 : -1))) }); render(); break;
+    case "menu-an-copy": { const ok = await copyText(menuAnalysisPrompt()); toast(ok ? T("Pregunta copiada: pégala en tu IA") : T("No se pudo copiar")); break; }
+    case "menu-an-share": shareOut({ title: T("Analizar la semana"), text: menuAnalysisPrompt() }); break;
+    case "menu-an-clip": { let x = ""; try { x = await navigator.clipboard.readText(); } catch {}
+      if (!x.trim()) { state.menuAnManual = true; render(); $("#menuAnPaste")?.focus(); toast(T("No se ha podido leer lo copiado: pégalo aquí")); break; }
+      menuSaveAnalysis(x); break; }
+    case "menu-an-paste": menuSaveAnalysis($("#menuAnPaste")?.value); break;
+    case "menu-new": if (confirm(T("¿Empezar un menú nuevo? Este se borra (lo comido sigue en el Diario)."))) { MENU.set(null); state.menuTab = "week"; render(); } break;
+    case "menu-fill": menuFill(state.day || dayKey(Date.now())); break;
+    case "menu-shop-add": { const v = ($("#mshopNew")?.value || "").trim().slice(0, 120); if (!v) break; const m = MENU.get(), og = T("Otros"); let g = m.shop.find(x => x.g === og); if (!g) m.shop.push(g = { g: og, items: [] }); g.items.push({ t: v, done: false }); MENU.set(m); render(); setTimeout(() => $("#mshopNew")?.focus(), 0); break; }
+    case "menu-shop-share": shareOut({ title: T("Lista de la compra"), text: menuShopText(MENU.get()) }); break;
+    case "menu-shop-clear": { const m = MENU.get(); m.shop.forEach(g => { g.items = g.items.filter(x => !x.done); }); m.shop = m.shop.filter(g => g.items.length); MENU.set(m); render(); break; }
     case "food-copy": { const ok = await copyText(foodPrompt(state.day || dayKey(Date.now()))); toast(ok ? T("Pregunta copiada: pégala en tu IA") : T("No se pudo copiar")); break; }
     case "food-share": shareOut({ title: T("Pregunta para tu IA"), text: foodPrompt(state.day || dayKey(Date.now())) }); break;
     case "food-clip": { let x = ""; try { x = await navigator.clipboard.readText(); } catch {}
@@ -463,6 +490,8 @@ document.addEventListener("click", async ev => {
 });
 document.addEventListener("input", ev => {
   if (ev.target.id === "dNote") { DY.set(state.day || dayKey(Date.now()), { note: ev.target.value }); return; }
+  { const ds = ev.target.dataset, f = ds.mname || ds.msw || ds.ming || ds.mstep;
+    if (f) { const [i, x] = f.split(":"), prev = MENU.get()?.days[+i]?.meals[x]?.sw; menuEdit(+i, x, p => { if (ds.mname) p.name = ev.target.value.slice(0, 60); else if (ds.msw) p.sw = ev.target.value.slice(0, 80); else if (ds.ming) p.ing = unlines(ev.target.value); else p.steps = unlines(ev.target.value).slice(0, 8); }); if (ds.msw) menuToDiary(+i, x, prev); return; } }
   if (ev.target.dataset.fmeal) { const k = state.day || dayKey(Date.now()); DY.set(k, { meals: { ...(DY.get(k).meals || {}), [ev.target.dataset.fmeal]: ev.target.value.slice(0, 200) } }); const p = $(".fprompt"); if (p) p.textContent = foodPrompt(k); return; }
   if (ev.target.dataset.fqx) { state.foodX = { ...(state.foodX || {}), [ev.target.dataset.fqx]: ev.target.value }; const p = $(".fprompt"); if (p) p.textContent = foodPrompt(state.day || dayKey(Date.now())); return; }
   if (ev.target.id === "foodNo") { FOOD.set({ no: ev.target.value.slice(0, 200) }); return; }
@@ -520,6 +549,7 @@ document.addEventListener("change", async ev => {
   const tg = ev.target, dk = state.day || dayKey(Date.now());
   if (tg.id === "progOn" || tg.id === "progUp" || tg.id === "progDown") { const P = PROG(); if (tg.id === "progOn") P.on = tg.checked; if (tg.id === "progUp") P.up = +tg.value; if (tg.id === "progDown") P.down = tg.value; LS.set("wk.prog", P); render(); return; }
   if (tg.dataset.nsbkp && state.nsBk) { state.nsBk.pick = tg.dataset.nsbkp; render(); return; }
+  if (tg.dataset.mshop) { const [g, i] = tg.dataset.mshop.split(":").map(Number), m = MENU.get(); if (m?.shop[g]?.items[i]) { m.shop[g].items[i].done = tg.checked; MENU.set(m); render(); } return; }
   if (tg.id === "foodAi") { FOOD.set({ ai: tg.checked }); return; }
   if (tg.id === "tmrNotif") { LS.set("wk.tmrNotif", tg.checked); render(); return; }
   if (tg.id === "nsAuto") { const c = NS.cfg(); if (c) NS.save({ ...c, auto: tg.checked }); render(); return; }

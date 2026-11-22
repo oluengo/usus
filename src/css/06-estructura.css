@@ -311,3 +311,25 @@ body:has(.sbar) .rest{bottom:calc(152px + env(safe-area-inset-bottom,0px))}
 .aiq{margin-top:14px}.aiq>summary{list-style:none;cursor:pointer;display:flex;align-items:baseline;gap:8px;padding:10px 2px;font-weight:700;font-size:1rem}
 .aiq>summary::-webkit-details-marker{display:none}.aiq>summary small{font-weight:400;font-size:.82rem}.aiq>summary .fchev{align-self:center}
 .aiq[open] .fchev{transform:rotate(225deg);margin-top:4px}
+.mrowg{margin-top:12px}
+.mcfg{display:grid;grid-template-columns:auto 1fr;gap:10px 12px;align-items:center}.mcfg>span{font-size:.85rem;color:var(--muted)}.mcfg .fchips{margin:0}
+.mtabs{margin:0 0 4px}
+.mdays{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin:8px 0 4px}
+.mdays button{border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:6px 0 8px;display:flex;flex-direction:column;align-items:center;gap:1px;color:inherit;font:inherit;min-height:56px;cursor:pointer}
+.mdays button span{font-size:.72rem;color:var(--muted);text-transform:uppercase}.mdays button b{font-size:1rem}
+.mdays button i{width:6px;height:6px;border-radius:50%;background:transparent}.mdays button i.tr{background:var(--accent)}.mdays button i.ok{box-shadow:0 0 0 2px var(--ok)}
+.mdays button.on{border-color:var(--accent);background:var(--accent-soft)}.mdays button.today b{color:var(--accent)}
+.mdh{font-weight:700;margin:10px 2px 6px}.mtr{color:var(--accent);font-weight:600}
+.mmeal{margin-top:8px}.mmeal .mlab{font-size:.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;font-weight:600}
+.mmeal .mname{margin-top:4px;font-weight:600;border-color:transparent;background:var(--bg)}
+.mst{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px}
+.mst button{border:1px solid var(--line);background:var(--surface);border-radius:10px;min-height:38px;font:inherit;font-size:.86rem;color:inherit;cursor:pointer}
+.mst button[aria-pressed=true]{font-weight:600}
+.st-ok .mst button[data-mst$=":ok"]{background:var(--ok-soft,#E3F4EC);border-color:var(--ok);color:var(--ok)}
+.st-no .mst button[data-mst$=":no"]{background:color-mix(in srgb,var(--danger,#C0392B) 12%,transparent);border-color:var(--danger,#C0392B);color:var(--danger,#C0392B)}
+.st-sw .mst button[data-mst$=":sw"]{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.mwhy{margin-top:8px}
+.mmeal textarea{width:100%;font-size:.85rem;margin-top:4px}.mmeal .flab{display:block;margin-top:8px;font-size:.8rem;color:var(--muted)}
+.mshop{margin-top:8px}.mitem{display:flex;align-items:center;gap:8px;padding:6px 0;border-top:1px solid var(--line)}.mitem:first-of-type{border-top:0}
+.mitem label{flex:1;display:flex;align-items:center;gap:10px;min-height:32px;cursor:pointer}.mitem input{width:20px;height:20px;flex:none}
+.mitem .mdone{text-decoration:line-through;color:var(--muted)}.mitem .mx{border:0;background:none;color:var(--muted);font-size:1.2rem;min-width:36px;min-height:36px;cursor:pointer}

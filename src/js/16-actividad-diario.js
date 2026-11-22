@@ -137,6 +137,7 @@ const DICO = {
   peso: '<rect x="3" y="4" width="18" height="16" rx="3"/><path d="M8 9a4 4 0 0 1 8 0zM12 9l1.5-2"/>',
   act: '<circle cx="13" cy="4.5" r="1.8"/><path d="M7 21l3-6 3 2v5M10 15l1-5-3 1-2 3M11 10l3 2 3-1"/>',
   note: '<path d="M4 20h4L19 9l-4-4L4 16zM13.5 6.5l4 4"/>',
+  menu: '<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/>',
   food: '<path d="M7 3v8M4.5 3v5a2.5 2.5 0 0 0 5 0V3M7 11v10M17 21V3c-2.2 1.3-3.5 4-3.5 7.5V13H17"/>',
   cyc: '<path d="M12 3c3 4 6 7.5 6 11a6 6 0 0 1-12 0c0-3.5 3-7 6-11z"/>'
 };
@@ -157,7 +158,7 @@ function viewDiary() {
     return `<button class="srow drow${on ? " on" : ""}" data-dsh="${key}" aria-label="${esc(label)}${v ? ": " + esc(v) : ""}"><span class="dic"><svg viewBox="0 0 24 24" aria-hidden="true">${DICO[key] || DICO.note}</svg></span><span class="t">${label}${dsc ? `<small>${dsc}</small>` : ""}</span>${v ? `<b class="dv">${v}</b>` : ""}<span class="chev" aria-hidden="true">›</span></button>`; };
   const q = sl.q ? "★".repeat(sl.q) + "☆".repeat(5 - sl.q) : "";
   const actTxt = acts.map(a => esc(a.type) + (a.km ? " · " + fmtKm(a.km) : "") + (a.min ? " · " + fmtActDur(a.min) : "")).join("  ·  ");
-  const SHN = { sleep: "Sueño", sup: "Suplementos", ses: "Entrenos del día", steps: "Pasos", peso: "Peso", act: "Actividad", note: "Notas del día", cyc: "Ciclo", food: "Comidas" };
+  const SHN = { sleep: "Sueño", sup: "Suplementos", ses: "Entrenos del día", steps: "Pasos", peso: "Peso", act: "Actividad", note: "Notas del día", cyc: "Ciclo", food: "Comidas", menu: "Menú de la semana" };
   const dayW = W.list().find(x => dayKey(x.t) === k), lastW = W.list().slice(-1)[0];
   const SHB = {
     sleep: `    <div class="panel">
@@ -200,6 +201,7 @@ function viewDiary() {
             ${W.list().length ? `<div style="margin-top:12px">${W.list().slice(-6).reverse().map(x => `<div class="rowx" style="padding:6px 0;border-top:1px solid var(--line);align-items:center"><span>${new Date(x.t).toLocaleDateString(LOC(), { day: "numeric", month: "short", year: "numeric" })} · <b>${fmtW(x.kg)}</b></span><button class="x" data-wdel="${x.id}" aria-label="${T("Borrar registro")}">×</button></div>`).join("")}</div>` : ""}
     </div>`,
     food: foodSheet(k, e),
+    menu: menuSheet(k),
     note: `    <div class="panel">
       <textarea id="dNote" rows="3" placeholder="${T("Cómo ha ido, por qué no se ha podido entrenar, molestias…")}">${esc(e.note || "")}</textarea>
       <div class="chips">${TAGS.map(([tk, tn]) => `<button data-dtag="${tk}" class="${(e.tags || []).includes(tk) ? "on" : ""}" aria-pressed="${(e.tags || []).includes(tk)}">${T(tn)}</button>`).join("")}</div>
@@ -208,7 +210,7 @@ function viewDiary() {
   const sh = state.dsheet && SHB[state.dsheet] ? `<div class="modal" role="dialog" aria-modal="true" aria-label="${T(SHN[state.dsheet])}"><div class="mbox dsh">
       ${mHead("dshT", T(SHN[state.dsheet]), "dsheet-close")}
       ${SHB[state.dsheet]}
-      ${state.dsheet === "food" ? "" : `<button class="dlink" data-dgo="${state.dsheet}">${T("Ver en Progreso")} →</button>`}</div></div>` : "";
+      ${state.dsheet === "food" || state.dsheet === "menu" ? "" : `<button class="dlink" data-dgo="${state.dsheet}">${T("Ver en Progreso")} →</button>`}</div></div>` : "";
   return `
     <div class="dnav">
       <button class="mv" data-dmove="-1" aria-label="${T("Día anterior")}">‹</button>
@@ -218,6 +220,7 @@ function viewDiary() {
     </div>
     ${k !== today ? `<div style="text-align:center;margin-top:6px"><button class="btn ghost small" data-dmove="today">${T("Ir a hoy")}</button></div>` : ""}
     <div class="wstrip">${strip}</div>
+    ${menuRow(k)}
     ${(() => { const tl = `      ${sess.length ? tile("ses", T("Entreno"), `${Math.round(sess.reduce((p, z) => p + (z.end - z.start), 0) / 60000)} min`, `${sess.map(z => esc(z.routine || T("Sesión libre"))).join(" · ")} · ${TN(sess.reduce((p, z) => p + doneSets(z), 0), "{n} serie", "{n} series")}`, true) : ""}
       ${tile("act", T("Actividad"), acts.length ? (acts.some(a => a.km) ? fmtKm(acts.reduce((p, a) => p + (+a.km || 0), 0)) : fmtActDur(acts.reduce((p, a) => p + (+a.min || 0), 0))) : "—", actTxt, acts.length > 0)}
       ${tile("peso", T("Peso"), dayW ? fmtW(dayW.kg) : "—", !dayW && lastW ? `${T("último")}: ${fmtW(lastW.kg)}` : W.goal() ? `${T("objetivo")} ${fmtW(W.goal())}` : "", !!dayW)}

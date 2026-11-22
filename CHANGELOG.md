@@ -4,6 +4,7 @@ All Usus versions. Format based on [Keep a Changelog](https://keepachangelog.com
 
 ## [3.11.0] — in testing (beta)
 
+- Weekly menu, in the Diary: your AI creates it (with your preferences, intolerances and training days) or you fill it in by hand, with short recipes and a shopping list with checkboxes. For each dish you mark whether you ate it, didn't, or swapped it (for what and why); what you ate goes into Meals, and “Analyse the week” writes the question so your AI adjusts the next menu.
 - Progress: “Analyse with external AI” and “Create a plan with AI” now come first in Summary.
 - Progress without the Body tab: the full weight history opens from Summary → Weight → History, and the cycle moves to Habits.
 - New equipment: kettlebell, with swing, deadlift, goblet squat, press, row, clean, Turkish get-up and farmer's carry.
