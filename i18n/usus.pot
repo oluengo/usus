@@ -1426,7 +1426,7 @@ msgstr ""
 msgid "Copia completa del {d}, de antes de los apartados."
 msgstr ""
 
-msgid "Copia completa o solo rutinas. Se combina con lo existente; los duplicados se actualizan."
+msgid "Copia completa, rutinas o un menú de la semana. Se combina con lo existente; los duplicados se actualizan."
 msgstr ""
 
 #, python-brace-format
@@ -2914,6 +2914,9 @@ msgstr ""
 msgid "JSON para compartir o pasar a otro móvil."
 msgstr ""
 
+msgid "JSON para compartir o pasar a otro móvil. Sin lo que has marcado."
+msgstr ""
+
 msgid "Kettlebell"
 msgstr ""
 
@@ -3513,7 +3516,7 @@ msgstr ""
 msgid "No se han encontrado rutinas de Usus en la respuesta"
 msgstr ""
 
-msgid "No se han encontrado rutinas de Usus en lo compartido"
+msgid "No se han encontrado rutinas ni un menú de Usus en lo compartido"
 msgstr ""
 
 msgid "no se hizo"
@@ -5356,6 +5359,9 @@ msgstr ""
 msgid "También puedes compartirla con Usus desde la app de la IA: menú Compartir → Usus."
 msgstr ""
 
+msgid "También puedes compartirlo con Usus desde la app de la IA: menú Compartir → Usus."
+msgstr ""
+
 #, python-brace-format
 msgid "Te han compartido {n} rutinas"
 msgstr ""
@@ -5516,7 +5522,7 @@ msgstr ""
 msgid "Todo el catálogo"
 msgstr ""
 
-msgid "Todo en JSON: rutinas, plan, sesiones, pesos, diario, suplementos y ciclo. Sirve para restaurar."
+msgid "Todo en JSON: rutinas, plan, sesiones, pesos, diario, comidas y menú, suplementos, ciclo y ajustes. Sirve para restaurar."
 msgstr ""
 
 msgid "Todo en tablas (.zip) para analizarlo en una hoja de cálculo."

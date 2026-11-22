@@ -178,6 +178,7 @@ function menuSheet(k) {
       <details class="aimanual"><summary>${T("Ver la pregunta")}</summary><pre class="fprompt">${esc(menuPrompt())}</pre></details>
       <h3 class="wh">${T("Cuando la IA responda")}</h3>
       <button class="btn" style="width:100%" data-act="menu-clip">${T("Pegar el menú")}</button>
+      <p class="muted" style="font-size:.8rem;margin:6px 0 0">${T("También puedes compartirlo con Usus desde la app de la IA: menú Compartir → Usus.")}</p>
       <details class="aimanual"${state.menuManual ? " open" : ""}><summary>${T("O pégalo a mano")}</summary>
         <textarea id="menuPaste" rows="4" placeholder="${T("Pega aquí la respuesta de la IA")}"></textarea>
         <button class="btn" style="width:100%;margin-top:8px" data-act="menu-paste">${T("Guardar menú")}</button></details>

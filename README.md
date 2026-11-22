@@ -19,7 +19,7 @@
 - **Guided plan**, or **with AI** *(optional, external)*: routines at your level and a plan that rotates variants in order, with deloads and pauses.
 - **Diary** for sleep, steps, weight, activity, meals and notes, a **weekly menu** (by your AI or by hand, with a shopping list), and **Progress** with consistency, PRs, effort and habits.
 - **Profiles** for several people, optional **cycle** tracking and light, dark and protector themes.
-- **Share** workouts and routines with no servers; backups and CSV.
+- **Share** workouts, routines and the weekly menu with no servers (link, file or Nostr); import them the same way, or share your AI's reply with Usus. Backups and CSV.
 - **Nostr** *(optional)*: a backup encrypted only for you and posting workouts and routines. Sign in with Amber, a bunker, a browser extension or your npub.
 
 <table><tr>

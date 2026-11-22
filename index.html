@@ -4569,12 +4569,13 @@ function viewData() {
     <h2>${T("Exportar")}</h2>
     ${multiProf() ? `<p class="muted" style="font-size:.85rem;margin:-4px 0 8px">${T("Solo los datos de {x}. Cada perfil tiene su propia copia.", { x: esc(profName(curProf())) })}</p>` : ""}
     <div class="panel">
-      ${item(T("Copia completa"), T("Todo en JSON: rutinas, plan, sesiones, pesos, diario, suplementos y ciclo. Sirve para restaurar."), "exp-all", T("Exportar"), true)}
+      ${item(T("Copia completa"), T("Todo en JSON: rutinas, plan, sesiones, pesos, diario, comidas y menú, suplementos, ciclo y ajustes. Sirve para restaurar."), "exp-all", T("Exportar"), true)}
       ${item(T("Solo rutinas"), T("JSON para compartir o pasar a otro móvil."), "exp-routines", T("Exportar"))}
+      ${MENU.get() ? item(T("Menú de la semana"), T("JSON para compartir o pasar a otro móvil. Sin lo que has marcado."), "menu-sh-file", T("Exportar")) : ""}
       ${item(T("Datos en CSV"), T("Todo en tablas (.zip) para analizarlo en una hoja de cálculo."), "cx-open", T("Exportar"))}
     </div>
     <h2>${T("Importar")}</h2>
-    <div class="panel">${item(T("Importar JSON"), T("Copia completa o solo rutinas. Se combina con lo existente; los duplicados se actualizan."), "imp", T("Elegir archivo"))}</div>
+    <div class="panel">${item(T("Importar JSON"), T("Copia completa, rutinas o un menú de la semana. Se combina con lo existente; los duplicados se actualizan."), "imp", T("Elegir archivo"))}</div>
     <input type="file" id="impFile" accept="application/json,.json,text/plain,.txt" hidden>
     ${nostrBackup(item)}
     <h2>${T("Zona peligrosa")}</h2>
@@ -5204,7 +5205,7 @@ async function receiveShared(text) {
   let json = false; try { JSON.parse(text); json = true; } catch {}
   if (json) { await importJSON(text); return; }
   const inc = aiParse(text);
-  if (!inc) { toast(T("No se han encontrado rutinas de Usus en lo compartido")); return; }
+  if (!inc) { toast(T("No se han encontrado rutinas ni un menú de Usus en lo compartido")); return; }
   state.incoming = { ...inc, ai: true }; render();
 }
 window.ususReceive = text => { receiveShared(text); };
@@ -6460,6 +6461,7 @@ function menuSheet(k) {
       <details class="aimanual"><summary>${T("Ver la pregunta")}</summary><pre class="fprompt">${esc(menuPrompt())}</pre></details>
       <h3 class="wh">${T("Cuando la IA responda")}</h3>
       <button class="btn" style="width:100%" data-act="menu-clip">${T("Pegar el menú")}</button>
+      <p class="muted" style="font-size:.8rem;margin:6px 0 0">${T("También puedes compartirlo con Usus desde la app de la IA: menú Compartir → Usus.")}</p>
       <details class="aimanual"${state.menuManual ? " open" : ""}><summary>${T("O pégalo a mano")}</summary>
         <textarea id="menuPaste" rows="4" placeholder="${T("Pega aquí la respuesta de la IA")}"></textarea>
         <button class="btn" style="width:100%;margin-top:8px" data-act="menu-paste">${T("Guardar menú")}</button></details>
@@ -7678,7 +7680,7 @@ const I18N = {
     "Copia automática": "Còpia automàtica",
     "Copia completa": "Còpia completa",
     "Copia completa del {d}, de antes de los apartados.": "Còpia completa del {d}, d'abans dels apartats.",
-    "Copia completa o solo rutinas. Se combina con lo existente; los duplicados se actualizan.": "Còpia completa o només rutines. Es combina amb el que ja hi ha; els duplicats s'actualitzen.",
+    "Copia completa, rutinas o un menú de la semana. Se combina con lo existente; los duplicados se actualizan.": "Còpia completa, rutines o un menú de la setmana. Es combina amb el que ja hi ha; els duplicats s'actualitzen.",
     "Copia de {x}": "Còpia de {x}",
     "Copia de seguridad": "Còpia de seguretat",
     "Copia de seguridad en Nostr: la copia completa, comprimida y cifrada para que solo tú puedas leerla. «Guardar copia en Nostr» y «Recuperar de Nostr», por ejemplo para pasar tus datos a otro móvil.": "Còpia de seguretat a Nostr: la còpia completa, comprimida i xifrada perquè només tu la puguis llegir. «Desar còpia a Nostr» i «Recuperar de Nostr», per exemple per passar les teves dades a un altre mòbil.",
@@ -8158,6 +8160,7 @@ const I18N = {
     "Izquierdo": "Esquerre",
     "J": "Dj",
     "JSON para compartir o pasar a otro móvil.": "JSON per compartir o passar a un altre mòbil.",
+    "JSON para compartir o pasar a otro móvil. Sin lo que has marcado.": "JSON per compartir o passar a un altre mòbil. Sense el que has marcat.",
     "Kettlebell": "Kettlebell",
     "Kosher": "Kosher",
     "L": "Dl",
@@ -8353,7 +8356,7 @@ const I18N = {
     "No se envía nada hasta que tú lo revises y lo publiques en GitHub.": "No s'envia res fins que tu ho revisis i ho publiquis a GitHub.",
     "No se ha podido leer lo copiado: pégalo aquí": "No s'ha pogut llegir el que has copiat: enganxa-ho aquí",
     "No se han encontrado rutinas de Usus en la respuesta": "No s'han trobat rutines d'Usus a la resposta",
-    "No se han encontrado rutinas de Usus en lo compartido": "No s'han trobat rutines d'Usus en el que s'ha compartit",
+    "No se han encontrado rutinas ni un menú de Usus en lo compartido": "No s'han trobat rutines ni un menú d'Usus en el que s'ha compartit",
     "no se hizo": "no es va fer",
     "No se podrá cambiar una vez creado el perfil.": "No es podrà canviar un cop creat el perfil.",
     "No se pudo cargar el catálogo. Se volverá a intentar al abrir la app.": "No s'ha pogut carregar el catàleg. Es tornarà a provar en obrir l'app.",
@@ -8939,6 +8942,7 @@ const I18N = {
     "Sus datos van aparte de los de la PWA.": "Les seves dades van a part de les de la PWA.",
     "También lleva a": "També porta a",
     "También puedes compartirla con Usus desde la app de la IA: menú Compartir → Usus.": "També la pots compartir amb Usus des de l'app de la IA: menú Compartir → Usus.",
+    "También puedes compartirlo con Usus desde la app de la IA: menú Compartir → Usus.": "També el pots compartir amb Usus des de l'app de la IA: menú Compartir → Usus.",
     "Te han compartido {n} rutinas": "T'han compartit {n} rutines",
     "Te han compartido un plan": "T'han compartit un pla",
     "Te han compartido una rutina": "T'han compartit una rutina",
@@ -8990,7 +8994,7 @@ const I18N = {
     "Todo": "Tot",
     "Todo dentro de mi ventana para comer, con la hora de cada opción.": "Tot dins de la meva finestra per menjar, amb l'hora de cada opció.",
     "Todo el catálogo": "Tot el catàleg",
-    "Todo en JSON: rutinas, plan, sesiones, pesos, diario, suplementos y ciclo. Sirve para restaurar.": "Tot en JSON: rutines, pla, sessions, pesos, diari, suplements i cicle. Serveix per restaurar.",
+    "Todo en JSON: rutinas, plan, sesiones, pesos, diario, comidas y menú, suplementos, ciclo y ajustes. Sirve para restaurar.": "Tot en JSON: rutines, pla, sessions, pesos, diari, àpats i menú, suplements, cicle i ajustos. Serveix per restaurar.",
     "Todo en tablas (.zip) para analizarlo en una hoja de cálculo.": "Tot en taules (.zip) per analitzar-ho en un full de càlcul.",
     "Todo lo que tenías.": "Tot el que tenies.",
     "Todo opcional, pero ayuda: no es lo mismo 5 flexiones de alguien que empieza que de alguien con dolor lumbar.": "Tot opcional, però ajuda: no és el mateix 5 flexions d'algú que comença que d'algú amb dolor lumbar.",
@@ -9572,7 +9576,7 @@ const I18N = {
     "Copia automática": "Automatic backup",
     "Copia completa": "Full backup",
     "Copia completa del {d}, de antes de los apartados.": "Full backup from {d}, from before sections.",
-    "Copia completa o solo rutinas. Se combina con lo existente; los duplicados se actualizan.": "Full backup or routines only. Merged with existing data; duplicates are updated.",
+    "Copia completa, rutinas o un menú de la semana. Se combina con lo existente; los duplicados se actualizan.": "Full backup, routines or a weekly menu. Merged with existing data; duplicates are updated.",
     "Copia de {x}": "Copy of {x}",
     "Copia de seguridad": "Backup",
     "Copia de seguridad en Nostr: la copia completa, comprimida y cifrada para que solo tú puedas leerla. «Guardar copia en Nostr» y «Recuperar de Nostr», por ejemplo para pasar tus datos a otro móvil.": "Backup on Nostr: the full backup, compressed and encrypted so only you can read it. “Save backup to Nostr” and “Restore from Nostr”, for example to move your data to another phone.",
@@ -10052,6 +10056,7 @@ const I18N = {
     "Izquierdo": "Left",
     "J": "T",
     "JSON para compartir o pasar a otro móvil.": "JSON to share or move to another phone.",
+    "JSON para compartir o pasar a otro móvil. Sin lo que has marcado.": "JSON to share or move to another phone. Without what you've marked.",
     "Kettlebell": "Kettlebell",
     "Kosher": "Kosher",
     "L": "M",
@@ -10247,7 +10252,7 @@ const I18N = {
     "No se envía nada hasta que tú lo revises y lo publiques en GitHub.": "Nothing is sent until you review it and post it on GitHub.",
     "No se ha podido leer lo copiado: pégalo aquí": "Couldn't read what you copied: paste it here",
     "No se han encontrado rutinas de Usus en la respuesta": "No Usus routines found in the reply",
-    "No se han encontrado rutinas de Usus en lo compartido": "No Usus routines found in what was shared",
+    "No se han encontrado rutinas ni un menú de Usus en lo compartido": "No Usus routines or menu found in what was shared",
     "no se hizo": "not done",
     "No se podrá cambiar una vez creado el perfil.": "Can't be changed once the profile is created.",
     "No se pudo cargar el catálogo. Se volverá a intentar al abrir la app.": "Couldn't load the catalogue. It will try again when you open the app.",
@@ -10833,6 +10838,7 @@ const I18N = {
     "Sus datos van aparte de los de la PWA.": "Its data is kept apart from the PWA's.",
     "También lleva a": "Also leads to",
     "También puedes compartirla con Usus desde la app de la IA: menú Compartir → Usus.": "You can also share it with Usus from the AI app: Share menu → Usus.",
+    "También puedes compartirlo con Usus desde la app de la IA: menú Compartir → Usus.": "You can also share it with Usus from the AI app: Share menu → Usus.",
     "Te han compartido {n} rutinas": "Someone shared {n} routines with you",
     "Te han compartido un plan": "Someone shared a plan with you",
     "Te han compartido una rutina": "Someone shared a routine with you",
@@ -10884,7 +10890,7 @@ const I18N = {
     "Todo": "All",
     "Todo dentro de mi ventana para comer, con la hora de cada opción.": "Everything inside my eating window, with the time for each option.",
     "Todo el catálogo": "Whole catalogue",
-    "Todo en JSON: rutinas, plan, sesiones, pesos, diario, suplementos y ciclo. Sirve para restaurar.": "Everything in JSON: routines, plan, sessions, weights, diary, supplements and cycle. Use it to restore.",
+    "Todo en JSON: rutinas, plan, sesiones, pesos, diario, comidas y menú, suplementos, ciclo y ajustes. Sirve para restaurar.": "Everything in JSON: routines, plan, sessions, weights, diary, meals and menu, supplements, cycle and settings. Use it to restore.",
     "Todo en tablas (.zip) para analizarlo en una hoja de cálculo.": "Everything in tables (.zip) to analyse in a spreadsheet.",
     "Todo lo que tenías.": "Everything you had.",
     "Todo opcional, pero ayuda: no es lo mismo 5 flexiones de alguien que empieza que de alguien con dolor lumbar.": "All optional, but it helps: 5 push-ups mean something different for a beginner than for someone with low back pain.",

@@ -1427,8 +1427,8 @@ msgstr "Còpia completa"
 msgid "Copia completa del {d}, de antes de los apartados."
 msgstr "Còpia completa del {d}, d'abans dels apartats."
 
-msgid "Copia completa o solo rutinas. Se combina con lo existente; los duplicados se actualizan."
-msgstr "Còpia completa o només rutines. Es combina amb el que ja hi ha; els duplicats s'actualitzen."
+msgid "Copia completa, rutinas o un menú de la semana. Se combina con lo existente; los duplicados se actualizan."
+msgstr "Còpia completa, rutines o un menú de la setmana. Es combina amb el que ja hi ha; els duplicats s'actualitzen."
 
 #, python-brace-format
 msgid "Copia de {x}"
@@ -2915,6 +2915,9 @@ msgstr "Dj"
 msgid "JSON para compartir o pasar a otro móvil."
 msgstr "JSON per compartir o passar a un altre mòbil."
 
+msgid "JSON para compartir o pasar a otro móvil. Sin lo que has marcado."
+msgstr "JSON per compartir o passar a un altre mòbil. Sense el que has marcat."
+
 msgid "Kettlebell"
 msgstr "Kettlebell"
 
@@ -3514,8 +3517,8 @@ msgstr "No s'ha pogut llegir el que has copiat: enganxa-ho aquí"
 msgid "No se han encontrado rutinas de Usus en la respuesta"
 msgstr "No s'han trobat rutines d'Usus a la resposta"
 
-msgid "No se han encontrado rutinas de Usus en lo compartido"
-msgstr "No s'han trobat rutines d'Usus en el que s'ha compartit"
+msgid "No se han encontrado rutinas ni un menú de Usus en lo compartido"
+msgstr "No s'han trobat rutines ni un menú d'Usus en el que s'ha compartit"
 
 msgid "no se hizo"
 msgstr "no es va fer"
@@ -5357,6 +5360,9 @@ msgstr "També porta a"
 msgid "También puedes compartirla con Usus desde la app de la IA: menú Compartir → Usus."
 msgstr "També la pots compartir amb Usus des de l'app de la IA: menú Compartir → Usus."
 
+msgid "También puedes compartirlo con Usus desde la app de la IA: menú Compartir → Usus."
+msgstr "També el pots compartir amb Usus des de l'app de la IA: menú Compartir → Usus."
+
 #, python-brace-format
 msgid "Te han compartido {n} rutinas"
 msgstr "T'han compartit {n} rutines"
@@ -5517,8 +5523,8 @@ msgstr "Tot dins de la meva finestra per menjar, amb l'hora de cada opció."
 msgid "Todo el catálogo"
 msgstr "Tot el catàleg"
 
-msgid "Todo en JSON: rutinas, plan, sesiones, pesos, diario, suplementos y ciclo. Sirve para restaurar."
-msgstr "Tot en JSON: rutines, pla, sessions, pesos, diari, suplements i cicle. Serveix per restaurar."
+msgid "Todo en JSON: rutinas, plan, sesiones, pesos, diario, comidas y menú, suplementos, ciclo y ajustes. Sirve para restaurar."
+msgstr "Tot en JSON: rutines, pla, sessions, pesos, diari, àpats i menú, suplements, cicle i ajustos. Serveix per restaurar."
 
 msgid "Todo en tablas (.zip) para analizarlo en una hoja de cálculo."
 msgstr "Tot en taules (.zip) per analitzar-ho en un full de càlcul."
@@ -5977,6 +5983,15 @@ msgstr "Zona lumbar"
 
 msgid "Zona peligrosa"
 msgstr "Zona perillosa"
+
+#~ msgid "Copia completa o solo rutinas. Se combina con lo existente; los duplicados se actualizan."
+#~ msgstr "Còpia completa o només rutines. Es combina amb el que ja hi ha; els duplicats s'actualitzen."
+
+#~ msgid "No se han encontrado rutinas de Usus en lo compartido"
+#~ msgstr "No s'han trobat rutines d'Usus en el que s'ha compartit"
+
+#~ msgid "Todo en JSON: rutinas, plan, sesiones, pesos, diario, suplementos y ciclo. Sirve para restaurar."
+#~ msgstr "Tot en JSON: rutines, pla, sessions, pesos, diari, suplements i cicle. Serveix per restaurar."
 
 #~ msgid "«days»: exactamente 7, de lunes a domingo, con «date» correlativa desde «start». «train»: true solo los días que entreno. «time»: minutos de preparación. Máximo 3 «tips»."
 #~ msgstr "«days»: exactament 7, de dilluns a diumenge, amb «date» correlativa des de «start». «train»: true només els dies que entreno. «time»: minuts de preparació. Màxim 3 «tips»."

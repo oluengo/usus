@@ -1427,8 +1427,8 @@ msgstr "Full backup"
 msgid "Copia completa del {d}, de antes de los apartados."
 msgstr "Full backup from {d}, from before sections."
 
-msgid "Copia completa o solo rutinas. Se combina con lo existente; los duplicados se actualizan."
-msgstr "Full backup or routines only. Merged with existing data; duplicates are updated."
+msgid "Copia completa, rutinas o un menú de la semana. Se combina con lo existente; los duplicados se actualizan."
+msgstr "Full backup, routines or a weekly menu. Merged with existing data; duplicates are updated."
 
 #, python-brace-format
 msgid "Copia de {x}"
@@ -2915,6 +2915,9 @@ msgstr "T"
 msgid "JSON para compartir o pasar a otro móvil."
 msgstr "JSON to share or move to another phone."
 
+msgid "JSON para compartir o pasar a otro móvil. Sin lo que has marcado."
+msgstr "JSON to share or move to another phone. Without what you've marked."
+
 msgid "Kettlebell"
 msgstr "Kettlebell"
 
@@ -3514,8 +3517,8 @@ msgstr "Couldn't read what you copied: paste it here"
 msgid "No se han encontrado rutinas de Usus en la respuesta"
 msgstr "No Usus routines found in the reply"
 
-msgid "No se han encontrado rutinas de Usus en lo compartido"
-msgstr "No Usus routines found in what was shared"
+msgid "No se han encontrado rutinas ni un menú de Usus en lo compartido"
+msgstr "No Usus routines or menu found in what was shared"
 
 msgid "no se hizo"
 msgstr "not done"
@@ -5357,6 +5360,9 @@ msgstr "Also leads to"
 msgid "También puedes compartirla con Usus desde la app de la IA: menú Compartir → Usus."
 msgstr "You can also share it with Usus from the AI app: Share menu → Usus."
 
+msgid "También puedes compartirlo con Usus desde la app de la IA: menú Compartir → Usus."
+msgstr "You can also share it with Usus from the AI app: Share menu → Usus."
+
 #, python-brace-format
 msgid "Te han compartido {n} rutinas"
 msgstr "Someone shared {n} routines with you"
@@ -5517,8 +5523,8 @@ msgstr "Everything inside my eating window, with the time for each option."
 msgid "Todo el catálogo"
 msgstr "Whole catalogue"
 
-msgid "Todo en JSON: rutinas, plan, sesiones, pesos, diario, suplementos y ciclo. Sirve para restaurar."
-msgstr "Everything in JSON: routines, plan, sessions, weights, diary, supplements and cycle. Use it to restore."
+msgid "Todo en JSON: rutinas, plan, sesiones, pesos, diario, comidas y menú, suplementos, ciclo y ajustes. Sirve para restaurar."
+msgstr "Everything in JSON: routines, plan, sessions, weights, diary, meals and menu, supplements, cycle and settings. Use it to restore."
 
 msgid "Todo en tablas (.zip) para analizarlo en una hoja de cálculo."
 msgstr "Everything in tables (.zip) to analyse in a spreadsheet."
@@ -5977,6 +5983,15 @@ msgstr "Lower back"
 
 msgid "Zona peligrosa"
 msgstr "Danger zone"
+
+#~ msgid "Copia completa o solo rutinas. Se combina con lo existente; los duplicados se actualizan."
+#~ msgstr "Full backup or routines only. Merged with existing data; duplicates are updated."
+
+#~ msgid "No se han encontrado rutinas de Usus en lo compartido"
+#~ msgstr "No Usus routines found in what was shared"
+
+#~ msgid "Todo en JSON: rutinas, plan, sesiones, pesos, diario, suplementos y ciclo. Sirve para restaurar."
+#~ msgstr "Everything in JSON: routines, plan, sessions, weights, diary, supplements and cycle. Use it to restore."
 
 #~ msgid "«days»: exactamente 7, de lunes a domingo, con «date» correlativa desde «start». «train»: true solo los días que entreno. «time»: minutos de preparación. Máximo 3 «tips»."
 #~ msgstr "“days”: exactly 7, Monday to Sunday, with consecutive “date” from “start”. “train”: true only on days I train. “time”: preparation minutes. At most 3 “tips”."

@@ -278,7 +278,7 @@ async function receiveShared(text) {
   let json = false; try { JSON.parse(text); json = true; } catch {}
   if (json) { await importJSON(text); return; }
   const inc = aiParse(text);
-  if (!inc) { toast(T("No se han encontrado rutinas de Usus en lo compartido")); return; }
+  if (!inc) { toast(T("No se han encontrado rutinas ni un menú de Usus en lo compartido")); return; }
   state.incoming = { ...inc, ai: true }; render();
 }
 window.ususReceive = text => { receiveShared(text); };

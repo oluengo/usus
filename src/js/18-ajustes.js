@@ -105,12 +105,13 @@ function viewData() {
     <h2>${T("Exportar")}</h2>
     ${multiProf() ? `<p class="muted" style="font-size:.85rem;margin:-4px 0 8px">${T("Solo los datos de {x}. Cada perfil tiene su propia copia.", { x: esc(profName(curProf())) })}</p>` : ""}
     <div class="panel">
-      ${item(T("Copia completa"), T("Todo en JSON: rutinas, plan, sesiones, pesos, diario, suplementos y ciclo. Sirve para restaurar."), "exp-all", T("Exportar"), true)}
+      ${item(T("Copia completa"), T("Todo en JSON: rutinas, plan, sesiones, pesos, diario, comidas y menú, suplementos, ciclo y ajustes. Sirve para restaurar."), "exp-all", T("Exportar"), true)}
       ${item(T("Solo rutinas"), T("JSON para compartir o pasar a otro móvil."), "exp-routines", T("Exportar"))}
+      ${MENU.get() ? item(T("Menú de la semana"), T("JSON para compartir o pasar a otro móvil. Sin lo que has marcado."), "menu-sh-file", T("Exportar")) : ""}
       ${item(T("Datos en CSV"), T("Todo en tablas (.zip) para analizarlo en una hoja de cálculo."), "cx-open", T("Exportar"))}
     </div>
     <h2>${T("Importar")}</h2>
-    <div class="panel">${item(T("Importar JSON"), T("Copia completa o solo rutinas. Se combina con lo existente; los duplicados se actualizan."), "imp", T("Elegir archivo"))}</div>
+    <div class="panel">${item(T("Importar JSON"), T("Copia completa, rutinas o un menú de la semana. Se combina con lo existente; los duplicados se actualizan."), "imp", T("Elegir archivo"))}</div>
     <input type="file" id="impFile" accept="application/json,.json,text/plain,.txt" hidden>
     ${nostrBackup(item)}
     <h2>${T("Zona peligrosa")}</h2>
