@@ -984,8 +984,8 @@ body:has(.sbar) .rest{bottom:calc(152px + env(safe-area-inset-bottom,0px))}
 .mst{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px}
 .mst button{border:1px solid var(--line);background:var(--surface);border-radius:10px;min-height:38px;font:inherit;font-size:.86rem;color:inherit;cursor:pointer}
 .mst button[aria-pressed=true]{font-weight:600}
-.st-ok .mst button[data-mst$=":ok"]{background:var(--ok-soft,#E3F4EC);border-color:var(--ok);color:var(--ok)}
-.st-no .mst button[data-mst$=":no"]{background:color-mix(in srgb,var(--danger,#C0392B) 12%,transparent);border-color:var(--danger,#C0392B);color:var(--danger,#C0392B)}
+.st-ok .mst button[data-mst$=":ok"],.st-ok .mst button[data-fst$=":ok"]{background:var(--ok-soft,#E3F4EC);border-color:var(--ok);color:var(--ok)}
+.st-no .mst button[data-mst$=":no"],.st-no .mst button[data-fst$=":no"]{background:color-mix(in srgb,var(--danger,#C0392B) 12%,transparent);border-color:var(--danger,#C0392B);color:var(--danger,#C0392B)}
 .st-sw .mst button[data-mst$=":sw"]{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
 .mwhy{margin-top:8px}
 .mmeal textarea{width:100%;font-size:.85rem;margin-top:4px}.mmeal .flab{display:block;margin-top:8px;font-size:.8rem;color:var(--muted)}
@@ -6537,7 +6537,7 @@ function menuSheet(k) {
   const wd = m.days.slice(wk * 7, wk * 7 + 7), marked = wd.reduce((a, x) => a + MENU_MEALS.filter(([y]) => x.meals[y].name && x.meals[y].st).length, 0), total = wd.reduce((a, x) => a + MENU_MEALS.filter(([y]) => x.meals[y].name).length, 0);
   return `${tabs}${strip}
     <p class="mdh">${(() => { const s = new Date(keyTime(d.date)).toLocaleDateString(LOC(), { weekday: "long", day: "numeric", month: "long" }); return s.charAt(0).toUpperCase() + s.slice(1); })()}${d.train ? ` · <span class="mtr">${T("Entreno")}</span>` : ""}${d.fast ? ` · <span class="mtr">${T("Ayuno")}</span>` : ""}</p>
-    ${d.fast ? `<div class="panel mfast"><div class="row" style="justify-content:space-between"><span class="mlab">${T("Ayuno")}</span><span class="muted" style="font-size:.8rem">${T("comes de {a} a {b}", { a: d.win.from, b: d.win.to })}</span></div>
+    ${d.fast ? `<div class="panel mfast${d.fst ? " st-" + d.fst : ""}"><div class="row" style="justify-content:space-between"><span class="mlab">${T("Ayuno")}</span><span class="muted" style="font-size:.8rem">${T("comes de {a} a {b}", { a: d.win.from, b: d.win.to })}</span></div>
       <div class="mst" role="group" aria-label="${T("Ayuno")}">${[["ok", "✓ " + T("Cumplido")], ["no", "✗ " + T("Roto")]].map(([s, l]) => `<button data-fst="${di}:${s}" class="${d.fst === s ? "on" : ""}" aria-pressed="${d.fst === s}">${l}</button>`).join("")}</div>
       ${d.fst === "no" ? `<div class="row" style="margin-top:8px;gap:10px"><label class="flab" for="fbat${di}" style="margin:0">${T("¿A qué hora?")}</label><input type="time" id="fbat${di}" data-fbat="${di}" value="${d.fat || ""}" style="width:auto"></div>
         <div class="chips fchips mwhy">${FAST_WHY.map(([w, l]) => `<button data-fbr="${di}:${w}" class="${d.fwhy === w ? "on" : ""}" aria-pressed="${d.fwhy === w}">${T(l)}</button>`).join("")}</div>` : ""}</div>` : ""}

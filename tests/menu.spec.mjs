@@ -136,7 +136,11 @@ test("ayuno intermitente: en el perfil, en el menú (ventana, seguimiento y aná
   await expect(page.locator(".mfast")).toContainText("13:00 a 21:00");
   await expect(page.locator(`[data-mname="${today}:b"]`)).toHaveCount(0);                     // el hueco vacío no sale
   await expect(page.locator(".mmeal").first()).toContainText("13:15");
-  await page.locator(`[data-fst="${today}:no"]`).click(); await page.fill(`[data-fbat="${today}"]`, "11:30"); await page.locator(`[data-fbat="${today}"]`).dispatchEvent("change");
+  await page.locator(`[data-fst="${today}:ok"]`).click();
+  await expect(page.locator(".mfast")).toHaveClass(/st-ok/);                        // USU-003: en verde, como los platos
+  expect(await page.locator(`[data-fst="${today}:ok"]`).evaluate(e => getComputedStyle(e).borderColor)).not.toBe(await page.locator(`[data-fst="${today}:no"]`).evaluate(e => getComputedStyle(e).borderColor));
+  await page.locator(`[data-fst="${today}:no"]`).click();
+  await expect(page.locator(".mfast")).toHaveClass(/st-no/); await page.fill(`[data-fbat="${today}"]`, "11:30"); await page.locator(`[data-fbat="${today}"]`).dispatchEvent("change");
   await page.locator(`[data-fbr="${today}:hambre"]`).click();
   await page.locator('[data-act="menu-an-copy"]').click();
   const a = await page.evaluate(() => navigator.clipboard.readText());
