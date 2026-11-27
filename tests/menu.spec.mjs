@@ -202,3 +202,14 @@ test("menú de 4 semanas: la IA escribe 2 que se repiten, compra por semanas con
   expect(j.weeks).toBe(4); expect(j.days.length).toBe(28); expect(j.shopping.filter(g => g.week === 0).length).toBe(1);
   expect(errors).toEqual([]);
 });
+test("el menú se abre en el día que miras en el Diario (USU-004)", async ({ page }) => {
+  const errors = await openApp(page, { clock: new Date("2026-11-26T10:00:00") });      // jueves
+  await nav(page, "diary"); await page.locator('[data-dsh="menu"]').click();
+  await page.locator('[data-act="menu-hand"]').click();
+  await expect(page.locator('[data-mday="3"]')).toHaveAttribute("aria-selected", "true");   // hoy (jueves)
+  await page.locator('[data-mday="5"]').click();                                            // miro el sábado en el menú
+  await page.locator('[data-act="dsheet-close"]').click(); await page.locator('[data-dsel="2026-11-24"]').click();   // Diario: martes
+  await page.locator('[data-dsh="menu"]').click();
+  await expect(page.locator('[data-mday="1"]')).toHaveAttribute("aria-selected", "true");   // abre en el martes
+  expect(errors).toEqual([]);
+});

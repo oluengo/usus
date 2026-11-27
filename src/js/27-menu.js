@@ -20,6 +20,8 @@ const menuWeek = () => dayKey(addDays(weekStart(Date.now()), 7 * (state.menuWk |
 /* 1, 2 o 4 semanas (3.12.0): days tiene 7 × semanas; la compra va por listas (w: 0 despensa, 1… cada semana) */
 const menuW = m => Math.max(1, Math.round((m?.days.length || 7) / 7));
 const menuTitle = m => menuW(m) > 1 ? T("Menú de {n} semanas", { n: menuW(m) }) : T("Menú de la semana");
+/* USU-004: el menú se abre en el día que miras en el Diario (si está en el menú; si no, hoy o el primero) */
+const menuDiaryDay = () => { const i = menuDayOf(state.day || dayKey(Date.now())); return i >= 0 ? i : Math.max(0, menuDayOf(dayKey(Date.now()))); };
 const menuDayOf = k => { const m = MENU.get(); return m ? m.days.findIndex(d => d.date === k) : -1; };
 const wdName = k => new Date(keyTime(k)).toLocaleDateString(LOC(), { weekday: "long" });
 const lines = a => (a || []).join("\n"), unlines = t => String(t || "").split("\n").map(s => s.trim()).filter(Boolean).slice(0, 30);
@@ -106,7 +108,7 @@ function menuParse(text) {
 function menuSave(text) {
   const m = menuParse(text);
   if (!m) { toast(T("No parece un menú de Usus: copia la respuesta entera de la IA."), 5000); return false; }
-  MENU.set(m); state.menuDay = Math.max(0, menuDayOf(dayKey(Date.now()))); state.menuTab = "week"; state.menuManual = false; state.menuShopW = null;
+  MENU.set(m); state.menuDay = menuDiaryDay(); state.menuTab = "week"; state.menuManual = false; state.menuShopW = null;
   toast(T("Menú guardado")); render(); return true;
 }
 function menuHand() {
@@ -115,7 +117,7 @@ function menuHand() {
   MENU.set({ start, people: MENU.cfg().people, days: Array.from({ length: 7 * MENU.cfg().weeks }, (_, i) => ({ date: dayKey(addDays(keyTime(start), i)), train: false,
     ...(fw && fastOn(dayKey(addDays(keyTime(start), i))) ? { fast: true, win: { from: fw.from, to: fw.to } } : {}),
     meals: Object.fromEntries(MENU_MEALS.map(([x]) => [x, { name: "", time: null, ing: [], steps: [] }])) })), shop: [], tips: [], created: Date.now() });
-  state.menuDay = Math.max(0, menuDayOf(dayKey(Date.now()))); state.menuTab = "week"; render();
+  state.menuDay = menuDiaryDay(); state.menuTab = "week"; render();
 }
 /* Lo comido pasa a Comidas del día: ✓ el plato del menú (si no había nada), ⇄ lo que se comió en su lugar */
 function menuToDiary(i, x, prevSw) {
@@ -355,7 +357,7 @@ function menuImport(text) {
   const now = dayKey(weekStart(Date.now()));
   if (m.start < now) { m.start = now; m.days.forEach((d, i) => { d.date = dayKey(addDays(keyTime(now), i)); }); }
   if (MENU.get() && !confirm(T("Ya tienes un menú. ¿Sustituirlo por este? (lo comido sigue en el Diario)"))) return false;
-  MENU.set(m); state.menuDay = Math.max(0, menuDayOf(dayKey(Date.now()))); state.menuTab = "week"; state.menuShopW = null;
+  MENU.set(m); state.menuDay = menuDiaryDay(); state.menuTab = "week"; state.menuShopW = null;
   state.tab = "diary"; state.dsheet = "menu"; toast(T("Menú guardado")); render(); return true;
 }
 const isMenuText = t => /"kind"\s*:\s*"menu"/.test(String(t || ""));

@@ -114,7 +114,7 @@ document.addEventListener("click", async ev => {
   if (d.cycFlow) { const k = state.day || dayKey(Date.now()), ce = DY.get(k).cyc || {}; DY.set(k, { cyc: { ...ce, flow: ce.flow === d.cycFlow ? null : d.cycFlow } }); render(); return; }
   if (d.cycSym) { const k = state.day || dayKey(Date.now()), ce = DY.get(k).cyc || {}, l = new Set(ce.sym || []); l.has(d.cycSym) ? l.delete(d.cycSym) : l.add(d.cycSym); DY.set(k, { cyc: { ...ce, sym: [...l] } }); render(); return; }
   if (d.cycSdel !== undefined) { const l = CYC.syms(); l.splice(+d.cycSdel, 1); CYC.saveSyms(l); render(); return; }
-  if (d.dsh) { state.dsheet = d.dsh; render(); return; }
+  if (d.dsh) { state.dsheet = d.dsh; if (d.dsh === "menu" && MENU.get()) state.menuDay = menuDiaryDay(); render(); return; }
   if (d.food) { foodToggle(t); return; }
   if (d.fastt) { fastSet({ type: d.fastt === "no" ? "" : d.fastt }); return; }
   if (d.fastd) { fastSet({ days: d.fastd === "pick" ? (Array.isArray(fastCfg().days) ? fastCfg().days : [1, 2, 3, 4, 5]) : d.fastd }); return; }
