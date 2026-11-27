@@ -25,19 +25,22 @@ const SET_KEYS = ["wk.catalog", "wk.equip", "wk.effort", "wk.fx", "wk.prog", "wk
 const PROG_KEYS = ["wk.progLog", "wk.progMute", "wk.planUpLog", "wk.planUpDone", "wk.planShift", "wk.linkOwn"];
 const pickLS = keys => Object.fromEntries(keys.map(k => [k, LS.get(k, null)]).filter(([, v]) => v !== null && v !== undefined));
 /* Apartados de la copia: en Nostr se guardan y se recuperan por separado */
-const BK_SECS = { rut: ["routines", "plan", "plans", "aiPlan"], ent: ["sessions", "progress"], dia: ["weights", "weightGoal", "diary", "supplements", "activities", "activityTypes", "cycle", "menu"], aj: ["profile", "settings", "goals", "aiProfile"] };
+const BK_SECS = { rut: ["routines", "plan", "plans", "aiPlan"], ent: ["sessions", "progress"], dia: ["weights", "weightGoal", "diary", "supplements", "activities", "activityTypes", "cycle", "menu", "menuHist"], aj: ["profile", "settings", "goals", "aiProfile"] };
 /* Copia completa del perfil (la misma para el archivo y para Nostr); con secs, solo esos apartados */
 function backupObj(secs) {
   const pm = curProf();
   const all = { app: "usus", version: DATA_VERSION, exported: new Date().toISOString(), ...(pm.sex ? { profile: { name: pm.name, sex: pm.sex, color: pm.color } } : {}), routines: state.routines, sessions: state.sessions, weights: W.list(), weightGoal: W.goal(), diary: DY.all(), cycle: { periods: CYC.list(), symptoms: CYC.syms(), settings: CYC.cfg() }, supplements: DY.supps(), activities: ACT.list(), activityTypes: ACT.types(), goals: LS.get("wk.goals", null), plan: PL.get(), plans: PLS.list(), ...(aiHasData(aiProf()) ? { aiProfile: aiProf() } : {}), ...(LS.get("wk.aiPlan", null) ? { aiPlan: LS.get("wk.aiPlan", null) } : {}),
-    settings: pickLS(SET_KEYS), progress: pickLS(PROG_KEYS), ...(MENU.get() ? { menu: MENU.get() } : {}) };
+    settings: pickLS(SET_KEYS), progress: pickLS(PROG_KEYS), ...(MENU.get() ? { menu: MENU.get() } : {}), ...(MENU_HIST.get().length ? { menuHist: MENU_HIST.get() } : {}) };
   if (!secs) return all;
   const keep = new Set(["app", "version", "exported", ...secs.flatMap(s => BK_SECS[s] || [])]);
   return Object.fromEntries(Object.entries(all).filter(([k]) => keep.has(k)));
 }
 /* Ajustes e historial de progresión de una copia: los ajustes sustituyen a los actuales; el historial se combina */
 function importExtras(j) {
-  if (j.menu && Array.isArray(j.menu.days) && (!MENU.get() || String(j.menu.start) >= String(MENU.get().start))) MENU.set(j.menu);   // 3.11.0: el menú más reciente
+  if (Array.isArray(j.menuHist)) menuHistAdd(j.menuHist);   // USU-006: se une con el historial que ya hay
+  if (j.menu && Array.isArray(j.menu.days)) { const cur = MENU.get();
+    if (!cur || String(j.menu.start) >= String(cur.start)) MENU.set(j.menu);   // 3.11.0: el menú más reciente (el que había pasa al historial)
+    else if (j.menu.created !== cur.created) menuHistAdd([j.menu]); }          // uno más antiguo que el actual, al historial
   if (j.settings && typeof j.settings === "object") {
     SET_KEYS.forEach(k => { if (j.settings[k] !== undefined && j.settings[k] !== null) LS.set(k, j.settings[k]); });
     const l = j.settings["wk.lang"]; if (l && LANGS[l]) setLang(l);
@@ -63,7 +66,7 @@ async function importJSON(text) {
   const nd = j.diary && typeof j.diary === "object" ? Object.keys(j.diary).length : 0;
   const na = (Array.isArray(j.activities) ? j.activities.length : 0) + (Array.isArray(j.cycle?.periods) ? j.cycle.periods.length : 0);
   const hasPlan = !!(j.plan && typeof j.plan === "object" && j.plan.start && Array.isArray(j.plan.phases));
-  const hasSet = !!(j.settings && typeof j.settings === "object" && Object.keys(j.settings).length), hasProg = !!(j.progress && typeof j.progress === "object" && Object.keys(j.progress).length) || !!(j.menu && Array.isArray(j.menu.days));
+  const hasSet = !!(j.settings && typeof j.settings === "object" && Object.keys(j.settings).length), hasProg = !!(j.progress && typeof j.progress === "object" && Object.keys(j.progress).length) || !!(j.menu && Array.isArray(j.menu.days)) || (Array.isArray(j.menuHist) && j.menuHist.length > 0);
   // Solo rutinas (sin registros): se revisan como unas rutinas recibidas, con aviso si ya las tienes
   if (rs.length && !ss.length && !ws.length && !nd && !na && !hasPlan && !hasSet && !hasProg) {
     const inc = sanitizeShared({ routines: rs.map(r => ({ ...r, oid: r.oid || r.id })) }); if (!inc) { toast(T("No se encontraron rutinas, sesiones ni pesos")); return; }

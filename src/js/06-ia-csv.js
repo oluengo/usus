@@ -131,6 +131,7 @@ function aiBuild(o) {
     });
     L.push("");
   }
+  if (inc.meals) L.push(...menuAiLines(inK, X));
   if (inc.act) { const A = ACT.list().filter(a => inK(a.k)).sort((a, b) => a.k < b.k ? -1 : 1); if (A.length) L.push(`## ${X.acts}`, A.map(a => `${a.k} ${a.type}${a.km ? ` ${a.km} km` : ""}${a.min ? ` ${a.min} min` : ""}`).join(" · "), ""); }
   if (cyc) {
     const C = CYC.list().slice(-8); L.push(`## ${X.periods(C.length)}`, C.map(c => `${c.s} → ${c.e || "?"}`).join(" · "));

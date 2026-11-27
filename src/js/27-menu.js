@@ -12,10 +12,31 @@ const MENU_WHY = [["tiempo", N_("Sin tiempo")], ["apetecia", N_("No me apetecía
 const MENU_TIME = ["15", "20", "30", "45"], MENU_WEEKS = [1, 2, 4], MENU_BUD = [["ajustado", N_("Ajustado")], ["normal", N_("Normal")], ["libre", N_("Sin límite")]];
 const MENU = {
   get: () => { const m = LS.get("wk.menu", null); return m && Array.isArray(m.days) ? m : null; },
-  set: m => LS.set("wk.menu", m),
+  set: m => { const cur = MENU.get(); if (cur && (!m || m.created !== cur.created) && menuHasDishes(cur)) menuHistAdd([{ ...cur, archived: Date.now() }]); LS.set("wk.menu", m); },
   cfg: () => { const c = { people: 1, time: "20", budget: "normal", weeks: 1, ...(LS.get("wk.menuCfg", null) || {}) }; if (!MENU_WEEKS.includes(+c.weeks)) c.weeks = 1; c.weeks = +c.weeks; return c; },
   setCfg: p => LS.set("wk.menuCfg", { ...MENU.cfg(), ...p })
 };
+/* Historial de menús (USU-006): al sustituir o borrar el menú, el anterior (con su seguimiento ✓ ✗ ⇄ y motivos) pasa
+   a wk.menuHist. Va en la copia (apartado Diario) y en el resumen para la IA. Se une por fecha de inicio: con la misma,
+   se queda el guardado más reciente; restaurar una copia no borra lo que ya hay. */
+const menuHasDishes = m => !!m?.days?.some(d => MENU_MEALS.some(([x]) => d.meals?.[x]?.name));
+const MENU_HIST = { get: () => (LS.get("wk.menuHist", []) || []).filter(m => m && Array.isArray(m.days) && m.start), set: l => LS.set("wk.menuHist", l) };
+function menuHistAdd(list) {
+  const map = new Map(MENU_HIST.get().map(m => [m.start, m])), t = m => +m.archived || +m.created || 0;
+  (list || []).forEach(m => { if (!m || !Array.isArray(m.days) || !/^\d{4}-\d{2}-\d{2}$/.test(String(m.start)) || !menuHasDishes(m)) return; const o = map.get(m.start); if (!o || t(m) >= t(o)) map.set(m.start, m); });
+  MENU_HIST.set([...map.values()].sort((a, b) => a.start < b.start ? -1 : a.start > b.start ? 1 : 0));
+}
+/* Para el resumen de la IA: lo marcado en los menús (historial y actual) de los días del periodo */
+function menuAiLines(inK, X) {
+  const cur = MENU.get(), all = [...MENU_HIST.get().filter(m => !cur || m.start !== cur.start || m.created !== cur.created), ...(cur ? [cur] : [])];
+  const st = { ok: "✓", no: "✗", sw: "⇄" }, why = k => k ? foodLab(MENU_WHY, k).toLowerCase() : "", L = [];
+  all.forEach(m => m.days.filter(d => inK(d.date)).forEach(d => {
+    MENU_MEALS.forEach(([x, n]) => { const p = d.meals?.[x]; if (!p?.name || !p.st) return;
+      L.push(`${d.date} · ${T(n)}: ${p.name} → ${st[p.st]}${p.st === "sw" && p.sw ? ` ${p.sw}` : ""}${p.why && p.st !== "ok" ? ` · ${why(p.why)}` : ""}`); });
+    if (d.fast && d.fst) L.push(`${d.date} · ${X.fast} ${d.win ? `${d.win.from}–${d.win.to}` : ""}: ${d.fst === "ok" ? "✓" : `✗${d.fat ? ` ${d.fat}` : ""}${d.fwhy ? ` · ${foodLab(FAST_WHY, d.fwhy).toLowerCase()}` : ""}`}`);
+  }));
+  return L.length ? [`## ${X.menus}`, ...L.sort(), ""] : [];
+}
 const menuWeek = () => dayKey(addDays(weekStart(Date.now()), 7 * (state.menuWk || 0)));
 /* 1, 2 o 4 semanas (3.12.0): days tiene 7 × semanas; la compra va por listas (w: 0 despensa, 1… cada semana) */
 const menuW = m => Math.max(1, Math.round((m?.days.length || 7) / 7));

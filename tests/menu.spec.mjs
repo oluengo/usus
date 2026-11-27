@@ -2,6 +2,9 @@
 import { createRequire } from "node:module"; const require = createRequire(import.meta.url);
 import { test, expect } from "@playwright/test";
 import { openApp, nav, ls } from "./helpers.mjs";
+import { writeFileSync, mkdtempSync } from "node:fs";
+import { join } from "node:path";
+import { tmpdir } from "node:os";
 const pad = n => String(n).padStart(2, "0"), key = d => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
 const monday = () => { const d = new Date(); d.setHours(0, 0, 0, 0); d.setDate(d.getDate() - (d.getDay() + 6) % 7); return d; };
 function aiMenu() {
@@ -211,5 +214,35 @@ test("el menú se abre en el día que miras en el Diario (USU-004)", async ({ pa
   await page.locator('[data-act="dsheet-close"]').click(); await page.locator('[data-dsel="2026-11-24"]').click();   // Diario: martes
   await page.locator('[data-dsh="menu"]').click();
   await expect(page.locator('[data-mday="1"]')).toHaveAttribute("aria-selected", "true");   // abre en el martes
+  expect(errors).toEqual([]);
+});
+test("historial de menús: al hacer uno nuevo se guarda el anterior con su seguimiento; copia y resumen para la IA (USU-006)", async ({ page, context, browser }) => {
+  await context.grantPermissions(["clipboard-read", "clipboard-write"]);
+  const errors = await openApp(page, { clock: new Date("2026-11-26T10:00:00") });      // jueves
+  await nav(page, "diary"); await page.locator('[data-dsh="menu"]').click();
+  await page.locator('[data-act="menu-hand"]').click();
+  await page.fill('[data-mname="3:l"]', "Lentejas"); await page.locator('[data-mname="3:l"]').dispatchEvent("change");
+  await page.locator('[data-mst="3:l:sw"]').click(); await page.fill('[data-msw="3:l"]', "Pizza"); await page.locator('[data-msw="3:l"]').dispatchEvent("change");
+  await page.locator('[data-mwhy="3:l:tiempo"]').click();
+  await page.locator('[data-act="menu-new"]').click();   // confirm aceptado (helpers)
+  expect(await ls(page, "wk.menu")).toBeNull();
+  const h = await ls(page, "wk.menuHist");
+  expect(h.length).toBe(1); expect(h[0].start).toBe("2026-11-23"); expect(h[0].days[3].meals.l).toMatchObject({ name: "Lentejas", st: "sw", sw: "Pizza", why: "tiempo" });
+  // Resumen para la IA (Comidas y agua): lleva lo marcado
+  await page.locator('[data-act="dsheet-close"]').click();
+  await nav(page, "stats"); await page.locator('[data-act="ai-open"]').first().click(); await page.locator('[data-act="ai-gen"]').click(); await page.locator('[data-act="ai-copy"]').click();
+  const ai = await page.evaluate(() => navigator.clipboard.readText());
+  expect(ai).toContain("## Menús: seguimiento por plato"); expect(ai).toContain("2026-11-26 · Comida: Lentejas → ⇄ Pizza · sin tiempo");
+  // Copia: el historial va en ella y al restaurarla se une con el que ya hay (por fecha de inicio)
+  await page.evaluate(() => { window.__s = []; navigator.canShare = () => true; navigator.share = async d => { window.__s.push(await d.files[0].text()); }; });
+  await page.locator('[data-act="ai-close"]').first().click();
+  await nav(page, "data"); await page.locator('[data-stab="datos"]').click(); await page.locator('[data-act="exp-all"]').click();
+  await expect.poll(() => page.evaluate(() => window.__s.length)).toBe(1);
+  const j = JSON.parse(await page.evaluate(() => window.__s[0])); expect(j.menuHist.length).toBe(1);
+  const other = { ...j.menuHist[0], start: "2026-11-09", days: j.menuHist[0].days.map((d, i) => ({ ...d, date: `2026-11-${String(9 + i).padStart(2, "0")}` })) };
+  const b = await browser.newPage(); await openApp(b, { data: { "wk.menuHist": [other] } });
+  const p = join(mkdtempSync(join(tmpdir(), "usus-")), "copia.json"); writeFileSync(p, JSON.stringify(j));
+  await nav(b, "data"); await b.locator('[data-stab="datos"]').click(); await b.setInputFiles("#impFile", p); await b.waitForTimeout(500);
+  expect((await ls(b, "wk.menuHist")).map(m => m.start)).toEqual(["2026-11-09", "2026-11-23"]);
   expect(errors).toEqual([]);
 });
