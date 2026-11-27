@@ -48,3 +48,17 @@ test("web: sin notificación ni permisos", async ({ page }) => {
   await expect(page.locator("#tmrNotif")).toHaveCount(0);
   expect(errors).toEqual([]);
 });
+test("saltar el descanso antes de una serie por tiempo: cuenta atrás de preparación (USU-002)", async ({ page }) => {
+  const RT = [{ id: "rp", name: "Plancha", block: "core", variant: "", days: [0, 1, 2, 3, 4, 5, 6], exercises: [{ name: "Plancha", sets: 2, reps: 20, type: "time", rest: 30 }] }];
+  const errors = await openApp(page, { clock: new Date("2026-11-27T09:00:00"), data: { "wk.routines": RT, "wk.prep": 5 } });
+  await page.locator('[data-start="rp"]:visible').first().click(); await page.locator('[data-act="sess-begin"]').click();
+  await page.locator('[data-play="0:0"]').click();
+  await expect(page.locator(".focus .fph")).toHaveText("Prepárate");
+  await page.clock.runFor(5500); await expect(page.locator(".focus .fph")).toHaveText("Serie 1 de 2");
+  await page.clock.runFor(20500); await expect(page.locator(".focus .fph")).toHaveText("Descanso entre series");
+  await page.locator('.focus [data-act="run-skip"]').click();
+  await expect(page.locator(".focus .fph")).toHaveText("Prepárate");                    // antes, entraba directo en la serie
+  await expect(page.locator("#fNum")).toHaveText("5");
+  await page.clock.runFor(5500); await expect(page.locator(".focus .fph")).toHaveText("Serie 2 de 2");
+  expect(errors).toEqual([]);
+});

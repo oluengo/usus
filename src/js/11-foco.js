@@ -126,7 +126,15 @@ function pauseRun(at) {
   else { run.rem = Math.max(0, run.end - now); run.paused = true; }
   render();
 }
-function runSkip() { if (run) { if (run.paused) { run.end = Date.now() + run.rem; run.paused = false; } run.lead = null; phaseDone(false); } }
+/* Saltar. Si se salta un descanso y detrás va una serie por tiempo, antes la preparación (Ajustes → Tiempos), para
+   no entrar en la serie de golpe (USU-002); con preparación 0, directo */
+function runSkip() {
+  if (!run) return;
+  if (run.paused) { run.end = Date.now() + run.rem; run.paused = false; } run.lead = null;
+  const f = run.q[run.i], nx = run.q[run.i + 1];
+  if ((f.k === "rest" || f.k === "restx") && nx?.k === "work" && prepSecs() > 0) run.q.splice(run.i + 1, 0, { k: "prep", d: prepSecs(), ei: nx.ei, si: nx.si });
+  phaseDone(false);
+}
 /* APK (3.8.0): notificación fija mientras hay una sesión, con la cuenta atrás del descanso o de la serie. La lleva Android
    (UsusTimerService), así que sigue y avisa al acabar aunque Usus esté en segundo plano o con la pantalla apagada.
    Botones Pausa/Seguir y Saltar. Se quita en Ajustes → Avisos. */
