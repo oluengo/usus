@@ -29,3 +29,13 @@ test.describe("pantalla ancha", () => {
     expect(errors).toEqual([]);
   });
 });
+test("editor: la flecha que despliega los tiempos, del tamaño de subir/bajar (USU-005)", async ({ page }) => {
+  const R = [{ id: "r1", name: "A", block: "full", variant: "", days: [1], exercises: [{ name: "Flexión", sets: 3, reps: 10, type: "reps" }] }];
+  const errors = await openApp(page, { data: { "wk.routines": R } });
+  await nav(page, "routines"); await page.locator('[data-ropen="r1"]').click(); await page.locator('[data-edit="r1"]:visible').click();
+  const box = s => page.locator(s).first().boundingBox();
+  const [up, ch] = [await box(".ex-edit [data-emv]"), await box(".ex-edit .exchev")];
+  expect(Math.abs(ch.width - up.width)).toBeLessThanOrEqual(2); expect(Math.abs(ch.height - up.height)).toBeLessThanOrEqual(2);
+  await page.locator('[data-eopen="0"]').click(); await expect(page.locator(".ex-edit .exchev.up")).toHaveCount(1);
+  expect(errors).toEqual([]);
+});

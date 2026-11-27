@@ -109,7 +109,7 @@ function edExRow(ed, e, i, key) {
     <div class="exh2"><span class="hdl" draggable="true" aria-hidden="true" title="${T("Arrastrar")}">⋮⋮</span><label class="ek"><input type="checkbox" data-esel="${i}" ${on ? "checked" : ""} aria-label="${T("Marcar {x}", { x: esc(nm) })}"><b>${key}</b></label><span class="spacer"></span>
       <button class="ico" data-emv="${i}:-1" aria-label="${T("Subir {x}", { x: esc(nm) })}">↑</button><button class="ico" data-emv="${i}:1" aria-label="${T("Bajar {x}", { x: esc(nm) })}">↓</button><button class="x" data-rmre="${i}" aria-label="${T("Quitar ejercicio")}">×</button></div>
     ${edNameCell(e, i)}
-    <button class="exsum" data-eopen="${i}" aria-expanded="${open}" aria-label="${T("Detalles de {x}", { x: esc(nm) })}"><span>${sum}</span><span aria-hidden="true">${open ? "▴" : "▾"}</span></button>
+    <button class="exsum" data-eopen="${i}" aria-expanded="${open}" aria-label="${T("Detalles de {x}", { x: esc(nm) })}"><span>${sum}</span><span class="exchev${open ? " up" : ""}" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></span></button>
     <label class="fld"><span>${g ? T("Vueltas") : T("Series")}</span><input type="number" min="1" value="${esc(g ? g.rounds : e.sets)}" data-es="${i}" inputmode="numeric" ${g ? "disabled" : ""}></label>
     <label class="fld"><span>${T("Objetivo")}</span><input type="number" min="1" value="${esc(e.reps)}" data-er="${i}" inputmode="numeric"></label>
     <label class="fld"><span>${T("Tipo")}</span><select data-et="${i}"><option value="reps" ${isTime(e) ? "" : "selected"}>${T("reps")}</option><option value="time" ${isTime(e) ? "selected" : ""}>${T("seg")}</option></select></label>

@@ -713,6 +713,8 @@ label.srow{cursor:pointer}
 .abouth{display:flex;align-items:baseline;gap:10px}.abouth b{font-size:1.25rem}
 /* Editor compacto en el móvil */
 .exsum{grid-column:1/-1;display:none;align-items:center;gap:8px;justify-content:space-between;width:100%;border:0;background:none;color:var(--muted);font:inherit;font-size:.88rem;text-align:left;padding:2px 0 0;min-height:32px}
+/* USU-005: la flecha que despliega, del tamaño de ↑ ↓ × */
+.exchev{display:inline-flex;align-items:center;justify-content:center;flex:none;width:28px;height:32px}.exchev svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform .15s}.exchev.up svg{transform:rotate(180deg)}
 @media (max-width:999px){
   .ex-edit .exsum{display:flex}
   .ex-edit.cmp{row-gap:2px;padding:10px 0}
@@ -3436,7 +3438,7 @@ function edExRow(ed, e, i, key) {
     <div class="exh2"><span class="hdl" draggable="true" aria-hidden="true" title="${T("Arrastrar")}">⋮⋮</span><label class="ek"><input type="checkbox" data-esel="${i}" ${on ? "checked" : ""} aria-label="${T("Marcar {x}", { x: esc(nm) })}"><b>${key}</b></label><span class="spacer"></span>
       <button class="ico" data-emv="${i}:-1" aria-label="${T("Subir {x}", { x: esc(nm) })}">↑</button><button class="ico" data-emv="${i}:1" aria-label="${T("Bajar {x}", { x: esc(nm) })}">↓</button><button class="x" data-rmre="${i}" aria-label="${T("Quitar ejercicio")}">×</button></div>
     ${edNameCell(e, i)}
-    <button class="exsum" data-eopen="${i}" aria-expanded="${open}" aria-label="${T("Detalles de {x}", { x: esc(nm) })}"><span>${sum}</span><span aria-hidden="true">${open ? "▴" : "▾"}</span></button>
+    <button class="exsum" data-eopen="${i}" aria-expanded="${open}" aria-label="${T("Detalles de {x}", { x: esc(nm) })}"><span>${sum}</span><span class="exchev${open ? " up" : ""}" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></span></button>
     <label class="fld"><span>${g ? T("Vueltas") : T("Series")}</span><input type="number" min="1" value="${esc(g ? g.rounds : e.sets)}" data-es="${i}" inputmode="numeric" ${g ? "disabled" : ""}></label>
     <label class="fld"><span>${T("Objetivo")}</span><input type="number" min="1" value="${esc(e.reps)}" data-er="${i}" inputmode="numeric"></label>
     <label class="fld"><span>${T("Tipo")}</span><select data-et="${i}"><option value="reps" ${isTime(e) ? "" : "selected"}>${T("reps")}</option><option value="time" ${isTime(e) ? "selected" : ""}>${T("seg")}</option></select></label>
