@@ -28,7 +28,7 @@ function menuTrain(start, n = 7) {
   const pn = planNow();
   return Array.from({ length: n }, (_, i) => {
     const k = dayKey(addDays(keyTime(start), i)), wd = new Date(keyTime(k)).getDay();
-    const rs = pn?.status === "on" ? suggestedFor(pn.w, wd) : state.routines.filter(r => (r.days || []).includes(wd));
+    const rs = pn?.status === "on" ? plannedFor(pn.w, wd) : state.routines.filter(r => (r.days || []).includes(wd));
     return { k, rs };
   });
 }

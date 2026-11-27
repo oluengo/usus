@@ -4350,6 +4350,10 @@ msgstr "Expected"
 msgid "Prevista para el {d} (± {n} d)."
 msgstr "Expected on {d} (± {n} d)."
 
+#, python-brace-format
+msgid "Prevista: {d}"
+msgstr "Planned: {d}"
+
 msgid "Primer día"
 msgstr "First day"
 
@@ -5144,6 +5148,9 @@ msgstr "next"
 
 msgid "Siguiente"
 msgstr "Next"
+
+msgid "Siguiente del plan, de otro día:"
+msgstr "Next in the plan, from another day:"
 
 #, python-brace-format
 msgid "Siguiente ejercicio: {x}"

@@ -4350,6 +4350,10 @@ msgstr "Prevista"
 msgid "Prevista para el {d} (± {n} d)."
 msgstr "Prevista per al {d} (± {n} d)."
 
+#, python-brace-format
+msgid "Prevista: {d}"
+msgstr "Prevista: {d}"
+
 msgid "Primer día"
 msgstr "Primer dia"
 
@@ -5144,6 +5148,9 @@ msgstr "següent"
 
 msgid "Siguiente"
 msgstr "Següent"
+
+msgid "Siguiente del plan, de otro día:"
+msgstr "Següent del pla, d'un altre dia:"
 
 #, python-brace-format
 msgid "Siguiente ejercicio: {x}"

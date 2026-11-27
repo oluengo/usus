@@ -67,8 +67,10 @@ test("en orden: empezar un domingo y recuperar", async ({ page }) => {
   const P = { enabled: true, order: true, name: "Orden", start: "2026-10-18", review: "", phases: [{ id: "x1", variant: "A", weeks: 1 }, { id: "x2", variant: "B", weeks: 1 }], deload: { weeks: 0, every: 0 }, up: false };
   const ses = n => ({ id: "s" + n, start: Date.parse(`2026-10-${18 + n}T08:00:00`), end: Date.parse(`2026-10-${18 + n}T08:30:00`), routine: "A · " + ["Lunes", "Martes", "Miércoles", "Jueves"][n], exercises: [] });
   const errors = await openApp(page, { clock: new Date("2026-10-18T09:00:00"), data: { "wk.routines": R4, "wk.plan": P } });   // domingo
-  const next = () => page.locator(".today .sugr.pri .sn").innerText();
-  expect(await next()).toContain("A · Lunes");
+  // USU-001: el domingo no toca nada; la siguiente del plan sale aparte, como de otro día (sin botón principal)
+  await expect(page.locator(".today .sugr.pri")).toHaveCount(0);
+  await expect(page.locator(".today")).toContainText("Siguiente del plan, de otro día:");
+  await expect(page.locator(".today .sugr .sn")).toContainText("A · Lunes"); await expect(page.locator(".today .sugr .sn")).toContainText("Prevista: lunes");
   expect(errors).toEqual([]);
   // hechas Lunes (dom) y Martes (lun); el martes no entrena; el miércoles toca «Miércoles»
   const p2 = await page.context().newPage(); const e2 = await openApp(p2, { clock: new Date("2026-10-21T09:00:00"), data: { "wk.routines": R4, "wk.plan": P, "wk.sessions": [ses(0), ses(1)] } });
@@ -84,7 +86,7 @@ test("recuperar la semana pasada: elegir en qué semana vas", async ({ page }) =
   await page.locator('[data-act="plan-save"]').click();
   expect((await ls(page, "wk.plan")).orderAt).toBe(1);
   await nav(page, "train");
-  await expect(page.locator(".today .sugr.pri .sn")).toContainText("A · Fuerza");
+  await expect(page.locator(".today .sugr .sn")).toContainText("A · Fuerza");
   await expect(page.locator(".today")).toContainText("Semana 2 de");
   expect(errors).toEqual([]);
 });

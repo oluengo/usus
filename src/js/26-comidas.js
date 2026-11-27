@@ -61,7 +61,7 @@ function foodTrain(k) {
   const ss = state.sessions.filter(s => dayKey(s.start) === k);
   if (ss.length) return T("He entrenado: {x}.", { x: ss.map(s => `«${s.routine || T("Sesión libre")}» (${Math.round((s.end - s.start) / 60000)} min)`).join(", ") });
   if (k !== dayKey(Date.now())) return T("Ese día no entrené.");
-  const today = new Date().getDay(), pn = planNow(), rs = pn?.status === "on" ? suggestedFor(pn.w, today) : state.routines.filter(r => (r.days || []).includes(today));
+  const today = new Date().getDay(), pn = planNow(), rs = pn?.status === "on" ? plannedFor(pn.w, today) : state.routines.filter(r => (r.days || []).includes(today));
   return rs.length ? T("Hoy me toca entrenar: {x}.", { x: rs.map(r => `«${r.name}»`).join(", ") }) : T("Hoy no entreno.");
 }
 function foodPrompt(k) {
@@ -138,7 +138,7 @@ function fastOn(k) {
   const w = fastWin(); if (!w) return false;
   const wd = new Date(keyTime(k)).getDay();
   if (Array.isArray(w.days)) return w.days.includes(wd);
-  if (w.days === "rest") { const pn = planNow(); return !(pn?.status === "on" ? suggestedFor(pn.w, wd) : state.routines.filter(r => (r.days || []).includes(wd))).length; }
+  if (w.days === "rest") { const pn = planNow(); return !(pn?.status === "on" ? plannedFor(pn.w, wd) : state.routines.filter(r => (r.days || []).includes(wd))).length; }
   return true;
 }
 function fastDaysTxt() {

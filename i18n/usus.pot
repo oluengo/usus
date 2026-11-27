@@ -4349,6 +4349,10 @@ msgstr ""
 msgid "Prevista para el {d} (± {n} d)."
 msgstr ""
 
+#, python-brace-format
+msgid "Prevista: {d}"
+msgstr ""
+
 msgid "Primer día"
 msgstr ""
 
@@ -5142,6 +5146,9 @@ msgid "siguiente"
 msgstr ""
 
 msgid "Siguiente"
+msgstr ""
+
+msgid "Siguiente del plan, de otro día:"
 msgstr ""
 
 #, python-brace-format
