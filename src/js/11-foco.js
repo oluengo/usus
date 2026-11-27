@@ -126,13 +126,17 @@ function pauseRun(at) {
   else { run.rem = Math.max(0, run.end - now); run.paused = true; }
   render();
 }
-/* Saltar. Si se salta un descanso y detrás va una serie por tiempo, antes la preparación (Ajustes → Tiempos), para
-   no entrar en la serie de golpe (USU-002); con preparación 0, directo */
+/* Saltar. Al saltar un descanso, antes la preparación (Ajustes → Tiempos) para no volver de golpe (USU-002): delante de
+   la serie por tiempo que empieza sola o, si la siguiente es por repeticiones, antes de volver a ella. Con preparación 0, directo */
 function runSkip() {
   if (!run) return;
   if (run.paused) { run.end = Date.now() + run.rem; run.paused = false; } run.lead = null;
   const f = run.q[run.i], nx = run.q[run.i + 1];
-  if ((f.k === "rest" || f.k === "restx") && nx?.k === "work" && prepSecs() > 0) run.q.splice(run.i + 1, 0, { k: "prep", d: prepSecs(), ei: nx.ei, si: nx.si });
+  if ((f.k === "rest" || f.k === "restx") && prepSecs() > 0) {
+    if (nx?.k === "work") run.q.splice(run.i + 1, 0, { k: "prep", d: prepSecs(), ei: nx.ei, si: nx.si });
+    else if (!nx) { const e = exOf(f.ei), si = f.k === "rest" && f.nx !== undefined ? f.nx : (e?.sets || []).findIndex(x => !x.done);
+      if (e && si >= 0) run.q.push({ k: "prep", d: prepSecs(), ei: f.ei, si }); }
+  }
   phaseDone(false);
 }
 /* APK (3.8.0): notificación fija mientras hay una sesión, con la cuenta atrás del descanso o de la serie. La lleva Android
@@ -209,6 +213,7 @@ function focusView() {
   if (f.k === "rest" && f.g) next = T("Siguiente: {x}", { x: `${esc(exName(e))} · ${tgt(e, f.nx)}` }) + (isTime(e) && autoStart() ? ` (${T("empieza sola")})` : "");
   else if (f.k === "rest") next = isTime(e) && autoStart() ? T("Siguiente: serie {n} (empieza sola)", { n: f.nx + 1 }) : T("Siguiente: serie {n} · {x}", { n: f.nx + 1, x: tgt(e, f.nx) });
   else if (f.k === "restx") next = T("Siguiente: {x}", { x: `${esc(e.name)} · ${e.sets.filter(z => !z.done).length}× ${tgt(e, e.sets.findIndex(z => !z.done))}` });
+  else if (f.k === "prep" && !nx) next = T("Siguiente: serie {n} · {x}", { n: f.si + 1, x: tgt(e, f.si) });
   else if (nx) next = nx.k === "rest" ? T("Luego: descanso {n} s", { n: nx.d }) : nx.k === "restx" ? T("Luego: cambio de ejercicio ({n} s)", { n: nx.d })
     : nx.k === "switch" ? T("Luego: cambio de lado") : nx.ei !== f.ei && exOf(nx.ei) ? T("Luego: {x}", { x: esc(exName(exOf(nx.ei))) }) : nx.k === "work" ? T("Luego: serie {n}", { n: nx.si + 1 }) : T("Luego: serie {n}", { n: (nx.si ?? 0) + 1 });
   else next = T("Último tramo");

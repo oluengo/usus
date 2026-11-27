@@ -23,7 +23,9 @@ test("APK: notificación con la sesión y la cuenta atrás; Pausa y Saltar desde
   expect(o.end).toBeGreaterThan(Date.now() + 20000);
   await page.evaluate(() => window.__tl({ a: "pause", at: Date.now() }));                // Pausa desde la notificación
   await expect.poll(async () => (await last(page))[1].paused).toBe(true);
-  await page.evaluate(() => window.__tl({ a: "skip", at: Date.now() }));                 // Saltar
+  await page.evaluate(() => window.__tl({ a: "skip", at: Date.now() }));                 // Saltar el descanso: antes, la preparación (USU-002)
+  await expect.poll(async () => (await last(page))[1].title).toBe("Prepárate");
+  await page.evaluate(() => window.__tl({ a: "skip", at: Date.now() }));                 // Saltar la preparación
   await expect.poll(async () => (await last(page))[1].title).toBe("Temp");
   await page.evaluate(() => window.__tl({ a: "pause", at: Date.now() }));                // entre series: pausa la sesión
   await expect.poll(async () => (await last(page))[1]).toMatchObject({ paused: true, text: "Sesión en pausa" });
@@ -60,5 +62,17 @@ test("saltar el descanso antes de una serie por tiempo: cuenta atrás de prepara
   await expect(page.locator(".focus .fph")).toHaveText("Prepárate");                    // antes, entraba directo en la serie
   await expect(page.locator("#fNum")).toHaveText("5");
   await page.clock.runFor(5500); await expect(page.locator(".focus .fph")).toHaveText("Serie 2 de 2");
+  expect(errors).toEqual([]);
+});
+test("saltar el descanso antes de una serie por repeticiones: también la preparación (USU-002)", async ({ page }) => {
+  const errors = await openApp(page, { clock: new Date("2026-11-27T09:00:00"), data: { "wk.routines": R, "wk.prep": 5 } });
+  await page.locator('[data-start="rt"]:visible').first().click(); await page.locator('[data-act="sess-begin"]').click();
+  await page.locator('[data-done="0:0"]').click();
+  await expect(page.locator(".focus .fph")).toHaveText("Descanso entre series");
+  await page.locator('.focus [data-act="run-skip"]').click();
+  await expect(page.locator(".focus .fph")).toHaveText("Prepárate"); await expect(page.locator("#fNum")).toHaveText("5");
+  await expect(page.locator(".focus")).toContainText("Siguiente: serie 2 · 5 reps");
+  await page.clock.runFor(5500); await expect(page.locator(".focus")).toHaveCount(0);   // vuelve a la serie para marcarla
+  await expect(page.locator('[data-done="0:1"]')).toBeVisible();
   expect(errors).toEqual([]);
 });

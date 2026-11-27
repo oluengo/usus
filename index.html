@@ -2080,7 +2080,7 @@ es: {
   goalW: (a, b) => `Objetivo semanal: ${a} días de fuerza, ${b} días de rutina diaria`,
   sessions: n => `Sesiones (${n})`, sessFmt: "Formato: fecha hora · rutina · minutos · PEM (esfuerzo 1–10) | ejercicio (en lugar de…, si se cambió en la sesión): series (reps, o s si es por tiempo; izq/der si es por lado; @kg = lastre; (n) = RIR, repeticiones en reserva; (-n) = faltaron n para completar la serie, ya descontadas) ✎ nota", free: "libre",
   weight: "Peso (kg)", goal: "objetivo", noRec: "Sin registros en el período", supps: "Suplementos", diary: "Diario", fmt: "Formato: fecha",
-  colSleep: "sueño (acostarse–levantarse, calidad 1–5)", colSteps: "pasos", colSupp: "suplementos tomados", colMeals: "comidas", water: "agua (vasos)", colNotes: "etiquetas y nota", colCyc: "ciclo (sangrado, síntomas)", none: "ninguno",
+  colSleep: "sueño (acostarse–levantarse, calidad 1–5)", colSteps: "pasos", colSupp: "suplementos tomados", colMeals: "comidas", water: "agua (vasos)", menus: "Menús: seguimiento por plato (fecha · comida: plato → ✓ comido, ✗ no comido, ⇄ cambiado por… · motivo)", fast: "ayuno", colNotes: "etiquetas y nota", colCyc: "ciclo (sangrado, síntomas)", none: "ninguno",
   tags: { skip: "no entrené", pain: "molestia", tired: "cansado", great: "gran sesión" }, flow: { l: "leve", m: "moderada", h: "abundante" },
   acts: "Actividades", periods: n => `Reglas (últimas ${n}, también anteriores al período para ver la regularidad)`, paused: "Seguimiento en pausa desde",
   csv: { tech: "tecnica", pem: "pem", load: "carga", rir: "rir", miss: "faltaron", from: "en_lugar_de", date: "fecha", time: "hora", routine: "rutina", block: "bloque", dur: "duracion_min", ex: "ejercicio", xid: "id_catalogo", type: "tipo", side: "por_lado", set: "serie", val: "reps_o_seg", r2: "reps_der", kg: "lastre_kg",
@@ -2156,7 +2156,7 @@ ca: {
   goalW: (a, b) => `Objectiu setmanal: ${a} dies de força, ${b} dies de rutina diària`,
   sessions: n => `Sessions (${n})`, sessFmt: "Format: data hora · rutina · minuts · PEM (esforç 1–10) | exercici (en lloc de…, si es va canviar a la sessió): sèries (reps, o s si és per temps; esq/dre si és per costat; @kg = llast; (n) = RIR, repeticions en reserva; (-n) = en faltaven n per completar la sèrie, ja descomptades) ✎ nota", free: "lliure",
   weight: "Pes (kg)", goal: "objectiu", noRec: "Sense registres en el període", supps: "Suplements", diary: "Diari", fmt: "Format: data",
-  colSleep: "son (anar a dormir–llevar-se, qualitat 1–5)", colSteps: "passos", colSupp: "suplements presos", colMeals: "àpats", water: "aigua (gots)", colNotes: "etiquetes i nota", colCyc: "cicle (sagnat, símptomes)", none: "cap",
+  colSleep: "son (anar a dormir–llevar-se, qualitat 1–5)", colSteps: "passos", colSupp: "suplements presos", colMeals: "àpats", water: "aigua (gots)", menus: "Menús: seguiment per plat (data · àpat: plat → ✓ menjat, ✗ no menjat, ⇄ canviat per… · motiu)", fast: "dejuni", colNotes: "etiquetes i nota", colCyc: "cicle (sagnat, símptomes)", none: "cap",
   tags: { skip: "no vaig entrenar", pain: "molèstia", tired: "cansat", great: "gran sessió" }, flow: { l: "lleu", m: "moderat", h: "abundant" },
   acts: "Activitats", periods: n => `Regles (últimes ${n}, també anteriors al període per veure'n la regularitat)`, paused: "Seguiment en pausa des de",
   csv: { tech: "tecnica", pem: "pem", load: "carrega", rir: "rir", miss: "faltaven", from: "en_lloc_de", date: "data", time: "hora", routine: "rutina", block: "bloc", dur: "durada_min", ex: "exercici", xid: "id_cataleg", type: "tipus", side: "per_costat", set: "serie", val: "reps_o_seg", r2: "reps_dre", kg: "llast_kg",
@@ -2232,7 +2232,7 @@ en: {
   goalW: (a, b) => `Weekly goal: ${a} strength days, ${b} daily-routine days`,
   sessions: n => `Sessions (${n})`, sessFmt: "Format: date time · routine · minutes · RPE (effort 1–10) | exercise (instead of…, if swapped in the session): sets (reps, or s if timed; left/right if per side; @kg = added weight; (n) = RIR, reps in reserve; (-n) = n missing to complete the set, already subtracted) ✎ note", free: "free",
   weight: "Weight (kg)", goal: "goal", noRec: "No entries in the period", supps: "Supplements", diary: "Diary", fmt: "Format: date",
-  colSleep: "sleep (bed–wake, quality 1–5)", colSteps: "steps", colSupp: "supplements taken", colMeals: "meals", water: "water (glasses)", colNotes: "tags and note", colCyc: "cycle (bleeding, symptoms)", none: "none",
+  colSleep: "sleep (bed–wake, quality 1–5)", colSteps: "steps", colSupp: "supplements taken", colMeals: "meals", water: "water (glasses)", menus: "Menus: tracking per dish (date · meal: dish → ✓ eaten, ✗ not eaten, ⇄ swapped for… · reason)", fast: "fasting", colNotes: "tags and note", colCyc: "cycle (bleeding, symptoms)", none: "none",
   tags: { skip: "didn't train", pain: "discomfort", tired: "tired", great: "great session" }, flow: { l: "light", m: "medium", h: "heavy" },
   acts: "Activities", periods: n => `Periods (last ${n}, including before the period to show regularity)`, paused: "Tracking paused since",
   csv: { tech: "technique", pem: "rpe", load: "load", rir: "rir", miss: "missed", from: "instead_of", date: "date", time: "time", routine: "routine", block: "block", dur: "duration_min", ex: "exercise", xid: "catalogue_id", type: "type", side: "per_side", set: "set", val: "reps_or_sec", r2: "reps_right", kg: "weight_kg",
@@ -2383,6 +2383,7 @@ function aiBuild(o) {
     });
     L.push("");
   }
+  if (inc.meals) L.push(...menuAiLines(inK, X));
   if (inc.act) { const A = ACT.list().filter(a => inK(a.k)).sort((a, b) => a.k < b.k ? -1 : 1); if (A.length) L.push(`## ${X.acts}`, A.map(a => `${a.k} ${a.type}${a.km ? ` ${a.km} km` : ""}${a.min ? ` ${a.min} min` : ""}`).join(" · "), ""); }
   if (cyc) {
     const C = CYC.list().slice(-8); L.push(`## ${X.periods(C.length)}`, C.map(c => `${c.s} → ${c.e || "?"}`).join(" · "));
@@ -3193,13 +3194,17 @@ function pauseRun(at) {
   else { run.rem = Math.max(0, run.end - now); run.paused = true; }
   render();
 }
-/* Saltar. Si se salta un descanso y detrás va una serie por tiempo, antes la preparación (Ajustes → Tiempos), para
-   no entrar en la serie de golpe (USU-002); con preparación 0, directo */
+/* Saltar. Al saltar un descanso, antes la preparación (Ajustes → Tiempos) para no volver de golpe (USU-002): delante de
+   la serie por tiempo que empieza sola o, si la siguiente es por repeticiones, antes de volver a ella. Con preparación 0, directo */
 function runSkip() {
   if (!run) return;
   if (run.paused) { run.end = Date.now() + run.rem; run.paused = false; } run.lead = null;
   const f = run.q[run.i], nx = run.q[run.i + 1];
-  if ((f.k === "rest" || f.k === "restx") && nx?.k === "work" && prepSecs() > 0) run.q.splice(run.i + 1, 0, { k: "prep", d: prepSecs(), ei: nx.ei, si: nx.si });
+  if ((f.k === "rest" || f.k === "restx") && prepSecs() > 0) {
+    if (nx?.k === "work") run.q.splice(run.i + 1, 0, { k: "prep", d: prepSecs(), ei: nx.ei, si: nx.si });
+    else if (!nx) { const e = exOf(f.ei), si = f.k === "rest" && f.nx !== undefined ? f.nx : (e?.sets || []).findIndex(x => !x.done);
+      if (e && si >= 0) run.q.push({ k: "prep", d: prepSecs(), ei: f.ei, si }); }
+  }
   phaseDone(false);
 }
 /* APK (3.8.0): notificación fija mientras hay una sesión, con la cuenta atrás del descanso o de la serie. La lleva Android
@@ -3276,6 +3281,7 @@ function focusView() {
   if (f.k === "rest" && f.g) next = T("Siguiente: {x}", { x: `${esc(exName(e))} · ${tgt(e, f.nx)}` }) + (isTime(e) && autoStart() ? ` (${T("empieza sola")})` : "");
   else if (f.k === "rest") next = isTime(e) && autoStart() ? T("Siguiente: serie {n} (empieza sola)", { n: f.nx + 1 }) : T("Siguiente: serie {n} · {x}", { n: f.nx + 1, x: tgt(e, f.nx) });
   else if (f.k === "restx") next = T("Siguiente: {x}", { x: `${esc(e.name)} · ${e.sets.filter(z => !z.done).length}× ${tgt(e, e.sets.findIndex(z => !z.done))}` });
+  else if (f.k === "prep" && !nx) next = T("Siguiente: serie {n} · {x}", { n: f.si + 1, x: tgt(e, f.si) });
   else if (nx) next = nx.k === "rest" ? T("Luego: descanso {n} s", { n: nx.d }) : nx.k === "restx" ? T("Luego: cambio de ejercicio ({n} s)", { n: nx.d })
     : nx.k === "switch" ? T("Luego: cambio de lado") : nx.ei !== f.ei && exOf(nx.ei) ? T("Luego: {x}", { x: esc(exName(exOf(nx.ei))) }) : nx.k === "work" ? T("Luego: serie {n}", { n: nx.si + 1 }) : T("Luego: serie {n}", { n: (nx.si ?? 0) + 1 });
   else next = T("Último tramo");
@@ -5511,19 +5517,22 @@ const SET_KEYS = ["wk.catalog", "wk.equip", "wk.effort", "wk.fx", "wk.prog", "wk
 const PROG_KEYS = ["wk.progLog", "wk.progMute", "wk.planUpLog", "wk.planUpDone", "wk.planShift", "wk.linkOwn"];
 const pickLS = keys => Object.fromEntries(keys.map(k => [k, LS.get(k, null)]).filter(([, v]) => v !== null && v !== undefined));
 /* Apartados de la copia: en Nostr se guardan y se recuperan por separado */
-const BK_SECS = { rut: ["routines", "plan", "plans", "aiPlan"], ent: ["sessions", "progress"], dia: ["weights", "weightGoal", "diary", "supplements", "activities", "activityTypes", "cycle", "menu"], aj: ["profile", "settings", "goals", "aiProfile"] };
+const BK_SECS = { rut: ["routines", "plan", "plans", "aiPlan"], ent: ["sessions", "progress"], dia: ["weights", "weightGoal", "diary", "supplements", "activities", "activityTypes", "cycle", "menu", "menuHist"], aj: ["profile", "settings", "goals", "aiProfile"] };
 /* Copia completa del perfil (la misma para el archivo y para Nostr); con secs, solo esos apartados */
 function backupObj(secs) {
   const pm = curProf();
   const all = { app: "usus", version: DATA_VERSION, exported: new Date().toISOString(), ...(pm.sex ? { profile: { name: pm.name, sex: pm.sex, color: pm.color } } : {}), routines: state.routines, sessions: state.sessions, weights: W.list(), weightGoal: W.goal(), diary: DY.all(), cycle: { periods: CYC.list(), symptoms: CYC.syms(), settings: CYC.cfg() }, supplements: DY.supps(), activities: ACT.list(), activityTypes: ACT.types(), goals: LS.get("wk.goals", null), plan: PL.get(), plans: PLS.list(), ...(aiHasData(aiProf()) ? { aiProfile: aiProf() } : {}), ...(LS.get("wk.aiPlan", null) ? { aiPlan: LS.get("wk.aiPlan", null) } : {}),
-    settings: pickLS(SET_KEYS), progress: pickLS(PROG_KEYS), ...(MENU.get() ? { menu: MENU.get() } : {}) };
+    settings: pickLS(SET_KEYS), progress: pickLS(PROG_KEYS), ...(MENU.get() ? { menu: MENU.get() } : {}), ...(MENU_HIST.get().length ? { menuHist: MENU_HIST.get() } : {}) };
   if (!secs) return all;
   const keep = new Set(["app", "version", "exported", ...secs.flatMap(s => BK_SECS[s] || [])]);
   return Object.fromEntries(Object.entries(all).filter(([k]) => keep.has(k)));
 }
 /* Ajustes e historial de progresión de una copia: los ajustes sustituyen a los actuales; el historial se combina */
 function importExtras(j) {
-  if (j.menu && Array.isArray(j.menu.days) && (!MENU.get() || String(j.menu.start) >= String(MENU.get().start))) MENU.set(j.menu);   // 3.11.0: el menú más reciente
+  if (Array.isArray(j.menuHist)) menuHistAdd(j.menuHist);   // USU-006: se une con el historial que ya hay
+  if (j.menu && Array.isArray(j.menu.days)) { const cur = MENU.get();
+    if (!cur || String(j.menu.start) >= String(cur.start)) MENU.set(j.menu);   // 3.11.0: el menú más reciente (el que había pasa al historial)
+    else if (j.menu.created !== cur.created) menuHistAdd([j.menu]); }          // uno más antiguo que el actual, al historial
   if (j.settings && typeof j.settings === "object") {
     SET_KEYS.forEach(k => { if (j.settings[k] !== undefined && j.settings[k] !== null) LS.set(k, j.settings[k]); });
     const l = j.settings["wk.lang"]; if (l && LANGS[l]) setLang(l);
@@ -5549,7 +5558,7 @@ async function importJSON(text) {
   const nd = j.diary && typeof j.diary === "object" ? Object.keys(j.diary).length : 0;
   const na = (Array.isArray(j.activities) ? j.activities.length : 0) + (Array.isArray(j.cycle?.periods) ? j.cycle.periods.length : 0);
   const hasPlan = !!(j.plan && typeof j.plan === "object" && j.plan.start && Array.isArray(j.plan.phases));
-  const hasSet = !!(j.settings && typeof j.settings === "object" && Object.keys(j.settings).length), hasProg = !!(j.progress && typeof j.progress === "object" && Object.keys(j.progress).length) || !!(j.menu && Array.isArray(j.menu.days));
+  const hasSet = !!(j.settings && typeof j.settings === "object" && Object.keys(j.settings).length), hasProg = !!(j.progress && typeof j.progress === "object" && Object.keys(j.progress).length) || !!(j.menu && Array.isArray(j.menu.days)) || (Array.isArray(j.menuHist) && j.menuHist.length > 0);
   // Solo rutinas (sin registros): se revisan como unas rutinas recibidas, con aviso si ya las tienes
   if (rs.length && !ss.length && !ws.length && !nd && !na && !hasPlan && !hasSet && !hasProg) {
     const inc = sanitizeShared({ routines: rs.map(r => ({ ...r, oid: r.oid || r.id })) }); if (!inc) { toast(T("No se encontraron rutinas, sesiones ni pesos")); return; }
@@ -6314,10 +6323,31 @@ const MENU_WHY = [["tiempo", N_("Sin tiempo")], ["apetecia", N_("No me apetecía
 const MENU_TIME = ["15", "20", "30", "45"], MENU_WEEKS = [1, 2, 4], MENU_BUD = [["ajustado", N_("Ajustado")], ["normal", N_("Normal")], ["libre", N_("Sin límite")]];
 const MENU = {
   get: () => { const m = LS.get("wk.menu", null); return m && Array.isArray(m.days) ? m : null; },
-  set: m => LS.set("wk.menu", m),
+  set: m => { const cur = MENU.get(); if (cur && (!m || m.created !== cur.created) && menuHasDishes(cur)) menuHistAdd([{ ...cur, archived: Date.now() }]); LS.set("wk.menu", m); },
   cfg: () => { const c = { people: 1, time: "20", budget: "normal", weeks: 1, ...(LS.get("wk.menuCfg", null) || {}) }; if (!MENU_WEEKS.includes(+c.weeks)) c.weeks = 1; c.weeks = +c.weeks; return c; },
   setCfg: p => LS.set("wk.menuCfg", { ...MENU.cfg(), ...p })
 };
+/* Historial de menús (USU-006): al sustituir o borrar el menú, el anterior (con su seguimiento ✓ ✗ ⇄ y motivos) pasa
+   a wk.menuHist. Va en la copia (apartado Diario) y en el resumen para la IA. Se une por fecha de inicio: con la misma,
+   se queda el guardado más reciente; restaurar una copia no borra lo que ya hay. */
+const menuHasDishes = m => !!m?.days?.some(d => MENU_MEALS.some(([x]) => d.meals?.[x]?.name));
+const MENU_HIST = { get: () => (LS.get("wk.menuHist", []) || []).filter(m => m && Array.isArray(m.days) && m.start), set: l => LS.set("wk.menuHist", l) };
+function menuHistAdd(list) {
+  const map = new Map(MENU_HIST.get().map(m => [m.start, m])), t = m => +m.archived || +m.created || 0;
+  (list || []).forEach(m => { if (!m || !Array.isArray(m.days) || !/^\d{4}-\d{2}-\d{2}$/.test(String(m.start)) || !menuHasDishes(m)) return; const o = map.get(m.start); if (!o || t(m) >= t(o)) map.set(m.start, m); });
+  MENU_HIST.set([...map.values()].sort((a, b) => a.start < b.start ? -1 : a.start > b.start ? 1 : 0));
+}
+/* Para el resumen de la IA: lo marcado en los menús (historial y actual) de los días del periodo */
+function menuAiLines(inK, X) {
+  const cur = MENU.get(), all = [...MENU_HIST.get().filter(m => !cur || m.start !== cur.start || m.created !== cur.created), ...(cur ? [cur] : [])];
+  const st = { ok: "✓", no: "✗", sw: "⇄" }, why = k => k ? foodLab(MENU_WHY, k).toLowerCase() : "", L = [];
+  all.forEach(m => m.days.filter(d => inK(d.date)).forEach(d => {
+    MENU_MEALS.forEach(([x, n]) => { const p = d.meals?.[x]; if (!p?.name || !p.st) return;
+      L.push(`${d.date} · ${T(n)}: ${p.name} → ${st[p.st]}${p.st === "sw" && p.sw ? ` ${p.sw}` : ""}${p.why && p.st !== "ok" ? ` · ${why(p.why)}` : ""}`); });
+    if (d.fast && d.fst) L.push(`${d.date} · ${X.fast} ${d.win ? `${d.win.from}–${d.win.to}` : ""}: ${d.fst === "ok" ? "✓" : `✗${d.fat ? ` ${d.fat}` : ""}${d.fwhy ? ` · ${foodLab(FAST_WHY, d.fwhy).toLowerCase()}` : ""}`}`);
+  }));
+  return L.length ? [`## ${X.menus}`, ...L.sort(), ""] : [];
+}
 const menuWeek = () => dayKey(addDays(weekStart(Date.now()), 7 * (state.menuWk || 0)));
 /* 1, 2 o 4 semanas (3.12.0): days tiene 7 × semanas; la compra va por listas (w: 0 despensa, 1… cada semana) */
 const menuW = m => Math.max(1, Math.round((m?.days.length || 7) / 7));
