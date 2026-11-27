@@ -4350,10 +4350,6 @@ msgstr "Prevista"
 msgid "Prevista para el {d} (± {n} d)."
 msgstr "Prevista per al {d} (± {n} d)."
 
-#, python-brace-format
-msgid "Prevista: {d}"
-msgstr "Prevista: {d}"
-
 msgid "Primer día"
 msgstr "Primer dia"
 
@@ -5148,9 +5144,6 @@ msgstr "següent"
 
 msgid "Siguiente"
 msgstr "Següent"
-
-msgid "Siguiente del plan, de otro día:"
-msgstr "Següent del pla, d'un altre dia:"
 
 #, python-brace-format
 msgid "Siguiente ejercicio: {x}"
@@ -6057,6 +6050,13 @@ msgstr "Zona lumbar"
 
 msgid "Zona peligrosa"
 msgstr "Zona perillosa"
+
+#, python-brace-format
+#~ msgid "Prevista: {d}"
+#~ msgstr "Prevista: {d}"
+
+#~ msgid "Siguiente del plan, de otro día:"
+#~ msgstr "Següent del pla, d'un altre dia:"
 
 #~ msgid "Copia completa o solo rutinas. Se combina con lo existente; los duplicados se actualizan."
 #~ msgstr "Còpia completa o només rutines. Es combina amb el que ja hi ha; els duplicats s'actualitzen."

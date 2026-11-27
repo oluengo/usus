@@ -4350,10 +4350,6 @@ msgstr "Expected"
 msgid "Prevista para el {d} (± {n} d)."
 msgstr "Expected on {d} (± {n} d)."
 
-#, python-brace-format
-msgid "Prevista: {d}"
-msgstr "Planned: {d}"
-
 msgid "Primer día"
 msgstr "First day"
 
@@ -5148,9 +5144,6 @@ msgstr "next"
 
 msgid "Siguiente"
 msgstr "Next"
-
-msgid "Siguiente del plan, de otro día:"
-msgstr "Next in the plan, from another day:"
 
 #, python-brace-format
 msgid "Siguiente ejercicio: {x}"
@@ -6057,6 +6050,13 @@ msgstr "Lower back"
 
 msgid "Zona peligrosa"
 msgstr "Danger zone"
+
+#, python-brace-format
+#~ msgid "Prevista: {d}"
+#~ msgstr "Planned: {d}"
+
+#~ msgid "Siguiente del plan, de otro día:"
+#~ msgstr "Next in the plan, from another day:"
 
 #~ msgid "Copia completa o solo rutinas. Se combina con lo existente; los duplicados se actualizan."
 #~ msgstr "Full backup or routines only. Merged with existing data; duplicates are updated."

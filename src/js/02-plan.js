@@ -119,10 +119,9 @@ function suggestedFor(w, day) {
     .sort((a, b) => (normVar(a.variant) ? 1 : 0) - (normVar(b.variant) ? 1 : 0));
 }
 /* Lo previsto para un día concreto (USU-001): en un plan en orden, la siguiente que falta solo si es de ese día
-   (o no tiene días); si es de otro, no cuenta como «toca hoy» (Hoy la enseña aparte, Menú y Comidas no la cuentan) */
+   (o no tiene días); la de otro día no sale en Hoy ni cuenta en Menú y Comidas */
 const onDay = (r, day) => !(r.days || []).length || r.days.includes(day);
 const plannedFor = (w, day) => suggestedFor(w, day).filter(r => onDay(r, day));
-const routineDays = r => WEEK_ORDER.filter(d => (r.days || []).includes(d)).map(d => DIAS[d]).join(", ");
 function plannedDays(w) {
   if (w.deload) return 0;
   return new Set(state.routines.filter(r => normVar(r.variant) === w.variant).flatMap(r => r.days || [])).size;
@@ -151,13 +150,12 @@ function pendingBlock(w) {
 /* Tarjeta "Toca hoy": con plan, según la semana; sin plan, rutinas con hoy en sus días */
 function todayCard() {
   const today = new Date().getDay(), todayK = dayKey(Date.now()), pn = planNow();
-  const row = (r, other) => { const done = state.sessions.some(s => dayKey(s.start) === todayK && s.routine === r.name);
-    return `<div class="sugr${other ? "" : " pri"}">${vChip(normVar(r.variant))}<span class="sn">${esc(r.name)}${done ? ` <span style="color:var(--ok)">✓</span>` : ""}<small>${other ? `${T("Prevista: {d}", { d: routineDays(r) })} · ` : ""}${TN(r.exercises.length, "{n} ejercicio", "{n} ejercicios")} · ≈ ${routineMins(normRoutine(JSON.parse(JSON.stringify(r))))} min</small></span><button class="btn ${done || other ? "" : "primary"} small" data-start="${r.id}">${done ? T("Repetir") : T("Empezar")}</button></div>`; };
+  const row = r => { const done = state.sessions.some(s => dayKey(s.start) === todayK && s.routine === r.name);
+    return `<div class="sugr pri">${vChip(normVar(r.variant))}<span class="sn">${esc(r.name)}${done ? ` <span style="color:var(--ok)">✓</span>` : ""}<small>${TN(r.exercises.length, "{n} ejercicio", "{n} ejercicios")} · ≈ ${routineMins(normRoutine(JSON.parse(JSON.stringify(r))))} min</small></span><button class="btn ${done ? "" : "primary"} small" data-start="${r.id}">${done ? T("Repetir") : T("Empezar")}</button></div>`; };
   const list = rs => rs.length ? rs.map(row).join("") : `<p class="muted" style="margin:6px 0 0">${T("Hoy no hay ninguna rutina prevista.")}</p>`;
   if (pn?.status === "on") {
     const w = pn.w, next = pn.ws.slice(pn.i + 1).find(x => weekLabel(x) !== weekLabel(w));
-    const sg = suggestedFor(w, today), oth = sg.filter(r => !onDay(r, today)), L = list(sg.filter(r => onDay(r, today)))
-      + (oth.length ? `<div class="muted" style="font-size:.85rem;margin-top:10px">${T("Siguiente del plan, de otro día:")}</div>${oth.map(r => row(r, true)).join("")}` : "");
+    const L = list(plannedFor(w, today));
     return `<div class="panel plan-b today" style="border-color:${w.deload ? "var(--line)" : varColor(w.variant)}">
       <div class="row" style="gap:8px;align-items:flex-start"><div style="flex:1"><b class="tdwk">${T("Semana {n} de {m}", { n: w.n, m: pn.ws.length })}</b><span class="tdvar" style="--vc:${w.deload || w.pause ? "var(--muted)" : varColor(w.variant)}">${weekLabel(w)}</span></div><button class="btn icon ghost" data-act="pl-menu" aria-label="${T("Opciones del plan")}" title="${T("Opciones del plan")}">⋯</button></div>
       ${w.up ? `<p class="muted" style="margin:6px 0 0">↑ ${upRuleOf(PL.get()) === "mark" ? T("Variante repetida: sube 1-2 reps o 1 serie si hay margen.") : T("Variante repetida: subida automática según tu plan.")}</p>` : ""}
